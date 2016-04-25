@@ -1,8 +1,12 @@
 import React from 'react';
-import Canvas from './Canvas';
+import Sketch from './containers/Sketch';
 
-export default class Application extends React.Component {
-  render () {
-    return <Canvas></Canvas>;
-  }
-}
+'use strict'
+
+const Application = () => (
+	<div>
+    	<Sketch />
+	</div>
+)
+
+export default Application
