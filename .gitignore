@@ -38,3 +38,4 @@ jspm_packages
 
 # Build directory
 !src/client/public/**
+public

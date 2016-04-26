@@ -1,5 +1,3 @@
 export const APPEND_POINT = 'APPEND_POINT';
 
 export const CREATE_STROKE = 'CREATE_STROKE';
-
-export const FINISH_STROKE = 'FINISH_STROKE';
