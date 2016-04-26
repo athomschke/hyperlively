@@ -4,15 +4,23 @@ import { head, tail, forEach, last } from 'lodash';
 
 'use strict'
 
+let eventPosition = (evt) => {
+	return {
+		x: evt.pageX,
+		y: evt.pageY
+	}
+}
+
 export default class Canvas extends Component {
 
 	static propTypes = {
 		onAppendPoint: PropTypes.func.isRequired,
+		onCreateStroke: PropTypes.func.isRequired,
 		strokes: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.objectOf(PropTypes.number)))
 	};
 
 	static defaultProps = {
-		strokes: [[]]
+		strokes: []
 	};
 
 	constructor(props) {
@@ -25,11 +33,11 @@ export default class Canvas extends Component {
 	    this.onMouseUp = this.onMouseUp.bind(this);
 	  }
 
-	onMouseDown() {
+	onMouseDown(evt) {
 		this.setState({
 			isDrawing: true
 		})
-		// this.props.onStartStroke();
+		this.props.onCreateStroke(eventPosition(evt));
 	}
 
 	onMouseUp() {
@@ -41,10 +49,7 @@ export default class Canvas extends Component {
 
 	onMouseMove(evt) {
 		if (this.state.isDrawing) {
-			this.props.onAppendPoint({
-				x: evt.pageX,
-				y: evt.pageY
-			})
+			this.props.onAppendPoint(eventPosition(evt));
 		}
 	}
 
@@ -53,7 +58,7 @@ export default class Canvas extends Component {
 	}
 
 	drawPoints() {
-		const points = last(this.props.strokes);
+		const points = last(this.props.strokes) || [];
 		const context = findDOMNode(this).getContext('2d');
 		if (points.length > 1) {
 		    context.save();

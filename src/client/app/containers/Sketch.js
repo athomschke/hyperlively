@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Canvas from 'components/Canvas';
-import { appendPoint } from 'actions/index';
+import { appendPoint, createStroke } from 'actions/index';
 
 const mapStateToProps = (state) => {
   return {
@@ -12,6 +12,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onAppendPoint: (point) => {
       dispatch(appendPoint(point))
+    },
+    onCreateStroke: (point) => {
+      dispatch(createStroke(point))
     }
   }
 }
