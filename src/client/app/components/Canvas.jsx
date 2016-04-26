@@ -1,6 +1,5 @@
 import React, {Component, PropTypes} from 'react';
 import { findDOMNode } from 'react-dom';
-import { head, tail, forEach, last } from 'lodash';
 
 'use strict'
 
@@ -44,7 +43,6 @@ export default class Canvas extends Component {
 		this.setState({
 			isDrawing: false
 		})
-		// this.props.onFinishStroke();
 	}
 
 	onMouseMove(evt) {
@@ -58,20 +56,21 @@ export default class Canvas extends Component {
 	}
 
 	drawPoints() {
-		const points = last(this.props.strokes) || [];
-		const context = findDOMNode(this).getContext('2d');
-		if (points.length > 1) {
-		    context.save();
-		    context.beginPath();
-		    context.moveTo(head(points).x, head(points).y);
-		    forEach(tail(points), function (point) {
-		    	context.lineTo(point.x, point.y);
-		    	context.moveTo(point.x, point.y);
-		    })
-		    context.closePath();
-		    context.stroke();
-		    context.restore();
-		}
+		const canvas = findDOMNode(this)
+		const context = canvas.getContext('2d');
+		var ploma = new Ploma(canvas);
+		ploma.clear();
+		_.forEach(this.props.strokes, (stroke) => {
+			var head = _.head(stroke);
+			if (stroke.length > 1) {
+				var last = _.last(stroke);
+				ploma.beginStroke(head.x, head.y, 1);
+				_.forEach(_.tail(stroke), function (point) {
+					ploma.extendStroke(point.x, point.y, 1);
+				})
+				ploma.endStroke(last.x, last.y, 1);
+			}
+		})
 	}
 
 	render() {
