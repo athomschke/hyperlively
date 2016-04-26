@@ -13,9 +13,11 @@ var config = {
   module : {
     loaders : [
       {
-        test : /\.jsx?/,
-        include : APP_DIR,
-        loader : 'babel'
+        test: /\.(jsx|js)$/,
+        exclude : [
+          /node_modules/
+        ],
+        loader : 'babel-loader'
       }
     ]
   },
@@ -23,7 +25,14 @@ var config = {
     extensions: [
       "", ".webpack.js", ".web.js", ".js", //default
       ".jsx"
-    ]
+    ],
+    alias: {
+      actions: APP_DIR + "/actions",
+      components: APP_DIR + "/components",
+      constants: APP_DIR + "/constants",
+      containers: APP_DIR + "/containers",
+      reducers: APP_DIR + "/reducers",
+    }
   }
 };
 

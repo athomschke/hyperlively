@@ -1,18 +1,18 @@
 import React, {Component, PropTypes} from 'react';
 import { findDOMNode } from 'react-dom';
-import { head, tail, forEach } from 'lodash';
+import { head, tail, forEach, last } from 'lodash';
 
 'use strict'
 
 export default class Canvas extends Component {
 
 	static propTypes = {
-		onAddPoint: PropTypes.func.isRequired,
-		points: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.number))
+		onAppendPoint: PropTypes.func.isRequired,
+		strokes: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.objectOf(PropTypes.number)))
 	};
 
 	static defaultProps = {
-		points: []
+		strokes: [[]]
 	};
 
 	constructor(props) {
@@ -29,17 +29,19 @@ export default class Canvas extends Component {
 		this.setState({
 			isDrawing: true
 		})
+		// this.props.onStartStroke();
 	}
 
 	onMouseUp() {
 		this.setState({
 			isDrawing: false
 		})
+		// this.props.onFinishStroke();
 	}
 
 	onMouseMove(evt) {
 		if (this.state.isDrawing) {
-			this.props.onAddPoint({
+			this.props.onAppendPoint({
 				x: evt.pageX,
 				y: evt.pageY
 			})
@@ -51,7 +53,7 @@ export default class Canvas extends Component {
 	}
 
 	drawPoints() {
-		const points = this.props.points;
+		const points = last(this.props.strokes);
 		const context = findDOMNode(this).getContext('2d');
 		if (points.length > 1) {
 		    context.save();

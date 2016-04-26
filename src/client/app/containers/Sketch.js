@@ -1,17 +1,17 @@
 import { connect } from 'react-redux';
-import Canvas from '../components/Canvas';
-import { addPoint } from '../actions/index';
+import Canvas from 'components/Canvas';
+import { appendPoint } from 'actions/index';
 
 const mapStateToProps = (state) => {
   return {
-    points: state.points
+    strokes: state.strokes
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onAddPoint: (point) => {
-      dispatch(addPoint(point))
+    onAppendPoint: (point) => {
+      dispatch(appendPoint(point))
     }
   }
 }

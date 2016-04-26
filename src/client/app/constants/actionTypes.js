@@ -1,0 +1,5 @@
+export const APPEND_POINT = 'APPEND_POINT';
+
+export const START_STROKE = 'START_STROKE';
+
+export const FINISH_STROKE = 'FINISH_STROKE';

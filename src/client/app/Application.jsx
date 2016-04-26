@@ -1,5 +1,5 @@
 import React from 'react';
-import Sketch from './containers/Sketch';
+import Sketch from 'containers/Sketch';
 
 'use strict'
 

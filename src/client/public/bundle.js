@@ -57,13 +57,13 @@
 	
 	var _reactRedux = __webpack_require__(/*! react-redux */ 166);
 	
-	var _Application = __webpack_require__(/*! ./Application */ 192);
+	var _Application = __webpack_require__(/*! ./Application */ 188);
 	
 	var _Application2 = _interopRequireDefault(_Application);
 	
 	var _redux = __webpack_require__(/*! redux */ 173);
 	
-	var _index = __webpack_require__(/*! ./reducers/index */ 198);
+	var _index = __webpack_require__(/*! reducers/index */ 195);
 	
 	var _index2 = _interopRequireDefault(_index);
 	
@@ -20724,15 +20724,15 @@
 	
 	var _warning2 = _interopRequireDefault(_warning);
 	
-	var _isPlainObject = __webpack_require__(/*! lodash/isPlainObject */ 186);
+	var _isPlainObject = __webpack_require__(/*! lodash/isPlainObject */ 175);
 	
 	var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
 	
-	var _hoistNonReactStatics = __webpack_require__(/*! hoist-non-react-statics */ 190);
+	var _hoistNonReactStatics = __webpack_require__(/*! hoist-non-react-statics */ 186);
 	
 	var _hoistNonReactStatics2 = _interopRequireDefault(_hoistNonReactStatics);
 	
-	var _invariant = __webpack_require__(/*! invariant */ 191);
+	var _invariant = __webpack_require__(/*! invariant */ 187);
 	
 	var _invariant2 = _interopRequireDefault(_invariant);
 	
@@ -21475,9 +21475,9 @@
 
 /***/ },
 /* 175 */
-/*!*******************************************!*\
-  !*** ./~/redux/~/lodash/isPlainObject.js ***!
-  \*******************************************/
+/*!***********************************!*\
+  !*** ./~/lodash/isPlainObject.js ***!
+  \***********************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	var getPrototype = __webpack_require__(/*! ./_getPrototype */ 176),
@@ -21554,9 +21554,9 @@
 
 /***/ },
 /* 176 */
-/*!*******************************************!*\
-  !*** ./~/redux/~/lodash/_getPrototype.js ***!
-  \*******************************************/
+/*!***********************************!*\
+  !*** ./~/lodash/_getPrototype.js ***!
+  \***********************************/
 /***/ function(module, exports) {
 
 	/* Built-in method references for those with the same name as other `lodash` methods. */
@@ -21578,9 +21578,9 @@
 
 /***/ },
 /* 177 */
-/*!*******************************************!*\
-  !*** ./~/redux/~/lodash/_isHostObject.js ***!
-  \*******************************************/
+/*!***********************************!*\
+  !*** ./~/lodash/_isHostObject.js ***!
+  \***********************************/
 /***/ function(module, exports) {
 
 	/**
@@ -21607,9 +21607,9 @@
 
 /***/ },
 /* 178 */
-/*!******************************************!*\
-  !*** ./~/redux/~/lodash/isObjectLike.js ***!
-  \******************************************/
+/*!**********************************!*\
+  !*** ./~/lodash/isObjectLike.js ***!
+  \**********************************/
 /***/ function(module, exports) {
 
 	/**
@@ -21674,11 +21674,7 @@
 			if (Symbol.observable) {
 				result = Symbol.observable;
 			} else {
-				if (typeof Symbol['for'] === 'function') {
-					result = Symbol['for']('observable');
-				} else {
-					result = Symbol('observable');
-				}
+				result = Symbol('observable');
 				Symbol.observable = result;
 			}
 		} else {
@@ -22033,176 +22029,6 @@
 
 /***/ },
 /* 186 */
-/*!***********************************!*\
-  !*** ./~/lodash/isPlainObject.js ***!
-  \***********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var getPrototype = __webpack_require__(/*! ./_getPrototype */ 187),
-	    isHostObject = __webpack_require__(/*! ./_isHostObject */ 188),
-	    isObjectLike = __webpack_require__(/*! ./isObjectLike */ 189);
-	
-	/** `Object#toString` result references. */
-	var objectTag = '[object Object]';
-	
-	/** Used for built-in method references. */
-	var objectProto = Object.prototype;
-	
-	/** Used to resolve the decompiled source of functions. */
-	var funcToString = Function.prototype.toString;
-	
-	/** Used to check objects for own properties. */
-	var hasOwnProperty = objectProto.hasOwnProperty;
-	
-	/** Used to infer the `Object` constructor. */
-	var objectCtorString = funcToString.call(Object);
-	
-	/**
-	 * Used to resolve the
-	 * [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
-	 * of values.
-	 */
-	var objectToString = objectProto.toString;
-	
-	/**
-	 * Checks if `value` is a plain object, that is, an object created by the
-	 * `Object` constructor or one with a `[[Prototype]]` of `null`.
-	 *
-	 * @static
-	 * @memberOf _
-	 * @since 0.8.0
-	 * @category Lang
-	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is a plain object,
-	 *  else `false`.
-	 * @example
-	 *
-	 * function Foo() {
-	 *   this.a = 1;
-	 * }
-	 *
-	 * _.isPlainObject(new Foo);
-	 * // => false
-	 *
-	 * _.isPlainObject([1, 2, 3]);
-	 * // => false
-	 *
-	 * _.isPlainObject({ 'x': 0, 'y': 0 });
-	 * // => true
-	 *
-	 * _.isPlainObject(Object.create(null));
-	 * // => true
-	 */
-	function isPlainObject(value) {
-	  if (!isObjectLike(value) ||
-	      objectToString.call(value) != objectTag || isHostObject(value)) {
-	    return false;
-	  }
-	  var proto = getPrototype(value);
-	  if (proto === null) {
-	    return true;
-	  }
-	  var Ctor = hasOwnProperty.call(proto, 'constructor') && proto.constructor;
-	  return (typeof Ctor == 'function' &&
-	    Ctor instanceof Ctor && funcToString.call(Ctor) == objectCtorString);
-	}
-	
-	module.exports = isPlainObject;
-
-
-/***/ },
-/* 187 */
-/*!***********************************!*\
-  !*** ./~/lodash/_getPrototype.js ***!
-  \***********************************/
-/***/ function(module, exports) {
-
-	/* Built-in method references for those with the same name as other `lodash` methods. */
-	var nativeGetPrototype = Object.getPrototypeOf;
-	
-	/**
-	 * Gets the `[[Prototype]]` of `value`.
-	 *
-	 * @private
-	 * @param {*} value The value to query.
-	 * @returns {null|Object} Returns the `[[Prototype]]`.
-	 */
-	function getPrototype(value) {
-	  return nativeGetPrototype(Object(value));
-	}
-	
-	module.exports = getPrototype;
-
-
-/***/ },
-/* 188 */
-/*!***********************************!*\
-  !*** ./~/lodash/_isHostObject.js ***!
-  \***********************************/
-/***/ function(module, exports) {
-
-	/**
-	 * Checks if `value` is a host object in IE < 9.
-	 *
-	 * @private
-	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is a host object, else `false`.
-	 */
-	function isHostObject(value) {
-	  // Many host objects are `Object` objects that can coerce to strings
-	  // despite having improperly defined `toString` methods.
-	  var result = false;
-	  if (value != null && typeof value.toString != 'function') {
-	    try {
-	      result = !!(value + '');
-	    } catch (e) {}
-	  }
-	  return result;
-	}
-	
-	module.exports = isHostObject;
-
-
-/***/ },
-/* 189 */
-/*!**********************************!*\
-  !*** ./~/lodash/isObjectLike.js ***!
-  \**********************************/
-/***/ function(module, exports) {
-
-	/**
-	 * Checks if `value` is object-like. A value is object-like if it's not `null`
-	 * and has a `typeof` result of "object".
-	 *
-	 * @static
-	 * @memberOf _
-	 * @since 4.0.0
-	 * @category Lang
-	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
-	 * @example
-	 *
-	 * _.isObjectLike({});
-	 * // => true
-	 *
-	 * _.isObjectLike([1, 2, 3]);
-	 * // => true
-	 *
-	 * _.isObjectLike(_.noop);
-	 * // => false
-	 *
-	 * _.isObjectLike(null);
-	 * // => false
-	 */
-	function isObjectLike(value) {
-	  return !!value && typeof value == 'object';
-	}
-	
-	module.exports = isObjectLike;
-
-
-/***/ },
-/* 190 */
 /*!**********************************************************!*\
   !*** ./~/react-redux/~/hoist-non-react-statics/index.js ***!
   \**********************************************************/
@@ -22251,7 +22077,7 @@
 
 
 /***/ },
-/* 191 */
+/* 187 */
 /*!**********************************************!*\
   !*** ./~/react-redux/~/invariant/browser.js ***!
   \**********************************************/
@@ -22312,7 +22138,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/process/browser.js */ 3)))
 
 /***/ },
-/* 192 */
+/* 188 */
 /*!****************************************!*\
   !*** ./src/client/app/Application.jsx ***!
   \****************************************/
@@ -22328,7 +22154,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _Sketch = __webpack_require__(/*! ./containers/Sketch */ 193);
+	var _Sketch = __webpack_require__(/*! containers/Sketch */ 189);
 	
 	var _Sketch2 = _interopRequireDefault(_Sketch);
 	
@@ -22347,7 +22173,7 @@
 	exports.default = Application;
 
 /***/ },
-/* 193 */
+/* 189 */
 /*!*********************************************!*\
   !*** ./src/client/app/containers/Sketch.js ***!
   \*********************************************/
@@ -22361,24 +22187,24 @@
 	
 	var _reactRedux = __webpack_require__(/*! react-redux */ 166);
 	
-	var _Canvas = __webpack_require__(/*! ../components/Canvas */ 194);
+	var _Canvas = __webpack_require__(/*! components/Canvas */ 190);
 	
 	var _Canvas2 = _interopRequireDefault(_Canvas);
 	
-	var _index = __webpack_require__(/*! ../actions/index */ 195);
+	var _index = __webpack_require__(/*! actions/index */ 193);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var mapStateToProps = function mapStateToProps(state) {
 	  return {
-	    points: state.points
+	    strokes: state.strokes
 	  };
 	};
 	
 	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 	  return {
-	    onAddPoint: function onAddPoint(point) {
-	      dispatch((0, _index.addPoint)(point));
+	    onAppendPoint: function onAppendPoint(point) {
+	      dispatch((0, _index.appendPoint)(point));
 	    }
 	  };
 	};
@@ -22388,7 +22214,7 @@
 	exports.default = Sketch;
 
 /***/ },
-/* 194 */
+/* 190 */
 /*!**********************************************!*\
   !*** ./src/client/app/components/Canvas.jsx ***!
   \**********************************************/
@@ -22408,7 +22234,7 @@
 	
 	var _reactDom = __webpack_require__(/*! react-dom */ 32);
 	
-	var _lodash = __webpack_require__(/*! lodash */ 196);
+	var _lodash = __webpack_require__(/*! lodash */ 191);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -22443,6 +22269,7 @@
 				this.setState({
 					isDrawing: true
 				});
+				// this.props.onStartStroke();
 			}
 		}, {
 			key: 'onMouseUp',
@@ -22450,12 +22277,13 @@
 				this.setState({
 					isDrawing: false
 				});
+				// this.props.onFinishStroke();
 			}
 		}, {
 			key: 'onMouseMove',
 			value: function onMouseMove(evt) {
 				if (this.state.isDrawing) {
-					this.props.onAddPoint({
+					this.props.onAppendPoint({
 						x: evt.pageX,
 						y: evt.pageY
 					});
@@ -22469,7 +22297,7 @@
 		}, {
 			key: 'drawPoints',
 			value: function drawPoints() {
-				var points = this.props.points;
+				var points = (0, _lodash.last)(this.props.strokes);
 				var context = (0, _reactDom.findDOMNode)(this).getContext('2d');
 				if (points.length > 1) {
 					context.save();
@@ -22501,40 +22329,16 @@
 	}(_react.Component);
 	
 	Canvas.propTypes = {
-		onAddPoint: _react.PropTypes.func.isRequired,
-		points: _react.PropTypes.arrayOf(_react.PropTypes.objectOf(_react.PropTypes.number))
+		onAppendPoint: _react.PropTypes.func.isRequired,
+		strokes: _react.PropTypes.arrayOf(_react.PropTypes.arrayOf(_react.PropTypes.objectOf(_react.PropTypes.number)))
 	};
 	Canvas.defaultProps = {
-		points: []
+		strokes: [[]]
 	};
 	exports.default = Canvas;
 
 /***/ },
-/* 195 */
-/*!*****************************************!*\
-  !*** ./src/client/app/actions/index.js ***!
-  \*****************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.addPoint = addPoint;
-	
-	var _actionTypes = __webpack_require__(/*! ../actionTypes */ 199);
-	
-	var actionTypes = _interopRequireWildcard(_actionTypes);
-	
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-	
-	function addPoint(point) {
-	  return { type: actionTypes.ADD_POINT, point: point };
-	}
-
-/***/ },
-/* 196 */
+/* 191 */
 /*!****************************!*\
   !*** ./~/lodash/lodash.js ***!
   \****************************/
@@ -38568,10 +38372,10 @@
 	  }
 	}.call(this));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../webpack/buildin/module.js */ 197)(module), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../webpack/buildin/module.js */ 192)(module), (function() { return this; }())))
 
 /***/ },
-/* 197 */
+/* 192 */
 /*!***********************************!*\
   !*** (webpack)/buildin/module.js ***!
   \***********************************/
@@ -38590,7 +38394,49 @@
 
 
 /***/ },
-/* 198 */
+/* 193 */
+/*!*****************************************!*\
+  !*** ./src/client/app/actions/index.js ***!
+  \*****************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.appendPoint = appendPoint;
+	
+	var _actionTypes = __webpack_require__(/*! constants/actionTypes */ 194);
+	
+	var actionTypes = _interopRequireWildcard(_actionTypes);
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+	
+	function appendPoint(point) {
+	  return { type: actionTypes.APPEND_POINT, point: point };
+	}
+
+/***/ },
+/* 194 */
+/*!*************************************************!*\
+  !*** ./src/client/app/constants/actionTypes.js ***!
+  \*************************************************/
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var APPEND_POINT = exports.APPEND_POINT = 'APPEND_POINT';
+	
+	var START_STROKE = exports.START_STROKE = 'START_STROKE';
+	
+	var FINISH_STROKE = exports.FINISH_STROKE = 'FINISH_STROKE';
+
+/***/ },
+/* 195 */
 /*!******************************************!*\
   !*** ./src/client/app/reducers/index.js ***!
   \******************************************/
@@ -38602,47 +38448,55 @@
 		value: true
 	});
 	
-	var _actionTypes = __webpack_require__(/*! ../actionTypes */ 199);
+	var _strokes = __webpack_require__(/*! reducers/strokes */ 196);
 	
-	var actionTypes = _interopRequireWildcard(_actionTypes);
+	var _strokes2 = _interopRequireDefault(_strokes);
 	
 	var _redux = __webpack_require__(/*! redux */ 173);
 	
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-	
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-	
-	function points() {
-		var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
-		var action = arguments[1];
-	
-		switch (action.type) {
-			case actionTypes.ADD_POINT:
-				return [].concat(_toConsumableArray(state), [action.point]);
-			default:
-				return state;
-		}
-	}
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var hyperlively = (0, _redux.combineReducers)({
-		points: points
+		strokes: _strokes2.default
 	});
 	
 	exports.default = hyperlively;
 
 /***/ },
-/* 199 */
-/*!***************************************!*\
-  !*** ./src/client/app/actionTypes.js ***!
-  \***************************************/
-/***/ function(module, exports) {
+/* 196 */
+/*!********************************************!*\
+  !*** ./src/client/app/reducers/strokes.js ***!
+  \********************************************/
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+		value: true
 	});
-	var ADD_POINT = exports.ADD_POINT = 'ADD_POINT';
+	exports.default = strokes;
+	
+	var _actionTypes = __webpack_require__(/*! constants/actionTypes */ 194);
+	
+	var actionTypes = _interopRequireWildcard(_actionTypes);
+	
+	var _lodash = __webpack_require__(/*! lodash */ 191);
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+	
+	function strokes() {
+		var state = arguments.length <= 0 || arguments[0] === undefined ? [[]] : arguments[0];
+		var action = arguments[1];
+	
+		switch (action.type) {
+			case actionTypes.APPEND_POINT:
+				return (0, _lodash.filter)([(0, _lodash.without)(state, (0, _lodash.last)(state)), (0, _lodash.concat)((0, _lodash.last)(state), [action.point])], function (stroke) {
+					return stroke.length > 0;
+				});
+			default:
+				return state;
+		}
+	}
 
 /***/ }
 /******/ ]);

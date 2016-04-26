@@ -1,5 +1,5 @@
-import * as actionTypes from '../actionTypes';
+import * as actionTypes from 'constants/actionTypes';
 
-export function addPoint(point) {
-  return { type: actionTypes.ADD_POINT, point }
+export function appendPoint(point) {
+  return { type: actionTypes.APPEND_POINT, point }
 }
