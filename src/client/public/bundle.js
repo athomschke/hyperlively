@@ -38484,15 +38484,16 @@
 	
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+	
 	function strokes() {
 		var state = arguments.length <= 0 || arguments[0] === undefined ? [[]] : arguments[0];
 		var action = arguments[1];
 	
 		switch (action.type) {
 			case actionTypes.APPEND_POINT:
-				return (0, _lodash.filter)([(0, _lodash.without)(state, (0, _lodash.last)(state)), (0, _lodash.concat)((0, _lodash.last)(state), [action.point])], function (stroke) {
-					return stroke.length > 0;
-				});
+				[];
+				return [].concat(_toConsumableArray((0, _lodash.without)(state, (0, _lodash.last)(state))), [(0, _lodash.concat)((0, _lodash.last)(state), [action.point])]);
 			default:
 				return state;
 		}

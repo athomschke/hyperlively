@@ -15,7 +15,7 @@ let pointAppender = (point) => {
 	}
 }
 
-describe('index strokes', () => {
+describe('strokes', () => {
 	it('handles initial state', () => {
 		expect(
 			strokes(undefined, {})
@@ -24,7 +24,7 @@ describe('index strokes', () => {
 		)
 	})
 
-	it('appends point to empty canvas', () => {
+	it('appends point to first stroke on canvas', () => {
 		expect(
 			strokes([[]], pointAppender(point(1,2)))
 		).to.deep.equal(
@@ -32,13 +32,19 @@ describe('index strokes', () => {
 		)
 	})
 
-	it('appends point to canvas with a point on it', () => {
-		let reduced = strokes([[ point(0,0) ]], pointAppender(point(1,2)));
-		expect(reduced).to.have.length(1);
+	it('appends point to new stroke on canvas', () => {
 		expect(
-			reduced[0]
+			strokes([[], []], pointAppender(point(1,2)))
 		).to.deep.equal(
-			[ point(0,0), point(1,2) ]
+			[[], [point(1,2)]]
+		);
+	})
+
+	it('appends point to canvas with a point on it', () => {
+		expect(
+			strokes([[ point(0,0) ]], pointAppender(point(1,2)))
+		).to.deep.equal(
+			[[ point(0,0), point(1,2) ]]
 		)
 	})
 })
