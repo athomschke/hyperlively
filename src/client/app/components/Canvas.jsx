@@ -15,11 +15,13 @@ export default class Canvas extends Component {
 	static propTypes = {
 		onAppendPoint: PropTypes.func.isRequired,
 		onCreateStroke: PropTypes.func.isRequired,
-		strokes: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.objectOf(PropTypes.number)))
+		strokes: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.objectOf(PropTypes.number))),
+		usePloma: PropTypes.bool
 	};
 
 	static defaultProps = {
-		strokes: []
+		strokes: [],
+		usePloma: false
 	};
 
 	constructor(props) {
@@ -55,8 +57,15 @@ export default class Canvas extends Component {
 		this.drawPoints();
 	}
 
-	drawPoints() {
-		const canvas = findDOMNode(this)
+	drawPoints(canvas) {
+		if (this.props.usePloma) {
+			this.drawPointsWithPloma(findDOMNode(this));
+		} else {
+			this.drawPointsWithCanvasDefault(findDOMNode(this));
+		}
+	}
+
+	drawPointsWithPloma(canvas) {
 		const context = canvas.getContext('2d');
 		var ploma = new Ploma(canvas);
 		ploma.clear();
@@ -71,6 +80,25 @@ export default class Canvas extends Component {
 				ploma.endStroke(last.x, last.y, 1);
 			}
 		})
+	} 
+
+	drawPointsWithCanvasDefault(canvas) {
+		const context = canvas.getContext('2d');
+		context.save();
+		_.forEach(this.props.strokes, (stroke) => {
+			if (stroke.length >1) {			
+			    context.beginPath();
+				var head = _.head(stroke);
+				context.moveTo(head.x, head.y);
+				_.forEach(_.tail(stroke), function (point) {
+			        context.lineTo(point.x, point.y);
+			        context.moveTo(point.x, point.y);
+			    })
+			    context.closePath();
+			    context.stroke();
+			}
+		})
+	    context.restore();
 	}
 
 	render() {

@@ -5,7 +5,9 @@ import Sketch from 'containers/Sketch';
 
 const Application = () => (
 	<div>
-    	<Sketch />
+    	<Sketch
+    		usePloma={false}
+		></Sketch>
 	</div>
 )
 
