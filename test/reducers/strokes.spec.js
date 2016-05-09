@@ -22,10 +22,18 @@ let strokeCreator = (point) => {
 	}
 }
 
+let presentStroke = (strokes) => {
+	return {
+		past: [],
+		present: strokes,
+		future: []
+	}
+}
+
 describe('strokes', () => {
 	it('handles initial state', () => {
 		expect(
-			strokes(undefined, {})
+			strokes(undefined, {}).present
 		).to.deep.equal(
 			[]
 		)
@@ -33,7 +41,7 @@ describe('strokes', () => {
 
 	it('does not append point when no strokes exist', () => {
 		expect(
-			strokes([], pointAppender(point(1,2)))
+			strokes(presentStroke([]), pointAppender(point(1,2))).present
 		).to.deep.equal(
 			[]
 		)
@@ -41,7 +49,7 @@ describe('strokes', () => {
 
 	it('appends point to first stroke on canvas', () => {
 		expect(
-			strokes([[]], pointAppender(point(1,2)))
+			strokes(presentStroke([[]]), pointAppender(point(1,2))).present
 		).to.deep.equal(
 			[[ point(1,2) ]]
 		)
@@ -49,7 +57,7 @@ describe('strokes', () => {
 
 	it('appends point to new stroke on canvas', () => {
 		expect(
-			strokes([[], []], pointAppender(point(1,2)))
+			strokes(presentStroke([[], []]), pointAppender(point(1,2))).present
 		).to.deep.equal(
 			[[], [point(1,2)]]
 		);
@@ -57,7 +65,7 @@ describe('strokes', () => {
 
 	it('appends point to canvas with a point on it', () => {
 		expect(
-			strokes([[ point(0,0) ]], pointAppender(point(1,2)))
+			strokes(presentStroke([[ point(0,0) ]]), pointAppender(point(1,2))).present
 		).to.deep.equal(
 			[[ point(0,0), point(1,2) ]]
 		)
@@ -65,7 +73,7 @@ describe('strokes', () => {
 
 	it('creates the first stroke with a point', () => {
 		expect(
-			strokes([], strokeCreator(point(1,2)))
+			strokes(presentStroke([]), strokeCreator(point(1,2))).present
 		).to.deep.equal(
 			[[ point(1,2) ]]
 		)
