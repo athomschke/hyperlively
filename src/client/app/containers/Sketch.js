@@ -4,7 +4,7 @@ import { appendPoint, createStroke } from 'actions/index';
 
 const mapStateToProps = (state) => {
   return {
-    strokes: state.strokes
+    strokes: state.strokes.present
   }
 }
 

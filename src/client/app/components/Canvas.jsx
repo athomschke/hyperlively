@@ -57,16 +57,18 @@ export default class Canvas extends Component {
 		this.drawPoints();
 	}
 
-	drawPoints(canvas) {
+	drawPoints() {
+		let canvas = findDOMNode(this);
+		let context = canvas.getContext('2d');
+		context.clearRect(0, 0, canvas.width, canvas.height);
 		if (this.props.usePloma) {
-			this.drawPointsWithPloma(findDOMNode(this));
+			this.drawPointsWithPloma(canvas, context);
 		} else {
-			this.drawPointsWithCanvasDefault(findDOMNode(this));
+			this.drawPointsWithCanvasDefault(canvas, context);
 		}
 	}
 
-	drawPointsWithPloma(canvas) {
-		const context = canvas.getContext('2d');
+	drawPointsWithPloma(canvas, context) {
 		var ploma = new Ploma(canvas);
 		ploma.clear();
 		_.forEach(this.props.strokes, (stroke) => {
@@ -82,8 +84,7 @@ export default class Canvas extends Component {
 		})
 	} 
 
-	drawPointsWithCanvasDefault(canvas) {
-		const context = canvas.getContext('2d');
+	drawPointsWithCanvasDefault(canvas, context) {
 		context.save();
 		_.forEach(this.props.strokes, (stroke) => {
 			if (stroke.length >1) {			

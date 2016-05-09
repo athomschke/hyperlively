@@ -1,7 +1,8 @@
 import * as actionTypes from 'constants/actionTypes';
-import { without, last, concat, filter } from 'lodash'
+import { without, last, concat, filter } from 'lodash';
+import undoable, { distinctState } from 'redux-undo';
 
-export default function strokes(state = [], action) {
+const strokes = (state = [], action) => {
 	switch(action.type) {
 		case actionTypes.APPEND_POINT:
 			if (state.length > 0) {
@@ -21,3 +22,8 @@ export default function strokes(state = [], action) {
 			return state;
 	}
 }
+
+const undoableStrokes = undoable(strokes, {
+})
+
+export default undoableStrokes;

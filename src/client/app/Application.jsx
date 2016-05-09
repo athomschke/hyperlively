@@ -1,13 +1,13 @@
 import React from 'react';
 import Sketch from 'containers/Sketch';
+import UndoRedo from 'containers/UndoRedo';
 
 'use strict'
 
 const Application = () => (
 	<div>
-    	<Sketch
-    		usePloma={false}
-		></Sketch>
+		<UndoRedo></UndoRedo>
+		<Sketch usePloma={false} ></Sketch>
 	</div>
 )
 
