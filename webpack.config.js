@@ -32,6 +32,7 @@ var config = {
       constants: APP_DIR + "/constants",
       containers: APP_DIR + "/containers",
       reducers: APP_DIR + "/reducers",
+      base: APP_DIR
     }
   }
 };

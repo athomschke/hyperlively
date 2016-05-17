@@ -37,6 +37,7 @@
   "devDependencies": {
     "browserify": "^13.0.0",
     "chai": "^3.5.0",
+    "json-loader": "^0.5.4",
     "karma": "^0.13.22",
     "karma-browserify": "^5.0.4",
     "karma-chai": "^0.1.0",
