@@ -1,8 +1,8 @@
-import strokes from 'reducers/strokes'
+import scene from 'reducers/scene'
 import { combineReducers } from 'redux';
 
 const hyperlively = combineReducers({
-	strokes
+	scene
 })
 
 export default hyperlively;

@@ -42,9 +42,16 @@ describe('Integration', () => {
 	})
 
 	it('renders the empty canvas', () => {
-		let emptyCanvs = require("json!./data/emptyCanvas.json");
-		let renderedApp = renderApplication(emptyCanvs.json);
+		let emptyCanvas = require("json!./data/emptyCanvas.json");
+		let renderedApp = renderApplication(emptyCanvas.json);
 		let canvasNode = getCanvasNode();
-		expect(canvasNode.toDataURL()).to.equal(emptyCanvs.imageData);
+		expect(canvasNode.toDataURL()).to.equal(emptyCanvas.imageData);
 	})
+
+	// it('renders a canvas with two strokes on it', () => {
+	// 	let twoStrokeCanvas = require("json!./data/canvasWithTwoStrokes.json");
+	// 	let renderedApp = renderApplication(twoStrokeCanvas.json);
+	// 	let canvasNode = getCanvasNode();
+	// 	expect(canvasNode.toDataURL()).to.equal(twoStrokeCanvas.imageData);
+	// })
 })

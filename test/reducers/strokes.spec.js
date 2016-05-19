@@ -8,74 +8,66 @@ let point = (x, y) => {
 	}
 }
 
-let pointAppender = (point) => {
-	return {
-		type: types.APPEND_POINT,
-		point: point
-	}
-}
-
-let strokeCreator = (point) => {
-	return {
-		type: types.CREATE_STROKE,
-		point: point
-	}
-}
-
-let presentStroke = (strokes) => {
-	return {
-		past: [],
-		present: strokes,
-		future: []
-	}
-}
-
 describe('strokes', () => {
-	it('handles initial state', () => {
-		expect(
-			strokes(undefined, {}).present
-		).to.deep.equal(
-			[]
-		)
+	
+	describe('handles', () => {
+
+		it('initial state', () => {
+			expect(
+				strokes(undefined, {})
+			).to.deep.equal(
+				[]
+			)
+		})
+
 	})
 
-	it('does not append point when no strokes exist', () => {
-		expect(
-			strokes(presentStroke([]), pointAppender(point(1,2))).present
-		).to.deep.equal(
-			[]
-		)
-	})
+	describe('appending a point', () => {
 
-	it('appends point to first stroke on canvas', () => {
-		expect(
-			strokes(presentStroke([[]]), pointAppender(point(1,2))).present
-		).to.deep.equal(
-			[[ point(1,2) ]]
-		)
-	})
+		it('creates a stroke containing it if none exists yet', () => {
+			expect(
+				strokes([], {
+					type: types.APPEND_POINT,
+					point: point(10,10)
+				})
+			).to.deep.equal(
+				[{
+					points: [point(10,10)]
+				}]
+			)
+		})
 
-	it('appends point to new stroke on canvas', () => {
-		expect(
-			strokes(presentStroke([[], []]), pointAppender(point(1,2))).present
-		).to.deep.equal(
-			[[], [point(1,2)]]
-		);
-	})
+		it('appends a point to the only stroke', () => {
+			expect(
+				strokes([{
+					points: [ point(10,10) ]
+				}], {
+					type: types.APPEND_POINT,
+					point: point(10,11)
+				})
+			).to.deep.equal(
+				[{
+					points: [point(10,10), point(10,11)]
+				}]
+			)
+		})
 
-	it('appends point to canvas with a point on it', () => {
-		expect(
-			strokes(presentStroke([[ point(0,0) ]]), pointAppender(point(1,2))).present
-		).to.deep.equal(
-			[[ point(0,0), point(1,2) ]]
-		)
-	})
-
-	it('creates the first stroke with a point', () => {
-		expect(
-			strokes(presentStroke([]), strokeCreator(point(1,2))).present
-		).to.deep.equal(
-			[[ point(1,2) ]]
-		)
+		it('appends a point to the last stroke', () => {
+			let givenStrokes = [{
+					points: [ point(10,10) ]
+				}, {
+					points: [ point(10,10) ]
+				}]
+			let extendedStrokes = [{
+					points: [point(10,10)]
+				}, {
+					points: [point(10,10), point(10,11)]
+				}]
+			let pointAppender = {
+				type: types.APPEND_POINT,
+				point: point(10,11)
+			}
+			expect( strokes(givenStrokes, pointAppender) ).to.deep.equal( extendedStrokes )
+		})
 	})
 })

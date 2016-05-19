@@ -1,14 +1,15 @@
-import points from 'reducers/points';
+import strokes from 'reducers/strokes';
 import * as actionTypes from 'constants/actionTypes';
-import { without, last, concat, filter } from 'lodash';
+import { combineReducers } from 'redux';
+import { last } from 'lodash';
 
-const strokes = (state = [], action) => {
+const sketches = (state = [], action) => {
 	switch(action.type) {
 		case actionTypes.APPEND_POINT:
 			if (state.length > 1) {
 				let head = without(state, last(state));
 				let tail = {
-					points: points(last(state).points, action)
+					strokes: strokes(last(state).strokes, action)
 				}
 				return [
 					...head,
@@ -16,11 +17,11 @@ const strokes = (state = [], action) => {
 				]
 			} else if (state.length > 0) {
 				return [{
-					points: points(last(state).points, action)
+					strokes: strokes(last(state).strokes, action)
 				}]
 			} else {
 				return [{
-					points: points([], action)
+					strokes: strokes([], action)
 				}];
 			}
 		default:
@@ -28,4 +29,4 @@ const strokes = (state = [], action) => {
 	}
 }
 
-export default strokes;
+export default sketches;

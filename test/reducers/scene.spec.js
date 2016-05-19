@@ -1,0 +1,45 @@
+import scene from 'reducers/scene'
+import * as types from 'constants/actionTypes'
+
+let point = (x, y) => {
+	return {
+		x: x,
+		y: y
+	}
+}
+
+describe('scene', () => {
+	it('handles initial state', () => {
+		
+		expect(
+			scene(undefined, {}).past
+		).to.deep.equal([]);
+		
+		expect(
+			scene(undefined, {}).future
+		).to.deep.equal([]);
+		
+		expect(
+			scene(undefined, {}).present
+		).to.deep.equal({
+			sketches: []
+		});
+
+	})
+
+	it('creates a sketch when the first point in scene is created', () => {
+		let pointAppender = {
+			type: types.APPEND_POINT,
+			point: point(10,10)
+		}
+		let presentScene = scene([], pointAppender).present;
+		let expectedPresentScene = {
+			sketches: [{
+				strokes: [{
+					points: [ point(10,10) ]
+				}]
+			}]
+		}
+		expect(presentScene).to.deep.equal(expectedPresentScene);
+	})
+})

@@ -17,7 +17,7 @@ export default class Canvas extends Component {
 	static propTypes = {
 		onAppendPoint: PropTypes.func,
 		onCreateStroke: PropTypes.func,
-		strokes: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.objectOf(PropTypes.number))),
+		strokes: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.arrayOf(PropTypes.objectOf(PropTypes.number)))),
 		usePloma: PropTypes.bool
 	};
 
@@ -73,14 +73,15 @@ export default class Canvas extends Component {
 	}
 
 	drawPointsWithPloma(canvas, context) {
-		var ploma = new Ploma(canvas);
+		let ploma = new Ploma(canvas);
 		ploma.clear();
 		_.forEach(this.props.strokes, (stroke) => {
-			var head = _.head(stroke);
-			if (stroke.length > 1) {
-				var last = _.last(stroke);
+			let points = stroke.points;
+			let head = _.head(points);
+			if (points.length > 1) {
+				let last = _.last(points);
 				ploma.beginStroke(head.x, head.y, 1);
-				_.forEach(_.tail(stroke), function (point) {
+				_.forEach(_.tail(points), function (point) {
 					ploma.extendStroke(point.x, point.y, 1);
 				})
 				ploma.endStroke(last.x, last.y, 1);
@@ -91,11 +92,12 @@ export default class Canvas extends Component {
 	drawPointsWithCanvasDefault(canvas, context) {
 		context.save();
 		_.forEach(this.props.strokes, (stroke) => {
-			if (stroke.length >1) {			
+			let points = stroke.points;
+			if (points.length >1) {	
 			    context.beginPath();
-				var head = _.head(stroke);
+				var head = _.head(points);
 				context.moveTo(head.x, head.y);
-				_.forEach(_.tail(stroke), function (point) {
+				_.forEach(_.tail(points), function (point) {
 			        context.lineTo(point.x, point.y);
 			        context.moveTo(point.x, point.y);
 			    })
