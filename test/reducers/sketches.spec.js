@@ -32,6 +32,21 @@ describe('sketches', () => {
 		)
 	})
 
+	it('creating a stroke when no sketch exists creates a sketch', () => {
+		expect(
+			sketches([], {
+				type: types.CREATE_STROKE,
+				point: point(10,10)
+			})
+		).to.deep.equal(
+			[{
+				strokes: [{
+					points: [point(10,10)]
+				}]
+			}]
+		)
+	})
+
 	it('adds a point to the last sketch', () => {
 		let currentSketches = [{
 			strokes: [{
@@ -47,6 +62,28 @@ describe('sketches', () => {
 			[{
 				strokes: [{
 					points: [point(10,10), point(10,11)]
+				}]
+			}]
+		)
+	})
+
+	it('adds a stroke to the last sketch', () => {
+		let currentSketches = [{
+			strokes: [{
+				points: [point(10,10)]
+			}]
+		}]
+		expect(
+			sketches(currentSketches, {
+				type: types.CREATE_STROKE,
+				point: point(10,11)
+			})
+		).to.deep.equal(
+			[{
+				strokes: [{
+					points: [point(10,10)]
+				}, {
+					points: [point(10,11)]
 				}]
 			}]
 		)

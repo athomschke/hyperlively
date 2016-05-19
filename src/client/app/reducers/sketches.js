@@ -6,6 +6,7 @@ import { last } from 'lodash';
 const sketches = (state = [], action) => {
 	switch(action.type) {
 		case actionTypes.APPEND_POINT:
+		case actionTypes.CREATE_STROKE:
 			if (state.length > 1) {
 				let head = without(state, last(state));
 				let tail = {

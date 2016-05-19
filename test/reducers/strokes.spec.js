@@ -22,6 +22,23 @@ describe('strokes', () => {
 
 	})
 
+	describe('creating a stroke', () => {
+
+		it('adds the first stroke', () => {
+			expect(
+				strokes([], {
+					type: types.CREATE_STROKE,
+					point: point(10,10)
+				})
+			).to.deep.equal(
+				[{
+					points: [point(10,10)]
+				}]
+			)
+		})
+
+	})
+
 	describe('appending a point', () => {
 
 		it('creates a stroke containing it if none exists yet', () => {

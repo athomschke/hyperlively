@@ -23,6 +23,16 @@ const strokes = (state = [], action) => {
 					points: points([], action)
 				}];
 			}
+		case actionTypes.CREATE_STROKE:
+			return [
+				...state,
+				{
+					points: points([], {
+						type: actionTypes.APPEND_POINT,
+						point: action.point
+					})
+				}
+			]
 		default:
 			return state;
 	}

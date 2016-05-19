@@ -6,6 +6,7 @@ import * as actionTypes from 'constants/actionTypes';
 const scene = (state = { sketches: [] }, action) => {
 	switch(action.type) {
 		case actionTypes.APPEND_POINT:
+		case actionTypes.CREATE_STROKE:
 			return {
 				sketches: sketches(state.sketches, action)
 			};

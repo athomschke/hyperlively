@@ -42,4 +42,20 @@ describe('scene', () => {
 		}
 		expect(presentScene).to.deep.equal(expectedPresentScene);
 	})
+
+	it('creates a sketch when the first stroke in scene is created', () => {
+		let strokeAppender = {
+			type: types.CREATE_STROKE,
+			point: point(10,10)
+		}
+		let presentScene = scene([], strokeAppender).present;
+		let expectedPresentScene = {
+			sketches: [{
+				strokes: [{
+					points: [ point(10,10) ]
+				}]
+			}]
+		}
+		expect(presentScene).to.deep.equal(expectedPresentScene);
+	})
 })
