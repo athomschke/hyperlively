@@ -15,15 +15,17 @@ let eventPosition = (evt) => {
 export default class Canvas extends Component {
 
 	static propTypes = {
-		onAppendPoint: PropTypes.func.isRequired,
-		onCreateStroke: PropTypes.func.isRequired,
+		onAppendPoint: PropTypes.func,
+		onCreateStroke: PropTypes.func,
 		strokes: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.objectOf(PropTypes.number))),
 		usePloma: PropTypes.bool
 	};
 
 	static defaultProps = {
+		onAppendPoint: () => {},
+		onCreateStroke: () => {},
 		strokes: [],
-		usePloma: false
+		usePloma: true
 	};
 
 	constructor(props) {
@@ -106,6 +108,7 @@ export default class Canvas extends Component {
 
 	render() {
 		return <canvas 
+			ref="canvas"
 			width={1000}
 			height={500}
 			onMouseDown={this.onMouseDown}
