@@ -3,6 +3,8 @@ import { findDOMNode } from 'react-dom';
 
 'use strict'
 
+let Ploma = require("exports?Ploma!base/../libs/ploma");
+
 let eventPosition = (evt) => {
 	return {
 		x: evt.pageX,
