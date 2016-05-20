@@ -1,7 +1,7 @@
 import strokes from 'reducers/strokes';
 import * as actionTypes from 'constants/actionTypes';
 import { combineReducers } from 'redux';
-import { last } from 'lodash';
+import { last, without } from 'lodash';
 
 const sketches = (state = [], action) => {
 	switch(action.type) {

@@ -67,7 +67,7 @@ describe('sketches', () => {
 		)
 	})
 
-	it('adds a stroke to the last sketch', () => {
+	it('adds a stroke to the only sketch', () => {
 		let currentSketches = [{
 			strokes: [{
 				points: [point(10,10)]
@@ -86,6 +86,38 @@ describe('sketches', () => {
 					points: [point(10,11)]
 				}]
 			}]
+		)
+	})
+
+	it('adds a stroke to the last sketch', () => {
+		let currentSketches = [{
+			strokes: [{
+				points: [ point(10,10) ]
+			}]
+		}, {
+			strokes: [{
+				points: [ point(10,10) ]
+			}]
+		}]
+		let actionCreator = {
+			type: types.CREATE_STROKE,
+			point: point(10,11)
+		}
+		let extendedSketches = [{
+			strokes: [{
+				points: [ point(10,10) ]
+			}]
+		}, {
+			strokes: [{
+				points: [ point(10,10) ]
+			}, {
+				points: [ point(10,11) ]
+			}]
+		}]
+		expect(
+			sketches(currentSketches, actionCreator)
+		).to.deep.equal(
+			extendedSketches
 		)
 	})
 })
