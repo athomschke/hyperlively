@@ -10,6 +10,13 @@ import TestUtils from 'react-addons-test-utils';
 
 let store;
 
+let simulateDrawingEventOnCanvasAt = (eventType, canvas, x, y) => {
+	TestUtils.Simulate[eventType](canvas, {
+		pageX: x,
+		pageY: y
+	});
+}
+
 let getCanvasNode = () => {
 	return document.getElementsByTagName('canvas')[0];
 }
@@ -48,10 +55,17 @@ describe('Integration', () => {
 		expect(canvasNode.toDataURL()).to.equal(emptyCanvas.imageData);
 	})
 
-	// it('renders a canvas with two strokes on it', () => {
-	// 	let twoStrokeCanvas = require("json!./data/canvasWithTwoStrokes.json");
-	// 	let renderedApp = renderApplication(twoStrokeCanvas.json);
-	// 	let canvasNode = getCanvasNode();
-	// 	expect(canvasNode.toDataURL()).to.equal(twoStrokeCanvas.imageData);
-	// })
+	it('can draw a stroke on canvas', () => {
+		let emptyCanvas = require("json!./data/emptyCanvas.json");
+		let canvasWithTwoStrokes = require("json!./data/canvasWithTwoStrokes.json");
+		let renderedApp = renderApplication(emptyCanvas.json);
+		let canvasNode = getCanvasNode();
+		simulateDrawingEventOnCanvasAt('mouseDown', canvasNode, 10, 10);
+		simulateDrawingEventOnCanvasAt('mouseMove', canvasNode, 10, 30);
+		simulateDrawingEventOnCanvasAt('mouseUp', canvasNode, 10, 30);
+		simulateDrawingEventOnCanvasAt('mouseDown', canvasNode, 20, 10);
+		simulateDrawingEventOnCanvasAt('mouseMove', canvasNode, 20, 30);
+		simulateDrawingEventOnCanvasAt('mouseUp', canvasNode, 20, 30);
+		expect(canvasNode.toDataURL()).to.equal(canvasWithTwoStrokes.imageData);
+	})
 })
