@@ -10,10 +10,7 @@ const strokes = (state = [], action) => {
 				let tail = {
 					points: points(last(state).points, action)
 				}
-				return [
-					...head,
-					tail
-				]
+				return head.concat([tail])
 			} else if (state.length > 0) {
 				return [{
 					points: points(last(state).points, action)
@@ -24,15 +21,12 @@ const strokes = (state = [], action) => {
 				}];
 			}
 		case actionTypes.CREATE_STROKE:
-			return [
-				...state,
-				{
-					points: points([], {
-						type: actionTypes.APPEND_POINT,
-						point: action.point
-					})
-				}
-			]
+			return state.concat([{
+				points: points([], {
+					type: actionTypes.APPEND_POINT,
+					point: action.point
+				})
+			}])
 		default:
 			return state;
 	}

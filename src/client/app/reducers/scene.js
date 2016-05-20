@@ -1,6 +1,5 @@
 import sketches from 'reducers/sketches'
 import undoable, { distinctState } from 'redux-undo';
-import { last } from 'lodash';
 import * as actionTypes from 'constants/actionTypes';
 
 const scene = (state = { sketches: [] }, action) => {

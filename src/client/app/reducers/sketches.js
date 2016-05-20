@@ -1,6 +1,5 @@
 import strokes from 'reducers/strokes';
 import * as actionTypes from 'constants/actionTypes';
-import { combineReducers } from 'redux';
 import { last, without } from 'lodash';
 
 const sketches = (state = [], action) => {
@@ -12,10 +11,7 @@ const sketches = (state = [], action) => {
 				let tail = {
 					strokes: strokes(last(state).strokes, action)
 				}
-				return [
-					...head,
-					tail
-				]
+				return head.concat([tail])
 			} else if (state.length > 0) {
 				return [{
 					strokes: strokes(last(state).strokes, action)
