@@ -6,7 +6,8 @@
   "scripts": {
     "build": "webpack -p",
     "watch": "webpack -d --watch",
-    "test": "karma start"
+    "test": "karma start",
+    "coverage": "karma start karma-coverage.conf.js"
   },
   "repository": {
     "type": "git",
@@ -36,6 +37,7 @@
     "webpack": "^1.13.0"
   },
   "devDependencies": {
+    "babel-plugin-transform-runtime": "^6.9.0",
     "browserify": "^13.0.0",
     "chai": "^3.5.0",
     "istanbul-instrumenter-loader": "^0.2.0",

@@ -29,7 +29,6 @@ export default class UndoRedo extends Component {
 	};
 
 	onSliderMove(newValue) {
-		debugger
 		let oldValue = this.props.value;
 		let direction
 		if (newValue < oldValue) {
