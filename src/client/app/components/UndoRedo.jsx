@@ -20,7 +20,6 @@ export default class UndoRedo extends Component {
 	};
 
 	onUndoClick() {
-		debugger
 		this.props.jumpToPast(this.props.value-1);
 	};
 

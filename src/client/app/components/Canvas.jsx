@@ -29,14 +29,14 @@ export default class Canvas extends Component {
 	};
 
 	constructor(props) {
-	    super(props);
-	    this.state = {
-	      isDrawing: false,
-	    };
-	    this.onMouseDown = this.onMouseDown.bind(this);
-	    this.onMouseMove = this.onMouseMove.bind(this);
-	    this.onMouseUp = this.onMouseUp.bind(this);
-	  }
+		super(props);
+		this.state = {
+			isDrawing: false,
+		};
+		this.onMouseDown = this.onMouseDown.bind(this);
+		this.onMouseMove = this.onMouseMove.bind(this);
+		this.onMouseUp = this.onMouseUp.bind(this);
+	}
 
 	onMouseDown(evt) {
 		this.setState({
