@@ -111,4 +111,14 @@ describe('Integration', () => {
 		expect(canvasNode.toDataURL()).to.equal(canvasWithTwoStrokes.imageData);
 	})
 
+	it('switches to Ploma when button pressed', () => {
+		let canvasWithTwoStrokes = require("json!./data/canvasWithTwoStrokes.json");
+		let renderedApp = renderApplication(canvasWithTwoStrokes.json);
+		let canvasNode = getCanvasNode();
+		let nonPlomaImageData = canvasNode.toDataURL();
+		let plomaButton = document.getElementById('toggle-ploma');
+		TestUtils.Simulate.click(plomaButton);
+		expect(canvasNode.toDataURL()).to.not.equal(nonPlomaImageData);
+	})
+
 })

@@ -9,7 +9,8 @@ const mapStateToProps = (state) => {
     strokes = last(state.scene.present.sketches).strokes
   }
   return {
-    strokes: strokes
+    strokes: strokes,
+    usePloma: state.ploma
   }
 }
 

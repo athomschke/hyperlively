@@ -72,4 +72,16 @@ describe('UndoRedo', () => {
 		undoRedo.refs.slider.props.onChange(10);
 		expect(argument).to.equal(1);
 	})
+
+	it('Does nothing on undo when initialized without an undo callback', () => {
+		let undoRedo = renderComponentWithValueAndMax(9, 10);
+		undoRedo.onUndoClick();
+		expect(undoRedo.props.value).to.equal(9)
+	})
+
+	it('Does nothing on redo when initialized without a redo callback', () => {
+		let undoRedo = renderComponentWithValueAndMax(9, 10);
+		undoRedo.onRedoClick();
+		expect(undoRedo.props.value).to.equal(9)
+	})
 })
