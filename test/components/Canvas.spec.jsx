@@ -1,7 +1,6 @@
 import Canvas from 'components/Canvas';
 import TestUtils from 'react-addons-test-utils';
 import React from 'react';
-import push from 'lodash';
 
 let simulateDrawingEventOnCanvasAt = (eventType, canvas, x, y) => {
 	TestUtils.Simulate[eventType](canvas.refs.canvas, {
@@ -72,7 +71,7 @@ describe('Canvas', () => {
 
 		it('is updated when a point is added', () => {
 			let imageDataBefore = canvas.refs.canvas.toDataURL();
-			push(canvas.props.strokes[0].points, {x: 10, y: 13});
+			canvas.props.strokes[0].points.push({x: 10, y: 13});
 			canvas.componentDidUpdate();
 			let imageDataAfter = canvas.refs.canvas.toDataURL();
 			expect(imageDataBefore).to.not.equal(imageDataAfter);
@@ -99,9 +98,11 @@ describe('Canvas', () => {
 			></Canvas>);
 		})
 
-		it('is updated when a point is added', () => {
+		it('is updated when at least two points are added (sampling rate of ploma)', () => {
 			let imageDataBefore = canvas.refs.canvas.toDataURL();
-			push(canvas.props.strokes[0].points, {x: 10, y: 13});
+			canvas.props.strokes[0].points.push({x: 10, y: 13});
+			canvas.componentDidUpdate();
+			canvas.props.strokes[0].points.push({x: 10, y: 14});
 			canvas.componentDidUpdate();
 			let imageDataAfter = canvas.refs.canvas.toDataURL();
 			expect(imageDataBefore).to.not.equal(imageDataAfter);
@@ -113,6 +114,42 @@ describe('Canvas', () => {
 			canvas.componentDidUpdate();
 			let imageDataAfter = canvas.refs.canvas.toDataURL();
 			expect(imageDataBefore).to.not.equal(imageDataAfter);
+		})
+
+		it('is not redrawn when point is only added', () => {
+			let hasRun = false;
+			canvas.props.strokes[0].points.push({x: 10, y: 13});
+			canvas.redrawEverything = () => {
+				hasRun = true;
+			}
+			canvas.componentDidUpdate();
+			expect(hasRun).to.be.false;
+		})
+
+		it('is not redrawn when stroke is only started', () => {
+			let hasRun = false;
+			canvas.props.strokes.push({
+				points: [{x: 10, y: 13}]
+			});
+			canvas.redrawEverything = () => {
+				hasRun = true;
+			}
+			canvas.componentDidUpdate();
+			expect(hasRun).to.be.false;
+		})
+
+		it('is not redrawn when first stroke is only started', () => {
+			let hasRun = false;
+			_.remove(canvas.props.strokes, canvas.props.strokes[0]);
+			canvas.componentDidUpdate();
+			canvas.props.strokes.push = {
+				points: [{ x: 10, y: 10 }]
+			};
+			canvas.redrawEverything = () => {
+				hasRun = true;
+			}
+			canvas.componentDidUpdate();
+			expect(hasRun).to.be.false;
 		})
 
 	})

@@ -1,5 +1,4 @@
 import React, {Component, PropTypes} from 'react';
-import { findDOMNode } from 'react-dom';
 
 'use strict'
 
@@ -10,6 +9,16 @@ let eventPosition = (evt) => {
 		x: evt.pageX,
 		y: evt.pageY
 	}
+}
+
+let pointsFromStrokes = (strokes) => {
+	return _.flatten(_.map(strokes, (stroke) => {
+		return stroke.points;
+	}))
+}
+
+let lastPointInStrokes = (strokes) => {
+	return _.last(_.last(strokes).points);
 }
 
 export default class Canvas extends Component {
@@ -32,6 +41,7 @@ export default class Canvas extends Component {
 		super(props);
 		this.state = {
 			isDrawing: false,
+			strokes: []
 		};
 		this.onMouseDown = this.onMouseDown.bind(this);
 		this.onMouseMove = this.onMouseMove.bind(this);
@@ -41,8 +51,7 @@ export default class Canvas extends Component {
 	onMouseDown(evt) {
 		this.setState({
 			isDrawing: true
-		})
-		this.props.onCreateStroke(eventPosition(evt));
+		}, this.props.onCreateStroke.bind(this, eventPosition(evt)))
 	}
 
 	onMouseUp() {
@@ -57,55 +66,125 @@ export default class Canvas extends Component {
 		}
 	}
 
+	componentDidMount() {
+		this.setState({
+			plomaInstance: this.props.usePloma ? new Ploma(this.refs.canvas) : null
+		})
+	}
+
 	componentDidUpdate() {
+		if (!_.isEqual(this.props.strokes, this.state.strokes)) {
+			this.onStrokesUpdated();
+		}
+		if (!_.isEqual(this.props.usePloma, !!this.state.plomaInstance)) {
+			this.onPlomaUpdated();
+		}
+		
+	}
+
+	onStrokesUpdated() {
+		let newPointCount = pointsFromStrokes(this.props.strokes).length;
+		let oldPointCount = pointsFromStrokes(this.state.strokes).length;
+		if (this.props.usePloma && newPointCount === (oldPointCount + 1)) {
+			this.onPointAdded(); 
+		} else if (newPointCount > oldPointCount) {
+			this.onPointsAdded();
+		} else if (newPointCount < oldPointCount) {
+			this.onPointRemoved();
+		}
+		this.setState({
+			strokes: _.cloneDeep(this.props.strokes)
+		})
+	}
+
+	onPlomaUpdated() {
+		this.setState({
+			plomaInstance: this.props.usePloma ? new Ploma(this.refs.canvas) : null
+		}, this.redrawEverything)
+	}
+
+	hasNewStrokeStarted() {
+		return this.props.strokes.length > this.state.strokes.length;
+	}
+
+	isEmpty() {
+		return this.state.strokes.length === 0;
+	}
+
+	onPointsAdded() {
 		this.redrawEverything();
 	}
 
-	redrawEverything() {
-		let canvas = findDOMNode(this);
-		let context = canvas.getContext('2d');
-		context.clearRect(0, 0, canvas.width, canvas.height);
-		if (this.props.usePloma) {
-			this.redrawEverythingWithPloma(canvas, context);
+	onPointRemoved() {
+		this.redrawEverything();
+	}
+
+	onPointAdded() {
+		if (this.hasNewStrokeStarted()) {
+			if (!this.isEmpty()) {
+				this.endStrokeAt(lastPointInStrokes(this.state.strokes))
+			}
+			this.startStrokeAt(lastPointInStrokes(this.props.strokes));
 		} else {
-			this.redrawEverythingWithCanvasDefault(canvas, context);
+			this.extendStrokeAt(lastPointInStrokes(this.props.strokes));	
 		}
 	}
 
-	redrawEverythingWithPloma(canvas, context) {
-		let ploma = new Ploma(canvas);
-		ploma.clear();
-		_.forEach(this.props.strokes, (stroke) => {
-			let points = stroke.points;
-			let head = _.head(points);
-			if (points.length > 1) {
-				let last = _.last(points);
-				ploma.beginStroke(head.x, head.y, 1);
-				_.forEach(_.tail(points), function (point) {
-					ploma.extendStroke(point.x, point.y, 1);
-				})
-				ploma.endStroke(last.x, last.y, 1);
-			}
-		})
-	} 
+	clearCanvas() {
+		if (this.props.usePloma) {
+			this.state.plomaInstance.clear();
+		} else {
+			let canvas = this.refs.canvas;
+			let context = canvas.getContext('2d');
+			context.clearRect(0, 0, canvas.width, canvas.height);
+		}
+	}
 
-	redrawEverythingWithCanvasDefault(canvas, context) {
-		context.save();
+	startStrokeAt(point) {
+		if (this.props.usePloma) {
+			this.state.plomaInstance.beginStroke(point.x, point.y, 1);
+		} else {
+			let context = this.refs.canvas.getContext('2d');
+		    context.beginPath();
+			context.moveTo(point.x, point.y);
+		}
+	}
+
+
+	extendStrokeAt(point) {
+		if (this.props.usePloma) {
+			this.state.plomaInstance.extendStroke(point.x, point.y, 1);
+		} else {
+			let context = this.refs.canvas.getContext('2d');
+	        context.lineTo(point.x, point.y);
+	        context.moveTo(point.x, point.y);
+		}
+	}
+
+	endStrokeAt(point) {
+		if (this.props.usePloma) {
+			this.state.plomaInstance.extendStroke(point.x, point.y, 1);
+			this.state.plomaInstance.endStroke(point.x, point.y, 1);
+		} else {
+			let context = this.refs.canvas.getContext('2d');
+			context.closePath();
+			context.stroke();
+		}
+	}
+
+	redrawEverything() {
+		let that = this;
+		this.clearCanvas();
 		_.forEach(this.props.strokes, (stroke) => {
 			let points = stroke.points;
-			if (points.length >1) {	
-			    context.beginPath();
-				var head = _.head(points);
-				context.moveTo(head.x, head.y);
+			if (points.length > 1) {
+				that.startStrokeAt(_.head(points));
 				_.forEach(_.tail(points), function (point) {
-			        context.lineTo(point.x, point.y);
-			        context.moveTo(point.x, point.y);
-			    })
-			    context.closePath();
-			    context.stroke();
+					that.extendStrokeAt(point);
+				})
+				that.endStrokeAt(_.last(points));
 			}
 		})
-	    context.restore();
 	}
 
 	render() {
