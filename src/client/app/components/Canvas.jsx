@@ -41,8 +41,10 @@ export default class Canvas extends Component {
 		super(props);
 		this.state = {
 			isDrawing: false,
-			strokes: []
+			strokes: [],
+			paperFactor: Math.random()
 		};
+		window.uniquePaperFactor = this.state.paperFactor;
 		this.onMouseDown = this.onMouseDown.bind(this);
 		this.onMouseMove = this.onMouseMove.bind(this);
 		this.onMouseUp = this.onMouseUp.bind(this);
@@ -81,6 +83,7 @@ export default class Canvas extends Component {
 	}
 
 	setPlomaInstance(callback) {
+		window.uniquePaperFactor = this.state.paperFactor;
 		let plomaInstance = this.props.usePloma ? new Ploma(this.refs.canvas) : null
 		plomaInstance && plomaInstance.setSample(1);
 		this.setState({
@@ -105,6 +108,20 @@ export default class Canvas extends Component {
 
 	onPlomaUpdated() {
 		this.setPlomaInstance(this.redrawEverything);
+	}
+
+	runOnPlomaInstance(routineName, point) {
+		window.uniquePaperFactor = this.state.paperFactor;
+		switch(routineName) {
+			case 'clear': {
+				this.state.plomaInstance[routineName]();
+				break;
+			}
+			default: {
+				this.state.plomaInstance[routineName](point.x, point.y, 1);
+				break;
+			}
+		}
 	}
 
 	hasNewStrokeStarted() {
@@ -136,7 +153,7 @@ export default class Canvas extends Component {
 
 	clearCanvas() {
 		if (this.props.usePloma) {
-			this.state.plomaInstance.clear();
+			this.runOnPlomaInstance('clear');
 		} else {
 			let canvas = this.refs.canvas;
 			let context = canvas.getContext('2d');
@@ -146,7 +163,7 @@ export default class Canvas extends Component {
 
 	startStrokeAt(point) {
 		if (this.props.usePloma) {
-			this.state.plomaInstance.beginStroke(point.x, point.y, 1);
+			this.runOnPlomaInstance('beginStroke', point);
 		} else {
 			let context = this.refs.canvas.getContext('2d');
 		    context.beginPath();
@@ -157,7 +174,7 @@ export default class Canvas extends Component {
 
 	extendStrokeAt(point) {
 		if (this.props.usePloma) {
-			this.state.plomaInstance.extendStroke(point.x, point.y, 1);
+			this.runOnPlomaInstance('extendStroke', point);
 		} else {
 			let context = this.refs.canvas.getContext('2d');
 	        context.lineTo(point.x, point.y);
@@ -167,8 +184,8 @@ export default class Canvas extends Component {
 
 	endStrokeAt(point) {
 		if (this.props.usePloma) {
-			this.state.plomaInstance.extendStroke(point.x, point.y, 1);
-			this.state.plomaInstance.endStroke(point.x, point.y, 1);
+			this.runOnPlomaInstance('extendStroke', point);
+			this.runOnPlomaInstance('endStroke', point);
 		} else {
 			let context = this.refs.canvas.getContext('2d');
 			context.closePath();
