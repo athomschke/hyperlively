@@ -196,6 +196,18 @@ describe('Canvas', () => {
 			expect(hashCode(imageDataAfter)).to.equal(hashCode(imageDataBefore));
 		})
 
+		it('renders the same image different on another canvas', () => {
+			let canvas1 = renderPlomaCanvasWithStrokes([{
+				points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}, {x:10, y:13}, {x:10, y:14}, {x:10, y:15}]
+			}])
+			let canvas2 = renderPlomaCanvasWithStrokes([{
+				points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}, {x:10, y:13}, {x:10, y:14}, {x:10, y:15}]
+			}])
+			let imageData1 = canvas1.refs.canvas.toDataURL();
+			let imageData2 = canvas2.refs.canvas.toDataURL();
+			expect(hashCode(imageData1)).to.not.equal(hashCode(imageData2));
+		})
+
 	})
 
 })
