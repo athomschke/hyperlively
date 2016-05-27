@@ -22,6 +22,15 @@ let endStrokeAt = (canvas, x, y) => {
 	simulateDrawingEventOnCanvasAt('mouseUp', canvas, x, y);
 }
 
+let renderPlomaCanvasWithStrokes = (strokes) => {
+	return TestUtils.renderIntoDocument(<Canvas
+		usePloma={true}
+		strokes={strokes}
+	></Canvas>);
+}
+
+'use strict'
+
 describe('Canvas', () => {
 
 	let canvas;
@@ -167,7 +176,14 @@ describe('Canvas', () => {
 			expect(hashCode(imageDataBetween)).to.not.equal(hashCode(imageDataBefore));
 		})
 
+	})
+
+	describe('Changes in Ploma make that it', () => {
+
 		it('doesn\'t change the image when removing two strokes, re-rendering, adding them again, and re-rendering', () => {
+			let canvas = renderPlomaCanvasWithStrokes([{
+				points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}, {x:10, y:13}, {x:10, y:14}, {x:10, y:15}]
+			}])
 			let imageDataBefore = canvas.refs.canvas.toDataURL();
 			let lost = canvas.props.strokes[0].points.splice(-2);
 			canvas.componentDidUpdate();

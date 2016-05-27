@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 
 'use strict'
 
-let Ploma = require("exports?Ploma!base/../libs/ploma");
+let Ploma = require("imports?Math=./extensions/ploma-math!exports?Ploma!base/../libs/ploma");
 
 let eventPosition = (evt) => {
 	return {
@@ -67,9 +67,7 @@ export default class Canvas extends Component {
 	}
 
 	componentDidMount() {
-		this.setState({
-			plomaInstance: this.props.usePloma ? new Ploma(this.refs.canvas) : null
-		})
+		this.setPlomaInstance();
 	}
 
 	componentDidUpdate() {
@@ -80,6 +78,14 @@ export default class Canvas extends Component {
 			this.onPlomaUpdated();
 		}
 		
+	}
+
+	setPlomaInstance(callback) {
+		let plomaInstance = this.props.usePloma ? new Ploma(this.refs.canvas) : null
+		plomaInstance && plomaInstance.setSample(1);
+		this.setState({
+			plomaInstance: plomaInstance
+		}, callback)
 	}
 
 	onStrokesUpdated() {
@@ -98,9 +104,7 @@ export default class Canvas extends Component {
 	}
 
 	onPlomaUpdated() {
-		this.setState({
-			plomaInstance: this.props.usePloma ? new Ploma(this.refs.canvas) : null
-		}, this.redrawEverything)
+		this.setPlomaInstance(this.redrawEverything);
 	}
 
 	hasNewStrokeStarted() {
