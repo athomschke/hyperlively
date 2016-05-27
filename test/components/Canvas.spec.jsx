@@ -1,6 +1,7 @@
 import Canvas from 'components/Canvas';
 import TestUtils from 'react-addons-test-utils';
 import React from 'react';
+import { hashCode } from '../helpers';
 
 let simulateDrawingEventOnCanvasAt = (eventType, canvas, x, y) => {
 	TestUtils.Simulate[eventType](canvas.refs.canvas, {
@@ -74,7 +75,7 @@ describe('Canvas', () => {
 			canvas.props.strokes[0].points.push({x: 10, y: 13});
 			canvas.componentDidUpdate();
 			let imageDataAfter = canvas.refs.canvas.toDataURL();
-			expect(imageDataBefore).to.not.equal(imageDataAfter);
+			expect(hashCode(imageDataBefore)).to.not.equal(hashCode(imageDataAfter));
 		})
 
 		it('is updated when a point is removed', () => {
@@ -82,7 +83,13 @@ describe('Canvas', () => {
 			canvas.props.strokes[0].points.splice(-1);
 			canvas.componentDidUpdate();
 			let imageDataAfter = canvas.refs.canvas.toDataURL();
-			expect(imageDataBefore).to.not.equal(imageDataAfter);
+			expect(hashCode(imageDataBefore)).to.not.equal(hashCode(imageDataAfter));
+		})
+
+		it('does not re-render when nothing changed', () => {
+			let imageDataBefore = canvas.refs.canvas.toDataURL();
+			canvas.componentDidUpdate();
+			let imageDataAfter = canvas.refs.canvas.toDataURL();
 		})
 
 	})
@@ -105,7 +112,7 @@ describe('Canvas', () => {
 			canvas.props.strokes[0].points.push({x: 10, y: 14});
 			canvas.componentDidUpdate();
 			let imageDataAfter = canvas.refs.canvas.toDataURL();
-			expect(imageDataBefore).to.not.equal(imageDataAfter);
+			expect(hashCode(imageDataBefore)).to.not.equal(hashCode(imageDataAfter));
 		})
 
 		it('is updated when a point is removed', () => {
@@ -113,7 +120,7 @@ describe('Canvas', () => {
 			canvas.props.strokes[0].points.splice(-1);
 			canvas.componentDidUpdate();
 			let imageDataAfter = canvas.refs.canvas.toDataURL();
-			expect(imageDataBefore).to.not.equal(imageDataAfter);
+			expect(hashCode(imageDataBefore)).to.not.equal(hashCode(imageDataAfter));
 		})
 
 		it('is not redrawn when point is only added', () => {
@@ -150,6 +157,27 @@ describe('Canvas', () => {
 			}
 			canvas.componentDidUpdate();
 			expect(hasRun).to.be.false;
+		})
+
+		it('changes the image when two strokes are removed', () => {
+			let imageDataBefore = canvas.refs.canvas.toDataURL();
+			canvas.props.strokes[0].points.splice(-2);
+			canvas.componentDidUpdate();
+			let imageDataBetween = canvas.refs.canvas.toDataURL();
+			expect(hashCode(imageDataBetween)).to.not.equal(hashCode(imageDataBefore));
+		})
+
+		it('doesn\'t change the image when removing two strokes, re-rendering, adding them again, and re-rendering', () => {
+			let imageDataBefore = canvas.refs.canvas.toDataURL();
+			let lost = canvas.props.strokes[0].points.splice(-2);
+			canvas.componentDidUpdate();
+			let imageDataBetween = canvas.refs.canvas.toDataURL();
+			expect(hashCode(imageDataBetween)).to.not.equal(hashCode(imageDataBefore));
+			canvas.props.strokes[0].points.push(lost[0]);
+			canvas.props.strokes[0].points.push(lost[1]);
+			canvas.componentDidUpdate();
+			let imageDataAfter = canvas.refs.canvas.toDataURL();
+			expect(hashCode(imageDataAfter)).to.equal(hashCode(imageDataBefore));
 		})
 
 	})
