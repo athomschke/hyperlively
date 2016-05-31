@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 
 'use strict'
 
-let Ploma = require("imports?Math=./extensions/ploma-math!exports?Ploma!base/../libs/ploma");
+let Ploma = require("exports?Ploma!base/../libs/ploma");
 
 let eventPosition = (evt) => {
 	return {
@@ -41,10 +41,8 @@ export default class Canvas extends Component {
 		super(props);
 		this.state = {
 			isDrawing: false,
-			strokes: [],
-			paperFactor: Math.random()
+			strokes: []
 		};
-		window.uniquePaperFactor = this.state.paperFactor;
 		this.onMouseDown = this.onMouseDown.bind(this);
 		this.onMouseMove = this.onMouseMove.bind(this);
 		this.onMouseUp = this.onMouseUp.bind(this);
@@ -64,7 +62,11 @@ export default class Canvas extends Component {
 
 	onMouseMove(evt) {
 		if (this.state.isDrawing) {
-			this.props.onAppendPoint(eventPosition(evt));
+			let position = eventPosition(evt);
+			this.props.onAppendPoint({
+				x: position.x,
+				y: position.y
+			});
 		}
 	}
 
@@ -83,7 +85,6 @@ export default class Canvas extends Component {
 	}
 
 	setPlomaInstance(callback) {
-		window.uniquePaperFactor = this.state.paperFactor;
 		let plomaInstance = this.props.usePloma ? new Ploma(this.refs.canvas) : null
 		plomaInstance && plomaInstance.setSample(1);
 		this.setState({
@@ -111,7 +112,6 @@ export default class Canvas extends Component {
 	}
 
 	runOnPlomaInstance(routineName, point) {
-		window.uniquePaperFactor = this.state.paperFactor;
 		switch(routineName) {
 			case 'clear': {
 				this.state.plomaInstance[routineName]();
