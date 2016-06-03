@@ -27,21 +27,27 @@ export default class Canvas extends Component {
 		onAppendPoint: PropTypes.func,
 		onCreateStroke: PropTypes.func,
 		strokes: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.arrayOf(PropTypes.objectOf(PropTypes.number)))),
-		usePloma: PropTypes.bool
+		usePloma: PropTypes.bool,
+		width: PropTypes.number,
+		height: PropTypes.number
 	};
 
 	static defaultProps = {
 		onAppendPoint: () => {},
 		onCreateStroke: () => {},
 		strokes: [],
-		usePloma: true
+		usePloma: true,
+		width: 1000,
+		height: 500
 	};
 
 	constructor(props) {
 		super(props);
 		this.state = {
 			isDrawing: false,
-			strokes: []
+			strokes: [],
+			width: props.width,
+			height: props.height
 		};
 		this.onMouseDown = this.onMouseDown.bind(this);
 		this.onMouseMove = this.onMouseMove.bind(this);

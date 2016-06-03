@@ -7,9 +7,13 @@ import Settings from 'containers/Settings';
 
 const Application = () => (
 	<div>
-		<UndoRedo></UndoRedo>
-		<Settings></Settings>
-		<Sketch></Sketch>
+		<div className="hyperlively-canvas">
+			<Sketch></Sketch>
+		</div>
+		<div className="hyperlively-control">
+			<UndoRedo></UndoRedo>
+			<Settings></Settings>
+		</div>
 	</div>
 )
 
