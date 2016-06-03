@@ -14,16 +14,19 @@ describe('WindowCanvas', () => {
 	let restorableWidth;
 	let restorableHeight;
 	let windowCanvas;
+	let oldRemoveEventListener;
 
 	beforeEach(() => {
 		restorableWidth = window.innerWidth;
 		restorableHeight = window.innerHeight;
 		windowCanvas = renderCanvasWithStrokes([]);
+		oldRemoveEventListener = window.removeEventListener;
 	})
 
 	afterEach(() => {
 		window.innerWidth = restorableWidth;
 		window.innerHeight = restorableHeight;
+		window.removeEventListener = oldRemoveEventListener;
 	})
 
 	it('has the size of the window', () => {
@@ -37,6 +40,15 @@ describe('WindowCanvas', () => {
 		windowCanvas.handleResize();
 		expect(windowCanvas.state.windowWidth).to.equal(100);
 		expect(windowCanvas.state.windowHeight).to.equal(100);
+	})
+
+	it('unregisters the resize handler when removed', () => {
+		let wasResizeHandlerRemoved = false;
+		window.removeEventListener = (listener) => {
+			wasResizeHandlerRemoved = listener === 'resize';
+		}
+		windowCanvas.componentWillUnmount();
+		expect(wasResizeHandlerRemoved).to.be.true;
 	})
 
 })
