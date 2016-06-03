@@ -12,7 +12,7 @@ describe('ploma', () => {
 	it('handles initial state', () => {
 		expect(
 			ploma(undefined, {})
-		).to.deep.equal(false)
+		).to.deep.equal(true)
 	})
 
 	it('appends first point', () => {

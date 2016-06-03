@@ -4,7 +4,16 @@ webpackConfig.devtool = 'inline-source-map';
 module.exports = function (config) {
   config.set({
   	// basePath: '.',
-	browsers: [ 'Chrome' ],
+  browsers: ['chrome_large'],
+  customLaunchers: {
+    chrome_large: {
+      base: 'Chrome',
+      flags: [
+          '--window-size=1100,600',
+          '--window-position=-0,0'
+      ]
+    }
+  },
 	files: [
 		'test/runner.js'
 	],

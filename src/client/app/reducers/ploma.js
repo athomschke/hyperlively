@@ -1,6 +1,6 @@
 import * as actionTypes from 'constants/actionTypes';
 
-const ploma = (state = false, action) => {
+const ploma = (state = true, action) => {
 	switch(action.type) {
 		case actionTypes.TOGGLE_PLOMA:
 			return action.bool;

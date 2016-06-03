@@ -5,6 +5,7 @@ import Application from 'base/Application';
 import { createStore } from 'redux';
 import hyperlively from 'reducers/index';
 import TestUtils from 'react-addons-test-utils';
+import { hashCode } from '../helpers';
 
 'use strict'
 
@@ -72,7 +73,14 @@ describe('Integration', () => {
 	it('renders the empty canvas', () => {
 		let emptyCanvas = require("json!./data/emptyCanvas.json");
 		let renderedApp = renderApplication(emptyCanvas.json);
-		expect(getImageData()).to.equal(emptyCanvas.imageData);
+		expect(hashCode(getImageData())).to.equal(hashCode(emptyCanvas.imageData));
+	})
+
+	it('renders the empty canvas with ploma', () => {
+		let emptyCanvas = require("json!./data/emptyCanvas.json");
+		let emptyCanvasWithPloma = require("json!./data/emptyCanvasWithPloma.json");
+		let renderedApp = renderApplication(emptyCanvasWithPloma.json);
+		expect(hashCode(getImageData())).to.equal(hashCode(emptyCanvasWithPloma.imageData));
 	})
 
 	it('can draw a stroke on canvas', () => {
@@ -86,7 +94,7 @@ describe('Integration', () => {
 		simulateDrawingEventOnCanvasAt('mouseDown', canvasNode, 20, 10);
 		simulateDrawingEventOnCanvasAt('mouseMove', canvasNode, 20, 30);
 		simulateDrawingEventOnCanvasAt('mouseUp', canvasNode, 20, 30);
-		expect(getImageData()).to.equal(canvasWithTwoStrokes.imageData);
+		expect(hashCode(getImageData())).to.equal(hashCode(canvasWithTwoStrokes.imageData));
 	})
 
 	it('can undo two times', () => {
@@ -98,7 +106,7 @@ describe('Integration', () => {
 		simulateDrawingEventOnCanvasAt('mouseUp', canvasNode, 10, 30);
 		TestUtils.Simulate.click(getUndoButton());
 		TestUtils.Simulate.click(getUndoButton());
-		expect(getImageData()).to.equal(emptyCanvas.imageData);
+		expect(hashCode(getImageData())).to.equal(hashCode(emptyCanvas.imageData));
 	})
 
 	it('can redo two times', () => {
@@ -116,7 +124,7 @@ describe('Integration', () => {
 		TestUtils.Simulate.click(getUndoButton());
 		TestUtils.Simulate.click(getRedoButton());
 		TestUtils.Simulate.click(getRedoButton());
-		expect(getImageData()).to.equal(canvasWithTwoStrokes.imageData);
+		expect(hashCode(getImageData())).to.equal(hashCode(canvasWithTwoStrokes.imageData));
 	})
 
 	it('switches to Ploma when button pressed', () => {
@@ -125,7 +133,7 @@ describe('Integration', () => {
 		let nonPlomaImageData = getImageData();
 		let plomaButton = document.getElementById('toggle-ploma');
 		TestUtils.Simulate.click(plomaButton);
-		expect(getImageData()).to.not.equal(nonPlomaImageData);
+		expect(hashCode(getImageData())).to.not.equal(hashCode(nonPlomaImageData));
 	})
 
 })

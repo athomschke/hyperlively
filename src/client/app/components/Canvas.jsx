@@ -77,7 +77,7 @@ export default class Canvas extends Component {
 	}
 
 	componentDidMount() {
-		this.setPlomaInstance();
+		this.setPlomaInstance(this.redrawEverything);
 	}
 
 	componentDidUpdate() {
