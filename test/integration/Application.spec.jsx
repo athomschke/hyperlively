@@ -10,6 +10,19 @@ import TestUtils from 'react-addons-test-utils';
 
 let store;
 
+let getCanvasNode = () => {
+	return document.getElementsByTagName('canvas')[0];
+}
+
+let getImageData = () => {
+	let canvasNode = getCanvasNode();
+	let partialCanvas = document.createElement('canvas');
+	partialCanvas.setAttribute('width', 1000);
+	partialCanvas.setAttribute('height', 500);
+	partialCanvas.getContext('2d').putImageData(canvasNode.getContext('2d').getImageData(0,0,1000,500), 0, 0)
+	return partialCanvas.toDataURL();
+}
+
 let simulateDrawingEventOnCanvasAt = (eventType, canvas, x, y) => {
 	TestUtils.Simulate[eventType](canvas, {
 		pageX: x,

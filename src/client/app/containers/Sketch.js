@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import Canvas from 'components/Canvas';
+import WindowCanvas from 'components/WindowCanvas';
 import { appendPoint, createStroke } from 'actions/index';
 import { last } from 'lodash';
 
@@ -28,6 +28,6 @@ const mapDispatchToProps = (dispatch) => {
 const Sketch = connect(
   mapStateToProps,
   mapDispatchToProps
-)(Canvas)
+)(WindowCanvas)
 
 export default Sketch;

@@ -87,7 +87,9 @@ export default class Canvas extends Component {
 		if (!_.isEqual(this.props.usePloma, !!this.state.plomaInstance)) {
 			this.onPlomaUpdated();
 		}
-		
+		if (!_.isEqual(this.props.width, this.state.width) || !_.isEqual(this.props.height, this.state.height)) {
+			this.onDimensionsUpdated();
+		}
 	}
 
 	setPlomaInstance(callback) {
@@ -114,6 +116,14 @@ export default class Canvas extends Component {
 	}
 
 	onPlomaUpdated() {
+		this.setPlomaInstance(this.redrawEverything);
+	}
+
+	onDimensionsUpdated() {
+		this.setState({
+			width: this.props.width,
+			height: this.props.height
+		})
 		this.setPlomaInstance(this.redrawEverything);
 	}
 
@@ -217,8 +227,8 @@ export default class Canvas extends Component {
 	render() {
 		return <canvas 
 			ref="canvas"
-			width={1000}
-			height={500}
+			width={this.props.width}
+			height={this.props.height}
 			onMouseDown={this.onMouseDown}
 			onMouseMove={this.onMouseMove}
 			onMouseUp={this.onMouseUp}
