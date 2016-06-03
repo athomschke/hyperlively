@@ -158,9 +158,9 @@ describe('Canvas', () => {
 			let hasRun = false;
 			_.remove(canvas.props.strokes, canvas.props.strokes[0]);
 			canvas.componentDidUpdate();
-			canvas.props.strokes.push = {
+			canvas.props.strokes.push({
 				points: [{ x: 10, y: 10 }]
-			};
+			});
 			canvas.redrawEverything = () => {
 				hasRun = true;
 			}

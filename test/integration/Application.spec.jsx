@@ -17,10 +17,6 @@ let simulateDrawingEventOnCanvasAt = (eventType, canvas, x, y) => {
 	});
 }
 
-let getCanvasNode = () => {
-	return document.getElementsByTagName('canvas')[0];
-}
-
 let getUndoButton = () => {
 	return document.getElementsByTagName('button')[0];	
 }
@@ -63,8 +59,7 @@ describe('Integration', () => {
 	it('renders the empty canvas', () => {
 		let emptyCanvas = require("json!./data/emptyCanvas.json");
 		let renderedApp = renderApplication(emptyCanvas.json);
-		let canvasNode = getCanvasNode();
-		expect(canvasNode.toDataURL()).to.equal(emptyCanvas.imageData);
+		expect(getImageData()).to.equal(emptyCanvas.imageData);
 	})
 
 	it('can draw a stroke on canvas', () => {
@@ -78,7 +73,7 @@ describe('Integration', () => {
 		simulateDrawingEventOnCanvasAt('mouseDown', canvasNode, 20, 10);
 		simulateDrawingEventOnCanvasAt('mouseMove', canvasNode, 20, 30);
 		simulateDrawingEventOnCanvasAt('mouseUp', canvasNode, 20, 30);
-		expect(canvasNode.toDataURL()).to.equal(canvasWithTwoStrokes.imageData);
+		expect(getImageData()).to.equal(canvasWithTwoStrokes.imageData);
 	})
 
 	it('can undo two times', () => {
@@ -90,7 +85,7 @@ describe('Integration', () => {
 		simulateDrawingEventOnCanvasAt('mouseUp', canvasNode, 10, 30);
 		TestUtils.Simulate.click(getUndoButton());
 		TestUtils.Simulate.click(getUndoButton());
-		expect(canvasNode.toDataURL()).to.equal(emptyCanvas.imageData);
+		expect(getImageData()).to.equal(emptyCanvas.imageData);
 	})
 
 	it('can redo two times', () => {
@@ -108,17 +103,16 @@ describe('Integration', () => {
 		TestUtils.Simulate.click(getUndoButton());
 		TestUtils.Simulate.click(getRedoButton());
 		TestUtils.Simulate.click(getRedoButton());
-		expect(canvasNode.toDataURL()).to.equal(canvasWithTwoStrokes.imageData);
+		expect(getImageData()).to.equal(canvasWithTwoStrokes.imageData);
 	})
 
 	it('switches to Ploma when button pressed', () => {
 		let canvasWithTwoStrokes = require("json!./data/canvasWithTwoStrokes.json");
 		let renderedApp = renderApplication(canvasWithTwoStrokes.json);
-		let canvasNode = getCanvasNode();
-		let nonPlomaImageData = canvasNode.toDataURL();
+		let nonPlomaImageData = getImageData();
 		let plomaButton = document.getElementById('toggle-ploma');
 		TestUtils.Simulate.click(plomaButton);
-		expect(canvasNode.toDataURL()).to.not.equal(nonPlomaImageData);
+		expect(getImageData()).to.not.equal(nonPlomaImageData);
 	})
 
 })
