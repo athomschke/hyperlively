@@ -27,6 +27,9 @@ const strokes = (state = [], action) => {
 					point: action.point
 				})
 			}])
+		case actionTypes.FINISH_STROKE:
+			state.last().finished = true;
+			return state
 		default:
 			return state;
 	}

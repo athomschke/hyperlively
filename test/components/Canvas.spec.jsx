@@ -22,9 +22,10 @@ let endStrokeAt = (canvas, x, y) => {
 	simulateDrawingEventOnCanvasAt('mouseUp', canvas, x, y);
 }
 
-let renderPlomaCanvasWithStrokes = (strokes) => {
+let renderPlomaCanvasWithStrokes = (strokes, uniqueCanvasFactor) => {
 	return TestUtils.renderIntoDocument(<Canvas
 		usePloma={true}
+		uniqueCanvasFactor={uniqueCanvasFactor || Math.random()}
 		strokes={strokes}
 	></Canvas>);
 }
@@ -217,6 +218,34 @@ describe('Canvas', () => {
 			let imageData1 = canvas.refs.canvas.getContext('2d').getImageData(8, 8, 4, 7);
 			let imageData2 = canvas.refs.canvas.getContext('2d').getImageData(18, 8, 4, 7);
 			expect(hashCode(imageData1.data.join())).to.not.deep.equal(hashCode(imageData2.data.join()));
+		})
+
+	})
+
+	describe('drawing with Ploma', () => {
+
+		it('does nothing when only one point of a stroke is added', () => {
+			let canvas = renderPlomaCanvasWithStrokes([{
+				points: []
+			}])
+			canvas.props.strokes[0].points.push({ x:20, y:10 });
+			canvas.componentDidUpdate();
+			canvas.props.strokes[0].points.push({ x:20, y:11 });
+			canvas.componentDidUpdate();
+			canvas.props.strokes[0].points.push({ x:20, y:12 });
+			canvas.componentDidUpdate();
+			canvas.props.strokes[0].points.push({ x:20, y:13 });
+			canvas.componentDidUpdate();
+			canvas.props.strokes[0].points.push({ x:20, y:14 });
+			canvas.componentDidUpdate();
+			canvas.props.strokes[0].finished = true;
+			canvas.componentDidUpdate();
+			let imageDataBefore = canvas.refs.canvas.toDataURL();
+			canvas.props.strokes.push({
+				points: [{ x:40, y:14 }]
+			});
+			canvas.componentDidUpdate();
+			expect(hashCode(canvas.refs.canvas.toDataURL())).to.equal(hashCode(imageDataBefore))
 		})
 
 	})

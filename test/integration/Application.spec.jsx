@@ -9,8 +9,6 @@ import { hashCode } from '../helpers';
 
 'use strict'
 
-let store;
-
 let getCanvasNode = () => {
 	return document.getElementsByTagName('canvas')[0];
 }
@@ -44,11 +42,11 @@ let getHistorySlider = () => {
 }
 
 let renderApplication = (initialState) => {
-	store = createStore(hyperlively, initialState);
+	let store = createStore(hyperlively, initialState);
 
 	let renderedApp = render(
 	  <Provider store={store}>
-	    <Application/>
+	    <Application/>	
 	  </Provider>,
 	  document.getElementById('app')
 	)
@@ -57,6 +55,18 @@ let renderApplication = (initialState) => {
 	expect(document.getElementsByTagName('canvas')).to.have.length(1);
 
 	return renderedApp;
+}
+
+let manuallyDrawStrokes = (canvasNode, strokes) => {
+	_.forEach(strokes, (stroke) => {
+		let first = _.first(stroke.points);
+		let last = _.last(stroke.points);
+		simulateDrawingEventOnCanvasAt('mouseDown', canvasNode, first.x, first.y);
+		_.forEach(_.tail(stroke.points), (point) => {
+			simulateDrawingEventOnCanvasAt('mouseMove', canvasNode, point.x, point.y);
+		})
+		simulateDrawingEventOnCanvasAt('mouseUp', canvasNode, last.x, last.y);
+	})
 }
 
 describe('Integration', () => {
@@ -114,12 +124,11 @@ describe('Integration', () => {
 		let canvasWithTwoStrokes = require("json!./data/canvasWithTwoStrokes.json");
 		let renderedApp = renderApplication(emptyCanvas.json);
 		let canvasNode = getCanvasNode();
-		simulateDrawingEventOnCanvasAt('mouseDown', canvasNode, 10, 10);
-		simulateDrawingEventOnCanvasAt('mouseMove', canvasNode, 10, 30);
-		simulateDrawingEventOnCanvasAt('mouseUp', canvasNode, 10, 30);
-		simulateDrawingEventOnCanvasAt('mouseDown', canvasNode, 20, 10);
-		simulateDrawingEventOnCanvasAt('mouseMove', canvasNode, 20, 30);
-		simulateDrawingEventOnCanvasAt('mouseUp', canvasNode, 20, 30);
+		manuallyDrawStrokes(canvasNode, [{
+			points: [{ x: 10, y: 10 }, { x: 10, y: 30 }]
+		}, {
+			points: [{ x: 20, y: 10 }, { x: 20, y: 30 }]
+		}])
 		TestUtils.Simulate.click(getUndoButton());
 		TestUtils.Simulate.click(getUndoButton());
 		TestUtils.Simulate.click(getRedoButton());
@@ -134,6 +143,17 @@ describe('Integration', () => {
 		let plomaButton = document.getElementById('toggle-ploma');
 		TestUtils.Simulate.click(plomaButton);
 		expect(hashCode(getImageData())).to.not.equal(hashCode(nonPlomaImageData));
+	})
+
+	// Don't know why the image datas don't match - The results look exactly the same.
+	it.skip('makes no differense in rendering two strokes and adding two strokes point by points', () => {
+		let canvasWithIrregularStrokesWithPloma = require("json!./data/canvasWithIrregularStrokesWithPloma.json");
+		let emptyCanvasWithPloma = _.cloneDeep(require("json!./data/emptyCanvasWithPloma.json"));
+		emptyCanvasWithPloma.json.ploma.uniqueCanvasFactor = canvasWithIrregularStrokesWithPloma.json.ploma.uniqueCanvasFactor;
+		let canvas = renderApplication(emptyCanvasWithPloma.json);
+		let strokes = canvasWithIrregularStrokesWithPloma.json.scene.present.sketches[0].strokes;
+		manuallyDrawStrokes(getCanvasNode(), strokes);
+		expect(hashCode(getImageData())).to.equal(hashCode(canvasWithIrregularStrokesWithPloma.imageData))
 	})
 
 })

@@ -1,9 +1,24 @@
 import * as actionTypes from 'constants/actionTypes';
 
-const ploma = (state = true, action) => {
+let initialState = () => {
+	return {
+		usePloma: true,
+		uniqueCanvasFactor: Math.random()
+	}
+}
+
+const ploma = (state = initialState(), action) => {
 	switch(action.type) {
 		case actionTypes.TOGGLE_PLOMA:
-			return action.bool;
+			return {
+				usePloma: action.bool,
+				uniqueCanvasFactor: state.uniqueCanvasFactor
+			}
+		case actionTypes.SET_UNIQUE_CANVAS_FACTOR:
+			return {
+				usePloma: state.usePloma,
+				uniqueCanvasFactor: action.uniqueCanvasFactor
+			}
 		default:
 			return state;
 	}

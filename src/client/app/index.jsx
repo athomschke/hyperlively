@@ -7,7 +7,13 @@ import hyperlively from 'reducers/index';
 
 'use strict'
 
-let store = createStore(hyperlively);
+let initialState = {
+	ploma: {
+		uniqueCanvasFactor: Math.random()
+	}
+}
+
+let store = createStore(hyperlively, initialState);
 
 render(
   <Provider store={store}>

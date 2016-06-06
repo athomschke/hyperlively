@@ -5,7 +5,7 @@ import Ploma from 'components/Ploma'
 
 const mapStateToProps = (state) => {
   return {
-    usePloma: state.ploma
+    usePloma: state.ploma.usePloma
   }
 }
 

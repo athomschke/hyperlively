@@ -26,8 +26,10 @@ export default class Canvas extends Component {
 	static propTypes = {
 		onAppendPoint: PropTypes.func,
 		onCreateStroke: PropTypes.func,
-		strokes: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.arrayOf(PropTypes.objectOf(PropTypes.number)))),
+		onFinishStroke: PropTypes.func,
+		strokes: PropTypes.array,
 		usePloma: PropTypes.bool,
+		uniqueCanvasFactor: PropTypes.number,
 		width: PropTypes.number,
 		height: PropTypes.number
 	};
@@ -35,6 +37,8 @@ export default class Canvas extends Component {
 	static defaultProps = {
 		onAppendPoint: () => {},
 		onCreateStroke: () => {},
+		onFinishStroke: () => {},
+		uniqueCanvasFactor: Math.random(),
 		strokes: [],
 		usePloma: true,
 		width: 1000,
@@ -60,10 +64,17 @@ export default class Canvas extends Component {
 		}, this.props.onCreateStroke.bind(this, eventPosition(evt)))
 	}
 
-	onMouseUp() {
-		this.setState({
-			isDrawing: false
-		})
+	onMouseUp(evt) {
+		if (this.state.isDrawing) {
+			let position = eventPosition(evt)
+			this.props.onFinishStroke({
+				x: position.x,
+				y: position.y
+			});
+			this.setState({
+				isDrawing: false
+			})
+		}
 	}
 
 	onMouseMove(evt) {
@@ -81,6 +92,9 @@ export default class Canvas extends Component {
 	}
 
 	componentDidUpdate() {
+		if (this.hasStrokeEnded()) {
+			this.onStrokeFinished();
+		}
 		if (!_.isEqual(this.props.strokes, this.state.strokes)) {
 			this.onStrokesUpdated();
 		}
@@ -93,7 +107,7 @@ export default class Canvas extends Component {
 	}
 
 	setPlomaInstance(callback) {
-		let plomaInstance = this.props.usePloma ? new Ploma(this.refs.canvas) : null
+		let plomaInstance = this.props.usePloma ? new Ploma(this.refs.canvas, this.props.uniqueCanvasFactor) : null
 		plomaInstance && plomaInstance.setSample(1);
 		this.setState({
 			plomaInstance: plomaInstance
@@ -113,6 +127,17 @@ export default class Canvas extends Component {
 		this.setState({
 			strokes: _.cloneDeep(this.props.strokes)
 		})
+	}
+
+	hasStrokeEnded() {
+		return (this.props.strokes.last() && this.props.strokes.last().finished) &&
+			(this.state.strokes.last() && !this.state.strokes.last().finished)
+	}
+
+	onStrokeFinished() {
+		if (!this.isEmpty() && this.props.usePloma) {
+			this.endStrokeAt(lastPointInStrokes(this.state.strokes))
+		}
 	}
 
 	onPlomaUpdated() {
@@ -158,9 +183,6 @@ export default class Canvas extends Component {
 
 	onPointAdded() {
 		if (this.hasNewStrokeStarted()) {
-			if (!this.isEmpty()) {
-				this.endStrokeAt(lastPointInStrokes(this.state.strokes))
-			}
 			this.startStrokeAt(lastPointInStrokes(this.props.strokes));
 		} else {
 			this.extendStrokeAt(lastPointInStrokes(this.props.strokes));	
@@ -200,12 +222,11 @@ export default class Canvas extends Component {
 
 	endStrokeAt(point) {
 		if (this.props.usePloma) {
-			this.runOnPlomaInstance('extendStroke', point);
 			this.runOnPlomaInstance('endStroke', point);
 		} else {
 			let context = this.refs.canvas.getContext('2d');
-			context.closePath();
 			context.stroke();
+			context.closePath();
 		}
 	}
 

@@ -1,12 +1,15 @@
 {
 	"json": {
-		"ploma": false,
+		"ploma": {
+			"usePloma": false
+		},
 		"scene": [{
 			"past": [],
 			"future": [],
 			"present": {
 				"sketches": [{
 					"strokes": [{
+						"finished": true,
 						"points": [{
 							"x": 10,
 							"y": 10
@@ -15,6 +18,7 @@
 							"y": 30
 						}]
 					},{
+						"finished": true,
 						"points": [{
 							"x": 20,
 							"y": 10

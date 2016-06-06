@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import WindowCanvas from 'components/WindowCanvas';
-import { appendPoint, createStroke } from 'actions/index';
+import { appendPoint, createStroke, finishStroke } from 'actions/index';
 import { last } from 'lodash';
 
 const mapStateToProps = (state) => {
@@ -10,7 +10,8 @@ const mapStateToProps = (state) => {
   }
   return {
     strokes: strokes,
-    usePloma: state.ploma
+    usePloma: state.ploma.usePloma,
+    uniqueCanvasFactor: state.ploma.uniqueCanvasFactor
   }
 }
 
@@ -21,6 +22,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     onCreateStroke: (point) => {
       dispatch(createStroke(point))
+    },
+    onFinishStroke: (point) => {
+      dispatch(finishStroke(point))
     }
   }
 }
