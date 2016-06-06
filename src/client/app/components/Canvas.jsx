@@ -4,13 +4,6 @@ import React, {Component, PropTypes} from 'react';
 
 let Ploma = require("exports?Ploma!base/../libs/ploma");
 
-let eventPosition = (evt) => {
-	return {
-		x: evt.pageX,
-		y: evt.pageY
-	}
-}
-
 let pointsFromStrokes = (strokes) => {
 	return _.flatten(_.map(strokes, (stroke) => {
 		return stroke.points;
@@ -24,9 +17,6 @@ let lastPointInStrokes = (strokes) => {
 export default class Canvas extends Component {
 
 	static propTypes = {
-		onAppendPoint: PropTypes.func,
-		onCreateStroke: PropTypes.func,
-		onFinishStroke: PropTypes.func,
 		strokes: PropTypes.array,
 		usePloma: PropTypes.bool,
 		uniqueCanvasFactor: PropTypes.number,
@@ -35,9 +25,6 @@ export default class Canvas extends Component {
 	};
 
 	static defaultProps = {
-		onAppendPoint: () => {},
-		onCreateStroke: () => {},
-		onFinishStroke: () => {},
 		uniqueCanvasFactor: Math.random(),
 		strokes: [],
 		usePloma: true,
@@ -48,43 +35,10 @@ export default class Canvas extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			isDrawing: false,
 			strokes: [],
 			width: props.width,
 			height: props.height
 		};
-		this.onMouseDown = this.onMouseDown.bind(this);
-		this.onMouseMove = this.onMouseMove.bind(this);
-		this.onMouseUp = this.onMouseUp.bind(this);
-	}
-
-	onMouseDown(evt) {
-		this.setState({
-			isDrawing: true
-		}, this.props.onCreateStroke.bind(this, eventPosition(evt)))
-	}
-
-	onMouseUp(evt) {
-		if (this.state.isDrawing) {
-			let position = eventPosition(evt)
-			this.props.onFinishStroke({
-				x: position.x,
-				y: position.y
-			});
-			this.setState({
-				isDrawing: false
-			})
-		}
-	}
-
-	onMouseMove(evt) {
-		if (this.state.isDrawing) {
-			let position = eventPosition(evt);
-			this.props.onAppendPoint({
-				x: position.x,
-				y: position.y
-			});
-		}
 	}
 
 	componentDidMount() {
@@ -130,8 +84,8 @@ export default class Canvas extends Component {
 	}
 
 	hasStrokeEnded() {
-		return (this.props.strokes.last() && this.props.strokes.last().finished) &&
-			(this.state.strokes.last() && !this.state.strokes.last().finished)
+		return (_.last(this.props.strokes) && _.last(this.props.strokes).finished) &&
+			(_.last(this.state.strokes) && !_.last(this.state.strokes).finished)
 	}
 
 	onStrokeFinished() {
@@ -250,9 +204,6 @@ export default class Canvas extends Component {
 			ref="canvas"
 			width={this.props.width}
 			height={this.props.height}
-			onMouseDown={this.onMouseDown}
-			onMouseMove={this.onMouseMove}
-			onMouseUp={this.onMouseUp}
 		/>;
 	}
 }

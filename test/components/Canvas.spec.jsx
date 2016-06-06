@@ -3,25 +3,6 @@ import TestUtils from 'react-addons-test-utils';
 import React from 'react';
 import { hashCode } from '../helpers';
 
-let simulateDrawingEventOnCanvasAt = (eventType, canvas, x, y) => {
-	TestUtils.Simulate[eventType](canvas.refs.canvas, {
-		pageX: x,
-		pageY: y
-	});
-}
-
-let startStrokeAt = (canvas, x, y) => {
-	simulateDrawingEventOnCanvasAt('mouseDown', canvas, x, y);
-}
-
-let extendStrokeAt = (canvas, x, y) => {
-	simulateDrawingEventOnCanvasAt('mouseMove', canvas, x, y);
-}
-
-let endStrokeAt = (canvas, x, y) => {
-	simulateDrawingEventOnCanvasAt('mouseUp', canvas, x, y);
-}
-
 let renderPlomaCanvasWithStrokes = (strokes, uniqueCanvasFactor) => {
 	return TestUtils.renderIntoDocument(<Canvas
 		usePloma={true}
@@ -35,39 +16,6 @@ let renderPlomaCanvasWithStrokes = (strokes, uniqueCanvasFactor) => {
 describe('Canvas', () => {
 
 	let canvas;
-
-	describe('drawing', () => {
-
-		beforeEach(() => {
-			canvas = TestUtils.renderIntoDocument(<Canvas></Canvas>);
-		})
-
-		it('is inactive when initializing', () => {
-			expect(canvas.state.isDrawing).to.be.false;
-		})
-
-		it('starts on mouse down', () => {
-			startStrokeAt(canvas, 10, 10);
-			expect(canvas.state.isDrawing).to.be.true;
-		})
-
-		it('continues when moving pressed mouse', () => {
-			startStrokeAt(canvas, 10, 10);
-			expect(canvas.state.isDrawing).to.be.true;
-			extendStrokeAt(canvas, 10, 11);
-			expect(canvas.state.isDrawing).to.be.true;
-		})
-
-		it('stops when releasing mouse', () => {
-			startStrokeAt(canvas, 10, 10);
-			expect(canvas.state.isDrawing).to.be.true;
-			extendStrokeAt(canvas, 10, 11);
-			expect(canvas.state.isDrawing).to.be.true;
-			endStrokeAt(canvas, 10, 11);
-			expect(canvas.state.isDrawing).to.be.false;
-		})
-
-	})
 
 	describe('plain rendered image', () => {
 
