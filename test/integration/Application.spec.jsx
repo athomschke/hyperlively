@@ -88,9 +88,10 @@ describe('Integration', () => {
 
 	it('renders the empty canvas with ploma', () => {
 		let emptyCanvas = require("json!./data/emptyCanvas.json");
-		let emptyCanvasWithPloma = require("json!./data/emptyCanvasWithPloma.json");
-		let renderedApp = renderApplication(emptyCanvasWithPloma.json);
-		expect(hashCode(getImageData())).to.equal(hashCode(emptyCanvasWithPloma.imageData));
+		let emptyCanvasJson = _.cloneDeep(emptyCanvas.json);
+		emptyCanvasJson.ploma.usePloma = true;
+		let renderedApp = renderApplication(emptyCanvasJson);
+		expect(hashCode(getImageData())).to.equal(hashCode(emptyCanvas.imageData));
 	})
 
 	it('can draw a stroke on canvas', () => {
@@ -137,8 +138,8 @@ describe('Integration', () => {
 	})
 
 	it('switches to Ploma when button pressed', () => {
-		let canvasWithTwoStrokes = require("json!./data/canvasWithTwoStrokes.json");
-		let renderedApp = renderApplication(canvasWithTwoStrokes.json);
+		let canvasWithIrregularStrokesWithPloma = require("json!./data/canvasWithIrregularStrokesWithPloma.json");
+		let renderedApp = renderApplication(canvasWithIrregularStrokesWithPloma.json);
 		let nonPlomaImageData = getImageData();
 		let plomaButton = document.getElementById('toggle-ploma');
 		TestUtils.Simulate.click(plomaButton);
@@ -148,9 +149,9 @@ describe('Integration', () => {
 	// Don't know why the image datas don't match - The results look exactly the same.
 	it.skip('makes no differense in rendering two strokes and adding two strokes point by points', () => {
 		let canvasWithIrregularStrokesWithPloma = require("json!./data/canvasWithIrregularStrokesWithPloma.json");
-		let emptyCanvasWithPloma = _.cloneDeep(require("json!./data/emptyCanvasWithPloma.json"));
-		emptyCanvasWithPloma.json.ploma.uniqueCanvasFactor = canvasWithIrregularStrokesWithPloma.json.ploma.uniqueCanvasFactor;
-		let canvas = renderApplication(emptyCanvasWithPloma.json);
+		let emptyCanvas = _.cloneDeep(require("json!./data/emptyCanvas.json"));
+		emptyCanvas.json.ploma.uniqueCanvasFactor = canvasWithIrregularStrokesWithPloma.json.ploma.uniqueCanvasFactor;
+		let canvas = renderApplication(emptyCanvas.json);
 		let strokes = canvasWithIrregularStrokesWithPloma.json.scene.present.sketches[0].strokes;
 		manuallyDrawStrokes(getCanvasNode(), strokes);
 		expect(hashCode(getImageData())).to.equal(hashCode(canvasWithIrregularStrokesWithPloma.imageData))

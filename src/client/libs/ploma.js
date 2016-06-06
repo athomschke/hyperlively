@@ -321,8 +321,9 @@ var Ploma = function(canvas, uniqueCanvasFactor) {
   var imageData = null;
   var imageDataData = new Uint8ClampedArray(w * h);
   //var paperColor = 'rgb(240, 235, 219)';
-  var paperColor = 'rgb(255, 255, 246)'; // light
-  var paperColor = 'rgb(240, 235, 219)'; // dark
+  // var paperColor = 'rgb(255, 255, 246)'; // light
+  // var paperColor = 'rgb(240, 235, 219)'; // dark
+  var paperColor = 'rgba(255, 255, 255, 0)'; // transparent
   //var paperColor = 'rgb(250, 240, 230)';
   //var paperColor = 'rgb(245, 230, 218)';
   w = canvas.getAttribute('width');
@@ -703,11 +704,11 @@ var Ploma = function(canvas, uniqueCanvasFactor) {
         oldA = id[idx_3] / 255;
 
         // Transparent vs. opaque background
-        //if(oldA === 1) {
+        if(oldA === 1) {
           newR = penR * a + oldR * invA;
           newG = penG * a + oldG * invA;
           newB = penB * a + oldB * invA;
-        /*} else {
+        } else {
           newA = a + oldA * invA;
           newR = (penR * a + oldR * oldA * invA) / newA;
           newG = (penG * a + oldG * oldA * invA) / newA;
@@ -715,7 +716,7 @@ var Ploma = function(canvas, uniqueCanvasFactor) {
           newA = newA * 255;
           // Set new A
           id[idx_3] = newA;
-        }*/
+        }
 
         // Set new RGB
         id[idx_0] = newR;
