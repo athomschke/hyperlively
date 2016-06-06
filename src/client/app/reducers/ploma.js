@@ -14,11 +14,6 @@ const ploma = (state = initialState(), action) => {
 				usePloma: action.bool,
 				uniqueCanvasFactor: state.uniqueCanvasFactor
 			}
-		case actionTypes.SET_UNIQUE_CANVAS_FACTOR:
-			return {
-				usePloma: state.usePloma,
-				uniqueCanvasFactor: action.uniqueCanvasFactor
-			}
 		default:
 			return state;
 	}
