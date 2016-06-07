@@ -5,7 +5,7 @@ import React from 'react';
 let renderCanvasWithStrokes = (strokes) => {
 	return TestUtils.renderIntoDocument(<WindowCanvas
 		usePloma={true}
-		strokes={strokes}
+		scene={{sketches: [{strokes: strokes }] }}
 	></WindowCanvas>);
 }
 

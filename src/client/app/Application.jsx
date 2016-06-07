@@ -1,5 +1,5 @@
 import React from 'react';
-import Sketch from 'containers/Sketch';
+import Scene from 'containers/Scene';
 import UndoRedo from 'containers/UndoRedo';
 import Settings from 'containers/Settings';
 
@@ -15,7 +15,7 @@ let getControlStyle = () => {
 const Application = () => (
 	<div>
 		<div>
-			<Sketch></Sketch>
+			<Scene></Scene>
 		</div>
 		<div
 			style={getControlStyle()}>

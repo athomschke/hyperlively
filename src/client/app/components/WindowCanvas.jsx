@@ -14,14 +14,16 @@ export default class WindowCanvas extends Component {
 		onAppendPoint: PropTypes.func,
 		onCreateStroke: PropTypes.func,
 		onFinishStroke: PropTypes.func,
-		strokes: PropTypes.array
+		scene: PropTypes.object
 	};
 
 	static defaultProps = {
 		onAppendPoint: () => {},
 		onCreateStroke: () => {},
 		onFinishStroke: () => {},
-		strokes: []
+		scene: {
+			sketches: []
+		}
 	}
 
 	handleResize(e) {
@@ -97,9 +99,17 @@ export default class WindowCanvas extends Component {
 		></Canvas>
 	}
 
+	getStrokes() {
+		debugger
+		let scene = this.props.scene
+		return scene.sketches.length > 0 ?
+    		_.last(scene.sketches).strokes :
+    		[];
+	}
+
 	renderScene() {
 		let that = this;
-		return _.map(this.props.strokes, (stroke, id) => {
+		return _.map(this.getStrokes(), (stroke, id) => {
 			return that.renderCanvas([stroke], id)
 		})
 	}
