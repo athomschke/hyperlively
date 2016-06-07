@@ -2,6 +2,7 @@ import React from 'react';
 import Scene from 'containers/Scene';
 import UndoRedo from 'containers/UndoRedo';
 import Settings from 'containers/Settings';
+import Window from 'containers/Window';
 
 'use strict'
 
@@ -14,9 +15,8 @@ let getControlStyle = () => {
 }
 const Application = () => (
 	<div>
-		<div>
-			<Scene></Scene>
-		</div>
+		<Scene></Scene>
+		<Window></Window>
 		<div
 			style={getControlStyle()}>
 			<UndoRedo></UndoRedo>

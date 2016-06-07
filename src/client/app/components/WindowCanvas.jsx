@@ -13,17 +13,13 @@ export default class WindowCanvas extends Component {
 	static propTypes = {
 		onAppendPoint: PropTypes.func,
 		onCreateStroke: PropTypes.func,
-		onFinishStroke: PropTypes.func,
-		scene: PropTypes.object
+		onFinishStroke: PropTypes.func
 	};
 
 	static defaultProps = {
 		onAppendPoint: () => {},
 		onCreateStroke: () => {},
-		onFinishStroke: () => {},
-		scene: {
-			sketches: []
-		}
+		onFinishStroke: () => {}
 	}
 
 	handleResize(e) {
@@ -90,30 +86,6 @@ export default class WindowCanvas extends Component {
 		}
 	}
 
-	renderCanvas(strokes, id) {
-		return <Canvas {...this.props}
-			key = {id}
-			width={this.state.windowWidth}
-			height={this.state.windowHeight}
-			strokes = {strokes}
-		></Canvas>
-	}
-
-	getStrokes() {
-		debugger
-		let scene = this.props.scene
-		return scene.sketches.length > 0 ?
-    		_.last(scene.sketches).strokes :
-    		[];
-	}
-
-	renderScene() {
-		let that = this;
-		return _.map(this.getStrokes(), (stroke, id) => {
-			return that.renderCanvas([stroke], id)
-		})
-	}
-
 	render() {
 		return (
 		<div
@@ -123,9 +95,7 @@ export default class WindowCanvas extends Component {
 			onMouseMove={this.onMouseMove.bind(this)}
 			onMouseDown={this.onMouseDown.bind(this)}
 			style= {this.getStyle()}
-		>
-			{this.renderScene()}
-		</div>)
+		></div>)
 	}
 
 }
