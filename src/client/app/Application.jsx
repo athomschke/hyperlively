@@ -5,12 +5,20 @@ import Settings from 'containers/Settings';
 
 'use strict'
 
+let getControlStyle = () => {
+	return {
+		position: 'absolute',
+		top: 20,
+		left: 20
+	}
+}
 const Application = () => (
 	<div>
-		<div className="hyperlively-canvas">
+		<div>
 			<Sketch></Sketch>
 		</div>
-		<div className="hyperlively-control">
+		<div
+			style={getControlStyle()}>
 			<UndoRedo></UndoRedo>
 			<Settings></Settings>
 		</div>
