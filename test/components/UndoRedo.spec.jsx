@@ -10,25 +10,6 @@ let renderComponentWithValueAndMax = (value, max) => {
 }
 
 describe('UndoRedo', () => {
-	it('disables Undo Button when first value is set', () => {
-		let undoRedo = renderComponentWithValueAndMax(0, 10)
-		expect(undoRedo.refs.undo.disabled).to.be.true;
-	})
-
-	it('enables Undo Button when second value is set', () => {
-		let undoRedo = renderComponentWithValueAndMax(1, 10)
-		expect(undoRedo.refs.undo.disabled).to.be.false;
-	})
-	
-	it('disables Redo Button when last value is set', () => {
-		let undoRedo = renderComponentWithValueAndMax(10, 10)
-		expect(undoRedo.refs.redo.disabled).to.be.true;
-	})
-	
-	it('enables Redo Button when second to last value is set', () => {
-		let undoRedo = renderComponentWithValueAndMax(9, 10)
-		expect(undoRedo.refs.redo.disabled).to.be.false;
-	})
 	
 	it('disables Slider when max is 0', () => {
 		let undoRedo = renderComponentWithValueAndMax(0, 0)
@@ -75,13 +56,13 @@ describe('UndoRedo', () => {
 
 	it('Does nothing on undo when initialized without an undo callback', () => {
 		let undoRedo = renderComponentWithValueAndMax(9, 10);
-		undoRedo.onUndoClick();
+		undoRedo.onSliderMove(8);
 		expect(undoRedo.props.value).to.equal(9)
 	})
 
 	it('Does nothing on redo when initialized without a redo callback', () => {
 		let undoRedo = renderComponentWithValueAndMax(9, 10);
-		undoRedo.onRedoClick();
+		undoRedo.onSliderMove(10);
 		expect(undoRedo.props.value).to.equal(9)
 	})
 })

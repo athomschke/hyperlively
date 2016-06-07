@@ -158,36 +158,6 @@ describe('Integration', () => {
 		simulateDrawingEventOnCanvasAt('mouseDown', windowNode, 20, 10);
 		simulateDrawingEventOnCanvasAt('mouseMove', windowNode, 20, 30);
 		simulateDrawingEventOnCanvasAt('mouseUp', windowNode, 20, 30);
-		debugger
-		expect(hashCode(getImageData())).to.equal(hashCode(canvasWithTwoStrokes.imageData));
-	})
-
-	it('can undo two times', () => {
-		let emptyCanvas = require("json!./data/emptyCanvas.json");
-		let renderedApp = renderApplication(emptyCanvas.json);
-		let windowNode = getWindowNode();
-		simulateDrawingEventOnCanvasAt('mouseDown', windowNode, 10, 10);
-		simulateDrawingEventOnCanvasAt('mouseMove', windowNode, 10, 30);
-		simulateDrawingEventOnCanvasAt('mouseUp', windowNode, 10, 30);
-		TestUtils.Simulate.click(getUndoButton());
-		TestUtils.Simulate.click(getUndoButton());
-		expect(hashCode(getImageData())).to.equal(hashCode(emptyCanvas.imageData));
-	})
-
-	it('can redo two times', () => {
-		let emptyCanvas = require("json!./data/emptyCanvas.json");
-		let canvasWithTwoStrokes = require("json!./data/canvasWithTwoStrokes.json");
-		let renderedApp = renderApplication(emptyCanvas.json);
-		let windowNode = getWindowNode();
-		manuallyDrawStrokes(windowNode, [{
-			points: [{ x: 10, y: 10 }, { x: 10, y: 30 }]
-		}, {
-			points: [{ x: 20, y: 10 }, { x: 20, y: 30 }]
-		}])
-		TestUtils.Simulate.click(getUndoButton());
-		TestUtils.Simulate.click(getUndoButton());
-		TestUtils.Simulate.click(getRedoButton());
-		TestUtils.Simulate.click(getRedoButton());
 		expect(hashCode(getImageData())).to.equal(hashCode(canvasWithTwoStrokes.imageData));
 	})
 
