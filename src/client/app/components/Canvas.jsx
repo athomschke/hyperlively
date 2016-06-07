@@ -199,11 +199,20 @@ export default class Canvas extends Component {
 		})
 	}
 
+	getStyle() {
+		return {
+			position: 'absolute',
+			top: 0,
+			left: 0
+		}
+	}
+
 	render() {
 		return <canvas 
 			ref="canvas"
 			width={this.props.width}
 			height={this.props.height}
+			style={this.getStyle()}
 		/>;
 	}
 }

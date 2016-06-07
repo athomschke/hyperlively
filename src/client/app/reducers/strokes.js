@@ -28,7 +28,7 @@ const strokes = (state = [], action) => {
 				})
 			}])
 		case actionTypes.FINISH_STROKE:
-			state.last().finished = true;
+			_.last(state).finished = true;
 			return state
 		default:
 			return state;

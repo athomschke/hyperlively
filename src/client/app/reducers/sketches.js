@@ -20,13 +20,9 @@ const sketches = (state = [], action) => {
 	switch(action.type) {
 		case actionTypes.APPEND_POINT:
 		case actionTypes.FINISH_STROKE:
+		case actionTypes.CREATE_STROKE:
 			return state.length > 0 ? reduceMultipleSketches(state, action) :
 				reduceFirstSketch(state, action);
-			reduceMultipleSketches();
-		case actionTypes.CREATE_STROKE:
-			return reduceMultipleSketches(state.concat({
-				strokes: strokes([], action)
-			}), action)
 		default:
 			return state;
 	}
