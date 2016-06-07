@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { togglePloma } from 'actions/index';
+import { togglePloma } from 'actions/configuring';
 import Ploma from 'components/Ploma'
 
 const mapStateToProps = (state) => {

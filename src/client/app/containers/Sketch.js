@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import WindowCanvas from 'components/WindowCanvas';
-import { appendPoint, createStroke, finishStroke } from 'actions/index';
+import { appendPoint, createStroke, finishStroke } from 'actions/drawing';
 import { last } from 'lodash';
 
 const mapStateToProps = (state) => {

@@ -1,4 +1,4 @@
-import * as actions from 'actions/index';
+import * as actions from 'actions/drawing';
 import * as types from 'constants/actionTypes';
 
 describe('actions', () => {
@@ -17,8 +17,8 @@ describe('actions', () => {
 
   it('should create an action to create a stroke', () => {
     const point = {
-    	x: 10,
-    	y: 10
+      x: 10,
+      y: 10
     }
     const expectedAction = {
       type: types.CREATE_STROKE,
@@ -26,4 +26,17 @@ describe('actions', () => {
     }
     expect(actions.createStroke(point)).to.deep.equal(expectedAction)
   })
+
+  it('should create an action to finish a stroke', () => {
+    const point = {
+    	x: 10,
+    	y: 10
+    }
+    const expectedAction = {
+      type: types.FINISH_STROKE,
+      point
+    }
+    expect(actions.finishStroke(point)).to.deep.equal(expectedAction)
+  })
+
 })

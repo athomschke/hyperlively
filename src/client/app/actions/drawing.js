@@ -11,7 +11,3 @@ export function createStroke(point) {
 export function finishStroke(point) {
 	return { type: actionTypes.FINISH_STROKE, point }
 }
-
-export function togglePloma(bool) {
-	return { type: actionTypes.TOGGLE_PLOMA, bool }
-}
