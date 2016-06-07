@@ -9,14 +9,16 @@ export default class UndoRedo extends Component {
 		jumpToPast: PropTypes.func,
 		jumpToFuture: PropTypes.func,
 		max: PropTypes.number,
-		value: PropTypes.number
+		value: PropTypes.number,
+		width: PropTypes.number
 	};
 
 	static defaultProps = {
 		jumpToPast: () => {},
 		jumpToFuture: () => {},
 		max: 0,
-		value: 0
+		value: 0,
+		width: 100
 	};
 
 	onUndoClick() {
@@ -40,7 +42,11 @@ export default class UndoRedo extends Component {
 	render() {
 		let canUndo = this.props.value > 0;
 		let canRedo = this.props.value < this.props.max;
-		return (<div>
+		return (<div
+				style={{
+					width: window.innerWidth - 40
+				}}
+			>
 			<button ref="undo"
 				onClick={this.onUndoClick.bind(this)}
 				disabled={!canUndo}
@@ -48,7 +54,6 @@ export default class UndoRedo extends Component {
 			<Slider ref="slider"
 				onChange={this.onSliderMove.bind(this)}
 				disabled={!canUndo && !canRedo}
-				// style = {this.getSliderStyle()}
 				min={0}
 				max={this.props.max}
 				value={this.props.value}
