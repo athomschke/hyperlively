@@ -1,7 +1,6 @@
 import { ActionCreators } from 'redux-undo';
 import { connect } from 'react-redux';
 import React from 'react';
-import ReactSlider from 'react-slider';
 import UndoRedo from 'components/UndoRedo'
 
 let UndoRedoContainer = ({ max, value, onJumpToFuture, onJumpToPast}) => (

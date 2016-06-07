@@ -31,7 +31,7 @@
     "react": "^15.0.1",
     "react-dom": "^15.0.1",
     "react-redux": "^4.4.5",
-    "react-slider": "^0.6.1",
+    "reactrangeslider": "^2.0.0",
     "redux": "^3.5.2",
     "redux-undo": "^0.6.1",
     "require": "^2.4.20",

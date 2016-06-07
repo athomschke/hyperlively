@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import ReactSlider from 'react-slider';
+import { Slider } from 'reactrangeslider';
 
 'use strict'
 
@@ -45,13 +45,14 @@ export default class UndoRedo extends Component {
 				onClick={this.onUndoClick.bind(this)}
 				disabled={!canUndo}
 			>Undo</button>
-			<ReactSlider ref="slider"
+			<Slider ref="slider"
 				onChange={this.onSliderMove.bind(this)}
 				disabled={!canUndo && !canRedo}
+				// style = {this.getSliderStyle()}
 				min={0}
 				max={this.props.max}
 				value={this.props.value}
-			></ReactSlider>
+			></Slider>
 			<button ref="redo"
 				onClick={this.onRedoClick.bind(this)}
 				disabled={!canRedo}
