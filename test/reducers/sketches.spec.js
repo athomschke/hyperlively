@@ -27,7 +27,8 @@ describe('sketches', () => {
 			[{
 				strokes: [{
 					points: [point(10,10)]
-				}]
+				}],
+				position: point(10,10)
 			}]
 		)
 	})
@@ -42,7 +43,8 @@ describe('sketches', () => {
 			[{
 				strokes: [{
 					points: [point(10,10)]
-				}]
+				}],
+				position: point(10,10)
 			}]
 		)
 	})
@@ -51,7 +53,8 @@ describe('sketches', () => {
 		let currentSketches = [{
 			strokes: [{
 				points: [point(10,10)]
-			}]
+			}],
+			position: point(10,10)
 		}]
 		expect(
 			sketches(currentSketches, {
@@ -62,7 +65,8 @@ describe('sketches', () => {
 			[{
 				strokes: [{
 					points: [point(10,10), point(10,11)]
-				}]
+				}],
+				position: point(10,10)
 			}]
 		)
 	})
@@ -71,21 +75,25 @@ describe('sketches', () => {
 		let currentSketches = [{
 			strokes: [{
 				points: [point(10,10)]
-			}]
+			}],
+			position: point(10,10)
+		}]
+		let actualResult = sketches(currentSketches, {
+			type: types.CREATE_STROKE,
+			point: point(10,11)
+		})
+		let expectedResult = [{
+			strokes: [{
+				points: [point(10,10)]
+			}, {
+				points: [point(10,11)]
+			}],
+			position: point(10,10)
 		}]
 		expect(
-			sketches(currentSketches, {
-				type: types.CREATE_STROKE,
-				point: point(10,11)
-			})
+			actualResult
 		).to.deep.equal(
-			[{
-				strokes: [{
-					points: [point(10,10)]
-				}, {
-					points: [point(10,11)]
-				}]
-			}]
+			expectedResult
 		)
 	})
 
@@ -93,11 +101,13 @@ describe('sketches', () => {
 		let currentSketches = [{
 			strokes: [{
 				points: [ point(10,10) ]
-			}]
+			}],
+			position: point(10,10)
 		}, {
 			strokes: [{
 				points: [ point(10,10) ]
-			}]
+			}],
+			position: point(10,10)
 		}]
 		let actionCreator = {
 			type: types.CREATE_STROKE,
@@ -106,13 +116,15 @@ describe('sketches', () => {
 		let extendedSketches = [{
 			strokes: [{
 				points: [ point(10,10) ]
-			}]
+			}],
+			position: point(10,10)
 		}, {
 			strokes: [{
 				points: [ point(10,10) ]
 			}, {
 				points: [ point(10,11) ]
-			}]
+			}],
+			position: point(10,10)
 		}]
 		expect(
 			sketches(currentSketches, actionCreator)

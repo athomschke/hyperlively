@@ -37,7 +37,8 @@ describe('scene', () => {
 			sketches: [{
 				strokes: [{
 					points: [ point(10,10) ]
-				}]
+				}],
+				position: point(10,10)
 			}]
 		}
 		expect(presentScene).to.deep.equal(expectedPresentScene);
@@ -53,7 +54,8 @@ describe('scene', () => {
 			sketches: [{
 				strokes: [{
 					points: [ point(10,10) ]
-				}]
+				}],
+				position: point(10,10)
 			}]
 		}
 		expect(presentScene).to.deep.equal(expectedPresentScene);
