@@ -2,18 +2,11 @@ import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import Application from './Application';
-import { createStore } from 'redux';
-import hyperlively from 'reducers/index';
+import configureStore from './configureStore';
 
 'use strict'
 
-let initialState = {
-	ploma: {
-		uniqueCanvasFactor: Math.random()
-	}
-}
-
-let store = createStore(hyperlively, initialState);
+let store = configureStore();
 
 render(
   <Provider store={store}>
