@@ -38,7 +38,7 @@ export default class Desk extends Component {
 		return (<div>
 			{_.map(this.getStrokes(), (stroke, id) => {
 				return that.renderCanvas([stroke], id)
-			})}
+			}).concat(that.renderCanvas([], that.getStrokes().length))}
 		</div>)
 	}
 

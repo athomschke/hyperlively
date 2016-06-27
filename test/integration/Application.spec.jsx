@@ -67,7 +67,7 @@ let renderApplication = (initialState) => {
 	  document.getElementById('app')
 	)
 
-	expect(document.getElementsByTagName('canvas')).to.have.length(strokesCount);
+	expect(document.getElementsByTagName('canvas')).to.have.length(strokesCount + 1);
 
 	return renderedApp;
 }
@@ -136,7 +136,8 @@ describe('Integration', () => {
 	it('renders the empty application', () => {
 		let emptyCanvas = require("json!./data/emptyCanvas.json");
 		let renderedApp = renderApplication(emptyCanvas.json);
-		// expect(hashCode(getImageData())).to.equal(hashCode(emptyCanvas.imageData));
+		expect(getWindowNode()).to.exist;
+		expect(getCanvasNodes()).to.have.length(1);
 	})
 
 	it('renders the empty application with ploma', () => {
@@ -144,7 +145,8 @@ describe('Integration', () => {
 		let emptyCanvasJson = _.cloneDeep(emptyCanvas.json);
 		emptyCanvasJson.ploma.usePloma = true;
 		let renderedApp = renderApplication(emptyCanvasJson);
-		// expect(hashCode(getImageData())).to.equal(hashCode(emptyCanvas.imageData));
+		expect(getWindowNode()).to.exist;
+		expect(getCanvasNodes()).to.have.length(1);
 	})
 
 	it('can draw a stroke on canvas', () => {
@@ -170,14 +172,14 @@ describe('Integration', () => {
 		expect(hashCode(getImageData())).to.not.equal(hashCode(nonPlomaImageData));
 	})
 
-	// Don't know why the image datas don't match - The results look exactly the same.
-	it.skip('makes no differense in rendering two strokes and adding two strokes point by points', () => {
+	it('makes no difference in rendering two strokes and adding two strokes point by point', () => {
 		let canvasWithIrregularStrokesWithPloma = require("json!./data/canvasWithIrregularStrokesWithPloma.json");
 		let emptyCanvas = _.cloneDeep(require("json!./data/emptyCanvas.json"));
 		emptyCanvas.json.ploma.uniqueCanvasFactor = canvasWithIrregularStrokesWithPloma.json.ploma.uniqueCanvasFactor;
+		emptyCanvas.json.ploma.usePloma = true;
 		let canvas = renderApplication(emptyCanvas.json);
 		let strokes = canvasWithIrregularStrokesWithPloma.json.scene.present.sketches[0].strokes;
-		manuallyDrawStrokes(getCanvasNode(), strokes);
+		manuallyDrawStrokes(getWindowNode(), strokes);
 		expect(hashCode(getImageData())).to.equal(hashCode(canvasWithIrregularStrokesWithPloma.imageData))
 	})
 
