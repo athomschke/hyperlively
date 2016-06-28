@@ -20,7 +20,7 @@ module.exports = function (config) {
     }
   },
 	files: [
-		'test/runner.js'
+		'test/runner.coverage.js'
 	],
 	plugins: [
       'karma-chrome-launcher',
@@ -41,7 +41,7 @@ module.exports = function (config) {
     dir : 'coverage/'
   },
 	reporters: [ 'progress', 'coverage' ],
-	singleRun: false,
+	singleRun: true,
 	webpack: webpackConfig,
 	webpackServer: {
       noInfo: true
