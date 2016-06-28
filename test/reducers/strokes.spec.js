@@ -24,7 +24,7 @@ describe('strokes', () => {
 
 	describe('creating a stroke', () => {
 
-		it('adds the first stroke', () => {
+		it('adds the first stroke containing a single point', () => {
 			expect(
 				strokes([], {
 					type: types.CREATE_STROKE,
@@ -86,5 +86,31 @@ describe('strokes', () => {
 			}
 			expect( strokes(givenStrokes, pointAppender) ).to.deep.equal( extendedStrokes )
 		})
+	})
+
+	describe('finishing a stroke', () => {
+
+		it('appends a point to the last stroke', () => {
+			let givenStrokes = [{
+					points: [ point(10,10) ],
+					finished: true
+				}, {
+					points: [ point(10,10) ]
+				}]
+			let extendedStrokes = [{
+					points: [point(10,10)],
+					finished: true
+				}, {
+					points: [point(10,10), point(10,11)],
+					finished: true
+				}]
+			let pointAppender = {
+				type: types.FINISH_STROKE,
+				point: point(10,11)
+			}
+			let actualStrokes = strokes(givenStrokes, pointAppender)
+			expect( actualStrokes ).to.deep.equal( extendedStrokes )
+		})
+
 	})
 })
