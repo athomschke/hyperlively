@@ -27,7 +27,6 @@ const sketches = (state = [], action) => {
 	switch(action.type) {
 		case actionTypes.APPEND_POINT:
 		case actionTypes.FINISH_STROKE:
-			return reduceSketches(state, action);
 		case actionTypes.CREATE_STROKE:
 			return reduceSketches(state, action);
 		default:
