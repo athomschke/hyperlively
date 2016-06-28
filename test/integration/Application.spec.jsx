@@ -55,8 +55,8 @@ let getHistorySlider = () => {
 }
 
 let renderApplication = (initialState) => {
-	let strokesCount = initialState.scene.present.sketches.length > 0 ?
-				initialState.scene.present.sketches[0].strokes.length : 0;
+	let strokesCount = (initialState.scene.present.length > 0 && initialState.scene.present[0].sketches.length > 0) ?
+				initialState.scene.present[0].sketches[0].strokes.length : 0;
 
 	let store = createStore(hyperlively, initialState);
 
@@ -178,7 +178,7 @@ describe('Integration', () => {
 		emptyCanvas.json.ploma.uniqueCanvasFactor = canvasWithIrregularStrokesWithPloma.json.ploma.uniqueCanvasFactor;
 		emptyCanvas.json.ploma.usePloma = true;
 		let canvas = renderApplication(emptyCanvas.json);
-		let strokes = canvasWithIrregularStrokesWithPloma.json.scene.present.sketches[0].strokes;
+		let strokes = canvasWithIrregularStrokesWithPloma.json.scene.present[0].sketches[0].strokes;
 		manuallyDrawStrokes(getWindowNode(), strokes);
 		expect(hashCode(getImageData())).to.equal(hashCode(canvasWithIrregularStrokesWithPloma.imageData))
 	})

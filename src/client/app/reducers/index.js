@@ -1,4 +1,4 @@
-import scene from 'reducers/scene'
+import scene from 'reducers/scenes'
 import ploma from 'reducers/ploma'
 import { combineReducers } from 'redux';
 

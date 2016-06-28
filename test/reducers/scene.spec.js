@@ -1,23 +1,21 @@
-import scene from 'reducers/scene'
+import scenes from 'reducers/scenes'
 import * as types from 'constants/actionTypes'
 import { point } from '../helpers'
 
-describe('scene', () => {
+describe('scenes', () => {
 	it('handles initial state', () => {
 		
 		expect(
-			scene(undefined, {}).past
+			scenes(undefined, {}).past
 		).to.deep.equal([]);
 		
 		expect(
-			scene(undefined, {}).future
+			scenes(undefined, {}).future
 		).to.deep.equal([]);
 		
 		expect(
-			scene(undefined, {}).present
-		).to.deep.equal({
-			sketches: []
-		});
+			scenes(undefined, {}).present
+		).to.deep.equal([]);
 
 	})
 
@@ -26,16 +24,16 @@ describe('scene', () => {
 			type: types.APPEND_POINT,
 			point: point(10,10)
 		}
-		let presentScene = scene([], pointAppender).present;
-		let expectedPresentScene = {
+		let presentScenes = scenes(undefined, pointAppender).present;
+		let expectedPresentScenes = [{
 			sketches: [{
 				strokes: [{
 					points: [ point(10,10) ]
 				}],
 				position: point(10,10)
 			}]
-		}
-		expect(presentScene).to.deep.equal(expectedPresentScene);
+		}]
+		expect(presentScenes).to.deep.equal(expectedPresentScenes);
 	})
 
 	it('creates a sketch when the first stroke in scene is created', () => {
@@ -43,15 +41,44 @@ describe('scene', () => {
 			type: types.CREATE_STROKE,
 			point: point(10,10)
 		}
-		let presentScene = scene([], strokeAppender).present;
-		let expectedPresentScene = {
+		let presentScenes = scenes(undefined, strokeAppender).present;
+		let expectedPresentScenes = [{
 			sketches: [{
 				strokes: [{
 					points: [ point(10,10) ]
 				}],
 				position: point(10,10)
 			}]
+		}]
+		expect(presentScenes).to.deep.equal(expectedPresentScenes);
+	})
+
+	it('adds a sketch when one exists already', () => {
+		let strokeAppender = {
+			type: types.CREATE_STROKE,
+			point: point(10,10)
 		}
-		expect(presentScene).to.deep.equal(expectedPresentScene);
+		let presentScenes = scenes({
+			past: [],
+			future: [],
+			present: [{
+				sketches:[{
+					strokes: []
+				}, {
+					strokes: []
+				}]
+			}]
+		}, strokeAppender).present;
+		let expectedPresentScenes = [{
+			sketches: [{
+				strokes: []	
+			}, {
+				strokes: [{
+					points: [ point(10,10) ]
+				}],
+				position: point(10,10)
+			}]
+		}]
+		expect(presentScenes).to.deep.equal(expectedPresentScenes);
 	})
 })
