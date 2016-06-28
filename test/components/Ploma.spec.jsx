@@ -1,6 +1,7 @@
 import Ploma from 'components/Ploma';
 import TestUtils from 'react-addons-test-utils';
 import React from 'react';
+import { point } from '../helpers'
 
 describe('Ploma', () => {
 

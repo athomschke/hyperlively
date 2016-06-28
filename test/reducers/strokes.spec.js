@@ -1,12 +1,6 @@
 import strokes from 'reducers/strokes'
 import * as types from 'constants/actionTypes'
-
-let point = (x, y) => {
-	return {
-		x: x,
-		y: y
-	}
-}
+import { point } from '../helpers'
 
 describe('strokes', () => {
 	

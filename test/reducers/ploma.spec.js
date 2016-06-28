@@ -1,12 +1,6 @@
 import ploma from 'reducers/ploma'
 import * as types from 'constants/actionTypes'
-
-let point = (x, y) => {
-	return {
-		x: x,
-		y: y
-	}
-}
+import { point } from '../helpers'
 
 describe('ploma', () => {
 	it('handles initial state', () => {

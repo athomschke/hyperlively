@@ -1,12 +1,6 @@
 import sketches from 'reducers/sketches'
 import * as types from 'constants/actionTypes'
-
-let point = (x, y) => {
-	return {
-		x: x,
-		y: y
-	}
-}
+import { point } from '../helpers'
 
 describe('sketches', () => {
 

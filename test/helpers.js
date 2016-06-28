@@ -9,3 +9,10 @@ export function hashCode (aString) {
 	}
 	return hash;
 }
+
+export function point (x, y) {
+	return {
+		x: x,
+		y: y
+	}
+}

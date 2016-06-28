@@ -1,12 +1,6 @@
 import scene from 'reducers/scene'
 import * as types from 'constants/actionTypes'
-
-let point = (x, y) => {
-	return {
-		x: x,
-		y: y
-	}
-}
+import { point } from '../helpers'
 
 describe('scene', () => {
 	it('handles initial state', () => {

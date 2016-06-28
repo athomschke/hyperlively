@@ -1,7 +1,7 @@
 import Canvas from 'components/Canvas';
 import TestUtils from 'react-addons-test-utils';
 import React from 'react';
-import { hashCode } from '../helpers';
+import { hashCode, point } from '../helpers';
 
 let renderPlomaCanvasWithStrokes = (strokes, uniqueCanvasFactor) => {
 	return TestUtils.renderIntoDocument(<Canvas
