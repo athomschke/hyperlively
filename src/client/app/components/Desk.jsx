@@ -18,7 +18,7 @@ export default class Desk extends Component {
 	}
 
 	renderCanvas(strokes, id) {
-		return <Canvas {...this.props}
+		return <Canvas {...this.props} ref={'canvas-'+id}
 			key = {id}
 			width={window.innerWidth}
 			height={window.innerHeight}
