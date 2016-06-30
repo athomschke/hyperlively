@@ -108,7 +108,7 @@ export default class Canvas extends Component {
 
 	onStrokeFinished() {
 		if (!this.isEmpty() && this.props.usePloma) {
-			this.endStrokeAt(lastPointInStrokes(this.state.strokes))
+			this.endStrokeAt(this.transformPoint(lastPointInStrokes(this.state.strokes)))
 		}
 	}
 
@@ -147,9 +147,9 @@ export default class Canvas extends Component {
 
 	onPointAdded() {
 		if (this.hasNewStrokeStarted()) {
-			this.startStrokeAt(lastPointInStrokes(this.props.strokes));
+			this.startStrokeAt(this.transformPoint(lastPointInStrokes(this.props.strokes)));
 		} else {
-			this.extendStrokeAt(lastPointInStrokes(this.props.strokes));	
+			this.extendStrokeAt(this.transformPoint(lastPointInStrokes(this.props.strokes)));	
 		}
 	}
 
@@ -164,6 +164,13 @@ export default class Canvas extends Component {
 			this.runOnPlomaInstance('clear');
 		} else {
 			this.whitenCanvas();
+		}
+	}
+
+	transformPoint(point) {
+		return {
+			x: point.x - this.state.x,
+			y: point.y - this.state.y
 		}
 	}
 
@@ -204,11 +211,11 @@ export default class Canvas extends Component {
 		_.forEach(this.props.strokes, (stroke) => {
 			let points = stroke.points;
 			if (points.length > 1) {
-				that.startStrokeAt(_.head(points));
+				that.startStrokeAt(that.transformPoint(_.head(points)));
 				_.forEach(_.tail(points), function (point) {
-					that.extendStrokeAt(point);
+					that.extendStrokeAt(that.transformPoint(point));
 				})
-				that.endStrokeAt(_.last(points));
+				that.endStrokeAt(that.transformPoint(_.last(points)));
 			}
 		})
 	}

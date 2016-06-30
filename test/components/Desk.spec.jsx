@@ -10,38 +10,23 @@ describe('Desk', () => {
 		expect(desk).to.exist;
 	})
 
-	it('Renders exactly one canvas when no strokes given', () => {
+	it('Renders exactly one canvas when no sketches given', () => {
 		let desk = TestUtils.renderIntoDocument(<Desk></Desk>)
 		expect(desk).to.exist;
 		expect(desk.refs['canvas-0']).to.exist;
 		expect(desk.refs['canvas-1']).to.not.exist;
 	})
 
-	it('Creates a canvas for each stroke the last sketch', () => {
+	it('Creates a canvas for each sketch, but only for the last stroke each', () => {
 		let desk = TestUtils.renderIntoDocument(<Desk
 			scene={{
 				sketches: [{
-					strokes: [point(10,10), point(11,11)]
-				}, {
 					strokes: [{
-						points: [point(10,10), point(11,11)]
+						points: [point(10,10), point(11, 11), point(11,12)]
 					}]
-				}]
-			}}
-		></Desk>)
-		expect(desk.refs['canvas-0']).to.exist;
-		expect(desk.refs['canvas-1']).to.exist;
-		expect(desk.refs['canvas-2']).to.not.exist;
-	})
-
-	it('Creates a canvas for emtpy strokes the last sketch', () => {
-		let desk = TestUtils.renderIntoDocument(<Desk
-			scene={{
-				sketches: [{
-					strokes: [point(10,10), point(11,11)]
 				}, {
 					strokes: [{
-						points: [point(10,10), point(11,11)]
+						points: []
 					}, {
 						points: []
 					}]
@@ -69,7 +54,7 @@ describe('Desk', () => {
 		expect(desk.refs['canvas-0'].props.height).to.equal(5);
 	})
 
-	it('Move the sketch canvas its position', () => {
+	it('Moves the sketch canvas its position', () => {
 		let desk = TestUtils.renderIntoDocument(<Desk
 			scene={{
 				sketches: [{

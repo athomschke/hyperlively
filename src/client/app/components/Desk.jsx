@@ -57,18 +57,11 @@ export default class Desk extends Component {
 		></Canvas>
 	}
 
-	getStrokes() {
-		let scene = this.props.scene
-		return scene.sketches.length > 0 ?
-    		_.last(scene.sketches).strokes :
-    		[];
-	}
-
 	renderSketchedCanvasses() {
 		let that = this;
-		let sketch = this.getSketch();
-		return _.map(sketch.strokes, (stroke, id) => {
-			return that.renderCanvas([stroke], id, sketch.finished);
+		let sketches = this.props.scene.sketches || [];
+		return _.map(sketches, (sketch, id) => {
+			return that.renderCanvas(sketch.strokes || [], id, sketch.finished);
 		})
 	}
 
@@ -77,7 +70,7 @@ export default class Desk extends Component {
 	}
 
 	renderPlaceholderCanvas() {
-		return this.renderCanvas([], this.getSketch().strokes.length, false);
+		return this.renderCanvas([], this.props.scene.sketches.length, false);
 	}
 
 	render() {

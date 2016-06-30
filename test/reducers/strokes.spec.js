@@ -29,14 +29,6 @@ describe('strokes', () => {
 			expect(result[0].points[0]).to.deep.equal(point(10,10));
 		})
 
-		it('adds a stroke to an existing one', () => {
-			let result = strokes(
-				[{ points: [] }],
-				createStroke(point(10,10))
-			);
-			expect(result).to.have.length(2);
-		})
-
 	})
 
 	describe('appending a point', () => {

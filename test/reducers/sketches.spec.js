@@ -72,28 +72,20 @@ describe('sketches', () => {
 			expect(result[0].position).to.deep.equal(point(10,10));
 		})
 
-		it('does not increase the number of sketches if there is only one sketch', () => {
+		it('adds a sketch if one sketch exists', () => {
 			let result = sketches(
 				[{ strokes: [] }],
 				createStroke(point(10,10))
 			);
-			expect(result).to.have.length(1);
+			expect(result).to.have.length(2);
 		})
 
-		it('does not increase the number of sketches if there are multiple sketches', () => {
-			let result = sketches(
-				[{ strokes: [] }],
-				createStroke(point(10,10))
-			);
-			expect(result).to.have.length(1);
-		})
-
-		it('appends a stroke to the last sketch', () => {
+		it('adds a sketch if multiple sketches exists', () => {
 			let result = sketches(
 				[{ strokes: [] }, { strokes: [] }],
 				createStroke(point(10,10))
 			);
-			expect(result).to.have.length(2);
+			expect(result).to.have.length(3);
 		})
 
 	})

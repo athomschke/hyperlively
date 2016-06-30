@@ -55,8 +55,8 @@ let getHistorySlider = () => {
 }
 
 let renderApplication = (initialState) => {
-	let strokesCount = (initialState.scene.present.length > 0 && initialState.scene.present[0].sketches.length > 0) ?
-				initialState.scene.present[0].sketches[0].strokes.length : 0;
+	let strokesCount = (initialState.scene.present.length > 0) ?
+				initialState.scene.present[0].sketches.length : 0;
 
 	let store = createStore(hyperlively, initialState);
 

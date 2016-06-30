@@ -26,12 +26,7 @@ const strokes = (state = [], action) => {
 		case actionTypes.APPEND_POINT:
 			return appendPointTo(state, action)
 		case actionTypes.CREATE_STROKE:
-			return state.concat([{
-				points: points([], {
-					type: actionTypes.APPEND_POINT,
-					point: action.point
-				})
-			}])
+			return appendPointTo(state, action)
 		case actionTypes.FINISH_STROKE:
 			state = appendPointTo(state, action);
 			_.last(state).finished = true;
