@@ -17,7 +17,7 @@ export default class Desk extends Component {
 		super(props);
 	}
 
-	renderCanvas(strokes, id) {
+	renderCanvas(strokes, id, finished) {
 		return <Canvas {...this.props} ref={'canvas-'+id}
 			key = {id}
 			width={window.innerWidth}
@@ -33,12 +33,25 @@ export default class Desk extends Component {
     		[];
 	}
 
-	render() {
+	renderSketchedCanvasses() {
 		let that = this;
+		let sketch = this.getSketch();
+		return _.map(sketch.strokes, (stroke, id) => {
+			return that.renderCanvas([stroke], id, sketch.finished);
+		})
+	}
+
+	getSketch() {
+		return _.last(this.props.scene.sketches) || { strokes: [] }
+	}
+
+	renderPlaceholderCanvas() {
+		return this.renderCanvas([], this.getSketch().strokes.length, false);
+	}
+
+	render() {
 		return (<div>
-			{_.map(this.getStrokes(), (stroke, id) => {
-				return that.renderCanvas([stroke], id)
-			}).concat(that.renderCanvas([], that.getStrokes().length))}
+			{this.renderSketchedCanvasses().concat(this.renderPlaceholderCanvas())}
 		</div>)
 	}
 
