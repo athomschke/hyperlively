@@ -6,6 +6,8 @@ import { hashCode, point } from '../helpers';
 let renderPlomaCanvasWithStrokes = (strokes, uniqueCanvasFactor) => {
 	return TestUtils.renderIntoDocument(<Canvas
 		usePloma={true}
+		width={1000}
+		height={500}
 		uniqueCanvasFactor={uniqueCanvasFactor || Math.random()}
 		strokes={strokes}
 	></Canvas>);
@@ -22,6 +24,8 @@ describe('Canvas', () => {
 		beforeEach(() => {
 			canvas = TestUtils.renderIntoDocument(<Canvas
 				usePloma={false}
+				width={1000}
+				height={500}
 				strokes={[{
 					points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}]
 				}]}
@@ -57,6 +61,8 @@ describe('Canvas', () => {
 		beforeEach(() => {
 			canvas = TestUtils.renderIntoDocument(<Canvas
 				usePloma={true}
+				width={1000}
+				height={500}
 				strokes={[{
 					points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}]
 				}]}

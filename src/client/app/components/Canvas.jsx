@@ -20,16 +20,18 @@ export default class Canvas extends Component {
 		strokes: PropTypes.array,
 		usePloma: PropTypes.bool,
 		uniqueCanvasFactor: PropTypes.number,
-		width: PropTypes.number,
-		height: PropTypes.number
+		width: PropTypes.number.isRequired,
+		height: PropTypes.number.isRequired,
+		x: PropTypes.number,
+		y: PropTypes.number
 	};
 
 	static defaultProps = {
 		uniqueCanvasFactor: Math.random(),
 		strokes: [],
 		usePloma: true,
-		width: 1000,
-		height: 500
+		x: 0,
+		y: 0
 	};
 
 	constructor(props) {
@@ -54,9 +56,6 @@ export default class Canvas extends Component {
 		}
 		if (!_.isEqual(this.props.usePloma, !!this.state.plomaInstance)) {
 			this.onPlomaUpdated();
-		}
-		if (!_.isEqual(this.props.width, this.state.width) || !_.isEqual(this.props.height, this.state.height)) {
-			this.onDimensionsUpdated();
 		}
 	}
 
@@ -95,14 +94,6 @@ export default class Canvas extends Component {
 	}
 
 	onPlomaUpdated() {
-		this.setPlomaInstance(this.redrawEverything);
-	}
-
-	onDimensionsUpdated() {
-		this.setState({
-			width: this.props.width,
-			height: this.props.height
-		})
 		this.setPlomaInstance(this.redrawEverything);
 	}
 
