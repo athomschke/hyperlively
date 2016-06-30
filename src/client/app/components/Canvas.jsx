@@ -193,8 +193,8 @@ export default class Canvas extends Component {
 	getStyle() {
 		return {
 			position: 'absolute',
-			top: 0,
-			left: 0
+			top: this.props.x,
+			left: this.props.y
 		}
 	}
 

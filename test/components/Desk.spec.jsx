@@ -59,14 +59,14 @@ describe('Desk', () => {
 			scene={{
 				sketches: [{
 					strokes: [{
-						points: [point(10,10), point(10,15), point(15,15), point(15,10)]
+						points: [point(7,10), point(7,15), point(15,15), point(15,10)]
 					}],
 					finished: true
 				}]
 			}}
 		></Desk>)
-		expect(desk.refs['canvas-0'].props.width).to.equal(10);
-		expect(desk.refs['canvas-0'].props.height).to.equal(10);
+		expect(desk.refs['canvas-0'].props.width).to.equal(8);
+		expect(desk.refs['canvas-0'].props.height).to.equal(5);
 	})
 
 	it('Move the sketch canvas its position', () => {
@@ -74,14 +74,14 @@ describe('Desk', () => {
 			scene={{
 				sketches: [{
 					strokes: [{
-						points: [point(10,10), point(10,15), point(15,15), point(15,10)]
+						points: [point(7,10), point(7,15), point(15,15), point(15,10)]
 					}],
 					finished: true,
 					position: point(10,10)
 				}]
 			}}
 		></Desk>)
-		expect(desk.refs['canvas-0'].props.x).to.equal(10);
+		expect(desk.refs['canvas-0'].props.x).to.equal(7);
 		expect(desk.refs['canvas-0'].props.y).to.equal(10);
 	})
 

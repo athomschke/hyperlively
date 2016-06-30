@@ -204,4 +204,20 @@ describe('Canvas', () => {
 
 	})
 
+	describe('providing bounds', () => {
+
+		it('Moves the canvas to its position', () => {
+			let canvas = TestUtils.renderIntoDocument(<Canvas
+				width={100}
+				height={50}
+				x={10}
+				y={10}
+				strokes={[ {points: [ point(10,10), point(11,11) ]} ]}
+			></Canvas>)
+			expect(canvas.refs.canvas.style.getPropertyValue('top')).to.equal('10px')
+			expect(canvas.refs.canvas.style.getPropertyValue('left')).to.equal('10px')
+		})
+
+	})
+
 })
