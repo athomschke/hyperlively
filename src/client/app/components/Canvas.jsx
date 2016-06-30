@@ -38,6 +38,8 @@ export default class Canvas extends Component {
 		super(props);
 		this.state = {
 			strokes: [],
+			x: props.x,
+			y: props.y,
 			width: props.width,
 			height: props.height
 		};
@@ -57,6 +59,9 @@ export default class Canvas extends Component {
 		if (!_.isEqual(this.props.usePloma, !!this.state.plomaInstance)) {
 			this.onPlomaUpdated();
 		}
+		if (!_.isEqual(this.props.width, this.state.width) || !_.isEqual(this.props.width, this.state.width)) {
+			this.onSizeUpdated();
+		}
 	}
 
 	setPlomaInstance(callback) {
@@ -65,6 +70,20 @@ export default class Canvas extends Component {
 		this.setState({
 			plomaInstance: plomaInstance
 		}, callback)
+	}
+
+	onSizeUpdated() {
+		let canvasNode = this.refs.canvas;
+		let imageData = canvasNode.getContext('2d').getImageData(this.props.x, this.props.y, this.props.width, this.props.height);
+		this.whitenCanvas();
+		this.setState({
+			x: this.props.x,
+			y: this.props.y,
+			width: this.props.width,
+			height: this.props.height
+		}, () => {
+			canvasNode.getContext('2d').putImageData(imageData, 0, 0);
+		})
 	}
 
 	onStrokesUpdated() {
@@ -134,13 +153,17 @@ export default class Canvas extends Component {
 		}
 	}
 
+	whitenCanvas() {
+		let canvas = this.refs.canvas;
+		let context = canvas.getContext('2d');
+		context.clearRect(0, 0, canvas.width, canvas.height);
+	}
+
 	clearCanvas() {
 		if (this.props.usePloma) {
 			this.runOnPlomaInstance('clear');
 		} else {
-			let canvas = this.refs.canvas;
-			let context = canvas.getContext('2d');
-			context.clearRect(0, 0, canvas.width, canvas.height);
+			this.whitenCanvas();
 		}
 	}
 
@@ -193,16 +216,16 @@ export default class Canvas extends Component {
 	getStyle() {
 		return {
 			position: 'absolute',
-			top: this.props.x,
-			left: this.props.y
+			top: this.state.y,
+			left: this.state.x
 		}
 	}
 
 	render() {
 		return <canvas 
 			ref="canvas"
-			width={this.props.width}
-			height={this.props.height}
+			width={this.state.width}
+			height={this.state.height}
 			style={this.getStyle()}
 		/>;
 	}
