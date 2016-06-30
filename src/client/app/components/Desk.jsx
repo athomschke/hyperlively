@@ -1,12 +1,14 @@
 import React, {Component, PropTypes} from 'react';
 import Canvas from 'components/Canvas';
 
-let bounds = (x, y, width, height) => {
+let transform = (x, y, width, height, originX, originY) => {
 	return {
-		x: x,
-		y: y,
-		width: width,
-		height: height
+		x: x - 5,
+		y: y - 5,
+		width: width + 10,
+		height: height + 10,
+		originX: originX,
+		originY: originY
 	}
 }
 
@@ -26,7 +28,7 @@ export default class Desk extends Component {
 		super(props);
 	}
 
-	getContentBounds(strokes) {
+	getContentTransform(strokes) {
 		let x = Infinity;
 		let y = Infinity;
 		let width = -Infinity;
@@ -39,19 +41,19 @@ export default class Desk extends Component {
 				height = Math.max(height, point.y)
 			})
 		})
-		return bounds(x, y, width-x, height-y);
+		return transform(x, y, width-x, height-y, 5, 5);
 	}
 
-	getCanvasBounds(strokes, finished) {
+	getCanvasTransform(strokes, finished) {
 		return finished ?
-			this.getContentBounds(strokes) :
-			bounds(0, 0, window.innerWidth, window.innerHeight);
+			this.getContentTransform(strokes) :
+			transform(0, 0, window.innerWidth, window.innerHeight, 0, 0);
 	}
 
 	renderCanvas(strokes, id, finished) {
-		let bounds = this.getCanvasBounds(strokes, finished);
+		let transform = this.getCanvasTransform(strokes, finished);
 		return <Canvas {...this.props} ref={'canvas-'+id}
-			{...bounds}
+			{...transform}
 			key = {id}
 			strokes = {strokes}
 		></Canvas>

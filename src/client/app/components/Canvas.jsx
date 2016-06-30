@@ -23,7 +23,9 @@ export default class Canvas extends Component {
 		width: PropTypes.number.isRequired,
 		height: PropTypes.number.isRequired,
 		x: PropTypes.number,
-		y: PropTypes.number
+		y: PropTypes.number,
+		originX: PropTypes.number,
+		originY: PropTypes.number
 	};
 
 	static defaultProps = {
@@ -31,7 +33,9 @@ export default class Canvas extends Component {
 		strokes: [],
 		usePloma: true,
 		x: 0,
-		y: 0
+		y: 0,
+		originX: 0,
+		originY: 0
 	};
 
 	constructor(props) {
@@ -41,7 +45,9 @@ export default class Canvas extends Component {
 			x: props.x,
 			y: props.y,
 			width: props.width,
-			height: props.height
+			height: props.height,
+			originX: props.originX,
+			originY: props.originY
 		};
 	}
 
@@ -74,13 +80,15 @@ export default class Canvas extends Component {
 
 	onSizeUpdated() {
 		let canvasNode = this.refs.canvas;
-		let imageData = canvasNode.getContext('2d').getImageData(this.props.x, this.props.y, this.props.width, this.props.height);
+		let imageData = canvasNode.getContext('2d').getImageData(this.props.x + this.props.originX, this.props.y + this.props.originY, this.props.width, this.props.height);
 		this.whitenCanvas();
 		this.setState({
 			x: this.props.x,
 			y: this.props.y,
 			width: this.props.width,
-			height: this.props.height
+			height: this.props.height,
+			originX: this.props.originX,
+			originY: this.props.originY
 		}, () => {
 			canvasNode.getContext('2d').putImageData(imageData, 0, 0);
 		})
