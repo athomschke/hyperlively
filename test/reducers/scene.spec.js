@@ -1,84 +1,77 @@
 import scenes from 'reducers/scenes'
+import { appendPoint, createStroke } from 'actions/drawing'
 import * as types from 'constants/actionTypes'
 import { point } from '../helpers'
 
+let undoableScenes = (anArray) => {
+	return {
+		past: [],
+		future: [],
+		present: anArray
+	}
+}
+
 describe('scenes', () => {
-	it('handles initial state', () => {
+
+	describe('initial state', () => {
+
+		it('creates an empty present', () => {
+			expect(
+				scenes(undefined, {}).present
+			).to.deep.equal([]);
+		})
+
+		it('creates an empty past', () => {
+			expect(
+				scenes(undefined, {}).past
+			).to.deep.equal([]);
+		})
+
+		it('creates an empty future', () => {
+			expect(
+				scenes(undefined, {}).future
+			).to.deep.equal([]);
+		})
+	})
+
+	describe('creating a stroke', () => {
+
+		it('when no scene exists creates one', () => {
+			let result = scenes(
+				[],
+				createStroke(point(10,10))
+			);
+			expect(result.present).to.have.length(1)
+		})
+
+		it('always adds to the current scene', () => {
+			let result = scenes(
+				undoableScenes([{ sketches:[] }]),
+				createStroke(point(10,10))
+			);
+			expect(result.present).to.have.length(1)
+		})
 		
-		expect(
-			scenes(undefined, {}).past
-		).to.deep.equal([]);
-		
-		expect(
-			scenes(undefined, {}).future
-		).to.deep.equal([]);
-		
-		expect(
-			scenes(undefined, {}).present
-		).to.deep.equal([]);
+	})
+
+	describe('adding a point', () => {
+
+		it('to no existing scene creates a scene', () => {
+			let result = scenes(
+				[],
+				appendPoint(point(10,10))
+			);
+			expect(result.present).to.have.length(1);
+		})
+
+		it('to a scene does not create a new one', () => {
+			let result = scenes(
+				undoableScenes([{ sketches:[] }]),
+				appendPoint(point(10,10))
+			);
+			expect(result.present).to.have.length(1);
+		})
 
 	})
 
-	it('creates a sketch when the first point in scene is created', () => {
-		let pointAppender = {
-			type: types.APPEND_POINT,
-			point: point(10,10)
-		}
-		let presentScenes = scenes(undefined, pointAppender).present;
-		let expectedPresentScenes = [{
-			sketches: [{
-				strokes: [{
-					points: [ point(10,10) ]
-				}],
-				position: point(10,10)
-			}]
-		}]
-		expect(presentScenes).to.deep.equal(expectedPresentScenes);
-	})
-
-	it('creates a sketch when the first stroke in scene is created', () => {
-		let strokeAppender = {
-			type: types.CREATE_STROKE,
-			point: point(10,10)
-		}
-		let presentScenes = scenes(undefined, strokeAppender).present;
-		let expectedPresentScenes = [{
-			sketches: [{
-				strokes: [{
-					points: [ point(10,10) ]
-				}],
-				position: point(10,10)
-			}]
-		}]
-		expect(presentScenes).to.deep.equal(expectedPresentScenes);
-	})
-
-	it('adds a sketch when one exists already', () => {
-		let strokeAppender = {
-			type: types.CREATE_STROKE,
-			point: point(10,10)
-		}
-		let presentScenes = scenes({
-			past: [],
-			future: [],
-			present: [{
-				sketches:[{
-					strokes: []
-				}, {
-					strokes: []
-				}]
-			}]
-		}, strokeAppender).present;
-		let expectedPresentScenes = [{
-			sketches: [{
-				strokes: []	
-			}, {
-				strokes: [{
-					points: [ point(10,10) ]
-				}],
-				position: point(10,10)
-			}]
-		}]
-		expect(presentScenes).to.deep.equal(expectedPresentScenes);
-	})
 })
