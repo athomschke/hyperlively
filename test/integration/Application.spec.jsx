@@ -5,7 +5,8 @@ import Application from 'base/Application';
 import { createStore } from 'redux';
 import hyperlively from 'reducers/index';
 import TestUtils from 'react-addons-test-utils';
-import { hashCode } from '../helpers';
+import { hashCode, point } from '../helpers';
+import { combineCanvasses } from './helpers';
 
 'use strict'
 
@@ -19,24 +20,6 @@ let getWindowNode = () => {
 
 let getCombinedCanvas = () => {
 	return combineCanvasses(getCanvasNodes(), 1000, 500)	
-}
-
-let copyImageDataFromCanvasToCanvas = (fromCanvas, toCanvas) => {
-	var img = new Image();
-	img.src = fromCanvas.toDataURL('image/png')
-	toCanvas.getContext('2d').drawImage(img, parseInt(fromCanvas.style.getPropertyValue('left')), parseInt(fromCanvas.style.getPropertyValue('top')));
-}
-
-let combineCanvasses = (canvasses, width, height) => {
-	let combinedCanvas = document.createElement('canvas');
-	combinedCanvas.setAttribute('width', width);
-	combinedCanvas.setAttribute('height', height);
-	combinedCanvas.getContext('2d').fillStyle = "rgba(1, 1, 1, 0)";
-	let copiedCombinedCanvas = combinedCanvas.cloneNode();
-	_.forEach(canvasses, (canvasNode) => {
-		copyImageDataFromCanvasToCanvas(canvasNode, combinedCanvas);
-	})
-	return combinedCanvas;
 }
 
 let simulateDrawingEventOnCanvasAt = (eventType, canvas, x, y) => {
@@ -72,46 +55,6 @@ let manuallyDrawStrokes = (windowNode, strokes) => {
 	})
 }
 
-describe('Dummy Integrationtest', () => {
-	it('combining two canvasses looks the same as writing their content on the same canvas', () => {
-		let bothDrawnOnOneCanvas = document.createElement('canvas');
-		bothDrawnOnOneCanvas.setAttribute('width', 100);
-		bothDrawnOnOneCanvas.setAttribute('height', 100);
-		bothDrawnOnOneCanvas.style.setProperty('top', 0);
-		bothDrawnOnOneCanvas.style.setProperty('left', 0);
-		let firstCanvas = bothDrawnOnOneCanvas.cloneNode();
-		let secondCanvas = bothDrawnOnOneCanvas.cloneNode();
-		//draw first stroke
-		bothDrawnOnOneCanvas.getContext('2d').fillStyle = "rgba(1, 1, 1, 0)";
-	    bothDrawnOnOneCanvas.getContext('2d').beginPath();
-		bothDrawnOnOneCanvas.getContext('2d').moveTo(10, 10);
-	    bothDrawnOnOneCanvas.getContext('2d').lineTo(13, 13);
-		bothDrawnOnOneCanvas.getContext('2d').stroke();
-		bothDrawnOnOneCanvas.getContext('2d').closePath();
-		firstCanvas.getContext('2d').fillStyle = "rgba(1, 1, 1, 0)";
-	    firstCanvas.getContext('2d').beginPath();
-		firstCanvas.getContext('2d').moveTo(10, 10);
-	    firstCanvas.getContext('2d').lineTo(13, 13);
-		firstCanvas.getContext('2d').stroke();
-		firstCanvas.getContext('2d').closePath();
-		//draw second stroke
-	    bothDrawnOnOneCanvas.getContext('2d').beginPath();
-		bothDrawnOnOneCanvas.getContext('2d').moveTo(20, 20);
-	    bothDrawnOnOneCanvas.getContext('2d').lineTo(23, 23);
-		bothDrawnOnOneCanvas.getContext('2d').stroke();
-		bothDrawnOnOneCanvas.getContext('2d').closePath();
-		secondCanvas.getContext('2d').fillStyle = "rgba(1, 1, 1, 0)";
-	    secondCanvas.getContext('2d').beginPath();
-		secondCanvas.getContext('2d').moveTo(20, 20);
-	    secondCanvas.getContext('2d').lineTo(23, 23);
-		secondCanvas.getContext('2d').stroke();
-		secondCanvas.getContext('2d').closePath();
-		// get data
-		let combinedCanvas = combineCanvasses([firstCanvas, secondCanvas], 100, 100);
-		expect(combinedCanvas.toDataURL()).to.equal(bothDrawnOnOneCanvas.toDataURL());
-	})
-})
-
 describe('Integration', () => {
 	beforeEach(() => {
 		let appNode = document.createElement('div');
@@ -123,56 +66,64 @@ describe('Integration', () => {
 		document.body.removeChild(document.getElementById('app'));
 	})
 
-	it('renders the empty application', () => {
-		let emptyCanvas = require("json!./data/emptyCanvas.json");
-		let renderedApp = renderApplication(emptyCanvas.json);
-		expect(getWindowNode()).to.exist;
-		expect(getCanvasNodes()).to.have.length(1);
+	describe('rendering the application', () => {
+		it('renders the empty application', () => {
+			let emptyCanvas = require("json!./data/emptyCanvas.json");
+			let renderedApp = renderApplication(emptyCanvas.json);
+			expect(getWindowNode()).to.exist;
+			expect(getCanvasNodes()).to.have.length(1);
+		})
+
+		it('renders the empty application with ploma', () => {
+			let emptyCanvas = require("json!./data/emptyCanvas.json");
+			let emptyCanvasJson = _.cloneDeep(emptyCanvas.json);
+			emptyCanvasJson.ploma.usePloma = true;
+			let renderedApp = renderApplication(emptyCanvasJson);
+			expect(getWindowNode()).to.exist;
+			expect(getCanvasNodes()).to.have.length(1);
+		})
 	})
 
-	it('renders the empty application with ploma', () => {
-		let emptyCanvas = require("json!./data/emptyCanvas.json");
-		let emptyCanvasJson = _.cloneDeep(emptyCanvas.json);
-		emptyCanvasJson.ploma.usePloma = true;
-		let renderedApp = renderApplication(emptyCanvasJson);
-		expect(getWindowNode()).to.exist;
-		expect(getCanvasNodes()).to.have.length(1);
+	describe('drawing', () => {
+		it('two strokes creates correct image data', () => {
+			let emptyCanvas = require("json!./data/emptyCanvas.json");
+			let canvasWithTwoStrokes = require("json!./data/canvasWithTwoStrokes.json");
+			let renderedApp = renderApplication(emptyCanvas.json);
+			manuallyDrawStrokes(getWindowNode(), [{
+				points: [ point(10,10), point(10,30) ]
+			}, {
+				points: [ point(20,10), point(20,30) ]
+			}]);
+			expect(hashCode(getCombinedCanvas().toDataURL())).to.equal(hashCode(canvasWithTwoStrokes.imageData));
+		})
+
+		it('two strokes looks the same as adding two strokes point by point', () => {
+			let canvasWithIrregularStrokesWithPloma = require("json!./data/canvasWithIrregularStrokesWithPloma.json");
+			let emptyCanvas = _.cloneDeep(require("json!./data/emptyCanvas.json"));
+			emptyCanvas.json.ploma.uniqueCanvasFactor = canvasWithIrregularStrokesWithPloma.json.ploma.uniqueCanvasFactor;
+			emptyCanvas.json.ploma.usePloma = true;
+			let canvas = renderApplication(emptyCanvas.json);
+			let strokes = _.map(canvasWithIrregularStrokesWithPloma.json.scene.present[0].sketches, (sketch) => {
+				return _.last(sketch.strokes) || [];
+			});
+			manuallyDrawStrokes(getWindowNode(), strokes);
+			expect(hashCode(getCombinedCanvas().toDataURL())).to.equal(hashCode(canvasWithIrregularStrokesWithPloma.imageData))
+		})
 	})
 
-	it('can draw a stroke on canvas', () => {
-		let emptyCanvas = require("json!./data/emptyCanvas.json");
-		let canvasWithTwoStrokes = require("json!./data/canvasWithTwoStrokes.json");
-		let renderedApp = renderApplication(emptyCanvas.json);
-		let windowNode = getWindowNode();
-		simulateDrawingEventOnCanvasAt('mouseDown', windowNode, 10, 10);
-		simulateDrawingEventOnCanvasAt('mouseMove', windowNode, 10, 30);
-		simulateDrawingEventOnCanvasAt('mouseUp', windowNode, 10, 30);
-		simulateDrawingEventOnCanvasAt('mouseDown', windowNode, 20, 10);
-		simulateDrawingEventOnCanvasAt('mouseMove', windowNode, 20, 30);
-		simulateDrawingEventOnCanvasAt('mouseUp', windowNode, 20, 30);
-		expect(hashCode(getCombinedCanvas().toDataURL())).to.equal(hashCode(canvasWithTwoStrokes.imageData));
+	describe('pressing toggle ploma', () => {
+
+		it('switches to Ploma when it was deactivated', () => {
+			let canvasWithIrregularStrokesWithPloma = require("json!./data/canvasWithIrregularStrokesWithPloma.json");
+			let renderedApp = renderApplication(canvasWithIrregularStrokesWithPloma.json);
+			let nonPlomaImageData = getCombinedCanvas().toDataURL();
+			let plomaButton = document.getElementById('toggle-ploma');
+			TestUtils.Simulate.click(plomaButton);
+			expect(hashCode(getCombinedCanvas().toDataURL())).to.not.equal(hashCode(nonPlomaImageData));
+		})
+
 	})
 
-	it('switches to Ploma when button pressed', () => {
-		let canvasWithIrregularStrokesWithPloma = require("json!./data/canvasWithIrregularStrokesWithPloma.json");
-		let renderedApp = renderApplication(canvasWithIrregularStrokesWithPloma.json);
-		let nonPlomaImageData = getCombinedCanvas().toDataURL();
-		let plomaButton = document.getElementById('toggle-ploma');
-		TestUtils.Simulate.click(plomaButton);
-		expect(hashCode(getCombinedCanvas().toDataURL())).to.not.equal(hashCode(nonPlomaImageData));
-	})
 
-	it('makes no difference in rendering two strokes and adding two strokes point by point', () => {
-		let canvasWithIrregularStrokesWithPloma = require("json!./data/canvasWithIrregularStrokesWithPloma.json");
-		let emptyCanvas = _.cloneDeep(require("json!./data/emptyCanvas.json"));
-		emptyCanvas.json.ploma.uniqueCanvasFactor = canvasWithIrregularStrokesWithPloma.json.ploma.uniqueCanvasFactor;
-		emptyCanvas.json.ploma.usePloma = true;
-		let canvas = renderApplication(emptyCanvas.json);
-		let strokes = _.map(canvasWithIrregularStrokesWithPloma.json.scene.present[0].sketches, (sketch) => {
-			return _.last(sketch.strokes) || [];
-		});
-		manuallyDrawStrokes(getWindowNode(), strokes);
-		expect(hashCode(getCombinedCanvas().toDataURL())).to.equal(hashCode(canvasWithIrregularStrokesWithPloma.imageData))
-	})
 
 })
