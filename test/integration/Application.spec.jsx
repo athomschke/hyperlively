@@ -17,8 +17,14 @@ let getWindowNode = () => {
 	return document.getElementsByClassName('window')[0];
 }
 
-let getImageData = () => {
-	return combineCanvasses(getCanvasNodes(), 1000, 500).toDataURL();
+let getCombinedCanvas = () => {
+	return combineCanvasses(getCanvasNodes(), 1000, 500)	
+}
+
+let copyImageDataFromCanvasToCanvas = (fromCanvas, toCanvas) => {
+	var img = new Image();
+	img.src = fromCanvas.toDataURL('image/png')
+	toCanvas.getContext('2d').drawImage(img, parseInt(fromCanvas.style.getPropertyValue('left')), parseInt(fromCanvas.style.getPropertyValue('top')));
 }
 
 let combineCanvasses = (canvasses, width, height) => {
@@ -28,9 +34,7 @@ let combineCanvasses = (canvasses, width, height) => {
 	combinedCanvas.getContext('2d').fillStyle = "rgba(1, 1, 1, 0)";
 	let copiedCombinedCanvas = combinedCanvas.cloneNode();
 	_.forEach(canvasses, (canvasNode) => {
-		var img = new Image();
-		img.src = canvasNode.toDataURL('image/png')
-		combinedCanvas.getContext('2d').drawImage(img, parseInt(canvasNode.style.getPropertyValue('left')), parseInt(canvasNode.style.getPropertyValue('top')));
+		copyImageDataFromCanvasToCanvas(canvasNode, combinedCanvas);
 	})
 	return combinedCanvas;
 }
@@ -42,33 +46,17 @@ let simulateDrawingEventOnCanvasAt = (eventType, canvas, x, y) => {
 	});
 }
 
-let getUndoButton = () => {
-	return document.getElementsByTagName('button')[0];	
-}
-
-let getRedoButton = () => {
-	return document.getElementsByTagName('button')[1];	
-}
-
-let getHistorySlider = () => {
-	return document.getElementsByClassName('slider')[0];	
-}
-
 let renderApplication = (initialState) => {
 	let strokesCount = (initialState.scene.present.length > 0) ?
 				initialState.scene.present[0].sketches.length : 0;
-
 	let store = createStore(hyperlively, initialState);
-
 	let renderedApp = render(
 	  <Provider store={store}>
 	    <Application/>	
 	  </Provider>,
 	  document.getElementById('app')
 	)
-
 	expect(document.getElementsByTagName('canvas')).to.have.length(strokesCount + 1);
-
 	return renderedApp;
 }
 
@@ -162,16 +150,16 @@ describe('Integration', () => {
 		simulateDrawingEventOnCanvasAt('mouseDown', windowNode, 20, 10);
 		simulateDrawingEventOnCanvasAt('mouseMove', windowNode, 20, 30);
 		simulateDrawingEventOnCanvasAt('mouseUp', windowNode, 20, 30);
-		expect(hashCode(getImageData())).to.equal(hashCode(canvasWithTwoStrokes.imageData));
+		expect(hashCode(getCombinedCanvas().toDataURL())).to.equal(hashCode(canvasWithTwoStrokes.imageData));
 	})
 
 	it('switches to Ploma when button pressed', () => {
 		let canvasWithIrregularStrokesWithPloma = require("json!./data/canvasWithIrregularStrokesWithPloma.json");
 		let renderedApp = renderApplication(canvasWithIrregularStrokesWithPloma.json);
-		let nonPlomaImageData = getImageData();
+		let nonPlomaImageData = getCombinedCanvas().toDataURL();
 		let plomaButton = document.getElementById('toggle-ploma');
 		TestUtils.Simulate.click(plomaButton);
-		expect(hashCode(getImageData())).to.not.equal(hashCode(nonPlomaImageData));
+		expect(hashCode(getCombinedCanvas().toDataURL())).to.not.equal(hashCode(nonPlomaImageData));
 	})
 
 	it('makes no difference in rendering two strokes and adding two strokes point by point', () => {
@@ -184,7 +172,7 @@ describe('Integration', () => {
 			return _.last(sketch.strokes) || [];
 		});
 		manuallyDrawStrokes(getWindowNode(), strokes);
-		expect(hashCode(getImageData())).to.equal(hashCode(canvasWithIrregularStrokesWithPloma.imageData))
+		expect(hashCode(getCombinedCanvas().toDataURL())).to.equal(hashCode(canvasWithIrregularStrokesWithPloma.imageData))
 	})
 
 })
