@@ -30,7 +30,7 @@ let combineCanvasses = (canvasses, width, height) => {
 	_.forEach(canvasses, (canvasNode) => {
 		var img = new Image();
 		img.src = canvasNode.toDataURL('image/png')
-		combinedCanvas.getContext('2d').drawImage(img, 0, 0);
+		combinedCanvas.getContext('2d').drawImage(img, parseInt(canvasNode.style.getPropertyValue('left')), parseInt(canvasNode.style.getPropertyValue('top')));
 	})
 	return combinedCanvas;
 }
@@ -89,6 +89,8 @@ describe('Dummy Integrationtest', () => {
 		let bothDrawnOnOneCanvas = document.createElement('canvas');
 		bothDrawnOnOneCanvas.setAttribute('width', 100);
 		bothDrawnOnOneCanvas.setAttribute('height', 100);
+		bothDrawnOnOneCanvas.style.setProperty('top', 0);
+		bothDrawnOnOneCanvas.style.setProperty('left', 0);
 		let firstCanvas = bothDrawnOnOneCanvas.cloneNode();
 		let secondCanvas = bothDrawnOnOneCanvas.cloneNode();
 		//draw first stroke
@@ -178,7 +180,9 @@ describe('Integration', () => {
 		emptyCanvas.json.ploma.uniqueCanvasFactor = canvasWithIrregularStrokesWithPloma.json.ploma.uniqueCanvasFactor;
 		emptyCanvas.json.ploma.usePloma = true;
 		let canvas = renderApplication(emptyCanvas.json);
-		let strokes = canvasWithIrregularStrokesWithPloma.json.scene.present[0].sketches[0].strokes;
+		let strokes = _.map(canvasWithIrregularStrokesWithPloma.json.scene.present[0].sketches, (sketch) => {
+			return _.last(sketch.strokes) || [];
+		});
 		manuallyDrawStrokes(getWindowNode(), strokes);
 		expect(hashCode(getImageData())).to.equal(hashCode(canvasWithIrregularStrokesWithPloma.imageData))
 	})
