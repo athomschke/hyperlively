@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from 'react-dom';
+import { render, findDOMNode } from 'react-dom';
 import { Provider } from 'react-redux';
 import Application from 'base/Application';
 import { createStore } from 'redux';
@@ -120,6 +120,28 @@ describe('Integration', () => {
 			let plomaButton = document.getElementById('toggle-ploma');
 			TestUtils.Simulate.click(plomaButton);
 			expect(hashCode(getCombinedCanvas().toDataURL())).to.not.equal(hashCode(nonPlomaImageData));
+		})
+
+	})
+
+	describe('undoing', () => {
+
+		it('keeps the canvas at content size', () => {
+			let emptyCanvas = _.cloneDeep(require("json!./data/emptyCanvas.json"));
+			let renderedApp = renderApplication(emptyCanvas.json);
+			manuallyDrawStrokes(getWindowNode(), [{
+				points: [ point(10,10), point(10,30), point(10,60) ]
+			}, {
+				points: [ point(20,10), point(20,30), point(20,60) ]
+			}]);
+			let domApp = findDOMNode(renderedApp);
+			let sliderWithHandle = domApp.childNodes[2].childNodes[0].childNodes[0];
+			let slider = sliderWithHandle.childNodes[0];
+			// expect(getCanvasNodes()[1].width).to.equal(10);
+			TestUtils.Simulate.click(slider, {
+				pageX: ( 5 * slider.offsetWidth) / 6
+			})
+			expect(getCanvasNodes()[1].width).to.equal(10);
 		})
 
 	})
