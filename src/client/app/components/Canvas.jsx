@@ -80,7 +80,7 @@ export default class Canvas extends Component {
 
 	onSizeUpdated() {
 		let canvasNode = this.refs.canvas;
-		let imageData = canvasNode.getContext('2d').getImageData(this.props.x + this.props.originX, this.props.y + this.props.originY, this.props.width, this.props.height);
+		let imageData = canvasNode.getContext('2d').getImageData(this.props.x, this.props.y, this.props.width, this.props.height);
 		this.whitenCanvas();
 		this.setState({
 			x: this.props.x,
@@ -177,8 +177,8 @@ export default class Canvas extends Component {
 
 	transformPoint(point) {
 		return {
-			x: point.x - this.state.x,
-			y: point.y - this.state.y
+			x: point.x - this.state.x + this.state.originX,
+			y: point.y - this.state.y + this.state.originY
 		}
 	}
 

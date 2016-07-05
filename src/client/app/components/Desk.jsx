@@ -3,10 +3,10 @@ import Canvas from 'components/Canvas';
 
 let transform = (x, y, width, height, originX, originY) => {
 	return {
-		x: x - 5,
-		y: y - 5,
-		width: width + 10,
-		height: height + 10,
+		x: x,
+		y: y,
+		width: width,
+		height: height,
 		originX: originX,
 		originY: originY
 	}
@@ -29,19 +29,19 @@ export default class Desk extends Component {
 	}
 
 	getContentTransform(strokes) {
-		let x = Infinity;
-		let y = Infinity;
-		let width = -Infinity;
-		let height = -Infinity;
+		let left = Infinity;
+		let top = Infinity;
+		let right = -Infinity;
+		let bottom = -Infinity;
 		strokes.forEach((stroke) => {
 			stroke.points.forEach((point) => {
-				x = Math.min(x, point.x)
-				y = Math.min(y, point.y)
-				width = Math.max(width, point.x)
-				height = Math.max(height, point.y)
+				left = Math.min(left, point.x)
+				top = Math.min(top, point.y)
+				right = Math.max(right, point.x)
+				bottom = Math.max(bottom, point.y)
 			})
 		})
-		return transform(x, y, width-x, height-y, 5, 5);
+		return transform(left - 5, top - 5, right-left+10, bottom-top+10, 5, 5);
 	}
 
 	getCanvasTransform(strokes, finished) {

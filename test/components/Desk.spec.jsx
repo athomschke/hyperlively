@@ -39,7 +39,7 @@ describe('Desk', () => {
 		expect(desk.refs['canvas-3']).to.not.exist;
 	})
 
-	it('Sets the sketch canvas size to its content once their sketch is finished', () => {
+	it('Sets the sketch canvas size to its content plus offset once their sketch is finished', () => {
 		let desk = TestUtils.renderIntoDocument(<Desk
 			scene={{
 				sketches: [{
