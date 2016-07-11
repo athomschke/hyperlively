@@ -127,7 +127,6 @@ export default class Canvas extends Component {
 			this.state.plomaInstance.endStroke(point.x, point.y, 1);
 		} else {
 			let context = this.state.tempCanvas.getContext('2d');
-			context.stroke();
 			context.closePath();
 		}
 	}
