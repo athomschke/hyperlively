@@ -121,7 +121,7 @@ export default class Canvas extends Component {
 
 	onStrokeFinished() {
 		if (!this.isEmpty() && this.props.usePloma) {
-			this.endStrokeAt(this.transformPoint(lastPointInStrokes(this.state.strokes)))
+			this.endStrokeAt(lastPointInStrokes(this.state.strokes))
 		}
 	}
 
@@ -160,9 +160,9 @@ export default class Canvas extends Component {
 
 	onPointAdded() {
 		if (this.hasNewStrokeStarted()) {
-			this.startStrokeAt(this.transformPoint(lastPointInStrokes(this.props.strokes)));
+			this.startStrokeAt(lastPointInStrokes(this.props.strokes));
 		} else {
-			this.extendStrokeAt(this.transformPoint(lastPointInStrokes(this.props.strokes)));	
+			this.extendStrokeAt(lastPointInStrokes(this.props.strokes));
 		}
 	}
 
@@ -178,14 +178,6 @@ export default class Canvas extends Component {
 			this.whitenCanvas(this.refs.canvas);
 			this.whitenCanvas(this.state.tempCanvas);
 		}
-	}
-
-	transformPoint(point) {
-		return point;
-		// return {
-		// 	x: point.x - this.state.x + this.state.offsetX,
-		// 	y: point.y - this.state.y + this.state.offsetY
-		// }
 	}
 
 	startStrokeAt(point) {
@@ -228,11 +220,11 @@ export default class Canvas extends Component {
 		_.forEach(this.props.strokes, (stroke) => {
 			let points = stroke.points;
 			if (points.length > 1) {
-				that.startStrokeAt(that.transformPoint(_.head(points)));
+				that.startStrokeAt(_.head(points));
 				_.forEach(_.tail(points), function (point) {
-					that.extendStrokeAt(that.transformPoint(point));
+					that.extendStrokeAt(point);
 				})
-				that.endStrokeAt(that.transformPoint(_.last(points)));
+				that.endStrokeAt(_.last(points));
 			}
 		})
 		this.copyImageDataFromTempToActualCanvas();
