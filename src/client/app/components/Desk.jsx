@@ -1,14 +1,13 @@
 import React, {Component, PropTypes} from 'react';
 import Canvas from 'components/Canvas';
+import { OFFSET } from 'constants/canvas';
 
 let transform = (x, y, width, height, offsetX, offsetY) => {
 	return {
 		x: x,
 		y: y,
 		width: width,
-		height: height,
-		offsetX: offsetX,
-		offsetY: offsetY
+		height: height
 	}
 }
 
@@ -45,19 +44,19 @@ export default class Desk extends Component {
 		let y = top === Infinity ? 0 : top;
 		let width = right === -Infinity ? 0 : right - x;
 		let height = bottom === -Infinity ? 0 : bottom - y;
-		return transform(x - 5, y - 5, width+10, height+10, 5, 5);
+		return transform(x - OFFSET, y - OFFSET, width + (2*OFFSET), height + (2*OFFSET));
 	}
 
 	getCanvasTransform(strokes, finished) {
 		return finished ?
 			this.getContentTransform(strokes) :
-			transform(0, 0, window.innerWidth, window.innerHeight, 0, 0);
+			transform(0, 0, window.innerWidth, window.innerHeight);
 	}
 
 	renderCanvas(strokes, id, finished) {
 		let transform = this.getCanvasTransform(strokes, finished);
 		return <Canvas {...this.props} ref={'canvas-'+id}
-			{...transform}
+			bounds = {transform}
 			key = {id}
 			strokes = {strokes}
 		></Canvas>

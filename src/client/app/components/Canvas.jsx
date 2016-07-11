@@ -26,9 +26,9 @@ let getLargeCanvas = () => {
 	return tempCanvas;
 }
 
-let copyImageDataFromTempToActualCanvas = (tempCanvas, actualCanvas, x, y, width, height) => {
+let copyImageDataFromTempToActualCanvas = (tempCanvas, actualCanvas, bounds) => {
 	whitenCanvas(actualCanvas);
-	let imageData = tempCanvas.getContext('2d').getImageData(x, y, width, height);
+	let imageData = tempCanvas.getContext('2d').getImageData(bounds.x, bounds.y, bounds.width, bounds.height);
 	actualCanvas.getContext('2d').putImageData(imageData, 0, 0);
 }
 
@@ -38,18 +38,13 @@ export default class Canvas extends Component {
 		strokes: PropTypes.array,
 		usePloma: PropTypes.bool,
 		uniqueCanvasFactor: PropTypes.number,
-		width: PropTypes.number.isRequired,
-		height: PropTypes.number.isRequired,
-		x: PropTypes.number,
-		y: PropTypes.number
+		bounds: PropTypes.object.isRequired
 	};
 
 	static defaultProps = {
 		uniqueCanvasFactor: Math.random(),
 		strokes: [],
-		usePloma: true,
-		x: 0,
-		y: 0
+		usePloma: true
 	};
 
 	constructor(props) {
@@ -102,12 +97,11 @@ export default class Canvas extends Component {
 		if (hasNewStrokeStarted) {
 			this.startStrokeAt(lastPointInStrokes(this.props.strokes));
 		} else if (hasStrokeEnded) {
-			this.onStrokeFinished();
+			this.endStrokeAt(lastPointInStrokes(this.props.strokes));
 		} else {
 			this.extendStrokeAt(lastPointInStrokes(this.props.strokes));
 		}
-
-		
+		copyImageDataFromTempToActualCanvas(this.state.tempCanvas, this.refs.canvas, this.props.bounds);
 	}
 
 	startStrokeAt(point) {
@@ -117,14 +111,6 @@ export default class Canvas extends Component {
 			let context = this.state.tempCanvas.getContext('2d');
 		    context.beginPath();
 			context.moveTo(point.x, point.y);
-		}
-		this.copyImageDataFromTempToActualCanvas();
-	}
-
-	onStrokeFinished() {
-		let isEmpty = this.state.strokes.length === 0;
-		if (!isEmpty && this.props.usePloma) {
-			this.endStrokeAt(lastPointInStrokes(this.state.strokes))
 		}
 	}
 
@@ -136,7 +122,6 @@ export default class Canvas extends Component {
 	        context.lineTo(point.x, point.y);
 	        context.moveTo(point.x, point.y);
 		}
-		this.copyImageDataFromTempToActualCanvas();
 	}
 
 	clearCanvas() {
@@ -156,7 +141,6 @@ export default class Canvas extends Component {
 			context.stroke();
 			context.closePath();
 		}
-		this.copyImageDataFromTempToActualCanvas();
 	}
 
 	redrawEverything() {
@@ -172,23 +156,18 @@ export default class Canvas extends Component {
 				that.endStrokeAt(_.last(points));
 			}
 		})
-		this.copyImageDataFromTempToActualCanvas();
-	}
-
-	copyImageDataFromTempToActualCanvas() {
-		copyImageDataFromTempToActualCanvas(this.state.tempCanvas, this.refs.canvas,
-			this.props.x, this.props.y, this.props.width, this.props.height);
+		copyImageDataFromTempToActualCanvas(this.state.tempCanvas, this.refs.canvas, this.props.bounds);
 	}
 
 	render() {
 		return <canvas 
 			ref="canvas"
-			width={this.props.width}
-			height={this.props.height}
+			width={this.props.bounds.width}
+			height={this.props.bounds.height}
 			style={{
 				position: 'absolute',
-				top: this.props.y,
-				left: this.props.x
+				top: this.props.bounds.y,
+				left: this.props.bounds.x
 			}}
 		/>;
 	}

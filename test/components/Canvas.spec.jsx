@@ -6,8 +6,12 @@ import { hashCode, point } from '../helpers';
 let renderPlomaCanvasWithStrokes = (strokes, uniqueCanvasFactor) => {
 	return TestUtils.renderIntoDocument(<Canvas
 		usePloma={true}
-		width={1000}
-		height={500}
+		bounds={{
+			width: 1000,
+			height: 500,
+			x: 0,
+			y: 0
+		}}
 		uniqueCanvasFactor={uniqueCanvasFactor || Math.random()}
 		strokes={strokes}
 	></Canvas>);
@@ -24,8 +28,12 @@ describe('Canvas', () => {
 		beforeEach(() => {
 			canvas = TestUtils.renderIntoDocument(<Canvas
 				usePloma={false}
-				width={1000}
-				height={500}
+				bounds={{
+					width: 1000,
+					height: 500,
+					x: 0,
+					y: 0
+				}}
 				strokes={[{
 					points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}]
 				}]}
@@ -61,8 +69,12 @@ describe('Canvas', () => {
 		beforeEach(() => {
 			canvas = TestUtils.renderIntoDocument(<Canvas
 				usePloma={true}
-				width={1000}
-				height={500}
+				bounds={{
+					width: 1000,
+					height: 500,
+					x: 0,
+					y: 0
+				}}
 				strokes={[{
 					points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}]
 				}]}
@@ -208,10 +220,12 @@ describe('Canvas', () => {
 
 		it('Moves the canvas to its position', () => {
 			let canvas = TestUtils.renderIntoDocument(<Canvas
-				width={100}
-				height={50}
-				x={10}
-				y={10}
+				bounds={{
+					width: 100,
+					height: 50,
+					x: 10,
+					y: 10
+				}}
 				strokes={[ {points: [ point(10,10), point(11,11) ]} ]}
 			></Canvas>)
 			expect(canvas.refs.canvas.style.getPropertyValue('top')).to.equal('10px')

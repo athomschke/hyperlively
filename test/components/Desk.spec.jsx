@@ -49,8 +49,8 @@ describe('Desk', () => {
 				}]
 			}}
 		></Desk>)
-		expect(desk.refs['canvas-0'].props.width).to.equal(18);
-		expect(desk.refs['canvas-0'].props.height).to.equal(15);
+		expect(desk.refs['canvas-0'].props.bounds.width).to.equal(18);
+		expect(desk.refs['canvas-0'].props.bounds.height).to.equal(15);
 	})
 
 	it('Moves the sketch canvas its position', () => {
@@ -65,8 +65,8 @@ describe('Desk', () => {
 				}]
 			}}
 		></Desk>)
-		expect(desk.refs['canvas-0'].props.x).to.equal(2);
-		expect(desk.refs['canvas-0'].props.y).to.equal(5);
+		expect(desk.refs['canvas-0'].props.bounds.x).to.equal(2);
+		expect(desk.refs['canvas-0'].props.bounds.y).to.equal(5);
 	})
 
 })
