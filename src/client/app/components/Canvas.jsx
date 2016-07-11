@@ -24,8 +24,8 @@ export default class Canvas extends Component {
 		height: PropTypes.number.isRequired,
 		x: PropTypes.number,
 		y: PropTypes.number,
-		originX: PropTypes.number,
-		originY: PropTypes.number
+		offsetX: PropTypes.number,
+		offsetY: PropTypes.number
 	};
 
 	static defaultProps = {
@@ -34,20 +34,24 @@ export default class Canvas extends Component {
 		usePloma: true,
 		x: 0,
 		y: 0,
-		originX: 0,
-		originY: 0
+		offsetX: 0,
+		offsetY: 0
 	};
 
 	constructor(props) {
 		super(props);
+		let tempCanvas = document.createElement('canvas');
+		tempCanvas.setAttribute('width', window.innerWidth);
+		tempCanvas.setAttribute('height', window.innerHeight);
 		this.state = {
 			strokes: [],
 			x: props.x,
 			y: props.y,
 			width: props.width,
 			height: props.height,
-			originX: props.originX,
-			originY: props.originY
+			offsetX: props.offsetX,
+			offsetY: props.offsetY,
+			tempCanvas: tempCanvas
 		};
 	}
 
@@ -71,7 +75,7 @@ export default class Canvas extends Component {
 	}
 
 	setPlomaInstance(callback) {
-		let plomaInstance = this.props.usePloma ? new Ploma(this.refs.canvas, this.props.uniqueCanvasFactor) : null
+		let plomaInstance = this.props.usePloma ? new Ploma(this.state.tempCanvas, this.props.uniqueCanvasFactor) : null
 		plomaInstance && plomaInstance.setSample(1);
 		this.setState({
 			plomaInstance: plomaInstance
@@ -79,19 +83,20 @@ export default class Canvas extends Component {
 	}
 
 	onSizeUpdated() {
-		let canvasNode = this.refs.canvas;
-		let imageData = canvasNode.getContext('2d').getImageData(this.props.x, this.props.y, this.props.width, this.props.height);
-		this.whitenCanvas();
-		this.setState({
-			x: this.props.x,
-			y: this.props.y,
-			width: this.props.width,
-			height: this.props.height,
-			originX: this.props.originX,
-			originY: this.props.originY
-		}, () => {
-			canvasNode.getContext('2d').putImageData(imageData, 0, 0);
-		})
+		this.copyImageDataFromTempToActualCanvas();
+		// let canvasNode = this.refs.canvas;
+		// let imageData = canvasNode.getContext('2d').getImageData(this.props.x, this.props.y, this.props.width, this.props.height);
+		// this.whitenCanvas();
+		// this.setState({
+		// 	x: this.props.x,
+		// 	y: this.props.y,
+		// 	width: this.props.width,
+		// 	height: this.props.height,
+		// 	offsetX: this.props.offsetX,
+		// 	offsetY: this.props.offsetY
+		// }, () => {
+		// 	canvasNode.getContext('2d').putImageData(imageData, 0, 0);
+		// })
 	}
 
 	onStrokesUpdated() {
@@ -161,8 +166,7 @@ export default class Canvas extends Component {
 		}
 	}
 
-	whitenCanvas() {
-		let canvas = this.refs.canvas;
+	whitenCanvas(canvas) {
 		let context = canvas.getContext('2d');
 		context.clearRect(0, 0, canvas.width, canvas.height);
 	}
@@ -171,22 +175,25 @@ export default class Canvas extends Component {
 		if (this.props.usePloma) {
 			this.runOnPlomaInstance('clear');
 		} else {
-			this.whitenCanvas();
+			this.whitenCanvas(this.refs.canvas);
+			this.whitenCanvas(this.state.tempCanvas);
 		}
 	}
 
 	transformPoint(point) {
-		return {
-			x: point.x - this.state.x + this.state.originX,
-			y: point.y - this.state.y + this.state.originY
-		}
+		return point;
+		// return {
+		// 	x: point.x - this.state.x + this.state.offsetX,
+		// 	y: point.y - this.state.y + this.state.offsetY
+		// }
 	}
 
 	startStrokeAt(point) {
 		if (this.props.usePloma) {
 			this.runOnPlomaInstance('beginStroke', point);
+			this.copyImageDataFromTempToActualCanvas();
 		} else {
-			let context = this.refs.canvas.getContext('2d');
+			let context = this.state.tempCanvas.getContext('2d');
 		    context.beginPath();
 			context.moveTo(point.x, point.y);
 		}
@@ -197,20 +204,22 @@ export default class Canvas extends Component {
 		if (this.props.usePloma) {
 			this.runOnPlomaInstance('extendStroke', point);
 		} else {
-			let context = this.refs.canvas.getContext('2d');
+			let context = this.state.tempCanvas.getContext('2d');
 	        context.lineTo(point.x, point.y);
 	        context.moveTo(point.x, point.y);
 		}
+		this.copyImageDataFromTempToActualCanvas();
 	}
 
 	endStrokeAt(point) {
 		if (this.props.usePloma) {
 			this.runOnPlomaInstance('endStroke', point);
 		} else {
-			let context = this.refs.canvas.getContext('2d');
+			let context = this.state.tempCanvas.getContext('2d');
 			context.stroke();
 			context.closePath();
 		}
+		this.copyImageDataFromTempToActualCanvas();
 	}
 
 	redrawEverything() {
@@ -226,21 +235,28 @@ export default class Canvas extends Component {
 				that.endStrokeAt(that.transformPoint(_.last(points)));
 			}
 		})
+		this.copyImageDataFromTempToActualCanvas();
+	}
+
+	copyImageDataFromTempToActualCanvas() {
+		this.whitenCanvas(this.refs.canvas);
+		let imageData = this.state.tempCanvas.getContext('2d').getImageData(this.props.x, this.props.y, this.props.width, this.props.height);
+		this.refs.canvas.getContext('2d').putImageData(imageData, 0, 0);
 	}
 
 	getStyle() {
 		return {
 			position: 'absolute',
-			top: this.state.y,
-			left: this.state.x
+			top: this.props.y,
+			left: this.props.x
 		}
 	}
 
 	render() {
 		return <canvas 
 			ref="canvas"
-			width={this.state.width}
-			height={this.state.height}
+			width={this.props.width}
+			height={this.props.height}
 			style={this.getStyle()}
 		/>;
 	}

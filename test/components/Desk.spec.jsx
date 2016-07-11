@@ -35,8 +35,7 @@ describe('Desk', () => {
 		></Desk>)
 		expect(desk.refs['canvas-0']).to.exist;
 		expect(desk.refs['canvas-1']).to.exist;
-		expect(desk.refs['canvas-2']).to.exist;
-		expect(desk.refs['canvas-3']).to.not.exist;
+		expect(desk.refs['canvas-2']).to.not.exist;
 	})
 
 	it('Sets the sketch canvas size to its content plus offset once their sketch is finished', () => {

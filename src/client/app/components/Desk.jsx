@@ -1,14 +1,14 @@
 import React, {Component, PropTypes} from 'react';
 import Canvas from 'components/Canvas';
 
-let transform = (x, y, width, height, originX, originY) => {
+let transform = (x, y, width, height, offsetX, offsetY) => {
 	return {
 		x: x,
 		y: y,
 		width: width,
 		height: height,
-		originX: originX,
-		originY: originY
+		offsetX: offsetX,
+		offsetY: offsetY
 	}
 }
 
@@ -41,7 +41,11 @@ export default class Desk extends Component {
 				bottom = Math.max(bottom, point.y)
 			})
 		})
-		return transform(left - 5, top - 5, right-left+10, bottom-top+10, 5, 5);
+		let x = left === Infinity ? 0 : left;
+		let y = top === Infinity ? 0 : top;
+		let width = right === -Infinity ? 0 : right - x;
+		let height = bottom === -Infinity ? 0 : bottom - y;
+		return transform(x - 5, y - 5, width+10, height+10, 5, 5);
 	}
 
 	getCanvasTransform(strokes, finished) {
@@ -63,16 +67,18 @@ export default class Desk extends Component {
 		let that = this;
 		let sketches = this.props.scene.sketches || [];
 		return _.map(sketches, (sketch, id) => {
-			return that.renderCanvas(sketch.strokes || [], id, sketch.finished);
+			return that.renderCanvas(sketch.strokes || [], id, true);
 		})
 	}
 
 	getSketch() {
-		return _.last(this.props.scene.sketches) || { strokes: [] }
+		return _.last(this.props.scene.sketches)
 	}
 
 	renderPlaceholderCanvas() {
-		return this.renderCanvas([], this.props.scene.sketches.length, false);
+		let sketch = this.getSketch();
+		return (!sketch || sketch.finished) &&
+			this.renderCanvas([], this.props.scene.sketches.length, false);
 	}
 
 	render() {
