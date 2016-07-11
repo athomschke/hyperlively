@@ -1,17 +1,18 @@
 import React, {Component, PropTypes} from 'react';
+import { flatten, strokes, last, isEqual, cloneDeep, forEach, head, tail, map } from 'lodash';
 
 'use strict'
 
 let Ploma = require("exports?Ploma!base/../libs/ploma");
 
 let pointCount = (strokes) => {
-	return _.flatten(_.map(strokes, (stroke) => {
+	return flatten(map(strokes, (stroke) => {
 		return stroke.points;
 	})).length
 }
 
 let lastPointInStrokes = (strokes) => {
-	return _.last(_.last(strokes).points);
+	return last(last(strokes).points);
 }
 
 let clearCanvas = (aCanvas) => {
@@ -61,10 +62,10 @@ export default class Canvas extends Component {
 	}
 
 	componentDidUpdate() {
-		if (!_.isEqual(this.props.strokes, this.state.strokes)) {
+		if (!isEqual(this.props.strokes, this.state.strokes)) {
 			this.onStrokesUpdated();
 		}
-		if (!_.isEqual(this.props.usePloma, !!this.state.plomaInstance)) {
+		if (!isEqual(this.props.usePloma, !!this.state.plomaInstance)) {
 			this.setPlomaInstance(this.redrawEverything);
 		}
 	}
@@ -76,7 +77,7 @@ export default class Canvas extends Component {
 			this.redrawEverything();
 		}
 		this.setState({
-			strokes: _.cloneDeep(this.props.strokes)
+			strokes: cloneDeep(this.props.strokes)
 		})
 	}
 
@@ -93,7 +94,7 @@ export default class Canvas extends Component {
 		let newStrokes = this.props.strokes;
 		if (newStrokes.length > oldStrokes.length) {
 			this.startStrokeAt(lastPointInStrokes(newStrokes));
-		} else if (_.last(newStrokes).finished && !_.last(oldStrokes).finished) {
+		} else if (last(newStrokes).finished && !last(oldStrokes).finished) {
 			this.endStrokeAt(lastPointInStrokes(newStrokes));
 		} else {
 			this.extendStrokeAt(lastPointInStrokes(newStrokes));
@@ -143,14 +144,14 @@ export default class Canvas extends Component {
 	redrawEverything() {
 		let that = this;
 		this.resetCanvas();
-		_.forEach(this.props.strokes, (stroke) => {
+		forEach(this.props.strokes, (stroke) => {
 			let points = stroke.points;
 			if (points.length > 1) {
-				that.startStrokeAt(_.head(points));
-				_.forEach(_.tail(points), function (point) {
+				that.startStrokeAt(head(points));
+				forEach(tail(points), function (point) {
 					that.extendStrokeAt(point);
 				})
-				that.endStrokeAt(_.last(points));
+				that.endStrokeAt(last(points));
 			}
 		})
 		copyContentFromToCanvasWithBounds(this.state.tempCanvas, this.refs.canvas, this.props.bounds);

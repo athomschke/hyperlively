@@ -29,7 +29,7 @@ const strokes = (state = [], action) => {
 			return appendPointTo(state, action)
 		case actionTypes.FINISH_STROKE:
 			state = appendPointTo(state, action);
-			_.last(state).finished = true;
+			last(state).finished = true;
 			return state
 		default:
 			return state;

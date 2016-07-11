@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import Canvas from 'components/Canvas';
 import { OFFSET } from 'constants/canvas';
+import { map, last } from 'lodash';
 
 let transform = (x, y, width, height, offsetX, offsetY) => {
 	return {
@@ -65,13 +66,13 @@ export default class Desk extends Component {
 	renderSketchedCanvasses() {
 		let that = this;
 		let sketches = this.props.scene.sketches || [];
-		return _.map(sketches, (sketch, id) => {
+		return map(sketches, (sketch, id) => {
 			return that.renderCanvas(sketch.strokes || [], id, true);
 		})
 	}
 
 	getSketch() {
-		return _.last(this.props.scene.sketches)
+		return last(this.props.scene.sketches)
 	}
 
 	renderPlaceholderCanvas() {
