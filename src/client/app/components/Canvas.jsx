@@ -4,30 +4,30 @@ import React, {Component, PropTypes} from 'react';
 
 let Ploma = require("exports?Ploma!base/../libs/ploma");
 
-let pointsFromStrokes = (strokes) => {
+let pointCount = (strokes) => {
 	return _.flatten(_.map(strokes, (stroke) => {
 		return stroke.points;
-	}))
+	})).length
 }
 
 let lastPointInStrokes = (strokes) => {
 	return _.last(_.last(strokes).points);
 }
 
-let whitenCanvas = (aCanvas) => {
+let clearCanvas = (aCanvas) => {
 	let context = aCanvas.getContext('2d');
 	context.clearRect(0, 0, aCanvas.width, aCanvas.height);
 }
 
-let getLargeCanvas = () => {
+let getFullscreenCanvas = () => {
 	let tempCanvas = document.createElement('canvas');
 	tempCanvas.setAttribute('width', window.innerWidth);
 	tempCanvas.setAttribute('height', window.innerHeight);
 	return tempCanvas;
 }
 
-let copyImageDataFromTempToActualCanvas = (tempCanvas, actualCanvas, bounds) => {
-	whitenCanvas(actualCanvas);
+let copyContentFromToCanvasWithBounds = (tempCanvas, actualCanvas, bounds) => {
+	clearCanvas(actualCanvas);
 	let imageData = tempCanvas.getContext('2d').getImageData(bounds.x, bounds.y, bounds.width, bounds.height);
 	actualCanvas.getContext('2d').putImageData(imageData, 0, 0);
 }
@@ -51,7 +51,7 @@ export default class Canvas extends Component {
 		super(props);
 		this.state = {
 			strokes: [],
-			tempCanvas: getLargeCanvas(),
+			tempCanvas: getFullscreenCanvas(),
 			plomaInstance: null
 		};
 	}
@@ -69,6 +69,17 @@ export default class Canvas extends Component {
 		}
 	}
 
+	onStrokesUpdated() {
+		if (pointCount(this.props.strokes) === (pointCount(this.state.strokes) + 1)) {
+			this.addPointPerformanceEnhanced();
+		} else {
+			this.redrawEverything();
+		}
+		this.setState({
+			strokes: _.cloneDeep(this.props.strokes)
+		})
+	}
+
 	setPlomaInstance(callback) {
 		let plomaInstance = this.props.usePloma ? new Ploma(this.state.tempCanvas, this.props.uniqueCanvasFactor) : null;
 		plomaInstance && plomaInstance.setSample(1);
@@ -77,31 +88,17 @@ export default class Canvas extends Component {
 		}, callback)
 	}
 
-	onStrokesUpdated() {
-		let newPointCount = pointsFromStrokes(this.props.strokes).length;
-		let oldPointCount = pointsFromStrokes(this.state.strokes).length;
-		if (this.props.usePloma && newPointCount === (oldPointCount + 1)) {
-			this.onPointAdded(); 
+	addPointPerformanceEnhanced() {
+		let oldStrokes = this.state.strokes;
+		let newStrokes = this.props.strokes;
+		if (newStrokes.length > oldStrokes.length) {
+			this.startStrokeAt(lastPointInStrokes(newStrokes));
+		} else if (_.last(newStrokes).finished && !_.last(oldStrokes).finished) {
+			this.endStrokeAt(lastPointInStrokes(newStrokes));
 		} else {
-			this.redrawEverything();
+			this.extendStrokeAt(lastPointInStrokes(newStrokes));
 		}
-		this.setState({
-			strokes: _.cloneDeep(this.props.strokes)
-		})
-	}
-	
-	onPointAdded() {
-		let hasNewStrokeStarted = this.props.strokes.length > this.state.strokes.length;
-		let hasStrokeEnded = (_.last(this.props.strokes) && _.last(this.props.strokes).finished) &&
-			(_.last(this.state.strokes) && !_.last(this.state.strokes).finished)
-		if (hasNewStrokeStarted) {
-			this.startStrokeAt(lastPointInStrokes(this.props.strokes));
-		} else if (hasStrokeEnded) {
-			this.endStrokeAt(lastPointInStrokes(this.props.strokes));
-		} else {
-			this.extendStrokeAt(lastPointInStrokes(this.props.strokes));
-		}
-		copyImageDataFromTempToActualCanvas(this.state.tempCanvas, this.refs.canvas, this.props.bounds);
+		copyContentFromToCanvasWithBounds(this.state.tempCanvas, this.refs.canvas, this.props.bounds);
 	}
 
 	startStrokeAt(point) {
@@ -121,15 +118,7 @@ export default class Canvas extends Component {
 			let context = this.state.tempCanvas.getContext('2d');
 	        context.lineTo(point.x, point.y);
 	        context.moveTo(point.x, point.y);
-		}
-	}
-
-	clearCanvas() {
-		if (this.props.usePloma) {
-			this.state.plomaInstance.clear();
-		} else {
-			whitenCanvas(this.refs.canvas);
-			whitenCanvas(this.state.tempCanvas);
+	        context.stroke();
 		}
 	}
 
@@ -143,9 +132,18 @@ export default class Canvas extends Component {
 		}
 	}
 
+	resetCanvas() {
+		if (this.props.usePloma) {
+			this.state.plomaInstance.clear();
+		} else {
+			clearCanvas(this.refs.canvas);
+			clearCanvas(this.state.tempCanvas);
+		}
+	}
+
 	redrawEverything() {
 		let that = this;
-		this.clearCanvas();
+		this.resetCanvas();
 		_.forEach(this.props.strokes, (stroke) => {
 			let points = stroke.points;
 			if (points.length > 1) {
@@ -156,7 +154,7 @@ export default class Canvas extends Component {
 				that.endStrokeAt(_.last(points));
 			}
 		})
-		copyImageDataFromTempToActualCanvas(this.state.tempCanvas, this.refs.canvas, this.props.bounds);
+		copyContentFromToCanvasWithBounds(this.state.tempCanvas, this.refs.canvas, this.props.bounds);
 	}
 
 	render() {
