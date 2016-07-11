@@ -70,7 +70,7 @@ export default class Canvas extends Component {
 			this.onPlomaUpdated();
 		}
 		if (!_.isEqual(this.props.width, this.state.width) || !_.isEqual(this.props.width, this.state.width)) {
-			this.onSizeUpdated();
+			this.copyImageDataFromTempToActualCanvas();
 		}
 	}
 
@@ -80,23 +80,6 @@ export default class Canvas extends Component {
 		this.setState({
 			plomaInstance: plomaInstance
 		}, callback)
-	}
-
-	onSizeUpdated() {
-		this.copyImageDataFromTempToActualCanvas();
-		// let canvasNode = this.refs.canvas;
-		// let imageData = canvasNode.getContext('2d').getImageData(this.props.x, this.props.y, this.props.width, this.props.height);
-		// this.whitenCanvas();
-		// this.setState({
-		// 	x: this.props.x,
-		// 	y: this.props.y,
-		// 	width: this.props.width,
-		// 	height: this.props.height,
-		// 	offsetX: this.props.offsetX,
-		// 	offsetY: this.props.offsetY
-		// }, () => {
-		// 	canvasNode.getContext('2d').putImageData(imageData, 0, 0);
-		// })
 	}
 
 	onStrokesUpdated() {
