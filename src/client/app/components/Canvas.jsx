@@ -23,9 +23,7 @@ export default class Canvas extends Component {
 		width: PropTypes.number.isRequired,
 		height: PropTypes.number.isRequired,
 		x: PropTypes.number,
-		y: PropTypes.number,
-		offsetX: PropTypes.number,
-		offsetY: PropTypes.number
+		y: PropTypes.number
 	};
 
 	static defaultProps = {
@@ -33,9 +31,7 @@ export default class Canvas extends Component {
 		strokes: [],
 		usePloma: true,
 		x: 0,
-		y: 0,
-		offsetX: 0,
-		offsetY: 0
+		y: 0
 	};
 
 	constructor(props) {
@@ -45,13 +41,8 @@ export default class Canvas extends Component {
 		tempCanvas.setAttribute('height', window.innerHeight);
 		this.state = {
 			strokes: [],
-			x: props.x,
-			y: props.y,
-			width: props.width,
-			height: props.height,
-			offsetX: props.offsetX,
-			offsetY: props.offsetY,
-			tempCanvas: tempCanvas
+			tempCanvas: tempCanvas,
+			plomaInstance: null
 		};
 	}
 
@@ -68,9 +59,6 @@ export default class Canvas extends Component {
 		}
 		if (!_.isEqual(this.props.usePloma, !!this.state.plomaInstance)) {
 			this.onPlomaUpdated();
-		}
-		if (!_.isEqual(this.props.width, this.state.width) || !_.isEqual(this.props.width, this.state.width)) {
-			this.copyImageDataFromTempToActualCanvas();
 		}
 	}
 
