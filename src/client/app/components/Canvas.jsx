@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import { flatten, strokes, last, isEqual, cloneDeep, forEach, head, tail, map } from 'lodash';
+import { without, flatten, strokes, last, isEqual, cloneDeep, forEach, head, tail, map, reduce } from 'lodash';
 
 'use strict'
 
@@ -13,6 +13,11 @@ let pointCount = (strokes) => {
 
 let lastPointInStrokes = (strokes) => {
 	return last(last(strokes).points);
+}
+
+let secondToLastPointInStrokes = (strokes) => {
+	let points = last(strokes).points;
+	return points[points.length - 2];
 }
 
 let clearCanvas = (aCanvas) => {
@@ -58,7 +63,7 @@ export default class Canvas extends Component {
 	}
 
 	componentDidMount() {
-		this.setPlomaInstance(this.redrawEverything);
+		this.setPlomaInstance(this.redrawEverything.bind(this, this.props.strokes.length > 0 && this.props.strokes[0].finished));
 	}
 
 	componentDidUpdate() {
@@ -74,7 +79,7 @@ export default class Canvas extends Component {
 		if (pointCount(this.props.strokes) === (pointCount(this.state.strokes) + 1)) {
 			this.addPointPerformanceEnhanced();
 		} else {
-			this.redrawEverything();
+			this.redrawEverything(this.props.strokes[0] && this.props.strokes[0].finished);
 		}
 		this.setState({
 			strokes: cloneDeep(this.props.strokes)
@@ -95,9 +100,9 @@ export default class Canvas extends Component {
 		if (newStrokes.length > oldStrokes.length) {
 			this.startStrokeAt(lastPointInStrokes(newStrokes));
 		} else if (last(newStrokes).finished && !last(oldStrokes).finished) {
-			this.endStrokeAt(lastPointInStrokes(newStrokes));
+			this.endStrokeAt(lastPointInStrokes(newStrokes), secondToLastPointInStrokes(newStrokes));
 		} else {
-			this.extendStrokeAt(lastPointInStrokes(newStrokes));
+			this.extendStrokeAt(lastPointInStrokes(newStrokes), secondToLastPointInStrokes(newStrokes));
 		}
 		copyContentFromToCanvasWithBounds(this.state.tempCanvas, this.refs.canvas, this.props.bounds);
 	}
@@ -105,30 +110,27 @@ export default class Canvas extends Component {
 	startStrokeAt(point) {
 		if (this.props.usePloma) {
 			this.state.plomaInstance.beginStroke(point.x, point.y, 1);
-		} else {
-			let context = this.state.tempCanvas.getContext('2d');
-		    context.beginPath();
-			context.moveTo(point.x, point.y);
 		}
 	}
 
-	extendStrokeAt(point) {
+	extendStrokeAt(point, optPointBefore) {
 		if (this.props.usePloma) {
 			this.state.plomaInstance.extendStroke(point.x, point.y, 1);
-		} else {
+		} else if (optPointBefore && (point !== optPointBefore)) {
 			let context = this.state.tempCanvas.getContext('2d');
+			context.beginPath();
+			context.moveTo(optPointBefore.x, optPointBefore.y);
 	        context.lineTo(point.x, point.y);
-	        context.moveTo(point.x, point.y);
 	        context.stroke();
+	        context.closePath();
 		}
 	}
 
-	endStrokeAt(point) {
+	endStrokeAt(point, optPointBefore) {
 		if (this.props.usePloma) {
 			this.state.plomaInstance.endStroke(point.x, point.y, 1);
 		} else {
-			let context = this.state.tempCanvas.getContext('2d');
-			context.closePath();
+			this.extendStrokeAt(point, optPointBefore);
 		}
 	}
 
@@ -141,17 +143,22 @@ export default class Canvas extends Component {
 		}
 	}
 
-	redrawEverything() {
+	redrawEverything(shouldFinish) {
 		let that = this;
 		this.resetCanvas();
 		forEach(this.props.strokes, (stroke) => {
 			let points = stroke.points;
 			if (points.length > 1) {
 				that.startStrokeAt(head(points));
-				forEach(tail(points), function (point) {
-					that.extendStrokeAt(point);
-				})
-				that.endStrokeAt(last(points));
+				reduce(without(tail(points), last(points)), function (pointBefore, point) {
+					that.extendStrokeAt(point, pointBefore);
+					return point;
+				}, tail(points)[0])
+				if (shouldFinish) {
+					that.endStrokeAt(last(points), points[points.length-2]);
+				} else {
+					that.extendStrokeAt(last(points), points[points.length-2]);
+				}
 			}
 		})
 		copyContentFromToCanvasWithBounds(this.state.tempCanvas, this.refs.canvas, this.props.bounds);
