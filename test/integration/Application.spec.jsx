@@ -97,7 +97,7 @@ describe('Integration', () => {
 			expect(hashCode(getCombinedCanvas().toDataURL())).to.equal(hashCode(canvasWithTwoStrokes.imageData));
 		})
 
-		it.skip('two strokes looks the same as adding two strokes point by point when ploma is enabled', () => {
+		it('two strokes looks the same as adding two strokes point by point when ploma is enabled', () => {
 			let canvasWithIrregularStrokesWithPloma = require("json!./data/canvasWithIrregularStrokesWithPloma.json");
 			let emptyCanvas = _.cloneDeep(require("json!./data/emptyCanvas.json"));
 			emptyCanvas.json.ploma.uniqueCanvasFactor = canvasWithIrregularStrokesWithPloma.json.ploma.uniqueCanvasFactor;
