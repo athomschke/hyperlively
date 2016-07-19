@@ -26,7 +26,8 @@ describe('sketches', () => {
 
 		it('appends a point to the last sketch', () => {
 			let result = sketches([], appendPoint(point(10,10)));
-			expect(result[0].strokes[0].points).to.deep.equal([point(10,10)]);
+			expect(result[0].strokes[0].points[0].x).to.deep.equal(10);
+			expect(result[0].strokes[0].points[0].y).to.deep.equal(10);
 		})
 
 		it('cannot create a new sketch if one exists', () => {

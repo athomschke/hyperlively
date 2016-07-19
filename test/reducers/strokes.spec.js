@@ -20,13 +20,14 @@ describe('strokes', () => {
 	describe('creating a stroke', () => {
 
 		it('adds the first stroke containing a single point', () => {
+			let newPoint = point(10,10);
 			let result = strokes(
 				[],
-				createStroke(point(10,10))
+				createStroke(newPoint)
 			);
 			expect(result).to.have.length(1);
 			expect(result[0].points).to.have.length(1);
-			expect(result[0].points[0]).to.deep.equal(point(10,10));
+			expect(result[0].points[0]).to.deep.equal(newPoint);
 		})
 
 	})
@@ -34,33 +35,36 @@ describe('strokes', () => {
 	describe('appending a point', () => {
 
 		it('creates a stroke containing it if none exists yet', () => {
+			let newPoint = point(10,10);
 			let result = strokes(
 				[],
-				appendPoint(point(10,10))
+				appendPoint(newPoint)
 			);
 			expect(result).to.have.length(1);
 			expect(result[0].points).to.have.length(1);
-			expect(result[0].points[0]).to.deep.equal(point(10,10));
+			expect(result[0].points[0]).to.deep.equal(newPoint);
 		})
 
 		it('appends a point to the only stroke', () => {
+			let newPoint = point(10,11);
 			let result = strokes(
 				[{ points: [ point(10,10) ] }],
-				appendPoint(point(10,11))
+				appendPoint(newPoint)
 			)
 			expect(result).to.have.length(1);
 			expect(result[0].points).to.have.length(2);
-			expect(result[0].points[1]).to.deep.equal(point(10,11))
+			expect(result[0].points[1]).to.deep.equal(newPoint)
 		})
 
 		it('does not increase the number of strokes if multiple exist already', () => {
+			let newPoint = point(10,11);
 			let result = strokes(
 				[{ points: [] }, { points: [] }],
-				appendPoint(point(10,11))
+				appendPoint(newPoint)
 			)
 			expect(result).to.have.length(2);
 			expect(result[1].points).to.have.length(1);
-			expect(result[1].points[0]).to.deep.equal(point(10,11))
+			expect(result[1].points[0]).to.deep.equal(newPoint)
 		})
 
 	})
@@ -68,14 +72,15 @@ describe('strokes', () => {
 	describe('finishing a stroke', () => {
 
 		it('appends a point to the last stroke', () => {
+			let newPoint = point(10,11);
 			let result = strokes(
 				[{ points: [] }, { points: [] }],
-				finishStroke(point(10,11))
+				finishStroke(newPoint)
 			)
 			expect(result).to.have.length(2);
 			expect(result[1].points).to.have.length(1);
 			expect(result[1].finished).to.be.true;
-			expect(result[1].points[0]).to.deep.equal(point(10,11))
+			expect(result[1].points[0]).to.deep.equal(newPoint)
 		})
 
 	})

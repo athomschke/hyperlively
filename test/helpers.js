@@ -13,6 +13,7 @@ export function hashCode (aString) {
 export function point (x, y) {
 	return {
 		x: x,
-		y: y
+		y: y,
+		timestamp: Date.now()
 	}
 }

@@ -16,24 +16,27 @@ describe('points', () => {
 	})
 
 	it('appends first point', () => {
+		let newPoint = point(10,10)
 		expect(
 			points(
 				[],
-				appendPoint(point(10,10))
+				appendPoint(newPoint)
 			)
 		).to.deep.equal(
-			[point(10,10)]
+			[newPoint]
 		)
 	})
 
 	it('appends second point', () => {
+		let existingPoint = point(10,10);
+		let newPoint = point(10,11)
 		expect(
 			points(
-				[point(10,10)],
-				appendPoint(point(10,11))
+				[existingPoint],
+				appendPoint(newPoint)
 			)
 		).to.deep.equal(
-			[point(10,10), point(10,11)]
+			[existingPoint, newPoint]
 		)
 	})
 })
