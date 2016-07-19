@@ -5,8 +5,8 @@ import { appendPoint, createStroke, finishStroke } from 'actions/drawing';
 
 const mapStateToProps = (state) => {
   let returnState = cloneDeep(state.ploma);
-  returnState.scene = state.scene.present;
-  returnState.scene = last(state.scene.present);
+  returnState.scene = state.scenes.present;
+  returnState.scene = last(state.scenes.present);
   return returnState;
 }
 

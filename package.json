@@ -34,7 +34,6 @@
     "react-redux": "^4.4.5",
     "reactrangeslider": "^2.0.0",
     "redux": "^3.5.2",
-    "redux-undo": "^0.6.1",
     "require": "^2.4.20",
     "webpack": "^1.13.0"
   },

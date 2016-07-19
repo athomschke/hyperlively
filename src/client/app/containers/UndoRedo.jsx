@@ -1,4 +1,4 @@
-import { ActionCreators } from 'redux-undo';
+import { jumpToPast, jumpToFuture } from 'actions/timetravel';
 import { connect } from 'react-redux';
 import React from 'react';
 import UndoRedo from 'components/UndoRedo'
@@ -14,15 +14,15 @@ let UndoRedoContainer = ({ max, value, onJumpToFuture, onJumpToPast}) => (
  
 const mapStateToProps = (state) => {
   return {
-    max: state.scene.past.length + state.scene.future.length,
-    value: state.scene.past.length
+    max: state.scenes.past.length + state.scenes.future.length,
+    value: state.scenes.past.length
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onJumpToFuture: (futureValue) => dispatch(ActionCreators.jumpToFuture(futureValue-1)),
-    onJumpToPast: (pastValue) => dispatch(ActionCreators.jumpToPast(pastValue))
+    onJumpToFuture: (futureValue) => dispatch(jumpToFuture(futureValue)),
+    onJumpToPast: (pastValue) => dispatch(jumpToPast(pastValue))
   }
 }
 

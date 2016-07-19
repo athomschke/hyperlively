@@ -30,8 +30,8 @@ let simulateDrawingEventOnCanvasAt = (eventType, canvas, x, y) => {
 }
 
 let renderApplication = (initialState) => {
-	let strokesCount = (initialState.scene.present.length > 0) ?
-				initialState.scene.present[0].sketches.length : 0;
+	let strokesCount = (initialState.scenes.present.length > 0) ?
+				initialState.scenes.present[0].sketches.length : 0;
 	let store = createStore(hyperlively, initialState);
 	let renderedApp = render(
 	  <Provider store={store}>
@@ -103,7 +103,7 @@ describe('Integration', () => {
 			emptyCanvas.json.ploma.uniqueCanvasFactor = canvasWithIrregularStrokesWithPloma.json.ploma.uniqueCanvasFactor;
 			emptyCanvas.json.ploma.usePloma = true;
 			renderApplication(emptyCanvas.json);
-			let strokes = _.map(canvasWithIrregularStrokesWithPloma.json.scene.present[0].sketches, (sketch) => {
+			let strokes = _.map(canvasWithIrregularStrokesWithPloma.json.scenes.present[0].sketches, (sketch) => {
 				return _.last(sketch.strokes) || [];
 			});
 			manuallyDrawStrokes(getWindowNode(), strokes);

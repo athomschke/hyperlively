@@ -76,16 +76,16 @@ describe('Canvas', () => {
 					y: 0
 				}}
 				strokes={[{
-					points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}]
+					points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}, {x: 10, y: 13}]
 				}]}
 			></Canvas>);
 		})
 
 		it('is updated when at least two points are added (sampling rate of ploma)', () => {
 			let imageDataBefore = canvas.refs.canvas.toDataURL();
-			canvas.props.strokes[0].points.push({x: 10, y: 13});
+			canvas.props.strokes[0].points.push({x: 10, y: 15});
 			canvas.componentDidUpdate();
-			canvas.props.strokes[0].points.push({x: 10, y: 14});
+			canvas.props.strokes[0].points.push({x: 10, y: 16});
 			canvas.componentDidUpdate();
 			let imageDataAfter = canvas.refs.canvas.toDataURL();
 			expect(hashCode(imageDataBefore)).to.not.equal(hashCode(imageDataAfter));
@@ -101,7 +101,7 @@ describe('Canvas', () => {
 
 		it('is not redrawn when point is only added', () => {
 			let hasRun = false;
-			canvas.props.strokes[0].points.push({x: 10, y: 13});
+			canvas.props.strokes[0].points.push({x: 10, y: 15});
 			canvas.redrawEverything = () => {
 				hasRun = true;
 			}
@@ -112,7 +112,7 @@ describe('Canvas', () => {
 		it('is not redrawn when stroke is only started', () => {
 			let hasRun = false;
 			canvas.props.strokes.push({
-				points: [{x: 10, y: 13}]
+				points: [{x: 10, y: 15}]
 			});
 			canvas.redrawEverything = () => {
 				hasRun = true;
@@ -135,7 +135,7 @@ describe('Canvas', () => {
 			expect(hasRun).to.be.false;
 		})
 
-		it('changes the image when two strokes are removed', () => {
+		it('changes the image when two points are removed', () => {
 			let imageDataBefore = canvas.refs.canvas.toDataURL();
 			canvas.props.strokes[0].points.splice(-2);
 			canvas.componentDidUpdate();
@@ -177,10 +177,13 @@ describe('Canvas', () => {
 
 		it('renders the same strokes differently on different coordinates', () => {
 			let canvas = renderPlomaCanvasWithStrokes([{
-				points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}, {x:10, y:13}]
+				points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}, {x:10, y:13}],
+				finished: true
 			}, {
-				points: [{x:20, y:10}, {x:20, y:11}, {x:20, y:12}, {x:20, y:13}]
+				points: [{x:20, y:10}, {x:20, y:11}, {x:20, y:12}, {x:20, y:13}],
+				finished: true
 			}])
+			canvas.redrawEverything(true)
 			let imageData1 = canvas.refs.canvas.getContext('2d').getImageData(8, 8, 4, 7);
 			let imageData2 = canvas.refs.canvas.getContext('2d').getImageData(18, 8, 4, 7);
 			expect(hashCode(imageData1.data.join())).to.not.deep.equal(hashCode(imageData2.data.join()));

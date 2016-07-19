@@ -1,5 +1,5 @@
 import sketches from 'reducers/sketches'
-import undoable, { distinctState } from 'redux-undo';
+import undoable from 'reducers/undoable';
 import * as actionTypes from 'constants/actionTypes';
 import { last } from 'lodash';
 
@@ -22,6 +22,6 @@ const scenes = (state = [], action) => {
 	}
 }
 
-const undoableScene = undoable(scenes, {})
+const undoableScenes = undoable(scenes, {})
 
-export default undoableScene;
+export default undoableScenes;

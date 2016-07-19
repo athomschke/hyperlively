@@ -1,10 +1,10 @@
-import scene from 'reducers/scenes'
+import scenes from 'reducers/scenes'
 import ploma from 'reducers/ploma'
 import { combineReducers } from 'redux';
 
 const hyperlively = combineReducers({
 	ploma,
-	scene
+	scenes
 })
 
 export default hyperlively;

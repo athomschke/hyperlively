@@ -38,7 +38,7 @@ describe('scenes', () => {
 
 		it('when no scene exists creates one', () => {
 			let result = scenes(
-				[],
+				undoableScenes([]),
 				createStroke(point(10,10))
 			);
 			expect(result.present).to.have.length(1)
@@ -58,7 +58,7 @@ describe('scenes', () => {
 
 		it('to no existing scene creates a scene', () => {
 			let result = scenes(
-				[],
+				undoableScenes([]),
 				appendPoint(point(10,10))
 			);
 			expect(result.present).to.have.length(1);
