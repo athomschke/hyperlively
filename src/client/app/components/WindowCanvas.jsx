@@ -1,10 +1,11 @@
 import React, {Component, PropTypes} from 'react';
 import Canvas from 'components/Canvas';
 
-let eventPosition = (evt) => {
+let pointFromEvent = (evt) => {
 	return {
 		x: evt.pageX,
-		y: evt.pageY
+		y: evt.pageY,
+		timestamp: Date.now()
 	}
 }
 
@@ -50,26 +51,18 @@ export default class WindowCanvas extends Component {
 	onMouseDown(evt) {
 		this.setState({
 			isDrawing: true
-		}, this.props.onCreateStroke.bind(this, eventPosition(evt)))
+		}, this.props.onCreateStroke.bind(this, pointFromEvent(evt)))
 	}
 
 	onMouseMove(evt) {
 		if (this.state.isDrawing) {
-			let position = eventPosition(evt);
-			this.props.onAppendPoint({
-				x: position.x,
-				y: position.y
-			});
+			this.props.onAppendPoint(pointFromEvent(evt));
 		}
 	}
 
 	onMouseUp(evt) {
 		if (this.state.isDrawing) {
-			let position = eventPosition(evt)
-			this.props.onFinishStroke({
-				x: position.x,
-				y: position.y
-			});
+			this.props.onFinishStroke(pointFromEvent(evt));
 			this.setState({
 				isDrawing: false
 			})

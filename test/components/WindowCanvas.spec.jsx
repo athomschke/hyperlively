@@ -30,7 +30,7 @@ let endStrokeAt = (canvas, x, y) => {
 
 describe('WindowCanvas', () => {
 
-	describe('drawing', () => {
+	describe('drawing state', () => {
 
 		let windowCanvas;
 
@@ -61,6 +61,73 @@ describe('WindowCanvas', () => {
 			expect(windowCanvas.state.isDrawing).to.be.true;
 			endStrokeAt(windowCanvas, 10, 11);
 			expect(windowCanvas.state.isDrawing).to.be.false;
+		})
+	})
+
+	describe('requesting draw information', () => {
+
+		let windowCanvas;
+		let mouseDownInfo;
+		let mouseMoveInfo;
+		let mouseUpInfo;
+		let originalDateNow;
+
+		beforeEach(() => {
+			originalDateNow = Date.now;
+			Date.now = function() {
+				return 1;
+			}
+			windowCanvas = TestUtils.renderIntoDocument(<WindowCanvas
+				onAppendPoint={(point) => {
+					mouseMoveInfo = point
+				}}
+				onCreateStroke={(point) => {
+					mouseDownInfo = point
+				}}
+				onFinishStroke={(point) => {
+					mouseUpInfo = point
+				}}
+			></WindowCanvas>);
+		})
+
+		afterEach(() => {
+			mouseDownInfo = undefined;
+			mouseMoveInfo = undefined;
+			mouseUpInfo = undefined;
+			Date.now = originalDateNow;
+		})
+
+		it('triggers callback to create stroke on position of mousedown', () => {
+			startStrokeAt(windowCanvas, 10, 10);
+			expect(mouseDownInfo).to.deep.equal({
+				x: 10,
+				y: 10,
+				timestamp: 1
+			});
+			expect(mouseMoveInfo).to.be.undefined
+			expect(mouseUpInfo).to.be.undefined
+		})
+
+		it('triggers callback to add point on position of mousemove', () => {
+			startStrokeAt(windowCanvas, 10, 10);
+			extendStrokeAt(windowCanvas, 10, 11);
+			expect(mouseMoveInfo).to.deep.equal({
+				x: 10,
+				y: 11,
+				timestamp: 1
+			});
+			expect(mouseUpInfo).to.be.undefined
+		})
+
+		it('triggers callback to finish stroke on position of mouseup', () => {
+			startStrokeAt(windowCanvas, 10, 10);
+			extendStrokeAt(windowCanvas, 10, 11);
+			endStrokeAt(windowCanvas, 10, 11);
+			expect(mouseUpInfo).to.deep.equal({
+				x: 10,
+				y: 11,
+				timestamp: 1
+			});
 		})
 
 	})
