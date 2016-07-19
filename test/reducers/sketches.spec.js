@@ -24,15 +24,9 @@ describe('sketches', () => {
 			expect(result).to.have.length(1);
 		})
 
-		it('sets the position to the first point', () => {
-			let result = sketches([], appendPoint(point(10,10)));
-			expect(result).to.have.length(1);
-			expect(result[0].position).to.deep.equal(point(10,10));
-		})
-
 		it('appends a point to the last sketch', () => {
 			let result = sketches([], appendPoint(point(10,10)));
-			expect(result[0].position).to.deep.equal(point(10,10));
+			expect(result[0].strokes[0].points).to.deep.equal([point(10,10)]);
 		})
 
 		it('cannot create a new sketch if one exists', () => {
@@ -41,15 +35,6 @@ describe('sketches', () => {
 			}]
 			let result = sketches(currentSketches, appendPoint(point(10,11)));
 			expect(result).to.have.length(1)
-		})
-
-		it('keeps the original position', () => {
-			let currentSketches = [{
-				strokes: [],
-				position: point(10,10)
-			}]
-			let result = sketches(currentSketches, appendPoint(point(10,11)));
-			expect(result[0].position).to.deep.equal(point(10,10));
 		})
 
 	})
@@ -62,14 +47,6 @@ describe('sketches', () => {
 				createStroke(point(10,10))
 			);
 			expect(result).to.have.length(1)
-		})
-
-		it('initializes a sketch at the given position', () => {
-			let result = sketches(
-				[],
-				createStroke(point(10,10))
-			);
-			expect(result[0].position).to.deep.equal(point(10,10));
 		})
 
 		it('adds a sketch if one sketch exists', () => {

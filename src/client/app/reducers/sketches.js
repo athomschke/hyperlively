@@ -4,8 +4,7 @@ import { last, without } from 'lodash';
 
 let extendedSketch = (sketch, action) => {
 	return {
-		strokes: strokes(sketch.strokes || [], action),
-		position: sketch.position || action.point
+		strokes: strokes(sketch.strokes || [], action)
 	}
 }
 
@@ -23,8 +22,7 @@ const sketches = (state = [], action) => {
 	switch(action.type) {
 		case actionTypes.CREATE_STROKE:
 			state.push({
-				strokes: strokes([], action),
-				position: action.point
+				strokes: strokes([], action)
 			})
 			return state;
 		case actionTypes.APPEND_POINT:
