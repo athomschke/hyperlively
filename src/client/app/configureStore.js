@@ -1,11 +1,7 @@
 import { createStore } from 'redux';
 import hyperlively from 'reducers/index';
 
-let initialState = {
-	ploma: {
-		uniqueCanvasFactor: Math.random()
-	}
-}
+let initialState = {}
 
 export default function configureStore(initialState) {
 	const store = createStore(hyperlively, initialState, 

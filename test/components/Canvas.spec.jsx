@@ -175,15 +175,27 @@ describe('Canvas', () => {
 			expect(hashCode(imageData1)).to.not.equal(hashCode(imageData2));
 		})
 
-		it('renders the same strokes differently on different coordinates', () => {
+		it.skip('renders the same strokes differently on different coordinates with high uniqueCanvasFactor', () => {
 			let canvas = renderPlomaCanvasWithStrokes([{
 				points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}, {x:10, y:13}],
 				finished: true
 			}, {
 				points: [{x:20, y:10}, {x:20, y:11}, {x:20, y:12}, {x:20, y:13}],
 				finished: true
-			}])
-			canvas.redrawEverything(true)
+			}], 0.9)
+			let imageData1 = canvas.refs.canvas.getContext('2d').getImageData(8, 8, 4, 7);
+			let imageData2 = canvas.refs.canvas.getContext('2d').getImageData(18, 8, 4, 7);
+			expect(hashCode(imageData1.data.join())).to.not.deep.equal(hashCode(imageData2.data.join()));
+		})
+
+		it.skip('renders the same strokes differently on different coordinates with low uniqueCanvasFactor', () => {
+			let canvas = renderPlomaCanvasWithStrokes([{
+				points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}, {x:10, y:13}],
+				finished: true
+			}, {
+				points: [{x:20, y:10}, {x:20, y:11}, {x:20, y:12}, {x:20, y:13}],
+				finished: true
+			}], 0.2)
 			let imageData1 = canvas.refs.canvas.getContext('2d').getImageData(8, 8, 4, 7);
 			let imageData2 = canvas.refs.canvas.getContext('2d').getImageData(18, 8, 4, 7);
 			expect(hashCode(imageData1.data.join())).to.not.deep.equal(hashCode(imageData2.data.join()));

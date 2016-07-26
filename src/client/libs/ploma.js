@@ -39,17 +39,21 @@ var Ploma = function(canvas, uniqueCanvasFactor) {
     ctx.fillRect(0, 0, w, h);
     imageData = ctx.getImageData(0, 0, w, h);
     imageDataData = imageData.data;
+    minx = 0.0;
+    maxx = 0.0;
+    miny = 0.0;
+    maxy = 0.0;
+    this.resetTemps();
+    
+  };
 
+  this.resetTemps = function() {
     // Reset data
     rawStrokes = [];
     curRawStroke = [];
     curRawSampledStroke = [];
     filteredStrokes = [];
     curFilteredStroke = [];
-    minx = 0.0;
-    maxx = 0.0;
-    miny = 0.0;
-    maxy = 0.0;
     lastControlPoint = null;
     stepOffset = 0.0;
     pointCounter = 0;
@@ -63,8 +67,7 @@ var Ploma = function(canvas, uniqueCanvasFactor) {
   // point x, y and p (pressure ranging from
   // 0-1) values.
   //
-  this.beginStroke = function(x, y, p) {
-    
+  this.beginStroke = function(x, y, p) {    
     var point = new Point(x,y,p);
     pointCounter++;
 
@@ -143,8 +146,7 @@ var Ploma = function(canvas, uniqueCanvasFactor) {
   // point and renders the final stroke segment
   // to the canvas.
   //
-  this.endStroke = function(x, y, p) {
-    
+  this.endStroke = function(x, y, p) {    
     var point = new Point(x,y,p);
 
     // Keep the last point as is for now
@@ -154,8 +156,7 @@ var Ploma = function(canvas, uniqueCanvasFactor) {
     curFilteredStroke.push(point);
 
     redraw();
-    lastControlPoint = null;
-    
+    this.resetTemps();
   }
 
   // ------------------------------------------
@@ -728,7 +729,7 @@ var Ploma = function(canvas, uniqueCanvasFactor) {
   }
 
   function uniquePixelFactor(x, y) {
-    return Math.sin(uniqueCanvasFactor + ((1/x) || 1) + ((1/y) || 1));
+    return (((Math.sin(x) + 1) / 2) + ((Math.sin(y) + 1) / 2) + uniqueCanvasFactor) / 3
   }
 
   function uniqueTextureFactor(textureIndex) {

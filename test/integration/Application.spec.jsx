@@ -22,11 +22,29 @@ let getCombinedCanvas = () => {
 	return combineCanvasses(getCanvasNodes(), 1000, 500)	
 }
 
+let mountApp = () => {
+	let appNode = document.createElement('div');
+	appNode.setAttribute('id', 'app');
+	document.body.appendChild(appNode);
+}
+
+let dismountApp = () => {
+	document.body.removeChild(document.getElementById('app'));
+}
+
 let simulateDrawingEventOnCanvasAt = (eventType, canvas, x, y) => {
 	TestUtils.Simulate[eventType](canvas, {
 		pageX: x,
 		pageY: y
 	});
+}
+
+let getPointsFromJSON = (json) => {
+	return _.map(json.scenes.present[0].sketches, (sketch) => {
+		return {
+			points: sketch.strokes[0].points
+		}
+	})
 }
 
 let renderApplication = (initialState) => {
@@ -48,7 +66,7 @@ let manuallyDrawStrokes = (windowNode, strokes) => {
 		let first = _.first(stroke.points);
 		let last = _.last(stroke.points);
 		simulateDrawingEventOnCanvasAt('mouseDown', windowNode, first.x, first.y);
-		_.forEach(_.tail(stroke.points), (point) => {
+		_.forEach(_.without(_.tail(stroke.points), last), (point) => {
 			simulateDrawingEventOnCanvasAt('mouseMove', windowNode, point.x, point.y);
 		})
 		simulateDrawingEventOnCanvasAt('mouseUp', windowNode, last.x, last.y);
@@ -57,13 +75,11 @@ let manuallyDrawStrokes = (windowNode, strokes) => {
 
 describe('Integration', () => {
 	beforeEach(() => {
-		let appNode = document.createElement('div');
-		appNode.setAttribute('id', 'app');
-		document.body.appendChild(appNode);
+		mountApp();
 	})
 
 	afterEach(() => {
-		document.body.removeChild(document.getElementById('app'));
+		dismountApp();
 	})
 
 	describe('rendering the application', () => {
@@ -85,29 +101,31 @@ describe('Integration', () => {
 	})
 
 	describe('drawing', () => {
-		it('two strokes creates correct image data when ploma is disabled', () => {
-			let emptyCanvas = require("json!./data/emptyCanvas.json");
-			let canvasWithTwoStrokes = require("json!./data/canvasWithTwoStrokes.json");
-			let renderedApp = renderApplication(emptyCanvas.json);
-			manuallyDrawStrokes(getWindowNode(), [{
-				points: [ point(10,10), point(10,30) ]
-			}, {
-				points: [ point(20,10), point(20,30) ]
-			}]);
-			expect(hashCode(getCombinedCanvas().toDataURL())).to.equal(hashCode(canvasWithTwoStrokes.imageData));
+		it('two strokes looks the same as adding two strokes point by point when ploma is disabled', () => {
+			let canvasJson = require("json!./data/canvasWithTwoStrokes.json").json
+			let renderedApp = renderApplication(canvasJson);
+			let renderedStrokesData = getCombinedCanvas().toDataURL();
+			dismountApp();
+			mountApp();
+			let drawnApp = renderApplication(require("json!./data/emptyCanvas.json").json);
+			let strokes = getPointsFromJSON(canvasJson);
+			manuallyDrawStrokes(getWindowNode(), strokes);
+			expect(hashCode(getCombinedCanvas().toDataURL())).to.equal(hashCode(renderedStrokesData));
 		})
 
 		it('two strokes looks the same as adding two strokes point by point when ploma is enabled', () => {
-			let canvasWithIrregularStrokesWithPloma = require("json!./data/canvasWithIrregularStrokesWithPloma.json");
-			let emptyCanvas = _.cloneDeep(require("json!./data/emptyCanvas.json"));
-			emptyCanvas.json.ploma.uniqueCanvasFactor = canvasWithIrregularStrokesWithPloma.json.ploma.uniqueCanvasFactor;
-			emptyCanvas.json.ploma.usePloma = true;
-			renderApplication(emptyCanvas.json);
-			let strokes = _.map(canvasWithIrregularStrokesWithPloma.json.scenes.present[0].sketches, (sketch) => {
-				return _.last(sketch.strokes) || [];
-			});
+			let canvasJsonConfig = require("json!./data/canvasWithIrregularStrokesWithPloma.json").json;
+			let renderedApp = renderApplication(canvasJsonConfig);
+			let renderedStrokesData = getCombinedCanvas().toDataURL();
+			dismountApp();
+			mountApp();
+			let emptyCanvasConfig = _.cloneDeep(require("json!./data/emptyCanvas.json")).json;
+			emptyCanvasConfig.ploma.uniqueCanvasFactor = canvasJsonConfig.ploma.uniqueCanvasFactor;
+			emptyCanvasConfig.ploma.usePloma = true;
+			renderApplication(emptyCanvasConfig);
+			let strokes = getPointsFromJSON(canvasJsonConfig);
 			manuallyDrawStrokes(getWindowNode(), strokes);
-			expect(hashCode(getCombinedCanvas().toDataURL())).to.equal(hashCode(canvasWithIrregularStrokesWithPloma.imageData))
+			expect(hashCode(getCombinedCanvas().toDataURL())).to.equal(hashCode(renderedStrokesData))
 		})
 	})
 
@@ -137,11 +155,13 @@ describe('Integration', () => {
 			let domApp = findDOMNode(renderedApp);
 			let sliderWithHandle = domApp.childNodes[2].childNodes[0].childNodes[0];
 			let slider = sliderWithHandle.childNodes[0];
-			// expect(getCanvasNodes()[1].width).to.equal(10);
+			expect(getCanvasNodes()[0].width).to.equal(20);
+			expect(getCanvasNodes()[0].height).to.equal(60);
 			TestUtils.Simulate.click(slider, {
-				pageX: ( 5 * slider.offsetWidth) / 6
+				pageX: slider.offsetWidth / 2
 			})
-			expect(getCanvasNodes()[1].width).to.equal(10);
+			expect(getCanvasNodes()[0].width).to.equal(20);
+			expect(getCanvasNodes()[0].height).to.equal(60);
 		})
 
 	})

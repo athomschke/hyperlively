@@ -21,12 +21,18 @@ let appendPointTo = (state, action) => {
 	}
 }
 
+let appendStrokeTo = (state, action) => {
+	return [...state, {
+		points: points([], appendPoint(action.point))
+	}]
+}
+
 const strokes = (state = [], action) => {
 	switch(action.type) {
 		case actionTypes.APPEND_POINT:
 			return appendPointTo(state, action)
 		case actionTypes.CREATE_STROKE:
-			return appendPointTo(state, action)
+			return appendStrokeTo(state, action)
 		case actionTypes.FINISH_STROKE:
 			state = appendPointTo(state, action);
 			last(state).finished = true;

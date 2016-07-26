@@ -10,10 +10,10 @@ export function hashCode (aString) {
 	return hash;
 }
 
-export function point (x, y) {
+export function point (x, y, optTimestamp) {
 	return {
 		x: x,
 		y: y,
-		timestamp: Date.now()
+		timestamp: optTimestamp || Date.now()
 	}
 }

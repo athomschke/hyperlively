@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import { without, flatten, strokes, last, isEqual, cloneDeep, forEach, head, tail, map, reduce } from 'lodash';
+import { PRESSURE } from 'constants/drawing'
 
 'use strict'
 
@@ -48,8 +49,8 @@ export default class Canvas extends Component {
 	};
 
 	static defaultProps = {
-		uniqueCanvasFactor: Math.random(),
 		strokes: [],
+		uniqueCanvasFactor: 1,
 		usePloma: true
 	};
 
@@ -109,13 +110,13 @@ export default class Canvas extends Component {
 
 	startStrokeAt(point) {
 		if (this.props.usePloma) {
-			this.state.plomaInstance.beginStroke(point.x, point.y, 1);
+			this.state.plomaInstance.beginStroke(point.x, point.y, PRESSURE);
 		}
 	}
 
 	extendStrokeAt(point, optPointBefore) {
 		if (this.props.usePloma) {
-			this.state.plomaInstance.extendStroke(point.x, point.y, 1);
+			this.state.plomaInstance.extendStroke(point.x, point.y, PRESSURE);
 		} else if (optPointBefore && (point !== optPointBefore)) {
 			let context = this.state.tempCanvas.getContext('2d');
 			context.beginPath();
@@ -128,7 +129,7 @@ export default class Canvas extends Component {
 
 	endStrokeAt(point, optPointBefore) {
 		if (this.props.usePloma) {
-			this.state.plomaInstance.endStroke(point.x, point.y, 1);
+			this.state.plomaInstance.endStroke(point.x, point.y, PRESSURE);
 		} else {
 			this.extendStrokeAt(point, optPointBefore);
 		}
