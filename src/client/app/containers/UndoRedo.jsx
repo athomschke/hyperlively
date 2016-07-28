@@ -2,33 +2,27 @@ import { jumpToPast, jumpToFuture } from 'actions/timetravel';
 import { connect } from 'react-redux';
 import React from 'react';
 import UndoRedo from 'components/UndoRedo'
-
-let UndoRedoContainer = ({ max, value, onJumpToFuture, onJumpToPast}) => (
-  <UndoRedo
-    jumpToPast={onJumpToPast}
-    jumpToFuture={onJumpToFuture}
-    max={max}
-    value={value}
-  ></UndoRedo>
-)
+import { togglePloma } from 'actions/configuring';
  
 const mapStateToProps = (state) => {
   return {
     max: state.scenes.past.length + state.scenes.future.length,
-    value: state.scenes.past.length
+    value: state.scenes.past.length,
+    usePloma: state.ploma.usePloma
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onJumpToFuture: (futureValue) => dispatch(jumpToFuture(futureValue)),
-    onJumpToPast: (pastValue) => dispatch(jumpToPast(pastValue))
+    jumpToFuture: (futureValue) => dispatch(jumpToFuture(futureValue)),
+    jumpToPast: (pastValue) => dispatch(jumpToPast(pastValue)),
+    togglePloma: (bool) => dispatch(togglePloma(bool))
   }
 }
 
-UndoRedoContainer = connect(
+let UndoRedoContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(UndoRedoContainer)
+)(UndoRedo)
 
 export default UndoRedoContainer

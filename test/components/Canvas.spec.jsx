@@ -249,4 +249,39 @@ describe('Canvas', () => {
 
 	})
 
+	describe('enabling ploma', () => {
+
+		it('is possible when at the same time changing strokes', () => {
+			var TestParent = React.createFactory(React.createClass({
+				getInitialState() {
+					return { usePloma: false };
+				},
+				render() {
+					return <Canvas
+						ref="sut"
+						usePloma={this.state.usePloma}
+						bounds={{
+							width: 100,
+							height: 50,
+							x: 10,
+							y: 10
+						}}
+						strokes={[ {points: [ point(10,10), point(11,11) ]} ]}
+					></Canvas>
+				}
+			}));
+
+			var parent = TestUtils.renderIntoDocument(TestParent());
+			let canvas = parent.refs.sut;
+			let imageDataBefore = canvas.refs.canvas.toDataURL();
+			canvas.props.strokes[0].points.push(point(12,12));
+			parent.setState({
+				usePloma: true
+			})
+			let imageDataAfter = canvas.refs.canvas.toDataURL();
+			expect(hashCode(imageDataBefore)).to.not.equal(hashCode(imageDataAfter))
+		})
+
+	})
+
 })

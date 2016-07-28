@@ -3,31 +3,55 @@ import { Slider } from 'reactrangeslider';
 
 'use strict'
 
+let runningPlomaTimeout;
+
 export default class UndoRedo extends Component {
 
 	static propTypes = {
 		jumpToPast: PropTypes.func,
 		jumpToFuture: PropTypes.func,
+		togglePloma: PropTypes.func,
 		max: PropTypes.number,
 		value: PropTypes.number,
-		width: PropTypes.number
+		width: PropTypes.number,
+		usePloma: PropTypes.bool,
+		plomaTimeout: PropTypes.number
 	};
 
 	static defaultProps = {
 		jumpToPast: () => {},
 		jumpToFuture: () => {},
+		togglePloma: () => {},
 		max: 0,
 		value: 0,
-		width: 100
+		width: 100,
+		usePloma: false,
+		plomaTimeout: 1000
 	};
 
 	onSliderMove(newValue) {
+		let shouldDisablePlomaTemporarily = runningPlomaTimeout || this.props.usePloma;
+		shouldDisablePlomaTemporarily && this.props.usePloma && this.props.togglePloma(false);
 		let oldValue = this.props.value;
-		let direction
 		if (newValue < oldValue) {
-			return this.props.jumpToPast(newValue);
+			this.props.jumpToPast(newValue);
 		} else if (newValue > oldValue) {
-			return this.props.jumpToFuture(newValue - oldValue);
+			this.props.jumpToFuture(newValue - oldValue);
+		}
+		if (shouldDisablePlomaTemporarily) {
+			clearTimeout(runningPlomaTimeout);
+			runningPlomaTimeout = setTimeout(() => {
+				this.props.togglePloma(true);
+				runningPlomaTimeout = undefined;
+			}, this.props.plomaTimeout)
+		}
+	}
+
+	onSliderStop() {
+		if (runningPlomaTimeout) {
+			clearTimeout(runningPlomaTimeout);
+			this.props.togglePloma(true);
+			runningPlomaTimeout = undefined;
 		}
 	}
 
@@ -41,6 +65,7 @@ export default class UndoRedo extends Component {
 			>
 			<Slider ref="slider"
 				onChange={this.onSliderMove.bind(this)}
+				afterChange={this.onSliderStop.bind(this)}
 				disabled={!canUndo && !canRedo}
 				min={0}
 				max={this.props.max}

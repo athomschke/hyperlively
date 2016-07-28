@@ -164,6 +164,25 @@ describe('Integration', () => {
 			expect(getCanvasNodes()[0].height).to.equal(60);
 		})
 
+		it('affects the canvas', () => {
+			let emptyCanvas = _.cloneDeep(require("json!./data/emptyCanvas.json"));
+			let renderedApp = renderApplication(emptyCanvas.json);
+			manuallyDrawStrokes(getWindowNode(), [{
+				points: [ point(10,10), point(10,30), point(10,60) ]
+			}, {
+				points: [ point(20,10), point(20,30), point(20,60) ]
+			}]);
+			let domApp = findDOMNode(renderedApp);
+			let sliderWithHandle = domApp.childNodes[2].childNodes[0].childNodes[0];
+			let slider = sliderWithHandle.childNodes[0];
+			let beforeUndoImageData = getCombinedCanvas().toDataURL();
+			TestUtils.Simulate.click(slider, {
+				pageX: slider.offsetWidth / 2
+			})
+			let afterUndoImageData = getCombinedCanvas().toDataURL();
+			expect(hashCode(beforeUndoImageData)).to.not.equal(hashCode(afterUndoImageData))
+		})
+
 	})
 
 

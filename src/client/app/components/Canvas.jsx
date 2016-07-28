@@ -68,11 +68,14 @@ export default class Canvas extends Component {
 	}
 
 	componentDidUpdate() {
-		if (!isEqual(this.props.strokes, this.state.strokes)) {
-			this.onStrokesUpdated();
-		}
 		if (!isEqual(this.props.usePloma, !!this.state.plomaInstance)) {
-			this.setPlomaInstance(this.redrawEverything);
+			this.setPlomaInstance(() => {
+				this.setState({
+					strokes: cloneDeep(this.props.strokes)
+				}, this.redrawEverything)
+			});
+		} else if (!isEqual(this.props.strokes, this.state.strokes)) {
+			this.onStrokesUpdated();
 		}
 	}
 
