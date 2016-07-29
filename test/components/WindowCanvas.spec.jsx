@@ -168,10 +168,34 @@ describe('WindowCanvas', () => {
 		it('not any more when removed', () => {
 			let wasResizeHandlerRemoved = false;
 			window.removeEventListener = (listener) => {
-				wasResizeHandlerRemoved = listener === 'resize';
+				wasResizeHandlerRemoved = wasResizeHandlerRemoved || listener === 'resize';
 			}
 			windowCanvas.componentWillUnmount();
 			expect(wasResizeHandlerRemoved).to.be.true;
+		})
+	})
+
+	describe('pressing a keyboard button', () => {
+		
+		it('disables events on window', () => {
+			let windowCanvas = renderCanvasWithStrokes([]);
+			windowCanvas.handleKeyDown({});
+			expect(windowCanvas.refs.window.style.getPropertyValue('pointer-events')).to.equal('none')
+			windowCanvas.handleKeyUp({});
+			expect(windowCanvas.refs.window.style.getPropertyValue('pointer-events')).to.equal('auto')
+		})
+
+		it('is not handeled after dismount', () => {
+			let windowCanvas = renderCanvasWithStrokes([]);
+			let wasKeyDownHandlerRemoved = false;
+			let wasKeyUpHandlerRemoved = false;
+			document.body.removeEventListener = (listener) => {
+				wasKeyDownHandlerRemoved = wasKeyDownHandlerRemoved || listener === 'keydown';
+				wasKeyUpHandlerRemoved = wasKeyUpHandlerRemoved || listener === 'keyup';
+			}
+			windowCanvas.componentWillUnmount();
+			expect(wasKeyDownHandlerRemoved).to.be.true;
+			expect(wasKeyUpHandlerRemoved).to.be.true;
 		})
 	})
 

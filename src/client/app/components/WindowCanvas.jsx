@@ -30,6 +30,18 @@ export default class WindowCanvas extends Component {
 		})
 	}
 
+	handleKeyDown(e) {
+		this.setState({
+			cmdPressed: true
+		})
+	}
+
+	handleKeyUp(e) {
+		this.setState({
+			cmdPressed: false
+		})
+	}
+
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -42,10 +54,14 @@ export default class WindowCanvas extends Component {
 
 	componentDidMount() {
 		window.addEventListener('resize', this.handleResize);
+		document.body.addEventListener('keydown', this.handleKeyDown.bind(this));
+		document.body.addEventListener('keyup', this.handleKeyUp.bind(this));
 	}
 
 	componentWillUnmount() {
 		window.removeEventListener('resize', this.handleResize);
+		document.body.removeEventListener('keydown', this.handleKeyDown.bind(this));
+		document.body.removeEventListener('keyup', this.handleKeyUp.bind(this));
 	}
 
 	onMouseDown(evt) {
@@ -70,13 +86,15 @@ export default class WindowCanvas extends Component {
 	}
 
 	getStyle() {
-		return {
+		let style = {
 			position: 'absolute',
 			top: 0,
 			left: 0,
 			width: this.state.windowWidth,
 			height: this.state.windowHeight
 		}
+		style.pointerEvents = this.state.cmdPressed ? 'none' : 'auto';
+		return style;
 	}
 
 	render() {

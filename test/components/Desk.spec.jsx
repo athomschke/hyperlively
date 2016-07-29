@@ -69,4 +69,20 @@ describe('Desk', () => {
 		expect(desk.refs['canvas-0'].props.bounds.y).to.equal(5);
 	})
 
+	it('Does not capture events on the placeholder canvas', () => {
+		let desk = TestUtils.renderIntoDocument(<Desk
+			scene={{
+				sketches: [{
+					strokes: [{
+						points: [point(7,10), point(7,15), point(15,15), point(15,10)],
+						finished: true
+					}],
+					finished: true
+				}]
+			}}
+		></Desk>)
+		expect(desk.refs['canvas-1'].refs.canvas.style.getPropertyValue('pointer-events')).to.equal('none');
+		expect(desk.refs['canvas-0'].refs.canvas.style.getPropertyValue('pointer-events')).to.equal('auto');
+	})
+
 })

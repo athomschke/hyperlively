@@ -60,6 +60,7 @@ export default class Desk extends Component {
 			bounds = {transform}
 			key = {id}
 			strokes = {strokes}
+			active = {finished}
 		></Canvas>
 	}
 

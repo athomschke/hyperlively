@@ -45,13 +45,15 @@ export default class Canvas extends Component {
 		strokes: PropTypes.array,
 		usePloma: PropTypes.bool,
 		uniqueCanvasFactor: PropTypes.number,
-		bounds: PropTypes.object.isRequired
+		bounds: PropTypes.object.isRequired,
+		active:  PropTypes.bool
 	};
 
 	static defaultProps = {
 		strokes: [],
 		uniqueCanvasFactor: 1,
-		usePloma: true
+		usePloma: true,
+		active: true
 	};
 
 	constructor(props) {
@@ -176,7 +178,8 @@ export default class Canvas extends Component {
 			style={{
 				position: 'absolute',
 				top: this.props.bounds.y,
-				left: this.props.bounds.x
+				left: this.props.bounds.x,
+				pointerEvents: this.props.active ? 'auto' : 'none'
 			}}
 		/>;
 	}
