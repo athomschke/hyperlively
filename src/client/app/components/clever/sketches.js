@@ -5,10 +5,11 @@ let strokeFollowedSuit = (collectedSketches, stroke, threshold) => {
 		last(last(collectedSketches).strokes) &&
 		last(last(last(collectedSketches).strokes).points) &&
 		last(stroke.points) &&
-		first(stroke.points).timestamp - last(last(last(collectedSketches).strokes).points).timestamp <= threshold
+		first(stroke.points).timestamp - last(last(last(collectedSketches).strokes).points).timestamp < threshold
 }
 
-export default function sketches(strokes = [], threshold = 0) {
+export default function sketches(strokes = [], optThreshold = 1) {
+	let threshold = Math.max(optThreshold, 1);
 	return reduce(strokes, (collectedSketches, stroke) => {
 		if (strokeFollowedSuit(collectedSketches, stroke, threshold)) {
 			last(collectedSketches).strokes.push(stroke);

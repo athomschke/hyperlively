@@ -43,7 +43,7 @@ let getPointsFromJSON = (json) => {
 	return json.scenes.present[0].strokes
 }
 
-let renderApplication = (initialState) => {
+let renderApplication = (initialState, optExpectedNumberOfCanvasses) => {
 	let strokesCount = (initialState.scenes.present.length > 0) ?
 				initialState.scenes.present[0].strokes.length : 0;
 	let store = createStore(hyperlively, initialState);
@@ -53,7 +53,7 @@ let renderApplication = (initialState) => {
 	  </Provider>,
 	  document.getElementById('app')
 	)
-	expect(document.getElementsByTagName('canvas')).to.have.length(strokesCount + 1);
+	expect(document.getElementsByTagName('canvas')).to.have.length(optExpectedNumberOfCanvasses || strokesCount + 1);
 	return renderedApp;
 }
 
@@ -142,7 +142,7 @@ describe('Integration', () => {
 
 		it('keeps the canvas at content size', () => {
 			let emptyCanvas = _.cloneDeep(require("json!./data/emptyCanvas.json"));
-			emptyCanvas.json.threshold = -1;
+			emptyCanvas.json.threshold = 0;
 			let renderedApp = renderApplication(emptyCanvas.json);
 			manuallyDrawStrokes(getWindowNode(), [{
 				points: [ point(10,10), point(10,30), point(10,60) ]
@@ -182,6 +182,34 @@ describe('Integration', () => {
 
 	})
 
+	describe('changing the threshold', () => {
 
+		it('can split sketch with two strokes into two sketches', () => {
+			let canvasJson = require("json!./data/canvasWithTwoStrokes.json").json
+			canvasJson.threshold = 2000;
+			let renderedApp = renderApplication(canvasJson, 2);
+			expect(getCanvasNodes().length).to.equal(2);
+			let domApp = findDOMNode(renderedApp);
+			let thresholdSlider = domApp.childNodes[2].childNodes[1].childNodes[0];
+			TestUtils.Simulate.click(thresholdSlider, {
+				pageX: 1
+			})
+			expect(getCanvasNodes().length).to.equal(3);
+		})
+
+		it('can join sketches with one stroke each to one sketch', () => {
+			let canvasJson = require("json!./data/canvasWithTwoStrokes.json").json
+			canvasJson.threshold = 100;
+			let renderedApp = renderApplication(canvasJson);
+			expect(getCanvasNodes().length).to.equal(3);
+			let domApp = findDOMNode(renderedApp);
+			let thresholdSlider = domApp.childNodes[2].childNodes[1].childNodes[0];
+			TestUtils.Simulate.click(thresholdSlider, {
+				pageX: thresholdSlider.offsetWidth / 2
+			})
+			expect(getCanvasNodes().length).to.equal(2);
+		})
+
+	})
 
 })

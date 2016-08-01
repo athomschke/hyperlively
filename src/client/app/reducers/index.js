@@ -1,9 +1,8 @@
 import scenes from 'reducers/scenes'
+import threshold from 'reducers/threshold'
 import { DEFAULT_THRESHOLD } from 'constants/drawing'
 import ploma from 'reducers/ploma'
 import { combineReducers } from 'redux';
-
-const threshold = (state = DEFAULT_THRESHOLD, action) => state
 
 const hyperlively = combineReducers({
 	ploma,

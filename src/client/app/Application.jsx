@@ -3,6 +3,7 @@ import Scene from 'containers/Scene';
 import UndoRedo from 'containers/UndoRedo';
 import Settings from 'containers/Settings';
 import Window from 'containers/Window';
+import Configuration from 'containers/Configuration';
 
 'use strict'
 
@@ -20,6 +21,7 @@ const Application = () => (
 		<div
 			style={getControlStyle()}>
 			<UndoRedo></UndoRedo>
+			<Configuration></Configuration>
 			<Settings></Settings>
 		</div>
 	</div>

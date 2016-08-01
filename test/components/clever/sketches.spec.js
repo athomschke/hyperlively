@@ -121,4 +121,19 @@ describe('Sketch combiner', () => {
 		expect(combinedSketches[1].finished).to.not.be.true
 	})
 
+	it('will use a minimum threshold of 1', () => {
+		let threshold = -1;
+		let addedPoint1 = point(10,10, 100);
+		let addedPoint2 = point(20,20, 100);
+		let combinedSketches = sketches([{
+			points: [addedPoint1],
+			finished: true
+		}, {
+			points: [addedPoint2]
+		}], threshold);
+		expectTwoStrokesInOneSketch(combinedSketches, addedPoint1, addedPoint2);
+		expect(combinedSketches[0].strokes[1].points).to.have.length(1);
+		expect(combinedSketches[0].strokes[1].points[0]).to.deep.equal(addedPoint2);
+	})
+
 })
