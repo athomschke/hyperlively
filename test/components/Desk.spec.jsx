@@ -17,34 +17,11 @@ describe('Desk', () => {
 		expect(desk.refs['canvas-1']).to.not.exist;
 	})
 
-	it('Creates a canvas for each sketch, but only for the last stroke each', () => {
-		let desk = TestUtils.renderIntoDocument(<Desk
-			scene={{
-				sketches: [{
-					strokes: [{
-						points: [point(10,10), point(11, 11), point(11,12)]
-					}]
-				}, {
-					strokes: [{
-						points: []
-					}, {
-						points: []
-					}]
-				}]
-			}}
-		></Desk>)
-		expect(desk.refs['canvas-0']).to.exist;
-		expect(desk.refs['canvas-1']).to.exist;
-		expect(desk.refs['canvas-2']).to.not.exist;
-	})
-
 	it('Sets the sketch canvas size to its content plus offset once their sketch is finished', () => {
 		let desk = TestUtils.renderIntoDocument(<Desk
 			scene={{
-				sketches: [{
-					strokes: [{
-						points: [point(7,10), point(7,15), point(15,15), point(15,10)]
-					}],
+				strokes: [{
+					points: [point(7,10), point(7,15), point(15,15), point(15,10)],
 					finished: true
 				}]
 			}}
@@ -56,12 +33,9 @@ describe('Desk', () => {
 	it('Moves the sketch canvas its position', () => {
 		let desk = TestUtils.renderIntoDocument(<Desk
 			scene={{
-				sketches: [{
-					strokes: [{
-						points: [point(7,10), point(7,15), point(15,15), point(15,10)]
-					}],
+				strokes: [{
+					points: [point(7,10), point(7,15), point(15,15), point(15,10)],
 					finished: true,
-					position: point(10,10)
 				}]
 			}}
 		></Desk>)
@@ -72,11 +46,8 @@ describe('Desk', () => {
 	it('Does not capture events on the placeholder canvas', () => {
 		let desk = TestUtils.renderIntoDocument(<Desk
 			scene={{
-				sketches: [{
-					strokes: [{
-						points: [point(7,10), point(7,15), point(15,15), point(15,10)],
-						finished: true
-					}],
+				strokes: [{
+					points: [point(7,10), point(7,15), point(15,15), point(15,10)],
 					finished: true
 				}]
 			}}

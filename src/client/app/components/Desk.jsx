@@ -1,7 +1,9 @@
 import React, {Component, PropTypes} from 'react';
 import Canvas from 'components/Canvas';
 import { OFFSET } from 'constants/canvas';
+import { DEFAULT_THRESHOLD } from 'constants/drawing';
 import { map, last } from 'lodash';
+import sketches from 'components/clever/sketches'
 
 let transform = (x, y, width, height, offsetX, offsetY) => {
 	return {
@@ -15,13 +17,15 @@ let transform = (x, y, width, height, offsetX, offsetY) => {
 export default class Desk extends Component {
 
 	static propTypes = {
-		scene: PropTypes.object
+		scene: PropTypes.object,
+		threshold: PropTypes.number
 	};
 
 	static defaultProps = {
 		scene: {
-			sketches: []
-		}
+			strokes: []
+		},
+		threshold: DEFAULT_THRESHOLD
 	}
 
 	constructor(props) {
@@ -64,27 +68,27 @@ export default class Desk extends Component {
 		></Canvas>
 	}
 
-	renderSketchedCanvasses() {
+	renderSketchedCanvasses(dynamicallyCombinedSketches) {
 		let that = this;
-		let sketches = this.props.scene.sketches || [];
-		return map(sketches, (sketch, id) => {
+		return map(dynamicallyCombinedSketches, (sketch, id) => {
 			return that.renderCanvas(sketch.strokes || [], id, true);
 		})
 	}
 
-	getSketch() {
-		return last(this.props.scene.sketches)
+	getSketch(dynamicallyCombinedSketches) {
+		return last(dynamicallyCombinedSketches)
 	}
 
-	renderPlaceholderCanvas() {
-		let sketch = this.getSketch();
+	renderPlaceholderCanvas(dynamicallyCombinedSketches) {
+		let sketch = this.getSketch(dynamicallyCombinedSketches);
 		return (!sketch || sketch.finished) &&
-			this.renderCanvas([], this.props.scene.sketches.length, false);
+			this.renderCanvas([], dynamicallyCombinedSketches.length, false);
 	}
 
 	render() {
+		let dynamicallyCombinedSketches = sketches(this.props.scene.strokes, this.props.threshold);
 		return (<div>
-			{this.renderSketchedCanvasses().concat(this.renderPlaceholderCanvas())}
+			{this.renderSketchedCanvasses(dynamicallyCombinedSketches).concat(this.renderPlaceholderCanvas(dynamicallyCombinedSketches))}
 		</div>)
 	}
 

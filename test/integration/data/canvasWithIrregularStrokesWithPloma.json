@@ -4,22 +4,30 @@
 			"usePloma": true,
 			"uniqueCanvasFactor": 0.315
 		},
+		"threshold": 500,
 		"scenes": {
 			"past": [],
 			"future": [],
 			"present": [{
-				"sketches": [{
+				"strokes": [{
 					"finished": true,
-					"strokes": [{
-						"finished": true,
-						"points": [{ "x": 10, "y": 10 }, { "x": 11, "y": 15 }, { "x": 13, "y": 14 }, { "x": 13, "y": 16 }, { "x": 12, "y": 19 }, { "x": 11, "y": 21 }]
-					}]
+					"points": [
+						{ "x": 10, "y": 10, "timestamp": 100 },
+						{ "x": 11, "y": 15, "timestamp": 101 },
+						{ "x": 13, "y": 14, "timestamp": 102 },
+						{ "x": 13, "y": 16, "timestamp": 103 },
+						{ "x": 12, "y": 19, "timestamp": 104 },
+						{ "x": 11, "y": 21, "timestamp": 105 }
+					]
 				}, {
 					"finished": true,
-					"strokes": [{
-						"finished": true,
-						"points": [{ "x": 30, "y": 10 }, { "x": 31, "y": 15 }, { "x": 33, "y": 14 }, { "x": 33, "y": 16 }, { "x": 32, "y": 19 }, { "x": 31, "y": 21 }]
-					}]
+					"points": [
+						{ "x": 30, "y": 10, "timestamp": 1106 },
+						{ "x": 31, "y": 15, "timestamp": 1107 },
+						{ "x": 33, "y": 14, "timestamp": 1108 },
+						{ "x": 33, "y": 16, "timestamp": 1109 },
+						{ "x": 32, "y": 19, "timestamp": 1110 },
+						{ "x": 31, "y": 21, "timestamp": 1120 }]
 				}]
 			}]
 		}

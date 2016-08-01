@@ -3,35 +3,25 @@
 		"ploma": {
 			"usePloma": false
 		},
+		"threshold": 500,
 		"scenes": {
 			"past": [],
 			"future": [],
 			"present": [{
-				"finished": true,
-				"sketches": [{
-					"strokes": [{
-						"finished": true,
-						"points": [{
-							"x": 10,
-							"y": 10
-						}, {
-							"x": 10,
-							"y": 30
-						}]
-					}]
+				"strokes": [{
+					"finished": true,
+					"points": [
+						{ "x": 10, "y": 10, "timestamp": 100 },
+						{ "x": 10, "y": 30, "timestamp": 101 }
+					]
 				}, {
 					"finished": true,
-					"strokes": [{
-						"finished": true,
-						"points": [{
-							"x": 20,
-							"y": 10
-						}, {
-							"x": 20,
-							"y": 30
-						}]
-					}]
-				}]}]
+					"points": [
+						{ "x": 20, "y": 10, "timestamp": 1100 },
+						{ "x": 20, "y": 30, "timestamp": 1101 }
+					]
+				}]
+			}]
 		}
 	}
 }

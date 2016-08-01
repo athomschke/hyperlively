@@ -1,11 +1,11 @@
-import sketches from 'reducers/sketches'
+import strokes from 'reducers/strokes'
 import undoable from 'reducers/undoable';
 import * as actionTypes from 'constants/actionTypes';
 import { last } from 'lodash';
 
 let defaultScene = () => {
 	return {
-		sketches: []
+		strokes: []
 	}
 }
 
@@ -15,7 +15,7 @@ const scenes = (state = [], action) => {
 		case actionTypes.CREATE_STROKE:
 		case actionTypes.FINISH_STROKE:
 			return [{
-				sketches: sketches((last(state) || defaultScene()).sketches, action)
+				strokes: strokes((last(state) || defaultScene()).strokes, action)
 			}];
 		default:
 			return state;

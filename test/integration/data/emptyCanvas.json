@@ -3,6 +3,7 @@
 		"ploma": {
 			"usePloma": false
 		},
+		"threshold": 500,
 		"scenes": {
 			"past": [],
 			"future": [],

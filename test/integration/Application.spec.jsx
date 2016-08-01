@@ -40,16 +40,12 @@ let simulateDrawingEventOnCanvasAt = (eventType, canvas, x, y) => {
 }
 
 let getPointsFromJSON = (json) => {
-	return _.map(json.scenes.present[0].sketches, (sketch) => {
-		return {
-			points: sketch.strokes[0].points
-		}
-	})
+	return json.scenes.present[0].strokes
 }
 
 let renderApplication = (initialState) => {
 	let strokesCount = (initialState.scenes.present.length > 0) ?
-				initialState.scenes.present[0].sketches.length : 0;
+				initialState.scenes.present[0].strokes.length : 0;
 	let store = createStore(hyperlively, initialState);
 	let renderedApp = render(
 	  <Provider store={store}>
@@ -146,6 +142,7 @@ describe('Integration', () => {
 
 		it('keeps the canvas at content size', () => {
 			let emptyCanvas = _.cloneDeep(require("json!./data/emptyCanvas.json"));
+			emptyCanvas.json.threshold = -1;
 			let renderedApp = renderApplication(emptyCanvas.json);
 			manuallyDrawStrokes(getWindowNode(), [{
 				points: [ point(10,10), point(10,30), point(10,60) ]
@@ -155,12 +152,12 @@ describe('Integration', () => {
 			let domApp = findDOMNode(renderedApp);
 			let sliderWithHandle = domApp.childNodes[2].childNodes[0].childNodes[0];
 			let slider = sliderWithHandle.childNodes[0];
-			expect(getCanvasNodes()[0].width).to.equal(20);
+			expect(getCanvasNodes()[0].width).to.equal(10);
 			expect(getCanvasNodes()[0].height).to.equal(60);
 			TestUtils.Simulate.click(slider, {
 				pageX: slider.offsetWidth / 2
 			})
-			expect(getCanvasNodes()[0].width).to.equal(20);
+			expect(getCanvasNodes()[0].width).to.equal(10);
 			expect(getCanvasNodes()[0].height).to.equal(60);
 		})
 
