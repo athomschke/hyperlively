@@ -3,7 +3,7 @@ import Canvas from 'components/Canvas';
 import { OFFSET } from 'constants/canvas';
 import { DEFAULT_THRESHOLD } from 'constants/drawing';
 import { map, last } from 'lodash';
-import sketches from 'components/clever/sketches'
+import sketches from 'components/smart/sketches'
 
 let transform = (x, y, width, height, offsetX, offsetY) => {
 	return {

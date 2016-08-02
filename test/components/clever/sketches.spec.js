@@ -1,4 +1,4 @@
-import sketches from 'components/clever/sketches';
+import sketches from 'components/smart/sketches';
 import { point } from '../../helpers';
 
 let expectOneStrokeInOneSketch = (combinedSketches, addedPoint) => {

@@ -5,6 +5,9 @@ import React from 'react';
 let renderCanvasWithStrokes = (strokes) => {
 	return TestUtils.renderIntoDocument(<WindowCanvas
 		usePloma={true}
+		width={window.innerWidth}
+		height={window.innerHeight}
+		cmdPressed={false}
 		scene={{sketches: [{strokes: strokes }] }}
 	></WindowCanvas>);
 }
@@ -35,7 +38,11 @@ describe('WindowCanvas', () => {
 		let windowCanvas;
 
 		beforeEach(() => {
-			windowCanvas = TestUtils.renderIntoDocument(<WindowCanvas></WindowCanvas>);
+			windowCanvas = TestUtils.renderIntoDocument(<WindowCanvas
+				width={window.innerWidth}
+				height={window.innerHeight}
+				cmdPressed={false}
+			></WindowCanvas>);
 		})
 
 		it('is inactive when initializing', () => {
@@ -87,6 +94,9 @@ describe('WindowCanvas', () => {
 				onFinishStroke={(point) => {
 					mouseUpInfo = point
 				}}
+				width={window.innerWidth}
+				height={window.innerHeight}
+				cmdPressed={false}
 			></WindowCanvas>);
 		})
 
@@ -132,70 +142,26 @@ describe('WindowCanvas', () => {
 
 	})
 
-	describe('resizes', () => {
-
-		let restorableWidth;
-		let restorableHeight;
-		let windowCanvas;
-		let oldRemoveEventListener;
-
-		beforeEach(() => {
-			restorableWidth = window.innerWidth;
-			restorableHeight = window.innerHeight;
-			windowCanvas = renderCanvasWithStrokes([]);
-			oldRemoveEventListener = window.removeEventListener;
-		})
-
-		afterEach(() => {
-			window.innerWidth = restorableWidth;
-			window.innerHeight = restorableHeight;
-			window.removeEventListener = oldRemoveEventListener;
-		})
-
-		it('to window size when created', () => {
-			expect(windowCanvas.state.windowWidth).to.equal(window.innerWidth);
-			expect(windowCanvas.state.windowHeight).to.equal(window.innerHeight);
-		})
-
-		it('with the window', () => {
-			window.innerWidth = 100;
-			window.innerHeight = 100;
-			windowCanvas.handleResize();
-			expect(windowCanvas.state.windowWidth).to.equal(100);
-			expect(windowCanvas.state.windowHeight).to.equal(100);
-		})
-
-		it('not any more when removed', () => {
-			let wasResizeHandlerRemoved = false;
-			window.removeEventListener = (listener) => {
-				wasResizeHandlerRemoved = wasResizeHandlerRemoved || listener === 'resize';
-			}
-			windowCanvas.componentWillUnmount();
-			expect(wasResizeHandlerRemoved).to.be.true;
-		})
-	})
-
-	describe('pressing a keyboard button', () => {
+	describe('keyboard button', () => {
 		
-		it('disables events on window', () => {
-			let windowCanvas = renderCanvasWithStrokes([]);
-			windowCanvas.handleKeyDown({});
+		it('pressing disables events on window', () => {
+			let windowCanvas = TestUtils.renderIntoDocument(<WindowCanvas
+				width={window.innerWidth}
+				height={window.innerHeight}
+				cmdPressed={true}
+				scene={{sketches: [{strokes: [] }] }}
+			></WindowCanvas>)
 			expect(windowCanvas.refs.window.style.getPropertyValue('pointer-events')).to.equal('none')
-			windowCanvas.handleKeyUp({});
-			expect(windowCanvas.refs.window.style.getPropertyValue('pointer-events')).to.equal('auto')
 		})
-
-		it('is not handeled after dismount', () => {
-			let windowCanvas = renderCanvasWithStrokes([]);
-			let wasKeyDownHandlerRemoved = false;
-			let wasKeyUpHandlerRemoved = false;
-			document.body.removeEventListener = (listener) => {
-				wasKeyDownHandlerRemoved = wasKeyDownHandlerRemoved || listener === 'keydown';
-				wasKeyUpHandlerRemoved = wasKeyUpHandlerRemoved || listener === 'keyup';
-			}
-			windowCanvas.componentWillUnmount();
-			expect(wasKeyDownHandlerRemoved).to.be.true;
-			expect(wasKeyUpHandlerRemoved).to.be.true;
+		
+		it('releasing enables events on window', () => {
+			let windowCanvas = TestUtils.renderIntoDocument(<WindowCanvas
+				width={window.innerWidth}
+				height={window.innerHeight}
+				cmdPressed={false}
+				scene={{sketches: [{strokes: [] }] }}
+			></WindowCanvas>)
+			expect(windowCanvas.refs.window.style.getPropertyValue('pointer-events')).to.equal('auto')
 		})
 	})
 

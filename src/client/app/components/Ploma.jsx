@@ -1,5 +1,4 @@
 import React, {Component, PropTypes} from 'react';
-import Toggle from 'react-toggle';
 
 'use strict'
 

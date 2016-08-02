@@ -9,12 +9,15 @@ let pointFromEvent = (evt) => {
 	}
 }
 
-export default class WindowCanvas extends Component {
+const WindowCanvas = class WindowCanvas extends Component {
 
 	static propTypes = {
 		onAppendPoint: PropTypes.func,
 		onCreateStroke: PropTypes.func,
-		onFinishStroke: PropTypes.func
+		onFinishStroke: PropTypes.func,
+		width: PropTypes.number.isRequired,
+		height: PropTypes.number.isRequired,
+		cmdPressed: PropTypes.bool.isRequired
 	};
 
 	static defaultProps = {
@@ -23,45 +26,11 @@ export default class WindowCanvas extends Component {
 		onFinishStroke: () => {}
 	}
 
-	handleResize(e) {
-		this.setState({
-			windowWidth: window.innerWidth,
-			windowHeight: window.innerHeight
-		})
-	}
-
-	handleKeyDown(e) {
-		this.setState({
-			cmdPressed: true
-		})
-	}
-
-	handleKeyUp(e) {
-		this.setState({
-			cmdPressed: false
-		})
-	}
-
 	constructor(props) {
 		super(props);
 		this.state = {
-			windowWidth: window.innerWidth,
-			windowHeight: window.innerHeight,
 			isDrawing: false
 		}
-		this.handleResize = this.handleResize.bind(this);
-	}
-
-	componentDidMount() {
-		window.addEventListener('resize', this.handleResize);
-		document.body.addEventListener('keydown', this.handleKeyDown.bind(this));
-		document.body.addEventListener('keyup', this.handleKeyUp.bind(this));
-	}
-
-	componentWillUnmount() {
-		window.removeEventListener('resize', this.handleResize);
-		document.body.removeEventListener('keydown', this.handleKeyDown.bind(this));
-		document.body.removeEventListener('keyup', this.handleKeyUp.bind(this));
 	}
 
 	onMouseDown(evt) {
@@ -90,10 +59,10 @@ export default class WindowCanvas extends Component {
 			position: 'absolute',
 			top: 0,
 			left: 0,
-			width: this.state.windowWidth,
-			height: this.state.windowHeight
+			width: this.props.width,
+			height: this.props.height
 		}
-		style.pointerEvents = this.state.cmdPressed ? 'none' : 'auto';
+		style.pointerEvents = this.props.cmdPressed ? 'none' : 'auto';
 		return style;
 	}
 
@@ -110,3 +79,5 @@ export default class WindowCanvas extends Component {
 	}
 
 }
+
+export default WindowCanvas;
