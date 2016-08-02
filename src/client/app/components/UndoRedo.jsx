@@ -8,8 +8,7 @@ let runningPlomaTimeout;
 export default class UndoRedo extends Component {
 
 	static propTypes = {
-		jumpToPast: PropTypes.func,
-		jumpToFuture: PropTypes.func,
+		jumpTo: PropTypes.func,
 		togglePloma: PropTypes.func,
 		max: PropTypes.number,
 		value: PropTypes.number,
@@ -19,8 +18,7 @@ export default class UndoRedo extends Component {
 	};
 
 	static defaultProps = {
-		jumpToPast: () => {},
-		jumpToFuture: () => {},
+		jumpTo: () => {},
 		togglePloma: () => {},
 		max: 0,
 		value: 0,
@@ -33,11 +31,7 @@ export default class UndoRedo extends Component {
 		let shouldDisablePlomaTemporarily = runningPlomaTimeout || this.props.usePloma;
 		shouldDisablePlomaTemporarily && this.props.usePloma && this.props.togglePloma(false);
 		let oldValue = this.props.value;
-		if (newValue < oldValue) {
-			this.props.jumpToPast(newValue);
-		} else if (newValue > oldValue) {
-			this.props.jumpToFuture(newValue - oldValue);
-		}
+		this.props.jumpTo(newValue);
 		if (shouldDisablePlomaTemporarily) {
 			clearTimeout(runningPlomaTimeout);
 			runningPlomaTimeout = setTimeout(() => {

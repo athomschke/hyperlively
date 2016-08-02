@@ -32,7 +32,7 @@ describe('UndoRedo', () => {
 			let undoRedo = TestUtils.renderIntoDocument(<UndoRedo
 				max={10}
 				value={5}
-				jumpToPast={(value) => { argument = value }}
+				jumpTo={(value) => { argument = value }}
 			></UndoRedo>)
 			undoRedo.refs.slider.props.onChange(4);
 			expect(argument).to.equal(4);
@@ -43,10 +43,10 @@ describe('UndoRedo', () => {
 			let undoRedo = TestUtils.renderIntoDocument(<UndoRedo
 				max={10}
 				value={4}
-				jumpToFuture={(value) => { argument = value }}
+				jumpTo={(value) => { argument = value }}
 			></UndoRedo>)
 			undoRedo.refs.slider.props.onChange(5);
-			expect(argument).to.equal(1);
+			expect(argument).to.equal(5);
 		})
 
 		it('sets to final state when clicking end of slider', () => {
@@ -54,10 +54,10 @@ describe('UndoRedo', () => {
 			let undoRedo = TestUtils.renderIntoDocument(<UndoRedo
 				max={10}
 				value={9}
-				jumpToFuture={(value) => { argument = value }}
+				jumpTo={(value) => { argument = value }}
 			></UndoRedo>)
 			undoRedo.refs.slider.props.onChange(10);
-			expect(argument).to.equal(1);
+			expect(argument).to.equal(10);
 		})
 
 		it('Does nothing on undo when initialized without an undo callback', () => {

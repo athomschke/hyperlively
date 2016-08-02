@@ -1,4 +1,4 @@
-import { jumpToPast, jumpToFuture } from 'actions/timetravel';
+import { jumpTo } from 'actions/timetravel';
 import { connect } from 'react-redux';
 import React from 'react';
 import UndoRedo from 'components/UndoRedo'
@@ -14,8 +14,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    jumpToFuture: (futureValue) => dispatch(jumpToFuture(futureValue)),
-    jumpToPast: (pastValue) => dispatch(jumpToPast(pastValue)),
+    jumpTo: (value) => dispatch(jumpTo(value)),
     togglePloma: (bool) => dispatch(togglePloma(bool))
   }
 }

@@ -1,5 +1,5 @@
 import undoable from 'reducers/undoable'
-import { jumpToFuture, jumpToPast } from 'actions/timetravel'
+import { jumpTo } from 'actions/timetravel'
 import * as types from 'constants/actionTypes'
 
 let emptyState = {
@@ -61,27 +61,27 @@ describe('undoable', () => {
 	describe('undoing', () => {
 
 		it('does nothing if history is empty', () => {
-			let actualState = undoable((state = '') => state)(emptyState, jumpToPast(3))
+			let actualState = undoable((state = '') => state)(emptyState, jumpTo(3))
 			expect(actualState).to.deep.equal(emptyState);
 		})
 
 		it('goes back to start when jumping back further than start', () => {
-			let actualState = undoable((state = '') => state)(dummyEndState, jumpToPast(-1))
+			let actualState = undoable((state = '') => state)(dummyEndState, jumpTo(-1))
 			expect(actualState).to.deep.equal(dummyStartState);
 		})
 
 		it('can go back to first state in history', () => {
-			let actualState = undoable((state = '') => state)(dummyEndState, jumpToPast(0))
+			let actualState = undoable((state = '') => state)(dummyEndState, jumpTo(0))
 			expect(actualState).to.deep.equal(dummyStartState);
 		})
 
 		it('can go back to some state in history', () => {
-			let actualState = undoable((state = '') => state)(dummyEndState, jumpToPast(3))
+			let actualState = undoable((state = '') => state)(dummyEndState, jumpTo(3))
 			expect(actualState).to.deep.equal(dummyThreeState);
 		})
 
 		it('can go back to second to last state', () => {
-			let actualState = undoable((state = '') => state)(dummyEndState, jumpToPast(6))
+			let actualState = undoable((state = '') => state)(dummyEndState, jumpTo(6))
 			expect(actualState).to.deep.equal(dummySixState);
 		})
 	})
@@ -89,27 +89,27 @@ describe('undoable', () => {
 	describe('redoing', () => {
 
 		it('does nothing if future is empty', () => {
-			let actualState = undoable((state = '') => state)(emptyState, jumpToFuture(3))
+			let actualState = undoable((state = '') => state)(emptyState, jumpTo(3))
 			expect(actualState).to.deep.equal(emptyState);
 		})
 
 		it('goes forward to end when jumping further than end', () => {
-			let actualState = undoable((state = '') => state)(dummyStartState, jumpToFuture(10))
+			let actualState = undoable((state = '') => state)(dummyStartState, jumpTo(10))
 			expect(actualState).to.deep.equal(dummyEndState);
 		})
 
 		it('can go forward to last state in future', () => {
-			let actualState = undoable((state = '') => state)(dummyStartState, jumpToFuture(7))
+			let actualState = undoable((state = '') => state)(dummyStartState, jumpTo(7))
 			expect(actualState).to.deep.equal(dummyEndState);
 		})
 
 		it('can go forward to some state in future', () => {
-			let actualState = undoable((state = '') => state)(dummyStartState, jumpToFuture(3))
+			let actualState = undoable((state = '') => state)(dummyStartState, jumpTo(3))
 			expect(actualState).to.deep.equal(dummyThreeState);
 		})
 
 		it('can go forward one step to the future', () => {
-			let actualState = undoable((state = '') => state)(dummyThreeState, jumpToFuture(1))
+			let actualState = undoable((state = '') => state)(dummyThreeState, jumpTo(4))
 			expect(actualState).to.deep.equal(dummyFourState);
 		})
 	})
