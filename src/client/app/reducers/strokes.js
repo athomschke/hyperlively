@@ -1,27 +1,15 @@
 import points from 'reducers/points';
-import * as actionTypes from 'constants/actionTypes';
-import { without, last, concat, filter } from 'lodash';
+import { APPEND_POINT, CREATE_STROKE, FINISH_STROKE } from 'constants/actionTypes';
+import { last, initial } from 'lodash';
 import { appendPoint } from '../actions/drawing'
 
-let appendPointTo = (state, action) => {
-	if (state.length > 1) {
-		let head = without(state, last(state));
-		let tail = {
-			points: points(last(state).points, appendPoint(action.point))
-		}
-		return head.concat([tail])
-	} else if (state.length > 0) {
-		return [{
-			points: points(last(state).points, appendPoint(action.point))
-		}]
-	} else {
-		return [{
-			points: points([], appendPoint(action.point))
-		}];
-	}
+const appendPointTo = (state, action) => {
+	return [...initial(state), {
+		points: points(state.length > 0 ? last(state).points : [], appendPoint(action.point))
+	}]
 }
 
-let appendStrokeTo = (state, action) => {
+const appendStrokeTo = (state, action) => {
 	return [...state, {
 		points: points([], appendPoint(action.point))
 	}]
@@ -29,14 +17,14 @@ let appendStrokeTo = (state, action) => {
 
 const strokes = (state = [], action) => {
 	switch(action.type) {
-		case actionTypes.APPEND_POINT:
+		case APPEND_POINT:
 			return appendPointTo(state, action)
-		case actionTypes.CREATE_STROKE:
+		case CREATE_STROKE:
 			return appendStrokeTo(state, action)
-		case actionTypes.FINISH_STROKE:
-			state = appendPointTo(state, action);
-			last(state).finished = true;
-			return state
+		case FINISH_STROKE:
+			let nextState = appendPointTo(state, action);
+			last(nextState).finished = true;
+			return nextState;
 		default:
 			return state;
 	}
