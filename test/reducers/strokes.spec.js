@@ -1,7 +1,7 @@
 import strokes from 'reducers/strokes'
 import { appendPoint, createStroke, finishStroke } from 'actions/drawing'
 import * as types from 'constants/actionTypes'
-import { point } from '../helpers'
+import { point, event } from '../helpers'
 
 describe('strokes', () => {
 	
@@ -20,10 +20,11 @@ describe('strokes', () => {
 	describe('creating a stroke', () => {
 
 		it('adds the first stroke containing a single point', () => {
-			let newPoint = point(10,10);
+			let pointAddEvent = event(10, 10, 100)
+			let newPoint = point(10, 10, 100);
 			let result = strokes(
 				[],
-				createStroke(newPoint)
+				createStroke(pointAddEvent)
 			);
 			expect(result).to.have.length(1);
 			expect(result[0].points).to.have.length(1);
@@ -31,12 +32,13 @@ describe('strokes', () => {
 		})
 
 		it('adds a stroke to an array of strokes', () => {
-			let newPoint = point(10,10);
+			let pointAddEvent = event(10, 10, 100)
+			let newPoint = point(10, 10, 100);
 			let result = strokes(
 				[{
 					points: [point(10,10), point(10,11), point(10,12)]
 				}],
-				createStroke(newPoint)
+				createStroke(pointAddEvent)
 			);
 			expect(result).to.have.length(2);
 			expect(result[1].points).to.have.length(1);
@@ -48,10 +50,11 @@ describe('strokes', () => {
 	describe('appending a point', () => {
 
 		it('creates a stroke containing it if none exists yet', () => {
-			let newPoint = point(10,10);
+			let pointAddEvent = event(10, 10, 100)
+			let newPoint = point(10, 10, 100);
 			let result = strokes(
 				[],
-				appendPoint(newPoint)
+				appendPoint(pointAddEvent)
 			);
 			expect(result).to.have.length(1);
 			expect(result[0].points).to.have.length(1);
@@ -59,10 +62,11 @@ describe('strokes', () => {
 		})
 
 		it('appends a point to the only stroke', () => {
-			let newPoint = point(10,11);
+			let pointAddEvent = event(10, 11, 100)
+			let newPoint = point(10, 11, 100);
 			let result = strokes(
 				[{ points: [ point(10,10) ] }],
-				appendPoint(newPoint)
+				appendPoint(pointAddEvent)
 			)
 			expect(result).to.have.length(1);
 			expect(result[0].points).to.have.length(2);
@@ -70,10 +74,11 @@ describe('strokes', () => {
 		})
 
 		it('does not increase the number of strokes if multiple exist already', () => {
-			let newPoint = point(10,11);
+			let pointAddEvent = event(10, 11, 100)
+			let newPoint = point(10, 11, 100);
 			let result = strokes(
 				[{ points: [] }, { points: [] }],
-				appendPoint(newPoint)
+				appendPoint(pointAddEvent)
 			)
 			expect(result).to.have.length(2);
 			expect(result[1].points).to.have.length(1);
@@ -85,10 +90,11 @@ describe('strokes', () => {
 	describe('finishing a stroke', () => {
 
 		it('appends a point to the last stroke', () => {
-			let newPoint = point(10,11);
+			let pointAddEvent = event(10, 11, 100)
+			let newPoint = point(10, 11, 100);
 			let result = strokes(
 				[{ points: [] }, { points: [] }],
-				finishStroke(newPoint)
+				finishStroke(pointAddEvent)
 			)
 			expect(result).to.have.length(2);
 			expect(result[1].points).to.have.length(1);

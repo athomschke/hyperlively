@@ -3,40 +3,40 @@ import * as types from 'constants/actionTypes';
 
 describe('actions', () => {
 
-  it('should create an action to add a point', () => {
-    const point = {
+  it('should create an action to add a point from an event', () => {
+    const event = {
     	x: 10,
     	y: 10
     }
     const expectedAction = {
       type: types.APPEND_POINT,
-      point
+      event
     }
-    expect(actions.appendPoint(point)).to.deep.equal(expectedAction)
+    expect(actions.appendPoint(event)).to.deep.equal(expectedAction)
   })
 
-  it('should create an action to create a stroke', () => {
-    const point = {
+  it('should create an action to create a stroke from an event', () => {
+    const event = {
       x: 10,
       y: 10
     }
     const expectedAction = {
       type: types.CREATE_STROKE,
-      point
+      event
     }
-    expect(actions.createStroke(point)).to.deep.equal(expectedAction)
+    expect(actions.createStroke(event)).to.deep.equal(expectedAction)
   })
 
-  it('should create an action to finish a stroke', () => {
-    const point = {
+  it('should create an action to finish a stroke from an event', () => {
+    const event = {
     	x: 10,
     	y: 10
     }
     const expectedAction = {
       type: types.FINISH_STROKE,
-      point
+      event
     }
-    expect(actions.finishStroke(point)).to.deep.equal(expectedAction)
+    expect(actions.finishStroke(event)).to.deep.equal(expectedAction)
   })
 
 })

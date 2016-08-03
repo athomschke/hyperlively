@@ -1,31 +1,32 @@
-import React from 'react'
+import React, {Component} from 'react'
 import { connect } from 'react-redux';
-import WindowCanvas from 'components/WindowCanvas';
+import { appendPoint, createStroke, finishStroke } from 'actions/drawing';
 import Fullscreen from 'components/smart/Fullscreen';
 import ModifierKey from 'components/smart/ModifierKey';
-import { appendPoint, createStroke, finishStroke } from 'actions/drawing';
+import DragHandler from 'components/smart/DragHandler';
+import Window from 'components/dumb/Window';
 
 const mapStateToProps = (state) => {
-  return state
+  return {}
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onAppendPoint: (point) => {
-      dispatch(appendPoint(point))
+    onDrag: (event) => {
+      dispatch(appendPoint(event))
     },
-    onCreateStroke: (point) => {
-      dispatch(createStroke(point))
+    onDragStart: (event) => {
+      dispatch(createStroke(event))
     },
-    onFinishStroke: (point) => {
-      dispatch(finishStroke(point))
+    onDragEnd: (event) => {
+      dispatch(finishStroke(event))
     }
   }
 }
 
-let Window = connect(
+let WindowContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(WindowCanvas)
+)(ModifierKey(Fullscreen(DragHandler(Window))))
 
-export default ModifierKey(Fullscreen(Window));
+export default WindowContainer

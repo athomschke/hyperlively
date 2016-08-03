@@ -1,7 +1,7 @@
 import points from 'reducers/points'
 import { appendPoint } from 'actions/drawing'
 import * as types from 'constants/actionTypes'
-import { point } from '../helpers'
+import { point, event } from '../helpers'
 
 describe('points', () => {
 	it('handles initial state', () => {
@@ -16,11 +16,12 @@ describe('points', () => {
 	})
 
 	it('appends first point', () => {
-		let newPoint = point(10,10)
+		let pointAddEvent = event(10, 10, 100);
+		let newPoint = point(10, 10, 100);
 		expect(
 			points(
 				[],
-				appendPoint(newPoint)
+				appendPoint(pointAddEvent)
 			)
 		).to.deep.equal(
 			[newPoint]
@@ -29,11 +30,12 @@ describe('points', () => {
 
 	it('appends second point', () => {
 		let existingPoint = point(10,10);
-		let newPoint = point(10,11)
+		let pointAddEvent = event(10,11);
+		let newPoint = point(10, 11, event.timeStamp);
 		expect(
 			points(
 				[existingPoint],
-				appendPoint(newPoint)
+				appendPoint(pointAddEvent)
 			)
 		).to.deep.equal(
 			[existingPoint, newPoint]

@@ -5,13 +5,13 @@ import { appendPoint } from '../actions/drawing'
 
 const appendPointTo = (state, action) => {
 	return [...initial(state), {
-		points: points(state.length > 0 ? last(state).points : [], appendPoint(action.point))
+		points: points(state.length > 0 ? last(state).points : [], appendPoint(action.event))
 	}]
 }
 
 const appendStrokeTo = (state, action) => {
 	return [...state, {
-		points: points([], appendPoint(action.point))
+		points: points([], appendPoint(action.event))
 	}]
 }
 
