@@ -113,7 +113,7 @@ describe('Drag handler', () => {
 			expect(dragHandler.state.mousePressed).to.be.false;
 		})
 
-		it('calls the onDragEnd callback', () => {
+		it('calls the onDragEnd callback if mouse was pressed', () => {
 			let dragEndCalled = false;
 			let dragHandler = renderComponentWithCallbacks({
 				onDragEnd: () => { dragEndCalled = true }
@@ -122,6 +122,15 @@ describe('Drag handler', () => {
 			simulateMouseEventAtOn('mouseMove', 10, 11, dragHandler.refs.node);
 			simulateMouseEventAtOn('mouseUp', 10, 12, dragHandler.refs.node);
 			expect(dragEndCalled).to.be.true;
+		})
+
+		it('does not call the onDragEnd callback if mouse was not pressed', () => {
+			let dragEndCalled = false;
+			let dragHandler = renderComponentWithCallbacks({
+				onDragEnd: () => { dragEndCalled = true }
+			});
+			simulateMouseEventAtOn('mouseUp', 10, 12, dragHandler.refs.node);
+			expect(dragEndCalled).to.be.false;
 		})
 
 	})
