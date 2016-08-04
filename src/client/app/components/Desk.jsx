@@ -1,8 +1,11 @@
 import React, {Component, PropTypes} from 'react';
 import Canvas from 'components/Canvas';
+import SketchTransformer from 'components/smart/SketchTransformer';
 import { OFFSET } from 'constants/canvas';
 import { map, last, forEach } from 'lodash';
 
+let TransformedCanvas = SketchTransformer(Canvas)
+		
 let transform = (x, y, width, height, offsetX, offsetY) => {
 	return {
 		x: x,
@@ -49,13 +52,12 @@ export default class Desk extends Component {
 	}
 
 	renderCanvas(strokes, id, finished) {
-		let transform = this.getCanvasTransform(strokes, finished);
-		return <Canvas {...this.props} ref={'canvas-'+id}
-			bounds = {transform}
-			key = {id}
-			strokes = {strokes}
-			active = {finished}
-		></Canvas>
+		return <TransformedCanvas {...this.props}
+			strokes={strokes}
+			finished={finished}
+			offset={OFFSET}
+			key={id}
+		/>
 	}
 
 	renderSketchedCanvasses(dynamicallyCombinedSketches) {

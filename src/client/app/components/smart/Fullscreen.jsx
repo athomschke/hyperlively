@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-const Fullscreen = (Wrapped) => class extends React.Component {
+const Fullscreen = (Wrapped) => class extends Component {
 
 	constructor(props) {
 		super(props);
