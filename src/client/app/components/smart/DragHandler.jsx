@@ -25,6 +25,7 @@ const DragHandler = (Wrapped) => class extends React.Component {
 	}
 
 	onMouseDown(evt) {
+		evt.persist();
 		this.setState({
 			mousePressed: true
 		}, this.props.onDragStart.bind(this, evt))
