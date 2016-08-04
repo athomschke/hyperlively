@@ -1,9 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import Canvas from 'components/Canvas';
 import { OFFSET } from 'constants/canvas';
-import { DEFAULT_THRESHOLD } from 'constants/drawing';
-import { map, last } from 'lodash';
-import sketches from 'components/smart/sketches'
+import { map, last, forEach } from 'lodash';
 
 let transform = (x, y, width, height, offsetX, offsetY) => {
 	return {
@@ -17,19 +15,11 @@ let transform = (x, y, width, height, offsetX, offsetY) => {
 export default class Desk extends Component {
 
 	static propTypes = {
-		scene: PropTypes.object,
-		threshold: PropTypes.number
+		sketches: PropTypes.array
 	};
 
 	static defaultProps = {
-		scene: {
-			strokes: []
-		},
-		threshold: DEFAULT_THRESHOLD
-	}
-
-	constructor(props) {
-		super(props);
+		sketches: []
 	}
 
 	getContentTransform(strokes) {
@@ -37,8 +27,8 @@ export default class Desk extends Component {
 		let top = Infinity;
 		let right = -Infinity;
 		let bottom = -Infinity;
-		strokes.forEach((stroke) => {
-			stroke.points.forEach((point) => {
+		forEach(strokes, (stroke) => {
+			forEach(stroke.points, (point) => {
 				left = Math.min(left, point.x)
 				top = Math.min(top, point.y)
 				right = Math.max(right, point.x)
@@ -75,18 +65,14 @@ export default class Desk extends Component {
 		})
 	}
 
-	getSketch(dynamicallyCombinedSketches) {
-		return last(dynamicallyCombinedSketches)
-	}
-
 	renderPlaceholderCanvas(dynamicallyCombinedSketches) {
-		let sketch = this.getSketch(dynamicallyCombinedSketches);
+		let sketch = last(dynamicallyCombinedSketches);
 		return (!sketch || sketch.finished) &&
 			this.renderCanvas([], dynamicallyCombinedSketches.length, false);
 	}
 
 	render() {
-		let dynamicallyCombinedSketches = sketches(this.props.scene.strokes, this.props.threshold);
+		let dynamicallyCombinedSketches = this.props.sketches;
 		return (<div>
 			{this.renderSketchedCanvasses(dynamicallyCombinedSketches).concat(this.renderPlaceholderCanvas(dynamicallyCombinedSketches))}
 		</div>)

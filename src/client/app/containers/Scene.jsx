@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import Desk from 'components/Desk';
+import SketchCombiner from 'components/smart/SketchCombiner';
 import { last, cloneDeep } from 'lodash';
 import { appendPoint, createStroke, finishStroke } from 'actions/drawing';
 
@@ -10,13 +11,8 @@ const mapStateToProps = (state) => {
   return returnState;
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {}
-}
-
 const Scene = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Desk)
+  mapStateToProps
+)(SketchCombiner(Desk))
 
 export default Scene;

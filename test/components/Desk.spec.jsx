@@ -19,12 +19,12 @@ describe('Desk', () => {
 
 	it('Sets the sketch canvas size to its content plus offset once their sketch is finished', () => {
 		let desk = TestUtils.renderIntoDocument(<Desk
-			scene={{
+			sketches={[{
 				strokes: [{
 					points: [point(7,10), point(7,15), point(15,15), point(15,10)],
 					finished: true
 				}]
-			}}
+			}]}
 		></Desk>)
 		expect(desk.refs['canvas-0'].props.bounds.width).to.equal(18);
 		expect(desk.refs['canvas-0'].props.bounds.height).to.equal(15);
@@ -32,12 +32,12 @@ describe('Desk', () => {
 
 	it('Moves the sketch canvas its position', () => {
 		let desk = TestUtils.renderIntoDocument(<Desk
-			scene={{
+			sketches={[{
 				strokes: [{
 					points: [point(7,10), point(7,15), point(15,15), point(15,10)],
 					finished: true,
 				}]
-			}}
+			}]}
 		></Desk>)
 		expect(desk.refs['canvas-0'].props.bounds.x).to.equal(2);
 		expect(desk.refs['canvas-0'].props.bounds.y).to.equal(5);
@@ -45,15 +45,16 @@ describe('Desk', () => {
 
 	it('Does not capture events on the placeholder canvas', () => {
 		let desk = TestUtils.renderIntoDocument(<Desk
-			scene={{
+			sketches={[{
 				strokes: [{
 					points: [point(7,10), point(7,15), point(15,15), point(15,10)],
 					finished: true
-				}]
-			}}
+				}],
+				finished: true
+			}]}
 		></Desk>)
-		expect(desk.refs['canvas-1'].refs.canvas.style.getPropertyValue('pointer-events')).to.equal('none');
 		expect(desk.refs['canvas-0'].refs.canvas.style.getPropertyValue('pointer-events')).to.equal('auto');
+		expect(desk.refs['canvas-1'].refs.canvas.style.getPropertyValue('pointer-events')).to.equal('none');
 	})
 
 })
