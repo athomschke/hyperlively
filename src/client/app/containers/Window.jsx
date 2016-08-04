@@ -6,10 +6,6 @@ import ModifierKey from 'components/smart/ModifierKey';
 import DragHandler from 'components/smart/DragHandler';
 import Window from 'components/dumb/Window';
 
-const mapStateToProps = (state) => {
-  return {}
-}
-
 const mapDispatchToProps = (dispatch) => {
   return {
     onDrag: (event) => {
@@ -25,7 +21,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 let WindowContainer = connect(
-  mapStateToProps,
+  state => state,
   mapDispatchToProps
 )(ModifierKey(Fullscreen(DragHandler(Window))))
 

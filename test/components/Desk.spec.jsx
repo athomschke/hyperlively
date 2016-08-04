@@ -18,34 +18,6 @@ describe('Desk', () => {
 		expect(node).to.exist
 	})
 
-	it('Sets the sketch canvas size to its content plus offset once their sketch is finished', () => {
-		let desk = TestUtils.renderIntoDocument(<Desk
-			sketches={[{
-				strokes: [{
-					points: [point(7,10), point(7,15), point(15,15), point(15,10)],
-					finished: true
-				}]
-			}]}
-		></Desk>)
-		let components = TestUtils.scryRenderedComponentsWithType(desk, Canvas);
-		expect(components[0].props.bounds.width).to.equal(18)
-		expect(components[0].props.bounds.height).to.equal(15)
-	})
-
-	it('Moves the sketch canvas its position', () => {
-		let desk = TestUtils.renderIntoDocument(<Desk
-			sketches={[{
-				strokes: [{
-					points: [point(7,10), point(7,15), point(15,15), point(15,10)],
-					finished: true,
-				}]
-			}]}
-		></Desk>)
-		let components = TestUtils.scryRenderedComponentsWithType(desk, Canvas);
-		expect(components[0].props.bounds.x).to.equal(2);
-		expect(components[0].props.bounds.y).to.equal(5);
-	})
-
 	it('Does not capture events on the placeholder canvas', () => {
 		let desk = TestUtils.renderIntoDocument(<Desk
 			sketches={[{

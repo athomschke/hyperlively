@@ -1,14 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { map, last, forEach } from 'lodash';
-
-let transform = (x, y, width, height, offsetX, offsetY) => {
-	return {
-		x: x,
-		y: y,
-		width: width,
-		height: height
-	}
-}
+import { map, last, forEach, find, reduce } from 'lodash';
 
 const SketchTransformer = (Wrapped) => class extends Component {
 	
@@ -19,42 +10,61 @@ const SketchTransformer = (Wrapped) => class extends Component {
 	};
 
 	static defaultProps = {
-		onDragStart: [],
+		strokes: [],
 		finished: false,
 		offset: 0
 	}
 
+	joinBounds(bounds1, bounds2) {
+		return {
+			left: Math.min(bounds1.left, bounds2.left),
+			top: Math.min(bounds1.top, bounds2.top),
+			right: Math.max(bounds1.right, bounds2.right),
+			bottom: Math.max(bounds1.bottom, bounds2.bottom)
+		}		
+	}
+
+	extendBoundsToPoint(bounds, point) {
+		return {
+			left: Math.min(bounds.left, point.x),
+			top: Math.min(bounds.top, point.y),
+			right: Math.max(bounds.right, point.x),
+			bottom: Math.max(bounds.bottom, point.y)
+		}		
+	}
+
+	getBoundsForLimits(limits) {
+		return {
+			x: limits.left - this.props.offset,
+			y: limits.top - this.props.offset,
+			width: (limits.right-limits.left) + (2*this.props.offset),
+			height: (limits.bottom-limits.top) + (2*this.props.offset)
+		}
+	}
+
+	getLimitsForStrokes(strokes) {
+		if (strokes.length && find(strokes, (stroke) => {return stroke.points.length > 0})) {
+			return reduce(strokes, (bounds, stroke) => {
+				return this.joinBounds(bounds, reduce(stroke.points, this.extendBoundsToPoint, bounds))
+			}, { left: Infinity, top: Infinity, right: -Infinity, bottom: -Infinity })
+		} else {
+			return { left: 0, top: 0, right: 0, bottom: 0 }
+		}
+	}
+
 	getContentTransform(strokes) {
-		let left = Infinity;
-		let top = Infinity;
-		let right = -Infinity;
-		let bottom = -Infinity;
-		forEach(strokes, (stroke) => {
-			forEach(stroke.points, (point) => {
-				left = Math.min(left, point.x)
-				top = Math.min(top, point.y)
-				right = Math.max(right, point.x)
-				bottom = Math.max(bottom, point.y)
-			})
-		})
-		let x = left === Infinity ? 0 : left;
-		let y = top === Infinity ? 0 : top;
-		let width = right === -Infinity ? 0 : right - x;
-		let height = bottom === -Infinity ? 0 : bottom - y;
-		return transform(x - this.props.offset, y - this.props.offset, width + (2*this.props.offset), height + (2*this.props.offset));
+		return this.getBoundsForLimits(this.getLimitsForStrokes(strokes));
 	}
 
 	getCanvasTransform(strokes, finished) {
 		return finished ?
 			this.getContentTransform(strokes) :
-			transform(0, 0, window.innerWidth, window.innerHeight);
+			{ x: 0, y: 0, width: window.innerWidth, height: window.innerHeight };
 	}
 
 	render() {
-		let transform = this.getCanvasTransform(this.props.strokes, this.props.finished);
 		return (<Wrapped {...this.props}
-			bounds = {transform}
-			active = {this.props.finished}
+			bounds = {this.getCanvasTransform(this.props.strokes, this.props.finished)}
 		></Wrapped>)
 	}
 

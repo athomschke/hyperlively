@@ -10,8 +10,7 @@ let strokeFollowedSuit = (collectedSketches, stroke, threshold) => {
 		first(stroke.points).timestamp - last(last(last(collectedSketches).strokes).points).timestamp < threshold
 }
 
-let sketches = (strokes = [], optThreshold = 1) => {
-	let threshold = Math.max(optThreshold, 1);
+let sketches = (strokes, threshold) => {
 	return reduce(strokes, (collectedSketches, stroke) => {
 		if (strokeFollowedSuit(collectedSketches, stroke, threshold)) {
 			last(collectedSketches).strokes.push(stroke);
@@ -41,7 +40,7 @@ const SketchCombiner = (Wrapped) => class extends Component {
 	}
 
 	render() {
-		let strokes = (this.props.scene && this.props.scene.strokes) || [];
+		let strokes = this.props.scene.strokes;
 		return (<Wrapped {...this.props}
 			sketches={sketches(strokes, this.props.threshold)}
 		></Wrapped>)

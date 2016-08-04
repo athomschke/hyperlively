@@ -29,9 +29,9 @@ describe('points', () => {
 	})
 
 	it('appends second point', () => {
-		let existingPoint = point(10,10);
-		let pointAddEvent = event(10,11);
-		let newPoint = point(10, 11, event.timeStamp);
+		let existingPoint = point(10,10, 100);
+		let pointAddEvent = event(10,11, 100);
+		let newPoint = point(10, 11, pointAddEvent.timeStamp);
 		expect(
 			points(
 				[existingPoint],

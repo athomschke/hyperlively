@@ -25,18 +25,7 @@ describe('UndoRedo', () => {
 		
 	})
 
-	describe('moving the slider handle', () => {
-
-		it('sets value to 4 when undoing on 5', () => {
-			let argument;
-			let undoRedo = TestUtils.renderIntoDocument(<UndoRedo
-				max={10}
-				value={5}
-				jumpTo={(value) => { argument = value }}
-			></UndoRedo>)
-			undoRedo.refs.slider.props.onChange(4);
-			expect(argument).to.equal(4);
-		})
+	describe('moving the slider handle right', () => {
 
 		it('goes 1 into the future when redoing on 4', () => {
 			let argument;
@@ -60,16 +49,84 @@ describe('UndoRedo', () => {
 			expect(argument).to.equal(10);
 		})
 
-		it('Does nothing on undo when initialized without an undo callback', () => {
+		it('Does nothing on redo when initialized without a redo callback', () => {
+			let undoRedo = renderComponentWithValueAndMax(9, 10);
+			undoRedo.onSliderMove(10);
+			expect(undoRedo.props.value).to.equal(9)
+		})
+		
+	})
+
+	describe('moving the slider handle left', () => {
+
+		it('can set value from 5 to 4 in plain mode', () => {
+			let argument;
+			let undoRedo = TestUtils.renderIntoDocument(<UndoRedo
+				max={10}
+				value={5}
+				jumpTo={(value) => { argument = value }}
+			></UndoRedo>)
+			undoRedo.refs.slider.props.onChange(4);
+			expect(argument).to.equal(4);
+		})
+
+		it('can set value from 5 to 4 in Ploma mode', () => {
+			let argument;
+			let undoRedo = TestUtils.renderIntoDocument(<UndoRedo
+				max={10}
+				value={5}
+				usePloma={true}
+				jumpTo={(value) => { argument = value }}
+			></UndoRedo>)
+			undoRedo.refs.slider.props.onChange(4);
+			expect(argument).to.equal(4);
+		})
+
+		it('temporarily disables ploma when callback given', () => {
+			let argument = true;
+			let undoRedo = TestUtils.renderIntoDocument(<UndoRedo
+				max={10}
+				value={9}
+				usePloma={true}
+				togglePloma={(value) => {argument = value}}
+			></UndoRedo>)
+			undoRedo.refs.slider.props.onChange(4);
+			expect(argument).to.equal(false);
+		})
+
+		it('to the left keeps plain mode', () => {
+			let argument = true;
+			let undoRedo = TestUtils.renderIntoDocument(<UndoRedo
+				max={10}
+				value={9}
+				usePloma={false}
+				togglePloma={() => {argument = false}}
+			></UndoRedo>)
+			undoRedo.refs.slider.props.onChange(4);
+			expect(argument).to.equal(true);
+		})
+
+		it('Does nothing when initialized without an undo callback', () => {
 			let undoRedo = renderComponentWithValueAndMax(9, 10);
 			undoRedo.onSliderMove(8);
 			expect(undoRedo.props.value).to.equal(9)
 		})
 
-		it('Does nothing on redo when initialized without a redo callback', () => {
-			let undoRedo = renderComponentWithValueAndMax(9, 10);
-			undoRedo.onSliderMove(10);
-			expect(undoRedo.props.value).to.equal(9)
+	})
+
+	describe('releasing the slider handle', () => {
+
+		it('restores ploma', () => {
+			let argument = true;
+			let undoRedo = TestUtils.renderIntoDocument(<UndoRedo
+				max={10}
+				value={9}
+				usePloma={true}
+				togglePloma={(value) => {argument = value}}
+			></UndoRedo>)
+			undoRedo.refs.slider.props.onChange(4);
+			undoRedo.refs.slider.props.afterChange();
+			expect(argument).to.equal(true);
 		})
 		
 	})

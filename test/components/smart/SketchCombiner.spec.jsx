@@ -179,24 +179,5 @@ describe('Sketch combiner', () => {
 		expect(sketches[1].finished).to.not.be.true
 	})
 
-	it('will use a minimum threshold of 1', () => {
-		let threshold = -1;
-		let addedPoint1 = point(10,10, 100);
-		let addedPoint2 = point(20,20, 100);
-		renderComponentWithProps({
-			scene: {
-				strokes: [{
-						points: [addedPoint1],
-						finished: true
-					}, {
-						points: [addedPoint2]
-					}]
-			},
-			threshold: threshold
-		})
-		expectTwoStrokesInOneSketch(sketches, addedPoint1, addedPoint2);
-		expect(sketches[0].strokes[1].points).to.have.length(1);
-		expect(sketches[0].strokes[1].points[0]).to.deep.equal(addedPoint2);
-	})
 
 })

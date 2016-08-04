@@ -27,6 +27,11 @@ export default class UndoRedo extends Component {
 		plomaTimeout: 1000
 	};
 
+	resetState() {
+		this.props.togglePloma(true);
+		runningPlomaTimeout = undefined;
+	}
+
 	onSliderMove(newValue) {
 		let shouldDisablePlomaTemporarily = runningPlomaTimeout || this.props.usePloma;
 		shouldDisablePlomaTemporarily && this.props.usePloma && this.props.togglePloma(false);
@@ -34,18 +39,14 @@ export default class UndoRedo extends Component {
 		this.props.jumpTo(newValue);
 		if (shouldDisablePlomaTemporarily) {
 			clearTimeout(runningPlomaTimeout);
-			runningPlomaTimeout = setTimeout(() => {
-				this.props.togglePloma(true);
-				runningPlomaTimeout = undefined;
-			}, this.props.plomaTimeout)
+			runningPlomaTimeout = setTimeout(this.resetState.bind(this), this.props.plomaTimeout)
 		}
 	}
 
 	onSliderStop() {
 		if (runningPlomaTimeout) {
 			clearTimeout(runningPlomaTimeout);
-			this.props.togglePloma(true);
-			runningPlomaTimeout = undefined;
+			this.resetState()
 		}
 	}
 
