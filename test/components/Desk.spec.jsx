@@ -1,6 +1,5 @@
 import React from 'react';
 import Desk from 'components/Desk';
-import Canvas from 'components/Canvas';
 import TestUtils from 'react-addons-test-utils';
 import { point } from '../helpers'
 

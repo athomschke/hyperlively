@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import { without, flatten, strokes, last, isEqual, cloneDeep, forEach, head, tail, map, reduce } from 'lodash';
 import { PRESSURE } from 'constants/drawing'
+import Canvas from 'components/dumb/Canvas'
 
 'use strict'
 
@@ -39,21 +40,19 @@ let copyContentFromToCanvasWithBounds = (tempCanvas, actualCanvas, bounds) => {
 	actualCanvas.getContext('2d').putImageData(imageData, 0, 0);
 }
 
-export default class Canvas extends Component {
+export default class StrokeDrawer extends Component {
 
 	static propTypes = {
 		strokes: PropTypes.array,
 		usePloma: PropTypes.bool,
 		uniqueCanvasFactor: PropTypes.number,
-		bounds: PropTypes.object.isRequired,
-		active:  PropTypes.bool
+		bounds: PropTypes.object.isRequired
 	};
 
 	static defaultProps = {
 		strokes: [],
 		uniqueCanvasFactor: 1,
-		usePloma: true,
-		active: true
+		usePloma: true
 	};
 
 	constructor(props) {
@@ -110,7 +109,9 @@ export default class Canvas extends Component {
 		} else {
 			this.extendStrokeAt(lastPointInStrokes(newStrokes), secondToLastPointInStrokes(newStrokes));
 		}
-		copyContentFromToCanvasWithBounds(this.state.tempCanvas, this.refs.canvas, this.props.bounds);
+		this.setState({
+			tempCanvas: this.state.tempCanvas
+		})
 	}
 
 	startStrokeAt(point) {
@@ -144,7 +145,7 @@ export default class Canvas extends Component {
 		if (this.props.usePloma) {
 			this.state.plomaInstance.clear();
 		} else {
-			clearCanvas(this.refs.canvas);
+			clearCanvas(this.refs.canvas.refs.node);
 			clearCanvas(this.state.tempCanvas);
 		}
 	}
@@ -167,20 +168,15 @@ export default class Canvas extends Component {
 				}
 			}
 		})
-		copyContentFromToCanvasWithBounds(this.state.tempCanvas, this.refs.canvas, this.props.bounds);
+		this.setState({
+			tempCanvas: this.state.tempCanvas
+		})
 	}
 
 	render() {
-		return <canvas 
-			ref="canvas"
-			width={this.props.bounds.width}
-			height={this.props.bounds.height}
-			style={{
-				position: 'absolute',
-				top: this.props.bounds.y,
-				left: this.props.bounds.x,
-				pointerEvents: this.props.active ? 'auto' : 'none'
-			}}
+		let currentImageData = this.state.tempCanvas.getContext('2d').getImageData(this.props.bounds.x, this.props.bounds.y, this.props.bounds.width, this.props.bounds.height);
+		return <Canvas ref="canvas" {...this.props}
+			imageData={currentImageData}
 		/>;
 	}
 }

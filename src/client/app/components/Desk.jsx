@@ -1,10 +1,10 @@
 import React, {Component, PropTypes} from 'react';
-import Canvas from 'components/Canvas';
+import StrokeDrawer from 'components/StrokeDrawer';
 import SketchTransformer from 'components/smart/SketchTransformer';
 import { OFFSET } from 'constants/canvas';
 import { map, last, forEach } from 'lodash';
 
-let TransformedCanvas = SketchTransformer(Canvas)
+let TransformedCanvas = SketchTransformer(StrokeDrawer)
 
 export default class Desk extends Component {
 
