@@ -1,26 +1,26 @@
-import Ploma from 'components/Ploma';
+import Ploma from 'components/dumb/Ploma';
 import TestUtils from 'react-addons-test-utils';
 import React from 'react';
 import { point } from '../helpers'
 
 describe('Ploma', () => {
 
-	it('toggling without a callback does nothing', () => {
+	it('toggling without a callback does not change the checked state', () => {
 		let ploma = TestUtils.renderIntoDocument(<Ploma></Ploma>);
-		expect(ploma.props.usePloma).to.be.true;
-		TestUtils.Simulate.click(ploma.refs.toggle);
-		expect(ploma.props.usePloma).to.be.true;
+		let previousValue = ploma.props.checked;
+		TestUtils.Simulate.click(TestUtils.findRenderedDOMComponentWithTag(ploma, 'input'));
+		expect(ploma.props.checked).to.equal(previousValue);
 	})
 
 	it('calls callback with true when not checked and clicked', () => {
 		let value = false;
 		let ploma = TestUtils.renderIntoDocument(<Ploma
-			usePloma={false}
-			onToggle={(bool) => {
+			checked={false}
+			onChange={(bool) => {
 				value=bool
 			}}
 		></Ploma>);
-		TestUtils.Simulate.click(ploma.refs.toggle);
+		TestUtils.Simulate.click(TestUtils.findRenderedDOMComponentWithTag(ploma, 'input'));
 		expect(value).to.be.true;
 	})
 })

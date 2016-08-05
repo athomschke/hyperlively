@@ -132,7 +132,7 @@ describe('Integration', () => {
 			let canvasWithIrregularStrokesWithPloma = require("json!./data/canvasWithIrregularStrokesWithPloma.json");
 			let renderedApp = renderApplication(canvasWithIrregularStrokesWithPloma.json);
 			let nonPlomaImageData = getCombinedCanvas().toDataURL();
-			let plomaButton = document.getElementById('toggle-ploma');
+			let plomaButton = document.getElementsByTagName('input')[0];
 			TestUtils.Simulate.click(plomaButton);
 			expect(hashCode(getCombinedCanvas().toDataURL())).to.not.equal(hashCode(nonPlomaImageData));
 		})

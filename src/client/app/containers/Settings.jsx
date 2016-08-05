@@ -1,17 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { togglePloma } from 'actions/configuring';
-import Ploma from 'components/Ploma'
+import Ploma from 'components/dumb/Ploma'
 
 const mapStateToProps = (state) => {
   return {
-    usePloma: state.ploma.usePloma
+    checked: state.ploma.usePloma
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onToggle: (bool) => {
+    onChange: (bool) => {
       dispatch(togglePloma(bool))
     }
   }
