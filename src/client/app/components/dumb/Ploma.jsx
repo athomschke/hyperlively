@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import Checkbox from 'components/smart/Checkbox'
+import Checkbox from 'components/smart/Checkbox';
 
 'use strict'
 
