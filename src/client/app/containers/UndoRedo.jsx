@@ -9,7 +9,7 @@ const mapStateToProps = (state) => {
   return {
     max: state.scenes.past.length + state.scenes.future.length,
     value: state.scenes.past.length,
-    usePloma: state.ploma.usePlomam,
+    callbackEnabled: state.ploma.usePloma,
     timeout: UNDO_TIMEOUT
   }
 }

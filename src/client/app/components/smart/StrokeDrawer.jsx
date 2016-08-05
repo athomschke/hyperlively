@@ -19,8 +19,9 @@ export default class StrokeDrawer extends Component {
 	};
 
 	render() {
-		let WrappedCanvas = this.props.usePloma ? PlomaCanvas : PlainCanvas;
-		return <WrappedCanvas ref="canvas" {...this.props} />
+		return this.props.usePloma ? 
+			<PlomaCanvas ref="canvas" {...this.props} /> :
+			<PlainCanvas ref="canvas" {...this.props} />
 	}
 
 }

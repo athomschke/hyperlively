@@ -5,11 +5,14 @@ import { Slider } from 'reactrangeslider';
 
 let runningTimeout;
 
+let disableFunction = null;
+
 export default class TemporaryCallbackSlider extends Component {
 
 	static propTypes = {
 		onChange: PropTypes.func,
 		temporaryCallback: PropTypes.func,
+		callbackEnabled: PropTypes.bool,
 		max: PropTypes.number,
 		value: PropTypes.number,
 		timeout: PropTypes.number
@@ -18,29 +21,36 @@ export default class TemporaryCallbackSlider extends Component {
 	static defaultProps = {
 		onChange: () => {},
 		temporaryCallback: () => {},
+		callbackEnabled: false,
 		max: 0,
 		value: 0,
 		timeout: 1000
 	};
 
-	resetState() {
-		this.props.temporaryCallback(true);
+	resetState(boundDisableFunction) {
+		boundDisableFunction(true);
 		runningTimeout = undefined;
+		disableFunction = null;
 	}
 
 	onSliderMove(newValue) {
-		this.props.temporaryCallback(false);
-		this.props.onChange(Math.min(this.props.max, Math.max(0, newValue)));
+		if (this.props.callbackEnabled && !disableFunction) {
+			this.props.temporaryCallback(false);
+			disableFunction = this.props.temporaryCallback.bind(this, true);
+		}
 		if (runningTimeout) {
 			clearTimeout(runningTimeout);
 		}
-		runningTimeout = setTimeout(this.resetState.bind(this), this.props.timeout)
+		if (disableFunction) {
+			runningTimeout = setTimeout(this.resetState.bind(this, disableFunction), this.props.timeout)
+		}
+		this.props.onChange(Math.min(this.props.max, Math.max(0, newValue)));
 	}
 
 	onSliderStop() {
 		if (runningTimeout) {
 			clearTimeout(runningTimeout);
-			this.resetState()
+			this.resetState(disableFunction);
 		}
 	}
 

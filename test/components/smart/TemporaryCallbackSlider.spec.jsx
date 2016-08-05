@@ -97,6 +97,7 @@ describe('TemporaryCallbackSlider', () => {
 			let temporaryCallbackSlider = TestUtils.renderIntoDocument(<TemporaryCallbackSlider
 				max={10}
 				value={9}
+				callbackEnabled={true}
 				temporaryCallback={(value) => {argument = value}}
 			></TemporaryCallbackSlider>)
 			temporaryCallbackSlider.refs.slider.props.onChange(4);
