@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import Desk from 'components/Desk';
+import Desk from 'components/smart/Desk';
 import SketchCombiner from 'components/smart/SketchCombiner';
 import { last, cloneDeep } from 'lodash';
 import { appendPoint, createStroke, finishStroke } from 'actions/drawing';

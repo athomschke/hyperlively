@@ -1,7 +1,7 @@
 import StrokeDrawer from 'components/smart/StrokeDrawer';
 import TestUtils from 'react-addons-test-utils';
 import React from 'react';
-import { hashCode, point } from '../helpers';
+import { hashCode, point } from '../../helpers';
 
 'use strict'
 

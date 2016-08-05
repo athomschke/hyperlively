@@ -1,7 +1,7 @@
 import React from 'react';
-import Desk from 'components/Desk';
+import Desk from 'components/smart/Desk';
 import TestUtils from 'react-addons-test-utils';
-import { point } from '../helpers'
+import { point } from '../../helpers'
 
 describe('Desk', () => {
 
