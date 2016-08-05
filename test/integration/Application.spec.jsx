@@ -62,7 +62,7 @@ let manuallyDrawStrokes = (windowNode, strokes) => {
 		let first = _.first(stroke.points);
 		let last = _.last(stroke.points);
 		simulateDrawingEventOnCanvasAt('mouseDown', windowNode, first.x, first.y);
-		_.forEach(_.without(_.tail(stroke.points), last), (point) => {
+		_.forEach(_.tail(stroke.points), (point) => {
 			simulateDrawingEventOnCanvasAt('mouseMove', windowNode, point.x, point.y);
 		})
 		simulateDrawingEventOnCanvasAt('mouseUp', windowNode, last.x, last.y);
@@ -118,6 +118,7 @@ describe('Integration', () => {
 			let emptyCanvasConfig = _.cloneDeep(require("json!./data/emptyCanvas.json")).json;
 			emptyCanvasConfig.ploma.uniqueCanvasFactor = canvasJsonConfig.ploma.uniqueCanvasFactor;
 			emptyCanvasConfig.ploma.usePloma = true;
+			emptyCanvasConfig.threshold = 1;
 			renderApplication(emptyCanvasConfig);
 			let strokes = getPointsFromJSON(canvasJsonConfig);
 			manuallyDrawStrokes(getWindowNode(), strokes);
