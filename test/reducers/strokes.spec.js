@@ -1,5 +1,6 @@
 import strokes from 'reducers/strokes'
 import { appendPoint, createStroke, finishStroke } from 'actions/drawing'
+import { updateBounds } from 'actions/manipulating'
 import * as types from 'constants/actionTypes'
 import { point, event } from '../helpers'
 
@@ -43,6 +44,19 @@ describe('strokes', () => {
 			expect(result).to.have.length(2);
 			expect(result[1].points).to.have.length(1);
 			expect(result[1].points[0]).to.deep.equal(newPoint);
+		})
+
+		it('tags the stroke with the position of the first point', () => {
+			let pointAddEvent = event(10, 10, 100)
+			let newPoint = point(10, 10, 100);
+			let result = strokes(
+				[],
+				createStroke(pointAddEvent)
+			);
+			expect(result[0].position).to.deep.equal({
+				x: newPoint.x,
+				y: newPoint.y
+			})
 		})
 
 	})
@@ -100,6 +114,30 @@ describe('strokes', () => {
 			expect(result[1].points).to.have.length(1);
 			expect(result[1].finished).to.be.true;
 			expect(result[1].points[0]).to.deep.equal(newPoint)
+		})
+
+	})
+
+	describe('moving a stroke', () => {
+
+		it('changes the coordinates of that strokes points', () => {
+			let strokesToMove = [{
+				points: [point(10, 11, 100), point(10, 12, 100), point(10, 13, 100)]
+			}]
+			let bounds = {
+				x: 0,
+				y: 1
+			}
+			let result = strokes(
+				strokesToMove,
+				updateBounds(strokesToMove, bounds)
+			)
+			expect(result[0].points[0].x).to.equal(10);
+			expect(result[0].points[0].y).to.equal(12);
+			expect(result[0].points[1].x).to.equal(10);
+			expect(result[0].points[1].y).to.equal(13);
+			expect(result[0].points[2].x).to.equal(10);
+			expect(result[0].points[2].y).to.equal(14);
 		})
 
 	})

@@ -1,12 +1,13 @@
 import React, {Component, PropTypes} from 'react';
 import Canvas from 'components/dumb/Canvas'
+import BoundsMutationObserver from 'components/smart/BoundsMutationObserver'
 import PlomaDrawer from 'components/smart/PlomaDrawer'
 import PlainDrawer from 'components/smart/PlainDrawer'
 
 'use strict'
 
-let PlomaCanvas = PlomaDrawer(Canvas);
-let PlainCanvas = PlainDrawer(Canvas);
+let PlomaCanvas = PlomaDrawer(BoundsMutationObserver(Canvas));
+let PlainCanvas = PlainDrawer(BoundsMutationObserver(Canvas));
 
 export default class StrokeDrawer extends Component {
 

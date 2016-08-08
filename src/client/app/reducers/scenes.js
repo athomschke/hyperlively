@@ -14,6 +14,7 @@ const scenes = (state = [], action) => {
 		case actionTypes.APPEND_POINT:
 		case actionTypes.CREATE_STROKE:
 		case actionTypes.FINISH_STROKE:
+		case actionTypes.UPDATE_BOUNDS:
 			return [{
 				strokes: strokes((last(state) || defaultScene()).strokes, action)
 			}];

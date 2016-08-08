@@ -21,8 +21,8 @@ describe('StrokeDrawer', () => {
 				}}
 				strokes={[ {points: [ point(10,10), point(11,11) ]} ]}
 			></StrokeDrawer>)
-			expect(canvas.refs.canvas.refs.canvas.refs.node.style.getPropertyValue('top')).to.equal('10px')
-			expect(canvas.refs.canvas.refs.canvas.refs.node.style.getPropertyValue('left')).to.equal('10px')
+			expect(canvas.refs.canvas.refs.canvas.refs.wrapped.refs.node.style.getPropertyValue('top')).to.equal('10px')
+			expect(canvas.refs.canvas.refs.canvas.refs.wrapped.refs.node.style.getPropertyValue('left')).to.equal('10px')
 		})
 
 	})
@@ -51,12 +51,12 @@ describe('StrokeDrawer', () => {
 
 			var parent = TestUtils.renderIntoDocument(TestParent());
 			let canvas = parent.refs.sut;
-			let imageDataBefore = canvas.refs.canvas.refs.canvas.refs.node.toDataURL();
+			let imageDataBefore = canvas.refs.canvas.refs.canvas.refs.wrapped.refs.node.toDataURL();
 			canvas.props.strokes[0].points.push(point(12,12));
 			parent.setState({
 				usePloma: true
 			})
-			let imageDataAfter = canvas.refs.canvas.refs.canvas.refs.node.toDataURL();
+			let imageDataAfter = canvas.refs.canvas.refs.canvas.refs.wrapped.refs.node.toDataURL();
 			expect(hashCode(imageDataBefore)).to.not.equal(hashCode(imageDataAfter))
 		})
 

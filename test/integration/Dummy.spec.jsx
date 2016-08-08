@@ -1,6 +1,6 @@
 import { combineCanvasses } from './helpers';
 
-describe('Dummy Integrationtest', () => {
+describe('Dummy', () => {
 	it('combining two canvasses looks the same as writing their content on the same canvas', () => {
 		let bothDrawnOnOneCanvas = document.createElement('canvas');
 		bothDrawnOnOneCanvas.setAttribute('width', 100);

@@ -9,3 +9,5 @@ export const TOGGLE_PLOMA = 'TOGGLE_PLOMA';
 export const JUMP_TO = 'JUMP_TO';
 
 export const UPDATE_THRESHOLD = 'UPDATE_THRESHOLD';
+
+export const UPDATE_BOUNDS = 'UPDATE_BOUNDS';

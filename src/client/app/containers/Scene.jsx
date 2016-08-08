@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import Desk from 'components/smart/Desk';
 import SketchCombiner from 'components/smart/SketchCombiner';
 import { last, cloneDeep } from 'lodash';
-import { appendPoint, createStroke, finishStroke } from 'actions/drawing';
+import { updateBounds } from 'actions/manipulating';
 
 const mapStateToProps = (state) => {
   let returnState = cloneDeep(state.ploma);
@@ -11,8 +11,17 @@ const mapStateToProps = (state) => {
   return returnState;
 }
 
+const mapDispatchToProps = (dispatch) => {
+	return {
+		onBoundsUpdate: (strokes, newBounds) => {
+			dispatch(updateBounds(strokes, newBounds))
+		}
+	}
+}
+
 const Scene = connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(SketchCombiner(Desk))
 
 export default Scene;

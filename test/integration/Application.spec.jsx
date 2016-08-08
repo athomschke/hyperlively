@@ -29,7 +29,8 @@ let mountApp = () => {
 }
 
 let dismountApp = () => {
-	document.body.removeChild(document.getElementById('app'));
+	let appNode = document.getElementById('app')
+	appNode && document.body.removeChild(appNode);
 }
 
 let simulateDrawingEventOnCanvasAt = (eventType, canvas, x, y) => {
@@ -181,6 +182,23 @@ describe('Integration', () => {
 			expect(hashCode(beforeUndoImageData)).to.not.equal(hashCode(afterUndoImageData))
 		})
 
+	})
+
+	describe('moving a canvas', () => {
+
+		it('works without errors', (done) => {
+			let canvasJson = require("json!./data/canvasWithTwoStrokes.json").json
+			let renderedApp = renderApplication(canvasJson);
+			let canvasNode = document.getElementsByTagName('canvas')[0];
+			let oldLeftValue = canvasNode.style.getPropertyValue('left');
+			let newLeftValue = `${parseInt(canvasNode.style.getPropertyValue('left')) + 1}px`;
+			canvasNode.style.setProperty('left',  newLeftValue);
+			setTimeout(() => {
+				expect(canvasNode.style.getPropertyValue('left')).to.not.equal(oldLeftValue);
+				expect(canvasNode.style.getPropertyValue('left')).to.equal(newLeftValue);
+				done();
+			}, 0)
+		})
 	})
 
 	describe('changing the threshold', () => {
