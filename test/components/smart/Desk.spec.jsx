@@ -3,33 +3,27 @@ import Desk from 'components/smart/Desk';
 import TestUtils from 'react-addons-test-utils';
 import { point } from '../../helpers'
 
+class MockedSubComponent extends React.Component {
+
+	render () {
+		return <canvas></canvas>;
+	}
+}
+
+const MockedComponent = Desk(MockedSubComponent);
+
 describe('Desk', () => {
 
 	it('Renders with default properties', () => {
-		let desk = TestUtils.renderIntoDocument(<Desk></Desk>)
+		let desk = TestUtils.renderIntoDocument(<MockedComponent></MockedComponent>)
 		expect(desk).to.exist;
 	})
 
 	it('Renders exactly one canvas when no sketches given', () => {
-		let desk = TestUtils.renderIntoDocument(<Desk></Desk>)
+		let desk = TestUtils.renderIntoDocument(<MockedComponent></MockedComponent>)
 		expect(desk).to.exist;		
 		let node = TestUtils.findRenderedDOMComponentWithTag(desk, 'canvas');
 		expect(node).to.exist
-	})
-
-	it('Does not capture events on the placeholder canvas', () => {
-		let desk = TestUtils.renderIntoDocument(<Desk
-			sketches={[{
-				strokes: [{
-					points: [point(7,10), point(7,15), point(15,15), point(15,10)],
-					finished: true
-				}],
-				finished: true
-			}]}
-		></Desk>)
-		let nodes = TestUtils.scryRenderedDOMComponentsWithTag(desk, 'canvas');
-		expect(nodes[0].style.getPropertyValue('pointer-events')).to.equal('auto');
-		expect(nodes[1].style.getPropertyValue('pointer-events')).to.equal('none');
 	})
 
 })

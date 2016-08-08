@@ -1,12 +1,8 @@
 import React, {Component, PropTypes} from 'react';
-import StrokeDrawer from 'components/smart/StrokeDrawer';
-import SketchTransformer from 'components/smart/SketchTransformer';
 import { OFFSET } from 'constants/canvas';
 import { map, last, forEach } from 'lodash';
 
-let TransformedCanvas = SketchTransformer(StrokeDrawer)
-
-export default class Desk extends Component {
+const Desk = (Wrapped) => class extends React.Component {
 
 	static propTypes = {
 		sketches: PropTypes.array
@@ -17,7 +13,7 @@ export default class Desk extends Component {
 	}
 
 	renderCanvas(strokes, id, finished) {
-		return <TransformedCanvas {...this.props}
+		return <Wrapped {...this.props}
 			active={finished}
 			strokes={strokes}
 			finished={finished}
@@ -47,3 +43,5 @@ export default class Desk extends Component {
 	}
 
 }
+
+export default Desk;
