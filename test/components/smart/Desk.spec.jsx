@@ -41,4 +41,26 @@ describe('Desk', () => {
 		expect(nodes).to.have.length(2);
 	})
 
+	it('Renders one canvas when one unfinished sketch without strokes is given', () => {
+		let desk = TestUtils.renderIntoDocument(<MockedComponent
+			sketches={[{}]}
+		></MockedComponent>)
+		expect(desk).to.exist;		
+		let nodes = TestUtils.scryRenderedDOMComponentsWithTag(desk, 'canvas');
+		expect(nodes).to.have.length(1);
+	})
+
+	it('Renders no placeholder canvas when the last stroke is unfinished', () => {
+		let desk = TestUtils.renderIntoDocument(<MockedComponent
+			sketches={[{
+				strokes: [{
+					points: [point(10,10)]
+				}]
+			}]}
+		></MockedComponent>)
+		expect(desk).to.exist;		
+		let nodes = TestUtils.scryRenderedDOMComponentsWithTag(desk, 'canvas');
+		expect(nodes).to.have.length(1);
+	})
+
 })

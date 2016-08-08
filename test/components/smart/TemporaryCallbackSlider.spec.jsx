@@ -123,6 +123,28 @@ describe('TemporaryCallbackSlider', () => {
 
 	})
 
+	describe('hovering after dragging', () => {
+		it('restores state after the custom timeout', (done) => {
+			(new Promise(
+				function(resolve, reject) {
+					let temporaryCallbackSlider = TestUtils.renderIntoDocument(<TemporaryCallbackSlider
+						max={10}
+						value={5}
+						callbackEnabled={true}
+						timeout={1}
+						temporaryCallback={() => { resolve() }}
+					></TemporaryCallbackSlider>)
+					temporaryCallbackSlider.onSliderMove();
+				}
+			))
+			.then(done)
+			.catch(function(error) {
+				expect(false).to.be.true
+				throw(error)
+			});
+		})
+	})
+
 	describe('releasing the slider handle', () => {
 
 		it('restores ploma', () => {
@@ -130,6 +152,7 @@ describe('TemporaryCallbackSlider', () => {
 			let temporaryCallbackSlider = TestUtils.renderIntoDocument(<TemporaryCallbackSlider
 				max={10}
 				value={9}
+				callbackEnabled={true}
 				temporaryCallback={(value) => {argument = value}}
 			></TemporaryCallbackSlider>)
 			temporaryCallbackSlider.refs.slider.props.onChange(4);

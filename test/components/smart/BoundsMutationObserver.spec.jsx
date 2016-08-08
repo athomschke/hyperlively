@@ -5,7 +5,12 @@ import BoundsMutationObserver from 'components/smart/BoundsMutationObserver';
 class MockedSubComponent extends React.Component {
 
 	render () {
-		return <div ref='node'></div>;
+		return <div ref='node'
+			style={{
+				top: this.props.bounds.y,
+				left: this.props.bounds.x
+			}}
+		></div>;
 	}
 }
 
@@ -37,7 +42,7 @@ describe('Bounds mutation observer', () => {
 		it('vertically calls the callback with a position when one is given', (done) => {
 			let called = false;
 			let mockedComponent = renderComponentWithBoundsAndCallback(
-				{ x: 0, y: 1 }, 
+				{ x: 0, y: 1 },
 				() => { called = true; })
 			mockedComponent.refs.wrapped.refs.node.style.setProperty('top', '2px');
 			setTimeout(() => {
@@ -72,6 +77,21 @@ describe('Bounds mutation observer', () => {
 			})
 		})
 
+		it('is not recognized when component is not really moved', (done) => {
+			let called = false;
+			let mockedComponent = renderComponentWithBoundsAndCallback(
+				{ x: 0, y: 0 },
+				() => { called = true; })
+			let node = mockedComponent.refs.wrapped.refs.node;
+			let observer = mockedComponent.state.observer;
+			mockedComponent.componentWillUnmount();
+			node.style.setProperty('top', '0px');
+			setTimeout(() => {
+				expect(called).to.be.false
+				done();
+			})
+		})
+
 	})
 
 	describe('setting width of a wrapped component', () => {
@@ -94,7 +114,7 @@ describe('Bounds mutation observer', () => {
 			let mockedComponent = renderComponentWithBoundsAndCallback(
 				{ x: 1, y: 0 }, 
 				() => { called = true; })
-			mockedComponent.refs.wrapped.refs.node.style.setProperty('borderStyle', 'solid');
+			mockedComponent.refs.wrapped.refs.node.style.setProperty('border-style', 'solid');
 			setTimeout(() => {
 				expect(called).to.be.false
 				done();

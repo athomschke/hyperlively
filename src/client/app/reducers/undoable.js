@@ -1,5 +1,5 @@
 import { JUMP_TO } from 'constants/actionTypes';
-import { drop, dropRight } from 'lodash';
+import { drop, dropRight, concat } from 'lodash';
 
 function undoable (reducer) {
 
@@ -10,7 +10,7 @@ function undoable (reducer) {
 	}
 
 	const nextState = (pointInTime, past, present, future) => {
-		let allStates = [...past, present, ...future];
+		let allStates = concat(past, [present], future);
 		let normalizedPointInTime = Math.max(0, Math.min(pointInTime, allStates.length - 1));
 		return {
 			past: dropRight(allStates, allStates.length - normalizedPointInTime),
@@ -33,7 +33,7 @@ function undoable (reducer) {
 				  return state
 				} else {
 					return {
-					  past: [ ...past, present ],
+					  past: concat( past, [present] ),
 					  present: newPresent,
 					  future: []
 					}
