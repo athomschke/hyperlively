@@ -117,6 +117,15 @@ describe('PlomaDrawer', () => {
 			expect(sumAfter).to.not.equal(sumBefore);
 		})
 
+		it('finishes with the last point', () => {
+			let sumBefore = _.sum(imageData.data);
+			canvas.props.strokes[0].finished = true;
+			canvas.props.strokes[0].points.push({x: 10, y: 14});
+			canvas.componentDidUpdate();
+			let sumAfter = _.sum(imageData.data);
+			expect(sumAfter).to.not.equal(sumBefore);
+		})
+
 	})
 
 
@@ -125,7 +134,8 @@ describe('PlomaDrawer', () => {
 		it('doesn\'t change the image when removing two strokes, re-rendering, adding them again, and re-rendering', () => {
 			let canvas = renderComponentWithProps({
 				strokes: [{
-					points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}, {x:10, y:13}, {x:10, y:14}, {x:10, y:15}]
+					points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}, {x:10, y:13}, {x:10, y:14}, {x:10, y:15}],
+					finished: true
 				}]
 			})
 			let sumBefore = _.sum(imageData.data);

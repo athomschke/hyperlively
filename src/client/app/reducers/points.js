@@ -1,8 +1,8 @@
-import * as actionTypes from 'constants/actionTypes';
+import { APPEND_POINT } from 'constants/actionTypes';
 
-const points = (state = [], action) => {
+function points (state = [], action) {
 	switch(action.type) {
-		case actionTypes.APPEND_POINT:
+		case APPEND_POINT:
 			return state.concat([{
 				x: action.event.pageX,
 				y: action.event.pageY,
@@ -13,4 +13,4 @@ const points = (state = [], action) => {
 	}
 }
 
-export default points;
+export { points };

@@ -1,4 +1,4 @@
-import scenes from 'reducers/scenes'
+import { scenes } from 'reducers/scenes'
 import { appendPoint, createStroke } from 'actions/drawing'
 import * as types from 'constants/actionTypes'
 import { point } from '../helpers'
@@ -17,19 +17,7 @@ describe('scenes', () => {
 
 		it('creates an empty present', () => {
 			expect(
-				scenes(undefined, {}).present
-			).to.deep.equal([]);
-		})
-
-		it('creates an empty past', () => {
-			expect(
-				scenes(undefined, {}).past
-			).to.deep.equal([]);
-		})
-
-		it('creates an empty future', () => {
-			expect(
-				scenes(undefined, {}).future
+				scenes(undefined, {})
 			).to.deep.equal([]);
 		})
 	})
@@ -41,7 +29,7 @@ describe('scenes', () => {
 				undoableScenes([]),
 				createStroke(point(10,10))
 			);
-			expect(result.present).to.have.length(1)
+			expect(result).to.have.length(1)
 		})
 
 		it('always adds to the current scene', () => {
@@ -49,7 +37,7 @@ describe('scenes', () => {
 				undoableScenes([{ sketches:[] }]),
 				createStroke(point(10,10))
 			);
-			expect(result.present).to.have.length(1)
+			expect(result).to.have.length(1)
 		})
 		
 	})
@@ -61,7 +49,7 @@ describe('scenes', () => {
 				undoableScenes([]),
 				appendPoint(point(10,10))
 			);
-			expect(result.present).to.have.length(1);
+			expect(result).to.have.length(1);
 		})
 
 		it('to a scene does not create a new one', () => {
@@ -69,7 +57,7 @@ describe('scenes', () => {
 				undoableScenes([{ sketches:[] }]),
 				appendPoint(point(10,10))
 			);
-			expect(result.present).to.have.length(1);
+			expect(result).to.have.length(1);
 		})
 
 	})

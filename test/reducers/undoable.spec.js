@@ -1,6 +1,5 @@
-import undoable from 'reducers/undoable'
+import { undoable } from 'reducers/undoable'
 import { jumpTo } from 'actions/timetravel'
-import * as types from 'constants/actionTypes'
 
 let emptyState = {
 	future: [],
@@ -83,6 +82,16 @@ describe('undoable', () => {
 		it('can go back to second to last state', () => {
 			let actualState = undoable((state = '') => state)(dummyEndState, jumpTo(6))
 			expect(actualState).to.deep.equal(dummySixState);
+		})
+
+		it('invokes the passed reducer when not jumping in time', () => {
+			let actualState = undoable((state = '') => {
+				return 1
+			})(emptyState, {
+				type: 'foobar'
+			})
+			expect(actualState.past).to.deep.equal(['default'])
+			expect(actualState.present).to.equal(1)
 		})
 	})
 

@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import { flatten, last, isEqual, cloneDeep, forEach, map } from 'lodash';
+import { ERROR_OVERWRITE } from 'constants/errors';
 
 'use strict'
 
@@ -11,21 +12,35 @@ let pointCount = (strokes) => {
 
 export default class AbstractDrawer extends Component {
 
-	onStrokeStarted(strokes) { }
+	onStrokeStarted(strokes) {
+		throw(new Error(ERROR_OVERWRITE));
+	}
 
-	onStrokesExtended(strokes) { }
+	onStrokesExtended(strokes) {
+		throw(new Error(ERROR_OVERWRITE));
+	}
 
-	onStrokesEnded(strokes) { }
+	onStrokesEnded(strokes) {
+		throw(new Error(ERROR_OVERWRITE));
+	}
 
 	startStrokeAt(point) { }
 
-	extendStrokeAt(point, optPointBefore) { }
+	extendStrokeAt(point, optPointBefore) {
+		throw(new Error(ERROR_OVERWRITE));
+	}
 
-	endStrokeAt(point, optPointBefore) { }
+	endStrokeAt(point, optPointBefore) {
+		throw(new Error(ERROR_OVERWRITE));
+	}
 
-	resetCanvas() { }
+	resetCanvas() {
+		throw(new Error(ERROR_OVERWRITE));
+	}
 
-	redrawStroke(stroke, shouldFinish) { }
+	redrawStroke(stroke, shouldFinish) {
+		throw(new Error(ERROR_OVERWRITE));
+	}
 
 	static propTypes = {
 		strokes: PropTypes.array,

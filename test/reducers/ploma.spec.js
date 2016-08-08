@@ -1,4 +1,4 @@
-import ploma from 'reducers/ploma'
+import { ploma } from 'reducers/ploma'
 import * as types from 'constants/actionTypes'
 import { point } from '../helpers'
 import { togglePloma } from 'actions/configuring'

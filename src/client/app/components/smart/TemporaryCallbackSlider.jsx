@@ -5,8 +5,6 @@ import { Slider } from 'reactrangeslider';
 
 let runningTimeout;
 
-let disableFunction = null;
-
 export default class TemporaryCallbackSlider extends Component {
 
 	static propTypes = {
@@ -27,13 +25,22 @@ export default class TemporaryCallbackSlider extends Component {
 		timeout: 1000
 	};
 
+	componentDidMount() {
+		this.setState({
+			disableFunction: null
+		})
+	}
+
 	resetState(boundDisableFunction) {
-		boundDisableFunction(true);
+		boundDisableFunction && boundDisableFunction(true);
 		runningTimeout = undefined;
-		disableFunction = null;
+		this.setState({
+			disableFunction: null
+		})
 	}
 
 	onSliderMove(newValue) {
+		let disableFunction = this.state.disableFunction;
 		if (this.props.callbackEnabled && !disableFunction) {
 			this.props.temporaryCallback(false);
 			disableFunction = this.props.temporaryCallback.bind(this, true);
@@ -45,12 +52,15 @@ export default class TemporaryCallbackSlider extends Component {
 			runningTimeout = setTimeout(this.resetState.bind(this, disableFunction), this.props.timeout)
 		}
 		this.props.onChange(Math.min(this.props.max, Math.max(0, newValue)));
+		this.setState({
+			disableFunction: disableFunction
+		})
 	}
 
 	onSliderStop() {
 		if (runningTimeout) {
+			this.resetState(this.state.disableFunction);
 			clearTimeout(runningTimeout);
-			this.resetState(disableFunction);
 		}
 	}
 

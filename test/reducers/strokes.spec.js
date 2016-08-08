@@ -1,7 +1,6 @@
-import strokes from 'reducers/strokes'
+import { strokes } from 'reducers/strokes'
 import { appendPoint, createStroke, finishStroke } from 'actions/drawing'
 import { updateBounds } from 'actions/manipulating'
-import * as types from 'constants/actionTypes'
 import { point, event } from '../helpers'
 
 describe('strokes', () => {

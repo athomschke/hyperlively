@@ -26,4 +26,19 @@ describe('Desk', () => {
 		expect(node).to.exist
 	})
 
+	it('Renders two canvasses when one finished sketch is given', () => {
+		let desk = TestUtils.renderIntoDocument(<MockedComponent
+			sketches={[{
+				strokes: [{
+					points: [point(10,10)],
+					finished: true
+				}],
+				finished: true
+			}]}
+		></MockedComponent>)
+		expect(desk).to.exist;		
+		let nodes = TestUtils.scryRenderedDOMComponentsWithTag(desk, 'canvas');
+		expect(nodes).to.have.length(2);
+	})
+
 })

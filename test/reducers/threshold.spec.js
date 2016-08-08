@@ -1,4 +1,4 @@
-import threshold from 'reducers/threshold'
+import { threshold } from 'reducers/threshold'
 import { updateThreshold } from 'actions/configuring'
 
 describe('Threshold', () => {

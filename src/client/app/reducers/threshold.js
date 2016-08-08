@@ -1,6 +1,6 @@
 import { UPDATE_THRESHOLD } from 'constants/actionTypes'
 
-export default function threshold (state = 1, action) {
+function threshold (state = 1, action) {
 	switch(action.type) {
 		case UPDATE_THRESHOLD:
 			return action.number;
@@ -8,3 +8,5 @@ export default function threshold (state = 1, action) {
 			return state;
 	}
 }
+
+export { threshold }

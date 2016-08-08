@@ -110,6 +110,17 @@ describe('TemporaryCallbackSlider', () => {
 			expect(temporaryCallbackSlider.props.value).to.equal(9)
 		})
 
+		it('Does nothing when initialized without a temporaryCallback callback', () => {
+			let argument = true;
+			let temporaryCallbackSlider = TestUtils.renderIntoDocument(<TemporaryCallbackSlider
+				max={10}
+				value={9}
+				callbackEnabled={true}
+			></TemporaryCallbackSlider>)
+			temporaryCallbackSlider.onSliderMove();
+			expect(temporaryCallbackSlider.props.value).to.equal(9);
+		})
+
 	})
 
 	describe('releasing the slider handle', () => {
@@ -123,6 +134,17 @@ describe('TemporaryCallbackSlider', () => {
 			></TemporaryCallbackSlider>)
 			temporaryCallbackSlider.refs.slider.props.onChange(4);
 			temporaryCallbackSlider.refs.slider.props.afterChange();
+			expect(argument).to.equal(true);
+		})
+
+		it('does nothing if not grabbed before', () => {
+			let argument = true;
+			let temporaryCallbackSlider = TestUtils.renderIntoDocument(<TemporaryCallbackSlider
+				max={10}
+				value={9}
+				temporaryCallback={(value) => {argument = value}}
+			></TemporaryCallbackSlider>)
+			temporaryCallbackSlider.onSliderStop(4);
 			expect(argument).to.equal(true);
 		})
 		

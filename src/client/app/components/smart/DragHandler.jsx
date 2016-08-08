@@ -48,7 +48,7 @@ const DragHandler = (Wrapped) => class extends React.Component {
 
 	render() {
 		return (
-			<div {...this.props} {...this.state}
+			<div
 				ref='node'
 				onMouseUp={this.onMouseUp.bind(this)}
 				onMouseMove={this.onMouseMove.bind(this)}

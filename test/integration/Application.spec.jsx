@@ -41,12 +41,12 @@ let simulateDrawingEventOnCanvasAt = (eventType, canvas, x, y) => {
 }
 
 let getPointsFromJSON = (json) => {
-	return json.scenes.present[0].strokes
+	return json.undoableScenes.present[0].strokes
 }
 
 let renderApplication = (initialState, optExpectedNumberOfCanvasses) => {
-	let strokesCount = (initialState.scenes.present.length > 0) ?
-				initialState.scenes.present[0].strokes.length : 0;
+	let strokesCount = (initialState.undoableScenes.present.length > 0) ?
+				initialState.undoableScenes.present[0].strokes.length : 0;
 	let store = createStore(hyperlively, initialState);
 	let renderedApp = render(
 	  <Provider store={store}>

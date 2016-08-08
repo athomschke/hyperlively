@@ -14,7 +14,7 @@ const mapStateToProps = (state) => {
   let returnState = cloneDeep(state.ploma);
   returnState.componentIndex = state.ploma.usePloma ? 1 : 0;
   returnState.threshold = state.threshold;
-  returnState.scene = last(state.scenes.present);
+  returnState.scene = last(state.undoableScenes.present);
   return returnState;
 }
 

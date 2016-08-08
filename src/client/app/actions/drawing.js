@@ -1,13 +1,13 @@
-import * as actionTypes from 'constants/actionTypes';
+import { APPEND_POINT, CREATE_STROKE, FINISH_STROKE } from 'constants/actionTypes';
 
 export function appendPoint(event) {
-	return { type: actionTypes.APPEND_POINT, event }
+	return { type: APPEND_POINT, event }
 }
 
 export function createStroke(event) {
-	return { type: actionTypes.CREATE_STROKE, event }
+	return { type: CREATE_STROKE, event }
 }
 
 export function finishStroke(event) {
-	return { type: actionTypes.FINISH_STROKE, event }
+	return { type: FINISH_STROKE, event }
 }

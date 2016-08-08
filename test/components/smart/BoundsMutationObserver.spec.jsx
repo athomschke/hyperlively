@@ -11,21 +11,22 @@ class MockedSubComponent extends React.Component {
 
 const MockedComponent = BoundsMutationObserver(MockedSubComponent);
 
+let renderComponentWithBoundsAndCallback = (bounds, callback) => {
+	return TestUtils.renderIntoDocument(<MockedComponent
+		onBoundsUpdate={callback}
+		bounds={bounds}
+	/>)
+}
+
 describe('Bounds mutation observer', () => {
 
-	describe('changing a style property', () => {
+	describe('moving the wrapped component', () => {
 
-		it('calls the callback with a position if one is given', (done) => {
+		it('horizontally calls the callback with a position when one is given', (done) => {
 			let called = false;
-			let mockedComponent = TestUtils.renderIntoDocument(<MockedComponent
-				onBoundsUpdate={() => {
-						called = true;
-					}}
-				bounds={{
-					x: 1,
-					y: 0
-				}}
-			/>)
+			let mockedComponent = renderComponentWithBoundsAndCallback(
+				{ x: 1, y: 0 }, 
+				() => { called = true; })
 			mockedComponent.refs.wrapped.refs.node.style.setProperty('left', '2px');
 			setTimeout(() => {
 				expect(called).to.be.true
@@ -33,14 +34,21 @@ describe('Bounds mutation observer', () => {
 			})
 		})
 
+		it('vertically calls the callback with a position when one is given', (done) => {
+			let called = false;
+			let mockedComponent = renderComponentWithBoundsAndCallback(
+				{ x: 0, y: 1 }, 
+				() => { called = true; })
+			mockedComponent.refs.wrapped.refs.node.style.setProperty('top', '2px');
+			setTimeout(() => {
+				expect(called).to.be.true
+				done();
+			})
+		})
+
 		it('changes nothing if no callback is given', (done) => {
-			let bounds = {
-					x: 1,
-					y: 0
-				}
-			let mockedComponent = TestUtils.renderIntoDocument(<MockedComponent
-				bounds={bounds}
-			/>)
+			let bounds = { x: 1, y: 0 }
+			let mockedComponent = renderComponentWithBoundsAndCallback(bounds)
 			mockedComponent.refs.wrapped.refs.node.style.setProperty('left', '2px');
 			setTimeout(() => {
 				expect(mockedComponent.props.bounds.x).to.equal(bounds.x)
@@ -49,6 +57,49 @@ describe('Bounds mutation observer', () => {
 			})
 		})
 
+		it('is not recognized when component is not in dom anymore', (done) => {
+			let called = false;
+			let mockedComponent = renderComponentWithBoundsAndCallback(
+				{ x: 1, y: 0 }, 
+				() => { called = true; })
+			let node = mockedComponent.refs.wrapped.refs.node;
+			let observer = mockedComponent.state.observer;
+			mockedComponent.componentWillUnmount();
+			node.style.setProperty('top', '2px');
+			setTimeout(() => {
+				expect(called).to.be.false
+				done();
+			})
+		})
+
+	})
+
+	describe('setting width of a wrapped component', () => {
+		it('triggers no callback', (done) => {
+			let called = false;
+			let mockedComponent = renderComponentWithBoundsAndCallback(
+				{ x: 1, y: 0 }, 
+				() => { called = true; })
+			mockedComponent.refs.wrapped.refs.node.setAttribute('width', '100px');
+			setTimeout(() => {
+				expect(called).to.be.false
+				done();
+			})
+		})
+	})
+
+	describe('setting border style of wrapped component', () => {
+		it('triggers no callback', (done) => {
+			let called = false;
+			let mockedComponent = renderComponentWithBoundsAndCallback(
+				{ x: 1, y: 0 }, 
+				() => { called = true; })
+			mockedComponent.refs.wrapped.refs.node.style.setProperty('borderStyle', 'solid');
+			setTimeout(() => {
+				expect(called).to.be.false
+				done();
+			})
+		})
 	})
 
 })

@@ -1,4 +1,4 @@
-import * as actionTypes from 'constants/actionTypes';
+import { TOGGLE_PLOMA } from 'constants/actionTypes';
 
 let initialState = () => {
 	return {
@@ -7,9 +7,9 @@ let initialState = () => {
 	}
 }
 
-const ploma = (state = initialState(), action) => {
+function ploma (state = initialState(), action) {
 	switch(action.type) {
-		case actionTypes.TOGGLE_PLOMA:
+		case TOGGLE_PLOMA:
 			return {
 				usePloma: action.bool,
 				uniqueCanvasFactor: state.uniqueCanvasFactor
@@ -19,4 +19,4 @@ const ploma = (state = initialState(), action) => {
 	}
 }
 
-export default ploma;
+export { ploma }

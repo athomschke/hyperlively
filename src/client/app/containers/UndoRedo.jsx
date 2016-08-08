@@ -7,8 +7,8 @@ import UNDO_TIMEOUT from 'constants/canvas';
 
 const mapStateToProps = (state) => {
   return {
-    max: state.scenes.past.length + state.scenes.future.length,
-    value: state.scenes.past.length,
+    max: state.undoableScenes.past.length + state.undoableScenes.future.length,
+    value: state.undoableScenes.past.length,
     callbackEnabled: state.ploma.usePloma,
     timeout: UNDO_TIMEOUT
   }

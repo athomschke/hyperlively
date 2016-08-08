@@ -1,6 +1,5 @@
-import points from 'reducers/points'
+import { points } from 'reducers/points'
 import { appendPoint } from 'actions/drawing'
-import * as types from 'constants/actionTypes'
 import { point, event } from '../helpers'
 
 describe('points', () => {

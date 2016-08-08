@@ -1,5 +1,5 @@
-import * as actionTypes from 'constants/actionTypes';
+import { JUMP_TO } from 'constants/actionTypes';
 
 export function jumpTo(pointInTime) {
-	return { type: actionTypes.JUMP_TO, pointInTime }
+	return { type: JUMP_TO, pointInTime }
 }

@@ -1,7 +1,7 @@
-import * as actionTypes from 'constants/actionTypes';
-import { first, last, initial, tail, conca, drop, dropRight } from 'lodash';
+import { JUMP_TO } from 'constants/actionTypes';
+import { drop, dropRight } from 'lodash';
 
-const undoable = (reducer) => {
+function undoable (reducer) {
 
 	const initialState = {
 		past: [],
@@ -23,7 +23,7 @@ const undoable = (reducer) => {
 		const { past, present, future } = state
 
 		switch (action.type) {
-			case actionTypes.JUMP_TO: {
+			case JUMP_TO: {
 				return nextState(action.pointInTime, past, present, future);
 			}
 			default:
@@ -42,4 +42,4 @@ const undoable = (reducer) => {
 	}
 }
 
-export default undoable
+export { undoable }

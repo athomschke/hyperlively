@@ -1,6 +1,5 @@
-import strokes from 'reducers/strokes'
-import undoable from 'reducers/undoable';
-import * as actionTypes from 'constants/actionTypes';
+import { strokes } from 'reducers/strokes';
+import { APPEND_POINT, CREATE_STROKE, FINISH_STROKE, UPDATE_BOUNDS } from 'constants/actionTypes';
 import { last } from 'lodash';
 
 let defaultScene = () => {
@@ -9,12 +8,12 @@ let defaultScene = () => {
 	}
 }
 
-const scenes = (state = [], action) => {
+function scenes (state = [], action) {
 	switch(action.type) {
-		case actionTypes.APPEND_POINT:
-		case actionTypes.CREATE_STROKE:
-		case actionTypes.FINISH_STROKE:
-		case actionTypes.UPDATE_BOUNDS:
+		case APPEND_POINT:
+		case CREATE_STROKE:
+		case FINISH_STROKE:
+		case UPDATE_BOUNDS:
 			return [{
 				strokes: strokes((last(state) || defaultScene()).strokes, action)
 			}];
@@ -23,6 +22,4 @@ const scenes = (state = [], action) => {
 	}
 }
 
-const undoableScenes = undoable(scenes, {})
-
-export default undoableScenes;
+export { scenes };

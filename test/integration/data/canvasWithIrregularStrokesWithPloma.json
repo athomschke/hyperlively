@@ -5,7 +5,7 @@
 			"uniqueCanvasFactor": 0.315
 		},
 		"threshold": 500,
-		"scenes": {
+		"undoableScenes": {
 			"past": [],
 			"future": [],
 			"present": [{

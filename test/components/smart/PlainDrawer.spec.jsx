@@ -41,20 +41,20 @@ let renderComponentWithProps = (props) => {
 describe('PlainDrawer', () => {
 
 	let canvas;
+	
+	beforeEach(() => {
+		canvas = renderComponentWithProps({
+			strokes: [{
+				points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}, {x:10, y:13}]
+			}]
+		})
+	})
+
+	afterEach(() => {
+		imageData = null;
+	})
 
 	describe('plain rendered image', () => {
-
-		beforeEach(() => {
-			canvas = renderComponentWithProps({
-				strokes: [{
-					points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}, {x:10, y:13}]
-				}]
-			})
-		})
-
-		afterEach(() => {
-			imageData = null;
-		})
 
 		it('is updated when a point is added', () => {
 			let sumBefore = _.sum(imageData.data);
@@ -77,6 +77,19 @@ describe('PlainDrawer', () => {
 			canvas.componentDidUpdate();
 			let sumAfter = _.sum(imageData.data);
 			expect(sumAfter).to.equal(sumBefore);
+		})
+
+	})
+
+	describe('finishing a stroke', () => {
+
+		it('adds the last point', () => {
+			let sumBefore = _.sum(imageData.data);
+			canvas.props.strokes[0].finished = true;
+			canvas.props.strokes[0].points.push({x: 10, y: 14});
+			canvas.componentDidUpdate();
+			let sumAfter = _.sum(imageData.data);
+			expect(sumAfter).to.not.equal(sumBefore);
 		})
 
 	})

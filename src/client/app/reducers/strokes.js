@@ -1,6 +1,6 @@
-import points from 'reducers/points';
+import { points } from 'reducers/points';
 import { APPEND_POINT, CREATE_STROKE, FINISH_STROKE, UPDATE_BOUNDS } from 'constants/actionTypes';
-import { last, initial, forEach, find } from 'lodash';
+import { last, initial, forEach } from 'lodash';
 import { appendPoint } from '../actions/drawing'
 
 const appendPointTo = (state, action) => {
@@ -28,7 +28,7 @@ const moveBy = (state, action) => {
 	})
 }
 
-const strokes = (state = [], action) => {
+function strokes (state = [], action) {
 	switch(action.type) {
 		case APPEND_POINT:
 			return appendPointTo(state, action)
@@ -46,4 +46,4 @@ const strokes = (state = [], action) => {
 	}
 }
 
-export default strokes;
+export { strokes };
