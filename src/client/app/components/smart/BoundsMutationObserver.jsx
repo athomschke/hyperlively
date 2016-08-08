@@ -4,6 +4,19 @@ import { forEach } from 'lodash';
 'use strict'
 
 const BoundsMutationObserver = (Wrapped) => class extends Component {
+
+	static propTypes = {
+		onBoundsUpdate: PropTypes.func,
+		bounds: PropTypes.object
+	};
+
+	static defaultProps = {
+		onBoundsUpdate: () => {},
+		bounds: {
+			x: 0,
+			y: 0
+		}
+	};
 	
 	componentDidMount() {
 		let observer = new MutationObserver(this.onMutations.bind(this));
