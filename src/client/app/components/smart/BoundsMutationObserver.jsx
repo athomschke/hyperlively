@@ -1,9 +1,9 @@
 import React, {PropTypes, Component} from 'react';
 import { forEach } from 'lodash';
 
-'use strict'
+'use strict';
 
-const BoundsMutationObserver = (Wrapped) => class extends Component {
+export default (Wrapped) => class extends Component {
 
 	static propTypes = {
 		onBoundsUpdate: PropTypes.func,
@@ -22,10 +22,10 @@ const BoundsMutationObserver = (Wrapped) => class extends Component {
 		let observer = new MutationObserver(this.onMutations.bind(this));
 		observer.observe(this.refs.wrapped.refs.node, {
 			attributes: true
-		})
+		});
 		this.setState({
 			observer: observer
-		})
+		});
 	}
 
 	componentWillUnmount() {
@@ -38,17 +38,15 @@ const BoundsMutationObserver = (Wrapped) => class extends Component {
 				let moveBy = {
 					x: parseInt(this.refs.wrapped.refs.node.style.left) - this.props.bounds.x,
 					y: parseInt(this.refs.wrapped.refs.node.style.top) - this.props.bounds.y
-				}
+				};
 				if (moveBy.x !== 0 || moveBy.y !== 0) {
 					this.props.onBoundsUpdate(this.props.strokes, moveBy);
 				}
 			}
-		})
+		});
 	}
 
 	render() {
 		return <Wrapped ref='wrapped' {...this.props} />;
 	}
-}
-
-export default BoundsMutationObserver;
+};

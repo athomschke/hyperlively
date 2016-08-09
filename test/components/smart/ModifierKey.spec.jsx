@@ -26,10 +26,10 @@ describe('ModifierKey', () => {
 			document.body.removeEventListener = (listener) => {
 				wasKeyDownHandlerRemoved = wasKeyDownHandlerRemoved || listener === 'keydown';
 				wasKeyUpHandlerRemoved = wasKeyUpHandlerRemoved || listener === 'keyup';
-			}
+			};
 			modifierKeyComponent.componentWillUnmount();
 			expect(wasKeyDownHandlerRemoved).to.be.true;
 			expect(wasKeyUpHandlerRemoved).to.be.true;
-		})
-	})
-})
+		});
+	});
+});

@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 
-'use strict'
+'use strict';
 
 export default class Checkbox extends Component {
 
@@ -26,7 +26,7 @@ export default class Checkbox extends Component {
 				onClick={this.onClick.bind(this)}
 				onChange={()=>{}}
 			/>
-		)
+		);
 	}
 
 }

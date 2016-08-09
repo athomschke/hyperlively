@@ -7,143 +7,144 @@ import hyperlively from 'reducers/index';
 import TestUtils from 'react-addons-test-utils';
 import { hashCode, point } from '../helpers';
 import { combineCanvasses } from './helpers';
+import { forEach, first, last, tail, cloneDeep } from 'lodash';
 
-'use strict'
+'use strict';
 
 let getCanvasNodes = () => {
 	return document.getElementsByTagName('canvas');
-}
+};
 
 let getWindowNode = () => {
 	return document.getElementsByClassName('window')[0];
-}
+};
 
 let getCombinedCanvas = () => {
-	return combineCanvasses(getCanvasNodes(), 1000, 500)	
-}
+	return combineCanvasses(getCanvasNodes(), 1000, 500);
+};
 
 let mountApp = () => {
 	let appNode = document.createElement('div');
 	appNode.setAttribute('id', 'app');
 	document.body.appendChild(appNode);
-}
+};
 
 let dismountApp = () => {
-	let appNode = document.getElementById('app')
+	let appNode = document.getElementById('app');
 	appNode && document.body.removeChild(appNode);
-}
+};
 
 let simulateDrawingEventOnCanvasAt = (eventType, canvas, x, y) => {
 	TestUtils.Simulate[eventType](canvas, {
 		pageX: x,
 		pageY: y
 	});
-}
+};
 
 let getPointsFromJSON = (json) => {
-	return json.undoableScenes.present[0].strokes
-}
+	return json.undoableScenes.present[0].strokes;
+};
 
 let renderApplication = (initialState, optExpectedNumberOfCanvasses) => {
 	let strokesCount = (initialState.undoableScenes.present.length > 0) ?
 				initialState.undoableScenes.present[0].strokes.length : 0;
 	let store = createStore(hyperlively, initialState);
 	let renderedApp = render(
-	  <Provider store={store}>
-	    <Application/>	
-	  </Provider>,
-	  document.getElementById('app')
-	)
+		<Provider store={store}>
+			<Application/>	
+		</Provider>,
+		document.getElementById('app')
+	);
 	expect(document.getElementsByTagName('canvas')).to.have.length(optExpectedNumberOfCanvasses || strokesCount + 1);
 	return renderedApp;
-}
+};
 
 let manuallyDrawStrokes = (windowNode, strokes) => {
-	_.forEach(strokes, (stroke) => {
-		let first = _.first(stroke.points);
-		let last = _.last(stroke.points);
-		simulateDrawingEventOnCanvasAt('mouseDown', windowNode, first.x, first.y);
-		_.forEach(_.tail(stroke.points), (point) => {
+	forEach(strokes, (stroke) => {
+		let firstPoint = first(stroke.points);
+		let lastPoint = last(stroke.points);
+		simulateDrawingEventOnCanvasAt('mouseDown', windowNode, firstPoint.x, firstPoint.y);
+		forEach(tail(stroke.points), (point) => {
 			simulateDrawingEventOnCanvasAt('mouseMove', windowNode, point.x, point.y);
-		})
-		simulateDrawingEventOnCanvasAt('mouseUp', windowNode, last.x, last.y);
-	})
-}
+		});
+		simulateDrawingEventOnCanvasAt('mouseUp', windowNode, lastPoint.x, lastPoint.y);
+	});
+};
 
 describe('Integration', () => {
 	beforeEach(() => {
 		mountApp();
-	})
+	});
 
 	afterEach(() => {
 		dismountApp();
-	})
+	});
 
 	describe('rendering the application', () => {
 		it('renders the empty application', () => {
-			let emptyCanvas = require("json!./data/emptyCanvas.json");
-			let renderedApp = renderApplication(emptyCanvas.json);
+			let emptyCanvas = require('json!./data/emptyCanvas.json');
+			renderApplication(emptyCanvas.json);
 			expect(getWindowNode()).to.exist;
 			expect(getCanvasNodes()).to.have.length(1);
-		})
+		});
 
 		it('renders the empty application with ploma', () => {
-			let emptyCanvas = require("json!./data/emptyCanvas.json");
-			let emptyCanvasJson = _.cloneDeep(emptyCanvas.json);
+			let emptyCanvas = require('json!./data/emptyCanvas.json');
+			let emptyCanvasJson = cloneDeep(emptyCanvas.json);
 			emptyCanvasJson.ploma.usePloma = true;
-			let renderedApp = renderApplication(emptyCanvasJson);
+			renderApplication(emptyCanvasJson);
 			expect(getWindowNode()).to.exist;
 			expect(getCanvasNodes()).to.have.length(1);
-		})
-	})
+		});
+	});
 
 	describe('drawing', () => {
 		it('two strokes looks the same as adding two strokes point by point when ploma is disabled', () => {
-			let canvasJson = require("json!./data/canvasWithTwoStrokes.json").json
-			let renderedApp = renderApplication(canvasJson);
+			let canvasJson = require('json!./data/canvasWithTwoStrokes.json').json;
+			renderApplication(canvasJson);
 			let renderedStrokesData = getCombinedCanvas().toDataURL();
 			dismountApp();
 			mountApp();
-			let drawnApp = renderApplication(require("json!./data/emptyCanvas.json").json);
+			renderApplication(require('json!./data/emptyCanvas.json').json);
 			let strokes = getPointsFromJSON(canvasJson);
 			manuallyDrawStrokes(getWindowNode(), strokes);
 			expect(hashCode(getCombinedCanvas().toDataURL())).to.equal(hashCode(renderedStrokesData));
-		})
+		});
 
 		it('two strokes looks the same as adding two strokes point by point when ploma is enabled', () => {
-			let canvasJsonConfig = require("json!./data/canvasWithIrregularStrokesWithPloma.json").json;
-			let renderedApp = renderApplication(canvasJsonConfig);
+			let canvasJsonConfig = require('json!./data/canvasWithIrregularStrokesWithPloma.json').json;
+			renderApplication(canvasJsonConfig);
 			let renderedStrokesData = getCombinedCanvas().toDataURL();
 			dismountApp();
 			mountApp();
-			let emptyCanvasConfig = _.cloneDeep(require("json!./data/emptyCanvas.json")).json;
+			let emptyCanvasConfig = cloneDeep(require('json!./data/emptyCanvas.json')).json;
 			emptyCanvasConfig.ploma.uniqueCanvasFactor = canvasJsonConfig.ploma.uniqueCanvasFactor;
 			emptyCanvasConfig.ploma.usePloma = true;
 			emptyCanvasConfig.threshold = 1;
 			renderApplication(emptyCanvasConfig);
 			let strokes = getPointsFromJSON(canvasJsonConfig);
 			manuallyDrawStrokes(getWindowNode(), strokes);
-			expect(hashCode(getCombinedCanvas().toDataURL())).to.equal(hashCode(renderedStrokesData))
-		})
-	})
+			expect(hashCode(getCombinedCanvas().toDataURL())).to.equal(hashCode(renderedStrokesData));
+		});
+	});
 
 	describe('pressing toggle ploma', () => {
 
 		it('switches to Ploma when it was deactivated', () => {
-			let canvasWithIrregularStrokesWithPloma = require("json!./data/canvasWithIrregularStrokesWithPloma.json");
-			let renderedApp = renderApplication(canvasWithIrregularStrokesWithPloma.json);
+			let canvasWithIrregularStrokesWithPloma = require('json!./data/canvasWithIrregularStrokesWithPloma.json');
+			renderApplication(canvasWithIrregularStrokesWithPloma.json);
 			let nonPlomaImageData = getCombinedCanvas().toDataURL();
 			let plomaButton = document.getElementsByTagName('input')[0];
 			TestUtils.Simulate.click(plomaButton);
 			expect(hashCode(getCombinedCanvas().toDataURL())).to.not.equal(hashCode(nonPlomaImageData));
-		})
+		});
 
-	})
+	});
 
 	describe('undoing', () => {
 
 		it('keeps the canvas at content size', () => {
-			let emptyCanvas = _.cloneDeep(require("json!./data/emptyCanvas.json"));
+			let emptyCanvas = cloneDeep(require('json!./data/emptyCanvas.json'));
 			emptyCanvas.json.threshold = 0;
 			let renderedApp = renderApplication(emptyCanvas.json);
 			manuallyDrawStrokes(getWindowNode(), [{
@@ -158,13 +159,13 @@ describe('Integration', () => {
 			expect(getCanvasNodes()[0].height).to.equal(60);
 			TestUtils.Simulate.click(slider, {
 				pageX: slider.offsetWidth / 2
-			})
+			});
 			expect(getCanvasNodes()[0].width).to.equal(10);
 			expect(getCanvasNodes()[0].height).to.equal(60);
-		})
+		});
 
 		it('affects the canvas', () => {
-			let emptyCanvas = _.cloneDeep(require("json!./data/emptyCanvas.json"));
+			let emptyCanvas = cloneDeep(require('json!./data/emptyCanvas.json'));
 			let renderedApp = renderApplication(emptyCanvas.json);
 			manuallyDrawStrokes(getWindowNode(), [{
 				points: [ point(10,10), point(10,30), point(10,60) ]
@@ -177,18 +178,18 @@ describe('Integration', () => {
 			let beforeUndoImageData = getCombinedCanvas().toDataURL();
 			TestUtils.Simulate.click(slider, {
 				pageX: slider.offsetWidth / 2
-			})
+			});
 			let afterUndoImageData = getCombinedCanvas().toDataURL();
-			expect(hashCode(beforeUndoImageData)).to.not.equal(hashCode(afterUndoImageData))
-		})
+			expect(hashCode(beforeUndoImageData)).to.not.equal(hashCode(afterUndoImageData));
+		});
 
-	})
+	});
 
 	describe('moving a canvas', () => {
 
 		it('works without errors', (done) => {
-			let canvasJson = require("json!./data/canvasWithTwoStrokes.json").json
-			let renderedApp = renderApplication(canvasJson);
+			let canvasJson = require('json!./data/canvasWithTwoStrokes.json').json;
+			renderApplication(canvasJson);
 			let canvasNode = document.getElementsByTagName('canvas')[0];
 			let oldLeftValue = canvasNode.style.getPropertyValue('left');
 			let newLeftValue = `${parseInt(canvasNode.style.getPropertyValue('left')) + 1}px`;
@@ -197,14 +198,14 @@ describe('Integration', () => {
 				expect(canvasNode.style.getPropertyValue('left')).to.not.equal(oldLeftValue);
 				expect(canvasNode.style.getPropertyValue('left')).to.equal(newLeftValue);
 				done();
-			}, 0)
-		})
-	})
+			}, 0);
+		});
+	});
 
 	describe('changing the threshold', () => {
 
 		it('can split sketch with two strokes into two sketches', () => {
-			let canvasJson = require("json!./data/canvasWithTwoStrokes.json").json
+			let canvasJson = require('json!./data/canvasWithTwoStrokes.json').json;
 			canvasJson.threshold = 2000;
 			let renderedApp = renderApplication(canvasJson, 2);
 			expect(getCanvasNodes().length).to.equal(2);
@@ -212,12 +213,12 @@ describe('Integration', () => {
 			let thresholdSlider = domApp.childNodes[2].childNodes[1].childNodes[0];
 			TestUtils.Simulate.click(thresholdSlider, {
 				pageX: 1
-			})
+			});
 			expect(getCanvasNodes().length).to.equal(3);
-		})
+		});
 
 		it('can join sketches with one stroke each to one sketch', () => {
-			let canvasJson = require("json!./data/canvasWithTwoStrokes.json").json
+			let canvasJson = require('json!./data/canvasWithTwoStrokes.json').json;
 			canvasJson.threshold = 100;
 			let renderedApp = renderApplication(canvasJson);
 			expect(getCanvasNodes().length).to.equal(3);
@@ -225,10 +226,10 @@ describe('Integration', () => {
 			let thresholdSlider = domApp.childNodes[2].childNodes[1].childNodes[0];
 			TestUtils.Simulate.click(thresholdSlider, {
 				pageX: thresholdSlider.offsetWidth / 2
-			})
+			});
 			expect(getCanvasNodes().length).to.equal(2);
-		})
+		});
 
-	})
+	});
 
-})
+});

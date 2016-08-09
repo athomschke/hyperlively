@@ -29,18 +29,18 @@ describe('Fullscreen', () => {
 			restorableHeight = window.innerHeight;
 			fullscreenComponent = TestUtils.renderIntoDocument(<MockedComponent></MockedComponent>);
 			oldRemoveEventListener = window.removeEventListener;
-		})
+		});
 
 		afterEach(() => {
 			window.innerWidth = restorableWidth;
 			window.innerHeight = restorableHeight;
 			window.removeEventListener = oldRemoveEventListener;
-		})
+		});
 
 		it('to window size when created', () => {
 			expect(fullscreenComponent.state.width).to.equal(window.innerWidth);
 			expect(fullscreenComponent.state.height).to.equal(window.innerHeight);
-		})
+		});
 
 		it('with the window', () => {
 			window.innerWidth = 100;
@@ -48,15 +48,15 @@ describe('Fullscreen', () => {
 			fullscreenComponent.handleResize();
 			expect(fullscreenComponent.state.width).to.equal(100);
 			expect(fullscreenComponent.state.height).to.equal(100);
-		})
+		});
 
 		it('not any more when removed', () => {
 			let wasResizeHandlerRemoved = false;
 			window.removeEventListener = (listener) => {
 				wasResizeHandlerRemoved = wasResizeHandlerRemoved || listener === 'resize';
-			}
+			};
 			fullscreenComponent.componentWillUnmount();
 			expect(wasResizeHandlerRemoved).to.be.true;
-		})
-	})
-})
+		});
+	});
+});

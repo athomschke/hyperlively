@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 
-'use strict'
+'use strict';
 
 export default class Canvas extends Component {
 

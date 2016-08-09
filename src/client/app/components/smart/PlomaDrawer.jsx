@@ -1,13 +1,13 @@
-import React, {PropTypes} from 'react';
+import { PropTypes } from 'react';
 import AbstractDrawer from 'components/smart/AbstractDrawer';
 import { last, forEach, head, tail } from 'lodash';
-import { PRESSURE } from 'constants/drawing'
+import { PRESSURE } from 'constants/drawing';
 
-'use strict'
+'use strict';
 
-let Ploma = require("exports?Ploma!base/../libs/ploma");
+let Ploma = require('exports?Ploma!base/../libs/ploma');
 
-const PlomaDrawer = (Wrapped) => class extends AbstractDrawer {
+export default (Wrapped) => class extends AbstractDrawer {
 
 	static propTypes =  Object.assign({}, AbstractDrawer.propTypes, {
 		uniqueCanvasFactor: PropTypes.number
@@ -22,7 +22,7 @@ const PlomaDrawer = (Wrapped) => class extends AbstractDrawer {
 		plomaInstance.setSample(1);
 		this.setState({
 			plomaInstance: plomaInstance
-		}, this.redrawEverything.bind(this, last(this.props.strokes) && last(this.props.strokes).finished))
+		}, this.redrawEverything.bind(this, last(this.props.strokes) && last(this.props.strokes).finished));
 	}
 
 	onStrokeStarted(strokes) {
@@ -60,7 +60,7 @@ const PlomaDrawer = (Wrapped) => class extends AbstractDrawer {
 			that.startStrokeAt(head(points));
 			forEach(tail(points), function (point) {
 				that.extendStrokeAt(point);
-			})
+			});
 			if (shouldFinish) {
 				that.endStrokeAt(last(points));
 			} else {
@@ -72,6 +72,4 @@ const PlomaDrawer = (Wrapped) => class extends AbstractDrawer {
 	render() {
 		return this.renderWrappedComponent(Wrapped);
 	}
-}
-
-export default PlomaDrawer;
+};

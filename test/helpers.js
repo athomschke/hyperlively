@@ -15,7 +15,7 @@ export function point (x, y, optTimestamp) {
 		x: x,
 		y: y,
 		timestamp: optTimestamp || Date.now()
-	}
+	};
 }
 
 export function event (x, y, optTimestamp) {
@@ -23,5 +23,5 @@ export function event (x, y, optTimestamp) {
 		pageX: x,
 		pageY: y,
 		timeStamp: optTimestamp || Date.now()
-	}
+	};
 }

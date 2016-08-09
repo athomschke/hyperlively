@@ -1,9 +1,10 @@
 import PlomaDrawer from 'components/smart/PlomaDrawer';
-import AbstractDrawer from 'components/smart/AbstractDrawer';
 import TestUtils from 'react-addons-test-utils';
 import React from 'react';
-import { hashCode, point } from '../../helpers';
-import { cloneDeep, forEach } from 'lodash';
+import { point } from '../../helpers';
+import { sum, remove, forEach } from 'lodash';
+
+'use strict';
 
 let imageData;
 
@@ -36,9 +37,8 @@ let renderComponentWithProps = (props) => {
 		uniqueCanvasFactor={props.uniqueCanvasFactor || Math.random()}
 		strokes={props.strokes || []}
 	/>);
-}
+};
 
-'use strict'
 
 describe('PlomaDrawer', () => {
 
@@ -51,38 +51,38 @@ describe('PlomaDrawer', () => {
 				strokes: [{
 					points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}, {x:10, y:13}]
 				}]
-			})
-		})
+			});
+		});
 
 		afterEach(() => {
 			imageData = null;
-		})
+		});
 
 		it('is updated when a point was added', () => {
-			let sumBefore = _.sum(imageData.data);
+			let sumBefore = sum(imageData.data);
 			canvas.props.strokes[0].points.push({x: 10, y: 15});
 			canvas.componentDidUpdate();
-			let sumAfter = _.sum(imageData.data);
+			let sumAfter = sum(imageData.data);
 			expect(sumAfter).to.not.equal(sumBefore);
-		})
+		});
 
 		it('is updated when a point is removed', () => {
-			let sumBefore = _.sum(imageData.data);
+			let sumBefore = sum(imageData.data);
 			canvas.props.strokes[0].points.splice(-1);
 			canvas.componentDidUpdate();
-			let sumAfter = _.sum(imageData.data);
+			let sumAfter = sum(imageData.data);
 			expect(sumAfter).to.not.equal(sumBefore);
-		})
+		});
 
 		it('is not redrawn when point is only added', () => {
 			let hasRun = false;
 			canvas.props.strokes[0].points.push({x: 10, y: 15});
 			canvas.redrawEverything = () => {
 				hasRun = true;
-			}
+			};
 			canvas.componentDidUpdate();
 			expect(hasRun).to.be.false;
-		})
+		});
 
 		it('is not redrawn when stroke is only started', () => {
 			let hasRun = false;
@@ -91,43 +91,43 @@ describe('PlomaDrawer', () => {
 			});
 			canvas.redrawEverything = () => {
 				hasRun = true;
-			}
+			};
 			canvas.componentDidUpdate();
 			expect(hasRun).to.be.false;
-		})
+		});
 
 		it('is not redrawn when first stroke is only started', () => {
 			let hasRun = false;
-			_.remove(canvas.props.strokes, canvas.props.strokes[0]);
+			remove(canvas.props.strokes, canvas.props.strokes[0]);
 			canvas.componentDidUpdate();
 			canvas.props.strokes.push({
 				points: [{ x: 10, y: 10 }]
 			});
 			canvas.redrawEverything = () => {
 				hasRun = true;
-			}
+			};
 			canvas.componentDidUpdate();
 			expect(hasRun).to.be.false;
-		})
+		});
 
 		it('changes the image when two points are removed', () => {
-			let sumBefore = _.sum(imageData.data);
+			let sumBefore = sum(imageData.data);
 			canvas.props.strokes[0].points.splice(-2);
 			canvas.componentDidUpdate();
-			let sumAfter = _.sum(imageData.data);
+			let sumAfter = sum(imageData.data);
 			expect(sumAfter).to.not.equal(sumBefore);
-		})
+		});
 
 		it('finishes with the last point', () => {
-			let sumBefore = _.sum(imageData.data);
+			let sumBefore = sum(imageData.data);
 			canvas.props.strokes[0].finished = true;
 			canvas.props.strokes[0].points.push({x: 10, y: 14});
 			canvas.componentDidUpdate();
-			let sumAfter = _.sum(imageData.data);
+			let sumAfter = sum(imageData.data);
 			expect(sumAfter).to.not.equal(sumBefore);
-		})
+		});
 
-	})
+	});
 
 
 	describe('Changes in Ploma make that it', () => {
@@ -138,37 +138,37 @@ describe('PlomaDrawer', () => {
 					points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}, {x:10, y:13}, {x:10, y:14}, {x:10, y:15}],
 					finished: true
 				}]
-			})
-			let sumBefore = _.sum(imageData.data);
+			});
+			let sumBefore = sum(imageData.data);
 			let lost = canvas.props.strokes[0].points.splice(-2);
 			canvas.componentDidUpdate();
-			let sumBetween = _.sum(imageData.data);
+			let sumBetween = sum(imageData.data);
 			expect(sumBetween).to.not.equal(sumBefore);
 			canvas.props.strokes[0].points.push(lost[0]);
 			canvas.props.strokes[0].points.push(lost[1]);
 			canvas.componentDidUpdate();
-			let sumAfter = _.sum(imageData.data);
+			let sumAfter = sum(imageData.data);
 			expect(sumAfter).to.equal(sumBefore);
-		})
+		});
 
 		it('renders the same image different on another canvas', () => {
-			let canvas1 = renderComponentWithProps({
+			renderComponentWithProps({
 				strokes: [{
 					points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}, {x:10, y:13}, {x:10, y:14}, {x:10, y:15}]
 				}]
-			})
-			let sum1 = _.sum(imageData.data);
-			let canvas2 = renderComponentWithProps({
+			});
+			let sum1 = sum(imageData.data);
+			renderComponentWithProps({
 				strokes: [{
 					points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}, {x:10, y:13}, {x:10, y:14}, {x:10, y:15}]
 				}]
-			})
-			let sum2 = _.sum(imageData.data);
+			});
+			let sum2 = sum(imageData.data);
 			expect(sum1).to.not.equal(sum2);
-		})
+		});
 
 		it.skip('renders the same strokes differently on different coordinates with high uniqueCanvasFactor', () => {
-			let canvas = renderComponentWithProps({
+			renderComponentWithProps({
 				strokes: [{
 					points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}, {x:10, y:13}],
 					finished: true
@@ -177,22 +177,25 @@ describe('PlomaDrawer', () => {
 					finished: true
 				}],
 				uniqueCanvasFactor: 0.9
-			})
+			});
 			expect(false).to.be.true;
-		})
+		});
 
 		it.skip('renders the same strokes differently on different coordinates with low uniqueCanvasFactor', () => {
-			let canvas = renderPlomaCanvasWithStrokes([{
-				points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}, {x:10, y:13}],
-				finished: true
-			}, {
-				points: [{x:20, y:10}, {x:20, y:11}, {x:20, y:12}, {x:20, y:13}],
-				finished: true
-			}], 0.2)
+			renderComponentWithProps({
+				strokes: [{
+					points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}, {x:10, y:13}],
+					finished: true
+				}, {
+					points: [{x:20, y:10}, {x:20, y:11}, {x:20, y:12}, {x:20, y:13}],
+					finished: true
+				}],
+				uniqueCanvasFactor: 0.2
+			});
 			expect(false).to.be.true;
-		})
+		});
 
-	})	
+	});
 
 	describe('drawing with Ploma', () => {
 
@@ -201,7 +204,7 @@ describe('PlomaDrawer', () => {
 				strokes: [{
 					points: []
 				}]
-			})
+			});
 			canvas.props.strokes[0].points.push({ x:20, y:10 });
 			canvas.componentDidUpdate();
 			canvas.props.strokes[0].points.push({ x:20, y:11 });
@@ -214,37 +217,37 @@ describe('PlomaDrawer', () => {
 			canvas.componentDidUpdate();
 			canvas.props.strokes[0].finished = true;
 			canvas.componentDidUpdate();
-			let sumBefore = _.sum(imageData.data);
+			let sumBefore = sum(imageData.data);
 			canvas.props.strokes.push({
 				points: [{ x:40, y:14 }]
 			});
 			canvas.componentDidUpdate();
-			let sumAfter = _.sum(imageData.data);
-			expect(sumBefore).to.equal(sumAfter)
-		})
+			let sumAfter = sum(imageData.data);
+			expect(sumBefore).to.equal(sumAfter);
+		});
 
-	})
+	});
 
 	describe('changing the position of displayed points', () => {
 
 		it('Does not trigger a complete rerendering', () => {
 			let plomaDrawer = renderComponentWithProps({
-					strokes: [{
-						points: [point(10,10), point(10,11), point(10,12)]
-					}]
-				})
+				strokes: [{
+					points: [point(10,10), point(10,11), point(10,12)]
+				}]
+			});
 			let rerenderCalled = false;
 			plomaDrawer.redrawEverything = () => {
 				rerenderCalled = true;
-			}
+			};
 			
 			forEach(plomaDrawer.props.strokes[0].points, (point) => {
-				point.x += 10
-			})
+				point.x += 10;
+			});
 			plomaDrawer.componentDidUpdate();
 			expect(rerenderCalled).to.be.false;
-		})
+		});
 
-	})
+	});
 
-})
+});

@@ -20,8 +20,8 @@ let renderComponentWithBoundsAndCallback = (bounds, callback) => {
 	return TestUtils.renderIntoDocument(<MockedComponent
 		onBoundsUpdate={callback}
 		bounds={bounds}
-	/>)
-}
+	/>);
+};
 
 describe('Bounds mutation observer', () => {
 
@@ -31,95 +31,93 @@ describe('Bounds mutation observer', () => {
 			let called = false;
 			let mockedComponent = renderComponentWithBoundsAndCallback(
 				{ x: 1, y: 0 }, 
-				() => { called = true; })
+				() => { called = true; });
 			mockedComponent.refs.wrapped.refs.node.style.setProperty('left', '2px');
 			setTimeout(() => {
-				expect(called).to.be.true
+				expect(called).to.be.true;
 				done();
-			})
-		})
+			});
+		});
 
 		it('vertically calls the callback with a position when one is given', (done) => {
 			let called = false;
 			let mockedComponent = renderComponentWithBoundsAndCallback(
 				{ x: 0, y: 1 },
-				() => { called = true; })
+				() => { called = true; });
 			mockedComponent.refs.wrapped.refs.node.style.setProperty('top', '2px');
 			setTimeout(() => {
-				expect(called).to.be.true
+				expect(called).to.be.true;
 				done();
-			})
-		})
+			});
+		});
 
 		it('changes nothing if no callback is given', (done) => {
-			let bounds = { x: 1, y: 0 }
-			let mockedComponent = renderComponentWithBoundsAndCallback(bounds)
+			let bounds = { x: 1, y: 0 };
+			let mockedComponent = renderComponentWithBoundsAndCallback(bounds);
 			mockedComponent.refs.wrapped.refs.node.style.setProperty('left', '2px');
 			setTimeout(() => {
-				expect(mockedComponent.props.bounds.x).to.equal(bounds.x)
-				expect(mockedComponent.props.bounds.y).to.equal(bounds.y)
+				expect(mockedComponent.props.bounds.x).to.equal(bounds.x);
+				expect(mockedComponent.props.bounds.y).to.equal(bounds.y);
 				done();
-			})
-		})
+			});
+		});
 
 		it('is not recognized when component is not in dom anymore', (done) => {
 			let called = false;
 			let mockedComponent = renderComponentWithBoundsAndCallback(
 				{ x: 1, y: 0 }, 
-				() => { called = true; })
+				() => { called = true; });
 			let node = mockedComponent.refs.wrapped.refs.node;
-			let observer = mockedComponent.state.observer;
 			mockedComponent.componentWillUnmount();
 			node.style.setProperty('top', '2px');
 			setTimeout(() => {
-				expect(called).to.be.false
+				expect(called).to.be.false;
 				done();
-			})
-		})
+			});
+		});
 
 		it('is not recognized when component is not really moved', (done) => {
 			let called = false;
 			let mockedComponent = renderComponentWithBoundsAndCallback(
 				{ x: 0, y: 0 },
-				() => { called = true; })
+				() => { called = true; });
 			let node = mockedComponent.refs.wrapped.refs.node;
-			let observer = mockedComponent.state.observer;
 			mockedComponent.componentWillUnmount();
 			node.style.setProperty('top', '0px');
 			setTimeout(() => {
-				expect(called).to.be.false
+				expect(called).to.be.false;
 				done();
-			})
-		})
+			});
+		});
 
-	})
+	});
 
 	describe('setting width of a wrapped component', () => {
 		it('triggers no callback', (done) => {
 			let called = false;
 			let mockedComponent = renderComponentWithBoundsAndCallback(
 				{ x: 1, y: 0 }, 
-				() => { called = true; })
+				() => { called = true; });
 			mockedComponent.refs.wrapped.refs.node.setAttribute('width', '100px');
 			setTimeout(() => {
-				expect(called).to.be.false
+				expect(called).to.be.false;
 				done();
-			})
-		})
-	})
+			});
+		});
+	});
 
 	describe('setting border style of wrapped component', () => {
 		it('triggers no callback', (done) => {
 			let called = false;
 			let mockedComponent = renderComponentWithBoundsAndCallback(
 				{ x: 1, y: 0 }, 
-				() => { called = true; })
+				() => { called = true; });
 			mockedComponent.refs.wrapped.refs.node.style.setProperty('border-style', 'solid');
 			setTimeout(() => {
-				expect(called).to.be.false
+				expect(called).to.be.false;
 				done();
-			})
-		})
-	})
+			});
+		});
+	});
 
-})
+});

@@ -1,7 +1,7 @@
 import React from 'react';
 import Desk from 'components/smart/Desk';
 import TestUtils from 'react-addons-test-utils';
-import { point } from '../../helpers'
+import { point } from '../../helpers';
 
 class MockedSubComponent extends React.Component {
 
@@ -15,16 +15,16 @@ const MockedComponent = Desk(MockedSubComponent);
 describe('Desk', () => {
 
 	it('Renders with default properties', () => {
-		let desk = TestUtils.renderIntoDocument(<MockedComponent></MockedComponent>)
+		let desk = TestUtils.renderIntoDocument(<MockedComponent></MockedComponent>);
 		expect(desk).to.exist;
-	})
+	});
 
 	it('Renders exactly one canvas when no sketches given', () => {
-		let desk = TestUtils.renderIntoDocument(<MockedComponent></MockedComponent>)
+		let desk = TestUtils.renderIntoDocument(<MockedComponent></MockedComponent>);
 		expect(desk).to.exist;		
 		let node = TestUtils.findRenderedDOMComponentWithTag(desk, 'canvas');
-		expect(node).to.exist
-	})
+		expect(node).to.exist;
+	});
 
 	it('Renders two canvasses when one finished sketch is given', () => {
 		let desk = TestUtils.renderIntoDocument(<MockedComponent
@@ -35,20 +35,20 @@ describe('Desk', () => {
 				}],
 				finished: true
 			}]}
-		></MockedComponent>)
+		></MockedComponent>);
 		expect(desk).to.exist;		
 		let nodes = TestUtils.scryRenderedDOMComponentsWithTag(desk, 'canvas');
 		expect(nodes).to.have.length(2);
-	})
+	});
 
 	it('Renders one canvas when one unfinished sketch without strokes is given', () => {
 		let desk = TestUtils.renderIntoDocument(<MockedComponent
 			sketches={[{}]}
-		></MockedComponent>)
+		></MockedComponent>);
 		expect(desk).to.exist;		
 		let nodes = TestUtils.scryRenderedDOMComponentsWithTag(desk, 'canvas');
 		expect(nodes).to.have.length(1);
-	})
+	});
 
 	it('Renders no placeholder canvas when the last stroke is unfinished', () => {
 		let desk = TestUtils.renderIntoDocument(<MockedComponent
@@ -57,10 +57,10 @@ describe('Desk', () => {
 					points: [point(10,10)]
 				}]
 			}]}
-		></MockedComponent>)
+		></MockedComponent>);
 		expect(desk).to.exist;		
 		let nodes = TestUtils.scryRenderedDOMComponentsWithTag(desk, 'canvas');
 		expect(nodes).to.have.length(1);
-	})
+	});
 
-})
+});

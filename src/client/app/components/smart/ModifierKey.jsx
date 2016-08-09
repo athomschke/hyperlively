@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-const ModifierKey = (Wrapped) => class extends React.Component {
+export default (Wrapped) => class extends Component {
 
 	constructor(props) {
 		super(props);
 		this.state = {
 			cmdPressed: false
-		}
+		};
 	}
 
 	componentDidMount() {
@@ -19,21 +19,19 @@ const ModifierKey = (Wrapped) => class extends React.Component {
 		document.body.removeEventListener('keyup', this.handleKeyUp.bind(this));
 	}
 
-	handleKeyDown(e) {
+	handleKeyDown() {
 		this.setState({
 			cmdPressed: true
-		})
+		});
 	}
 
-	handleKeyUp(e) {
+	handleKeyUp() {
 		this.setState({
 			cmdPressed: false
-		})
+		});
 	}
 
 	render() {
-		return (<Wrapped {...this.props} {...this.state} ></Wrapped>)
+		return (<Wrapped {...this.props} {...this.state} ></Wrapped>);
 	}
-}
-
-export default ModifierKey
+};

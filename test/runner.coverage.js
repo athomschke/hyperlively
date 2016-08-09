@@ -1,3 +1,3 @@
-var context = require.context(".", true, /^((?![\\/]integration[\\/]).)*\.spec$/);
+var context = require.context('.', true, /^((?![\\/]integration[\\/]).)*\.spec$/);
 context.keys().forEach(context);
 module.exports = context;

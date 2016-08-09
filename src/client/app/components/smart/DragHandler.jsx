@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
-const DragHandler = (Wrapped) => class extends React.Component {
+export default (Wrapped) => class extends Component {
 
 	static propTypes = {
 		onDragStart: PropTypes.func,
@@ -16,19 +16,19 @@ const DragHandler = (Wrapped) => class extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.onMouseUp = this.onMouseUp.bind(this)
-		this.onMouseMove = this.onMouseMove.bind(this)
-		this.onMouseUp = this.onMouseUp.bind(this)
+		this.onMouseUp = this.onMouseUp.bind(this);
+		this.onMouseMove = this.onMouseMove.bind(this);
+		this.onMouseUp = this.onMouseUp.bind(this);
 		this.state = {
 			mousePressed: false
-		}
+		};
 	}
 
 	onMouseDown(evt) {
 		evt.persist();
 		this.setState({
 			mousePressed: true
-		}, this.props.onDragStart.bind(this, evt))
+		}, this.props.onDragStart.bind(this, evt));
 	}
 
 	onMouseMove(evt) {
@@ -42,7 +42,7 @@ const DragHandler = (Wrapped) => class extends React.Component {
 			this.props.onDragEnd(evt);
 			this.setState({
 				mousePressed: false
-			})
+			});
 		}
 	}
 
@@ -53,8 +53,6 @@ const DragHandler = (Wrapped) => class extends React.Component {
 				onMouseUp={this.onMouseUp.bind(this)}
 				onMouseMove={this.onMouseMove.bind(this)}
 				onMouseDown={this.onMouseDown.bind(this)}
-			><Wrapped {...this.props}/></div>)
+			><Wrapped {...this.props}/></div>);
 	}
-}
-
-export default DragHandler
+};

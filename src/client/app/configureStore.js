@@ -1,9 +1,7 @@
 import { createStore } from 'redux';
 import hyperlively from 'reducers/index';
 
-let initialState = {}
-
-export default function configureStore(initialState) {
+export default function configureStore(initialState = {}) {
 	const store = createStore(hyperlively, initialState, 
 		window.devToolsExtension && window.devToolsExtension());
 	return store;

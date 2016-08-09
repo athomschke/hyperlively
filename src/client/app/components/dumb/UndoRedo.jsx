@@ -1,7 +1,7 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
 import TemporaryCallbackSlider from 'components/smart/TemporaryCallbackSlider';
 
-'use strict'
+'use strict';
 
 export default class UndoRedo extends Component {
 
@@ -12,7 +12,7 @@ export default class UndoRedo extends Component {
 				}}
 			>
 			<TemporaryCallbackSlider ref="slider" {...this.props}/>
-		</div>)
+		</div>);
 	}
 
 }

@@ -1,8 +1,8 @@
 import React, {Component, PropTypes} from 'react';
 
-'use strict'
+'use strict';
 
-const ModuleChooser = (possibleComponents) => class extends React.Component {
+export default (possibleComponents) => class extends Component {
 	
 	static propTypes = {
 		componentIndex: PropTypes.number
@@ -14,8 +14,6 @@ const ModuleChooser = (possibleComponents) => class extends React.Component {
 
 	render() {
 		let ChosenMudule = possibleComponents[this.props.componentIndex];
-		return <ChosenMudule ref="chosenComponent" {...this.props} />
+		return <ChosenMudule ref="chosenComponent" {...this.props} />;
 	}
-}
-
-export default ModuleChooser
+};

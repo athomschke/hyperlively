@@ -2,43 +2,75 @@ import React, {Component, PropTypes} from 'react';
 import { flatten, last, isEqual, cloneDeep, forEach, map } from 'lodash';
 import { ERROR_OVERWRITE } from 'constants/errors';
 
-'use strict'
+'use strict';
 
 let pointCount = (strokes) => {
 	return flatten(map(strokes, (stroke) => {
 		return stroke.points;
-	})).length
-}
+	})).length;
+};
 
 export default class AbstractDrawer extends Component {
 
-	onStrokeStarted(strokes) {
+	/**
+	 * @overwrite
+	 * @param {array} strokes
+	 */
+	onStrokeStarted() {
 		throw(new Error(ERROR_OVERWRITE));
 	}
 
-	onStrokesExtended(strokes) {
+	/**
+	 * @overwrite
+	 * @param {array} strokes
+	 */
+	onStrokesExtended() {
 		throw(new Error(ERROR_OVERWRITE));
 	}
 
-	onStrokesEnded(strokes) {
+	/**
+	 * @overwrite
+	 * @param {array} strokes
+	 */
+	onStrokesEnded() {
 		throw(new Error(ERROR_OVERWRITE));
 	}
 
-	startStrokeAt(point) { }
+	/**
+	 * @overwrite
+	 * @param {array} strokes
+	 */
+	startStrokeAt() { }
 
-	extendStrokeAt(point, optPointBefore) {
+	/**
+	 * @overwrite
+	 * @param {array} strokes
+	 * @param {object} optPointBefore
+	 */
+	extendStrokeAt() {
 		throw(new Error(ERROR_OVERWRITE));
 	}
 
-	endStrokeAt(point, optPointBefore) {
+	/**
+	 * @overwrite
+	 * @param {array} strokes
+	 * @param {object} optPointBefore
+	 */
+	endStrokeAt() {
 		throw(new Error(ERROR_OVERWRITE));
 	}
 
+	/**
+	 * @overwrite
+	 */
 	resetCanvas() {
 		throw(new Error(ERROR_OVERWRITE));
 	}
 
-	redrawStroke(stroke, shouldFinish) {
+	/**
+	 * @overwrite
+	 */
+	redrawStroke() {
 		throw(new Error(ERROR_OVERWRITE));
 	}
 
@@ -80,7 +112,7 @@ export default class AbstractDrawer extends Component {
 		}
 		this.setState({
 			strokes: cloneDeep(this.props.strokes)
-		})
+		});
 	}
 
 	addPointPerformanceEnhanced() {
@@ -95,7 +127,7 @@ export default class AbstractDrawer extends Component {
 		}
 		this.setState({
 			tempCanvas: this.state.tempCanvas
-		})
+		});
 	}
 
 	redrawEverything(shouldFinish) {
@@ -103,10 +135,10 @@ export default class AbstractDrawer extends Component {
 		this.resetCanvas();
 		forEach(this.props.strokes, (stroke) => {
 			that.redrawStroke(stroke, shouldFinish);
-		})
+		});
 		this.setState({
 			tempCanvas: this.state.tempCanvas
-		})
+		});
 	}
 
 	renderWrappedComponent(Wrapped) {

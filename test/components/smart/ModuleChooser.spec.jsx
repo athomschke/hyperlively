@@ -1,9 +1,9 @@
 import ModuleChooser from 'components/smart/ModuleChooser';
 import TestUtils from 'react-addons-test-utils';
 import React from 'react';
-import { hashCode, point } from '../../helpers';
+import { point } from '../../helpers';
 
-'use strict'
+'use strict';
 
 class MockedSubComponent1 extends React.Component {
 
@@ -31,7 +31,7 @@ describe('ModuleChooser', () => {
 					return { componentIndex: 0 };
 				},
 				render() {
-					return <MockedComponent
+					return (<MockedComponent
 						ref="sut"
 						componentIndex={this.state.componentIndex}
 						bounds={{
@@ -41,19 +41,17 @@ describe('ModuleChooser', () => {
 							y: 10
 						}}
 						strokes={[ {points: [ point(10,10), point(11,11) ]} ]}
-					></MockedComponent>
+					></MockedComponent>);
 				}
 			}));
 			var parent = TestUtils.renderIntoDocument(TestParent());
 			expect(TestUtils.scryRenderedDOMComponentsWithTag(parent.refs.sut, 'canvas')).to.have.length(1);
 			parent.setState({
 				componentIndex: 1
-			})
-			let canvasses = TestUtils.scryRenderedDOMComponentsWithTag(parent.refs.sut, 'canvas')
-			let aes = TestUtils.scryRenderedDOMComponentsWithTag(parent.refs.sut, 'a')
+			});
 			expect(TestUtils.scryRenderedDOMComponentsWithTag(parent.refs.sut, 'a')).to.have.length(1);
-		})
+		});
 
-	})
+	});
 
-})
+});

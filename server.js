@@ -6,20 +6,20 @@
  */
 
 // modules
-var static = require( 'node-static' ),
-    port = 8080,
-    http = require( 'http' );
+var staticModule = require( 'node-static' ),
+	port = 8080,
+	http = require( 'http' );
 
 // config
-var file = new static.Server( './src/client/', {
-    cache: 3600,
-    gzip: true
+var file = new staticModule.Server( './src/client/', {
+	cache: 3600,
+	gzip: true
 } );
 
 // serve
 http.createServer( function ( request, response ) {
-    response.setHeader("Access-Control-Allow-Origin", "*");
-    request.addListener( 'end', function () {
-        file.serve( request, response );
-    } ).resume();
+	response.setHeader('Access-Control-Allow-Origin', '*');
+	request.addListener( 'end', function () {
+		file.serve( request, response );
+	} ).resume();
 } ).listen( port );

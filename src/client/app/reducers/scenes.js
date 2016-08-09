@@ -5,20 +5,20 @@ import { last } from 'lodash';
 let defaultScene = () => {
 	return {
 		strokes: []
-	}
-}
+	};
+};
 
 function scenes (state = [], action) {
 	switch(action.type) {
-		case APPEND_POINT:
-		case CREATE_STROKE:
-		case FINISH_STROKE:
-		case UPDATE_BOUNDS:
-			return [{
-				strokes: strokes((last(state) || defaultScene()).strokes, action)
-			}];
-		default:
-			return state;
+	case APPEND_POINT:
+	case CREATE_STROKE:
+	case FINISH_STROKE:
+	case UPDATE_BOUNDS:
+		return [{
+			strokes: strokes((last(state) || defaultScene()).strokes, action)
+		}];
+	default:
+		return state;
 	}
 }
 

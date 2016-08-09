@@ -1,7 +1,7 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
 import Checkbox from 'components/smart/Checkbox';
 
-'use strict'
+'use strict';
 
 export default class Ploma extends Component {
 
@@ -11,7 +11,7 @@ export default class Ploma extends Component {
 				<Checkbox {...this.props}/>
 				<span>Use Ploma</span>
 			</div>
-		)
+		);
 	}
 
 }

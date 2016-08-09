@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import { Slider } from 'reactrangeslider';
 
-'use strict'
+'use strict';
 
 let runningTimeout;
 
@@ -28,7 +28,7 @@ export default class TemporaryCallbackSlider extends Component {
 	componentDidMount() {
 		this.setState({
 			disableFunction: null
-		})
+		});
 	}
 
 	resetState(boundDisableFunction) {
@@ -36,7 +36,7 @@ export default class TemporaryCallbackSlider extends Component {
 		runningTimeout = undefined;
 		this.setState({
 			disableFunction: null
-		})
+		});
 	}
 
 	onSliderMove(newValue) {
@@ -49,12 +49,12 @@ export default class TemporaryCallbackSlider extends Component {
 			clearTimeout(runningTimeout);
 		}
 		if (disableFunction) {
-			runningTimeout = setTimeout(this.resetState.bind(this, disableFunction), this.props.timeout)
+			runningTimeout = setTimeout(this.resetState.bind(this, disableFunction), this.props.timeout);
 		}
 		this.props.onChange(Math.min(this.props.max, Math.max(0, newValue)));
 		this.setState({
 			disableFunction: disableFunction
-		})
+		});
 	}
 
 	onSliderStop() {
@@ -72,7 +72,7 @@ export default class TemporaryCallbackSlider extends Component {
 			min={0}
 			max={this.props.max}
 			value={this.props.value}
-		/>)
+		/>);
 	}
 
 }

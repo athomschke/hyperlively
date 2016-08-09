@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import Application from './Application';
 import configureStore from './configureStore';
 
-'use strict'
+'use strict';
 
 let store = configureStore();
 
@@ -13,4 +13,4 @@ render(
     <Application />
   </Provider>,
   document.getElementById('app')
-)
+);

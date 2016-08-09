@@ -19,9 +19,9 @@ const Window = class Window extends Component {
 				width: this.props.width,
 				height: this.props.height,
 				pointerEvents: this.props.cmdPressed ? 'none' : 'auto'
-			}}/>)
+			}}/>);
 	}
 
-}
+};
 
 export default Window;

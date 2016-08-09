@@ -1,8 +1,8 @@
 import React, {Component, PropTypes} from 'react';
 import { OFFSET } from 'constants/canvas';
-import { map, last, forEach } from 'lodash';
+import { map, last } from 'lodash';
 
-const Desk = (Wrapped) => class extends React.Component {
+export default (Wrapped) => class extends Component {
 
 	static propTypes = {
 		sketches: PropTypes.array
@@ -13,20 +13,20 @@ const Desk = (Wrapped) => class extends React.Component {
 	}
 
 	renderCanvas(strokes, id, finished) {
-		return <Wrapped {...this.props}
+		return (<Wrapped {...this.props}
 			active={finished}
 			strokes={strokes}
 			finished={finished}
 			offset={OFFSET}
 			key={id}
-		/>
+		/>);
 	}
 
 	renderSketchedCanvasses() {
 		let that = this;
 		return map(this.props.sketches, (sketch, id) => {
 			return that.renderCanvas(sketch.strokes || [], id, true);
-		})
+		});
 	}
 
 	renderPlaceholderCanvas() {
@@ -39,9 +39,7 @@ const Desk = (Wrapped) => class extends React.Component {
 	render() {
 		return (<div>
 			{this.renderSketchedCanvasses().concat(this.renderPlaceholderCanvas())}
-		</div>)
+		</div>);
 	}
 
-}
-
-export default Desk;
+};

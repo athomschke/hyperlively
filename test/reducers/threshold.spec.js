@@ -1,5 +1,5 @@
-import { threshold } from 'reducers/threshold'
-import { updateThreshold } from 'actions/configuring'
+import { threshold } from 'reducers/threshold';
+import { updateThreshold } from 'actions/configuring';
 
 describe('Threshold', () => {
 
@@ -7,16 +7,16 @@ describe('Threshold', () => {
 		let result = threshold(
 			undefined,
 			{}
-		)
-		expect(result).to.deep.equal(1)
-	})
+		);
+		expect(result).to.deep.equal(1);
+	});
 
 	it('sets the threshold', () => {
 		let result = threshold(
 			100,
 			updateThreshold(300)
-		)
+		);
 		expect(result).to.equal(300);
-	})
+	});
 
-})
+});

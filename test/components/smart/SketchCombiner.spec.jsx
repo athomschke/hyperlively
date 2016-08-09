@@ -9,7 +9,7 @@ let expectOneStrokeInOneSketch = (combinedSketches, addedPoint) => {
 	expect(combinedSketches[0].strokes).to.have.length(1);
 	expect(combinedSketches[0].strokes[0].points).to.have.length(1);
 	expect(combinedSketches[0].strokes[0].points[0]).to.deep.equal(addedPoint);
-}
+};
 
 let expectTwoSketches = (combinedSketches, addedPoint1, addedPoint2) => {
 	expect(combinedSketches).to.have.length(2);
@@ -21,7 +21,7 @@ let expectTwoSketches = (combinedSketches, addedPoint1, addedPoint2) => {
 	expect(combinedSketches[1].strokes).to.have.length(1);
 	expect(combinedSketches[1].strokes[0].points).to.have.length(1);
 	expect(combinedSketches[1].strokes[0].points[0]).to.deep.equal(addedPoint2);
-}
+};
 
 let expectTwoStrokesInOneSketch = (combinedSketches, addedPoint1) => {
 	expect(combinedSketches).to.have.length(1);
@@ -29,7 +29,7 @@ let expectTwoStrokesInOneSketch = (combinedSketches, addedPoint1) => {
 	expect(combinedSketches[0].strokes).to.have.length(2);
 	expect(combinedSketches[0].strokes[0].points).to.have.length(1);
 	expect(combinedSketches[0].strokes[0].points[0]).to.deep.equal(addedPoint1);
-}
+};
 
 
 describe('Sketch combiner', () => {
@@ -57,29 +57,29 @@ describe('Sketch combiner', () => {
 
 	let renderComponentWithProps = (props) => {
 		return TestUtils.renderIntoDocument(<MockedComponent {...props}></MockedComponent>);
-	}
+	};
 
 	let renderComponent = () => {
 		return renderComponentWithProps({});
-	}
+	};
 
 	beforeEach(() => {
 		sketches = null;
-	})
+	});
 
 	it('gives no sketches in default case', () => {
-		let combinedSketchComponent = renderComponent()
+		renderComponent();
 		expect(sketches).to.have.length(0);
-	})
+	});
 
 	it('gives no sketches for empty canvas', () => {
 		renderComponentWithProps({
 			scene: {
 				strokes: []
 			}
-		})
+		});
 		expect(sketches).to.have.length(0);
-	})
+	});
 
 	it('puts a single stroke in a single sketch', () => {
 		let addedPoint = point(10,10);
@@ -89,9 +89,9 @@ describe('Sketch combiner', () => {
 					points: [addedPoint]
 				}]
 			}
-		})
+		});
 		expectOneStrokeInOneSketch(sketches, addedPoint);
-	})
+	});
 
 	it('combines two strokes into one sketch if they have been drawn quickly', () => {
 		let threshold = 500;
@@ -100,17 +100,17 @@ describe('Sketch combiner', () => {
 		renderComponentWithProps({
 			scene: {
 				strokes: [{
-						points: [addedPoint1]
-					}, {
-						points: [addedPoint2]
-					}]
+					points: [addedPoint1]
+				}, {
+					points: [addedPoint2]
+				}]
 			},
 			threshold: threshold
-		})
+		});
 		expectTwoStrokesInOneSketch(sketches, addedPoint1, addedPoint2);
 		expect(sketches[0].strokes[1].points).to.have.length(1);
 		expect(sketches[0].strokes[1].points[0]).to.deep.equal(addedPoint2);
-	})
+	});
 
 	it('combines a long stroke into the previous sketch if started quickly enough', () => {
 		let threshold = 500;
@@ -120,15 +120,15 @@ describe('Sketch combiner', () => {
 		renderComponentWithProps({
 			scene: {
 				strokes: [{
-						points: [addedPoint1]
-					}, {
-						points: [addedPoint2, addedPoint3]
-					}]
+					points: [addedPoint1]
+				}, {
+					points: [addedPoint2, addedPoint3]
+				}]
 			},
 			threshold: threshold
-		})
+		});
 		expectTwoStrokesInOneSketch(sketches, addedPoint1, addedPoint2);
-	})
+	});
 
 	it('combines two strokes into two sketches if they have been drawn slowly after another', () => {
 		let threshold = 500;
@@ -137,28 +137,28 @@ describe('Sketch combiner', () => {
 		renderComponentWithProps({
 			scene: {
 				strokes: [{
-						points: [addedPoint1]
-					}, {
-						points: [addedPoint2]
-					}]
+					points: [addedPoint1]
+				}, {
+					points: [addedPoint2]
+				}]
 			},
 			threshold: threshold
-		})
+		});
 		expectTwoSketches(sketches, addedPoint1, addedPoint2);
-	})
+	});
 
 	it('sets a a single sketch to finished if its last stroke is finished', () => {
 		let addedPoint = point(10,10);
 		renderComponentWithProps({
 			scene: {
 				strokes: [{
-						points: [addedPoint],
-						finished: true
-					}]
+					points: [addedPoint],
+					finished: true
+				}]
 			}
-		})
-		expect(sketches[0].finished).to.be.true
-	})
+		});
+		expect(sketches[0].finished).to.be.true;
+	});
 
 	it('sets multiple sketches to finished if their last stroke is finished', () => {
 		let threshold = 500;
@@ -167,17 +167,16 @@ describe('Sketch combiner', () => {
 		renderComponentWithProps({
 			scene: {
 				strokes: [{
-						points: [addedPoint1],
-						finished: true
-					}, {
-						points: [addedPoint2]
-					}]
+					points: [addedPoint1],
+					finished: true
+				}, {
+					points: [addedPoint2]
+				}]
 			},
 			threshold: threshold
-		})
-		expect(sketches[0].finished).to.be.true
-		expect(sketches[1].finished).to.not.be.true
-	})
+		});
+		expect(sketches[0].finished).to.be.true;
+		expect(sketches[1].finished).to.not.be.true;
+	});
 
-
-})
+});

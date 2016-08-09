@@ -1,6 +1,6 @@
-import { points } from 'reducers/points'
-import { appendPoint } from 'actions/drawing'
-import { point, event } from '../helpers'
+import { points } from 'reducers/points';
+import { appendPoint } from 'actions/drawing';
+import { point, event } from '../helpers';
 
 describe('points', () => {
 	it('handles initial state', () => {
@@ -11,8 +11,8 @@ describe('points', () => {
 			)
 		).to.deep.equal(
 			[]
-		)
-	})
+		);
+	});
 
 	it('appends first point', () => {
 		let pointAddEvent = event(10, 10, 100);
@@ -24,8 +24,8 @@ describe('points', () => {
 			)
 		).to.deep.equal(
 			[newPoint]
-		)
-	})
+		);
+	});
 
 	it('appends second point', () => {
 		let existingPoint = point(10,10, 100);
@@ -38,6 +38,6 @@ describe('points', () => {
 			)
 		).to.deep.equal(
 			[existingPoint, newPoint]
-		)
-	})
-})
+		);
+	});
+});

@@ -1,10 +1,9 @@
 import PlainDrawer from 'components/smart/PlainDrawer';
 import TestUtils from 'react-addons-test-utils';
 import React from 'react';
-import { hashCode, point } from '../../helpers';
-import { cloneDeep } from 'lodash';
+import { sum } from 'lodash';
 
-'use strict'
+'use strict';
 
 let imageData;
 
@@ -36,7 +35,7 @@ let renderComponentWithProps = (props) => {
 		}}
 		strokes={props.strokes || []}
 	/>);
-}
+};
 
 describe('PlainDrawer', () => {
 
@@ -47,51 +46,51 @@ describe('PlainDrawer', () => {
 			strokes: [{
 				points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}, {x:10, y:13}]
 			}]
-		})
-	})
+		});
+	});
 
 	afterEach(() => {
 		imageData = null;
-	})
+	});
 
 	describe('plain rendered image', () => {
 
 		it('is updated when a point is added', () => {
-			let sumBefore = _.sum(imageData.data);
+			let sumBefore = sum(imageData.data);
 			canvas.props.strokes[0].points.push({x: 10, y: 14});
 			canvas.componentDidUpdate();
-			let sumAfter = _.sum(imageData.data);
+			let sumAfter = sum(imageData.data);
 			expect(sumAfter).to.not.equal(sumBefore);
-		})
+		});
 
 		it('is updated when a point is removed', () => {
-			let sumBefore = _.sum(imageData.data);
+			let sumBefore = sum(imageData.data);
 			canvas.props.strokes[0].points.splice(-1);
 			canvas.componentDidUpdate();
-			let sumAfter = _.sum(imageData.data);
+			let sumAfter = sum(imageData.data);
 			expect(sumAfter).to.not.equal(sumBefore);
-		})
+		});
 
 		it('does not re-render when nothing changed', () => {
-			let sumBefore = _.sum(imageData.data);
+			let sumBefore = sum(imageData.data);
 			canvas.componentDidUpdate();
-			let sumAfter = _.sum(imageData.data);
+			let sumAfter = sum(imageData.data);
 			expect(sumAfter).to.equal(sumBefore);
-		})
+		});
 
-	})
+	});
 
 	describe('finishing a stroke', () => {
 
 		it('adds the last point', () => {
-			let sumBefore = _.sum(imageData.data);
+			let sumBefore = sum(imageData.data);
 			canvas.props.strokes[0].finished = true;
 			canvas.props.strokes[0].points.push({x: 10, y: 14});
 			canvas.componentDidUpdate();
-			let sumAfter = _.sum(imageData.data);
+			let sumAfter = sum(imageData.data);
 			expect(sumAfter).to.not.equal(sumBefore);
-		})
+		});
 
-	})
+	});
 
-})
+});

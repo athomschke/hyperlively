@@ -1,10 +1,9 @@
-import React, {PropTypes} from 'react';
 import AbstractDrawer from 'components/smart/AbstractDrawer';
 import { without, last, head, tail, reduce } from 'lodash';
 
-'use strict'
+'use strict';
 
-const PlainDrawer = (Wrapped) => class extends AbstractDrawer {
+export default (Wrapped) => class extends AbstractDrawer {
 
 	componentDidMount() {
 		this.redrawEverything(last(this.props.strokes) && last(this.props.strokes).finished);
@@ -32,9 +31,9 @@ const PlainDrawer = (Wrapped) => class extends AbstractDrawer {
 			let context = this.state.tempCanvas.getContext('2d');
 			context.beginPath();
 			context.moveTo(optPointBefore.x, optPointBefore.y);
-	        context.lineTo(point.x, point.y);
-	        context.stroke();
-	        context.closePath();
+			context.lineTo(point.x, point.y);
+			context.stroke();
+			context.closePath();
 		}
 	}
 
@@ -43,7 +42,7 @@ const PlainDrawer = (Wrapped) => class extends AbstractDrawer {
 	}
 
 	resetCanvas() {
-		let context = this.state.tempCanvas.getContext('2d').clearRect(0, 0, this.state.tempCanvas.width, this.state.tempCanvas.height);
+		this.state.tempCanvas.getContext('2d').clearRect(0, 0, this.state.tempCanvas.width, this.state.tempCanvas.height);
 	}
 
 	redrawStroke(stroke, shouldFinish) {
@@ -54,7 +53,7 @@ const PlainDrawer = (Wrapped) => class extends AbstractDrawer {
 			reduce(without(tail(points), last(points)), function (pointBefore, point) {
 				that.extendStrokeAt(point, pointBefore);
 				return point;
-			}, tail(points)[0])
+			}, tail(points)[0]);
 			if (shouldFinish) {
 				that.endStrokeAt(last(points), points[points.length-2]);
 			} else {
@@ -66,6 +65,4 @@ const PlainDrawer = (Wrapped) => class extends AbstractDrawer {
 	render() {
 		return this.renderWrappedComponent(Wrapped);
 	}
-}
-
-export default PlainDrawer;
+};

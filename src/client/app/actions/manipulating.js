@@ -5,5 +5,5 @@ export function updateBounds(strokes, bounds) {
 		UPDATE_BOUNDS,
 		strokes: strokes,
 		bounds: bounds
-	}
+	};
 }

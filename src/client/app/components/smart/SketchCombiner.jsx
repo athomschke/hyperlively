@@ -7,8 +7,8 @@ let strokeFollowedSuit = (collectedSketches, stroke, threshold) => {
 		last(last(collectedSketches).strokes) &&
 		last(last(last(collectedSketches).strokes).points) &&
 		last(stroke.points) &&
-		first(stroke.points).timestamp - last(last(last(collectedSketches).strokes).points).timestamp < threshold
-}
+		first(stroke.points).timestamp - last(last(last(collectedSketches).strokes).points).timestamp < threshold;
+};
 
 let sketches = (strokes, threshold) => {
 	return reduce(strokes, (collectedSketches, stroke) => {
@@ -20,12 +20,12 @@ let sketches = (strokes, threshold) => {
 			return concat(collectedSketches, [{
 				strokes: [stroke],
 				finished: stroke.finished
-			}])
+			}]);
 		}
-	}, [])
-}
+	}, []);
+};
 
-const SketchCombiner = (Wrapped) => class extends Component {
+export default (Wrapped) => class extends Component {
 
 	static propTypes = {
 		scene: PropTypes.object,
@@ -43,9 +43,6 @@ const SketchCombiner = (Wrapped) => class extends Component {
 		let strokes = this.props.scene.strokes;
 		return (<Wrapped {...this.props}
 			sketches={sketches(strokes, this.props.threshold)}
-		></Wrapped>)
+		></Wrapped>);
 	}
-
-}
-
-export default SketchCombiner
+};

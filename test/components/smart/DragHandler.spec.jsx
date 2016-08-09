@@ -18,7 +18,7 @@ describe('Drag handler', () => {
 			pageX: x,
 			pageY: y
 		});
-	}
+	};
 
 	let renderComponentWithCallbacks = (props) => {
 		return TestUtils.renderIntoDocument(
@@ -29,20 +29,20 @@ describe('Drag handler', () => {
 				/>
 			</MockedComponent>
 		);
-	}
+	};
 
 	let renderComponent = () => {
-		return renderComponentWithCallbacks({})
-	}
+		return renderComponentWithCallbacks({});
+	};
 
 	describe('initializing', () => {
 
 		it('sets mousePressed state', () => {
 			let dragHandler = renderComponent();
 			expect(dragHandler.state.mousePressed).to.be.false;
-		})
+		});
 
-	})
+	});
 
 	describe('pressing mouse down', () => {
 
@@ -50,18 +50,18 @@ describe('Drag handler', () => {
 			let dragHandler = renderComponent();
 			simulateMouseEventAtOn('mouseDown', 10, 10, dragHandler.refs.node);
 			expect(dragHandler.state.mousePressed).to.be.true;
-		})
+		});
 
 		it('calls the onDragStart callback', () => {
 			let dragStartCalled = false;
 			let dragHandler = renderComponentWithCallbacks({
-				onDragStart: function () {dragStartCalled = true }
+				onDragStart: function () {dragStartCalled = true; }
 			});
 			simulateMouseEventAtOn('mouseDown', 10, 10, dragHandler.refs.node);
 			expect(dragStartCalled).to.be.true;
-		})
+		});
 
-	})
+	});
 
 	describe('performing a drag action', () => {
 
@@ -70,19 +70,19 @@ describe('Drag handler', () => {
 			simulateMouseEventAtOn('mouseDown', 10, 10, dragHandler.refs.node);
 			simulateMouseEventAtOn('mouseMove', 10, 11, dragHandler.refs.node);
 			expect(dragHandler.state.mousePressed).to.be.true;
-		})
+		});
 
 		it('calls the onDrag callback', () => {
 			let dragCalled = false;
 			let dragHandler = renderComponentWithCallbacks({
-				onDrag: () => { dragCalled = true }
+				onDrag: () => { dragCalled = true; }
 			});
 			simulateMouseEventAtOn('mouseDown', 10, 10, dragHandler.refs.node);
 			simulateMouseEventAtOn('mouseMove', 10, 11, dragHandler.refs.node);
 			expect(dragCalled).to.be.true;
-		})
+		});
 
-	})
+	});
 
 	describe('performing a hover action', () => {
 
@@ -90,18 +90,18 @@ describe('Drag handler', () => {
 			let dragHandler = renderComponent();
 			simulateMouseEventAtOn('mouseMove', 10, 11, dragHandler.refs.node);
 			expect(dragHandler.state.mousePressed).to.be.false;
-		})
+		});
 
 		it('does not call the onDrag callback', () => {
 			let dragCalled = false;
 			let dragHandler = renderComponentWithCallbacks({
-				onDrag: () => { dragCalled = true }
+				onDrag: () => { dragCalled = true; }
 			});
 			simulateMouseEventAtOn('mouseMove', 10, 11, dragHandler.refs.node);
 			expect(dragCalled).to.be.false;
-		})
+		});
 
-	})
+	});
 
 	describe('releasing the mouse', () => {
 
@@ -111,28 +111,28 @@ describe('Drag handler', () => {
 			simulateMouseEventAtOn('mouseMove', 10, 11, dragHandler.refs.node);
 			simulateMouseEventAtOn('mouseUp', 10, 12, dragHandler.refs.node);
 			expect(dragHandler.state.mousePressed).to.be.false;
-		})
+		});
 
 		it('calls the onDragEnd callback if mouse was pressed', () => {
 			let dragEndCalled = false;
 			let dragHandler = renderComponentWithCallbacks({
-				onDragEnd: () => { dragEndCalled = true }
+				onDragEnd: () => { dragEndCalled = true; }
 			});
 			simulateMouseEventAtOn('mouseDown', 10, 10, dragHandler.refs.node);
 			simulateMouseEventAtOn('mouseMove', 10, 11, dragHandler.refs.node);
 			simulateMouseEventAtOn('mouseUp', 10, 12, dragHandler.refs.node);
 			expect(dragEndCalled).to.be.true;
-		})
+		});
 
 		it('does not call the onDragEnd callback if mouse was not pressed', () => {
 			let dragEndCalled = false;
 			let dragHandler = renderComponentWithCallbacks({
-				onDragEnd: () => { dragEndCalled = true }
+				onDragEnd: () => { dragEndCalled = true; }
 			});
 			simulateMouseEventAtOn('mouseUp', 10, 12, dragHandler.refs.node);
 			expect(dragEndCalled).to.be.false;
-		})
+		});
 
-	})
+	});
 
-})
+});
