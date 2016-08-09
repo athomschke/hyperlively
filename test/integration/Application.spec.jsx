@@ -200,6 +200,19 @@ describe('Integration', () => {
 				done();
 			}, 0);
 		});
+
+		it('doesn\'t change its image', (done) => {
+			let canvasJson = require('json!./data/canvasWithTwoStrokes.json').json;
+			renderApplication(canvasJson);
+			let canvasNode = document.getElementsByTagName('canvas')[0];
+			let dataUrlBefore = canvasNode.toDataURL();
+			canvasNode.style.setProperty('left', `${parseInt(canvasNode.style.getPropertyValue('left')) + 100}px`);
+			setTimeout(() => {
+				let dataUrlAfter = canvasNode.toDataURL();
+				expect(hashCode(dataUrlAfter)).to.equal(hashCode(dataUrlBefore));
+				done();
+			}, 0);
+		});
 	});
 
 	describe('changing the threshold', () => {

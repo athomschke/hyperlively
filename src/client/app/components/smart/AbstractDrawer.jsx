@@ -4,10 +4,14 @@ import { ERROR_OVERWRITE } from 'constants/errors';
 
 'use strict';
 
-let pointCount = (strokes) => {
+let allPoints = (strokes) => {
 	return flatten(map(strokes, (stroke) => {
 		return stroke.points;
-	})).length;
+	}));
+};
+
+let pointCount = (strokes) => {
+	return allPoints(strokes).length;
 };
 
 export default class AbstractDrawer extends Component {
@@ -104,10 +108,24 @@ export default class AbstractDrawer extends Component {
 		return last(last(strokes).points);
 	}
 
+	moveImageDataToNewPosition() {
+		let oldFirstPoint = allPoints(this.state.strokes)[0];
+		let newFirstPoint = allPoints(this.props.strokes)[0];
+		let moveBy ={ 
+			x: newFirstPoint.x - oldFirstPoint.x,
+			y: newFirstPoint.y - oldFirstPoint.y
+		};
+		let context = this.state.tempCanvas.getContext('2d');
+		let oldImageData = context.getImageData(this.props.bounds.x - moveBy.x, this.props.bounds.y - moveBy.y, this.props.bounds.width, this.props.bounds.height);
+		context.putImageData(oldImageData, this.props.bounds.x, this.props.bounds.y);
+	}
+
 	onStrokesUpdated() {
 		if (pointCount(this.props.strokes) === (pointCount(this.state.strokes) + 1)) {
 			this.addPointPerformanceEnhanced();
-		} else if (pointCount(this.props.strokes) !== (pointCount(this.state.strokes))) {
+		} else if (pointCount(this.props.strokes) === (pointCount(this.state.strokes))) {
+			this.moveImageDataToNewPosition();
+		} else {
 			this.redrawEverything(this.props.strokes[0] && this.props.strokes[0].finished);
 		}
 		this.setState({

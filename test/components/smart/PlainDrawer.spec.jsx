@@ -1,7 +1,7 @@
 import PlainDrawer from 'components/smart/PlainDrawer';
 import TestUtils from 'react-addons-test-utils';
 import React from 'react';
-import { sum } from 'lodash';
+import { sum, forEach } from 'lodash';
 
 'use strict';
 
@@ -40,20 +40,20 @@ let renderComponentWithProps = (props) => {
 describe('PlainDrawer', () => {
 
 	let canvas;
-	
-	beforeEach(() => {
-		canvas = renderComponentWithProps({
-			strokes: [{
-				points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}, {x:10, y:13}]
-			}]
-		});
-	});
 
 	afterEach(() => {
 		imageData = null;
 	});
 
 	describe('plain rendered image', () => {
+
+		beforeEach(() => {
+			canvas = renderComponentWithProps({
+				strokes: [{
+					points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}, {x:10, y:13}]
+				}]
+			});
+		});
 
 		it('is updated when a point is added', () => {
 			let sumBefore = sum(imageData.data);
@@ -82,6 +82,14 @@ describe('PlainDrawer', () => {
 
 	describe('finishing a stroke', () => {
 
+		beforeEach(() => {
+			canvas = renderComponentWithProps({
+				strokes: [{
+					points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}, {x:10, y:13}]
+				}]
+			});
+		});
+
 		it('adds the last point', () => {
 			let sumBefore = sum(imageData.data);
 			canvas.props.strokes[0].finished = true;
@@ -89,6 +97,40 @@ describe('PlainDrawer', () => {
 			canvas.componentDidUpdate();
 			let sumAfter = sum(imageData.data);
 			expect(sumAfter).to.not.equal(sumBefore);
+		});
+
+	});
+
+	describe('changing the positions of strokes', () => {
+
+		it('does not change the image data', () => {
+			canvas = renderComponentWithProps({
+				strokes: [{
+					points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}, {x:10, y:13}]
+				}]
+			});
+			let sumBefore = sum(imageData.data);
+			forEach(canvas.props.strokes[0].points, (point) => {
+				point.x += 10;
+				point.y += 10;
+			});
+			canvas.componentDidUpdate();
+			let sumAfter = sum(imageData.data);
+			expect(sumAfter).to.equal(sumBefore);
+		});
+
+		it('does nothing when no strokes are given', () => {
+			canvas = renderComponentWithProps({
+				strokes: []
+			});
+			let sumBefore = sum(imageData.data);
+			forEach((canvas.props.strokes[0] || {}).points, (point) => {
+				point.x += 10;
+				point.y += 10;
+			});
+			canvas.componentDidUpdate();
+			let sumAfter = sum(imageData.data);
+			expect(sumAfter).to.equal(sumBefore);
 		});
 
 	});
