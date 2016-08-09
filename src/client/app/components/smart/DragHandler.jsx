@@ -24,20 +24,45 @@ export default (Wrapped) => class extends Component {
 		};
 	}
 
+	onTouchStart(evt) {
+		evt.persist();
+		return this.onPointerDown(evt.changedTouches[0]);
+	}
+
+	onTouchMove(evt) {
+		return this.onPointerMove(evt.changedTouches[0]);
+	}
+
+	onTouchEnd(evt) {
+		return this.onPointerUp(evt.changedTouches[0]);
+	}
+
 	onMouseDown(evt) {
 		evt.persist();
+		this.onPointerDown(evt);
+	}
+
+	onMouseMove(evt) {
+		this.onPointerMove(evt);
+	}
+
+	onMouseUp(evt) {
+		this.onPointerUp(evt);
+	}
+
+	onPointerDown(evt) {
 		this.setState({
 			mousePressed: true
 		}, this.props.onDragStart.bind(this, evt));
 	}
 
-	onMouseMove(evt) {
+	onPointerMove(evt) {
 		if (this.state.mousePressed) {
 			this.props.onDrag(evt);
 		}
 	}
 
-	onMouseUp(evt) {
+	onPointerUp(evt) {
 		if (this.state.mousePressed) {
 			this.props.onDragEnd(evt);
 			this.setState({
@@ -53,6 +78,9 @@ export default (Wrapped) => class extends Component {
 				onMouseUp={this.onMouseUp.bind(this)}
 				onMouseMove={this.onMouseMove.bind(this)}
 				onMouseDown={this.onMouseDown.bind(this)}
+				onTouchStart={this.onTouchStart.bind(this)}
+				onTouchMove={this.onTouchMove.bind(this)}
+				onTouchEnd={this.onTouchEnd.bind(this)}
 			><Wrapped {...this.props}/></div>);
 	}
 };

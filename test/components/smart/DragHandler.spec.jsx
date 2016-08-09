@@ -20,6 +20,15 @@ describe('Drag handler', () => {
 		});
 	};
 
+	let simulateTouchEventAtOn = (eventType, x, y, node) => {
+		TestUtils.Simulate[eventType](node, {
+			changedTouches: [{
+				pageX: x,
+				pageY: y
+			}]
+		});
+	};
+
 	let renderComponentWithCallbacks = (props) => {
 		return TestUtils.renderIntoDocument(
 			<MockedComponent {...props}>
@@ -82,6 +91,16 @@ describe('Drag handler', () => {
 			expect(dragCalled).to.be.true;
 		});
 
+		it('with touch calls the onDrag callback', () => {
+			let dragCalled = false;
+			let dragHandler = renderComponentWithCallbacks({
+				onDrag: () => { dragCalled = true; }
+			});
+			simulateTouchEventAtOn('touchStart', 10, 10, dragHandler.refs.node);
+			simulateTouchEventAtOn('touchMove', 10, 11, dragHandler.refs.node);
+			expect(dragCalled).to.be.true;
+		});
+
 	});
 
 	describe('performing a hover action', () => {
@@ -103,13 +122,21 @@ describe('Drag handler', () => {
 
 	});
 
-	describe('releasing the mouse', () => {
+	describe('releasing', () => {
 
 		it('sets the mousePressed state to false', () => {
 			let dragHandler = renderComponent();
 			simulateMouseEventAtOn('mouseDown', 10, 10, dragHandler.refs.node);
 			simulateMouseEventAtOn('mouseMove', 10, 11, dragHandler.refs.node);
 			simulateMouseEventAtOn('mouseUp', 10, 12, dragHandler.refs.node);
+			expect(dragHandler.state.mousePressed).to.be.false;
+		});
+
+		it('a finger sets the mousePressed state to false', () => {
+			let dragHandler = renderComponent();
+			simulateTouchEventAtOn('touchStart', 10, 10, dragHandler.refs.node);
+			simulateTouchEventAtOn('touchMove', 10, 11, dragHandler.refs.node);
+			simulateTouchEventAtOn('touchEnd', 10, 12, dragHandler.refs.node);
 			expect(dragHandler.state.mousePressed).to.be.false;
 		});
 
