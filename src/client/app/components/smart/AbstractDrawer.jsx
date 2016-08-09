@@ -75,7 +75,7 @@ export default class AbstractDrawer extends Component {
 	onStrokesUpdated() {
 		if (pointCount(this.props.strokes) === (pointCount(this.state.strokes) + 1)) {
 			this.addPointPerformanceEnhanced();
-		} else {
+		} else if (pointCount(this.props.strokes) !== (pointCount(this.state.strokes))) {
 			this.redrawEverything(this.props.strokes[0] && this.props.strokes[0].finished);
 		}
 		this.setState({

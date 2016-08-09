@@ -2,6 +2,7 @@ import AbstractDrawer from 'components/smart/AbstractDrawer';
 import TestUtils from 'react-addons-test-utils';
 import React from 'react';
 import { ERROR_OVERWRITE } from 'constants/errors';
+import { point } from '../../helpers';
 
 'use strict'
 
@@ -52,6 +53,5 @@ describe('AbstractDrawer', () => {
 		})
 
 	})
-
 
 })

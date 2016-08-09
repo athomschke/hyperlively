@@ -1,8 +1,9 @@
 import PlomaDrawer from 'components/smart/PlomaDrawer';
+import AbstractDrawer from 'components/smart/AbstractDrawer';
 import TestUtils from 'react-addons-test-utils';
 import React from 'react';
 import { hashCode, point } from '../../helpers';
-import { cloneDeep } from 'lodash';
+import { cloneDeep, forEach } from 'lodash';
 
 let imageData;
 
@@ -220,6 +221,28 @@ describe('PlomaDrawer', () => {
 			canvas.componentDidUpdate();
 			let sumAfter = _.sum(imageData.data);
 			expect(sumBefore).to.equal(sumAfter)
+		})
+
+	})
+
+	describe('changing the position of displayed points', () => {
+
+		it('Does not trigger a complete rerendering', () => {
+			let plomaDrawer = renderComponentWithProps({
+					strokes: [{
+						points: [point(10,10), point(10,11), point(10,12)]
+					}]
+				})
+			let rerenderCalled = false;
+			plomaDrawer.redrawEverything = () => {
+				rerenderCalled = true;
+			}
+			
+			forEach(plomaDrawer.props.strokes[0].points, (point) => {
+				point.x += 10
+			})
+			plomaDrawer.componentDidUpdate();
+			expect(rerenderCalled).to.be.false;
 		})
 
 	})
