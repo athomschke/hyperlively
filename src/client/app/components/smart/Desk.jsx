@@ -14,7 +14,7 @@ export default (Wrapped) => class extends Component {
 
 	renderCanvas(strokes, id, finished) {
 		return (<Wrapped {...this.props}
-			active={finished}
+			active={this.props.cmdPressed}
 			strokes={strokes}
 			finished={finished}
 			offset={OFFSET}

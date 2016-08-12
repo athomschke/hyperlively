@@ -8,6 +8,7 @@ import SketchTransformer from 'components/smart/SketchTransformer';
 import PlomaDrawer from 'components/smart/PlomaDrawer';
 import PlainDrawer from 'components/smart/PlainDrawer';
 import BoundsMutationObserver from 'components/smart/BoundsMutationObserver';
+import ModifierKey from 'components/smart/ModifierKey';
 import Canvas from 'components/dumb/Canvas';
 
 const mapStateToProps = (state) => {
@@ -31,4 +32,4 @@ let ObservedCanvas = BoundsMutationObserver(Canvas);
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(SketchCombiner(Desk(SketchTransformer(ModuleChooser([PlainDrawer(ObservedCanvas), PlomaDrawer(ObservedCanvas)])))));
+)(SketchCombiner(ModifierKey(Desk(SketchTransformer(ModuleChooser([PlainDrawer(ObservedCanvas), PlomaDrawer(ObservedCanvas)]))))));
