@@ -4,37 +4,43 @@ import { jumpTo } from 'actions/timetravel';
 let emptyState = {
 	future: [],
 	past: [],
-	present: 'default'
+	present: []
 };
 
-let dummyEndState = {
-	past: ['', 'd', 'de', 'def', 'defa', 'defau', 'defaul'],
+let dummyEightsState = {
+	past: [[], [1], [1, 2], [1, 2, 3], [1, 2, 3, 4], [1, 2, 3, 4, 5], [1, 2, 3, 4, 5, 6]],
 	future: [],
-	present: 'default'
+	present: [1, 2, 3, 4, 5, 6, 7]
 };
 
-let dummyStartState = {
+let dummyFirstState = {
 	past: [],
-	future: ['d', 'de', 'def', 'defa', 'defau', 'defaul', 'default'],
-	present: ''
+	future: [[1], [1, 2], [1, 2, 3], [1, 2, 3, 4], [1, 2, 3, 4, 5], [1, 2, 3, 4, 5, 6], [1, 2, 3, 4, 5, 6, 7]],
+	present: []
 };
 
-let dummyThreeState = {
-	past: ['', 'd', 'de'],
-	future: ['defa', 'defau', 'defaul', 'default'],
-	present: 'def'
+let dummySecondState = {
+	past: [[]],
+	future: [[1, 2], [1, 2, 3], [1, 2, 3, 4], [1, 2, 3, 4, 5], [1, 2, 3, 4, 5, 6], [1, 2, 3, 4, 5, 6, 7]],
+	present: [1]
 };
 
-let dummyFourState = {
-	past: ['', 'd', 'de', 'def'],
-	future: ['defau', 'defaul', 'default'],
-	present: 'defa'
+let dummyThirdState = {
+	past: [[], [1]],
+	future: [[1, 2, 3], [1, 2, 3, 4], [1, 2, 3, 4, 5], [1, 2, 3, 4, 5, 6], [1, 2, 3, 4, 5, 6, 7]],
+	present: [1, 2]
 };
 
-let dummySixState = {
-	past: ['', 'd', 'de', 'def', 'defa', 'defau'],
-	future: ['default'],
-	present: 'defaul'
+let dummyFourthState = {
+	past: [[], [1], [1, 2]],
+	future: [[1, 2, 3, 4], [1, 2, 3, 4, 5], [1, 2, 3, 4, 5, 6], [1, 2, 3, 4, 5, 6, 7]],
+	present: [1, 2, 3]
+};
+
+let dummySixthState = {
+	past: [[], [1], [1, 2], [1, 2, 3], [1, 2, 3, 4]],
+	future: [[1, 2, 3, 4, 5, 6], [1, 2, 3, 4, 5, 6, 7]],
+	present: [1, 2, 3, 4, 5]
 };
 
 describe('undoable', () => {
@@ -42,17 +48,17 @@ describe('undoable', () => {
 	describe('initial state', () => {
 
 		it('creates the default present', () => {
-			let actualState = undoable((state = '') => state)(undefined, {});
-			expect(actualState.present).to.deep.equal('');
+			let actualState = undoable((state = []) => state)(undefined, {});
+			expect(actualState.present).to.deep.equal([]);
 		});
 
 		it('creates an empty past', () => {
-			let actualState = undoable((state = '') => state)(undefined, {});
+			let actualState = undoable((state = []) => state)(undefined, {});
 			expect(actualState.past).to.deep.equal([]);
 		});
 
 		it('creates an empty future', () => {
-			let actualState = undoable((state = '') => state)(undefined, {});
+			let actualState = undoable((state = []) => state)(undefined, {});
 			expect(actualState.future).to.deep.equal([]);
 		});
 	});
@@ -60,28 +66,28 @@ describe('undoable', () => {
 	describe('undoing', () => {
 
 		it('does nothing if history is empty', () => {
-			let actualState = undoable((state = '') => state)(emptyState, jumpTo(3));
+			let actualState = undoable((state = []) => state)(emptyState, jumpTo(3));
 			expect(actualState).to.deep.equal(emptyState);
 		});
 
 		it('goes back to start when jumping back further than start', () => {
-			let actualState = undoable((state = '') => state)(dummyEndState, jumpTo(-1));
-			expect(actualState).to.deep.equal(dummyStartState);
+			let actualState = undoable((state = []) => state)(dummyEightsState, jumpTo(-1));
+			expect(actualState).to.deep.equal(dummyFirstState);
 		});
 
 		it('can go back to first state in history', () => {
-			let actualState = undoable((state = '') => state)(dummyEndState, jumpTo(0));
-			expect(actualState).to.deep.equal(dummyStartState);
+			let actualState = undoable((state = []) => state)(dummyEightsState, jumpTo(0));
+			expect(actualState).to.deep.equal(dummyFirstState);
 		});
 
 		it('can go back to some state in history', () => {
-			let actualState = undoable((state = '') => state)(dummyEndState, jumpTo(3));
-			expect(actualState).to.deep.equal(dummyThreeState);
+			let actualState = undoable((state = []) => state)(dummyEightsState, jumpTo(2));
+			expect(actualState).to.deep.equal(dummyThirdState);
 		});
 
 		it('can go back to second to last state', () => {
-			let actualState = undoable((state = '') => state)(dummyEndState, jumpTo(6));
-			expect(actualState).to.deep.equal(dummySixState);
+			let actualState = undoable((state = []) => state)(dummyEightsState, jumpTo(5));
+			expect(actualState).to.deep.equal(dummySixthState);
 		});
 
 		it('invokes the passed reducer when not jumping in time', () => {
@@ -90,7 +96,7 @@ describe('undoable', () => {
 			})(emptyState, {
 				type: 'foobar'
 			});
-			expect(actualState.past).to.deep.equal(['default']);
+			expect(actualState.past).to.deep.equal([[]]);
 			expect(actualState.present).to.equal(1);
 		});
 	});
@@ -98,28 +104,33 @@ describe('undoable', () => {
 	describe('redoing', () => {
 
 		it('does nothing if future is empty', () => {
-			let actualState = undoable((state = '') => state)(emptyState, jumpTo(3));
+			let actualState = undoable((state = []) => state)(emptyState, jumpTo(3));
 			expect(actualState).to.deep.equal(emptyState);
 		});
 
 		it('goes forward to end when jumping further than end', () => {
-			let actualState = undoable((state = '') => state)(dummyStartState, jumpTo(10));
-			expect(actualState).to.deep.equal(dummyEndState);
+			let actualState = undoable((state = []) => state)(dummyFirstState, jumpTo(10));
+			expect(actualState).to.deep.equal(dummyEightsState);
 		});
 
 		it('can go forward to last state in future', () => {
-			let actualState = undoable((state = '') => state)(dummyStartState, jumpTo(7));
-			expect(actualState).to.deep.equal(dummyEndState);
+			let actualState = undoable((state = []) => state)(dummyFirstState, jumpTo(8));
+			expect(actualState).to.deep.equal(dummyEightsState);
 		});
 
 		it('can go forward to some state in future', () => {
-			let actualState = undoable((state = '') => state)(dummyStartState, jumpTo(3));
-			expect(actualState).to.deep.equal(dummyThreeState);
+			let actualState = undoable((state = []) => state)(dummyFirstState, jumpTo(2));
+			expect(actualState).to.deep.equal(dummyThirdState);
+		});
+
+		it('can go forward to second state in future', () => {
+			let actualState = undoable((state = []) => state)(dummyFirstState, jumpTo(1));
+			expect(actualState).to.deep.equal(dummySecondState);
 		});
 
 		it('can go forward one step to the future', () => {
-			let actualState = undoable((state = '') => state)(dummyThreeState, jumpTo(4));
-			expect(actualState).to.deep.equal(dummyFourState);
+			let actualState = undoable((state = []) => state)(dummyThirdState, jumpTo(3));
+			expect(actualState).to.deep.equal(dummyFourthState);
 		});
 	});
 

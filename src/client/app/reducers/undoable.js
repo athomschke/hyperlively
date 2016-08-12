@@ -1,5 +1,5 @@
 import { JUMP_TO } from 'constants/actionTypes';
-import { drop, dropRight, concat } from 'lodash';
+import { concat, slice, isEqual, cloneDeep } from 'lodash';
 
 function undoable (reducer) {
 
@@ -11,17 +11,17 @@ function undoable (reducer) {
 
 	const nextState = (pointInTime, past, present, future) => {
 		let allStates = concat(past, [present], future);
-		let normalizedPointInTime = Math.max(0, Math.min(pointInTime, allStates.length - 1));
+		let normalizedPointInTime = Math.max(0, Math.min(allStates.length - 1, pointInTime));
 		return {
-			past: dropRight(allStates, allStates.length - normalizedPointInTime),
-			present: allStates[normalizedPointInTime],
-			future: drop(allStates, normalizedPointInTime + 1)
+			past: slice(allStates, 0, normalizedPointInTime),
+			present: slice(allStates, normalizedPointInTime , normalizedPointInTime + 1)[0],
+			future: slice(allStates, normalizedPointInTime + 1, allStates.length)
 		};
 	};
 
 	const defaultNextState = (state, action) => {
-		const newPresent = reducer(state.present, action);
-		if (state.present === newPresent) {
+		const newPresent = reducer(cloneDeep(state.present), action);
+		if (isEqual(state.present, newPresent)) {
 			return state;
 		} else {
 			return {
