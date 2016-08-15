@@ -14,6 +14,10 @@ export default (possibleComponents) => class extends Component {
 
 	render() {
 		let ChosenMudule = possibleComponents[this.props.componentIndex];
-		return <ChosenMudule ref="chosenComponent" {...this.props} />;
+		if (ChosenMudule) {
+			return <ChosenMudule ref="chosenComponent" {...this.props} />;
+		} else {
+			return <div ref="chosenComponent" />;
+		}
 	}
 };
