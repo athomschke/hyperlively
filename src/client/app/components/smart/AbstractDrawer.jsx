@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import { flatten, last, isEqual, cloneDeep, forEach, map } from 'lodash';
 import { ERROR_OVERWRITE } from 'constants/errors';
+import { OFFSET } from 'constants/canvas';
 
 'use strict';
 
@@ -80,11 +81,17 @@ export default class AbstractDrawer extends Component {
 
 	static propTypes = {
 		strokes: PropTypes.array,
-		bounds: PropTypes.object.isRequired
+		bounds: PropTypes.object
 	};
 
 	static defaultProps = {
-		strokes: []
+		strokes: [],
+		bounds: {
+			x: 0,
+			y: 0,
+			width: 2*OFFSET,
+			height: 2*OFFSET
+		}
 	};
 
 	constructor(props) {

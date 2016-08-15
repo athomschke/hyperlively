@@ -5,7 +5,13 @@ const Window = class Window extends Component {
 	static propTypes = {
 		width: PropTypes.number.isRequired,
 		height: PropTypes.number.isRequired,
-		cmdPressed: PropTypes.bool.isRequired
+		cmdPressed: PropTypes.bool
+	};
+
+	static defaultProps = {
+		width: 0,	
+		height: 0,
+		cmdPressed: false
 	};
 
 	render() {
