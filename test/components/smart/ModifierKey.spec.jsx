@@ -23,7 +23,7 @@ describe('ModifierKey', () => {
 			let modifierKeyComponent = TestUtils.renderIntoDocument(<MockedComponent></MockedComponent>);
 			let wasKeyDownHandlerRemoved = false;
 			let wasKeyUpHandlerRemoved = false;
-			document.body.removeEventListener = (listener) => {
+			window.removeEventListener = (listener) => {
 				wasKeyDownHandlerRemoved = wasKeyDownHandlerRemoved || listener === 'keydown';
 				wasKeyUpHandlerRemoved = wasKeyUpHandlerRemoved || listener === 'keyup';
 			};

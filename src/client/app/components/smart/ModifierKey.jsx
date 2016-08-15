@@ -10,13 +10,13 @@ export default (Wrapped) => class extends Component {
 	}
 
 	componentDidMount() {
-		document.body.addEventListener('keydown', this.handleKeyDown.bind(this));
-		document.body.addEventListener('keyup', this.handleKeyUp.bind(this));
+		window.addEventListener('keydown', this.handleKeyDown.bind(this));
+		window.addEventListener('keyup', this.handleKeyUp.bind(this));
 	}
 
 	componentWillUnmount() {
-		document.body.removeEventListener('keydown', this.handleKeyDown.bind(this));
-		document.body.removeEventListener('keyup', this.handleKeyUp.bind(this));
+		window.removeEventListener('keydown', this.handleKeyDown.bind(this));
+		window.removeEventListener('keyup', this.handleKeyUp.bind(this));
 	}
 
 	handleKeyDown() {
