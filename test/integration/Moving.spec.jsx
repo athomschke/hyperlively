@@ -31,12 +31,17 @@ let getCanvasDataURL = () => {
 };
 
 describe('Integration', () => {
+	
+	let xhr;
+	
 	beforeEach(() => {
+		xhr = sinon.useFakeXMLHttpRequest();
 		mountApp();
 	});
 
 	afterEach(() => {
 		dismountApp();
+		xhr.restore();
 	});
 
 	describe('moving a canvas', () => {

@@ -4,12 +4,17 @@ import { hashCode, renderApplicationWithState, mountApp, dismountApp, getCombine
 'use strict';
 
 describe('Integration', () => {
+
+	let xhr;
+	
 	beforeEach(() => {
+		xhr = sinon.useFakeXMLHttpRequest();
 		mountApp();
 	});
 
 	afterEach(() => {
 		dismountApp();
+		xhr.restore();
 	});
 
 	describe('pressing toggle ploma', () => {

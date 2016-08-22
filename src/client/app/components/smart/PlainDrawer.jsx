@@ -3,7 +3,7 @@ import { without, last, head, tail, reduce } from 'lodash';
 
 'use strict';
 
-export default (Wrapped) => class extends AbstractDrawer {
+export default (Wrapped) => class PlainDrawer extends AbstractDrawer {
 
 	componentDidMount() {
 		this.redrawEverything(last(this.props.strokes) && last(this.props.strokes).finished);

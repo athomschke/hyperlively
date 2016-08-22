@@ -6,12 +6,16 @@ import { renderApplicationWithState, mountApp, dismountApp, getCanvasNodes } fro
 
 describe('Integration', () => {
 
+	let xhr;
+	
 	beforeEach(() => {
+		xhr = sinon.useFakeXMLHttpRequest();
 		mountApp();
 	});
 
 	afterEach(() => {
 		dismountApp();
+		xhr.restore();
 	});
 
 	describe('changing the threshold', () => {

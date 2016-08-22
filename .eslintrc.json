@@ -15,7 +15,8 @@
         "afterEach": true,
         "it": true,
         "describe": true,
-        "__dirname": true
+        "__dirname": true,
+        "sinon": true
     },
     "rules": {
         "indent": [

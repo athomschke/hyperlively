@@ -1,6 +1,7 @@
 import { combineCanvasses } from './helpers';
 
 describe('Integration', () => {
+
 	describe('dummy testing', () => {
 
 		it('combining two canvasses looks the same as writing their content on the same canvas', () => {

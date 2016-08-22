@@ -5,9 +5,9 @@ import { PRESSURE } from 'constants/drawing';
 
 'use strict';
 
-let Ploma = require('exports?Ploma!base/../libs/ploma');
+const Ploma = require('exports?Ploma!base/../libs/ploma');
 
-export default (Wrapped) => class extends AbstractDrawer {
+export default (Wrapped) => class PlomaDrawer extends AbstractDrawer {
 
 	static propTypes =  Object.assign({}, AbstractDrawer.propTypes, {
 		uniqueCanvasFactor: PropTypes.number

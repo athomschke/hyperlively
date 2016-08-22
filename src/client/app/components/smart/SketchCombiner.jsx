@@ -2,6 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { reduce, last, first, concat } from 'lodash';
 import { DEFAULT_THRESHOLD } from 'constants/drawing';
 
+'use strict';
+
 let strokeFollowedSuit = (collectedSketches, stroke, threshold) => {
 	return last(collectedSketches) &&
 		last(last(collectedSketches).strokes) &&

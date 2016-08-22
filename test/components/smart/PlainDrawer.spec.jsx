@@ -1,7 +1,7 @@
 import PlainDrawer from 'components/smart/PlainDrawer';
 import TestUtils from 'react-addons-test-utils';
 import React from 'react';
-import { sum, forEach } from 'lodash';
+import { sum, forEach, remove } from 'lodash';
 
 'use strict';
 
@@ -133,6 +133,49 @@ describe('PlainDrawer', () => {
 			expect(sumAfter).to.equal(sumBefore);
 		});
 
+	});
+
+	describe('taking away the second stroke', () => {
+		beforeEach(() => {
+			canvas = renderComponentWithProps({
+				strokes: [{
+					points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}, {x:10, y:13}],
+					finished: true
+				},{
+					points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}, {x:10, y:13}],
+					finished: true
+				}]
+			});
+		});
+
+		it('draws only the first', () => {
+			let sumBefore = sum(imageData.data);
+			remove(canvas.props.strokes, canvas.props.strokes[1]);
+			canvas.componentDidUpdate();
+			let sumAfter = sum(imageData.data);
+			expect(sumAfter).to.not.equal(sumBefore);
+		});
+	});
+
+	describe('starting a stroke', () => {
+		beforeEach(() => {
+			canvas = renderComponentWithProps({
+				strokes: [{
+					points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}, {x:10, y:13}],
+					finished: true
+				}]
+			});
+		});
+
+		it('does nothing, really', () => {
+			let sumBefore = sum(imageData.data);
+			canvas.props.strokes.push({
+				points: [{x:20, y:10}]
+			});
+			canvas.componentDidUpdate();
+			let sumAfter = sum(imageData.data);
+			expect(sumAfter).to.equal(sumBefore);
+		});
 	});
 
 });

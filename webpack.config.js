@@ -2,6 +2,7 @@ var path = require('path');
 
 var BUILD_DIR = path.resolve(__dirname, 'src/client/public');
 var APP_DIR = path.resolve(__dirname, 'src/client/app');
+var CREDENTIALS_DIR = path.resolve(__dirname, 'credentials');
 
 var config = {
 	entry: APP_DIR + '/index.jsx',
@@ -31,6 +32,7 @@ var config = {
 			constants: APP_DIR + '/constants',
 			containers: APP_DIR + '/containers',
 			reducers: APP_DIR + '/reducers',
+			credentials: CREDENTIALS_DIR,
 			base: APP_DIR
 		}
 	}

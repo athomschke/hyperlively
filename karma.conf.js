@@ -23,9 +23,10 @@ module.exports = function (config) {
 			'karma-mocha',
 			'karma-sourcemap-loader',
 			'karma-webpack',
-			'karma-mocha-reporter'
+			'karma-mocha-reporter',
+			'karma-sinon'
 		],
-		frameworks: [ 'chai', 'mocha' ],
+		frameworks: [ 'chai', 'mocha', 'sinon' ],
 		preprocessors: {
 			'test/**/*': ['webpack', 'sourcemap'],
 			'src/**/*': ['webpack', 'sourcemap']

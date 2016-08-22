@@ -8,12 +8,17 @@ let getPointsFromJSON = (json) => {
 };
 
 describe('Integration', () => {
+	
+	let xhr;
+	
 	beforeEach(() => {
+		xhr = sinon.useFakeXMLHttpRequest();
 		mountApp();
 	});
 
 	afterEach(() => {
 		dismountApp();
+		xhr.restore();
 	});
 
 	describe('drawing', () => {
