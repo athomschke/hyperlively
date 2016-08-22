@@ -3,12 +3,12 @@ import { updateThreshold } from 'actions/configuring';
 
 describe('Threshold', () => {
 
-	it('handles initial state', () => {
+	it('initial threshold is 500 ms', () => {
 		let result = threshold(
 			undefined,
 			{}
 		);
-		expect(result).to.deep.equal(1);
+		expect(result).to.deep.equal(500);
 	});
 
 	it('sets the threshold', () => {
