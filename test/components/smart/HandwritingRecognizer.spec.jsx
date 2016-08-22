@@ -87,12 +87,13 @@ describe('HandwritingRecognizer', () => {
 			})
 		};
 		recognizer.onReadyStateChange(request);
-		expect(recognizer.state.recognized).to.deep.equal(['a', 'b', 'c']);
+		expect(recognizer.state.candidates).to.have.length(3);
+		expect(recognizer.state.candidates[0].label).to.equal('a');
 	});
 
 	it('creates a request when a stroke is added and finished', () => {
 		let length = requests.length;
-		recognizer.props.components.push({
+		recognizer.props.strokes.push({
 			points: [point(10,11,12), point(13,14,15), point(16,17,18)],
 			finished: true
 		});
@@ -102,19 +103,25 @@ describe('HandwritingRecognizer', () => {
 
 	it('can recognize again when a new stroke is added', () => {
 		let length = requests.length;
-		recognizer.props.components.push({
+		recognizer.props.strokes.push({
 			points: [point(10,11,12), point(13,14,15), point(16,17,18)],
 			finished: true
 		});
 		recognizer.componentDidUpdate();
-		recognizer.props.components.push({
+		recognizer.props.strokes.push({
 			points: [point(19,20,21), point(22,23,24)]
 		});
 		recognizer.componentDidUpdate();
-		recognizer.props.components[1].points.push(point(25,26,27));
-		recognizer.props.components[1].finished = true;
+		recognizer.props.strokes[1].points.push(point(25,26,27));
+		recognizer.props.strokes[1].finished = true;
 		recognizer.componentDidUpdate();
 		expect(requests.length).to.equal(length + 2);
+	});
+
+	it('recognizing empty array of strokes is possible', () => {
+		let length = requests.length;
+		recognizer.componentDidUpdate();
+		expect(true).to.be.true;
 	});
 
 });

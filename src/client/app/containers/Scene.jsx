@@ -34,4 +34,4 @@ let ObservedCanvas = BoundsMutationObserver(Canvas);
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(HandwritingRecognizer(SketchCombiner(ModifierKey(Desk(SketchTransformer(ModuleChooser([PlainDrawer(ObservedCanvas), PlomaDrawer(ObservedCanvas)])))))));
+)(SketchCombiner(ModifierKey(Desk(HandwritingRecognizer(SketchTransformer(ModuleChooser([PlainDrawer(ObservedCanvas), PlomaDrawer(ObservedCanvas)])))))));

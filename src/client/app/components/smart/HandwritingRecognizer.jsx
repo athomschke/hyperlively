@@ -6,12 +6,12 @@ import { HmacSHA512, enc } from 'crypto-js';
 export default (Wrapped) => class extends Component {
 
 	static propTypes = {
-		components: PropTypes.array,
+		strokes: PropTypes.array,
 		finished: PropTypes.bool
 	};
 
 	static defaultProps = {
-		components: [],
+		strokes: [],
 		finished: false
 	}
 
@@ -19,7 +19,7 @@ export default (Wrapped) => class extends Component {
 		super(props);
 		this.state = {
 			hasRecognized: false,
-			recognized: []
+			candidates: []
 		};
 	}
 
@@ -34,7 +34,7 @@ export default (Wrapped) => class extends Component {
 		});
 	}
 
-	getStringInput(components) {
+	getStringInput(strokes) {
 		return JSON.stringify({
 			textParameter: {
 				textProperties: {},
@@ -43,7 +43,7 @@ export default (Wrapped) => class extends Component {
 			},
 			inputUnits: [{
 				textInputType: TEXT_INPUT_TYPE,
-				components: components
+				components: strokes
 			}]
 		});
 	}
@@ -63,7 +63,7 @@ export default (Wrapped) => class extends Component {
 			let answer = JSON.parse(request.responseText);
 			let candidates = answer.result.textSegmentResult.candidates;
 			this.setState({
-				recognized: map(candidates, 'label')
+				candidates: candidates
 			});
 		}
 	}
@@ -81,17 +81,17 @@ export default (Wrapped) => class extends Component {
 	}
 
 	recognize() {
-		let stringInput = this.getStringInput(this.strokesToComponents(this.props.components));
+		let stringInput = this.getStringInput(this.strokesToComponents(this.props.strokes));
 		let data = `applicationKey=${this.applicationKeyData()}&textInput=${this.stringInputData(stringInput)}&hmac=${this.hmacData(stringInput)}`;
 		this.xmlHttpRequest(this.onReadyStateChange.bind(this)).send(data);
 	}
 
 	shouldRecognize() {
-		return !this.state.hasRecognized && last(this.props.components) && last(this.props.components).finished;
+		return !this.state.hasRecognized && last(this.props.strokes) && last(this.props.strokes).finished;
 	}
 
 	newStrokeStarted() {
-		return this.state.hasRecognized && !last(this.props.components).finished;
+		return this.state.hasRecognized && last(this.props.strokes) && !last(this.props.strokes).finished;
 	}
 
 	componentDidUpdate() {
