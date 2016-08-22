@@ -1,5 +1,6 @@
 import AbstractDrawer from 'components/smart/AbstractDrawer';
 import { without, last, head, tail, reduce } from 'lodash';
+import React from 'react';
 
 'use strict';
 
@@ -63,6 +64,6 @@ export default (Wrapped) => class PlainDrawer extends AbstractDrawer {
 	}
 
 	render() {
-		return this.renderWrappedComponent(Wrapped);
+		return (<div>{this.renderWrappedComponent(Wrapped)}</div>);
 	}
 };

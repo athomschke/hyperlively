@@ -2,6 +2,7 @@ import { PropTypes } from 'react';
 import AbstractDrawer from 'components/smart/AbstractDrawer';
 import { last, forEach, head, tail } from 'lodash';
 import { PRESSURE } from 'constants/drawing';
+import React from 'react';
 
 'use strict';
 
@@ -70,6 +71,6 @@ export default (Wrapped) => class PlomaDrawer extends AbstractDrawer {
 	}
 
 	render() {
-		return this.renderWrappedComponent(Wrapped);
+		return (<div>{this.renderWrappedComponent(Wrapped)}</div>);
 	}
 };

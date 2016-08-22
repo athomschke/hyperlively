@@ -74,15 +74,15 @@ export default (Wrapped) => class extends Component {
 	}
 
 	render() {
+		let callbacks = this.props.cmdPressed ? {} : {
+			onMouseUp: this.onMouseUp.bind(this),
+			onMouseMove: this.onMouseMove.bind(this),
+			onMouseDown: this.onMouseDown.bind(this),
+			onTouchStart: this.onTouchStart.bind(this),
+			onTouchMove: this.onTouchMove.bind(this),
+			onTouchEnd: this.onTouchEnd.bind(this)
+		};
 		return (
-			<div
-				ref='node'
-				onMouseUp={this.props.cmdPressed ? () => {} : this.onMouseUp.bind(this)}
-				onMouseMove={this.props.cmdPressed ? () => {} : this.onMouseMove.bind(this)}
-				onMouseDown={this.props.cmdPressed ? () => {} : this.onMouseDown.bind(this)}
-				onTouchStart={this.props.cmdPressed ? () => {} : this.onTouchStart.bind(this)}
-				onTouchMove={this.props.cmdPressed ? () => {} : this.onTouchMove.bind(this)}
-				onTouchEnd={this.props.cmdPressed ? () => {} : this.onTouchEnd.bind(this)}
-			><Wrapped {...this.props}/></div>);
+			<div ref='node' {...callbacks} ><Wrapped {...this.props}/></div>);
 	}
 };

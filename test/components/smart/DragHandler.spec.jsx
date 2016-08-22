@@ -29,7 +29,7 @@ describe('Drag handler', () => {
 		});
 	};
 
-	let renderComponentWithCallbacks = (props) => {
+	let renderComponentWithProps = (props) => {
 		return TestUtils.renderIntoDocument(
 			<MockedComponent {...props}>
 				<div
@@ -41,7 +41,7 @@ describe('Drag handler', () => {
 	};
 
 	let renderComponent = () => {
-		return renderComponentWithCallbacks({});
+		return renderComponentWithProps({});
 	};
 
 	describe('initializing', () => {
@@ -49,6 +49,16 @@ describe('Drag handler', () => {
 		it('sets mousePressed state', () => {
 			let dragHandler = renderComponent();
 			expect(dragHandler.state.mousePressed).to.be.false;
+		});
+
+		it('disabled handling when cmd is pressed', () => {
+			let dragStartCalled = false;
+			let dragHandler = renderComponentWithProps({
+				onDragStart: function () {dragStartCalled = true; },
+				cmdPressed: true
+			});
+			simulateMouseEventAtOn('mouseDown', 10, 10, dragHandler.refs.node);
+			expect(dragStartCalled).to.be.false;
 		});
 
 	});
@@ -63,7 +73,7 @@ describe('Drag handler', () => {
 
 		it('calls the onDragStart callback', () => {
 			let dragStartCalled = false;
-			let dragHandler = renderComponentWithCallbacks({
+			let dragHandler = renderComponentWithProps({
 				onDragStart: function () {dragStartCalled = true; }
 			});
 			simulateMouseEventAtOn('mouseDown', 10, 10, dragHandler.refs.node);
@@ -83,7 +93,7 @@ describe('Drag handler', () => {
 
 		it('calls the onDrag callback', () => {
 			let dragCalled = false;
-			let dragHandler = renderComponentWithCallbacks({
+			let dragHandler = renderComponentWithProps({
 				onDrag: () => { dragCalled = true; }
 			});
 			simulateMouseEventAtOn('mouseDown', 10, 10, dragHandler.refs.node);
@@ -93,7 +103,7 @@ describe('Drag handler', () => {
 
 		it('with touch calls the onDrag callback', () => {
 			let dragCalled = false;
-			let dragHandler = renderComponentWithCallbacks({
+			let dragHandler = renderComponentWithProps({
 				onDrag: () => { dragCalled = true; }
 			});
 			simulateTouchEventAtOn('touchStart', 10, 10, dragHandler.refs.node);
@@ -113,7 +123,7 @@ describe('Drag handler', () => {
 
 		it('does not call the onDrag callback', () => {
 			let dragCalled = false;
-			let dragHandler = renderComponentWithCallbacks({
+			let dragHandler = renderComponentWithProps({
 				onDrag: () => { dragCalled = true; }
 			});
 			simulateMouseEventAtOn('mouseMove', 10, 11, dragHandler.refs.node);
@@ -142,7 +152,7 @@ describe('Drag handler', () => {
 
 		it('calls the onDragEnd callback if mouse was pressed', () => {
 			let dragEndCalled = false;
-			let dragHandler = renderComponentWithCallbacks({
+			let dragHandler = renderComponentWithProps({
 				onDragEnd: () => { dragEndCalled = true; }
 			});
 			simulateMouseEventAtOn('mouseDown', 10, 10, dragHandler.refs.node);
@@ -153,7 +163,7 @@ describe('Drag handler', () => {
 
 		it('does not call the onDragEnd callback if mouse was not pressed', () => {
 			let dragEndCalled = false;
-			let dragHandler = renderComponentWithCallbacks({
+			let dragHandler = renderComponentWithProps({
 				onDragEnd: () => { dragEndCalled = true; }
 			});
 			simulateMouseEventAtOn('mouseUp', 10, 12, dragHandler.refs.node);
