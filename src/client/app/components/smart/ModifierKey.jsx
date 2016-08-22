@@ -5,7 +5,8 @@ export default (Wrapped) => class extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			cmdPressed: false
+			cmdPressed: false,
+			ctrlPressed: false
 		};
 	}
 
@@ -19,16 +20,22 @@ export default (Wrapped) => class extends Component {
 		window.removeEventListener('keyup', this.handleKeyUp.bind(this));
 	}
 
-	handleKeyDown() {
-		this.setState({
-			cmdPressed: true
-		});
+	handleKeyDown(event) {
+		if (event.metaKey && !event.ctrlKey) {
+			this.setState({ cmdPressed: true });
+		}
+		if (event.ctrlKey) {
+			this.setState({ ctrlPressed: true });
+		}
 	}
 
-	handleKeyUp() {
-		this.setState({
-			cmdPressed: false
-		});
+	handleKeyUp(event) {
+		if (!event.metaKey || event.ctrlKey) {
+			this.setState({ cmdPressed: false });
+		}
+		if (!event.ctrlKey) {
+			this.setState({ ctrlPressed: false });
+		}
 	}
 
 	render() {

@@ -35,7 +35,10 @@ describe('Integration', () => {
 			expect(document.getElementsByTagName('canvas')).to.have.length(3);
 			expect(document.getElementsByTagName('canvas')[0].style.getPropertyValue('pointer-events')).to.equal('none');
 			forEach(listeners, (listener) => {
-				listener.type === 'keydown' && listener.callback();
+				listener.type === 'keydown' && listener.callback({
+					metaKey: true,
+					ctrlKey: false
+				});
 			});
 			window.addEventListener = oldAddEventListener.bind(window);
 			expect(document.getElementsByTagName('canvas')[0].style.getPropertyValue('pointer-events')).to.equal('auto');	
@@ -57,7 +60,10 @@ describe('Integration', () => {
 			expect(document.getElementsByTagName('canvas')).to.have.length(3);
 			expect(document.getElementsByClassName('window')[0].style.getPropertyValue('pointer-events')).to.equal('auto');
 			forEach(listeners, (listener) => {
-				listener.type === 'keydown' && listener.callback();
+				listener.type === 'keydown' && listener.callback({
+					metaKey: true,
+					ctrlKey: false
+				});
 			});
 			expect(document.getElementsByClassName('window')[0].style.getPropertyValue('pointer-events')).to.equal('none');	
 		});

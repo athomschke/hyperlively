@@ -5,13 +5,15 @@ export default (Wrapped) => class extends Component {
 	static propTypes = {
 		onDragStart: PropTypes.func,
 		onDrag: PropTypes.func,
-		onDragEnd: PropTypes.func
+		onDragEnd: PropTypes.func,
+		cmdPressed: PropTypes.bool
 	};
 
 	static defaultProps = {
 		onDragStart: () => {},
 		onDrag: () => {},
-		onDragEnd: () => {}
+		onDragEnd: () => {},
+		cmdPressed: false
 	}
 
 	constructor(props) {
@@ -75,12 +77,12 @@ export default (Wrapped) => class extends Component {
 		return (
 			<div
 				ref='node'
-				onMouseUp={this.onMouseUp.bind(this)}
-				onMouseMove={this.onMouseMove.bind(this)}
-				onMouseDown={this.onMouseDown.bind(this)}
-				onTouchStart={this.onTouchStart.bind(this)}
-				onTouchMove={this.onTouchMove.bind(this)}
-				onTouchEnd={this.onTouchEnd.bind(this)}
+				onMouseUp={this.props.cmdPressed ? () => {} : this.onMouseUp.bind(this)}
+				onMouseMove={this.props.cmdPressed ? () => {} : this.onMouseMove.bind(this)}
+				onMouseDown={this.props.cmdPressed ? () => {} : this.onMouseDown.bind(this)}
+				onTouchStart={this.props.cmdPressed ? () => {} : this.onTouchStart.bind(this)}
+				onTouchMove={this.props.cmdPressed ? () => {} : this.onTouchMove.bind(this)}
+				onTouchEnd={this.props.cmdPressed ? () => {} : this.onTouchEnd.bind(this)}
 			><Wrapped {...this.props}/></div>);
 	}
 };

@@ -8,13 +8,13 @@ export default (Wrapped) => class extends Component {
 	static propTypes = {
 		strokes: PropTypes.array,
 		finished: PropTypes.bool,
-		enabled: PropTypes.bool
+		ctrlPressed: PropTypes.bool
 	};
 
 	static defaultProps = {
 		strokes: [],
 		finished: false,
-		enabled: true
+		ctrlPressed: false
 	}
 
 	constructor(props) {
@@ -97,7 +97,7 @@ export default (Wrapped) => class extends Component {
 	}
 
 	componentDidUpdate() {
-		if (this.props.enabled) {
+		if (this.props.ctrlPressed) {
 			if (this.shouldRecognize()) {
 				this.setState({
 					hasRecognized: true
