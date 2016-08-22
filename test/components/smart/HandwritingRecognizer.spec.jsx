@@ -4,24 +4,24 @@ import React from 'react';
 import { TEXT_INPUT_TYPE, LANGUAGE, TEXT_INPUT_MODE } from 'constants/handwriting';
 import TestUtils from 'react-addons-test-utils';
 
+const renderWithProps = (props) => {
+	class WrappedComponent extends React.Component {
+		render () {
+			return <div></div>;
+		}
+	}
+	let HandwritingRecognizerComponent = HandwritingRecognizer(WrappedComponent);
+	return TestUtils.renderIntoDocument(<HandwritingRecognizerComponent {...props}/>);
+};
 
 describe('HandwritingRecognizer', () => {
 
-	let recognizer;
 	let xhr;
 	let requests;
 
 	beforeEach(() => {
-		class WrappedComponent extends React.Component {
-
-			render () {
-				return <div></div>;
-			}
-		}
-
-		let HandwritingRecognizerComponent = HandwritingRecognizer(WrappedComponent);
+		
 		xhr = sinon.useFakeXMLHttpRequest();
-		recognizer = TestUtils.renderIntoDocument(<HandwritingRecognizerComponent />);
 		requests = [];
 		xhr.onCreate = (request) => {
 			requests.push(request);
@@ -32,7 +32,21 @@ describe('HandwritingRecognizer', () => {
 		xhr.restore();
 	});
 
+	it('can be disabled', () => {
+		let recognizer = renderWithProps({
+			enabled: false
+		});
+		let length = requests.length;
+		recognizer.props.strokes.push({
+			points: [point(10,11,12), point(13,14,15), point(16,17,18)],
+			finished: true
+		});
+		recognizer.componentDidUpdate();
+		expect(requests.length).to.equal(length);
+	});
+
 	it('converts 2 strokes in 2 components', () => {
+		let recognizer = renderWithProps({});
 		let strokes = [{
 			points: [point(10,11,12), point(13,14,15), point(16,17,18)]
 		}, {
@@ -54,6 +68,7 @@ describe('HandwritingRecognizer', () => {
 	});
 
 	it('Creates the correct textInput object for request', () => {
+		let recognizer = renderWithProps({});
 		let testInput = JSON.stringify({
 			textParameter: {
 				textProperties: {},
@@ -70,11 +85,13 @@ describe('HandwritingRecognizer', () => {
 	});
 
 	it('Creates an xmlhttprequest', () => {
+		let recognizer = renderWithProps({});
 		let request = recognizer.xmlHttpRequest(() => {});
 		expect(request).to.exist;
 	});
 
 	it('parses the candidates from a result', () => {
+		let recognizer = renderWithProps({});
 		let request = {
 			readyState: 4,
 			status: 200,
@@ -92,6 +109,7 @@ describe('HandwritingRecognizer', () => {
 	});
 
 	it('creates a request when a stroke is added and finished', () => {
+		let recognizer = renderWithProps({});
 		let length = requests.length;
 		recognizer.props.strokes.push({
 			points: [point(10,11,12), point(13,14,15), point(16,17,18)],
@@ -102,6 +120,7 @@ describe('HandwritingRecognizer', () => {
 	});
 
 	it('can recognize again when a new stroke is added', () => {
+		let recognizer = renderWithProps({});
 		let length = requests.length;
 		recognizer.props.strokes.push({
 			points: [point(10,11,12), point(13,14,15), point(16,17,18)],
@@ -119,6 +138,7 @@ describe('HandwritingRecognizer', () => {
 	});
 
 	it('recognizing empty array of strokes is possible', () => {
+		let recognizer = renderWithProps({});
 		let length = requests.length;
 		recognizer.componentDidUpdate();
 		expect(true).to.be.true;

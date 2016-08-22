@@ -7,12 +7,14 @@ export default (Wrapped) => class extends Component {
 
 	static propTypes = {
 		strokes: PropTypes.array,
-		finished: PropTypes.bool
+		finished: PropTypes.bool,
+		enabled: PropTypes.bool
 	};
 
 	static defaultProps = {
 		strokes: [],
-		finished: false
+		finished: false,
+		enabled: true
 	}
 
 	constructor(props) {
@@ -95,15 +97,17 @@ export default (Wrapped) => class extends Component {
 	}
 
 	componentDidUpdate() {
-		if (this.shouldRecognize()) {
-			this.setState({
-				hasRecognized: true
-			}, this.recognize.bind(this));
-		}
-		if (this.newStrokeStarted()) {
-			this.setState({
-				hasRecognized: false
-			});
+		if (this.props.enabled) {
+			if (this.shouldRecognize()) {
+				this.setState({
+					hasRecognized: true
+				}, this.recognize.bind(this));
+			}
+			if (this.newStrokeStarted()) {
+				this.setState({
+					hasRecognized: false
+				});
+			}
 		}
 	}
 
