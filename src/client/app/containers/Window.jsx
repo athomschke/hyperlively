@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { appendPoint, createStroke, finishStroke } from 'actions/drawing';
+import { appendPoint, createStroke, finishStroke, toggleDrawing } from 'actions/drawing';
 import Fullscreen from 'components/smart/Fullscreen';
 import ModifierKey from 'components/smart/ModifierKey';
 import DragHandler from 'components/smart/DragHandler';
@@ -12,9 +12,11 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		onDragStart: (event) => {
 			dispatch(createStroke(event));
+			dispatch(toggleDrawing(true));
 		},
 		onDragEnd: (event) => {
 			dispatch(finishStroke(event));
+			dispatch(toggleDrawing(false));
 		}
 	};
 };
