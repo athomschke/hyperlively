@@ -14,6 +14,7 @@ import HandwritingRecognizer from 'components/smart/HandwritingRecognizer';
 
 const mapStateToProps = (state) => {
 	let returnState = cloneDeep(state.ploma);
+	returnState.useHandwritingRecognition = state.handwritingRecognition;
 	returnState.componentIndex = state.ploma.usePloma ? 1 : 0;
 	returnState.threshold = state.threshold;
 	returnState.scene = last(state.undoableScenes.present);

@@ -1,5 +1,5 @@
-import { togglePloma, updateThreshold } from 'actions/configuring';
-import { TOGGLE_PLOMA, UPDATE_THRESHOLD } from 'constants/actionTypes';
+import { togglePloma, updateThreshold, toggleHandwritingRecognition } from 'actions/configuring';
+import { TOGGLE_PLOMA, UPDATE_THRESHOLD, TOGGLE_HANDWRITING_RECOGNITION } from 'constants/actionTypes';
 
 describe('actions', () => {
 
@@ -19,6 +19,15 @@ describe('actions', () => {
 			number
 		};
 		expect(updateThreshold(number)).to.deep.equal(expectedAction);
+	});
+
+	it('should create an action to toggle handwriting recognition', () => {
+		const bool = false;
+		const expectedAction = {
+			type: TOGGLE_HANDWRITING_RECOGNITION,
+			bool
+		};
+		expect(toggleHandwritingRecognition(bool)).to.deep.equal(expectedAction);
 	});
 
 });

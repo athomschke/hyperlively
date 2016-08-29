@@ -22,4 +22,12 @@ describe('Ploma', () => {
 		TestUtils.Simulate.click(TestUtils.findRenderedDOMComponentWithTag(ploma, 'input'));
 		expect(value).to.be.true;
 	});
+
+	it('displays the label', () => {
+		let ploma = TestUtils.renderIntoDocument(<Ploma
+			label={'Foobar'}
+		></Ploma>);
+		let labelNode = TestUtils.scryRenderedDOMComponentsWithTag(ploma, 'span')[0];
+		expect(labelNode.textContent).to.equal('Foobar');
+	});
 });

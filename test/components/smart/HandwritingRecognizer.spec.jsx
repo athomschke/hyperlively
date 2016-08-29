@@ -33,7 +33,20 @@ describe('HandwritingRecognizer', () => {
 	});
 
 	it('is disabled per default', () => {
-		let recognizer = renderWithProps();
+		let recognizer = renderWithProps({});
+		let length = requests.length;
+		recognizer.props.strokes.push({
+			points: [point(10,11,12), point(13,14,15), point(16,17,18)],
+			finished: true
+		});
+		recognizer.componentDidUpdate();
+		expect(requests.length).to.equal(length);
+	});
+
+	it('is disabled until ctrl is pressed', () => {
+		let recognizer = renderWithProps({
+			useHandwritingRecognition: true
+		});
 		let length = requests.length;
 		recognizer.props.strokes.push({
 			points: [point(10,11,12), point(13,14,15), point(16,17,18)],
@@ -45,7 +58,8 @@ describe('HandwritingRecognizer', () => {
 
 	it('converts 2 strokes in 2 components', () => {
 		let recognizer = renderWithProps({
-			ctrlPressed: true
+			ctrlPressed: true,
+			useHandwritingRecognition: true
 		});
 		let strokes = [{
 			points: [point(10,11,12), point(13,14,15), point(16,17,18)]
@@ -69,6 +83,7 @@ describe('HandwritingRecognizer', () => {
 
 	it('Creates the correct textInput object for request', () => {
 		let recognizer = renderWithProps({
+			useHandwritingRecognition: true,
 			ctrlPressed: true
 		});
 		let testInput = JSON.stringify({
@@ -88,6 +103,7 @@ describe('HandwritingRecognizer', () => {
 
 	it('Creates an xmlhttprequest', () => {
 		let recognizer = renderWithProps({
+			useHandwritingRecognition: true,
 			ctrlPressed: true
 		});
 		let request = recognizer.xmlHttpRequest(() => {});
@@ -96,6 +112,7 @@ describe('HandwritingRecognizer', () => {
 
 	it('parses the candidates from a result', () => {
 		let recognizer = renderWithProps({
+			useHandwritingRecognition: true,
 			ctrlPressed: true
 		});
 		let request = {
@@ -116,6 +133,7 @@ describe('HandwritingRecognizer', () => {
 
 	it('creates a request when a stroke is added and finished', () => {
 		let recognizer = renderWithProps({
+			useHandwritingRecognition: true,
 			ctrlPressed: true
 		});
 		let length = requests.length;
@@ -129,6 +147,7 @@ describe('HandwritingRecognizer', () => {
 
 	it('can recognize again when a new stroke is added', () => {
 		let recognizer = renderWithProps({
+			useHandwritingRecognition: true,
 			ctrlPressed: true
 		});
 		let length = requests.length;
@@ -149,6 +168,7 @@ describe('HandwritingRecognizer', () => {
 
 	it('recognizing empty array of strokes is possible', () => {
 		let recognizer = renderWithProps({
+			useHandwritingRecognition: true,
 			ctrlPressed: true
 		});
 		recognizer.componentDidUpdate();

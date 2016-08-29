@@ -8,13 +8,15 @@ export default (Wrapped) => class extends Component {
 	static propTypes = {
 		strokes: PropTypes.array,
 		finished: PropTypes.bool,
-		ctrlPressed: PropTypes.bool
+		ctrlPressed: PropTypes.bool,
+		useHandwritingRecognition: PropTypes.bool
 	};
 
 	static defaultProps = {
 		strokes: [],
 		finished: false,
-		ctrlPressed: false
+		ctrlPressed: false,
+		useHandwritingRecognition: false
 	}
 
 	constructor(props) {
@@ -97,7 +99,7 @@ export default (Wrapped) => class extends Component {
 	}
 
 	componentDidUpdate() {
-		if (this.props.ctrlPressed) {
+		if (this.props.useHandwritingRecognition && this.props.ctrlPressed) {
 			if (this.shouldRecognize()) {
 				this.setState({
 					hasRecognized: true

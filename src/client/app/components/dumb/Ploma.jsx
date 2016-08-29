@@ -1,15 +1,23 @@
-import React, {Component} from 'react';
+import React, { Component, PropTypes } from 'react';
 import Checkbox from 'components/smart/Checkbox';
 
 'use strict';
 
 export default class Ploma extends Component {
 
+	static propTypes = {
+		label: PropTypes.string
+	};
+
+	static defaultProps = {
+		label: ''
+	};
+
 	render() {
 		return (
 			<div>
 				<Checkbox {...this.props}/>
-				<span>Use Ploma</span>
+				<span>{this.props.label}</span>
 			</div>
 		);
 	}
