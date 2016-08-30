@@ -2,6 +2,7 @@ import { PropTypes } from 'react';
 import AbstractDrawer from 'components/smart/AbstractDrawer';
 import { last, forEach, head, tail } from 'lodash';
 import { PRESSURE } from 'constants/drawing';
+import React from 'react';
 
 'use strict';
 

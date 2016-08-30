@@ -14,6 +14,7 @@ let renderComponentWithProps = (props) => {
 			y: 0
 		}}
 		strokes={props.strokes || []}
+		active ={props.active}
 	/>);
 };
 
@@ -56,6 +57,33 @@ describe('PlainDrawer', () => {
 			canvas.componentDidUpdate();
 			let sumAfter = sum(canvasImageData(canvas.refs.canvas).data);
 			expect(sumAfter).to.equal(sumBefore);
+		});
+
+	});
+
+	describe('rendering an empty canvas', () => {
+
+		it('works for only one point on canvas', () => {
+			let canvas =  renderComponentWithProps({
+				strokes: [{
+					points: [{x:10, y:10}]
+				}]
+			});
+			expect(canvas).to.exist;
+		});
+	});
+
+	describe('activating events on a canvas', () => {
+
+		it('enables pointer events on its containing div', () => {
+			let canvas = renderComponentWithProps({
+				active: true,
+				strokes: [{
+					points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}, {x:10, y:13}]
+				}]
+			});
+
+			expect(canvas.refs.node.style.getPropertyValue('pointer-events')).to.equal('auto');
 		});
 
 	});

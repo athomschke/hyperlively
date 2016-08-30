@@ -1,5 +1,6 @@
 import AbstractDrawer from 'components/smart/AbstractDrawer';
 import { without, last, head, tail, reduce } from 'lodash';
+import React from 'react';
 
 'use strict';
 

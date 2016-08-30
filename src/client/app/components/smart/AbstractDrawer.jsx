@@ -81,7 +81,8 @@ export default class AbstractDrawer extends Component {
 
 	static propTypes = {
 		strokes: PropTypes.array,
-		bounds: PropTypes.object
+		bounds: PropTypes.object,
+		active: PropTypes.bool
 	};
 
 	static defaultProps = {
@@ -91,7 +92,8 @@ export default class AbstractDrawer extends Component {
 			y: 0,
 			width: 2*OFFSET,
 			height: 2*OFFSET
-		}
+		},
+		active: false
 	};
 
 	constructor(props) {
