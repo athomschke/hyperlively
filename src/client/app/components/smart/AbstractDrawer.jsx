@@ -96,12 +96,8 @@ export default class AbstractDrawer extends Component {
 
 	constructor(props) {
 		super(props);
-		let tempCanvas = document.createElement('canvas');
-		tempCanvas.setAttribute('width', window.innerWidth);
-		tempCanvas.setAttribute('height', window.innerHeight);
 		this.state = {
-			strokes: cloneDeep(props.strokes),
-			tempCanvas: tempCanvas
+			strokes: cloneDeep(props.strokes)
 		};
 	}
 
@@ -122,7 +118,7 @@ export default class AbstractDrawer extends Component {
 			x: newFirstPoint.x - oldFirstPoint.x,
 			y: newFirstPoint.y - oldFirstPoint.y
 		};
-		let context = this.state.tempCanvas.getContext('2d');
+		let context = this.refs.canvas.getContext('2d');
 		let oldImageData = context.getImageData(this.props.bounds.x - moveBy.x, this.props.bounds.y - moveBy.y, this.props.bounds.width, this.props.bounds.height);
 		context.putImageData(oldImageData, this.props.bounds.x, this.props.bounds.y);
 	}
@@ -150,9 +146,6 @@ export default class AbstractDrawer extends Component {
 		} else {
 			this.onStrokesExtended(newStrokes);
 		}
-		this.setState({
-			tempCanvas: this.state.tempCanvas
-		});
 	}
 
 	redrawEverything(shouldFinish) {
@@ -161,15 +154,31 @@ export default class AbstractDrawer extends Component {
 		forEach(this.props.strokes, (stroke) => {
 			that.redrawStroke(stroke, shouldFinish);
 		});
-		this.setState({
-			tempCanvas: this.state.tempCanvas
-		});
 	}
 
-	renderWrappedComponent(Wrapped) {
-		let currentImageData = this.state.tempCanvas.getContext('2d').getImageData(this.props.bounds.x, this.props.bounds.y, this.props.bounds.width, this.props.bounds.height);
-		return <Wrapped ref="canvas" {...this.props}
-			imageData={currentImageData}
-		/>;
+	render() {
+		return <div
+				ref='node'
+				style={{
+					position: 'absolute',
+					top: this.props.bounds.y,
+					left: this.props.bounds.x,
+					pointerEvents: this.props.active ? 'auto' : 'none',
+					width: this.props.bounds.width,
+					height: this.props.bounds.height
+				}}
+			>
+				<canvas 
+					ref='canvas'
+					width={window.innerWidth}
+					height={window.innerHeight}
+					style={{
+						position: 'absolute',
+						top: -this.props.bounds.y,
+						left: -this.props.bounds.x,
+						pointerEvents: 'none'
+					}}
+				/>
+			</div>;
 	}
 }

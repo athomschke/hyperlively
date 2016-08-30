@@ -5,28 +5,8 @@ import { sum, forEach, remove } from 'lodash';
 
 'use strict';
 
-let imageData;
-
-class MockedSubComponent extends React.Component {
-
-	static propTypes = {
-		imageData: React.PropTypes.object.isRequired
-	};
-
-	render () {
-		return <div></div>;
-	}
-
-	componentDidUpdate() {
-		imageData = this.props.imageData;
-	}
-
-}
-
-const MockedComponent = PlainDrawer(MockedSubComponent);
-
 let renderComponentWithProps = (props) => {
-	return TestUtils.renderIntoDocument(<MockedComponent
+	return TestUtils.renderIntoDocument(<PlainDrawer
 		bounds={{
 			width: 1000,
 			height: 500,
@@ -37,13 +17,13 @@ let renderComponentWithProps = (props) => {
 	/>);
 };
 
+let canvasImageData = (canvas) => {
+	return canvas.getContext('2d').getImageData(0,0,canvas.width, canvas.height);
+};
+
 describe('PlainDrawer', () => {
 
 	let canvas;
-
-	afterEach(() => {
-		imageData = null;
-	});
 
 	describe('plain rendered image', () => {
 
@@ -56,25 +36,25 @@ describe('PlainDrawer', () => {
 		});
 
 		it('is updated when a point is added', () => {
-			let sumBefore = sum(imageData.data);
+			let sumBefore = sum(canvasImageData(canvas.refs.canvas).data);
 			canvas.props.strokes[0].points.push({x: 10, y: 14});
 			canvas.componentDidUpdate();
-			let sumAfter = sum(imageData.data);
+			let sumAfter = sum(canvasImageData(canvas.refs.canvas).data);
 			expect(sumAfter).to.not.equal(sumBefore);
 		});
 
 		it('is updated when a point is removed', () => {
-			let sumBefore = sum(imageData.data);
+			let sumBefore = sum(canvasImageData(canvas.refs.canvas).data);
 			canvas.props.strokes[0].points.splice(-1);
 			canvas.componentDidUpdate();
-			let sumAfter = sum(imageData.data);
+			let sumAfter = sum(canvasImageData(canvas.refs.canvas).data);
 			expect(sumAfter).to.not.equal(sumBefore);
 		});
 
 		it('does not re-render when nothing changed', () => {
-			let sumBefore = sum(imageData.data);
+			let sumBefore = sum(canvasImageData(canvas.refs.canvas).data);
 			canvas.componentDidUpdate();
-			let sumAfter = sum(imageData.data);
+			let sumAfter = sum(canvasImageData(canvas.refs.canvas).data);
 			expect(sumAfter).to.equal(sumBefore);
 		});
 
@@ -91,11 +71,11 @@ describe('PlainDrawer', () => {
 		});
 
 		it('adds the last point', () => {
-			let sumBefore = sum(imageData.data);
+			let sumBefore = sum(canvasImageData(canvas.refs.canvas).data);
 			canvas.props.strokes[0].finished = true;
 			canvas.props.strokes[0].points.push({x: 10, y: 14});
 			canvas.componentDidUpdate();
-			let sumAfter = sum(imageData.data);
+			let sumAfter = sum(canvasImageData(canvas.refs.canvas).data);
 			expect(sumAfter).to.not.equal(sumBefore);
 		});
 
@@ -109,13 +89,13 @@ describe('PlainDrawer', () => {
 					points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}, {x:10, y:13}]
 				}]
 			});
-			let sumBefore = sum(imageData.data);
+			let sumBefore = sum(canvasImageData(canvas.refs.canvas).data);
 			forEach(canvas.props.strokes[0].points, (point) => {
 				point.x += 10;
 				point.y += 10;
 			});
 			canvas.componentDidUpdate();
-			let sumAfter = sum(imageData.data);
+			let sumAfter = sum(canvasImageData(canvas.refs.canvas).data);
 			expect(sumAfter).to.equal(sumBefore);
 		});
 
@@ -123,13 +103,13 @@ describe('PlainDrawer', () => {
 			canvas = renderComponentWithProps({
 				strokes: []
 			});
-			let sumBefore = sum(imageData.data);
+			let sumBefore = sum(canvasImageData(canvas.refs.canvas).data);
 			forEach((canvas.props.strokes[0] || {}).points, (point) => {
 				point.x += 10;
 				point.y += 10;
 			});
 			canvas.componentDidUpdate();
-			let sumAfter = sum(imageData.data);
+			let sumAfter = sum(canvasImageData(canvas.refs.canvas).data);
 			expect(sumAfter).to.equal(sumBefore);
 		});
 
@@ -149,10 +129,10 @@ describe('PlainDrawer', () => {
 		});
 
 		it('draws only the first', () => {
-			let sumBefore = sum(imageData.data);
+			let sumBefore = sum(canvasImageData(canvas.refs.canvas).data);
 			remove(canvas.props.strokes, canvas.props.strokes[1]);
 			canvas.componentDidUpdate();
-			let sumAfter = sum(imageData.data);
+			let sumAfter = sum(canvasImageData(canvas.refs.canvas).data);
 			expect(sumAfter).to.not.equal(sumBefore);
 		});
 	});
@@ -168,12 +148,12 @@ describe('PlainDrawer', () => {
 		});
 
 		it('does nothing, really', () => {
-			let sumBefore = sum(imageData.data);
+			let sumBefore = sum(canvasImageData(canvas.refs.canvas).data);
 			canvas.props.strokes.push({
 				points: [{x:20, y:10}]
 			});
 			canvas.componentDidUpdate();
-			let sumAfter = sum(imageData.data);
+			let sumAfter = sum(canvasImageData(canvas.refs.canvas).data);
 			expect(sumAfter).to.equal(sumBefore);
 		});
 	});

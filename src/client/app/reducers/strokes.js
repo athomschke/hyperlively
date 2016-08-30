@@ -20,7 +20,7 @@ const appendStrokeTo = (state, action) => {
 };
 
 const moveBy = (state, action) => {
-	forEach(action.strokes, (stroke) => {
+	forEach(state, (stroke) => {
 		forEach(stroke.points, (point) => {
 			point.x += action.bounds.x;
 			point.y += action.bounds.y;

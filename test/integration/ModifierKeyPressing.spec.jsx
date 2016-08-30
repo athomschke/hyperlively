@@ -33,7 +33,7 @@ describe('Integration', () => {
 			};
 			renderApplicationWithState(canvasJson);
 			expect(document.getElementsByTagName('canvas')).to.have.length(3);
-			expect(document.getElementsByTagName('canvas')[0].style.getPropertyValue('pointer-events')).to.equal('none');
+			expect(document.getElementsByTagName('canvas')[0].parentNode.style.getPropertyValue('pointer-events')).to.equal('none');
 			forEach(listeners, (listener) => {
 				listener.type === 'keydown' && listener.callback({
 					metaKey: true,
@@ -41,7 +41,7 @@ describe('Integration', () => {
 				});
 			});
 			window.addEventListener = oldAddEventListener.bind(window);
-			expect(document.getElementsByTagName('canvas')[0].style.getPropertyValue('pointer-events')).to.equal('auto');	
+			expect(document.getElementsByTagName('canvas')[0].parentNode.style.getPropertyValue('pointer-events')).to.equal('auto');	
 		});
 
 		it('disables events on window div', () => {

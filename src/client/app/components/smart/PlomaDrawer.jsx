@@ -2,13 +2,12 @@ import { PropTypes } from 'react';
 import AbstractDrawer from 'components/smart/AbstractDrawer';
 import { last, forEach, head, tail } from 'lodash';
 import { PRESSURE } from 'constants/drawing';
-import React from 'react';
 
 'use strict';
 
 const Ploma = require('exports?Ploma!base/../libs/ploma');
 
-export default (Wrapped) => class PlomaDrawer extends AbstractDrawer {
+export default class PlomaDrawer extends AbstractDrawer {
 
 	static propTypes =  Object.assign({}, AbstractDrawer.propTypes, {
 		uniqueCanvasFactor: PropTypes.number
@@ -19,7 +18,7 @@ export default (Wrapped) => class PlomaDrawer extends AbstractDrawer {
 	});
 
 	componentDidMount() {
-		let plomaInstance = new Ploma(this.state.tempCanvas, this.props.uniqueCanvasFactor);
+		let plomaInstance = new Ploma(this.refs.canvas, this.props.uniqueCanvasFactor);
 		plomaInstance.setSample(1);
 		this.setState({
 			plomaInstance: plomaInstance
@@ -69,8 +68,4 @@ export default (Wrapped) => class PlomaDrawer extends AbstractDrawer {
 			}
 		}
 	}
-
-	render() {
-		return (<div>{this.renderWrappedComponent(Wrapped)}</div>);
-	}
-};
+}

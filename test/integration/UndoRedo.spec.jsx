@@ -35,13 +35,13 @@ describe('Integration', () => {
 			let domApp = findDOMNode(renderedApp);
 			let sliderWithHandle = domApp.childNodes[2].childNodes[0].childNodes[0];
 			let slider = sliderWithHandle.childNodes[0];
-			expect(getCanvasNodes()[0].width).to.equal(10);
-			expect(getCanvasNodes()[0].height).to.equal(60);
+			expect(parseInt(getCanvasNodes()[0].parentNode.style.getPropertyValue('width'))).to.equal(10);
+			expect(parseInt(getCanvasNodes()[0].parentNode.style.getPropertyValue('height'))).to.equal(60);
 			TestUtils.Simulate.click(slider, {
 				pageX: slider.offsetWidth / 2
 			});
-			expect(getCanvasNodes()[0].width).to.equal(10);
-			expect(getCanvasNodes()[0].height).to.equal(60);
+			expect(parseInt(getCanvasNodes()[0].parentNode.style.getPropertyValue('width'))).to.equal(10);
+			expect(parseInt(getCanvasNodes()[0].parentNode.style.getPropertyValue('height'))).to.equal(60);
 		});
 
 		it('affects the canvas', () => {
