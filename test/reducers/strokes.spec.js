@@ -123,12 +123,15 @@ describe('strokes', () => {
 			let strokesToMove = [{
 				points: [point(10, 11, 100), point(10, 12, 100), point(10, 13, 100)]
 			}];
+			let currentState = [{
+				points: [point(10, 11, 100), point(10, 12, 100), point(10, 13, 100)]
+			}];
 			let bounds = {
 				x: 0,
 				y: 1
 			};
 			let result = strokes(
-				strokesToMove,
+				currentState,
 				updateBounds(strokesToMove, bounds)
 			);
 			expect(result[0].points[0].x).to.equal(10);
@@ -137,6 +140,26 @@ describe('strokes', () => {
 			expect(result[0].points[1].y).to.equal(13);
 			expect(result[0].points[2].x).to.equal(10);
 			expect(result[0].points[2].y).to.equal(14);
+		});
+
+		it('does not change coordinates of other strokes', () => {
+			let strokesToMove = [{
+				points: [point(10, 11, 100), point(10, 12, 100), point(10, 13, 100)]
+			}];
+			let currentState = [{
+				points: [point(10, 11, 100), point(10, 12, 100), point(10, 13, 100)]
+			}, {
+				points: [point(20, 21, 100), point(20, 22, 100), point(20, 23, 100)]
+			}];
+			let bounds = {
+				x: 1,
+				y: 0
+			};
+			let result = strokes(
+				currentState,
+				updateBounds(strokesToMove, bounds)
+			);
+			expect(result[1].points[0].x).to.equal(20);
 		});
 
 	});

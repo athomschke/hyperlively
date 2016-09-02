@@ -1,6 +1,6 @@
 import { points } from 'reducers/points';
 import { APPEND_POINT, CREATE_STROKE, FINISH_STROKE, UPDATE_BOUNDS } from 'constants/actionTypes';
-import { last, initial, forEach, concat } from 'lodash';
+import { last, initial, forEach, concat, find } from 'lodash';
 import { appendPoint } from 'actions/drawing';
 
 const appendPointTo = (state, action) => {
@@ -20,11 +20,13 @@ const appendStrokeTo = (state, action) => {
 };
 
 const moveBy = (state, action) => {
-	forEach(state, (stroke) => {
-		forEach(stroke.points, (point) => {
-			point.x += action.bounds.x;
-			point.y += action.bounds.y;
-		});
+	forEach(state, (stateStroke) => {
+		if (find(action.strokes, stateStroke)) {
+			forEach(stateStroke.points, (point) => {
+				point.x += action.bounds.x;
+				point.y += action.bounds.y;
+			});			
+		}
 	});
 };
 
