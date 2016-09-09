@@ -181,11 +181,9 @@ describe('PlomaDrawer', () => {
 
 		it('does nothing when only one point of a stroke is added', () => {
 			let canvas = renderComponentWithProps({
-				strokes: [{
-					points: []
-				}]
+				strokes: []
 			});
-			canvas.props.strokes[0].points.push({ x:20, y:10 });
+			canvas.props.strokes.push({ points: [{ x:20, y:10 }]});
 			canvas.componentDidUpdate();
 			canvas.props.strokes[0].points.push({ x:20, y:11 });
 			canvas.componentDidUpdate();
@@ -201,6 +199,17 @@ describe('PlomaDrawer', () => {
 			canvas.props.strokes.push({
 				points: [{ x:40, y:14 }]
 			});
+			canvas.componentDidUpdate();
+			let sumAfter = sum(canvasImageData(canvas.refs.canvas).data);
+			expect(sumBefore).to.equal(sumAfter);
+		});
+
+		it('can deal with empty strokes', () => {
+			let canvas = renderComponentWithProps({
+				strokes: []
+			});
+			let sumBefore = sum(canvasImageData(canvas.refs.canvas).data);
+			canvas.props.strokes.push({ points: []});
 			canvas.componentDidUpdate();
 			let sumAfter = sum(canvasImageData(canvas.refs.canvas).data);
 			expect(sumBefore).to.equal(sumAfter);
