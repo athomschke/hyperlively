@@ -7,15 +7,13 @@ export default (Wrapped) => class extends Component {
 
 	static propTypes = {
 		strokes: PropTypes.array,
-		finished: PropTypes.bool,
-		ctrlPressed: PropTypes.bool,
+		onCircleDetected: PropTypes.func,
 		useHandwritingRecognition: PropTypes.bool
 	};
 
 	static defaultProps = {
 		strokes: [],
-		finished: false,
-		ctrlPressed: false,
+		onCircleDetected: () => {},
 		useHandwritingRecognition: false
 	}
 
@@ -69,6 +67,9 @@ export default (Wrapped) => class extends Component {
 			this.setState({
 				candidates: candidates
 			});
+			if (candidates[0] && candidates[0].label.toLowerCase() === 'o') {
+				this.props.onCircleDetected();
+			}
 		}
 	}
 
@@ -90,26 +91,19 @@ export default (Wrapped) => class extends Component {
 		this.xmlHttpRequest(this.onReadyStateChange.bind(this)).send(data);
 	}
 
-	shouldRecognize() {
-		return !this.state.hasRecognized && last(this.props.strokes) && last(this.props.strokes).finished;
-	}
-
 	newStrokeStarted() {
 		return this.state.hasRecognized && last(this.props.strokes) && !last(this.props.strokes).finished;
 	}
 
 	componentDidUpdate() {
-		if (this.props.useHandwritingRecognition && this.props.ctrlPressed) {
-			if (this.shouldRecognize()) {
-				this.setState({
-					hasRecognized: true
-				}, this.recognize.bind(this));
-			}
-			if (this.newStrokeStarted()) {
-				this.setState({
-					hasRecognized: false
-				});
-			}
+		if (this.state.hasRecognized && this.newStrokeStarted()) {
+			this.setState({
+				hasRecognized: false
+			});
+		} else if (this.props.useHandwritingRecognition && !this.state.hasRecognized) {
+			this.setState({
+				hasRecognized: true
+			}, this.recognize.bind(this));
 		}
 	}
 

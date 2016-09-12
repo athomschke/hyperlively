@@ -10,10 +10,11 @@ import PlainDrawer from 'components/smart/PlainDrawer';
 import BoundsMutationObserver from 'components/smart/BoundsMutationObserver';
 import ModifierKey from 'components/smart/ModifierKey';
 import HandwritingRecognizer from 'components/smart/HandwritingRecognizer';
+import HandwritingRecognitionTrigger from 'components/smart/HandwritingRecognitionTrigger';
 
 const mapStateToProps = (state) => {
 	let returnState = cloneDeep(state.ploma);
-	returnState.useHandwritingRecognition = state.handwritingRecognition;
+	returnState.handwritingRecognitionEnabled = state.handwritingRecognition;
 	returnState.componentIndex = state.ploma.usePloma ? 1 : 0;
 	returnState.threshold = state.threshold;
 	returnState.scene = last(state.undoableScenes.present);
@@ -33,4 +34,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(SketchCombiner(ModifierKey(Desk(HandwritingRecognizer(SketchTransformer(ModuleChooser([BoundsMutationObserver(PlainDrawer), BoundsMutationObserver(PlomaDrawer)])))))));
+)(SketchCombiner(ModifierKey(Desk(HandwritingRecognitionTrigger(HandwritingRecognizer(SketchTransformer(ModuleChooser([BoundsMutationObserver(PlainDrawer), BoundsMutationObserver(PlomaDrawer)]))))))));
