@@ -3,10 +3,9 @@ import AbstractDrawer from 'components/smart/AbstractDrawer';
 import { last, forEach, head, tail } from 'lodash';
 import { PRESSURE } from 'constants/drawing';
 import React from 'react';
+import { BallpointPen } from 'ploma';
 
 'use strict';
-
-const Ploma = require('exports?Ploma!base/../libs/ploma');
 
 export default class PlomaDrawer extends AbstractDrawer {
 
@@ -19,10 +18,14 @@ export default class PlomaDrawer extends AbstractDrawer {
 	});
 
 	componentDidMount() {
-		let plomaInstance = new Ploma(this.refs.canvas, this.props.uniqueCanvasFactor);
-		plomaInstance.setSample(1);
+		let plomaConfig = {
+			uniqueCanvasFactor: this.props.uniqueCanvasFactor,
+			paperColor: 'rgba(0, 0, 0, 0)'
+		};
+		let ballpointPen = new BallpointPen(this.refs.canvas, plomaConfig);
+		ballpointPen.setSample(1);
 		this.setState({
-			plomaInstance: plomaInstance
+			ballpointPen: ballpointPen
 		}, this.redrawEverything.bind(this, last(this.props.strokes) && last(this.props.strokes).finished));
 	}
 
@@ -39,19 +42,19 @@ export default class PlomaDrawer extends AbstractDrawer {
 	}
 
 	startStrokeAt(point) {
-		this.state.plomaInstance.beginStroke(point.x, point.y, PRESSURE);
+		this.state.ballpointPen.beginStroke(point.x, point.y, PRESSURE);
 	}
 
 	extendStrokeAt(point) {
-		this.state.plomaInstance.extendStroke(point.x, point.y, PRESSURE);
+		this.state.ballpointPen.extendStroke(point.x, point.y, PRESSURE);
 	}
 
 	endStrokeAt(point) {
-		this.state.plomaInstance.endStroke(point.x, point.y, PRESSURE);
+		this.state.ballpointPen.endStroke(point.x, point.y, PRESSURE);
 	}
 
 	resetCanvas() {
-		this.state.plomaInstance.clear();
+		this.state.ballpointPen.clear();
 	}
 
 	redrawStroke(stroke, shouldFinish) {

@@ -32,6 +32,7 @@
     "lodash": "^4.11.1",
     "myscript": "^1.1.2",
     "node-static": "^0.7.7",
+    "ploma": "file:../ploma/ploma-1.0.0.tgz",
     "q": "^1.4.1",
     "react": "^15.0.1",
     "react-dom": "^15.0.1",
