@@ -63,4 +63,34 @@ describe('Desk', () => {
 		expect(nodes).to.have.length(1);
 	});
 
+	it('gives the background the provided width', () => {
+		let width = 100;
+		let height = 200;
+		let desk = TestUtils.renderIntoDocument(<MockedComponent
+			sketches={[{
+				strokes: [{
+					points: [point(10,10)]
+				}]
+			}]}
+			width={width}
+			height={height}
+		></MockedComponent>);
+		let nodes = TestUtils.scryRenderedDOMComponentsWithTag(desk, 'div');
+		expect(parseInt(nodes[0].style.width)).to.equal(width);
+		expect(parseInt(nodes[0].style.height)).to.equal(height);
+	});
+
+	it('colors the background in paperColor', () => {
+		let desk = TestUtils.renderIntoDocument(<MockedComponent
+			sketches={[{
+				strokes: [{
+					points: [point(10,10)]
+				}]
+			}]}
+			paperColor='rgb(240, 235, 219)'
+		></MockedComponent>);
+		let nodes = TestUtils.scryRenderedDOMComponentsWithTag(desk, 'div');
+		expect(nodes[0].style.getPropertyValue('background-color')).to.equal('rgb(240, 235, 219)');
+	});
+
 });

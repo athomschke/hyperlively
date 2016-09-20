@@ -17,7 +17,7 @@ describe('Integration', () => {
 		xhr.restore();
 	});
 
-	describe('pressing toggle ploma', () => {
+	describe('activating ploma', () => {
 
 		it('switches to Ploma when it was deactivated', () => {
 			let canvasWithIrregularStrokesWithPloma = require('json!./data/canvasWithIrregularStrokesWithPloma.json');
@@ -26,6 +26,17 @@ describe('Integration', () => {
 			let plomaButton = document.getElementsByTagName('input')[0];
 			TestUtils.Simulate.click(plomaButton);
 			expect(hashCode(getCombinedCanvas().toDataURL())).to.not.equal(hashCode(nonPlomaImageData));
+		});
+
+		it('changes background color to more of a paper type', () => {
+			let canvasWithIrregularStrokesWithPloma = require('json!./data/canvasWithIrregularStrokesWithPloma.json');
+			renderApplicationWithState(canvasWithIrregularStrokesWithPloma.json);
+			let backgroundNode = document.getElementById('app').children[0].children[0];
+			let nonPlomaBackgroundColor = backgroundNode.style.getPropertyValue('background-color');
+			let plomaButton = document.getElementsByTagName('input')[0];
+			TestUtils.Simulate.click(plomaButton);
+			let plomaBackgroundColor = backgroundNode.style.getPropertyValue('background-color');
+			expect(plomaBackgroundColor).to.not.equal(nonPlomaBackgroundColor);
 		});
 
 	});

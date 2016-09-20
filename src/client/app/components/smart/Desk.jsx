@@ -36,8 +36,21 @@ export default (Wrapped) => class extends Component {
 		}
 	}
 
+	getStyle() {
+		return {
+			width: this.props.width,
+			height: this.props.height,
+			position: 'absolute',
+			top: 0,
+			left: 0,
+			backgroundColor: this.props.paperColor
+		};
+	}
+
 	render() {
-		return (<div>
+		return (<div
+			id='desk'
+			style={this.getStyle()}>
 			{this.renderSketchedCanvasses().concat(this.renderPlaceholderCanvas())}
 		</div>);
 	}
