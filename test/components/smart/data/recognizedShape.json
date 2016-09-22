@@ -3,15 +3,17 @@
 		"elementType":"shape",
 		"selectedCandidateIndex":0,
 		"candidates":[{
-			"type":"line",
-			"firstPoint":{
-				"x":721.774,
-				"y":326.28964
-			},
-			"lastPoint":{
-				"x":722.2206,
-				"y":292.4481
-			},
+			"label":"arrow",
+			"primitives": [{
+				"firstPoint":{
+					"x":10,
+					"y":11
+				},
+				"lastPoint": {
+					"x":20,
+					"y":21
+				}
+			}],
 			"beginDecoration":"NONE",
 			"endDecoration":"NONE",
 			"beginTangentAngle":0.0,
