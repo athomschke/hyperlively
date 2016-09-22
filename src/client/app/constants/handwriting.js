@@ -4,7 +4,9 @@ export const APPLICATION_KEY = credentials.applicationKey;
 
 export const HMAC_KEY = credentials.hmacKey;
 
-export const RECOGNITION_URL = 'https://cloud.myscript.com/api/v3.0/recognition/rest/text/doSimpleRecognition.json';
+export const TEXT_RECOGNITION_URL = 'https://cloud.myscript.com/api/v3.0/recognition/rest/text/doSimpleRecognition.json';
+
+export const SHAPE_RECOGNITION_URL = 'https://cloud.myscript.com/api/v3.0/recognition/rest/shape/doSimpleRecognition.json';
 
 export const LANGUAGE = 'en_US';
 

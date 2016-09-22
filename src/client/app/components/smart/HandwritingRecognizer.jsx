@@ -1,19 +1,21 @@
 import React, { Component, PropTypes } from 'react';
-import { map, last } from 'lodash';
-import { APPLICATION_KEY, HMAC_KEY, RECOGNITION_URL, TEXT_INPUT_TYPE, LANGUAGE, TEXT_INPUT_MODE } from 'constants/handwriting';
+import { map, last, flatten } from 'lodash';
+import { APPLICATION_KEY, HMAC_KEY, TEXT_RECOGNITION_URL, SHAPE_RECOGNITION_URL, TEXT_INPUT_TYPE, LANGUAGE, TEXT_INPUT_MODE } from 'constants/handwriting';
 import { HmacSHA512, enc } from 'crypto-js';
 
 export default (Wrapped) => class extends Component {
 
 	static propTypes = {
 		strokes: PropTypes.array,
-		onCircleDetected: PropTypes.func,
+		onTextDetected: PropTypes.func,
+		onShapeDetected: PropTypes.func,
 		useHandwritingRecognition: PropTypes.bool
 	};
 
 	static defaultProps = {
 		strokes: [],
-		onCircleDetected: () => {},
+		onTextDetected: () => {},
+		onShapeDetected: () => {},
 		useHandwritingRecognition: false
 	}
 
@@ -50,9 +52,16 @@ export default (Wrapped) => class extends Component {
 		});
 	}
 
-	xmlHttpRequest(callback) {
+	getShapeInput(strokes) {
+		return JSON.stringify({
+			components: strokes,
+			doBeautification:true
+		});
+	}
+
+	xmlHttpRequest(url, callback) {
 		let xmlhttp = new XMLHttpRequest();
-		xmlhttp.open('POST', RECOGNITION_URL, true);
+		xmlhttp.open('POST', url, true);
 		xmlhttp.withCredentials = true;
 		xmlhttp.setRequestHeader('Accept', 'application/json');
 		xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8');
@@ -63,13 +72,22 @@ export default (Wrapped) => class extends Component {
 	onReadyStateChange(request) {
 		if (request.readyState == 4 && request.status == 200) {
 			let answer = JSON.parse(request.responseText);
-			let candidates = answer.result.textSegmentResult.candidates;
+			answer && answer.result && this.dispatchResult(answer.result);
+		}
+	}
+
+	dispatchResult(result) {
+		if (result.textSegmentResult) {
+			let candidates = result.textSegmentResult.candidates;
 			this.setState({
 				candidates: candidates
 			});
-			if (candidates[0] && candidates[0].label.toLowerCase() === 'o') {
-				this.props.onCircleDetected();
+			if (candidates.length > 0) {
+				this.props.onTextDetected(candidates);
 			}
+
+		} else if (result.segments && result.segments.length > 0) {
+			this.props.onShapeDetected(flatten(map(result.segments, 'candidates')));
 		}
 	}
 
@@ -81,14 +99,26 @@ export default (Wrapped) => class extends Component {
 		return encodeURIComponent(APPLICATION_KEY);
 	}
 
-	stringInputData(stringInput) {
-		return encodeURIComponent(stringInput);
+	encodedInputData(input) {
+		return encodeURIComponent(input);
+	}
+
+	recognizeText(components) {
+		let stringInput = this.getStringInput(components);
+		let data = `applicationKey=${this.applicationKeyData()}&textInput=${this.encodedInputData(stringInput)}&hmac=${this.hmacData(stringInput)}`;
+		this.xmlHttpRequest(TEXT_RECOGNITION_URL, this.onReadyStateChange.bind(this)).send(data);
+	}
+
+	recognizeShape(components) {
+		let shapeInput = this.getShapeInput(components);
+		let data = `applicationKey=${this.applicationKeyData()}&shapeInput=${this.encodedInputData(shapeInput)}&hmac=${this.hmacData(shapeInput)}`;
+		this.xmlHttpRequest(SHAPE_RECOGNITION_URL, this.onReadyStateChange.bind(this)).send(data);
 	}
 
 	recognize() {
-		let stringInput = this.getStringInput(this.strokesToComponents(this.props.strokes));
-		let data = `applicationKey=${this.applicationKeyData()}&textInput=${this.stringInputData(stringInput)}&hmac=${this.hmacData(stringInput)}`;
-		this.xmlHttpRequest(this.onReadyStateChange.bind(this)).send(data);
+		let components = this.strokesToComponents(this.props.strokes);
+		this.recognizeText(components);
+		this.recognizeShape(components);
 	}
 
 	newStrokeStarted() {

@@ -1,0 +1,11 @@
+{
+   "textSegmentResult": {
+      "selectedCandidateIdx":0,
+      "candidates": [{
+         "label": "O",
+         "normalizedScore": 1.0,
+         "resemblanceScore": 0.9970794,
+         "children": []
+      }]
+   }
+}

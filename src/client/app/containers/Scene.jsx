@@ -11,6 +11,7 @@ import PlainDrawer from 'components/smart/PlainDrawer';
 import BoundsMutationObserver from 'components/smart/BoundsMutationObserver';
 import ModifierKey from 'components/smart/ModifierKey';
 import Fullscreen from 'components/smart/Fullscreen';
+import Interpreter from 'components/smart/Interpreter';
 import HandwritingRecognizer from 'components/smart/HandwritingRecognizer';
 import HandwritingRecognitionTrigger from 'components/smart/HandwritingRecognitionTrigger';
 
@@ -37,4 +38,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Fullscreen(SketchCombiner(ModifierKey(Desk(HandwritingRecognitionTrigger(HandwritingRecognizer(SketchTransformer(ModuleChooser([BoundsMutationObserver(PlainDrawer), BoundsMutationObserver(PlomaDrawer)])))))))));
+)(Fullscreen(SketchCombiner(ModifierKey(Desk(Interpreter(HandwritingRecognitionTrigger(HandwritingRecognizer(SketchTransformer(ModuleChooser([BoundsMutationObserver(PlainDrawer), BoundsMutationObserver(PlomaDrawer)]))))))))));
