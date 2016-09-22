@@ -82,7 +82,9 @@ export default class AbstractDrawer extends Component {
 	static propTypes = {
 		strokes: PropTypes.array,
 		bounds: PropTypes.object,
-		active: PropTypes.bool
+		active: PropTypes.bool,
+		width: PropTypes.number,
+		height: PropTypes.number
 	};
 
 	static defaultProps = {
@@ -93,19 +95,33 @@ export default class AbstractDrawer extends Component {
 			width: 2*OFFSET,
 			height: 2*OFFSET
 		},
-		active: false
+		active: false,
+		width: window.innerWidth,
+		height: window.innerHeight
 	};
 
 	constructor(props) {
 		super(props);
 		this.state = {
-			strokes: cloneDeep(props.strokes)
+			strokes: cloneDeep(props.strokes),
+			width: props.width,
+			height: props.height,
 		};
 	}
 
 	componentDidUpdate() {
 		if (!isEqual(this.props.strokes, this.state.strokes)) {
 			this.onStrokesUpdated();
+		}
+		if (!isEqual(this.props.width, this.state.width)) {
+			this.setState({
+				width: this.props.width
+			}, this.redrawEverything)
+		}
+		if (!isEqual(this.props.height, this.state.height)) {
+			this.setState({
+				height: this.props.height
+			}, this.redrawEverything)
 		}
 	}
 
@@ -173,8 +189,8 @@ export default class AbstractDrawer extends Component {
 			>
 				<canvas 
 					ref='canvas'
-					width={window.innerWidth}
-					height={window.innerHeight}
+					width={this.props.width}
+					height={this.props.height}
 					style={{
 						position: 'absolute',
 						top: -this.props.bounds.y,

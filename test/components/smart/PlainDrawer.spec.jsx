@@ -1,9 +1,37 @@
 import PlainDrawer from 'components/smart/PlainDrawer';
 import TestUtils from 'react-addons-test-utils';
-import React from 'react';
+import React, { Component } from 'react';
 import { sum, forEach, remove } from 'lodash';
 
 'use strict';
+
+class WrappedPlainDrawer extends Component {
+
+	constructor(props) {
+		super(props);
+		this.state = {
+			width: props.width,
+			height: props.height
+		};
+	}
+
+	render() {
+		return <PlainDrawer ref='plainDrawer' {...this.props} {...this.state} />
+	}
+}
+
+let renderWrapperAroundComponentWithProps = (props) => {
+	return TestUtils.renderIntoDocument(<WrappedPlainDrawer {...props}
+		bounds={{
+			width: 1000,
+			height: 500,
+			x: 0,
+			y: 0
+		}}
+		strokes={props.strokes || []}
+		active ={props.active}
+	/>);
+}
 
 let renderComponentWithProps = (props) => {
 	return TestUtils.renderIntoDocument(<PlainDrawer
@@ -183,6 +211,43 @@ describe('PlainDrawer', () => {
 			canvas.componentDidUpdate();
 			let sumAfter = sum(canvasImageData(canvas.refs.canvas).data);
 			expect(sumAfter).to.equal(sumBefore);
+		});
+	});
+
+	describe('changing the canvasses dimensions', () => {
+
+		it('does not change the image', (done) => {
+			let wrappedComponent = renderWrapperAroundComponentWithProps({
+				width: 100,
+				height: 200,
+				strokes: [{
+					points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}, {x:10, y:13}],
+					finished: true
+				}]
+			});
+			let canvas = wrappedComponent.refs.plainDrawer;
+			let sumBefore = sum(canvasImageData(canvas.refs.canvas).data);
+			wrappedComponent.setState({
+				width: 150
+			}, () => {			
+				wrappedComponent.setState({
+					width: 100
+				}, () => {
+					let sumAfter = sum(canvasImageData(canvas.refs.canvas).data);
+					expect(sumAfter).to.equal(sumBefore);
+					wrappedComponent.setState({
+						height: 150
+					}, () => {
+						wrappedComponent.setState({
+							height: 200
+						}, () => {
+							sumAfter = sum(canvasImageData(canvas.refs.canvas).data);
+							expect(sumAfter).to.equal(sumBefore);
+							done();
+						})
+					})
+				})
+			})
 		});
 	});
 
