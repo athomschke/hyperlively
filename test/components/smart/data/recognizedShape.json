@@ -6,12 +6,12 @@
 			"label":"arrow",
 			"primitives": [{
 				"firstPoint":{
-					"x":10,
-					"y":11
+					"x":5,
+					"y":5
 				},
 				"lastPoint": {
-					"x":20,
-					"y":21
+					"x":15,
+					"y":15
 				}
 			}],
 			"beginDecoration":"NONE",

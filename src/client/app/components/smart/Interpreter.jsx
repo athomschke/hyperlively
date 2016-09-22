@@ -1,19 +1,20 @@
 import React, { Component, PropTypes } from 'react';
-import { invokeMap, map, find } from 'lodash';
+import { invokeMap, map, find, flatten, filter, last, initial } from 'lodash';
 
 export default (Wrapped) => class extends Component {
 
 	static propTypes =  {
-		onMove: PropTypes.func
+		onBoundsUpdate: PropTypes.func,
+		sketches: PropTypes.array
 	};
 
 	static defaultProps = {
-		onMove: () => {}
+		onBoundsUpdate: () => {},
+		sketches: []
 	};
 
 	onTextDetected(candidates) {
 		if(invokeMap(map(candidates, 'label'), 'toLowerCase').indexOf('o') >= 0) {
-			console.log('circle');
 			return 'circle';
 		}
 	}
@@ -24,15 +25,34 @@ export default (Wrapped) => class extends Component {
 		});
 	}
 
+	findSketchesAtPoint(point) {
+		// initial removes the arrow itself
+		let sketchesToMove = filter(initial(this.props.sketches), (sketch) => {
+			let points = flatten(map(sketch.strokes, 'points'));
+			let xs = map(points, 'x');
+			let ys = map(points, 'y');
+			let minX = Math.min.apply(Math, xs);
+			let maxX = Math.max.apply(Math, xs);
+			let minY = Math.min.apply(Math, ys);
+			let maxY = Math.max.apply(Math, ys);
+			return minX < point.x && maxX > point.x && minY < point.y && maxY > point.y;
+		});
+		return sketchesToMove;
+	}
+
 	onShapeDetected(candidates) {
 		let arrowCandidate = this.findArrowInCandidates(candidates);
 		if ( arrowCandidate ) {
 			let start = arrowCandidate.primitives[0].firstPoint;
 			let end = arrowCandidate.primitives[0].lastPoint;
-			this.props.onMove({
-				x: end.x - start.x,
-				y: end.y - start.y
-			});
+			let sketches = this.findSketchesAtPoint(start);
+			if (sketches.length > 0) {
+				let strokes = last(sketches).strokes;
+				this.props.onBoundsUpdate(strokes, {
+					x: end.x - start.x,
+					y: end.y - start.y
+				});
+			}
 		}
 	}
 

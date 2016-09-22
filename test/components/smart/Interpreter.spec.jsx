@@ -1,6 +1,7 @@
 import Interpreter from 'components/smart/Interpreter';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
+import { tail } from 'lodash';
 
 const shapeCandidateFactory = (type) => {
 	let result = require('json!./data/recognizedShape.json');
@@ -17,6 +18,19 @@ const renderWithProps = (props) => {
 	}
 	let InterpreterComponent = Interpreter(WrappedComponent);
 	return TestUtils.renderIntoDocument(<InterpreterComponent {...props}/>);
+};
+
+let sketchesArountPoint55 = () => {
+	return [{
+		strokes: [{
+			points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }]
+		}]
+	}, {
+		// the arrow itself
+		strokes: [{
+			points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }]
+		}]
+	}];
 };
 
 describe('Interpreter', () => {
@@ -85,26 +99,112 @@ describe('Interpreter', () => {
 		});
 
 		it('gets the distance with which an object should move', () => {
-			let calledWith;
+			let moveByArgument;
 			let interpreter = renderWithProps({
-				onMove: (moveArgument) => {
-					calledWith = moveArgument;
-				}
+				onBoundsUpdate: (strokes, moveBy) => {
+					moveByArgument = moveBy;
+				},
+				sketches: sketchesArountPoint55()
 			});
 			interpreter.onShapeDetected(shapeCandidateFactory('arrow'));
-			expect(calledWith.x).to.equal(10);
-			expect(calledWith.y).to.equal(10);
+			expect(moveByArgument).to.exist;
+			expect(moveByArgument.x).to.equal(10);
+			expect(moveByArgument.y).to.equal(10);
 		});
 
 		it('ignores non-arrow shapes', () => {
-			let calledWith = {};
+			let moveByArgument;
 			let interpreter = renderWithProps({
-				onMove: (moveArgument) => {
-					calledWith = moveArgument;
-				}
+				onBoundsUpdate: (strokes, moveBy) => {
+					moveByArgument = moveBy;
+				},
+				sketches: sketchesArountPoint55()
 			});
 			interpreter.onShapeDetected(shapeCandidateFactory('foobar'));
-			expect(calledWith).to.not.be.defined;
+			expect(moveByArgument).to.not.be.defined;
+		});
+
+		it('does nothing if no callback is given', () => {
+			let interpreter = renderWithProps({
+				sketches: sketchesArountPoint55()
+			});
+			interpreter.onShapeDetected(shapeCandidateFactory('arrow'));
+			expect(true).to.be.true;
+		});
+
+		it('does nothing if there is no match', () => {
+			let moveByArgument;
+			let sketches = sketchesArountPoint55();
+			sketches = tail(sketches);
+			let interpreter = renderWithProps({
+				onBoundsUpdate: (strokes, moveBy) => {
+					moveByArgument = moveBy;
+				},
+				sketches: sketches
+			});
+			interpreter.onShapeDetected(shapeCandidateFactory('arrow'));
+			expect(moveByArgument).to.not.be.defined;
+		});
+
+	});
+
+	describe('searching sketches at a given point', () => {
+
+		it('finds one where the point is in the center', () => {
+			let interpreter = renderWithProps({
+				sketches: [{
+					strokes: [{
+						points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }]
+					}]
+				}, {
+					strokes: [{
+						points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }]
+					}]
+				}]
+			});
+			let sketches = interpreter.findSketchesAtPoint({ x: 5, y: 5 });
+			expect(sketches).to.have.length(1);
+		});
+
+		it('rejects one that doesn\'t contain the point', () => {
+			let allSketches = [{
+				strokes: [{
+					points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }]
+				}]
+			}, {
+				strokes: [{
+					points: [{ x: 0, y: 1 }, { x: 1, y: 0 }, { x: 2, y: 1 }, { x: 1, y: 2 }]
+				}]
+			}, {
+				strokes: [{
+					points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }]
+				}]
+			}];
+			let interpreter = renderWithProps({
+				sketches: allSketches
+			});
+			let sketches = interpreter.findSketchesAtPoint({ x: 5, y: 5 });
+			expect(sketches).to.have.length(1);
+		});
+
+		it('finds two where the point is in the center', () => {
+			let interpreter = renderWithProps({
+				sketches: [{
+					strokes: [{
+						points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }]
+					}]
+				}, {
+					strokes: [{
+						points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }]
+					}]
+				}, {
+					strokes: [{
+						points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }]
+					}]
+				}]
+			});
+			let sketches = interpreter.findSketchesAtPoint({ x: 5, y: 5 });
+			expect(sketches).to.have.length(2);
 		});
 
 	});

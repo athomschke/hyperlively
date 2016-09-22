@@ -138,6 +138,7 @@ export default class AbstractDrawer extends Component {
 		};
 		let context = this.refs.canvas.getContext('2d');
 		let oldImageData = context.getImageData(this.props.bounds.x - moveBy.x, this.props.bounds.y - moveBy.y, this.props.bounds.width, this.props.bounds.height);
+		context.clearRect(0, 0, this.refs.canvas.width, this.refs.canvas.height);
 		context.putImageData(oldImageData, this.props.bounds.x, this.props.bounds.y);
 	}
 
