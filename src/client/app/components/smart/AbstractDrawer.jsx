@@ -116,12 +116,12 @@ export default class AbstractDrawer extends Component {
 		if (!isEqual(this.props.width, this.state.width)) {
 			this.setState({
 				width: this.props.width
-			}, this.redrawEverything)
+			}, this.redrawEverything);
 		}
 		if (!isEqual(this.props.height, this.state.height)) {
 			this.setState({
 				height: this.props.height
-			}, this.redrawEverything)
+			}, this.redrawEverything);
 		}
 	}
 

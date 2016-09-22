@@ -99,7 +99,7 @@ describe('HandwritingRecognizer', () => {
 			expect(requests.length).to.equal(length);
 		});
 		
-	})
+	});
 
 	describe('requesting handwritin recognition for text', () => {
 
@@ -156,7 +156,7 @@ describe('HandwritingRecognizer', () => {
 			let request = recognizer.xmlHttpRequest('', () => {});
 			expect(request).to.exist;
 		});
-	})
+	});
 
 	describe('interpreting the recognized text', () => {
 
@@ -243,10 +243,10 @@ describe('HandwritingRecognizer', () => {
 				textSegmentResult: {
 					candidates: []
 				}
-			})
+			});
 			expect(ranCallback).to.be.false;
-		})
-	})
+		});
+	});
 
 	describe('Interpreting the recognized shape', () => {
 
@@ -268,10 +268,10 @@ describe('HandwritingRecognizer', () => {
 			});
 			recognizer.dispatchResult({
 				segments: []
-			})
+			});
 			expect(ranCallback).to.be.false;
-		})
-	})
+		});
+	});
 
 	describe('automatically triggering recognition', () => {
 		
@@ -322,6 +322,6 @@ describe('HandwritingRecognizer', () => {
 			expect(requests.length).to.equal(4);
 		});
 
-	})
+	});
 
 });

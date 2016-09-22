@@ -16,7 +16,7 @@ class WrappedPlainDrawer extends Component {
 	}
 
 	render() {
-		return <PlainDrawer ref='plainDrawer' {...this.props} {...this.state} />
+		return <PlainDrawer ref='plainDrawer' {...this.props} {...this.state} />;
 	}
 }
 
@@ -31,7 +31,7 @@ let renderWrapperAroundComponentWithProps = (props) => {
 		strokes={props.strokes || []}
 		active ={props.active}
 	/>);
-}
+};
 
 let renderComponentWithProps = (props) => {
 	return TestUtils.renderIntoDocument(<PlainDrawer
@@ -244,10 +244,10 @@ describe('PlainDrawer', () => {
 							sumAfter = sum(canvasImageData(canvas.refs.canvas).data);
 							expect(sumAfter).to.equal(sumBefore);
 							done();
-						})
-					})
-				})
-			})
+						});
+					});
+				});
+			});
 		});
 	});
 

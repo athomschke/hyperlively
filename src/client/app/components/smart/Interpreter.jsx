@@ -21,18 +21,18 @@ export default (Wrapped) => class extends Component {
 	findArrowInCandidates(candidates) {
 		return find(candidates, (candidate) => {
 			return candidate.label && candidate.label.indexOf('arrow') >= 0;
-		})
+		});
 	}
 
 	onShapeDetected(candidates) {
 		let arrowCandidate = this.findArrowInCandidates(candidates);
 		if ( arrowCandidate ) {
-			let start = arrowCandidate.primitives[0].firstPoint
-			let end = arrowCandidate.primitives[0].lastPoint
+			let start = arrowCandidate.primitives[0].firstPoint;
+			let end = arrowCandidate.primitives[0].lastPoint;
 			this.props.onMove({
 				x: end.x - start.x,
 				y: end.y - start.y
-			})
+			});
 		}
 	}
 
