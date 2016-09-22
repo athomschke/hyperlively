@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { invokeMap, map } from 'lodash';
+import { invokeMap, map, find } from 'lodash';
 
 export default (Wrapped) => class extends Component {
 
@@ -11,7 +11,7 @@ export default (Wrapped) => class extends Component {
 	}
 
 	onShapeDetected(candidates) {
-		if ( map(candidates, 'label').indexOf('arrow') >= 0) {
+		if ( find(map(candidates, 'label'), (label) => label.indexOf('arrow') >= 0)) {
 			console.log('arrow');
 			return 'arrow';
 		}

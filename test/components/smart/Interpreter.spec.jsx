@@ -56,6 +56,13 @@ describe('Interpreter', () => {
 		expect(detected).to.equal('arrow');
 	});
 
+	it('finds a curved arrow', () => {
+		let detected = interpreter.onShapeDetected([{
+			label: 'curved arrow'
+		}])
+		expect(detected).to.equal('arrow');
+	});
+
 	it('ignores a stroke', () => {
 		let detected = interpreter.onShapeDetected([{
 			label: 'stroke'
