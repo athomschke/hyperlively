@@ -1,17 +1,25 @@
-import * as actions from 'actions/manipulating';
-import * as types from 'constants/actionTypes';
+import { updateBounds, hide } from 'actions/manipulating';
 
 describe('actions', () => {
 
-	it('should create an action move a canvas', () => {
+	it('should create an action move a set of strokes', () => {
 		const strokes = [];
 		const bounds = {};
 		const expectedAction = {
-			type: types.UPDATE_BOUNDS,
+			type: 'UPDATE_BOUNDS',
 			strokes,
 			bounds
 		};
-		expect(actions.updateBounds(strokes, bounds)).to.deep.equal(expectedAction);
+		expect(updateBounds(strokes, bounds)).to.deep.equal(expectedAction);
+	});
+
+	it('should create an action to hide a set of strokes', () => {
+		const strokes = [];
+		const expectedAction = {
+			type: 'HIDE',
+			strokes
+		};
+		expect(hide(strokes)).to.deep.equal(expectedAction);
 	});
 
 });

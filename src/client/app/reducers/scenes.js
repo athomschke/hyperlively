@@ -1,5 +1,5 @@
 import { strokes } from 'reducers/strokes';
-import { APPEND_POINT, CREATE_STROKE, FINISH_STROKE, UPDATE_BOUNDS } from 'constants/actionTypes';
+import { APPEND_POINT, CREATE_STROKE, FINISH_STROKE, UPDATE_BOUNDS, HIDE } from 'constants/actionTypes';
 import { last } from 'lodash';
 
 let defaultScene = () => {
@@ -13,6 +13,7 @@ function scenes (state = [], action) {
 	case APPEND_POINT:
 	case CREATE_STROKE:
 	case FINISH_STROKE:
+	case HIDE:
 	case UPDATE_BOUNDS:
 		return [{
 			strokes: strokes((last(state) || defaultScene()).strokes, action)

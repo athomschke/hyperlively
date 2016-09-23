@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import { OFFSET } from 'constants/canvas';
-import { map, last } from 'lodash';
+import { map, last, filter } from 'lodash';
 
 export default (Wrapped) => class extends Component {
 
@@ -22,16 +22,23 @@ export default (Wrapped) => class extends Component {
 		/>);
 	}
 
+	visibleStrokesInSketch(sketch) {
+		return filter(sketch.strokes || [], (stroke) => !stroke.hidden);
+	}
+
 	renderSketchedCanvasses() {
 		let that = this;
 		return map(this.props.sketches, (sketch, id) => {
-			return that.renderCanvas(sketch.strokes || [], id, true);
+			let strokesToRender = this.visibleStrokesInSketch(sketch);
+			if (strokesToRender.length > 0) {
+				return that.renderCanvas(strokesToRender, id, true);
+			}
 		});
 	}
 
 	renderPlaceholderCanvas() {
 		let sketch = last(this.props.sketches);
-		if ((!sketch || sketch.finished)) {
+		if ((!sketch || !sketch.strokes || sketch.finished)) {
 			return this.renderCanvas([], this.props.sketches.length, false);
 		}
 	}

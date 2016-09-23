@@ -161,9 +161,13 @@ describe('HandwritingRecognizer', () => {
 	describe('interpreting the recognized text', () => {
 
 		it('parses the candidates from a result', () => {
+			let candidates;
 			let recognizer = renderWithProps({
 				useHandwritingRecognition: true,
-				ctrlPressed: true
+				ctrlPressed: true,
+				onTextDetected: (arg1) => {
+					candidates = arg1;
+				}
 			});
 			let request = {
 				readyState: 4,
@@ -177,8 +181,8 @@ describe('HandwritingRecognizer', () => {
 				})
 			};
 			recognizer.onReadyStateChange(request);
-			expect(recognizer.state.candidates).to.have.length(3);
-			expect(recognizer.state.candidates[0].label).to.equal('a');
+			expect(candidates).to.have.length(3);
+			expect(candidates[0].label).to.equal('a');
 		});
 
 		it('Informs the user if a text was drawn', () => {

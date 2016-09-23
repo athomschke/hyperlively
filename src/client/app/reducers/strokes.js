@@ -1,5 +1,5 @@
 import { points } from 'reducers/points';
-import { APPEND_POINT, CREATE_STROKE, FINISH_STROKE, UPDATE_BOUNDS } from 'constants/actionTypes';
+import { APPEND_POINT, CREATE_STROKE, FINISH_STROKE, UPDATE_BOUNDS, HIDE } from 'constants/actionTypes';
 import { last, initial, forEach, concat, find } from 'lodash';
 import { appendPoint } from 'actions/drawing';
 
@@ -36,6 +36,14 @@ const finishStroke = (state, action) => {
 	return nextState; 
 };
 
+const hide = (state, action) => {
+	forEach(state, (stateStroke) => {
+		if (find(action.strokes, stateStroke)) {
+			stateStroke.hidden = true;			
+		}
+	});
+};
+
 function strokes (state = [], action) {
 	switch(action.type) {
 	case APPEND_POINT:
@@ -46,6 +54,9 @@ function strokes (state = [], action) {
 		return finishStroke(state, action);
 	case UPDATE_BOUNDS:
 		moveBy(state, action);
+		return state;
+	case HIDE:
+		hide(state, action);
 		return state;
 	default:
 		return state;

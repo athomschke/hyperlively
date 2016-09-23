@@ -1,6 +1,6 @@
 import { strokes } from 'reducers/strokes';
 import { appendPoint, createStroke, finishStroke } from 'actions/drawing';
-import { updateBounds } from 'actions/manipulating';
+import { updateBounds, hide } from 'actions/manipulating';
 import { point, event } from '../helpers';
 
 describe('strokes', () => {
@@ -161,6 +161,33 @@ describe('strokes', () => {
 			);
 			expect(result[1].points[0].x).to.equal(20);
 		});
+
+	});
+
+	describe('hiding strokes', () => {
+
+		it('adds a hidden flag exactly to the strokes supposed to hide', () => {
+			let strokesToHide = [{
+				points: [point(10, 11, 100), point(10, 12, 100), point(10, 13, 100)]
+			}, {
+				points: [point(20, 21, 200), point(20, 22, 200), point(20, 23, 200)]
+			}];
+			let currentState = [{
+				points: [point(10, 11, 100), point(10, 12, 100), point(10, 13, 100)]
+			}, {
+				points: [point(20, 21, 200), point(20, 22, 200), point(20, 23, 200)]
+			}, {
+				points: [point(30, 31, 300), point(30, 32, 300), point(30, 33, 300)]
+			}];
+			let result = strokes(
+				currentState,
+				hide(strokesToHide)
+			);
+			expect(result[0].hidden).to.be.true;
+			expect(result[1].hidden).to.be.true;
+			expect(result[2].hidden).to.not.be.defined;
+		});
+
 
 	});
 });

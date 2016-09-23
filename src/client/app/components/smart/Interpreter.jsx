@@ -5,11 +5,13 @@ export default (Wrapped) => class extends Component {
 
 	static propTypes =  {
 		onBoundsUpdate: PropTypes.func,
+		onHide: PropTypes.func,
 		sketches: PropTypes.array
 	};
 
 	static defaultProps = {
 		onBoundsUpdate: () => {},
+		onHide: () => {},
 		sketches: []
 	};
 
@@ -28,7 +30,7 @@ export default (Wrapped) => class extends Component {
 	findSketchesAtPoint(point) {
 		// initial removes the arrow itself
 		let sketchesToMove = filter(initial(this.props.sketches), (sketch) => {
-			let points = flatten(map(sketch.strokes, 'points'));
+			let points = flatten(map(filter(sketch.strokes, (stroke) => !stroke.hidden), 'points'));
 			let xs = map(points, 'x');
 			let ys = map(points, 'y');
 			let minX = Math.min.apply(Math, xs);
@@ -53,6 +55,7 @@ export default (Wrapped) => class extends Component {
 					y: end.y - start.y
 				}]);
 			}
+			last(this.props.sketches) && this.performAction('hide', [last(this.props.sketches).strokes]);
 		}
 	}
 

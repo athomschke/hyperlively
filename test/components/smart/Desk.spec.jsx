@@ -50,6 +50,20 @@ describe('Desk', () => {
 		expect(nodes).to.have.length(1);
 	});
 
+	it('doesn\'t render a canvas when all its strokes are hidden', () => {
+		let desk = TestUtils.renderIntoDocument(<MockedComponent
+			sketches={[{
+				strokes: [{
+					points: [point(10,10), point(11,10), point(12,10)],
+					hidden: true
+				}],
+				finished: true
+			}]}
+		></MockedComponent>);
+		let nodes = TestUtils.scryRenderedDOMComponentsWithTag(desk, 'canvas');
+		expect(nodes).to.have.length(1);
+	});
+
 	it('Renders no placeholder canvas when the last stroke is unfinished', () => {
 		let desk = TestUtils.renderIntoDocument(<MockedComponent
 			sketches={[{

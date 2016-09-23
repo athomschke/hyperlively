@@ -79,9 +79,6 @@ export default (Wrapped) => class extends Component {
 	dispatchResult(result) {
 		if (result.textSegmentResult) {
 			let candidates = result.textSegmentResult.candidates;
-			this.setState({
-				candidates: candidates
-			});
 			if (candidates.length > 0) {
 				this.props.onTextDetected(candidates);
 			}

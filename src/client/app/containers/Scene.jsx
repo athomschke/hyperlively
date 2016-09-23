@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { last, cloneDeep } from 'lodash';
-import { updateBounds } from 'actions/manipulating';
+import { updateBounds, hide } from 'actions/manipulating';
 import { PAPER_COLOR, WHITE} from 'constants/drawing';
 import Desk from 'components/smart/Desk';
 import SketchCombiner from 'components/smart/SketchCombiner';
@@ -31,6 +31,9 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		onBoundsUpdate: (strokes, newBounds) => {
 			dispatch(updateBounds(strokes, newBounds));
+		},
+		onHide: (strokes) => {
+			dispatch(hide(strokes));
 		}
 	};
 };

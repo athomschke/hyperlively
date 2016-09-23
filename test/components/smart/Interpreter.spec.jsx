@@ -146,6 +146,27 @@ describe('Interpreter', () => {
 			expect(moveByArgument).to.not.be.defined;
 		});
 
+		it('removes the arrow afterwards', () => {
+			let hiddenStrokes;
+			let arrowSketch = {
+				strokes: [{
+					points: [{ x: 1, y: 6 }, { x: 6, y: 1 }, { x: 11, y: 6 }, { x: 6, y: 11 }]
+				}]
+			};
+			let sketches = sketchesArountPoint55();
+			sketches.push(arrowSketch);
+			let interpreter = renderWithProps({
+				onHide: (strokes) => {
+					hiddenStrokes = strokes;
+				},
+				sketches: sketches
+			});
+			interpreter.onShapeDetected(shapeCandidateFactory('arrow'));
+			expect(hiddenStrokes).to.be.defined;
+			expect(hiddenStrokes).to.have.length(1);
+			expect(hiddenStrokes[0]).to.equal(arrowSketch.strokes[0]);
+		});
+
 	});
 
 	describe('searching sketches at a given point', () => {
