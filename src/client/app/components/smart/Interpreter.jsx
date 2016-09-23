@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { invokeMap, map, find, flatten, filter, last, initial } from 'lodash';
+import { invokeMap, map, find, flatten, filter, last, initial, upperFirst } from 'lodash';
 
 export default (Wrapped) => class extends Component {
 
@@ -48,12 +48,16 @@ export default (Wrapped) => class extends Component {
 			let sketches = this.findSketchesAtPoint(start);
 			if (sketches.length > 0) {
 				let strokes = last(sketches).strokes;
-				this.props.onBoundsUpdate(strokes, {
+				this.performAction('boundsUpdate', [strokes, {
 					x: end.x - start.x,
 					y: end.y - start.y
-				});
+				}]);
 			}
 		}
+	}
+
+	performAction(type, args) {
+		this.props['on' + upperFirst(type)].apply(this, args);
 	}
 
 	render() {

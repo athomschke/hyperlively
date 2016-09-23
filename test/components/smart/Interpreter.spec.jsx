@@ -129,7 +129,7 @@ describe('Interpreter', () => {
 				sketches: sketchesArountPoint55()
 			});
 			interpreter.onShapeDetected(shapeCandidateFactory('arrow'));
-			expect(true).to.be.true;
+			expect(true).to.be.true; 
 		});
 
 		it('does nothing if there is no match', () => {
@@ -205,6 +205,27 @@ describe('Interpreter', () => {
 			});
 			let sketches = interpreter.findSketchesAtPoint({ x: 5, y: 5 });
 			expect(sketches).to.have.length(2);
+		});
+
+	});
+
+	describe('performing an interpreted action', () => {
+
+		it('chooses a routine in the form of onDoSomething for type doSomething and runs it with the handed arguments', () => {
+			let foobarCalled = false;
+			let firstArgument;
+			let secondArgument;
+			let interpreter = renderWithProps({
+				onFoobarRun: (arg1, arg2) => {
+					foobarCalled = true;
+					firstArgument = arg1;
+					secondArgument = arg2;
+				}
+			});
+			interpreter.performAction('foobarRun', [1, 2]);
+			expect(foobarCalled).to.be.true;
+			expect(firstArgument).to.equal(1);
+			expect(secondArgument).to.equal(2);
 		});
 
 	});
