@@ -43,6 +43,7 @@ let renderComponentWithProps = (props) => {
 		}}
 		strokes={props.strokes || []}
 		active ={props.active}
+		finished ={props.finished}
 	/>);
 };
 
@@ -103,15 +104,28 @@ describe('PlainDrawer', () => {
 
 	describe('activating events on a canvas', () => {
 
-		it('enables pointer events on its containing div', () => {
+		it('enables pointer events on its containing div when it is finished', () => {
 			let canvas = renderComponentWithProps({
 				active: true,
 				strokes: [{
 					points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}, {x:10, y:13}]
-				}]
+				}],
+				finished: true
 			});
 
 			expect(canvas.refs.node.style.getPropertyValue('pointer-events')).to.equal('auto');
+		});
+
+		it('does not enable pointer events on its containing div when its not finished', () => {
+			let canvas = renderComponentWithProps({
+				active: true,
+				strokes: [{
+					points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}, {x:10, y:13}]
+				}],
+				finished: false
+			});
+
+			expect(canvas.refs.node.style.getPropertyValue('pointer-events')).to.equal('none');
 		});
 
 	});

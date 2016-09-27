@@ -183,7 +183,7 @@ export default class AbstractDrawer extends Component {
 					position: 'absolute',
 					top: this.props.bounds.y,
 					left: this.props.bounds.x,
-					pointerEvents: this.props.active ? 'auto' : 'none',
+					pointerEvents: this.props.active && this.props.finished ? 'auto' : 'none',
 					width: this.props.bounds.width,
 					height: this.props.bounds.height
 				}}
