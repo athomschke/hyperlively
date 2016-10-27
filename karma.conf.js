@@ -1,9 +1,9 @@
 var webpackConfig = require('./webpack.config');
-webpackConfig.devtool = 'inline-source-map';
 
 module.exports = function (config) {
+	webpackConfig.devtool = 'inline-source-map';
+
 	config.set({
-		// basePath: '.',
 		browsers: ['chrome_large'],
 		customLaunchers: {
 			chrome_large: {
@@ -28,8 +28,7 @@ module.exports = function (config) {
 		],
 		frameworks: [ 'chai', 'mocha', 'sinon' ],
 		preprocessors: {
-			'test/**/*': ['webpack', 'sourcemap'],
-			'src/**/*': ['webpack', 'sourcemap']
+			'test/runner.js': ['webpack']
 		},
 		reporters: [ 'progress' ],
 		singleRun: false,
