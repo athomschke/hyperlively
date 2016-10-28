@@ -4,6 +4,7 @@ module.exports = function (config) {
 	configureDefaultKarma(config);
 	
 	config.plugins.push('karma-coverage');
+	config.plugins.push('karma-phantomjs-launcher');
 	config.reporters.push('coverage');
 	
 	config.webpack.devtool = 'inline-source-map';
@@ -11,9 +12,14 @@ module.exports = function (config) {
 		test: /\.jsx|\.js$/,
 		exclude: /(test|libs|node_modules|bower_components)\//,
 		loader: 'istanbul-instrumenter'
-	}];
+	}];	
 	
 	config.set({
+		browsers: ['PhantomJS'],
+		phantomjsLauncher: {
+			// Have phantomjs exit if a ResourceError is encountered (useful if karma exits without killing phantom)
+			exitOnResourceError: true
+		},
 		files: [
 			'test/runner.coverage.js'
 		],
@@ -23,7 +29,6 @@ module.exports = function (config) {
 		coverageReporter: {
 			type : 'html',
 			dir : 'coverage/'
-		},
-		singleRun: true
+		}
 	});
 };
