@@ -1,4 +1,6 @@
 import { combineCanvasses } from './helpers';
+import { BallpointPen } from 'ploma';
+import { sum } from 'lodash';
 
 describe('Integration', () => {
 
@@ -40,6 +42,41 @@ describe('Integration', () => {
 			// get data
 			let combinedCanvas = combineCanvasses([firstCanvas, secondCanvas], 100, 100);
 			expect(combinedCanvas.toDataURL()).to.equal(bothDrawnOnOneCanvas.toDataURL());
+		});
+
+	});
+
+	describe('Ploma', () => {
+
+		it('can draw a stroke', () => {
+			// This setup requires a packed derandomized ploma - when writing this test,
+			// derandomization was a branch in the ploma repo. So checkout ploma, switch to
+			// derandomization, npm run build, npm run pack, go to hperlively, run npm install
+			// ../ploma/[packname] and run the test again.
+			let canvas = document.createElement('canvas');
+			let position = 0;
+			let extent = 100;
+			let pressure = 0.95;
+			let canvasFactor = 0.35;
+			canvas.setAttribute('width', extent);
+			canvas.setAttribute('height', extent);
+			canvas.style.setProperty('top', position);
+			canvas.style.setProperty('left', position);
+			let plomaConfig = {
+				uniqueCanvasFactor: canvasFactor,
+				paperColor: 'rgba(0, 0, 0, 0)'
+			};
+			let ballpointPen = new BallpointPen(canvas, plomaConfig);
+			ballpointPen.setSample(1);
+			let oldImageData = canvas.getContext('2d').getImageData(position, position, extent, extent);
+			ballpointPen.beginStroke(10, 10, pressure);
+			ballpointPen.extendStroke(11, 11, pressure);
+			ballpointPen.extendStroke(12, 12, pressure);
+			ballpointPen.extendStroke(13, 13, pressure);
+			ballpointPen.extendStroke(14, 14, pressure);
+			ballpointPen.endStroke(15, 15, pressure);
+			let newImageData = canvas.getContext('2d').getImageData(position, position, extent, extent);
+			expect(sum(oldImageData.data)).to.not.equal(sum(newImageData.data));
 		});
 
 	});
