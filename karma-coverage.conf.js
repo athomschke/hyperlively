@@ -10,6 +10,7 @@ module.exports = function (config) {
 	config.webpack.devtool = 'inline-source-map';
 	config.webpack.module.postLoaders = [{
 		test: /\.jsx|\.js$/,
+		include: /hyperlively/,
 		exclude: /(test|libs|node_modules|bower_components)\//,
 		loader: 'istanbul-instrumenter'
 	}];	

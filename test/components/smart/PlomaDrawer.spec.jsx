@@ -44,11 +44,9 @@ describe('PlomaDrawer', () => {
 	let canvas;
 
 	beforeEach(() => {
-		canvas = renderComponentWithProps({ strokes: [] });
-		spyOnPen(canvas.state.ballpointPen);
-		canvas.props.strokes.push({ points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}, {x:10, y:13}] });
+		canvas = renderComponentWithProps({ strokes: [{ points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}, {x:10, y:13}] }] });
 		canvas.componentDidUpdate();
-		resetPenSpies(canvas.state.ballpointPen);
+		spyOnPen(canvas.state.ballpointPen);
 	});
 
 	afterEach(() => {
@@ -93,6 +91,56 @@ describe('PlomaDrawer', () => {
 
 		it('redraws all remaining strokes', () => {
 			expect(canvas.state.ballpointPen.extendStroke.callCount).to.equal(2);
+		});
+
+	});
+
+	describe('removing all but one point', () => {
+
+		beforeEach(() => {
+			canvas.props.strokes[0].points.splice(-3);
+			canvas.componentDidUpdate();
+		});
+		
+		it('clears the canvas', () => {
+			expect(canvas.state.ballpointPen.clear.callCount).to.equal(1);
+		});
+
+		it('doesn\'t start a stroke', () => {
+			expect(canvas.state.ballpointPen.beginStroke.callCount).to.equal(0);
+		});
+
+		it('doesn\'t extend a stroke', () => {
+			expect(canvas.state.ballpointPen.extendStroke.callCount).to.equal(0);
+		});
+
+	});
+
+	describe('removing the second stroke', () => {
+
+		beforeEach(() => {
+			canvas.props.strokes[0].finished = true;
+			canvas.props.strokes.push({ points: [{x: 10, y: 15}] });
+			canvas.componentDidUpdate();
+			resetPenSpies(canvas.state.ballpointPen);
+			canvas.props.strokes.splice(-1);
+			canvas.componentDidUpdate();
+		});
+		
+		it('clears the canvas', () => {
+			expect(canvas.state.ballpointPen.clear.callCount).to.equal(1);
+		});
+
+		it('starts the first stroke', () => {
+			expect(canvas.state.ballpointPen.beginStroke.callCount).to.equal(1);
+		});
+
+		it('extends the first stroke', () => {
+			expect(canvas.state.ballpointPen.extendStroke.callCount).to.equal(3);
+		});
+
+		it('ends the first stroke', () => {
+			expect(canvas.state.ballpointPen.endStroke.callCount).to.equal(1);
 		});
 
 	});
