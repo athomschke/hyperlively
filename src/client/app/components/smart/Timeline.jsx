@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import { Slider } from 'reactrangeslider';
+import { map } from 'lodash';
 
 'use strict';
 
@@ -13,7 +14,8 @@ export default class Timeline extends Component {
 		callbackEnabled: PropTypes.bool,
 		max: PropTypes.number,
 		value: PropTypes.number,
-		timeout: PropTypes.number
+		timeout: PropTypes.number,
+		sketches: PropTypes.array
 	};
 
 	static defaultProps = {
@@ -22,7 +24,8 @@ export default class Timeline extends Component {
 		callbackEnabled: false,
 		max: 0,
 		value: 0,
-		timeout: 1000
+		timeout: 1000,
+		sketches: []
 	};
 
 	componentDidMount() {
@@ -86,18 +89,29 @@ export default class Timeline extends Component {
 		};
 	}
 
+	renderPreview() {
+		return map(this.props.sketches, (sketch, id) => {
+			return (<div key={id}/>);
+		});
+	}
+
 	render() {
-		return (<Slider ref="slider"
-			onChange={this.onSliderMove.bind(this)}
-			afterChange={this.onSliderStop.bind(this)}
-			disabled={this.props.max <= 0}
-			min={0}
-			max={this.props.max}
-			value={this.props.value}
-			trackStyle={this.getTrackStyle()}
-			handleStyle={this.getHandleStyle()}
-			wrapperStyle={this.getWrapperStyle()}
-		/>);
+		return (<div>
+			<div ref="previewContainer">
+				{this.renderPreview()}
+			</div>
+			<Slider ref="slider"
+				onChange={this.onSliderMove.bind(this)}
+				afterChange={this.onSliderStop.bind(this)}
+				disabled={this.props.max <= 0}
+				min={0}
+				max={this.props.max}
+				value={this.props.value}
+				trackStyle={this.getTrackStyle()}
+				handleStyle={this.getHandleStyle()}
+				wrapperStyle={this.getWrapperStyle()}
+			/>
+		</div>);
 	}
 
 }

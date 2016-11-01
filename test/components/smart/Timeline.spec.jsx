@@ -9,6 +9,14 @@ let renderComponentWithValueAndMax = (value, max) => {
 	></Timeline>);
 };
 
+let renderComponentWithSketches = (sketches) => {
+	return TestUtils.renderIntoDocument(<Timeline
+		max={100}
+		value={99}
+		sketches={sketches}
+	></Timeline>);
+};
+
 describe('Timeline', () => {
 
 	describe('rendering the slider', () => {
@@ -19,8 +27,23 @@ describe('Timeline', () => {
 		});
 		
 		it('enables Slider when max is larger than 0', () => {
-			let temporaryCallbackSlider = renderComponentWithValueAndMax(0, 1);
+			let temporaryCallbackSlider = TestUtils.renderIntoDocument(<Timeline
+				max={10}
+				value={4}
+
+			></Timeline>);
 			expect(temporaryCallbackSlider.refs.slider.props.disabled).to.be.false;
+		});
+
+		it('shows a preview for every sketch handed to it', () => {
+			let temporaryCallbackSlider = renderComponentWithSketches([{
+				strokes: []
+			}, {
+				strokes: []
+			}, {
+				strokes: []
+			}]);
+			expect(temporaryCallbackSlider.refs.previewContainer.children).to.have.length(3);
 		});
 		
 	});
