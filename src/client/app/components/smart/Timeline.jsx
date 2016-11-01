@@ -64,6 +64,28 @@ export default class Timeline extends Component {
 		}
 	}
 
+	getTrackStyle() {
+		return {
+			backgroundColor: 'rgba(0,0,0,0)',
+			borderRadius: 3,
+			height: 60
+		};
+	}
+
+	getHandleStyle() {
+		return {
+			backgroundColor: 'rgba(0,0,0,0)',
+			borderRadius: 3,
+			height: 80
+		};
+	}
+
+	getWrapperStyle() {
+		return {
+			height: 80
+		};
+	}
+
 	render() {
 		return (<Slider ref="slider"
 			onChange={this.onSliderMove.bind(this)}
@@ -72,6 +94,9 @@ export default class Timeline extends Component {
 			min={0}
 			max={this.props.max}
 			value={this.props.value}
+			trackStyle={this.getTrackStyle()}
+			handleStyle={this.getHandleStyle()}
+			wrapperStyle={this.getWrapperStyle()}
 		/>);
 	}
 
