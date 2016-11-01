@@ -5,7 +5,7 @@ import { Slider } from 'reactrangeslider';
 
 let runningTimeout;
 
-export default class TemporaryCallbackSlider extends Component {
+export default class Timeline extends Component {
 
 	static propTypes = {
 		onChange: PropTypes.func,

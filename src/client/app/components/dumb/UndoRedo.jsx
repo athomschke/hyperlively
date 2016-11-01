@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import TemporaryCallbackSlider from 'components/smart/TemporaryCallbackSlider';
+import Timeline from 'components/smart/Timeline';
 
 'use strict';
 
@@ -11,7 +11,7 @@ export default class UndoRedo extends Component {
 					width: window.innerWidth - 40
 				}}
 			>
-			<TemporaryCallbackSlider ref="slider" {...this.props}/>
+			<Timeline ref="slider" {...this.props}/>
 		</div>);
 	}
 
