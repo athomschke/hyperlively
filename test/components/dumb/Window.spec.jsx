@@ -21,5 +21,13 @@ describe('Window', () => {
 		></Window>);
 		expect(windowComponent.refs.window.style.getPropertyValue('pointer-events')).to.equal('auto');
 	});
+	
+	it('enables events per default', () => {
+		let windowComponent = TestUtils.renderIntoDocument(<Window
+			width={100}
+			height={100}
+		></Window>);
+		expect(windowComponent.refs.window.style.getPropertyValue('pointer-events')).to.equal('auto');
+	});
 
 });
