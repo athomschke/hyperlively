@@ -1,9 +1,7 @@
 import { connect } from 'react-redux';
-import { last, cloneDeep } from 'lodash';
 import { updateBounds, hide } from 'actions/manipulating';
 import { PAPER_COLOR, WHITE} from 'constants/drawing';
 import Desk from 'components/smart/Desk';
-import SketchCombiner from 'components/smart/SketchCombiner';
 import ModuleChooser from 'components/smart/ModuleChooser';
 import SketchTransformer from 'components/smart/SketchTransformer';
 import PlomaDrawer from 'components/smart/PlomaDrawer';
@@ -15,12 +13,11 @@ import Interpreter from 'components/smart/Interpreter';
 import HandwritingRecognizer from 'components/smart/HandwritingRecognizer';
 import HandwritingRecognitionTrigger from 'components/smart/HandwritingRecognitionTrigger';
 
-const mapStateToProps = (state) => {
-	let returnState = cloneDeep(state.ploma);
+const mapStateToProps = (state, ownProps) => {
+	let returnState = {};
+	Object.assign(returnState, state.ploma, ownProps);
 	returnState.handwritingRecognitionEnabled = state.handwritingRecognition;
 	returnState.componentIndex = state.ploma.usePloma ? 1 : 0;
-	returnState.threshold = state.threshold;
-	returnState.scene = last(state.undoableScenes.present);
 	returnState.components = returnState.scene && returnState.scene.strokes;
 	returnState.drawing = state.drawing;
 	returnState.paperColor = returnState.usePloma ? PAPER_COLOR : WHITE;
@@ -41,4 +38,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Fullscreen(SketchCombiner(ModifierKey(Desk(Interpreter(HandwritingRecognitionTrigger(HandwritingRecognizer(SketchTransformer(ModuleChooser([BoundsMutationObserver(PlainDrawer), BoundsMutationObserver(PlomaDrawer)]))))))))));
+)(Fullscreen(ModifierKey(Desk(Interpreter(HandwritingRecognitionTrigger(HandwritingRecognizer(SketchTransformer(ModuleChooser([BoundsMutationObserver(PlainDrawer), BoundsMutationObserver(PlomaDrawer)])))))))));
