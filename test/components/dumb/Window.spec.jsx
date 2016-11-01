@@ -29,5 +29,21 @@ describe('Window', () => {
 		></Window>);
 		expect(windowComponent.refs.window.style.getPropertyValue('pointer-events')).to.equal('auto');
 	});
+	
+	it('has the given width', () => {
+		let windowComponent = TestUtils.renderIntoDocument(<Window
+			width={100}
+			height={100}
+		></Window>);
+		expect(windowComponent.refs.window.style.getPropertyValue('width')).to.equal('100px');
+	});
+	
+	it('has the given height', () => {
+		let windowComponent = TestUtils.renderIntoDocument(<Window
+			width={100}
+			height={100}
+		></Window>);
+		expect(windowComponent.refs.window.style.getPropertyValue('height')).to.equal('100px');
+	});
 
 });
