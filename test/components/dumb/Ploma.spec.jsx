@@ -1,33 +1,13 @@
 import Ploma from 'components/dumb/Ploma';
+import { findDOMNode } from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 import React from 'react';
 
-describe('Ploma', () => {
+describe('Ploma Configuration', () => {
 
-	it('toggling without a callback does not change the checked state', () => {
-		let ploma = TestUtils.renderIntoDocument(<Ploma></Ploma>);
-		let previousValue = ploma.props.checked;
-		TestUtils.Simulate.click(TestUtils.findRenderedDOMComponentWithTag(ploma, 'input'));
-		expect(ploma.props.checked).to.equal(previousValue);
-	});
-
-	it('calls callback with true when not checked and clicked', () => {
-		let value = false;
-		let ploma = TestUtils.renderIntoDocument(<Ploma
-			checked={false}
-			onChange={(bool) => {
-				value=bool;
-			}}
-		></Ploma>);
-		TestUtils.Simulate.click(TestUtils.findRenderedDOMComponentWithTag(ploma, 'input'));
-		expect(value).to.be.true;
-	});
-
-	it('displays the label', () => {
-		let ploma = TestUtils.renderIntoDocument(<Ploma
-			label={'Foobar'}
-		></Ploma>);
-		let labelNode = TestUtils.scryRenderedDOMComponentsWithTag(ploma, 'span')[0];
-		expect(labelNode.textContent).to.equal('Foobar');
+	it('labels the button Ploma', () => {
+		let component = TestUtils.renderIntoDocument(<Ploma></Ploma>);
+		let domNode = findDOMNode(component);
+		expect(domNode.textContent).to.equal('Use Ploma');
 	});
 });

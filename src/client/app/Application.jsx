@@ -1,8 +1,8 @@
 import React from 'react';
-import Page from 'containers/Page';
+import Application from 'containers/Application';
 
 'use strict';
 
 export default () => (
-	<Page />
+	<Application />
 );

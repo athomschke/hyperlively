@@ -3,11 +3,11 @@ import LabelledBox from 'components/dumb/LabelledBox';
 
 'use strict';
 
-export default class Ploma extends Component {
+export default class HandwritingRecognition extends Component {
 
 	render() {
 		return (<LabelledBox {...this.props}
-			label={'Use Ploma'}
+			label={'Use Handwriting Recognition'}
 		/>);
 	}
 

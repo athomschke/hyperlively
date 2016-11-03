@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { toggleHandwritingRecognition } from 'actions/configuring';
-import Ploma from 'components/dumb/Ploma';
+import HandwritingRecognition from 'components/dumb/HandwritingRecognition';
 
 const mapStateToProps = (state) => {
 	return {
@@ -19,4 +19,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(Ploma);
+)(HandwritingRecognition);

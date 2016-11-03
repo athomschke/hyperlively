@@ -1,20 +1,24 @@
-import { connect } from 'react-redux';
-import { last } from 'lodash';
-import SketchCombiner from 'components/smart/SketchCombiner';
-import Page from 'components/dumb/Page';
+import React, {Component} from 'react';
+import Scene from 'containers/Scene';
+import UndoRedo from 'containers/UndoRedo';
+import Ploma from 'containers/Ploma';
+import HandwritingRecognition from 'containers/HandwritingRecognition';
+import Threshold from 'containers/Threshold';
+import Window from 'containers/Window';
+import AppConfiguration from 'components/dumb/AppConfiguration';
 
-const mapStateToProps = (state) => {
-	let returnState = {};
-	returnState.threshold = state.threshold;
-	returnState.scene = last(state.undoableScenes.present);
-	return returnState;	
-};
+export default class Page extends Component {
 
-const mapDispatchToProps = () => {
-	return { };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SketchCombiner(Page));
+	render() {
+		return (<div>
+			<Scene {...this.props}/>
+			<Window />
+			<AppConfiguration>
+				<UndoRedo {...this.props} />
+				<Threshold />
+				<Ploma />
+				<HandwritingRecognition />
+			</AppConfiguration>
+		</div>);
+	}
+}
