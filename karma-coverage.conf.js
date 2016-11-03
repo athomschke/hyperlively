@@ -11,7 +11,7 @@ module.exports = function (config) {
 	config.webpack.module.postLoaders = [{
 		test: /\.jsx|\.js$/,
 		include: /hyperlively/,
-		exclude: /(test|libs|node_modules|bower_components)\//,
+		exclude: /(test|libs|node_modules|bower_components|containers)\//,
 		loader: 'istanbul-instrumenter'
 	}];	
 	
