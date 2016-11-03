@@ -12,11 +12,17 @@ let HandwritingRecognizerComponent = HandwritingRecognitionTrigger(WrappedCompon
 
 describe('Handwriting Recognition Trigger', () => {
 		
-	let firstStroke = {};
-	let secondStroke = {};
-	let thirdStroke = {
-		finished: true
-	};
+	let firstStroke;
+	let secondStroke;
+	let thirdStroke;
+
+	beforeEach(() => {
+		firstStroke = {};
+		secondStroke = {};
+		thirdStroke = {
+			finished: true
+		};
+	});
 	
 	describe('initializes', () => {
 
@@ -97,5 +103,42 @@ describe('Handwriting Recognition Trigger', () => {
 			expect(trigger.doRecognize()).to.be.false;
 		});
 
+	});
+
+	describe('triggering a recognize', () => {
+
+		it('enables the recognition', () => {
+			let props = {
+				handwritingRecognitionEnabled: true,
+				returnPressed: true,
+				strokes: [firstStroke, secondStroke, thirdStroke],
+				scene: {
+					strokes: [thirdStroke]
+				}
+			};
+			let trigger = TestUtils.renderIntoDocument(<HandwritingRecognizerComponent {...props}/>);
+			trigger.componentDidUpdate();
+			expect(trigger.state.useHandwritingRecognition).to.be.true;
+		});
+
+	});
+
+	describe('changing anything after a recognition', () => {
+		it('disables the recognition', () => {
+			let fourthStroke = {};
+			let props = {
+				handwritingRecognitionEnabled: true,
+				returnPressed: true,
+				strokes: [firstStroke, secondStroke, thirdStroke],
+				scene: {
+					strokes: [thirdStroke]
+				}
+			};
+			let trigger = TestUtils.renderIntoDocument(<HandwritingRecognizerComponent {...props}/>);
+			trigger.componentDidUpdate();
+			trigger.props.strokes.push(fourthStroke);
+			trigger.componentDidUpdate();
+			expect(trigger.state.useHandwritingRecognition).to.be.false;
+		});
 	});
 });
