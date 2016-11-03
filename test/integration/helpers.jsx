@@ -82,7 +82,7 @@ export function dismountApp () {
 }
 
 export function getCanvasNodes () {
-	return document.getElementsByTagName('canvas');
+	return document.getElementById('desk').getElementsByTagName('canvas');
 }
 
 export function getWindowNode () {
@@ -91,4 +91,12 @@ export function getWindowNode () {
 
 export function getCombinedCanvas () {
 	return combineCanvasses(getCanvasNodes(), 1000, 500);
+}
+
+export function gotToHalfTimeInApp (domApp) {
+	let sliderWithHandle = domApp.childNodes[2].childNodes[0].childNodes[0];
+	let slider = sliderWithHandle.childNodes[1];
+	TestUtils.Simulate.click(slider, {
+		pageX: slider.offsetWidth / 2
+	});
 }

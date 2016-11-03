@@ -1,6 +1,8 @@
 import Timeline from 'components/smart/Timeline';
 import TestUtils from 'react-addons-test-utils';
 import React from 'react';
+import { point } from '../../helpers';
+import { map, filter } from 'lodash';
 
 let renderComponentWithValueAndMax = (value, max) => {
 	return TestUtils.renderIntoDocument(<Timeline
@@ -35,15 +37,27 @@ describe('Timeline', () => {
 			expect(temporaryCallbackSlider.refs.slider.props.disabled).to.be.false;
 		});
 
-		it('shows a preview for every sketch handed to it', () => {
+		it('shows a preview canvas for every sketch handed to it', () => {
 			let temporaryCallbackSlider = renderComponentWithSketches([{
-				strokes: []
+				strokes: [{
+					points: [point(12,12), point(11,11), point(10,10)]
+				}]
 			}, {
-				strokes: []
+				strokes: [{
+					points: [point(20,20), point(21,21), point(22,22)]
+				}]
 			}, {
-				strokes: []
+				strokes: [{
+					points: [point(30,30), point(31,31), point(32,32)]
+				}]
 			}]);
 			expect(temporaryCallbackSlider.refs.previewContainer.children).to.have.length(3);
+			let canvasses = filter(map(temporaryCallbackSlider.refs.previewContainer.children, (child) => {
+				return child.children[0].nodeName.toLowerCase();
+			}), (nodeName) => {
+				return nodeName === 'canvas';
+			});
+			expect(canvasses).to.have.length(3);
 		});
 		
 	});
@@ -193,6 +207,18 @@ describe('Timeline', () => {
 			expect(argument).to.equal(true);
 		});
 		
+	});
+
+	describe('rendering strokes to previews', () => {
+
+		it('Moves the preview towards the origin', () => {
+			let movedStrokes = Timeline.prototype.moveToOrigin([{
+				points: [point(10,10), point(11,11), point(12,12)]
+			}]);
+			expect(movedStrokes[0].points[0].x).to.equal(0);
+			expect(movedStrokes[0].points[0].y).to.equal(0);
+		});
+
 	});
 	
 });

@@ -1,4 +1,4 @@
-import { mountApp, dismountApp, renderApplicationWithState } from './helpers';
+import { mountApp, dismountApp, renderApplicationWithState, getCanvasNodes } from './helpers';
 import { forEach } from 'lodash';
 
 'use strict';
@@ -32,8 +32,8 @@ describe('Integration', () => {
 				oldAddEventListener.apply(that, arguments);
 			};
 			renderApplicationWithState(canvasJson);
-			expect(document.getElementsByTagName('canvas')).to.have.length(3);
-			expect(document.getElementsByTagName('canvas')[0].parentNode.style.getPropertyValue('pointer-events')).to.equal('none');
+			expect(getCanvasNodes()).to.have.length(3);
+			expect(getCanvasNodes()[0].parentNode.style.getPropertyValue('pointer-events')).to.equal('none');
 			forEach(listeners, (listener) => {
 				listener.type === 'keydown' && listener.callback({
 					metaKey: true,
@@ -41,7 +41,7 @@ describe('Integration', () => {
 				});
 			});
 			window.addEventListener = oldAddEventListener.bind(window);
-			expect(document.getElementsByTagName('canvas')[0].parentNode.style.getPropertyValue('pointer-events')).to.equal('auto');	
+			expect(getCanvasNodes()[0].parentNode.style.getPropertyValue('pointer-events')).to.equal('auto');	
 		});
 
 		it('disables events on window div', () => {
@@ -57,7 +57,7 @@ describe('Integration', () => {
 				oldAddEventListener.apply(that, arguments);
 			};
 			renderApplicationWithState(canvasJson);
-			expect(document.getElementsByTagName('canvas')).to.have.length(3);
+			expect(getCanvasNodes()).to.have.length(3);
 			expect(document.getElementsByClassName('window')[0].style.getPropertyValue('pointer-events')).to.equal('auto');
 			forEach(listeners, (listener) => {
 				listener.type === 'keydown' && listener.callback({

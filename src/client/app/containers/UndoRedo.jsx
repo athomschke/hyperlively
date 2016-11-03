@@ -4,13 +4,15 @@ import UndoRedo from 'components/dumb/UndoRedo';
 import { togglePloma } from 'actions/configuring';
 import UNDO_TIMEOUT from 'constants/canvas';
 
-const mapStateToProps = (state) => {
-	return {
+const mapStateToProps = (state, ownProps) => {
+	let returnProps = {};
+	Object.assign(returnProps, {
 		max: state.undoableScenes.past.length + state.undoableScenes.future.length,
 		value: state.undoableScenes.past.length,
 		callbackEnabled: state.ploma.usePloma,
 		timeout: UNDO_TIMEOUT
-	};
+	}, ownProps);
+	return returnProps;
 };
 
 const mapDispatchToProps = (dispatch) => {

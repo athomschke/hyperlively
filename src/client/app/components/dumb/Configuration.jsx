@@ -17,7 +17,7 @@ export default class Configuration extends Component {
 	render() {
 		return (
 			<div style={getControlStyle()}>
-				<UndoRedo />
+				<UndoRedo {...this.props}/>
 				<Threshold />
 				<Ploma
 					label={'Use Ploma'}

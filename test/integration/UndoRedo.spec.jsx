@@ -1,7 +1,7 @@
 import { findDOMNode } from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 import { point } from '../helpers';
-import { hashCode, mountApp, dismountApp, getCanvasNodes, getWindowNode, getCombinedCanvas, renderApplicationWithState, manuallyDrawStrokes } from './helpers';
+import { hashCode, mountApp, dismountApp, getCanvasNodes, getWindowNode, getCombinedCanvas, renderApplicationWithState, manuallyDrawStrokes, gotToHalfTimeInApp } from './helpers';
 import { cloneDeep } from 'lodash';
 
 'use strict';
@@ -33,13 +33,9 @@ describe('Integration', () => {
 			}]);
 			expect(getCanvasNodes()).to.have.length(3);
 			let domApp = findDOMNode(renderedApp);
-			let sliderWithHandle = domApp.childNodes[2].childNodes[0].childNodes[0];
-			let slider = sliderWithHandle.childNodes[0];
 			expect(parseInt(getCanvasNodes()[0].parentNode.style.getPropertyValue('width'))).to.equal(10);
 			expect(parseInt(getCanvasNodes()[0].parentNode.style.getPropertyValue('height'))).to.equal(60);
-			TestUtils.Simulate.click(slider, {
-				pageX: slider.offsetWidth / 2
-			});
+			gotToHalfTimeInApp(domApp)
 			expect(parseInt(getCanvasNodes()[0].parentNode.style.getPropertyValue('width'))).to.equal(10);
 			expect(parseInt(getCanvasNodes()[0].parentNode.style.getPropertyValue('height'))).to.equal(60);
 		});
@@ -53,12 +49,8 @@ describe('Integration', () => {
 				points: [ point(20,10), point(20,30), point(20,60) ]
 			}]);
 			let domApp = findDOMNode(renderedApp);
-			let sliderWithHandle = domApp.childNodes[2].childNodes[0].childNodes[0];
-			let slider = sliderWithHandle.childNodes[0];
 			let beforeUndoImageData = getCombinedCanvas().toDataURL();
-			TestUtils.Simulate.click(slider, {
-				pageX: slider.offsetWidth / 2
-			});
+			gotToHalfTimeInApp(domApp);
 			let afterUndoImageData = getCombinedCanvas().toDataURL();
 			expect(hashCode(beforeUndoImageData)).to.not.equal(hashCode(afterUndoImageData));
 		});

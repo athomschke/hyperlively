@@ -1,10 +1,14 @@
 import React, {Component, PropTypes} from 'react';
 import { Slider } from 'reactrangeslider';
-import { map } from 'lodash';
+import { map, reduce, forEach, cloneDeep, flatten } from 'lodash';
+import PlainDrawer from 'components/smart/PlainDrawer';
+import SketchTransformer from 'components/smart/SketchTransformer';
 
 'use strict';
 
 let runningTimeout;
+
+let Canvas = SketchTransformer(PlainDrawer);
 
 export default class Timeline extends Component {
 
@@ -89,9 +93,33 @@ export default class Timeline extends Component {
 		};
 	}
 
+	moveToOrigin(strokes) {
+		let clonedStrokes = cloneDeep(strokes);
+		let points = flatten(map(strokes, (stroke) => {
+			return stroke.points || [];
+		}));
+		let minX = reduce(points, (min, point) => {
+			return point.x < min ? point.x : min;
+		}, points[0].x) || 0;
+		let minY = reduce(points, (min, point) => {
+			return point.y < min ? point.y : min;
+		}, points[0].y) || 0;
+		forEach(clonedStrokes, (stroke) => {
+			forEach(stroke.points, (point) => {
+				point.x -= minX;
+				point.y -= minY;
+			});
+		});
+		return clonedStrokes;
+	}
+
 	renderPreview() {
 		return map(this.props.sketches, (sketch, id) => {
-			return (<div key={id}/>);
+			return (<Canvas
+				key={id}
+				strokes={this.moveToOrigin(sketch.strokes)}
+				finished={true}
+			/>);
 		});
 	}
 
