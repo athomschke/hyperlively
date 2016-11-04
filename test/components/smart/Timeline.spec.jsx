@@ -245,5 +245,33 @@ describe('Timeline', () => {
 		});
 
 	});
+
+	describe('scaling strokes to fit into preview', () => {
+
+		let scale = Timeline.prototype.scaleToTime;
+
+		it('Scales to maximum width', () => {
+			let strokes = [{
+				points: [point(0,0), point(10,10), point(20,20)]
+			}];
+			let maxWidth = 10;
+			let scaledStrokes = scale(strokes, maxWidth, Infinity);
+			expect(scaledStrokes[0].points[0].x).to.equal(0);
+			expect(scaledStrokes[0].points[1].x).to.equal(5);
+			expect(scaledStrokes[0].points[2].x).to.equal(10);
+		});
+
+		it('Scales to maximum height', () => {
+			let strokes = [{
+				points: [point(0,0), point(10,10), point(20,20)]
+			}];
+			let maxHeight = 10;
+			let scaledStrokes = scale(strokes, Infinity, maxHeight);
+			expect(scaledStrokes[0].points[0].y).to.equal(0);
+			expect(scaledStrokes[0].points[1].y).to.equal(5);
+			expect(scaledStrokes[0].points[2].y).to.equal(10);
+		});
+
+	});
 	
 });

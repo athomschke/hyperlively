@@ -1,15 +1,15 @@
 import React, {Component, PropTypes} from 'react';
 import { Slider } from 'reactrangeslider';
-import { map, reduce, flatten } from 'lodash';
+import { map, reduce, flatten, cloneDeep, forEach } from 'lodash';
 import PlainDrawer from 'components/smart/PlainDrawer';
 import SketchTransformer from 'components/smart/SketchTransformer';
-import { OFFSET } from 'constants/canvas';
+import SketchFitter from 'components/smart/SketchFitter';
 
 'use strict';
 
 let runningTimeout;
 
-let Canvas = SketchTransformer(PlainDrawer);
+let Canvas = SketchTransformer(SketchFitter(PlainDrawer));
 
 export default class Timeline extends Component {
 
@@ -114,6 +114,28 @@ export default class Timeline extends Component {
 		};
 	}
 
+	scaleToTime(strokes, width, height) {
+		let maxX = Math.max.apply(this, map(flatten(map(strokes, 'points')), 'x'));
+		let minX = Math.min.apply(this, map(flatten(map(strokes, 'points')), 'x'));
+		let maxY = Math.max.apply(this, map(flatten(map(strokes, 'points')), 'y'));
+		let minY = Math.min.apply(this, map(flatten(map(strokes, 'points')), 'y'));
+		let scale = 1;
+		scale = Math.min(scale, width/(maxX - minX));
+		scale = Math.min(scale, height/(maxY - minY));
+		if (scale < 1) {
+			let clonedStrokes = cloneDeep(strokes);
+			forEach(clonedStrokes, (clonedStroke) => {
+				forEach(clonedStroke.points, (point) => {
+					point.x = point.x * scale;
+					point.y = point.y * scale;
+				});
+			});
+			return clonedStrokes;
+		} else {
+			return strokes;
+		}
+	}
+
 	moveToTime(strokes) {
 		if (this.props.max > 0 && strokes[0].actionIndex) {
 			return (this.props.sliderWidth * strokes[0].actionIndex) / this.props.max;
@@ -122,20 +144,32 @@ export default class Timeline extends Component {
 		}
 	}
 
+	getMinWidth(strokes) {
+		if (this.props.max > 0) {
+			return (this.props.sliderWidth * flatten(map(strokes, 'points')).length) / this.props.max;
+		} else {
+			return 0;
+		}		
+	}
+
 	renderPreview() {
 		return map(this.props.sketches, (sketch, id) => {
-			let moveBy = this.moveToOrigin(sketch.strokes);
+			let fittedWidth = this.getMinWidth(sketch.strokes);
+			let strokes = this.scaleToTime(sketch.strokes, fittedWidth, this.props.sliderHeight);
+			let moveBy = this.moveToOrigin(strokes);
 			return (<div
 				key={id}
 				style={{
 					position: 'absolute',
 					top: -moveBy.y,
-					left: -moveBy.x + this.moveToTime(sketch.strokes)
+					left: -moveBy.x + this.moveToTime(strokes)
 				}}>
 				<Canvas
-					offset={OFFSET}
-					strokes={sketch.strokes}
+					strokes={strokes}
+					fittedWidth={fittedWidth}
+					fittedHeight={this.props.sliderHeight}
 					finished={true}
+					showBorder={true}
 				/>
 			</div>);
 		});

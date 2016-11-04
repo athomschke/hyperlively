@@ -1,5 +1,5 @@
 import AbstractDrawer from 'components/smart/AbstractDrawer';
-import { without, last, head, tail, reduce } from 'lodash';
+import { without, last, head, tail, reduce, cloneDeep } from 'lodash';
 import React from 'react';
 
 'use strict';
@@ -13,6 +13,21 @@ export default class PlainDrawer extends AbstractDrawer {
 	secondToLastPointInStrokes (strokes) {
 		let points = last(strokes).points;
 		return points[points.length - 2];
+	}
+
+	wasFirstPointEdited() {
+		return this.props.strokes[0] && this.state.strokes[0] && (this.props.strokes[0].points[0].x !== this.state.strokes[0].points[0].x);
+	}
+
+	onStrokesUpdated() {
+		if (this.wasFirstPointEdited()) {
+			this.redrawEverything(this.props.strokes[0] && this.props.strokes[0].finished);
+			this.setState({
+				strokes: cloneDeep(this.props.strokes)
+			});
+		} else {
+			return super.onStrokesUpdated();
+		}
 	}
 
 	onStrokeStarted(strokes) {

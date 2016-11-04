@@ -153,34 +153,21 @@ describe('PlainDrawer', () => {
 
 	describe('changing the positions of strokes', () => {
 
-		it('does not change the image data', () => {
+		it('triggers a redraw everything', () => {
 			canvas = renderComponentWithProps({
 				strokes: [{
-					points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}, {x:10, y:13}]
+					points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}, {x:10, y:13}],
+					finished: true
 				}]
 			});
-			let sumBefore = sum(canvasImageData(canvas.refs.canvas).data);
+			sinon.spy(canvas, 'redrawEverything');
 			forEach(canvas.props.strokes[0].points, (point) => {
 				point.x += 10;
 				point.y += 10;
 			});
 			canvas.componentDidUpdate();
-			let sumAfter = sum(canvasImageData(canvas.refs.canvas).data);
-			expect(sumAfter).to.equal(sumBefore);
-		});
-
-		it('does nothing when no strokes are given', () => {
-			canvas = renderComponentWithProps({
-				strokes: []
-			});
-			let sumBefore = sum(canvasImageData(canvas.refs.canvas).data);
-			forEach((canvas.props.strokes[0] || {}).points, (point) => {
-				point.x += 10;
-				point.y += 10;
-			});
-			canvas.componentDidUpdate();
-			let sumAfter = sum(canvasImageData(canvas.refs.canvas).data);
-			expect(sumAfter).to.equal(sumBefore);
+			expect(canvas.redrawEverything.callCount).to.equal(1);
+			canvas.redrawEverything.restore();
 		});
 
 	});

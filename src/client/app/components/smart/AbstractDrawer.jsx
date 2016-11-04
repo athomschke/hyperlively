@@ -84,7 +84,8 @@ export default class AbstractDrawer extends Component {
 		bounds: PropTypes.object,
 		active: PropTypes.bool,
 		width: PropTypes.number,
-		height: PropTypes.number
+		height: PropTypes.number,
+		showBorder: PropTypes.bool
 	};
 
 	static defaultProps = {
@@ -97,7 +98,8 @@ export default class AbstractDrawer extends Component {
 		},
 		active: false,
 		width: window.innerWidth,
-		height: window.innerHeight
+		height: window.innerHeight,
+		showBorder: false
 	};
 
 	constructor(props) {
@@ -176,28 +178,38 @@ export default class AbstractDrawer extends Component {
 		});
 	}
 
+	getPassepartoutStyle() {
+		return {
+			position: 'absolute',
+			top: this.props.bounds.y,
+			left: this.props.bounds.x,
+			pointerEvents: this.props.active && this.props.finished ? 'auto' : 'none',
+			width: this.props.bounds.width,
+			height: this.props.bounds.height,
+			borderLeft: (this.props.showBorder ? '1' : '0') + 'px solid black',
+			borderRight: (this.props.showBorder ? '1' : '0') + 'px solid black'
+		};
+	}
+
+	getCanvasStyle() {
+		return {
+			position: 'absolute',
+			top: -this.props.bounds.y,
+			left: -this.props.bounds.x,
+			pointerEvents: 'none'
+		};
+	}
+
 	render() {
 		return <div
 				ref='node'
-				style={{
-					position: 'absolute',
-					top: this.props.bounds.y,
-					left: this.props.bounds.x,
-					pointerEvents: this.props.active && this.props.finished ? 'auto' : 'none',
-					width: this.props.bounds.width,
-					height: this.props.bounds.height
-				}}
+				style={this.getPassepartoutStyle()}
 			>
 				<canvas 
 					ref='canvas'
 					width={this.props.width}
 					height={this.props.height}
-					style={{
-						position: 'absolute',
-						top: -this.props.bounds.y,
-						left: -this.props.bounds.x,
-						pointerEvents: 'none'
-					}}
+					style={this.getCanvasStyle()}
 				/>
 			</div>;
 	}
