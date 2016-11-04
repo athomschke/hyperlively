@@ -40,15 +40,18 @@ describe('Timeline', () => {
 		it('shows a preview canvas for every sketch handed to it', () => {
 			let temporaryCallbackSlider = renderComponentWithSketches([{
 				strokes: [{
-					points: [point(12,12), point(11,11), point(10,10)]
+					points: [point(12,12), point(11,11), point(10,10)],
+					actionIndex: 0
 				}]
 			}, {
 				strokes: [{
-					points: [point(20,20), point(21,21), point(22,22)]
+					points: [point(20,20), point(21,21), point(22,22)],
+					actionIndex: 3
 				}]
 			}, {
 				strokes: [{
-					points: [point(30,30), point(31,31), point(32,32)]
+					points: [point(30,30), point(31,31), point(32,32)],
+					actionIndex: 6
 				}]
 			}]);
 			expect(temporaryCallbackSlider.refs.previewContainer.children).to.have.length(3);
@@ -229,9 +232,11 @@ describe('Timeline', () => {
 
 		it('captures no events on a preview canvas', () => {
 			let timeline = TestUtils.renderIntoDocument(<Timeline
+				max={4}
 				sketches={[{
 					strokes: [{
-						points: [point(-15,-10), point(-15,-15), point(-10,-15), point(-10,-10)]
+						points: [point(-15,-10), point(-15,-15), point(-10,-15), point(-10,-10)],
+						actionIndex: 0
 					}]
 				}]}
 			></Timeline>);

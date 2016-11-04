@@ -115,12 +115,11 @@ export default class Timeline extends Component {
 	}
 
 	moveToTime(strokes) {
-		return (this.props.sliderWidth * strokes[0].actionIndex) / this.props.max;
-	}
-
-	stretchToTime(strokes) {
-		let pointCount = flatten(map(strokes, 'points')).length;
-		return (this.props.sliderWidth * pointCount) / this.props.max;
+		if (this.props.max > 0 && strokes[0].actionIndex) {
+			return (this.props.sliderWidth * strokes[0].actionIndex) / this.props.max;
+		} else {
+			return 0;
+		}
 	}
 
 	renderPreview() {
