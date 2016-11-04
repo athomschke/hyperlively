@@ -256,6 +256,43 @@ describe('Timeline', () => {
 			expect(scaledStrokes[0].points[2].y).to.equal(10);
 		});
 
+		it('does not scale if small enough', () => {
+			let strokes = [{
+				points: [point(0,0), point(10,10), point(20,20)]
+			}];
+			let maxWidth = 30;
+			let scaledStrokes = scale(strokes, maxWidth, Infinity);
+			expect(scaledStrokes[0].points[0].x).to.equal(0);
+			expect(scaledStrokes[0].points[1].x).to.equal(10);
+			expect(scaledStrokes[0].points[2].x).to.equal(20);
+		});
+
+	});
+
+	describe('fitting passepartout to preview width', () => {
+
+		let getFittedWidth = Timeline.prototype.getFittedWidth;
+
+		it('defaults to zero', () => {
+			let strokes = [{
+				points: [point(0,0), point(10,10), point(20,20), point(30,30)]
+			}];
+			let maxWidth = 0;
+			let sliderWidth = 100;
+			let fittedWidth = getFittedWidth(strokes, sliderWidth, maxWidth);
+			expect(fittedWidth).to.equal(0);
+		});
+
+		it('spans half the slider when canvas contains half the points', () => {
+			let strokes = [{
+				points: [point(0,0), point(10,10), point(20,20), point(30,30)]
+			}];
+			let maxWidth = 8;
+			let sliderWidth = 100;
+			let fittedWidth = getFittedWidth(strokes, sliderWidth, maxWidth);
+			expect(fittedWidth).to.equal(50);
+		});
+
 	});
 	
 });
