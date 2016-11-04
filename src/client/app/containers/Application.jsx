@@ -7,6 +7,7 @@ const mapStateToProps = (state) => {
 	let returnState = {};
 	returnState.threshold = state.threshold;
 	returnState.scene = last(state.undoableScenes.present);
+	returnState.drawing = state.drawing;
 	return returnState;	
 };
 

@@ -11,7 +11,9 @@ export default class UndoRedo extends Component {
 					width: window.innerWidth - 40
 				}}
 			>
-			<Timeline ref="slider" {...this.props}/>
+			<Timeline ref="slider" {...this.props}
+				sliderWidth={window.innerWidth - 40}
+			/>
 		</div>);
 	}
 

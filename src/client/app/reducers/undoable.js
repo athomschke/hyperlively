@@ -20,6 +20,7 @@ function undoable (reducer) {
 	};
 
 	const defaultNextState = (state, action) => {
+		action.index = state.past.length;
 		const newPresent = reducer(cloneDeep(state.present), action);
 		if (isEqual(state.present, newPresent)) {
 			return state;

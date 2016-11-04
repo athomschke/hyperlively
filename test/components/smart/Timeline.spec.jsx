@@ -53,7 +53,7 @@ describe('Timeline', () => {
 			}]);
 			expect(temporaryCallbackSlider.refs.previewContainer.children).to.have.length(3);
 			let canvasses = filter(map(temporaryCallbackSlider.refs.previewContainer.children, (child) => {
-				return child.children[0].nodeName.toLowerCase();
+				return child.children[0].children[0].nodeName.toLowerCase();
 			}), (nodeName) => {
 				return nodeName === 'canvas';
 			});
@@ -211,12 +211,32 @@ describe('Timeline', () => {
 
 	describe('rendering strokes to previews', () => {
 
-		it('Moves the preview towards the origin', () => {
-			let movedStrokes = Timeline.prototype.moveToOrigin([{
-				points: [point(10,10), point(11,11), point(12,12)]
+		it('moves the preview towards the origin', () => {
+			let position = Timeline.prototype.moveToOrigin([{
+				points: [point(15,10), point(15,15), point(10,15), point(10,10)]
 			}]);
-			expect(movedStrokes[0].points[0].x).to.equal(0);
-			expect(movedStrokes[0].points[0].y).to.equal(0);
+			expect(position.x).to.equal(10);
+			expect(position.y).to.equal(10);
+		});
+
+		it('moves the preview below the origin', () => {
+			let position = Timeline.prototype.moveToOrigin([{
+				points: [point(-15,-10), point(-15,-15), point(-10,-15), point(-10,-10)]
+			}]);
+			expect(position.x).to.equal(-15);
+			expect(position.y).to.equal(-15);
+		});
+
+		it('captures no events on a preview canvas', () => {
+			let timeline = TestUtils.renderIntoDocument(<Timeline
+				sketches={[{
+					strokes: [{
+						points: [point(-15,-10), point(-15,-15), point(-10,-15), point(-10,-10)]
+					}]
+				}]}
+			></Timeline>);
+			let canvasNode = timeline.refs.previewContainer.getElementsByTagName('canvas')[0];
+			expect(canvasNode.parentNode.style.getPropertyValue('pointer-events')).to.equal('none');
 		});
 
 	});

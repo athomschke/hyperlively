@@ -58,6 +58,17 @@ describe('strokes', () => {
 			});
 		});
 
+		it('remembers its action index', () => {
+			let pointAddEvent = event(10, 10, 100);
+			let createStrokeAction = createStroke(pointAddEvent);
+			createStrokeAction.index = 2;
+			let result = strokes(
+				[],
+				createStrokeAction
+			);
+			expect(result[0].actionIndex).to.equal(2);
+		});
+
 	});
 
 	describe('appending a point', () => {

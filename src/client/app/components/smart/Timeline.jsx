@@ -1,8 +1,9 @@
 import React, {Component, PropTypes} from 'react';
 import { Slider } from 'reactrangeslider';
-import { map, reduce, forEach, cloneDeep, flatten } from 'lodash';
+import { map, reduce, flatten } from 'lodash';
 import PlainDrawer from 'components/smart/PlainDrawer';
 import SketchTransformer from 'components/smart/SketchTransformer';
+import { OFFSET } from 'constants/canvas';
 
 'use strict';
 
@@ -19,7 +20,9 @@ export default class Timeline extends Component {
 		max: PropTypes.number,
 		value: PropTypes.number,
 		timeout: PropTypes.number,
-		sketches: PropTypes.array
+		sketches: PropTypes.array,
+		sliderWidth: PropTypes.number,
+		sliderHeight: PropTypes.number
 	};
 
 	static defaultProps = {
@@ -29,7 +32,9 @@ export default class Timeline extends Component {
 		max: 0,
 		value: 0,
 		timeout: 1000,
-		sketches: []
+		sketches: [],
+		sliderWidth: 0,
+		sliderHeight: 80
 	};
 
 	componentDidMount() {
@@ -94,7 +99,6 @@ export default class Timeline extends Component {
 	}
 
 	moveToOrigin(strokes) {
-		let clonedStrokes = cloneDeep(strokes);
 		let points = flatten(map(strokes, (stroke) => {
 			return stroke.points || [];
 		}));
@@ -104,28 +108,47 @@ export default class Timeline extends Component {
 		let minY = reduce(points, (min, point) => {
 			return point.y < min ? point.y : min;
 		}, points[0].y) || 0;
-		forEach(clonedStrokes, (stroke) => {
-			forEach(stroke.points, (point) => {
-				point.x -= minX;
-				point.y -= minY;
-			});
-		});
-		return clonedStrokes;
+		return {
+			x: minX,
+			y: minY
+		};
+	}
+
+	moveToTime(strokes) {
+		return (this.props.sliderWidth * strokes[0].actionIndex) / this.props.max;
+	}
+
+	stretchToTime(strokes) {
+		let pointCount = flatten(map(strokes, 'points')).length;
+		return (this.props.sliderWidth * pointCount) / this.props.max;
 	}
 
 	renderPreview() {
 		return map(this.props.sketches, (sketch, id) => {
-			return (<Canvas
+			let moveBy = this.moveToOrigin(sketch.strokes);
+			return (<div
 				key={id}
-				strokes={this.moveToOrigin(sketch.strokes)}
-				finished={true}
-			/>);
+				style={{
+					position: 'absolute',
+					top: -moveBy.y,
+					left: -moveBy.x + this.moveToTime(sketch.strokes)
+				}}>
+				<Canvas
+					offset={OFFSET}
+					strokes={sketch.strokes}
+					finished={true}
+				/>
+			</div>);
 		});
 	}
 
 	render() {
 		return (<div>
-			<div ref="previewContainer">
+			<div ref="previewContainer"
+				style={{
+					pointerEvents: 'none'
+				}}
+			>
 				{this.renderPreview()}
 			</div>
 			<Slider ref="slider"

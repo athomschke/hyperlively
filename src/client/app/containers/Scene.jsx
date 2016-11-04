@@ -19,7 +19,6 @@ const mapStateToProps = (state, ownProps) => {
 	returnState.handwritingRecognitionEnabled = state.handwritingRecognition;
 	returnState.componentIndex = state.ploma.usePloma ? 1 : 0;
 	returnState.components = returnState.scene && returnState.scene.strokes;
-	returnState.drawing = state.drawing;
 	returnState.paperColor = returnState.usePloma ? PAPER_COLOR : WHITE;
 	return returnState;
 };

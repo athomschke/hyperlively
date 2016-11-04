@@ -5,7 +5,7 @@ import Ploma from 'containers/Ploma';
 import HandwritingRecognition from 'containers/HandwritingRecognition';
 import Threshold from 'containers/Threshold';
 import Window from 'containers/Window';
-import AppConfiguration from 'components/dumb/AppConfiguration';
+import AppConfiguration from 'containers/AppConfiguration';
 
 export default class Page extends Component {
 

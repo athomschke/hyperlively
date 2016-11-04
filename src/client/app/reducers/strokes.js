@@ -1,16 +1,20 @@
 import { points } from 'reducers/points';
 import { APPEND_POINT, CREATE_STROKE, FINISH_STROKE, UPDATE_BOUNDS, HIDE } from 'constants/actionTypes';
-import { last, initial, forEach, concat, find } from 'lodash';
+import { last, forEach, concat, find } from 'lodash';
 import { appendPoint } from 'actions/drawing';
 
 const appendPointTo = (state, action) => {
-	return concat(initial(state), [{
-		points: points(state.length > 0 ? last(state).points : [], appendPoint(action.event))
-	}]);
+	if (state.length > 0) {
+		last(state).points = points(last(state).points, appendPoint(action.event));
+		return state;
+	} else {
+		return appendStrokeTo(state, action);
+	}
 };
 
 const appendStrokeTo = (state, action) => {
 	return concat(state, [{
+		actionIndex: action.index,
 		points: points([], appendPoint(action.event)),
 		position: {
 			x: action.event.pageX,
