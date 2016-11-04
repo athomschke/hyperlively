@@ -215,7 +215,7 @@ describe('Timeline', () => {
 	describe('rendering strokes to previews', () => {
 
 		it('moves the preview towards the origin', () => {
-			let position = Timeline.prototype.moveToOrigin([{
+			let position = Timeline.prototype.offsetToOrigin([{
 				points: [point(15,10), point(15,15), point(10,15), point(10,10)]
 			}]);
 			expect(position.x).to.equal(10);
@@ -223,7 +223,7 @@ describe('Timeline', () => {
 		});
 
 		it('moves the preview below the origin', () => {
-			let position = Timeline.prototype.moveToOrigin([{
+			let position = Timeline.prototype.offsetToOrigin([{
 				points: [point(-15,-10), point(-15,-15), point(-10,-15), point(-10,-10)]
 			}]);
 			expect(position.x).to.equal(-15);

@@ -98,7 +98,7 @@ export default class Timeline extends Component {
 		};
 	}
 
-	moveToOrigin(strokes) {
+	offsetToOrigin(strokes) {
 		let points = flatten(map(strokes, (stroke) => {
 			return stroke.points || [];
 		}));
@@ -115,10 +115,11 @@ export default class Timeline extends Component {
 	}
 
 	scaleToTime(strokes, width, height) {
-		let maxX = Math.max.apply(this, map(flatten(map(strokes, 'points')), 'x'));
-		let minX = Math.min.apply(this, map(flatten(map(strokes, 'points')), 'x'));
-		let maxY = Math.max.apply(this, map(flatten(map(strokes, 'points')), 'y'));
-		let minY = Math.min.apply(this, map(flatten(map(strokes, 'points')), 'y'));
+		let points = flatten(map(strokes, 'points'));
+		let maxX = Math.max.apply(this, map(points, 'x'));
+		let minX = Math.min.apply(this, map(points, 'x'));
+		let maxY = Math.max.apply(this, map(points, 'y'));
+		let minY = Math.min.apply(this, map(points, 'y'));
 		let scale = 1;
 		scale = Math.min(scale, width/(maxX - minX));
 		scale = Math.min(scale, height/(maxY - minY));
@@ -136,7 +137,7 @@ export default class Timeline extends Component {
 		}
 	}
 
-	moveToTime(strokes) {
+	getOffsetForTime(strokes) {
 		if (this.props.max > 0 && strokes[0].actionIndex) {
 			return (this.props.sliderWidth * strokes[0].actionIndex) / this.props.max;
 		} else {
@@ -156,13 +157,13 @@ export default class Timeline extends Component {
 		return map(this.props.sketches, (sketch, id) => {
 			let fittedWidth = this.getMinWidth(sketch.strokes);
 			let strokes = this.scaleToTime(sketch.strokes, fittedWidth, this.props.sliderHeight);
-			let moveBy = this.moveToOrigin(strokes);
+			let moveBy = this.offsetToOrigin(strokes);
 			return (<div
 				key={id}
 				style={{
 					position: 'absolute',
 					top: -moveBy.y,
-					left: -moveBy.x + this.moveToTime(strokes)
+					left: -moveBy.x + this.getOffsetForTime(strokes)
 				}}>
 				<Canvas
 					strokes={strokes}
