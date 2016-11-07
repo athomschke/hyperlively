@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
-import Timeline from 'components/smart/Timeline';
+import TimelineView from 'components/smart/Timeline';
+import TimeoutBehavior from 'components/smart/TimeoutBehavior';
+
+let Timeline = TimeoutBehavior(TimelineView);
 
 'use strict';
 
@@ -13,6 +16,7 @@ export default class UndoRedo extends Component {
 			>
 			<Timeline ref="slider" {...this.props}
 				sliderWidth={window.innerWidth - 40}
+				sliderHeight={80}
 			/>
 		</div>);
 	}
