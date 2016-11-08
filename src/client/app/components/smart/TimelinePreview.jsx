@@ -12,14 +12,14 @@ export default class TimelinePreview extends Component {
 	static propTypes = {
 		strokes: PropTypes.array,
 		sliderWidth: PropTypes.number,
-		sliderHeight: PropTypes.number,
+		previewHeight: PropTypes.number,
 		max: PropTypes.number
 	};
 
 	static defaultProps = {
 		strokes: [],
 		sliderWidth: 0,
-		sliderHeight: 0,
+		previewHeight: 0,
 		max: 0
 	};
 
@@ -57,14 +57,17 @@ export default class TimelinePreview extends Component {
 
 	render() {
 		let fittedWidth = this.getFittedWidth(this.props.strokes, this.props.sliderWidth, this.props.max);
-		let strokes = this.scaleToTime(this.props.strokes, fittedWidth, this.props.sliderHeight);
-		return (<Canvas {...this.props}
+		let strokes = this.scaleToTime(this.props.strokes, fittedWidth, this.props.previewHeight);
+		return (<div ref='canvas'
+			style={{
+				pointerEvents: 'none'
+			}}
+		><Canvas {...this.props}
 			strokes={strokes}
 			fittedWidth={fittedWidth}
-			fittedHeight={this.props.sliderHeight}
 			finished={true}
 			showBorder={true}
-		/>);
+		/></div>);
 	}
 
 }

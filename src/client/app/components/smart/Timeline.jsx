@@ -10,12 +10,14 @@ export default class Timeline extends Component {
 	static propTypes = {
 		max: PropTypes.number,
 		sliderHeight: PropTypes.number,
+		trackOffset: PropTypes.number,
 		sketches: PropTypes.array
 	};
 
 	static defaultProps = {
 		max: 0,
 		sliderHeight: 0,
+		trackOffset: 20,
 		sketches: []
 	};
 
@@ -24,7 +26,7 @@ export default class Timeline extends Component {
 			track: {
 				backgroundColor: 'rgba(0,0,0,0)',
 				borderRadius: 3,
-				height: this.props.sliderHeight - 20
+				height: this.getTrackHeight()
 			},
 			handle: {
 				backgroundColor: 'rgba(0,0,0,0)',
@@ -33,9 +35,6 @@ export default class Timeline extends Component {
 			},
 			wrapper: {
 				height: this.props.sliderHeight
-			},
-			container: {
-				pointerEvents: 'none'
 			}
 		};
 	}
@@ -47,8 +46,13 @@ export default class Timeline extends Component {
 				index={id}
 				strokes={sketch.strokes}
 				fittedHeight={this.props.sliderHeight}
+				previewHeight={this.getTrackHeight()}
 			/>);
 		});
+	}
+
+	getTrackHeight() {
+		return this.props.sliderHeight - this.props.trackOffset;
 	}
 
 	render() {

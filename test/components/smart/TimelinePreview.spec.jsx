@@ -8,15 +8,14 @@ describe('TimelinePreview', () => {
 	describe('rendering strokes to previews', () => {
 
 		it('captures no events on a preview canvas', () => {
-			let timeline = TestUtils.renderIntoDocument(<TimelinePreview
+			let timelinePreview = TestUtils.renderIntoDocument(<TimelinePreview
 				max={4}
 				strokes={[{
 					points: [point(-15,-10), point(-15,-15), point(-10,-15), point(-10,-10)],
 					actionIndex: 0
 				}]}
 			></TimelinePreview>);
-			let canvasNode = timeline.refs.previewContainer.getElementsByTagName('canvas')[0];
-			expect(canvasNode.parentNode.style.getPropertyValue('pointer-events')).to.equal('none');
+			expect(timelinePreview.refs.canvas.style.getPropertyValue('pointer-events')).to.equal('none');
 		});
 
 	});

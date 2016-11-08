@@ -3,7 +3,6 @@ import TimeoutBehavior from 'components/smart/TimeoutBehavior';
 import TestUtils from 'react-addons-test-utils';
 import React from 'react';
 import { point } from '../../helpers';
-import { map, filter } from 'lodash';
 
 let Timeline = TimeoutBehavior(TimelineView);
 
@@ -58,11 +57,7 @@ describe('Timeline', () => {
 				}]
 			}]);
 			expect(temporaryCallbackSlider.refs.wrapped.refs.previewContainer.children).to.have.length(3);
-			let canvasses = filter(map(temporaryCallbackSlider.refs.wrapped.refs.previewContainer.children, (child) => {
-				return child.children[0].children[0].nodeName.toLowerCase();
-			}), (nodeName) => {
-				return nodeName === 'canvas';
-			});
+			let canvasses = TestUtils.scryRenderedDOMComponentsWithTag(temporaryCallbackSlider, 'canvas');
 			expect(canvasses).to.have.length(3);
 		});
 		

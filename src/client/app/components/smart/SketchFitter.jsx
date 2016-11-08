@@ -9,7 +9,7 @@ export default (Wrapped) => class extends Component {
 		max: PropTypes.number,
 		bounds: PropTypes.object.isRequired,
 		fittedWidth: PropTypes.number.isRequired,
-		fittedHeight: PropTypes.number.isRequired
+		previewHeight: PropTypes.number.isRequired
 	};
 
 	static defaultProps = {
@@ -45,13 +45,13 @@ export default (Wrapped) => class extends Component {
 	render() {
 		let clonedBounds = cloneDeep(this.props.bounds);
 		clonedBounds.width = this.props.fittedWidth;
-		clonedBounds.height = this.props.fittedHeight;
+		clonedBounds.height = this.props.previewHeight;
 		let moveBy = this.offsetToOrigin(this.props.strokes);
 		return (<div
 				key={this.props.index}
 				style={{
 					position: 'absolute',
-					top: -moveBy.y,
+					top: -moveBy.y + ((this.props.sliderHeight - this.props.previewHeight) / 2),
 					left: -moveBy.x + this.getOffsetForTime(this.props.strokes, this.props.sliderWidth, this.props.max)
 				}}>
 				<Wrapped {...this.props}
