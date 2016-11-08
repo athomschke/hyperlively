@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import TimelineView from 'components/smart/Timeline';
+import TimelineView from 'components/dumb/Timeline';
 import TimeoutBehavior from 'components/smart/TimeoutBehavior';
 
 let Timeline = TimeoutBehavior(TimelineView);
