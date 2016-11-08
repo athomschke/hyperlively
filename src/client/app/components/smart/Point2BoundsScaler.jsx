@@ -1,13 +1,7 @@
 import React, { Component, PropTypes } from 'react';
-import SketchTransformer from 'components/smart/SketchTransformer';
-import SketchFitter from 'components/smart/SketchFitter';
-import PlainDrawer from 'components/smart/PlainDrawer';
 import { map, flatten, cloneDeep, forEach } from 'lodash';
 
-let Canvas = SketchTransformer(SketchFitter(PlainDrawer));
-
-export default class TimelinePreview extends Component {
-
+export default (Wrapped) => class extends Component {
 
 	static propTypes = {
 		strokes: PropTypes.array,
@@ -22,7 +16,6 @@ export default class TimelinePreview extends Component {
 		previewHeight: 0,
 		max: 0
 	};
-
 
 	getFittedWidth(strokes, sliderWidth, max) {
 		if (max > 0) {
@@ -58,16 +51,12 @@ export default class TimelinePreview extends Component {
 	render() {
 		let fittedWidth = this.getFittedWidth(this.props.strokes, this.props.sliderWidth, this.props.max);
 		let strokes = this.scaleToTime(this.props.strokes, fittedWidth, this.props.previewHeight);
-		return (<div ref='canvas'
-			style={{
-				pointerEvents: 'none'
-			}}
-		><Canvas {...this.props}
+		return (<Wrapped {...this.props}
 			strokes={strokes}
 			fittedWidth={fittedWidth}
 			finished={true}
 			showBorder={true}
-		/></div>);
+		/>);
 	}
 
-}
+};

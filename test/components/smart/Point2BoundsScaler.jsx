@@ -1,28 +1,11 @@
-import TimelinePreview from 'components/smart/TimelinePreview';
-import TestUtils from 'react-addons-test-utils';
-import React from 'react';
+import Point2BoundsScaler from 'components/dumb/Point2BoundsScaler';
 import { point } from '../../helpers';
 
-describe('TimelinePreview', () => {
-
-	describe('rendering strokes to previews', () => {
-
-		it('captures no events on a preview canvas', () => {
-			let timelinePreview = TestUtils.renderIntoDocument(<TimelinePreview
-				max={4}
-				strokes={[{
-					points: [point(-15,-10), point(-15,-15), point(-10,-15), point(-10,-10)],
-					actionIndex: 0
-				}]}
-			></TimelinePreview>);
-			expect(timelinePreview.refs.canvas.style.getPropertyValue('pointer-events')).to.equal('none');
-		});
-
-	});
+describe('Point2BoundsScaler', () => {
 
 	describe('scaling strokes to fit into preview', () => {
 
-		let scale = TimelinePreview.prototype.scaleToTime;
+		let scale = Point2BoundsScaler.prototype.scaleToTime;
 
 		it('Scales to maximum width', () => {
 			let strokes = [{
@@ -61,7 +44,7 @@ describe('TimelinePreview', () => {
 
 	describe('fitting passepartout to preview width', () => {
 
-		let getFittedWidth = TimelinePreview.prototype.getFittedWidth;
+		let getFittedWidth = Point2BoundsScaler.prototype.getFittedWidth;
 
 		it('defaults to zero', () => {
 			let strokes = [{

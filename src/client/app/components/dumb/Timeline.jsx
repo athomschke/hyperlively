@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import TimelinePreview from 'components/smart/TimelinePreview';
+import TimelinePreview from 'components/dumb/TimelinePreview';
 import { Slider } from 'reactrangeslider';
 import { map } from 'lodash';
 
