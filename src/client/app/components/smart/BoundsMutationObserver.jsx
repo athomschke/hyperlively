@@ -6,19 +6,21 @@ import { forEach } from 'lodash';
 export default (Wrapped) => class extends Component {
 
 	static propTypes = {
+		observeMutations: PropTypes.bool,
 		onBoundsUpdate: PropTypes.func,
 		bounds: PropTypes.object
 	};
 
 	static defaultProps = {
+		observeMutations: true,
 		onBoundsUpdate: () => {},
 		bounds: {
 			x: 0,
 			y: 0
 		}
 	};
-	
-	componentDidMount() {
+
+	observe() {
 		let observer = new MutationObserver(this.onMutations.bind(this));
 		observer.observe(this.refs.wrapped.refs.node, {
 			attributes: true
@@ -28,22 +30,45 @@ export default (Wrapped) => class extends Component {
 		});
 	}
 
+	ignore() {
+		if (this.state.observer && this.state.observer.disconnect) {
+			this.state.observer.disconnect();
+		}
+		this.setState({
+			observer: undefined
+		});
+	}
+	
+	componentDidMount() {
+		this.observe();
+	}
+
 	componentWillUnmount() {
-		this.state.observer.disconnect();
+		this.ignore();
+	}
+
+	componentDidUpdate() {
+		if (this.state.observer && !this.props.observeMutations) {
+			this.ignore();
+		} else if (!this.state.observer && this.props.observeMutations) {
+			this.observe();
+		}
 	}
 
 	onMutations(mutationRecords) {
-		forEach(mutationRecords, (mutationRecord) => {
-			if (mutationRecord['attributeName'] === 'style') {
-				let moveBy = {
-					x: parseInt(this.refs.wrapped.refs.node.style.left) - this.props.bounds.x,
-					y: parseInt(this.refs.wrapped.refs.node.style.top) - this.props.bounds.y
-				};
-				if (moveBy.x !== 0 || moveBy.y !== 0) {
-					this.props.onBoundsUpdate(this.props.strokes, moveBy);
+		if (this.props.observeMutations) {
+			forEach(mutationRecords, (mutationRecord) => {
+				if (mutationRecord['attributeName'] === 'style') {
+					let moveBy = {
+						x: parseInt(this.refs.wrapped.refs.node.style.left) - this.props.bounds.x,
+						y: parseInt(this.refs.wrapped.refs.node.style.top) - this.props.bounds.y
+					};
+					if (moveBy.x !== 0 || moveBy.y !== 0) {
+						this.props.onBoundsUpdate(this.props.strokes, moveBy);
+					}
 				}
-			}
-		});
+			});
+		}
 	}
 
 	render() {

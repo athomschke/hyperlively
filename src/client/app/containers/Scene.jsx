@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { updateBounds, hide } from 'actions/manipulating';
+import { observeMutations } from 'actions/configuring';
 import { PAPER_COLOR, WHITE} from 'constants/drawing';
 import { last } from 'lodash';
 import Desk from 'components/smart/Desk';
@@ -23,13 +24,16 @@ const mapStateToProps = (state, ownProps) => {
 	returnState.components = returnState.scene && returnState.scene.strokes;
 	returnState.paperColor = returnState.usePloma ? PAPER_COLOR : WHITE;
 	returnState.scene = last(state.undoableScenes.present);
+	returnState.observeMutations = state.observeMutations;
 	return returnState;
 };
 
 const mapDispatchToProps = (dispatch) => {
 	return {
 		onBoundsUpdate: (strokes, newBounds) => {
+			dispatch(observeMutations(false));
 			dispatch(updateBounds(strokes, newBounds));
+			dispatch(observeMutations(true));
 		},
 		onHide: (strokes) => {
 			dispatch(hide(strokes));
