@@ -9,13 +9,15 @@ export default (Wrapped) => class extends Component {
 		max: PropTypes.number,
 		bounds: PropTypes.object.isRequired,
 		fittedWidth: PropTypes.number.isRequired,
-		previewHeight: PropTypes.number.isRequired
+		previewHeight: PropTypes.number.isRequired,
+		sliderHeight: PropTypes.number
 	};
 
 	static defaultProps = {
 		index: 0,
 		sliderWidth: 0,
 		max: 0,
+		sliderHeight: 0
 	};
 
 	offsetToOrigin(strokes) {

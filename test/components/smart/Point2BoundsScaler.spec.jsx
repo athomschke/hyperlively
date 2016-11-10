@@ -1,11 +1,20 @@
-import Point2BoundsScaler from 'components/dumb/Point2BoundsScaler';
+import Point2BoundsScaler from 'components/smart/Point2BoundsScaler';
+import React, { Component } from 'react';
 import { point } from '../../helpers';
+
+class Wrapped extends Component {
+	render () {
+		return (<div />);
+	}
+}
+
+let WrappedWithPoint2BoundsScaler = Point2BoundsScaler(Wrapped);
 
 describe('Point2BoundsScaler', () => {
 
 	describe('scaling strokes to fit into preview', () => {
 
-		let scale = Point2BoundsScaler.prototype.scaleToTime;
+		let scale = WrappedWithPoint2BoundsScaler.prototype.scaleToTime;
 
 		it('Scales to maximum width', () => {
 			let strokes = [{
@@ -44,7 +53,7 @@ describe('Point2BoundsScaler', () => {
 
 	describe('fitting passepartout to preview width', () => {
 
-		let getFittedWidth = Point2BoundsScaler.prototype.getFittedWidth;
+		let getFittedWidth = WrappedWithPoint2BoundsScaler.prototype.getFittedWidth;
 
 		it('defaults to zero', () => {
 			let strokes = [{
@@ -64,6 +73,16 @@ describe('Point2BoundsScaler', () => {
 			let sliderWidth = 100;
 			let fittedWidth = getFittedWidth(strokes, sliderWidth, maxWidth);
 			expect(fittedWidth).to.equal(50);
+		});
+
+		it('reverts to zero if max width is zero', () => {
+			let strokes = [{
+				points: [point(0,0), point(10,10), point(20,20), point(30,30)]
+			}];
+			let maxWidth = 0;
+			let sliderWidth = 100;
+			let fittedWidth = getFittedWidth(strokes, sliderWidth, maxWidth);
+			expect(fittedWidth).to.equal(0);
 		});
 
 		it('has the slider height', () => {
