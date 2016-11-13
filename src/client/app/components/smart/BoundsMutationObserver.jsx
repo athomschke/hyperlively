@@ -47,12 +47,8 @@ export default (Wrapped) => class extends Component {
 		this.ignore();
 	}
 
-	componentDidUpdate() {
-		if (this.state.observer && !this.props.observeMutations) {
-			this.ignore();
-		} else if (!this.state.observer && this.props.observeMutations) {
-			this.observe();
-		}
+	boundsUpdatedWith(moveBy) {
+		this.props.onBoundsUpdate(this.props.strokes, moveBy);
 	}
 
 	onMutations(mutationRecords) {
@@ -64,7 +60,7 @@ export default (Wrapped) => class extends Component {
 						y: parseInt(this.refs.wrapped.refs.node.style.top) - this.props.bounds.y
 					};
 					if (moveBy.x !== 0 || moveBy.y !== 0) {
-						this.props.onBoundsUpdate(this.props.strokes, moveBy);
+						this.boundsUpdatedWith(moveBy);
 					}
 				}
 			});

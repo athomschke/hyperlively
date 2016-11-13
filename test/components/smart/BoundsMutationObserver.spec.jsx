@@ -16,76 +16,87 @@ class MockedSubComponent extends React.Component {
 
 const MockedComponent = BoundsMutationObserver(MockedSubComponent);
 
-let renderComponentWithBoundsAndCallback = (bounds, callback) => {
-	return TestUtils.renderIntoDocument(<MockedComponent
-		onBoundsUpdate={callback}
-		bounds={bounds}
-	/>);
+let renderComponentWithBoundsAndCallback = (options) => {
+	return TestUtils.renderIntoDocument(<MockedComponent {...options}/>);
 };
 
 describe('Bounds mutation observer', () => {
 
-	describe('moving the wrapped component', () => {
+	let mockedComponent;
 
-		it('horizontally calls the callback with a position when one is given', (done) => {
-			let called = false;
-			let mockedComponent = renderComponentWithBoundsAndCallback(
-				{ x: 1, y: 0 }, 
-				() => { called = true; });
+	afterEach(() => {
+		mockedComponent.boundsUpdatedWith.restore();
+	});
+
+	describe('manipulating bounds of a wrapped component', () => {
+
+		beforeEach(() => {
+			let options = {
+				bounds: { x: 1, y: 0 },
+				observeMutations: false
+			};
+			mockedComponent = renderComponentWithBoundsAndCallback(options);
+			sinon.spy(mockedComponent, 'boundsUpdatedWith');
+		});
+
+		it('recognizes nothing if bounds mutation observation is disabled', (done) => {
 			mockedComponent.refs.wrapped.refs.node.style.setProperty('left', '2px');
 			setTimeout(() => {
-				expect(called).to.be.true;
+				expect(mockedComponent.boundsUpdatedWith.callCount).to.equal(0);
+				done();
+			});
+		});
+
+	});
+
+	describe('moving the wrapped component', () => {
+
+		beforeEach(() => {
+			let options = {
+				bounds: { x: 1, y: 0 }
+			};
+			mockedComponent = renderComponentWithBoundsAndCallback(options);
+			sinon.spy(mockedComponent, 'boundsUpdatedWith');
+		});
+
+		it('horizontally calls the callback with a position when one is given', (done) => {
+			mockedComponent.refs.wrapped.refs.node.style.setProperty('left', '2px');
+			setTimeout(() => {
+				expect(mockedComponent.boundsUpdatedWith.callCount).to.equal(1);
 				done();
 			});
 		});
 
 		it('vertically calls the callback with a position when one is given', (done) => {
-			let called = false;
-			let mockedComponent = renderComponentWithBoundsAndCallback(
-				{ x: 0, y: 1 },
-				() => { called = true; });
 			mockedComponent.refs.wrapped.refs.node.style.setProperty('top', '2px');
 			setTimeout(() => {
-				expect(called).to.be.true;
+				expect(mockedComponent.boundsUpdatedWith.callCount).to.equal(1);
 				done();
 			});
 		});
 
 		it('changes nothing if no callback is given', (done) => {
-			let bounds = { x: 1, y: 0 };
-			let mockedComponent = renderComponentWithBoundsAndCallback(bounds);
 			mockedComponent.refs.wrapped.refs.node.style.setProperty('left', '2px');
 			setTimeout(() => {
-				expect(mockedComponent.props.bounds.x).to.equal(bounds.x);
-				expect(mockedComponent.props.bounds.y).to.equal(bounds.y);
+				expect(mockedComponent.props.bounds.x).to.equal(1);
+				expect(mockedComponent.props.bounds.y).to.equal(0);
 				done();
 			});
 		});
 
 		it('is not recognized when component is not in dom anymore', (done) => {
-			let called = false;
-			let mockedComponent = renderComponentWithBoundsAndCallback(
-				{ x: 1, y: 0 }, 
-				() => { called = true; });
-			let node = mockedComponent.refs.wrapped.refs.node;
 			mockedComponent.componentWillUnmount();
-			node.style.setProperty('top', '2px');
+			mockedComponent.refs.wrapped.refs.node.style.setProperty('top', '2px');
 			setTimeout(() => {
-				expect(called).to.be.false;
+				expect(mockedComponent.boundsUpdatedWith.callCount).to.equal(0);
 				done();
 			});
 		});
 
 		it('is not recognized when component is not really moved', (done) => {
-			let called = false;
-			let mockedComponent = renderComponentWithBoundsAndCallback(
-				{ x: 0, y: 0 },
-				() => { called = true; });
-			let node = mockedComponent.refs.wrapped.refs.node;
-			mockedComponent.componentWillUnmount();
-			node.style.setProperty('top', '0px');
+			mockedComponent.refs.wrapped.refs.node.style.setProperty('left', '1px');
 			setTimeout(() => {
-				expect(called).to.be.false;
+				expect(mockedComponent.boundsUpdatedWith.callCount).to.equal(0);
 				done();
 			});
 		});
@@ -93,28 +104,38 @@ describe('Bounds mutation observer', () => {
 	});
 
 	describe('setting width of a wrapped component', () => {
+
+		beforeEach(() => {
+			let options = {
+				bounds: { x: 1, y: 0 }
+			};
+			mockedComponent = renderComponentWithBoundsAndCallback(options);
+			sinon.spy(mockedComponent, 'boundsUpdatedWith');
+		});
+
 		it('triggers no callback', (done) => {
-			let called = false;
-			let mockedComponent = renderComponentWithBoundsAndCallback(
-				{ x: 1, y: 0 }, 
-				() => { called = true; });
 			mockedComponent.refs.wrapped.refs.node.setAttribute('width', '100px');
 			setTimeout(() => {
-				expect(called).to.be.false;
+				expect(mockedComponent.boundsUpdatedWith.callCount).to.equal(0);
 				done();
 			});
 		});
 	});
 
 	describe('setting border style of wrapped component', () => {
+
+		beforeEach(() => {
+			let options = {
+				bounds: { x: 1, y: 0 }
+			};
+			mockedComponent = renderComponentWithBoundsAndCallback(options);
+			sinon.spy(mockedComponent, 'boundsUpdatedWith');
+		});
+
 		it('triggers no callback', (done) => {
-			let called = false;
-			let mockedComponent = renderComponentWithBoundsAndCallback(
-				{ x: 1, y: 0 }, 
-				() => { called = true; });
 			mockedComponent.refs.wrapped.refs.node.style.setProperty('border-style', 'solid');
 			setTimeout(() => {
-				expect(called).to.be.false;
+				expect(mockedComponent.boundsUpdatedWith.callCount).to.equal(0);
 				done();
 			});
 		});
