@@ -1,5 +1,6 @@
 import { findDOMNode } from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
+import { cloneDeep } from 'lodash';
 import { renderApplicationWithState, mountApp, dismountApp, getCanvasNodes } from './helpers';
 
 'use strict';
@@ -21,7 +22,7 @@ describe('Integration', () => {
 	describe('changing the threshold', () => {
 
 		it('can split sketch with two strokes into two sketches', () => {
-			let canvasJson = require('json!./data/canvasWithTwoStrokes.json').json;
+			let canvasJson = cloneDeep(require('json!./data/canvasWithTwoStrokes.json').json);
 			canvasJson.threshold = 2000;
 			let renderedApp = renderApplicationWithState(canvasJson);
 			expect(getCanvasNodes().length).to.equal(2);
@@ -34,7 +35,7 @@ describe('Integration', () => {
 		});
 
 		it('can join sketches with one stroke each to one sketch', () => {
-			let canvasJson = require('json!./data/canvasWithTwoStrokes.json').json;
+			let canvasJson = cloneDeep(require('json!./data/canvasWithTwoStrokes.json').json);
 			canvasJson.threshold = 100;
 			let renderedApp = renderApplicationWithState(canvasJson);
 			expect(getCanvasNodes().length).to.equal(3);
