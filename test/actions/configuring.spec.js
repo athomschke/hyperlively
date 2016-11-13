@@ -1,5 +1,5 @@
-import { togglePloma, updateThreshold, toggleHandwritingRecognition } from 'actions/configuring';
-import { TOGGLE_PLOMA, UPDATE_THRESHOLD, TOGGLE_HANDWRITING_RECOGNITION } from 'constants/actionTypes';
+import { togglePloma, updateThreshold, toggleHandwritingRecognition, observeMutations } from 'actions/configuring';
+import { TOGGLE_PLOMA, UPDATE_THRESHOLD, TOGGLE_HANDWRITING_RECOGNITION, OBSERVE_MUTATIONS } from 'constants/actionTypes';
 
 describe('actions', () => {
 
@@ -28,6 +28,15 @@ describe('actions', () => {
 			bool
 		};
 		expect(toggleHandwritingRecognition(bool)).to.deep.equal(expectedAction);
+	});
+
+	it('should create an action to toggle mutation observation', () => {
+		const bool = false;
+		const expectedAction = {
+			type: OBSERVE_MUTATIONS,
+			bool
+		};
+		expect(observeMutations(bool)).to.deep.equal(expectedAction);
 	});
 
 });

@@ -4,14 +4,14 @@ export function togglePloma(bool) {
 	return { type: TOGGLE_PLOMA, bool };
 }
 
-export function observeMutations(bool) {
-	return { type: OBSERVE_MUTATIONS, bool };
-}
-
 export function updateThreshold(number) {
 	return { type: UPDATE_THRESHOLD, number };
 }
 
 export function toggleHandwritingRecognition(bool) {
 	return { type: TOGGLE_HANDWRITING_RECOGNITION, bool };
+}
+
+export function observeMutations(bool) {
+	return { type: OBSERVE_MUTATIONS, bool };
 }
