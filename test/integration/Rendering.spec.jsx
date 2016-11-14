@@ -61,6 +61,19 @@ describe('Integration', () => {
 			expectInputNodeWithLabelAndState('Use Handwriting Recognition', false);
 		});
 
+		it('shows the first scene', () => {
+			let twoScenesJson = cloneDeep(require('json!./data/canvasWithTwoScenes.json').json);
+			twoScenesJson.sceneIndex = 0;
+			renderApplicationWithState(twoScenesJson);
+			expect(getCanvasNodes()).to.have.length(1);
+		});
+
+		it('shows the second scene', () => {
+			let twoScenesJson = cloneDeep(require('json!./data/canvasWithTwoScenes.json').json);
+			renderApplicationWithState(twoScenesJson);
+			expect(getCanvasNodes()).to.have.length(2);
+		});
+
 	});
 
 	describe('Rendering strokes on a canvas', () => {
