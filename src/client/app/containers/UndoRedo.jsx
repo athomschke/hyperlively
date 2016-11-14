@@ -2,7 +2,7 @@ import { jumpTo } from 'actions/timetravel';
 import { connect } from 'react-redux';
 import UndoRedo from 'components/dumb/UndoRedo';
 import SketchCombiner from 'components/smart/SketchCombiner';
-import { togglePloma, observeMutations } from 'actions/configuring';
+import { togglePloma, setObserveMutations } from 'actions/configuring';
 import UNDO_TIMEOUT from 'constants/canvas';
 import { last } from 'lodash';
 
@@ -21,9 +21,9 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		onChange: (value) => {
-			dispatch(observeMutations(false));
+			dispatch(setObserveMutations(false));
 			dispatch(jumpTo(value));
-			dispatch(observeMutations(true));
+			dispatch(setObserveMutations(true));
 		},
 		temporaryCallback: (bool) => dispatch(togglePloma(bool))
 	};

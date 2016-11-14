@@ -12,6 +12,6 @@ export function toggleHandwritingRecognition(bool) {
 	return { type: TOGGLE_HANDWRITING_RECOGNITION, bool };
 }
 
-export function observeMutations(bool) {
+export function setObserveMutations(bool) {
 	return { type: OBSERVE_MUTATIONS, bool };
 }

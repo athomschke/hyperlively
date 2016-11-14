@@ -1,4 +1,4 @@
-import { togglePloma, updateThreshold, toggleHandwritingRecognition, observeMutations } from 'actions/configuring';
+import { togglePloma, updateThreshold, toggleHandwritingRecognition, setObserveMutations } from 'actions/configuring';
 import { TOGGLE_PLOMA, UPDATE_THRESHOLD, TOGGLE_HANDWRITING_RECOGNITION, OBSERVE_MUTATIONS } from 'constants/actionTypes';
 
 describe('actions', () => {
@@ -36,7 +36,7 @@ describe('actions', () => {
 			type: OBSERVE_MUTATIONS,
 			bool
 		};
-		expect(observeMutations(bool)).to.deep.equal(expectedAction);
+		expect(setObserveMutations(bool)).to.deep.equal(expectedAction);
 	});
 
 });
