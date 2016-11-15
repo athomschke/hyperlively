@@ -9,7 +9,7 @@ let strokeFollowedSuit = (collectedSketches, stroke, threshold) => {
 		last(last(collectedSketches).strokes) &&
 		last(last(last(collectedSketches).strokes).points) &&
 		last(stroke.points) &&
-		first(stroke.points).timestamp - last(last(last(collectedSketches).strokes).points).timestamp < threshold;
+		first(stroke.points).timeStamp - last(last(last(collectedSketches).strokes).points).timeStamp < threshold;
 };
 
 let sketches = (strokes, threshold) => {

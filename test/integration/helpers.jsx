@@ -24,21 +24,21 @@ export function hashCode (aString) {
 }
 
 export function manuallyDrawStrokes (windowNode, strokes) {
-	let simulateDrawingEventOnCanvasAt = (eventType, canvas, x, y, timestamp) => {
+	let simulateDrawingEventOnCanvasAt = (eventType, canvas, x, y, timeStamp) => {
 		TestUtils.Simulate[eventType](canvas, {
 			pageX: x,
 			pageY: y,
-			timeStamp: timestamp || Date.now()
+			timeStamp: timeStamp || Date.now()
 		});
 	};
 	forEach(strokes, (stroke) => {
 		let firstPoint = first(stroke.points);
 		let lastPoint = last(stroke.points);
-		simulateDrawingEventOnCanvasAt('mouseDown', windowNode, firstPoint.x, firstPoint.y, firstPoint.timestamp);
+		simulateDrawingEventOnCanvasAt('mouseDown', windowNode, firstPoint.x, firstPoint.y, firstPoint.timeStamp);
 		forEach(tail(stroke.points), (point) => {
-			simulateDrawingEventOnCanvasAt('mouseMove', windowNode, point.x, point.y, point.timestamp);
+			simulateDrawingEventOnCanvasAt('mouseMove', windowNode, point.x, point.y, point.timeStamp);
 		});
-		simulateDrawingEventOnCanvasAt('mouseUp', windowNode, lastPoint.x, lastPoint.y, lastPoint.timestamp);
+		simulateDrawingEventOnCanvasAt('mouseUp', windowNode, lastPoint.x, lastPoint.y, lastPoint.timeStamp);
 	});
 }
 

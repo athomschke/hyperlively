@@ -2,7 +2,7 @@ export function point (x, y, optTimestamp) {
 	return {
 		x: x,
 		y: y,
-		timestamp: optTimestamp || Date.now()
+		timeStamp: optTimestamp || Date.now()
 	};
 }
 

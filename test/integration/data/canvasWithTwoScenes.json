@@ -12,16 +12,16 @@
 				"strokes": [{
 					"finished": true,
 					"points": [
-						{ "x": 10, "y": 10, "timestamp": 100 },
-						{ "x": 10, "y": 30, "timestamp": 101 }
+						{ "x": 10, "y": 10, "timeStamp": 100 },
+						{ "x": 10, "y": 30, "timeStamp": 101 }
 					]
 				}]
 			}, {
 				"strokes": [{
 					"finished": false,
 					"points": [
-						{ "x": 20, "y": 10, "timestamp": 1100 },
-						{ "x": 20, "y": 30, "timestamp": 1101 }
+						{ "x": 20, "y": 10, "timeStamp": 1100 },
+						{ "x": 20, "y": 30, "timeStamp": 1101 }
 					]
 				}]
 			}]

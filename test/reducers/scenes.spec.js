@@ -24,17 +24,19 @@ describe('scenes', () => {
 	describe('creating a stroke', () => {
 
 		it('when no scene exists creates one', () => {
+			let aPoint = point(10,10);
 			let result = scenes(
 				undoableScenes([]),
-				createStroke(point(10,10))
+				createStroke(aPoint.x, aPoint.y, aPoint.timeStamp, 0)
 			);
 			expect(result).to.have.length(1);
 		});
 
 		it('always adds to the current scene', () => {
+			let aPoint = point(10,10);
 			let result = scenes(
 				undoableScenes([{ sketches:[] }]),
-				createStroke(point(10,10))
+				createStroke(aPoint.x, aPoint.y, aPoint.timeStamp, 0)
 			);
 			expect(result).to.have.length(1);
 		});
@@ -46,7 +48,7 @@ describe('scenes', () => {
 		it('to no existing scene creates a scene', () => {
 			let result = scenes(
 				undoableScenes([]),
-				appendPoint(point(10,10))
+				appendPoint(10,10)
 			);
 			expect(result).to.have.length(1);
 		});
@@ -54,7 +56,7 @@ describe('scenes', () => {
 		it('to a scene does not create a new one', () => {
 			let result = scenes(
 				undoableScenes([{ sketches:[] }]),
-				appendPoint(point(10,10))
+				appendPoint(10,10)
 			);
 			expect(result).to.have.length(1);
 		});

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { updateBounds, hide } from 'actions/manipulating';
+import { updatePosition, hide } from 'actions/manipulating';
 import { setObserveMutations } from 'actions/configuring';
 import { PAPER_COLOR, WHITE} from 'constants/drawing';
 import Desk from 'components/smart/Desk';
@@ -32,7 +32,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
 		onBoundsUpdate: (strokes, newBounds) => {
 			dispatch(setObserveMutations(false));
-			dispatch(updateBounds(strokes, newBounds, ownProps.sceneIndex));
+			dispatch(updatePosition(strokes, ownProps.sceneIndex, newBounds.x, newBounds.y));
 			dispatch(setObserveMutations(true));
 		},
 		onHide: (strokes) => {

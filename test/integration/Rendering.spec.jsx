@@ -87,8 +87,8 @@ describe('Integration', () => {
 				finished: true,
 				hidden: true,
 				points: [
-					{ x: 20, y: 20, timestamp: 102 },
-					{ x: 20, y: 40, timestamp: 103 }
+					{ x: 20, y: 20, timeStamp: 102 },
+					{ x: 20, y: 40, timeStamp: 103 }
 				]
 			});
 			renderApplicationWithState(canvasJson);

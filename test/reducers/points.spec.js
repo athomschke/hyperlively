@@ -20,7 +20,7 @@ describe('points', () => {
 		expect(
 			points(
 				[],
-				appendPoint(pointAddEvent)
+				appendPoint(pointAddEvent.pageX, pointAddEvent.pageY, pointAddEvent.timeStamp)
 			)
 		).to.deep.equal(
 			[newPoint]
@@ -34,7 +34,7 @@ describe('points', () => {
 		expect(
 			points(
 				[existingPoint],
-				appendPoint(pointAddEvent)
+				appendPoint(pointAddEvent.pageX, pointAddEvent.pageY, pointAddEvent.timeStamp)
 			)
 		).to.deep.equal(
 			[existingPoint, newPoint]

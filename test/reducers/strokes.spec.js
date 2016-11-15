@@ -1,6 +1,6 @@
 import { strokes } from 'reducers/strokes';
 import { appendPoint, createStroke, finishStroke } from 'actions/drawing';
-import { updateBounds, hide } from 'actions/manipulating';
+import { updatePosition, hide } from 'actions/manipulating';
 import { point, event } from '../helpers';
 
 describe('strokes', () => {
@@ -24,7 +24,7 @@ describe('strokes', () => {
 			let newPoint = point(10, 10, 100);
 			let result = strokes(
 				[],
-				createStroke(pointAddEvent)
+				createStroke(pointAddEvent.pageX, pointAddEvent.pageY, pointAddEvent.timeStamp, 0)
 			);
 			expect(result).to.have.length(1);
 			expect(result[0].points).to.have.length(1);
@@ -38,7 +38,7 @@ describe('strokes', () => {
 				[{
 					points: [point(10,10), point(10,11), point(10,12)]
 				}],
-				createStroke(pointAddEvent)
+				createStroke(pointAddEvent.pageX, pointAddEvent.pageY, pointAddEvent.timeStamp, 0)
 			);
 			expect(result).to.have.length(2);
 			expect(result[1].points).to.have.length(1);
@@ -50,7 +50,7 @@ describe('strokes', () => {
 			let newPoint = point(10, 10, 100);
 			let result = strokes(
 				[],
-				createStroke(pointAddEvent)
+				createStroke(pointAddEvent.pageX, pointAddEvent.pageY, pointAddEvent.timeStamp, 0)
 			);
 			expect(result[0].position).to.deep.equal({
 				x: newPoint.x,
@@ -60,7 +60,7 @@ describe('strokes', () => {
 
 		it('remembers its action index', () => {
 			let pointAddEvent = event(10, 10, 100);
-			let createStrokeAction = createStroke(pointAddEvent);
+			let createStrokeAction = createStroke(pointAddEvent.pageX, pointAddEvent.pageY, pointAddEvent.timeStamp, 0);
 			createStrokeAction.index = 2;
 			let result = strokes(
 				[],
@@ -78,7 +78,7 @@ describe('strokes', () => {
 			let newPoint = point(10, 10, 100);
 			let result = strokes(
 				[],
-				appendPoint(pointAddEvent)
+				appendPoint(pointAddEvent.pageX, pointAddEvent.pageY, pointAddEvent.timeStamp)
 			);
 			expect(result).to.have.length(1);
 			expect(result[0].points).to.have.length(1);
@@ -90,7 +90,7 @@ describe('strokes', () => {
 			let newPoint = point(10, 11, 100);
 			let result = strokes(
 				[{ points: [ point(10,10) ] }],
-				appendPoint(pointAddEvent)
+				appendPoint(pointAddEvent.pageX, pointAddEvent.pageY, pointAddEvent.timeStamp)
 			);
 			expect(result).to.have.length(1);
 			expect(result[0].points).to.have.length(2);
@@ -102,7 +102,7 @@ describe('strokes', () => {
 			let newPoint = point(10, 11, 100);
 			let result = strokes(
 				[{ points: [] }, { points: [] }],
-				appendPoint(pointAddEvent)
+				appendPoint(pointAddEvent.pageX, pointAddEvent.pageY, pointAddEvent.timeStamp)
 			);
 			expect(result).to.have.length(2);
 			expect(result[1].points).to.have.length(1);
@@ -118,7 +118,7 @@ describe('strokes', () => {
 			let newPoint = point(10, 11, 100);
 			let result = strokes(
 				[{ points: [] }, { points: [] }],
-				finishStroke(pointAddEvent)
+				finishStroke(pointAddEvent.pageX, pointAddEvent.pageY, pointAddEvent.timeStamp)
 			);
 			expect(result).to.have.length(2);
 			expect(result[1].points).to.have.length(1);
@@ -143,7 +143,7 @@ describe('strokes', () => {
 			};
 			let result = strokes(
 				currentState,
-				updateBounds(strokesToMove, bounds)
+				updatePosition(strokesToMove, 0, bounds.x, bounds.y)
 			);
 			expect(result[0].points[0].x).to.equal(10);
 			expect(result[0].points[0].y).to.equal(12);
@@ -168,7 +168,7 @@ describe('strokes', () => {
 			};
 			let result = strokes(
 				currentState,
-				updateBounds(strokesToMove, bounds)
+				updatePosition(strokesToMove, 0, bounds.x, bounds.y)
 			);
 			expect(result[1].points[0].x).to.equal(20);
 		});

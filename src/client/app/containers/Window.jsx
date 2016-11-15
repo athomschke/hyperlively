@@ -8,14 +8,14 @@ import Window from 'components/dumb/Window';
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
 		onDrag: (event) => {
-			dispatch(appendPoint(event, ownProps.sceneIndex));
+			dispatch(appendPoint(event.pageX, event.pageY, event.timeStamp, ownProps.sceneIndex));
 		},
 		onDragStart: (event) => {
-			dispatch(createStroke(event, ownProps.sceneIndex));
+			dispatch(createStroke(event.pageX, event.pageY, event.timeStamp, ownProps.sceneIndex));
 			dispatch(toggleDrawing(true));
 		},
 		onDragEnd: (event) => {
-			dispatch(finishStroke(event, ownProps.sceneIndex));
+			dispatch(finishStroke(event.pageX, event.pageY, event.timeStamp, ownProps.sceneIndex));
 			dispatch(toggleDrawing(false));
 		}
 	};

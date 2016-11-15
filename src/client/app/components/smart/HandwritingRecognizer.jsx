@@ -33,7 +33,7 @@ export default (Wrapped) => class extends Component {
 				type: 'stroke',
 				x: map(stroke.points, 'x'),
 				y: map(stroke.points, 'y'),
-				t: map(stroke.points, 'timestamp')
+				t: map(stroke.points, 'timeStamp')
 			};
 		});
 	}
