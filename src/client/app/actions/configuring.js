@@ -1,4 +1,4 @@
-import { TOGGLE_PLOMA, UPDATE_THRESHOLD, TOGGLE_HANDWRITING_RECOGNITION, OBSERVE_MUTATIONS } from 'constants/actionTypes';
+import { TOGGLE_PLOMA, UPDATE_THRESHOLD, TOGGLE_HANDWRITING_RECOGNITION, OBSERVE_MUTATIONS, SET_SCENE_INDEX } from 'constants/actionTypes';
 
 export function togglePloma(bool) {
 	return { type: TOGGLE_PLOMA, bool };
@@ -14,4 +14,8 @@ export function toggleHandwritingRecognition(bool) {
 
 export function setObserveMutations(bool) {
 	return { type: OBSERVE_MUTATIONS, bool };
+}
+
+export function setSceneIndex(index) {
+	return { type: SET_SCENE_INDEX, index };
 }

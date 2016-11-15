@@ -65,13 +65,13 @@ describe('Integration', () => {
 			let twoScenesJson = cloneDeep(require('json!./data/canvasWithTwoScenes.json').json);
 			twoScenesJson.sceneIndex = 0;
 			renderApplicationWithState(twoScenesJson);
-			expect(getCanvasNodes()).to.have.length(1);
+			expect(getCanvasNodes()).to.have.length(2);
 		});
 
 		it('shows the second scene', () => {
 			let twoScenesJson = cloneDeep(require('json!./data/canvasWithTwoScenes.json').json);
 			renderApplicationWithState(twoScenesJson);
-			expect(getCanvasNodes()).to.have.length(2);
+			expect(getCanvasNodes()).to.have.length(1);
 		});
 
 	});

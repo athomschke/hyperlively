@@ -60,13 +60,13 @@ export default (Wrapped) => class extends Component {
 
 	onPointerMove(evt) {
 		if (this.state.mousePressed) {
-			this.props.onDrag(evt);
+			this.props.onDrag.call(this, evt);
 		}
 	}
 
 	onPointerUp(evt) {
 		if (this.state.mousePressed) {
-			this.props.onDragEnd(evt);
+			this.props.onDragEnd.call(this, evt);
 			this.setState({
 				mousePressed: false
 			});

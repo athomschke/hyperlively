@@ -5,6 +5,7 @@ import { ploma } from 'reducers/ploma';
 import { handwritingRecognition } from 'reducers/handwritingRecognition';
 import { observeMutations } from 'reducers/observeMutations';
 import { drawing } from 'reducers/drawing';
+import { sceneIndex } from 'reducers/sceneIndex';
 import { combineReducers } from 'redux';
 
 const undoableScenes = undoable(scenes, {});
@@ -15,5 +16,6 @@ export default combineReducers({
 	observeMutations,
 	undoableScenes,
 	threshold,
-	drawing
+	drawing,
+	sceneIndex
 });

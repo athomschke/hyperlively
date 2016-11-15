@@ -5,17 +5,17 @@ import ModifierKey from 'components/smart/ModifierKey';
 import DragHandler from 'components/smart/DragHandler';
 import Window from 'components/dumb/Window';
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
 		onDrag: (event) => {
-			dispatch(appendPoint(event));
+			dispatch(appendPoint(event, ownProps.sceneIndex));
 		},
 		onDragStart: (event) => {
-			dispatch(createStroke(event));
+			dispatch(createStroke(event, ownProps.sceneIndex));
 			dispatch(toggleDrawing(true));
 		},
 		onDragEnd: (event) => {
-			dispatch(finishStroke(event));
+			dispatch(finishStroke(event, ownProps.sceneIndex));
 			dispatch(toggleDrawing(false));
 		}
 	};

@@ -5,6 +5,7 @@ const mapStateToProps = (state) => {
 	let returnState = {};
 	returnState.threshold = state.threshold;
 	returnState.drawing = state.drawing;
+	returnState.sceneIndex = state.sceneIndex;
 	return returnState;	
 };
 

@@ -1,5 +1,5 @@
-import { togglePloma, updateThreshold, toggleHandwritingRecognition, setObserveMutations } from 'actions/configuring';
-import { TOGGLE_PLOMA, UPDATE_THRESHOLD, TOGGLE_HANDWRITING_RECOGNITION, OBSERVE_MUTATIONS } from 'constants/actionTypes';
+import { togglePloma, updateThreshold, toggleHandwritingRecognition, setObserveMutations, setSceneIndex } from 'actions/configuring';
+import { TOGGLE_PLOMA, UPDATE_THRESHOLD, TOGGLE_HANDWRITING_RECOGNITION, OBSERVE_MUTATIONS, SET_SCENE_INDEX } from 'constants/actionTypes';
 
 describe('actions', () => {
 
@@ -37,6 +37,15 @@ describe('actions', () => {
 			bool
 		};
 		expect(setObserveMutations(bool)).to.deep.equal(expectedAction);
+	});
+
+	it('should create an action to set the scene index', () => {
+		const index = 1;
+		const expectedAction = {
+			type: SET_SCENE_INDEX,
+			index
+		};
+		expect(setSceneIndex(index)).to.deep.equal(expectedAction);
 	});
 
 });

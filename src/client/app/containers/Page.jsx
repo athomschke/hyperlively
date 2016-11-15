@@ -12,7 +12,7 @@ export default class Page extends Component {
 	render() {
 		return (<div>
 			<Scene {...this.props}/>
-			<Window />
+			<Window {...this.props}/>
 			<AppConfiguration>
 				<UndoRedo {...this.props} />
 				<Threshold />

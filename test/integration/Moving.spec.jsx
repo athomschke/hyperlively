@@ -61,11 +61,8 @@ describe('Integration', () => {
 			.then(function () {
 				expect(hashCode(getCanvasDataURL())).to.not.equal(hashCode(dataURL));
 				expect(getCanvasLeftValue()).to.equal(`${parseInt(oldLeftValue) + moveByX}px`);
-				done();
 			})
-			.catch(function (error) {
-				throw(error);
-			});
+			.then(done, done);
 		});
 
 		it('and moving it back again doesn\'t change the image data', (done) => {
@@ -89,11 +86,8 @@ describe('Integration', () => {
 			})
 			.then(function() {
 				expect(hashCode(getCanvasDataURL())).to.equal(hashCode(dataURL));
-				done();
 			})
-			.catch(function (error) {
-				throw(error);
-			});
+			.then(done, done);
 		});
 	});
 

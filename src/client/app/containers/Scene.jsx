@@ -2,7 +2,6 @@ import { connect } from 'react-redux';
 import { updateBounds, hide } from 'actions/manipulating';
 import { setObserveMutations } from 'actions/configuring';
 import { PAPER_COLOR, WHITE} from 'constants/drawing';
-import { last } from 'lodash';
 import Desk from 'components/smart/Desk';
 import ModuleChooser from 'components/smart/ModuleChooser';
 import SketchTransformer from 'components/smart/SketchTransformer';
@@ -23,20 +22,21 @@ const mapStateToProps = (state, ownProps) => {
 	returnState.componentIndex = state.ploma.usePloma ? 1 : 0;
 	returnState.components = returnState.scene && returnState.scene.strokes;
 	returnState.paperColor = returnState.usePloma ? PAPER_COLOR : WHITE;
-	returnState.scene = last(state.undoableScenes.present);
+	returnState.scene = state.undoableScenes.present[state.sceneIndex];
+	returnState.sceneIndex = state.sceneIndex;
 	returnState.observeMutations = state.observeMutations;
 	return returnState;
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
 		onBoundsUpdate: (strokes, newBounds) => {
 			dispatch(setObserveMutations(false));
-			dispatch(updateBounds(strokes, newBounds));
+			dispatch(updateBounds(strokes, newBounds, ownProps.sceneIndex));
 			dispatch(setObserveMutations(true));
 		},
 		onHide: (strokes) => {
-			dispatch(hide(strokes));
+			dispatch(hide(strokes, ownProps.sceneIndex));
 		}
 	};
 };
