@@ -21,3 +21,7 @@ export const TOGGLE_DRAWING = 'TOGGLE_DRAWING';
 export const OBSERVE_MUTATIONS = 'OBSERVE_MUTATIONS';
 
 export const SET_SCENE_INDEX = 'SET_SCENE_INDEX';
+
+export const ADD_SCENE = 'ADD_SCENE';
+
+export const ADD_SCENE_AT = 'ADD_SCENE_AT';

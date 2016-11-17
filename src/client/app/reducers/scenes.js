@@ -1,5 +1,5 @@
 import { strokes } from 'reducers/strokes';
-import { APPEND_POINT, CREATE_STROKE, FINISH_STROKE, UPDATE_POSITION, HIDE } from 'constants/actionTypes';
+import { APPEND_POINT, CREATE_STROKE, FINISH_STROKE, UPDATE_POSITION, HIDE, ADD_SCENE, ADD_SCENE_AT } from 'constants/actionTypes';
 
 let defaultScene = () => {
 	return {
@@ -23,6 +23,10 @@ function scenes (state = [], action) {
 	case UPDATE_POSITION:
 		strokes(state[action.sceneIndex].strokes, action);
 		return state;
+	case ADD_SCENE:
+		return state.concat([defaultScene()]);
+	case ADD_SCENE_AT:
+		return state.slice(0, action.index).concat([defaultScene()], state.slice(action.index, state.length));
 	default:
 		return state;
 	}
