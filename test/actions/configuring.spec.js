@@ -40,11 +40,13 @@ describe('actions', () => {
 
 	it('should create an action to set the scene index', () => {
 		const index = 1;
+		const max = 4;
 		const expectedAction = {
 			type: 'SET_SCENE_INDEX',
-			index
+			index,
+			max
 		};
-		expect(setSceneIndex(index)).to.deep.equal(expectedAction);
+		expect(setSceneIndex(index, max)).to.deep.equal(expectedAction);
 	});
 
 });

@@ -14,9 +14,25 @@ describe('Threshold', () => {
 	it('sets the sceneIndex from 1 to 2', () => {
 		let result = sceneIndex(
 			1,
-			setSceneIndex(2)
+			setSceneIndex(2, 4)
 		);
 		expect(result).to.equal(2);
+	});
+
+	it('cannot set the sceneIndex too high', () => {
+		let result = sceneIndex(
+			0,
+			setSceneIndex(2, 1)
+		);
+		expect(result).to.equal(1);
+	});
+
+	it('cannot set the sceneIndex too low', () => {
+		let result = sceneIndex(
+			0,
+			setSceneIndex(-1, 1)
+		);
+		expect(result).to.equal(0);
 	});
 
 });

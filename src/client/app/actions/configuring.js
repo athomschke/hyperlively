@@ -16,6 +16,6 @@ export function setObserveMutations(bool) {
 	return { type: OBSERVE_MUTATIONS, bool };
 }
 
-export function setSceneIndex(index) {
-	return { type: SET_SCENE_INDEX, index };
+export function setSceneIndex(index, max) {
+	return { type: SET_SCENE_INDEX, index, max };
 }
