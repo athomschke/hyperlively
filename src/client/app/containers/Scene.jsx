@@ -32,7 +32,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
 		onBoundsUpdate: (strokes, newBounds) => {
 			dispatch(setObserveMutations(false));
-			dispatch(updatePosition(strokes, ownProps.sceneIndex, newBounds.x, newBounds.y));
+			dispatch(updatePosition(strokes, newBounds.x, newBounds.y, ownProps.sceneIndex));
 			dispatch(setObserveMutations(true));
 		},
 		onHide: (strokes) => {

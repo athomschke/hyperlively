@@ -14,7 +14,7 @@ describe('actions', () => {
 			x,
 			y
 		};
-		expect(updatePosition(strokes, sceneIndex, x, y)).to.deep.equal(expectedAction);
+		expect(updatePosition(strokes, x, y, sceneIndex)).to.deep.equal(expectedAction);
 	});
 
 	it('should create an action to hide a set of strokes', () => {

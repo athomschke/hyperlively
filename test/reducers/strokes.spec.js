@@ -143,7 +143,7 @@ describe('strokes', () => {
 			};
 			let result = strokes(
 				currentState,
-				updatePosition(strokesToMove, 0, bounds.x, bounds.y)
+				updatePosition(strokesToMove, bounds.x, bounds.y, 0)
 			);
 			expect(result[0].points[0].x).to.equal(10);
 			expect(result[0].points[0].y).to.equal(12);
@@ -168,7 +168,7 @@ describe('strokes', () => {
 			};
 			let result = strokes(
 				currentState,
-				updatePosition(strokesToMove, 0, bounds.x, bounds.y)
+				updatePosition(strokesToMove, bounds.x, bounds.y, 0)
 			);
 			expect(result[1].points[0].x).to.equal(20);
 		});

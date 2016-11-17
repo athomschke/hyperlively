@@ -1,6 +1,6 @@
 import { UPDATE_POSITION, HIDE } from 'constants/actionTypes';
 
-export function updatePosition(strokes, sceneIndex, x, y) {
+export function updatePosition(strokes, x, y, sceneIndex) {
 	return { type: UPDATE_POSITION,
 		strokes: strokes,
 		sceneIndex: sceneIndex,
