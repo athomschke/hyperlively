@@ -7,7 +7,7 @@ let defaultScene = () => {
 	};
 };
 
-function scenes (state = [], action) {
+function scenes (state = [defaultScene()], action) {
 	switch(action.type) {
 	case APPEND_POINT:
 	case CREATE_STROKE:

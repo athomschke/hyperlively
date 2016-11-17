@@ -9,11 +9,11 @@ import { last } from 'lodash';
 const mapStateToProps = (state, ownProps) => {
 	let returnProps = {};
 	Object.assign(returnProps, {
-		max: state.undoableScenes.past.length + state.undoableScenes.future.length,
-		value: state.undoableScenes.past.length,
+		max: state.content.undoableScenes.past.length + state.content.undoableScenes.future.length,
+		value: state.content.undoableScenes.past.length,
 		callbackEnabled: state.ploma.usePloma,
 		timeout: UNDO_TIMEOUT,
-		scene: state.undoableScenes.future.length > 0 ? last(last(state.undoableScenes.future)) : last(state.undoableScenes.present)
+		scene: state.content.undoableScenes.future.length > 0 ? last(last(state.content.undoableScenes.future)) : last(state.content.undoableScenes.present)
 	}, ownProps);
 	return returnProps;
 };

@@ -4,10 +4,12 @@
 			"usePloma": false
 		},
 		"threshold": 500,
-		"undoableScenes": {
-			"past": [],
-			"future": [],
-			"present": []
+		"content": {
+			"undoableScenes": {
+				"past": [],
+				"future": [],
+				"present": []
+			}
 		}
 	}
 }

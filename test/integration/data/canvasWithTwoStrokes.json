@@ -4,24 +4,26 @@
 			"usePloma": false
 		},
 		"threshold": 500,
-		"undoableScenes": {
-			"past": [],
-			"future": [],
-			"present": [{
-				"strokes": [{
-					"finished": true,
-					"points": [
-						{ "x": 10, "y": 10, "timeStamp": 100 },
-						{ "x": 10, "y": 30, "timeStamp": 101 }
-					]
-				}, {
-					"finished": true,
-					"points": [
-						{ "x": 20, "y": 10, "timeStamp": 1100 },
-						{ "x": 20, "y": 30, "timeStamp": 1101 }
-					]
+		"content": {
+			"undoableScenes": {
+				"past": [],
+				"future": [],
+				"present": [{
+					"strokes": [{
+						"finished": true,
+						"points": [
+							{ "x": 10, "y": 10, "timeStamp": 100 },
+							{ "x": 10, "y": 30, "timeStamp": 101 }
+						]
+					}, {
+						"finished": true,
+						"points": [
+							{ "x": 20, "y": 10, "timeStamp": 1100 },
+							{ "x": 20, "y": 30, "timeStamp": 1101 }
+						]
+					}]
 				}]
-			}]
+			}
 		}
 	}
 }

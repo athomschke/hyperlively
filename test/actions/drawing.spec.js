@@ -6,45 +6,39 @@ describe('actions', () => {
 		const x = 10;
 		const y = 10;
 		const timeStamp = 20;
-		const sceneIndex = 0;
 		const expectedAction = {
 			type: 'APPEND_POINT',
 			x,
 			y,
-			timeStamp,
-			sceneIndex
+			timeStamp
 		};
-		expect(actions.appendPoint(x, y, timeStamp, sceneIndex)).to.deep.equal(expectedAction);
+		expect(actions.appendPoint(x, y, timeStamp)).to.deep.equal(expectedAction);
 	});
 
 	it('should create an action to create a stroke from an event', () => {
 		const x = 10;
 		const y = 10;
 		const timeStamp = 20;
-		const sceneIndex = 0;
 		const expectedAction = {
 			type: 'CREATE_STROKE',
 			x,
 			y,
-			timeStamp,
-			sceneIndex
+			timeStamp
 		};
-		expect(actions.createStroke(x, y, timeStamp, sceneIndex)).to.deep.equal(expectedAction);
+		expect(actions.createStroke(x, y, timeStamp)).to.deep.equal(expectedAction);
 	});
 
 	it('should create an action to finish a stroke from an event', () => {
 		const x = 10;
 		const y = 10;
 		const timeStamp = 20;
-		const sceneIndex = 0;
 		const expectedAction = {
 			type: 'FINISH_STROKE',
 			x,
 			y,
-			timeStamp,
-			sceneIndex
+			timeStamp
 		};
-		expect(actions.finishStroke(x, y, timeStamp, sceneIndex)).to.deep.equal(expectedAction);
+		expect(actions.finishStroke(x, y, timeStamp)).to.deep.equal(expectedAction);
 	});
 
 	it('should create an action to toggle drawing mode', () => {

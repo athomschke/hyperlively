@@ -4,7 +4,7 @@ import { cloneDeep } from 'lodash';
 'use strict';
 
 let getPointsFromJSON = (json) => {
-	return json.undoableScenes.present[0].strokes;
+	return json.content.undoableScenes.present[0].strokes;
 };
 
 describe('Integration', () => {

@@ -63,7 +63,7 @@ describe('Integration', () => {
 
 		it('shows the first scene', () => {
 			let twoScenesJson = cloneDeep(require('json!./data/canvasWithTwoScenes.json').json);
-			twoScenesJson.sceneIndex = 0;
+			twoScenesJson.content.sceneIndex = 0;
 			renderApplicationWithState(twoScenesJson);
 			expect(getCanvasNodes()).to.have.length(2);
 		});
@@ -83,7 +83,7 @@ describe('Integration', () => {
 			let renderedStrokesData = getCombinedCanvas().toDataURL();
 			dismountApp();
 			mountApp();
-			canvasJson.undoableScenes.present[0].strokes.push({
+			canvasJson.content.undoableScenes.present[0].strokes.push({
 				finished: true,
 				hidden: true,
 				points: [

@@ -10,7 +10,6 @@ describe('actions', () => {
 		const expectedAction = {
 			type: 'UPDATE_POSITION',
 			strokes,
-			sceneIndex,
 			x,
 			y
 		};
@@ -22,8 +21,7 @@ describe('actions', () => {
 		const sceneIndex = 0;
 		const expectedAction = {
 			type: 'HIDE',
-			strokes,
-			sceneIndex
+			strokes
 		};
 		expect(hide(strokes, sceneIndex)).to.deep.equal(expectedAction);
 	});

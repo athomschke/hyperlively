@@ -22,7 +22,7 @@ describe('Integration', () => {
 			let canvasJson = cloneDeep(require('json!./data/canvasWithTwoStrokes.json').json);
 			canvasJson.threshold = 1500;
 			canvasJson.handwritingRecognition = true;
-			forEach(canvasJson.undoableScenes.present[0].strokes, (stroke) => {
+			forEach(canvasJson.content.undoableScenes.present[0].strokes, (stroke) => {
 				stroke.hidden = true;
 			});
 			renderApplicationWithState(canvasJson);

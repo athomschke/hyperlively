@@ -22,8 +22,8 @@ const mapStateToProps = (state, ownProps) => {
 	returnState.componentIndex = state.ploma.usePloma ? 1 : 0;
 	returnState.components = returnState.scene && returnState.scene.strokes;
 	returnState.paperColor = returnState.usePloma ? PAPER_COLOR : WHITE;
-	returnState.scene = state.undoableScenes.present[state.sceneIndex];
-	returnState.sceneIndex = state.sceneIndex;
+	returnState.scene = state.content.undoableScenes.present[state.content.sceneIndex];
+	returnState.sceneIndex = state.content.sceneIndex;
 	returnState.observeMutations = state.observeMutations;
 	return returnState;
 };

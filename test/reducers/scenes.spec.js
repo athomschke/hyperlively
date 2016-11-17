@@ -7,30 +7,35 @@ describe('scenes', () => {
 
 	describe('initial state', () => {
 
-		it('creates an empty present', () => {
+		it('creates a scene without any strokes', () => {
 			expect(
 				scenes(undefined, {})
-			).to.deep.equal([]);
+			).to.deep.equal([{
+				strokes: []
+			}]);
 		});
 	});
 
 	describe('creating a stroke on the first scene', () => {
 
+		let aPoint = point(10,10);
+		let action = createStroke(aPoint.x, aPoint.y, aPoint.timeStamp);
+		action.sceneIndex = 0;
+
 		it('when no scene exists creates one', () => {
-			let aPoint = point(10,10);
-			let result = scenes([],
-				createStroke(aPoint.x, aPoint.y, aPoint.timeStamp, 0)
+			let result = scenes(
+				[],
+				action
 			);
 			expect(result).to.have.length(1);
 		});
 
 		it('always adds to the current scene', () => {
-			let aPoint = point(10,10);
 			let result = scenes(
 				[
 					{ strokes:[] }
 				],
-				createStroke(aPoint.x, aPoint.y, aPoint.timeStamp, 0)
+				action
 			);
 			expect(result).to.have.length(1);
 		});
@@ -38,30 +43,29 @@ describe('scenes', () => {
 	});
 
 	describe('creating a stroke on the second scene', () => {
-		
-		it('adds a stroke to the second scene', () => {
+
+		let result;
+
+		beforeEach(() => {
 			let aPoint = point(10,10);
-			let result = scenes(
-				[
-					{ strokes:[] },
-					{ strokes:[] }
-				],
-				createStroke(aPoint.x, aPoint.y, aPoint.timeStamp, 1)
-			);
+			let action = createStroke(aPoint.x, aPoint.y, aPoint.timeStamp);
+			action.sceneIndex = 1;
+			let existingScenes = [
+				{ strokes:[] },
+				{ strokes:[] }
+			];
+			result = scenes(existingScenes, action);
+		});
+
+		it('doesn\'t change the number of scnenes', () => {
 			expect(result).to.have.length(2);
+		});
+
+		it('adds a stroke to the second scene', () => {
 			expect(result[1].strokes).to.have.length(1);
 		});
 		
 		it('does not create a stroke to the first scene', () => {
-			let aPoint = point(10,10);
-			let result = scenes(
-				[
-					{ strokes:[] },
-					{ strokes:[] }
-				],
-				createStroke(aPoint.x, aPoint.y, aPoint.timeStamp, 1)
-			);
-			expect(result).to.have.length(2);
 			expect(result[0].strokes).to.have.length(0);
 		});
 		
@@ -73,12 +77,14 @@ describe('scenes', () => {
 			let movableStrokes = [{
 				points: [point(10,10), point(11,11), point(12,12)]
 			}];
+			let action = updatePosition(movableStrokes, 5, 15);
+			action.sceneIndex = 1;
 			let result = scenes(
 				[
 					{ strokes: [] },
 					{ strokes: movableStrokes }
 				],
-				updatePosition(movableStrokes, 5, 15, 1)
+				action
 			);
 			expect(result).to.have.length(2);
 		});
@@ -87,10 +93,13 @@ describe('scenes', () => {
 
 	describe('adding a point', () => {
 
+		let action = appendPoint(10,10, undefined);
+		action.sceneIndex = 0;
+
 		it('to no existing scene creates a scene', () => {
 			let result = scenes(
 				[],
-				appendPoint(10,10, undefined, 0)
+				action
 			);
 			expect(result).to.have.length(1);
 		});
@@ -100,7 +109,7 @@ describe('scenes', () => {
 				[
 					{ strokes:[] }
 				],
-				appendPoint(10,10, undefined, 0)
+				action
 			);
 			expect(result).to.have.length(1);
 		});
@@ -167,30 +176,6 @@ describe('scenes', () => {
 			);
 			expect(result[1]).to.equal(existingScene);
 			expect(result[0]).to.not.equal(existingScene);
-		});
-
-		it('does not push the scene if index is too hight', () => {
-			let existingScene = { strokes: [ { points: [ point(10,10) ] } ] };
-			let result = scenes(
-				[
-					existingScene
-				],
-				addSceneAt(4)
-			);
-			expect(result[0]).to.equal(existingScene);
-			expect(result[1]).to.not.exist;
-		});
-
-		it('initializes a scene with a strokes array', () => {
-			let existingScene = { strokes: [ { points: [ point(10,10) ] } ] };
-			let result = scenes(
-				[
-					existingScene
-				],
-				addSceneAt(1)
-			);
-			expect(result[1].strokes).to.exist;
-			expect(result[1].strokes).to.have.length(0);
 		});
 
 	});
