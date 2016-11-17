@@ -2,14 +2,6 @@ import { scenes } from 'reducers/scenes';
 import { appendPoint, createStroke } from 'actions/drawing';
 import { point } from '../helpers';
 
-let undoableScenes = (anArray) => {
-	return {
-		past: [],
-		future: [],
-		present: anArray
-	};
-};
-
 describe('scenes', () => {
 
 	describe('initial state', () => {
@@ -21,12 +13,11 @@ describe('scenes', () => {
 		});
 	});
 
-	describe('creating a stroke', () => {
+	describe('creating a stroke on the first scene', () => {
 
 		it('when no scene exists creates one', () => {
 			let aPoint = point(10,10);
-			let result = scenes(
-				undoableScenes([]),
+			let result = scenes([],
 				createStroke(aPoint.x, aPoint.y, aPoint.timeStamp, 0)
 			);
 			expect(result).to.have.length(1);
@@ -35,10 +26,34 @@ describe('scenes', () => {
 		it('always adds to the current scene', () => {
 			let aPoint = point(10,10);
 			let result = scenes(
-				undoableScenes([{ sketches:[] }]),
+				[{ strokes:[] }],
 				createStroke(aPoint.x, aPoint.y, aPoint.timeStamp, 0)
 			);
 			expect(result).to.have.length(1);
+		});
+
+	});
+
+	describe('creating a stroke on the second scene', () => {
+		
+		it('adds a stroke to the second scene', () => {
+			let aPoint = point(10,10);
+			let result = scenes(
+				[{ strokes:[] }, { strokes:[] }],
+				createStroke(aPoint.x, aPoint.y, aPoint.timeStamp, 1)
+			);
+			expect(result).to.have.length(2);
+			expect(result[1].strokes).to.have.length(1);
+		});
+		
+		it('does not a stroke to the first scene', () => {
+			let aPoint = point(10,10);
+			let result = scenes(
+				[{ strokes:[] }, { strokes:[] }],
+				createStroke(aPoint.x, aPoint.y, aPoint.timeStamp, 1)
+			);
+			expect(result).to.have.length(2);
+			expect(result[0].strokes).to.have.length(0);
 		});
 		
 	});
@@ -47,16 +62,16 @@ describe('scenes', () => {
 
 		it('to no existing scene creates a scene', () => {
 			let result = scenes(
-				undoableScenes([]),
-				appendPoint(10,10)
+				[],
+				appendPoint(10,10, undefined, 0)
 			);
 			expect(result).to.have.length(1);
 		});
 
 		it('to a scene does not create a new one', () => {
 			let result = scenes(
-				undoableScenes([{ sketches:[] }]),
-				appendPoint(10,10)
+				[{ strokes:[] }],
+				appendPoint(10,10, undefined, 0)
 			);
 			expect(result).to.have.length(1);
 		});
