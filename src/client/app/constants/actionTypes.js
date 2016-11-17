@@ -25,3 +25,5 @@ export const SET_SCENE_INDEX = 'SET_SCENE_INDEX';
 export const ADD_SCENE = 'ADD_SCENE';
 
 export const ADD_SCENE_AT = 'ADD_SCENE_AT';
+
+export const NEXT_SCENE = 'NEXT_SCENE';

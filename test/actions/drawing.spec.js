@@ -66,4 +66,11 @@ describe('actions', () => {
 		expect(actions.addScene()).to.deep.equal(expectedAction);
 	});
 
+	it('should create an action to go to the next scene', () => {
+		const expectedAction = {
+			type: 'NEXT_SCENE'
+		};
+		expect(actions.nextScene()).to.deep.equal(expectedAction);
+	});
+
 });

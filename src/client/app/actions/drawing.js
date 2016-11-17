@@ -1,4 +1,4 @@
-import { APPEND_POINT, CREATE_STROKE, FINISH_STROKE, TOGGLE_DRAWING, ADD_SCENE_AT, ADD_SCENE } from 'constants/actionTypes';
+import { APPEND_POINT, CREATE_STROKE, FINISH_STROKE, TOGGLE_DRAWING, ADD_SCENE_AT, ADD_SCENE, NEXT_SCENE } from 'constants/actionTypes';
 
 export function appendPoint(x, y, timeStamp) {
 	return { type: APPEND_POINT, x, y, timeStamp };
@@ -22,4 +22,8 @@ export function addSceneAt(index) {
 
 export function addScene() {
 	return { type: ADD_SCENE };
+}
+
+export function nextScene() {
+	return { type: NEXT_SCENE };
 }

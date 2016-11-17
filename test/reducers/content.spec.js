@@ -1,6 +1,6 @@
 import { content } from 'reducers/content';
 import { setSceneIndex } from 'actions/configuring';
-import { addSceneAt } from 'actions/drawing';
+import { addSceneAt, nextScene } from 'actions/drawing';
 import { point } from '../helpers';
 
 describe('Content', () => {
@@ -88,6 +88,42 @@ describe('Content', () => {
 		});
 
 	});
+
+	describe('going to the next scene', () => {
+		let existingScene = { strokes: [ { points: [ point(10,10) ] } ] };
+		let existingContent = {
+			undoableScenes: {
+				past: [],
+				future: [],
+				present: [
+					existingScene,
+					existingScene,
+					existingScene,
+					existingScene
+				]
+			}
+		};
+
+		it('shows scene 2 out of 4', () => {
+			existingContent.sceneIndex = 1;
+			let result = content(
+				existingContent,
+				nextScene()
+			);
+			expect(result.sceneIndex).to.equal(2);
+		});
+
+		it('shows scene 5 after adding it', () => {
+			existingContent.sceneIndex = 3;
+			let result = content(
+				existingContent,
+				nextScene()
+			);
+			expect(result.sceneIndex).to.equal(4);
+			expect(result.undoableScenes.present.length).to.equal(5);
+		});
+	});
+
 
 
 });
