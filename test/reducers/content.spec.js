@@ -1,6 +1,6 @@
 import { content } from 'reducers/content';
 import { setSceneIndex } from 'actions/configuring';
-import { addSceneAt, nextScene } from 'actions/drawing';
+import { addSceneAt, nextScene, previousScene } from 'actions/drawing';
 import { point } from '../helpers';
 
 describe('Content', () => {
@@ -123,7 +123,5 @@ describe('Content', () => {
 			expect(result.undoableScenes.present.length).to.equal(5);
 		});
 	});
-
-
 
 });
