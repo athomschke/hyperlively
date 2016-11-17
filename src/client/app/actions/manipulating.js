@@ -1,7 +1,7 @@
-import { UPDATE_BOUNDS, HIDE } from 'constants/actionTypes';
+import { UPDATE_POSITION, HIDE } from 'constants/actionTypes';
 
 export function updatePosition(strokes, sceneIndex, x, y) {
-	return { type: UPDATE_BOUNDS,
+	return { type: UPDATE_POSITION,
 		strokes: strokes,
 		sceneIndex: sceneIndex,
 		x: x,

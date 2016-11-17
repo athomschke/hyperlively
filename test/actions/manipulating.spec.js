@@ -8,7 +8,7 @@ describe('actions', () => {
 		const y = 2;
 		const sceneIndex = 0;
 		const expectedAction = {
-			type: 'UPDATE_BOUNDS',
+			type: 'UPDATE_POSITION',
 			strokes,
 			sceneIndex,
 			x,

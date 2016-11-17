@@ -10,7 +10,7 @@ export const JUMP_TO = 'JUMP_TO';
 
 export const UPDATE_THRESHOLD = 'UPDATE_THRESHOLD';
 
-export const UPDATE_BOUNDS = 'UPDATE_BOUNDS';
+export const UPDATE_POSITION = 'UPDATE_POSITION';
 
 export const HIDE = 'HIDE';
 
