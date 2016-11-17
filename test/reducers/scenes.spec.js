@@ -169,6 +169,18 @@ describe('scenes', () => {
 			expect(result[0]).to.not.equal(existingScene);
 		});
 
+		it('does not push the scene if index is too hight', () => {
+			let existingScene = { strokes: [ { points: [ point(10,10) ] } ] };
+			let result = scenes(
+				[
+					existingScene
+				],
+				addSceneAt(4)
+			);
+			expect(result[0]).to.equal(existingScene);
+			expect(result[1]).to.not.exist;
+		});
+
 		it('initializes a scene with a strokes array', () => {
 			let existingScene = { strokes: [ { points: [ point(10,10) ] } ] };
 			let result = scenes(

@@ -26,7 +26,11 @@ function scenes (state = [], action) {
 	case ADD_SCENE:
 		return state.concat([defaultScene()]);
 	case ADD_SCENE_AT:
-		return state.slice(0, action.index).concat([defaultScene()], state.slice(action.index, state.length));
+		if (action.index <= state.length + 1) {
+			return state.slice(0, action.index).concat([defaultScene()], state.slice(action.index, state.length));
+		} else {
+			return state;
+		}
 	default:
 		return state;
 	}
