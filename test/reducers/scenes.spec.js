@@ -1,6 +1,6 @@
 import { scenes } from 'reducers/scenes';
 import { appendPoint, createStroke, addScene, addSceneAt } from 'actions/drawing';
-import { updatePosition } from 'actions/manipulating';
+import { updatePosition, hide } from 'actions/manipulating';
 import { point } from '../helpers';
 
 describe('scenes', () => {
@@ -83,6 +83,26 @@ describe('scenes', () => {
 				[
 					{ strokes: [] },
 					{ strokes: movableStrokes }
+				],
+				action
+			);
+			expect(result).to.have.length(2);
+		});
+		
+	});
+
+	describe('hiding a stroke', () => {
+		
+		it('does not change the number of scenes', () => {
+			let hidableStrokes = [{
+				points: [point(10,10), point(11,11), point(12,12)]
+			}];
+			let action = hide(hidableStrokes);
+			action.sceneIndex = 1;
+			let result = scenes(
+				[
+					{ strokes: [] },
+					{ strokes: hidableStrokes }
 				],
 				action
 			);

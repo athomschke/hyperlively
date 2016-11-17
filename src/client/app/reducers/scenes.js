@@ -13,7 +13,7 @@ function scenes (state = [defaultScene()], action) {
 	case CREATE_STROKE:
 	case FINISH_STROKE:
 		if (state.length > 0) {
-			state[action.sceneIndex].strokes = strokes(state[action.sceneIndex].strokes || [], action);
+			state[action.sceneIndex].strokes = strokes(state[action.sceneIndex].strokes, action);
 		} else {
 			state = [defaultScene()];
 			state[0].strokes = strokes(state[0].strokes, action);
@@ -26,11 +26,7 @@ function scenes (state = [defaultScene()], action) {
 	case ADD_SCENE:
 		return state.concat([defaultScene()]);
 	case ADD_SCENE_AT:
-		if (action.index <= state.length + 1) {
-			return state.slice(0, action.index).concat([defaultScene()], state.slice(action.index, state.length));
-		} else {
-			return state;
-		}
+		return state.slice(0, action.index).concat([defaultScene()], state.slice(action.index, state.length));
 	default:
 		return state;
 	}

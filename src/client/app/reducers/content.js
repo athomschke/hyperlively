@@ -1,7 +1,7 @@
 import { undoable } from 'reducers/undoable';
 import { sceneIndex } from 'reducers/sceneIndex';
 import { scenes } from 'reducers/scenes';
-import { APPEND_POINT, CREATE_STROKE, FINISH_STROKE, UPDATE_POSITION, HIDE, ADD_SCENE, ADD_SCENE_AT, SET_SCENE_INDEX, NEXT_SCENE } from 'constants/actionTypes';
+import { ADD_SCENE, ADD_SCENE_AT, SET_SCENE_INDEX, NEXT_SCENE } from 'constants/actionTypes';
 
 const undoableScenes = undoable(scenes, {});
 
@@ -38,18 +38,11 @@ function content (state = defaultState(), action) {
 				})
 			};
 		}
-	case ADD_SCENE:
-	case APPEND_POINT:
-	case CREATE_STROKE:
-	case FINISH_STROKE:
-	case HIDE:
-	case UPDATE_POSITION:
-		action.sceneIndex = state.sceneIndex;
-		return combinedState(state, action);
 	case SET_SCENE_INDEX:
 		action.max = state.undoableScenes.present.length - 1;
 		return combinedState(state, action);
 	default:
+		action.sceneIndex = state.sceneIndex;
 		return combinedState(state, action);
 	}
 }
