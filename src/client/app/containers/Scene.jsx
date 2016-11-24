@@ -30,9 +30,9 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
-		onBoundsUpdate: (strokes, newBounds) => {
+		onUpdatePosition: (strokes, x, y) => {
 			dispatch(setObserveMutations(false));
-			dispatch(updatePosition(strokes, newBounds.x, newBounds.y, ownProps.sceneIndex));
+			dispatch(updatePosition(strokes, x, y, ownProps.sceneIndex));
 			dispatch(setObserveMutations(true));
 		},
 		onHide: (strokes) => {

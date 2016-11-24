@@ -1,6 +1,7 @@
 import Interpreter from 'components/smart/Interpreter';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
+import actions from 'actions/actions';
 import { tail } from 'lodash';
 
 const shapeCandidateFactory = (type) => {
@@ -20,7 +21,7 @@ const renderWithProps = (props) => {
 	return TestUtils.renderIntoDocument(<InterpreterComponent {...props}/>);
 };
 
-let sketchesArountPoint55 = () => {
+let sketchesAroundPoint55 = () => {
 	return [{
 		strokes: [{
 			points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }]
@@ -99,14 +100,12 @@ describe('Interpreter', () => {
 		});
 
 		it('gets the distance with which an object should move', () => {
-			let moveByArgument;
 			let interpreter = renderWithProps({
-				onBoundsUpdate: (strokes, moveBy) => {
-					moveByArgument = moveBy;
-				},
-				sketches: sketchesArountPoint55()
+				onUpdatePosition: () => { },
+				sketches: sketchesAroundPoint55()
 			});
 			interpreter.onShapeDetected(shapeCandidateFactory('arrow'));
+			let moveByArgument = interpreter.state.interpretation;
 			expect(moveByArgument).to.exist;
 			expect(moveByArgument.x).to.equal(10);
 			expect(moveByArgument.y).to.equal(10);
@@ -115,10 +114,10 @@ describe('Interpreter', () => {
 		it('ignores non-arrow shapes', () => {
 			let moveByArgument;
 			let interpreter = renderWithProps({
-				onBoundsUpdate: (strokes, moveBy) => {
+				onUpdatePosition: (strokes, moveBy) => {
 					moveByArgument = moveBy;
 				},
-				sketches: sketchesArountPoint55()
+				sketches: sketchesAroundPoint55()
 			});
 			interpreter.onShapeDetected(shapeCandidateFactory('foobar'));
 			expect(moveByArgument).to.not.be.defined;
@@ -126,7 +125,7 @@ describe('Interpreter', () => {
 
 		it('does nothing if no callback is given', () => {
 			let interpreter = renderWithProps({
-				sketches: sketchesArountPoint55()
+				sketches: sketchesAroundPoint55()
 			});
 			interpreter.onShapeDetected(shapeCandidateFactory('arrow'));
 			expect(true).to.be.true; 
@@ -134,10 +133,10 @@ describe('Interpreter', () => {
 
 		it('does nothing if there is no match', () => {
 			let moveByArgument;
-			let sketches = sketchesArountPoint55();
+			let sketches = sketchesAroundPoint55();
 			sketches = tail(sketches);
 			let interpreter = renderWithProps({
-				onBoundsUpdate: (strokes, moveBy) => {
+				onUpdatePosition: (strokes, moveBy) => {
 					moveByArgument = moveBy;
 				},
 				sketches: sketches
@@ -153,20 +152,80 @@ describe('Interpreter', () => {
 					points: [{ x: 1, y: 6 }, { x: 6, y: 1 }, { x: 11, y: 6 }, { x: 6, y: 11 }]
 				}]
 			};
-			let sketches = sketchesArountPoint55();
+			let sketches = sketchesAroundPoint55();
 			sketches.push(arrowSketch);
 			let interpreter = renderWithProps({
 				onHide: (strokes) => {
 					hiddenStrokes = strokes;
 				},
+				onUpdatePosition: () => {},
 				sketches: sketches
 			});
 			interpreter.onShapeDetected(shapeCandidateFactory('arrow'));
+			interpreter.performAction({}, 'updatePosition');
 			expect(hiddenStrokes).to.be.defined;
 			expect(hiddenStrokes).to.have.length(1);
 			expect(hiddenStrokes[0]).to.equal(arrowSketch.strokes[0]);
 		});
 
+	});
+
+	describe('allowing to choose', () => {
+
+		it('renders a list', () => {
+			let list = renderWithProps({});
+			list.setState({
+				interpretation: {}
+			});
+			expect(list.refs.list.props.items.length).to.not.equal(0);
+		});
+
+		it('renders an item for each available action type', () => {
+			let list = renderWithProps({});
+			list.setState({
+				interpretation: {}
+			});
+			expect(list.refs.list.props.items).to.have.length(Object.keys(actions).length);
+		});
+
+		it('opens a modal dialog', () => {
+			let list = renderWithProps({});
+			list.setState({
+				interpretation: {}
+			});
+			expect(list.refs.modal.props.isOpen).to.be.true;
+		});
+
+	});
+
+	describe('Choosing an action', () => {
+
+		let list;
+		let performed = false;
+
+		beforeEach(() => {
+			list = renderWithProps({
+				onUpdatePosition: () => {
+					performed = true;
+				}
+			});
+			list.setState({
+				interpretation: {}
+			});
+			performed = false;
+		});
+
+		it('removes the list', () => {
+			sinon.spy(list, 'deactivateInterpretation');
+			list.performAction({}, 'updatePosition');
+			expect(list.deactivateInterpretation.callCount).to.equal(1);
+			list.deactivateInterpretation.restore();
+		});
+
+		it('performs the action', () => {
+			list.refs.list.props.onItemClick({}, 'updatePosition');
+			expect(performed).to.be.true;
+		});
 	});
 
 	describe('searching sketches at a given point', () => {
@@ -232,21 +291,18 @@ describe('Interpreter', () => {
 
 	describe('performing an interpreted action', () => {
 
-		it('chooses a routine in the form of onDoSomething for type doSomething and runs it with the handed arguments', () => {
+		it('chooses a routine in the form of onDoSomething for type doSomething and runs it', () => {
 			let foobarCalled = false;
-			let firstArgument;
-			let secondArgument;
 			let interpreter = renderWithProps({
-				onFoobarRun: (arg1, arg2) => {
+				onFoobarRun: () => {
 					foobarCalled = true;
-					firstArgument = arg1;
-					secondArgument = arg2;
 				}
 			});
-			interpreter.performAction('foobarRun', [1, 2]);
+			interpreter.setState({
+				interpretation: {}
+			});
+			interpreter.performAction({}, 'foobarRun');
 			expect(foobarCalled).to.be.true;
-			expect(firstArgument).to.equal(1);
-			expect(secondArgument).to.equal(2);
 		});
 
 	});
