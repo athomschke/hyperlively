@@ -9,12 +9,16 @@ export default (Wrapped) => class extends Component {
 	static propTypes =  {
 		onUpdatePosition: PropTypes.func,
 		onHide: PropTypes.func,
+		onNextScene: PropTypes.func,
+		onPreviousScene: PropTypes.func,
 		sketches: PropTypes.array
 	};
 
 	static defaultProps = {
 		onUpdatePosition: () => {},
 		onHide: () => {},
+		onNextScene: () => {},
+		onPreviousScene: () => {},
 		sketches: []
 	};
 
