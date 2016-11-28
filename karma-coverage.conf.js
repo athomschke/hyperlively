@@ -8,11 +8,14 @@ module.exports = function (config) {
 	config.reporters.push('coverage');
 	
 	config.webpack.devtool = 'inline-source-map';
-	config.webpack.module.postLoaders = [{
+	config.webpack.module.preLoaders = [{
 		test: /\.jsx|\.js$/,
 		include: /hyperlively/,
 		exclude: /(test|libs|node_modules|bower_components|containers)\//,
-		loader: 'istanbul-instrumenter'
+		loader: 'babel-istanbul',
+		query: {
+			cacheDirectory: true
+		}
 	}];	
 	
 	config.set({
