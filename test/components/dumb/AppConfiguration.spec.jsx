@@ -11,6 +11,12 @@ describe('App Configuration', () => {
 		expect(domNode.childNodes).to.have.length(3);
 	});
 
+	it('is active by default', () => {
+		let appConfiguration = TestUtils.renderIntoDocument(<AppConfiguration></AppConfiguration>);
+		let domNode = findDOMNode(appConfiguration);
+		expect(domNode.style.getPropertyValue('pointer-events')).to.equal('auto');
+	});
+
 	it('can be deactivated', () => {
 		let appConfiguration = TestUtils.renderIntoDocument(<AppConfiguration
 			active={false}

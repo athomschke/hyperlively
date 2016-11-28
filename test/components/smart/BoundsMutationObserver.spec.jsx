@@ -93,6 +93,16 @@ describe('Bounds mutation observer', () => {
 			});
 		});
 
+		it('is not recognized when no observer exists', (done) => {
+			mockedComponent.ignore();
+			mockedComponent.componentWillUnmount();
+			mockedComponent.refs.wrapped.refs.node.style.setProperty('top', '2px');
+			setTimeout(() => {
+				expect(mockedComponent.boundsUpdatedWith.callCount).to.equal(0);
+				done();
+			});
+		});
+
 		it('is not recognized when component is not really moved', (done) => {
 			mockedComponent.refs.wrapped.refs.node.style.setProperty('left', '1px');
 			setTimeout(() => {

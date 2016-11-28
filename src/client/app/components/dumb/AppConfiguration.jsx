@@ -11,7 +11,7 @@ export default class AppConfiguration extends Component {
 		active: true
 	}
 
-	getControlStyle = () => {
+	getControlStyle() {
 		return {
 			position: 'absolute',
 			pointerEvents: this.props.active ? 'auto' : 'none',
