@@ -1,5 +1,7 @@
 import { renderApplicationWithState, mountApp, dismountApp, getCanvasNodes } from './helpers';
 import { forEach, cloneDeep } from 'lodash';
+import TestUtils from 'react-addons-test-utils';
+import { Interpreter } from 'components/smart/Interpreter';
 
 'use strict';
 
@@ -17,17 +19,12 @@ describe('Integration', () => {
 		xhr.restore();
 	});
 
-	describe('Hidden strokes', () => {
-		it('are not part of a scene', () => {
-			let canvasJson = cloneDeep(require('json!./data/canvasWithTwoStrokes.json').json);
-			canvasJson.threshold = 1500;
-			canvasJson.handwritingRecognition = true;
-			forEach(canvasJson.content.undoableScenes.present[0].strokes, (stroke) => {
-				stroke.hidden = true;
-			});
-			renderApplicationWithState(canvasJson);
-			expect(getCanvasNodes()).to.have.length(1);
+	describe('Interpreting strokes as scene change ', () => {
+
+		it.skip('first removes the interpreted strokes from scene', () => {
+
 		});
+
 	});
 
 });

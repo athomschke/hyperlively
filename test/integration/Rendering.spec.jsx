@@ -1,5 +1,5 @@
 import { hashCode, renderApplicationWithState, mountApp, dismountApp, getCanvasNodes, getWindowNode, getCombinedCanvas } from './helpers';
-import { cloneDeep, find } from 'lodash';
+import { cloneDeep, find, forEach } from 'lodash';
 import TestUtils from 'react-addons-test-utils';
 
 'use strict';
@@ -76,8 +76,8 @@ describe('Integration', () => {
 
 	});
 
-	describe('Rendering strokes on a canvas', () => {
-		it('doesn\'t show hidden strokes', () => {
+	describe('Hiding strokes', () => {
+		it('removes them from canvas', () => {
 			let canvasJson = require('json!./data/canvasWithTwoStrokes.json').json;
 			renderApplicationWithState(canvasJson);
 			let renderedStrokesData = getCombinedCanvas().toDataURL();
@@ -93,6 +93,17 @@ describe('Integration', () => {
 			});
 			renderApplicationWithState(canvasJson);
 			expect(hashCode(getCombinedCanvas().toDataURL())).to.equal(hashCode(renderedStrokesData));
+		});
+
+		it('removes them from scene', () => {
+			let canvasJson = cloneDeep(require('json!./data/canvasWithTwoStrokes.json').json);
+			canvasJson.threshold = 1500;
+			canvasJson.handwritingRecognition = true;
+			forEach(canvasJson.content.undoableScenes.present[0].strokes, (stroke) => {
+				stroke.hidden = true;
+			});
+			renderApplicationWithState(canvasJson);
+			expect(getCanvasNodes()).to.have.length(1);
 		});
 	});
 

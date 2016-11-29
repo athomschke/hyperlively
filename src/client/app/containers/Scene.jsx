@@ -1,7 +1,5 @@
 import { connect } from 'react-redux';
-import { updatePosition, hide } from 'actions/manipulating';
-import { setObserveMutations } from 'actions/configuring';
-import { nextScene, previousScene } from 'actions/drawing';
+import actions from 'actions/actions';
 import { PAPER_COLOR, WHITE} from 'constants/drawing';
 import Desk from 'components/smart/Desk';
 import ModuleChooser from 'components/smart/ModuleChooser';
@@ -31,19 +29,15 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
-		onUpdatePosition: (strokes, x, y) => {
-			dispatch(setObserveMutations(false));
-			dispatch(updatePosition(strokes, x, y, ownProps.sceneIndex));
-			dispatch(setObserveMutations(true));
-		},
-		onNextScene: () => {
-			dispatch(nextScene());
-		},
-		onPreviousScene: () => {
-			dispatch(previousScene());
+		performAction: (actionName, strokes, x, y) => {
+			if (actions[actionName]) {
+				dispatch(actions.setObserveMutations(false));
+				dispatch(actions[actionName](strokes, x, y));
+				dispatch(actions.setObserveMutations(true));
+			}
 		},
 		onHide: (strokes) => {
-			dispatch(hide(strokes, ownProps.sceneIndex));
+			dispatch(actions.hide(strokes, ownProps.sceneIndex));
 		}
 	};
 };

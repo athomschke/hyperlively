@@ -7,13 +7,13 @@ export default (Wrapped) => class extends Component {
 
 	static propTypes = {
 		observeMutations: PropTypes.bool,
-		onUpdatePosition: PropTypes.func,
+		performAction: PropTypes.func,
 		bounds: PropTypes.object
 	};
 
 	static defaultProps = {
 		observeMutations: true,
-		onUpdatePosition: () => {},
+		performAction: () => {},
 		bounds: {
 			x: 0,
 			y: 0
@@ -48,7 +48,7 @@ export default (Wrapped) => class extends Component {
 	}
 
 	boundsUpdatedWith(moveBy) {
-		this.props.onUpdatePosition(this.props.strokes, moveBy.x, moveBy.y);
+		this.props.performAction('updatePosition', this.props.strokes, moveBy.x, moveBy.y);
 	}
 
 	onMutations(mutationRecords) {

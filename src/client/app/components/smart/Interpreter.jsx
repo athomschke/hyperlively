@@ -7,18 +7,14 @@ import Modal from 'react-modal';
 export default (Wrapped) => class extends Component {
 
 	static propTypes =  {
-		onUpdatePosition: PropTypes.func,
+		performAction: PropTypes.func,
 		onHide: PropTypes.func,
-		onNextScene: PropTypes.func,
-		onPreviousScene: PropTypes.func,
 		sketches: PropTypes.array
 	};
 
 	static defaultProps = {
-		onUpdatePosition: () => {},
+		performAction: () => {},
 		onHide: () => {},
-		onNextScene: () => {},
-		onPreviousScene: () => {},
 		sketches: []
 	};
 
@@ -59,6 +55,23 @@ export default (Wrapped) => class extends Component {
 		});
 	}
 
+	chooseActionForArrow(start, end) {
+		this.setState({
+			interpretation: {
+				x: start,
+				y: end
+			}
+		});
+	}
+
+	chooseAction(candidate) {
+		this.setState({
+			interpretation: {
+				candidate: candidate
+			}
+		});
+	}
+
 	onShapeDetected(candidates) {
 		let arrowCandidate = this.findArrowInCandidates(candidates);
 		if ( arrowCandidate ) {
@@ -68,13 +81,17 @@ export default (Wrapped) => class extends Component {
 			if (sketchesAtArrowStart.length > 0) {
 				let strokes = last(sketchesAtArrowStart).strokes;
 				this.chooseActionForStrokesWithArrow(strokes, end.x - start.x, end.y - start.y);
+			} else {
+				this.chooseActionForArrow(end.x - start.x, end.y - start.y);
 			}
+		} else {
+			this.chooseAction(candidates[0]);
 		}
 	}
 
 	performAction(event, item) {
-		this.props['on' + upperFirst(item)].apply(this, [this.state.interpretation.strokes, this.state.interpretation.x, this.state.interpretation.y]);
 		this.props.sketches.length > 0 && this.props.onHide(last(this.props.sketches).strokes);
+		this.props.performAction.apply(this, [item, this.state.interpretation.strokes, this.state.interpretation.x, this.state.interpretation.y]);
 		this.deactivateInterpretation();
 	}
 

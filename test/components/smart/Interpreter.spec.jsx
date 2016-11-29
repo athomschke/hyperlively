@@ -201,18 +201,18 @@ describe('Interpreter', () => {
 	describe('Choosing an action', () => {
 
 		let list;
-		let performed = false;
+		let performedAction;
 
 		beforeEach(() => {
 			list = renderWithProps({
-				onUpdatePosition: () => {
-					performed = true;
+				performAction: (actionName) => {
+					performedAction = actionName;
 				}
 			});
 			list.setState({
 				interpretation: {}
 			});
-			performed = false;
+			performedAction = undefined;
 		});
 
 		it('removes the list', () => {
@@ -224,7 +224,7 @@ describe('Interpreter', () => {
 
 		it('performs the action', () => {
 			list.refs.list.props.onItemClick({}, 'updatePosition');
-			expect(performed).to.be.true;
+			expect(performedAction).to.equal('updatePosition');
 		});
 	});
 
@@ -292,17 +292,48 @@ describe('Interpreter', () => {
 	describe('performing an interpreted action', () => {
 
 		it('chooses a routine in the form of onDoSomething for type doSomething and runs it', () => {
-			let foobarCalled = false;
+			let performedActionName;
 			let interpreter = renderWithProps({
-				onFoobarRun: () => {
-					foobarCalled = true;
+				performAction: (actionName) => {
+					performedActionName = actionName;
 				}
 			});
 			interpreter.setState({
 				interpretation: {}
 			});
 			interpreter.performAction({}, 'foobarRun');
-			expect(foobarCalled).to.be.true;
+			expect(performedActionName).to.equal('foobarRun');
+		});
+
+		it('at first hides strokes', () => {
+			let performedActions = [];
+			let interpreter = renderWithProps({
+				performAction: (actionName) => {
+					performedActions.push(actionName);
+				},
+				onHide: () => {
+					performedActions.push('hide');
+				},
+				sketches: [{
+					strokes: [{
+						points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }]
+					}]
+				}, {
+					strokes: [{
+						points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }]
+					}]
+				}, {
+					strokes: [{
+						points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }]
+					}]
+				}]
+			});
+			interpreter.setState({
+				interpretation: {}
+			});
+			interpreter.performAction({}, 'foobarRun');
+			expect(performedActions).to.have.length(2);
+			expect(performedActions[0]).to.equal('hide');
 		});
 
 	});
