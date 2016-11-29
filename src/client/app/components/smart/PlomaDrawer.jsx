@@ -1,6 +1,6 @@
 import { PropTypes } from 'react';
 import AbstractDrawer from 'components/smart/AbstractDrawer';
-import { last, forEach, head, tail } from 'lodash';
+import { last, forEach, head, tail, cloneDeep } from 'lodash';
 import { PRESSURE } from 'constants/drawing';
 import React from 'react';
 import { BallpointPen } from 'ploma';
@@ -25,7 +25,10 @@ export default class PlomaDrawer extends AbstractDrawer {
 		let ballpointPen = new BallpointPen(this.refs.canvas, plomaConfig);
 		ballpointPen.setSample(1);
 		this.setState({
-			ballpointPen: ballpointPen
+			ballpointPen: ballpointPen,
+			strokes: cloneDeep(this.props.strokes),
+			width: this.props.width,
+			height: this.props.height
 		}, this.redrawEverything.bind(this, last(this.props.strokes) && last(this.props.strokes).finished));
 	}
 

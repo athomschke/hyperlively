@@ -19,8 +19,7 @@ export default (Wrapped) => class extends Component {
 		useHandwritingRecognition: false
 	}
 
-	constructor(props) {
-		super(props);
+	componentDidMount() {
 		this.state = {
 			hasRecognized: false
 		};

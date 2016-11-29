@@ -336,6 +336,28 @@ describe('Interpreter', () => {
 			expect(performedActions[0]).to.equal('hide');
 		});
 
+		it('at first hides strokes even without callback', () => {
+			let interpreter = renderWithProps({
+				sketches: [{
+					strokes: [{
+						points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }]
+					}]
+				}, {
+					strokes: [{
+						points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }]
+					}]
+				}, {
+					strokes: [{
+						points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }]
+					}]
+				}]
+			});
+			interpreter.setState({
+				interpretation: {}
+			});
+			interpreter.performAction({}, 'foobarRun');
+			expect(interpreter).to.exist;
+		});
 	});
 	
 });

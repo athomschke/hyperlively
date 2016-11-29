@@ -102,15 +102,6 @@ export default class AbstractDrawer extends Component {
 		showBorder: false
 	};
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			strokes: cloneDeep(props.strokes),
-			width: props.width,
-			height: props.height,
-		};
-	}
-
 	componentDidUpdate() {
 		if (!isEqual(this.props.strokes, this.state.strokes)) {
 			this.onStrokesUpdated();

@@ -7,6 +7,11 @@ import React from 'react';
 export default class PlainDrawer extends AbstractDrawer {
 
 	componentDidMount() {
+		this.setState({
+			strokes: cloneDeep(this.props.strokes),
+			width: this.props.width,
+			height: this.props.height
+		});
 		this.redrawEverything(last(this.props.strokes) && last(this.props.strokes).finished);
 	}
 

@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { invokeMap, map, find, flatten, filter, last, initial, upperFirst } from 'lodash';
+import { invokeMap, map, find, flatten, filter, last, initial } from 'lodash';
 import actions from 'actions/actions';
 import List from 'react-simple-list';
 import Modal from 'react-modal';

@@ -15,9 +15,8 @@ export default (Wrapped) => class extends Component {
 		onDragEnd: () => {},
 		cmdPressed: false
 	}
-
-	constructor(props) {
-		super(props);
+	
+	componentDidMount() {
 		this.onMouseUp = this.onMouseUp.bind(this);
 		this.onMouseMove = this.onMouseMove.bind(this);
 		this.onMouseUp = this.onMouseUp.bind(this);
