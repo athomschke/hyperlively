@@ -22,8 +22,7 @@ export default (Wrapped) => class extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			hasRecognized: false,
-			candidates: []
+			hasRecognized: false
 		};
 	}
 

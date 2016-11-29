@@ -22,14 +22,14 @@ export default (Wrapped) => class extends Component {
 
 	offsetToOrigin(strokes) {
 		let points = flatten(map(strokes, (stroke) => {
-			return stroke.points || [];
+			return stroke.points;
 		}));
 		let minX = reduce(points, (min, point) => {
 			return point.x < min ? point.x : min;
-		}, points[0].x) || 0;
+		}, points[0].x);
 		let minY = reduce(points, (min, point) => {
 			return point.y < min ? point.y : min;
-		}, points[0].y) || 0;
+		}, points[0].y);
 		return {
 			x: minX,
 			y: minY
