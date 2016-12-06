@@ -47,11 +47,10 @@ export function combineCanvasses (canvasses, width, height) {
 	combinedCanvas.setAttribute('width', width);
 	combinedCanvas.setAttribute('height', height);
 	combinedCanvas.getContext('2d').fillStyle = 'rgba(1, 1, 1, 0)';
-	combinedCanvas.cloneNode();
 	forEach(canvasses, (canvasNode) => {
 		var img = new Image();
 		img.src = canvasNode.toDataURL('image/png');
-		combinedCanvas.getContext('2d').drawImage(img, parseInt(canvasNode.style.getPropertyValue('left')), parseInt(canvasNode.style.getPropertyValue('top')));
+		combinedCanvas.getContext('2d').drawImage(img, 0, 0, width, height, 0, 0, width, height);
 	});
 	return combinedCanvas;
 }
