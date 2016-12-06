@@ -17,7 +17,7 @@ export default (Wrapped) => class extends Component {
 	}
 	
 	componentDidMount() {
-		this.onMouseUp = this.onMouseUp.bind(this);
+		this.onMouseDown = this.onMouseDown.bind(this);
 		this.onMouseMove = this.onMouseMove.bind(this);
 		this.onMouseUp = this.onMouseUp.bind(this);
 		this.state = {

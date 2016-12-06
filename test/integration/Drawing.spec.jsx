@@ -37,7 +37,7 @@ describe('Integration', () => {
 		it('two strokes looks the same as adding two strokes point by point when ploma is enabled', () => {
 			let canvasJsonConfig = require('json!./data/canvasWithIrregularStrokesWithPloma.json').json;
 			renderApplicationWithState(canvasJsonConfig);
-			let renderedStrokesData = getCombinedCanvas().toDataURL();
+			let renderedStrokesDataBefore = getCombinedCanvas().toDataURL();
 			dismountApp();
 			mountApp();
 			let emptyCanvasConfig = cloneDeep(require('json!./data/emptyCanvas.json')).json;
@@ -47,7 +47,8 @@ describe('Integration', () => {
 			renderApplicationWithState(emptyCanvasConfig);
 			let strokes = getPointsFromJSON(canvasJsonConfig);
 			manuallyDrawStrokes(getWindowNode(), strokes);
-			expect(hashCode(getCombinedCanvas().toDataURL())).to.equal(hashCode(renderedStrokesData));
+			let renderedStrokesDataAfter = getCombinedCanvas().toDataURL();
+			expect(hashCode(renderedStrokesDataAfter)).to.equal(hashCode(renderedStrokesDataBefore));
 		});
 	});
 
