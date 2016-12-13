@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import TimelinePreview from 'components/dumb/TimelinePreview';
 import { Slider } from 'reactrangeslider';
-import { map } from 'lodash';
+import { map, flatten } from 'lodash';
 
 'use strict';
 
@@ -40,14 +40,21 @@ export default class Timeline extends Component {
 	}
 
 	renderPreview() {
+		let offsetIndex = 0;
 		return map(this.props.sketches, (sketch, id) => {
-			return (<TimelinePreview {...this.props}
+			let preview = (<TimelinePreview {...this.props}
 				key={id}
 				index={id}
+				offsetIndex={offsetIndex}
 				strokes={sketch.strokes}
 				fittedHeight={this.props.sliderHeight}
 				previewHeight={this.getTrackHeight()}
 			/>);
+			let points = flatten(map(sketch.strokes, (stroke) => {
+				return stroke.points;
+			}));
+			offsetIndex += points.length;
+			return preview;
 		});
 	}
 

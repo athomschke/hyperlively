@@ -37,8 +37,8 @@ export default (Wrapped) => class extends Component {
 	}
 
 	getOffsetForTime(strokes, sliderWidth, max) {
-		if (this.props.max > 0 && strokes[0].actionIndex) {
-			return (sliderWidth * strokes[0].actionIndex) / max;
+		if (this.props.max > 0 && this.props.offsetIndex) {
+			return (sliderWidth * this.props.offsetIndex) / max;
 		} else {
 			return 0;
 		}

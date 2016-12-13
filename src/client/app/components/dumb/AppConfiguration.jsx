@@ -18,11 +18,11 @@ export default class AppConfiguration extends Component {
 			top: 20,
 			left: 20
 		};
-	};
+	}
 
 	render() {
 		return (
-			<div style={this.getControlStyle()}>
+			<div id='configuration' style={this.getControlStyle()}>
 				{this.props.children}
 			</div>
 		);

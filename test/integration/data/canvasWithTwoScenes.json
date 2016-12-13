@@ -7,7 +7,41 @@
 		"content": {
 			"sceneIndex": 1,
 			"undoableScenes": {
-				"past": [],
+				"past": [
+					[{
+						"strokes": [{
+							"finished": false,
+							"points": [
+								{ "x": 10, "y": 10, "timeStamp": 100 }
+							]
+						}]
+					}],
+					[{
+						"strokes": [{
+							"finished": true,
+							"points": [
+								{ "x": 10, "y": 10, "timeStamp": 100 },
+								{ "x": 10, "y": 30, "timeStamp": 101 }
+							]
+						}]
+					}],
+					[{
+						"strokes": [{
+							"finished": true,
+							"points": [
+								{ "x": 10, "y": 10, "timeStamp": 100 },
+								{ "x": 10, "y": 30, "timeStamp": 101 }
+							]
+						}]
+					}, {
+						"strokes": [{
+							"finished": false,
+							"points": [
+								{ "x": 20, "y": 10, "timeStamp": 1100 }
+							]
+						}]
+					}]
+				],
 				"future": [],
 				"present": [{
 					"strokes": [{

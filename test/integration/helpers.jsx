@@ -92,8 +92,12 @@ export function getCombinedCanvas () {
 	return combineCanvasses(getCanvasNodes(), 1000, 500);
 }
 
+export function sliderWithHandleInApp (domApp) {
+	return domApp.childNodes[2].childNodes[0].childNodes[0];
+}
+
 export function gotToHalfTimeInApp (domApp) {
-	let sliderWithHandle = domApp.childNodes[2].childNodes[0].childNodes[0];
+	let sliderWithHandle = sliderWithHandleInApp(domApp);
 	let slider = sliderWithHandle.childNodes[1];
 	TestUtils.Simulate.click(slider, {
 		pageX: slider.offsetWidth / 2

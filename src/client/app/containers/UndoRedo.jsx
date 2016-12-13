@@ -4,16 +4,29 @@ import UndoRedo from 'components/dumb/UndoRedo';
 import SketchCombiner from 'components/smart/SketchCombiner';
 import { togglePloma, setObserveMutations } from 'actions/configuring';
 import UNDO_TIMEOUT from 'constants/canvas';
-import { last } from 'lodash';
+import { reduce, isEqual } from 'lodash';
+
+const relevantStatesForScene = (states, sceneIndex) => {
+	let length = 0;
+	reduce(states, (previousState, state) => {
+		if (state[sceneIndex] && !isEqual(state[sceneIndex], previousState[sceneIndex])){
+			length += 1;
+		}
+		return state;
+	}, new Array(sceneIndex).fill(undefined));
+	return length;
+};
 
 const mapStateToProps = (state, ownProps) => {
 	let returnProps = {};
+	let pastStatesInScene = relevantStatesForScene(state.content.undoableScenes.past, ownProps.sceneIndex);
+	let futureStatesInScene = relevantStatesForScene(state.content.undoableScenes.future, ownProps.sceneIndex);
 	Object.assign(returnProps, {
-		max: state.content.undoableScenes.past.length + state.content.undoableScenes.future.length,
-		value: state.content.undoableScenes.past.length,
+		max:  pastStatesInScene + futureStatesInScene,
+		value: pastStatesInScene,
 		callbackEnabled: state.ploma.usePloma,
 		timeout: UNDO_TIMEOUT,
-		scene: state.content.undoableScenes.future.length > 0 ? last(last(state.content.undoableScenes.future)) : last(state.content.undoableScenes.present)
+		scene: ownProps.scene
 	}, ownProps);
 	return returnProps;
 };
