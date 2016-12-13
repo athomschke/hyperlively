@@ -109,6 +109,7 @@ export default (Wrapped) => class extends Component {
 			></Wrapped>
 			<Modal ref='modal'
 				isOpen={!!(this.state && this.state.interpretation)}
+				contentLabel="I am required by a11y"
 				onRequestClose={this.deactivateInterpretation.bind(this)}
 			>
 				<List ref='list'
