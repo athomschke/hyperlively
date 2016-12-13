@@ -6,7 +6,6 @@ export default (Wrapped) => class extends Component {
 	static propTypes = {
 		scene: PropTypes.object,
 		strokes: PropTypes.array,
-		ctrlPressed: PropTypes.bool,
 		returnPressed: PropTypes.bool,
 		handwritingRecognitionEnabled: PropTypes.bool
 	};
@@ -14,7 +13,6 @@ export default (Wrapped) => class extends Component {
 	static defaultProps = {
 		strokes: [],
 		scene: { strokes: [] },
-		ctrlPressed: false,
 		returnPressed: false,
 		handwritingRecognitionEnabled: false
 	}
