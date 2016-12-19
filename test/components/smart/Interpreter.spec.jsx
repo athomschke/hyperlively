@@ -1,7 +1,6 @@
 import Interpreter from 'components/smart/Interpreter';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
-import actions from 'actions/actions';
 import { tail } from 'lodash';
 
 const shapeCandidateFactory = (type) => {
@@ -172,28 +171,12 @@ describe('Interpreter', () => {
 
 	describe('allowing to choose', () => {
 
-		it('renders a list', () => {
+		it('renders an action chooser', () => {
 			let list = renderWithProps({});
 			list.setState({
 				interpretation: {}
 			});
-			expect(list.refs.list.props.items.length).to.not.equal(0);
-		});
-
-		it('renders an item for each available action type', () => {
-			let list = renderWithProps({});
-			list.setState({
-				interpretation: {}
-			});
-			expect(list.refs.list.props.items).to.have.length(Object.keys(actions).length);
-		});
-
-		it('opens a modal dialog', () => {
-			let list = renderWithProps({});
-			list.setState({
-				interpretation: {}
-			});
-			expect(list.refs.modal.props.isOpen).to.be.true;
+			expect(list.refs.actionChooser.props.isOpen).to.be.true;
 		});
 
 	});
@@ -201,18 +184,12 @@ describe('Interpreter', () => {
 	describe('Choosing an action', () => {
 
 		let list;
-		let performedAction;
 
 		beforeEach(() => {
-			list = renderWithProps({
-				performAction: (actionName) => {
-					performedAction = actionName;
-				}
-			});
+			list = renderWithProps({});
 			list.setState({
 				interpretation: {}
 			});
-			performedAction = undefined;
 		});
 
 		it('removes the list', () => {
@@ -220,11 +197,6 @@ describe('Interpreter', () => {
 			list.performAction({}, 'updatePosition');
 			expect(list.deactivateInterpretation.callCount).to.equal(1);
 			list.deactivateInterpretation.restore();
-		});
-
-		it('performs the action', () => {
-			list.refs.list.props.onItemClick({}, 'updatePosition');
-			expect(performedAction).to.equal('updatePosition');
 		});
 	});
 

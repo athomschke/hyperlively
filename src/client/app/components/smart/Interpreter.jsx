@@ -1,8 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { invokeMap, map, find, flatten, filter, last, initial } from 'lodash';
-import actions from 'actions/actions';
-import HoverList from 'components/smart/HoverList';
-import Modal from 'react-modal';
+import ActionChooser from 'components/smart/ActionChooser';
+
 
 export default (Wrapped) => class extends Component {
 
@@ -101,33 +100,17 @@ export default (Wrapped) => class extends Component {
 		});
 	}
 
-	getModalStyle() {
-		return {
-			overlay : {
-				top               : 0,
-				left              : 0,
-				right             : 0,
-				bottom            : 0
-			}
-		};
-	}
-
 	render() {
 		return (<div>
 			<Wrapped {...this.props}
 				onTextDetected={this.onTextDetected.bind(this)}
 				onShapeDetected={this.onShapeDetected.bind(this)}
 			></Wrapped>
-			<Modal ref='modal'
+			<ActionChooser {...this.props} ref='actionChooser'
 				isOpen={!!(this.state && this.state.interpretation)}
-				contentLabel="I am required by a11y"
 				onRequestClose={this.deactivateInterpretation.bind(this)}
-			>
-				<HoverList ref='list'  {...this.props}
-					onItemClick={this.performAction.bind(this)}
-					items={Object.keys(actions).map((actionName) => actionName)}
-				/>
-			</Modal>
+				onActionChoose={this.performAction.bind(this)}
+			/>
 		</div>);
 	}
 };

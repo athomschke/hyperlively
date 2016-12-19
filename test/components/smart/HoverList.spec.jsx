@@ -62,6 +62,12 @@ describe('HoverList', () => {
 			expect(items[1].style.getPropertyValue('background-color')).to.equal('transparent');
 		});
 
+		it('after entering it removes its color', () => {
+			TestUtils.Simulate.mouseEnter(items[1]);
+			TestUtils.Simulate.mouseLeave(items[1]);
+			expect(items[1].style.getPropertyValue('background-color')).to.equal('transparent');
+		});
+
 	});
 
 	describe('clicking the first item', () => {
