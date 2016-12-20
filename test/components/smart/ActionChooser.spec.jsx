@@ -2,6 +2,8 @@ import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import actions from 'actions/actions';
 import ActionChooser from 'components/smart/ActionChooser';
+import { TreeMenu } from 'react-tree-menu';
+import { forEach } from 'lodash';
 
 let renderWithProps = (props) => {
 	return TestUtils.renderIntoDocument(<ActionChooser {...props}/>);
@@ -9,34 +11,53 @@ let renderWithProps = (props) => {
 
 describe('Action Chooser', () => {
 
+	afterEach(() => {
+		forEach(document.getElementsByClassName('ReactModalPortal'), (modalNode) => {
+			modalNode.parentNode.removeChild(modalNode);
+		});
+	});
+
 	describe('showing the action chooser', () => {
 
-		it('renders a list', () => {
-			let actionChooser = renderWithProps({
-				isOpen: true
+		let actionChooser;
+
+		beforeEach(()=>{
+			actionChooser = renderWithProps({
+				isOpen: true,
+				jsonTree: {
+					a: {
+						a1: 'a1',
+						a2: 'a2'
+					},
+					b: 'b',
+					c: 'c'
+				}
 			});
+		});
+
+		it('renders a list', () => {
 			expect(actionChooser.refs.list.props.items.length).to.not.equal(0);
 		});
 
 		it('renders a tree', () => {
-			let actionChooser = renderWithProps({
-				isOpen: true
-			});
 			expect(actionChooser.refs.tree).to.exist;
+			expect(actionChooser.refs.tree).to.be.instanceOf(TreeMenu);
+		});
+
+		it('renders an entry for each handwriting recognition result', () => {
+			expect(TestUtils.scryRenderedDOMComponentsWithClass(actionChooser.refs.tree, 'tree-view-node-label')).to.have.length(5);
+		});
+
+		it('renders a checkbox for each handwriting recognition result', () => {
+			expect(TestUtils.scryRenderedDOMComponentsWithTag(actionChooser.refs.tree, 'input')).to.have.length(4);
 		});
 
 		it('renders an item for each available action type', () => {
-			let list = renderWithProps({
-				isOpen: true
-			});
-			expect(list.refs.list.props.items).to.have.length(Object.keys(actions).length);
+			expect(actionChooser.refs.list.props.items).to.have.length(Object.keys(actions).length);
 		});
 
 		it('shows a modal dialog', () => {
-			let list = renderWithProps({
-				isOpen: true
-			});
-			expect(list.refs.modal.props.isOpen).to.be.true;
+			expect(actionChooser.refs.modal.props.isOpen).to.be.true;
 		});
 
 	});

@@ -18,6 +18,13 @@ var config = {
 					/node_modules/
 				],
 				loader : 'babel-loader'
+			},
+			{
+				test: /\.(jsx|js)$/,
+				include : [
+					/node_modules\/react-tree-menu/
+				],
+				loader : 'babel-loader'
 			}
 		]
 	},

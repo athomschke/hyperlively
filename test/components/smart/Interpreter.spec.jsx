@@ -1,7 +1,7 @@
 import Interpreter from 'components/smart/Interpreter';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
-import { tail } from 'lodash';
+import { tail, forEach } from 'lodash';
 
 const shapeCandidateFactory = (type) => {
 	let result = require('json!./data/recognizedShape.json');
@@ -34,6 +34,12 @@ let sketchesAroundPoint55 = () => {
 };
 
 describe('Interpreter', () => {
+
+	afterEach(() => {
+		forEach(document.getElementsByClassName('ReactModalPortal'), (modalNode) => {
+			modalNode.parentNode.removeChild(modalNode);
+		});
+	});
 
 	describe('rendering', () => {
 

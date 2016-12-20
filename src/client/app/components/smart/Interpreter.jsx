@@ -110,6 +110,7 @@ export default (Wrapped) => class extends Component {
 				isOpen={!!(this.state && this.state.interpretation)}
 				onRequestClose={this.deactivateInterpretation.bind(this)}
 				onActionChoose={this.performAction.bind(this)}
+				jsonTree={this.state && this.state.interpretation && this.state.interpretation.candidate}
 			/>
 		</div>);
 	}
