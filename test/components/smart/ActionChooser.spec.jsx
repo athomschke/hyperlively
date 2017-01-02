@@ -9,6 +9,45 @@ let renderWithProps = (props) => {
 	return TestUtils.renderIntoDocument(<ActionChooser {...props}/>);
 };
 
+let exampleChecks = [['a', 'a2'], ['b']];
+
+let exampleTree = {
+	a: {
+		a1: 'a1',
+		a2: 'a2'
+	},
+	b: 'b',
+	c: 'c'
+};
+
+let exampleArray = [
+	{
+		children: [
+			{
+				label: 'a1: a1',
+				checkbox: true,
+				checked: false
+			},
+			{
+				label: 'a2: a2',
+				checkbox: true,
+				checked: false
+			}
+		],
+		label: 'a',
+	},
+	{
+		label: 'b: b',
+		checkbox: true,
+		checked: false
+	},
+	{
+		label: 'c: c',
+		checkbox: true,
+		checked: false
+	}
+];
+
 describe('Action Chooser', () => {
 
 	afterEach(() => {
@@ -24,14 +63,7 @@ describe('Action Chooser', () => {
 		beforeEach(()=>{
 			actionChooser = renderWithProps({
 				isOpen: true,
-				jsonTree: {
-					a: {
-						a1: 'a1',
-						a2: 'a2'
-					},
-					b: 'b',
-					c: 'c'
-				}
+				jsonTree: exampleTree
 			});
 		});
 
@@ -60,6 +92,49 @@ describe('Action Chooser', () => {
 			expect(actionChooser.refs.modal.props.isOpen).to.be.true;
 		});
 
+		it('formats the json tree for the tree view menu', () => {
+			expect(ActionChooser.prototype.formatObject(exampleTree)).to.deep.equal(exampleArray);
+		});
+
+		it('checks the chosen checkmarks', () => {
+			let formattedTree = ActionChooser.prototype.formatObject(exampleTree, exampleChecks);
+			expect(formattedTree[0].children[1].checked).to.be.true;
+		});
+
+	});
+
+	describe('Checking a json property', () => {
+		it('performs the callback', () => {
+			let actionChooser = renderWithProps({
+				isOpen: true,
+				jsonTree: exampleTree
+			});
+			let checkbox = document.getElementsByClassName('tree-view-node-checkbox')[0];
+			sinon.spy(actionChooser, 'onTreeNodeCheckChange');
+			TestUtils.Simulate.click(checkbox);
+			expect(actionChooser.onTreeNodeCheckChange.callCount).to.equal(1);
+		});
+
+		it('calculates the path to the nested property', () => {
+			let formattedTree = ActionChooser.prototype.formatObject(exampleTree);
+			let pathToProperty = ActionChooser.prototype.getPathToProperty([0,1], formattedTree);
+			expect(pathToProperty).to.deep.equal(['a', 'a2']);
+		});
+
+
+		it('deselects it if it was selected', () => {
+			let actionChooser = renderWithProps({
+				isOpen: true,
+				jsonTree: exampleTree
+			});
+			let checkbox = document.getElementsByClassName('tree-view-node-checkbox')[0];
+			sinon.spy(actionChooser, 'onTreeNodeCheckChange');
+			TestUtils.Simulate.click(checkbox);
+			expect(actionChooser.state.checkedPaths).to.have.length(1);
+			TestUtils.Simulate.click(checkbox);
+			expect(actionChooser.state.checkedPaths).to.have.length(0);
+		});
+
 	});
 
 
@@ -68,13 +143,10 @@ describe('Action Chooser', () => {
 		it('performs the action', () => {
 			let actionChooser = renderWithProps({
 				isOpen: true,
-				onActionChoose: (event, actionName) => {
-					chosenAction = actionName;
-				}
 			});
-			let chosenAction = undefined;
+			sinon.spy(actionChooser, 'onActionChoose');
 			actionChooser.refs.list.props.onItemClick({}, 'updatePosition');
-			expect(chosenAction).to.equal('updatePosition');
+			expect(actionChooser.onActionChoose.callCount).to.equal(1);
 		});
 
 		it('does nothing without a callback', () => {

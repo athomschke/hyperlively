@@ -3,7 +3,7 @@ import actions from 'actions/actions';
 import HoverList from 'components/smart/HoverList';
 import Modal from 'react-modal';
 import { TreeMenu } from 'react-tree-menu';
-import { keys, map, cloneDeep } from 'lodash';
+import { keys, map, cloneDeep, filter, isEqual, findIndex, splice } from 'lodash';
 
 export default class ActionChooser extends Component {
 
@@ -21,26 +21,69 @@ export default class ActionChooser extends Component {
 		onCheckChange: () => {}
 	}
 
-	formatObject(anObject) {
+	componentDidMount () {
+		this.setState({
+			checkedPaths: []
+		});
+	}
+
+	formatObject(anObject, optCheckedArrays) {
 		let that = this;
+		let checkedArrays = optCheckedArrays || [];
 		return map(keys(anObject), (key) => {
+			let matchingChecks = map(filter(checkedArrays, (checkedArray) => {
+				return checkedArray[0] === key;
+			}), (checkedArray) => {
+				return checkedArray.slice(1);
+			});
 			if (anObject[key] instanceof Object) {
 				return {
 					label: key,
-					children: that.formatObject(anObject[key])
+					children: that.formatObject(anObject[key], matchingChecks)
 				};
 			} else {
 				return {
-					label: key,
-					checkbox: true
+					label: `${key}: ${anObject[key]}`,
+					checkbox: true,
+					checked: matchingChecks.length > 0
 				};
 			}
 		});
 	}
 
+	getPathToProperty(nestedArrayPath, arrayedJsonTree) {
+		let node = {
+			children: arrayedJsonTree
+		};
+		return map(nestedArrayPath, (index) => {
+			node = node.children[index];
+			return node.label.split(':')[0];
+		});
+	}
+
+	onTreeNodeCheckChange(path) {
+		let pathToProperty = this.getPathToProperty(path, this.getFormattedData());
+		let checkedIndex = findIndex(this.state.checkedPaths, (checkedPath) => {
+			return isEqual(checkedPath, pathToProperty);
+		});
+		if (checkedIndex >= 0) {
+			this.state.checkedPaths.splice(checkedIndex, 1);
+		} else {
+			this.state.checkedPaths.push(pathToProperty);
+		}
+		this.props.onCheckChange();
+	}
+
 	getFormattedData() {
 		let rawData = cloneDeep(this.props.jsonTree);
-		return this.formatObject(rawData);
+		return this.formatObject(rawData, this.state && this.state.checkedPaths);
+	}
+
+	onActionChoose () {
+		this.props.onActionChoose.apply(this, arguments);
+		this.setState({
+			checkedPaths: []
+		});
 	}
 
 	render() {
@@ -49,12 +92,16 @@ export default class ActionChooser extends Component {
 				contentLabel="I am required by a11y"
 			>
 				<HoverList ref='list' {...this.props}
-					onItemClick={this.props.onActionChoose.bind(this)}
+					onItemClick={() => {
+						this.onActionChoose();
+					}}
 					items={Object.keys(actions).map((actionName) => actionName)}
 				/>
 				<TreeMenu ref='tree'
 					data={this.getFormattedData()}
-					onTreeNodeCheckChange={this.props.onCheckChange}
+					onTreeNodeCheckChange={(path) => {
+						this.onTreeNodeCheckChange(path);
+					}}
 				/>
 			</Modal>);
 	}
