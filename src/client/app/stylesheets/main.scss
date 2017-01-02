@@ -1,0 +1,13 @@
+.action-chooser {
+	.list-view {
+		display: inline-block;
+	}
+	.tree-view {
+
+		display: inline-block;
+
+		.tree-view-node {
+		    margin-left: 20px;
+		}
+	}
+}

@@ -52,7 +52,7 @@ export default class HoverList extends Component {
 	}
 
 	render() {
-		return (<ul>
+		return (<ul className='list-view'>
 			{this.renderChildren()}
 		</ul>);
 	}

@@ -25,6 +25,10 @@ var config = {
 					/node_modules\/react-tree-menu/
 				],
 				loader : 'babel-loader'
+			},
+			{
+				test: /\.(scss)$/,
+				loaders : ['style-loader', 'css-loader', 'sass-loader']
 			}
 		]
 	},

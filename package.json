@@ -51,6 +51,7 @@
     "babel-plugin-transform-runtime": "^6.15.0",
     "babel-runtime": "^6.18.0",
     "chai": "^3.5.0",
+    "css-loader": "^0.26.1",
     "eslint": "^3.9.1",
     "eslint-plugin-react": "^6.4.1",
     "json-loader": "^0.5.4",
@@ -67,8 +68,11 @@
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^1.8.0",
     "mocha": "^3.2.0",
+    "node-sass": "^4.1.1",
     "react-addons-test-utils": "^15.3.2",
+    "sass-loader": "^4.1.1",
     "sinon": "^1.17.6",
+    "style-loader": "^0.13.1",
     "watchify": "^3.7.0"
   }
 }

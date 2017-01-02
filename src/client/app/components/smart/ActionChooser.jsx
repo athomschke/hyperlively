@@ -44,10 +44,11 @@ export default class ActionChooser extends Component {
 	}
 
 	render() {
-		return (<Modal ref='modal' {...this.props}
+		return (
+			<Modal className='action-chooser' ref='modal' {...this.props}
 				contentLabel="I am required by a11y"
 			>
-				<HoverList ref='list'  {...this.props}
+				<HoverList ref='list' {...this.props}
 					onItemClick={this.props.onActionChoose.bind(this)}
 					items={Object.keys(actions).map((actionName) => actionName)}
 				/>
