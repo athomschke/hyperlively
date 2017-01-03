@@ -3,7 +3,7 @@ import actions from 'actions/actions';
 import HoverList from 'components/smart/HoverList';
 import Modal from 'react-modal';
 import { TreeMenu } from 'react-tree-menu';
-import { keys, map, cloneDeep, filter, isEqual, findIndex, splice } from 'lodash';
+import { keys, map, cloneDeep, filter, isEqual, findIndex } from 'lodash';
 
 export default class ActionChooser extends Component {
 
@@ -103,6 +103,7 @@ export default class ActionChooser extends Component {
 				/>
 				<TreeMenu ref='tree'
 					data={this.getFormattedData()}
+					collapsible={true}
 					onTreeNodeCheckChange={(path) => {
 						this.onTreeNodeCheckChange(path);
 					}}

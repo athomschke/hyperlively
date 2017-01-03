@@ -1,13 +1,33 @@
+.ReactModal__Overlay {
+
+    text-align: center;
+    padding: 20px;
+
+}
+
 .action-chooser {
+
+	overflow-y: scroll;
+    height: 100%;
+	text-align: left;
+    display: inline-block;
+    background-color: white;
+    padding: 5px;
+
 	.list-view {
+		vertical-align: top;
 		display: inline-block;
 	}
+
 	.tree-view {
 
+	    vertical-align: top;
 		display: inline-block;
+		padding-top: 20px;
 
 		.tree-view-node {
 		    margin-left: 20px;
 		}
 	}
+
 }
