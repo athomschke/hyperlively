@@ -121,6 +121,15 @@ describe('Action Chooser', () => {
 			expect(pathToProperty).to.deep.equal(['a', 'a2']);
 		});
 
+		it('shows the checkmark', () => {
+			renderWithProps({
+				isOpen: true,
+				jsonTree: exampleTree
+			});
+			let checkbox = document.getElementsByClassName('tree-view-node-checkbox')[0];
+			TestUtils.Simulate.click(checkbox);
+			expect(checkbox.checked).to.be.true;
+		});
 
 		it('deselects it if it was selected', () => {
 			let actionChooser = renderWithProps({

@@ -67,9 +67,13 @@ export default class ActionChooser extends Component {
 			return isEqual(checkedPath, pathToProperty);
 		});
 		if (checkedIndex >= 0) {
-			this.state.checkedPaths.splice(checkedIndex, 1);
+			this.setState({
+				checkedPaths: this.state.checkedPaths.slice(0, checkedIndex).concat(this.state.checkedPaths.slice(checkedIndex + 1))
+			});
 		} else {
-			this.state.checkedPaths.push(pathToProperty);
+			this.setState({
+				checkedPaths: this.state.checkedPaths.concat([pathToProperty])
+			});
 		}
 		this.props.onCheckChange();
 	}
