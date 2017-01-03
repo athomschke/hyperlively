@@ -3,7 +3,7 @@ import actions from 'actions/actions';
 import HoverList from 'components/smart/HoverList';
 import Modal from 'react-modal';
 import { TreeMenu } from 'react-tree-menu';
-import { keys, map, cloneDeep, filter, isEqual, findIndex } from 'lodash';
+import { keys, map, cloneDeep, filter, isEqual, findIndex, reduce } from 'lodash';
 
 const findArraysIndex = (containingArray, containedArray) => {
 	return findIndex(containingArray, (possibleMatch) => {
@@ -92,8 +92,13 @@ export default class ActionChooser extends Component {
 		return this.formatObject(rawData, this.state && this.state.checkedPaths);
 	}
 
-	onActionChoose () {
-		this.props.onActionChoose.apply(this, arguments);
+	onActionChoose (event, name) {
+		let values = map(this.state.checkedPaths, (checkedPath) => {
+			return reduce(checkedPath, (value, key) => {
+				return value[key];
+			}, this.props.jsonTree);
+		});
+		this.props.onActionChoose(event, name, values);
 		this.setState({
 			checkedPaths: []
 		});
@@ -105,8 +110,8 @@ export default class ActionChooser extends Component {
 				contentLabel="I am required by a11y"
 			>
 				<HoverList ref='list' {...this.props}
-					onItemClick={() => {
-						this.onActionChoose();
+					onItemClick={(event, name) => {
+						this.onActionChoose(event, name);
 					}}
 					items={Object.keys(actions).map((actionName) => actionName)}
 				/>

@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { invokeMap, map, find, flatten, filter, last, initial } from 'lodash';
+import { map, flatten, filter, last, initial } from 'lodash';
 import ActionChooser from 'components/smart/ActionChooser';
 
 
@@ -18,15 +18,13 @@ export default (Wrapped) => class extends Component {
 	};
 
 	onTextDetected(candidates) {
-		if(invokeMap(map(candidates, 'label'), 'toLowerCase').indexOf('o') >= 0) {
-			return 'circle';
-		}
-	}
-
-	findArrowInCandidates(candidates) {
-		return find(candidates, (candidate) => {
-			return candidate.label && candidate.label.indexOf('arrow') >= 0;
+		candidates.forEach((candidate) => {
+			let float = parseFloat(candidate.label);
+			if (!isNaN(float)) {
+				candidate.label = float;
+			}
 		});
+		this.chooseAction(candidates[0], 'text');
 	}
 
 	findSketchesAtPoint(point) {
@@ -44,53 +42,23 @@ export default (Wrapped) => class extends Component {
 		return sketchesToMove;
 	}
 
-	chooseActionForStrokesWithArrow(strokes, start, end) {
+	chooseAction(candidate, type) {
+		let interpretation = this.state && this.state.interpretation || {
+			candidate: {}
+		};
+		interpretation.candidate[type] = candidate;
 		this.setState({
-			interpretation: {
-				strokes: strokes,
-				x: start,
-				y: end
-			}
-		});
-	}
-
-	chooseActionForArrow(start, end) {
-		this.setState({
-			interpretation: {
-				x: start,
-				y: end
-			}
-		});
-	}
-
-	chooseAction(candidate) {
-		this.setState({
-			interpretation: {
-				candidate: candidate
-			}
+			interpretation: interpretation
 		});
 	}
 
 	onShapeDetected(candidates) {
-		let arrowCandidate = this.findArrowInCandidates(candidates);
-		if ( arrowCandidate ) {
-			let start = arrowCandidate.primitives[0].firstPoint;
-			let end = arrowCandidate.primitives[0].lastPoint;
-			let sketchesAtArrowStart = this.findSketchesAtPoint(start);
-			if (sketchesAtArrowStart.length > 0) {
-				let strokes = last(sketchesAtArrowStart).strokes;
-				this.chooseActionForStrokesWithArrow(strokes, end.x - start.x, end.y - start.y);
-			} else {
-				this.chooseActionForArrow(end.x - start.x, end.y - start.y);
-			}
-		} else {
-			this.chooseAction(candidates[0]);
-		}
+		this.chooseAction(candidates[0], 'shape');
 	}
 
-	performAction(event, item) {
+	performAction(event, item, values) {
 		this.props.sketches.length > 0 && this.props.onHide(last(this.props.sketches).strokes);
-		this.props.performAction.apply(this, [item, this.state.interpretation.strokes, this.state.interpretation.x, this.state.interpretation.y]);
+		this.props.performAction.apply(this, [item].concat(values));
 		this.deactivateInterpretation();
 	}
 

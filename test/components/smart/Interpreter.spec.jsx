@@ -58,40 +58,30 @@ describe('Interpreter', () => {
 			interpreter = renderWithProps({});
 		});
 
-		it('interprets a lowercase o as a circle', () => {
-			let detected = interpreter.onTextDetected([{
-				label: 'o'
-			}]);
-			expect(detected).to.equal('circle');
-		});
-
-		it('interprets an uppercase O as a circle', () => {
-			let detected = interpreter.onTextDetected([{
-				label: 'O'
-			}]);
-			expect(detected).to.equal('circle');
-		});
-
-		it('does not interpret an I', () => {
-			let detected = interpreter.onTextDetected([{
+		it('wants to detect an action in a character', () => {
+			sinon.spy(interpreter, 'chooseAction');
+			interpreter.onTextDetected([{
 				label: 'I'
 			}]);
-			expect(detected).to.not.equal('circle');
+			expect(interpreter.chooseAction.callCount).to.equal(1);
 		});
 
-		it('finds an arrow', () => {
-			let detected = interpreter.findArrowInCandidates(shapeCandidateFactory('arrow'));
-			expect(detected).to.exist;
+		it('shows floats as such even if text was detected', () => {
+			interpreter.onTextDetected([{
+				label: '1'
+			}]);
+			expect(interpreter.state.interpretation.candidate.text.label).to.equal(1);
 		});
 
-		it('finds a curved arrow', () => {
-			let detected = interpreter.findArrowInCandidates(shapeCandidateFactory('curved arrow'));
-			expect(detected).to.exist;
-		});
-
-		it('ignores a stroke', () => {
-			let detected = interpreter.findArrowInCandidates(shapeCandidateFactory('stroke'));
-			expect(detected).to.not.exist;
+		it('shows text and shape results', () => {
+			interpreter.onTextDetected([{
+				label: 'I'
+			}]);
+			interpreter.onShapeDetected([{
+				label: 'arrow'
+			}]);
+			expect(interpreter.state.interpretation.candidate.text).to.exist;
+			expect(interpreter.state.interpretation.candidate.shape).to.exist;
 		});
 		
 	});
@@ -102,18 +92,6 @@ describe('Interpreter', () => {
 			let interpreter = renderWithProps({});
 			interpreter.onShapeDetected(shapeCandidateFactory('arrow'));
 			expect(interpreter).to.exist;
-		});
-
-		it('gets the distance with which an object should move', () => {
-			let interpreter = renderWithProps({
-				onUpdatePosition: () => { },
-				sketches: sketchesAroundPoint55()
-			});
-			interpreter.onShapeDetected(shapeCandidateFactory('arrow'));
-			let moveByArgument = interpreter.state.interpretation;
-			expect(moveByArgument).to.exist;
-			expect(moveByArgument.x).to.equal(10);
-			expect(moveByArgument.y).to.equal(10);
 		});
 
 		it('ignores non-arrow shapes', () => {

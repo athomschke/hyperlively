@@ -160,6 +160,24 @@ describe('Action Chooser', () => {
 			expect(actionChooser.onActionChoose.callCount).to.equal(1);
 		});
 
+		it('selects checked values from json tree and passes them in an array', () => {
+			let passedValues;
+			let actionChooser = renderWithProps({
+				isOpen: true,
+				jsonTree: exampleTree,
+				onActionChoose: (event, name, values) => {
+					passedValues = values;
+				}
+			});
+			actionChooser.setState({
+				checkedPaths: exampleChecks
+			});
+			actionChooser.onActionChoose({}, 'updateThreshold');
+			expect(passedValues.length).to.equal(2);
+			expect(passedValues[0]).to.equal('a2');
+			expect(passedValues[1]).to.equal('b');
+		});
+
 		it('does nothing without a callback', () => {
 			let actionChooser = renderWithProps({
 				isOpen: true
