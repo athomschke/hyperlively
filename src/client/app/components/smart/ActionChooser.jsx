@@ -5,6 +5,12 @@ import Modal from 'react-modal';
 import { TreeMenu } from 'react-tree-menu';
 import { keys, map, cloneDeep, filter, isEqual, findIndex } from 'lodash';
 
+const findArraysIndex = (containingArray, containedArray) => {
+	return findIndex(containingArray, (possibleMatch) => {
+		return isEqual(possibleMatch, containedArray);
+	});
+};
+
 export default class ActionChooser extends Component {
 
 	static propTypes = {
@@ -27,23 +33,25 @@ export default class ActionChooser extends Component {
 		});
 	}
 
-	formatObject(anObject, optCheckedArrays) {
+	formatObject(anObject, optCheckedArrays, optOriginalCheckedArrays, optDepth) {
 		let that = this;
 		let checkedArrays = optCheckedArrays || [];
+		let originalCheckedArrays = optOriginalCheckedArrays || [];
+		let depth = optDepth|| 0;
 		return map(keys(anObject), (key) => {
-			let matchingChecks = map(filter(checkedArrays, (checkedArray) => {
-				return checkedArray[0] === key;
-			}), (checkedArray) => {
-				return checkedArray.slice(1);
+			let matchingChecks = filter(checkedArrays, (checkedArray) => {
+				return checkedArray[depth] === key;
 			});
 			if (anObject[key] instanceof Object) {
 				return {
 					label: key,
-					children: that.formatObject(anObject[key], matchingChecks)
+					children: that.formatObject(anObject[key], matchingChecks, originalCheckedArrays, depth + 1)
 				};
 			} else {
+				let parameterIndex = findArraysIndex(checkedArrays, matchingChecks[0]);
+				let parameterIndicator = parameterIndex >= 0 ? ` (parameter ${parameterIndex})` : '';
 				return {
-					label: `${key}: ${anObject[key]}`,
+					label: `${key}: ${anObject[key]}${parameterIndicator}`,
 					checkbox: true,
 					checked: matchingChecks.length > 0
 				};
@@ -63,7 +71,8 @@ export default class ActionChooser extends Component {
 
 	onTreeNodeCheckChange(path) {
 		let pathToProperty = this.getPathToProperty(path, this.getFormattedData());
-		let checkedIndex = findIndex(this.state.checkedPaths, (checkedPath) => {
+		let checkedIndex = findArraysIndex(this.state.checkedPaths, pathToProperty);
+		findIndex(this.state.checkedPaths, (checkedPath) => {
 			return isEqual(checkedPath, pathToProperty);
 		});
 		if (checkedIndex >= 0) {

@@ -22,6 +22,7 @@ let exampleTree = {
 
 let exampleArray = [
 	{
+		label: 'a',
 		children: [
 			{
 				label: 'a1: a1',
@@ -29,17 +30,16 @@ let exampleArray = [
 				checked: false
 			},
 			{
-				label: 'a2: a2',
+				label: 'a2: a2 (parameter 0)',
 				checkbox: true,
-				checked: false
+				checked: true
 			}
-		],
-		label: 'a',
+		]
 	},
 	{
-		label: 'b: b',
+		label: 'b: b (parameter 1)',
 		checkbox: true,
-		checked: false
+		checked: true
 	},
 	{
 		label: 'c: c',
@@ -93,7 +93,9 @@ describe('Action Chooser', () => {
 		});
 
 		it('formats the json tree for the tree view menu', () => {
-			expect(ActionChooser.prototype.formatObject(exampleTree)).to.deep.equal(exampleArray);
+			let gottenArray = ActionChooser.prototype.formatObject(exampleTree, exampleChecks);
+			let wantedArray = exampleArray;
+			expect(gottenArray).to.deep.equal(wantedArray);
 		});
 
 		it('checks the chosen checkmarks', () => {
