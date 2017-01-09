@@ -4,6 +4,7 @@ import HoverList from 'components/smart/HoverList';
 import Modal from 'react-modal';
 import { TreeMenu } from 'react-tree-menu';
 import { keys, map, cloneDeep, filter, isEqual, findIndex, reduce } from 'lodash';
+import { actionChooser } from 'stylesheets/components/smart/actionChooser';
 
 const findArraysIndex = (containingArray, containedArray) => {
 	return findIndex(containingArray, (possibleMatch) => {
@@ -106,7 +107,7 @@ export default class ActionChooser extends Component {
 
 	render() {
 		return (
-			<Modal className='action-chooser' ref='modal' {...this.props}
+			<Modal className={actionChooser} ref='modal' {...this.props}
 				contentLabel="I am required by a11y"
 			>
 				<HoverList ref='list' {...this.props}

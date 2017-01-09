@@ -27,7 +27,7 @@ var config = {
 				loader : 'babel-loader'
 			},
 			{
-				test: /\.(scss)$/,
+				test: /\.(scss|css)$/,
 				loaders : ['style-loader', 'css-loader', 'sass-loader']
 			}
 		]
@@ -35,7 +35,8 @@ var config = {
 	resolve: {
 		extensions: [
 			'', '.webpack.js', '.web.js', '.js', //default
-			'.jsx'
+			'.jsx',
+			'.scss'
 		],
 		alias: {
 			actions: APP_DIR + '/actions',
@@ -43,6 +44,7 @@ var config = {
 			constants: APP_DIR + '/constants',
 			containers: APP_DIR + '/containers',
 			reducers: APP_DIR + '/reducers',
+			stylesheets: APP_DIR + '/stylesheets',
 			credentials: CREDENTIALS_DIR,
 			base: APP_DIR
 		}
