@@ -36,6 +36,20 @@ describe('WrappedWithTimeoutBehavior', () => {
 			expect(temporaryCallbackSlider.props.value).to.equal(9);
 		});
 
+		it('does nothing if not changing the value', () => {
+			let changed = false;
+			let temporaryCallbackSlider = TestUtils.renderIntoDocument(<WrappedWithTimeoutBehavior
+				max={10}
+				value={9}
+				callbackEnabled={true}
+				onChange={() => {
+					changed = true;
+				}}
+			></WrappedWithTimeoutBehavior>);
+			temporaryCallbackSlider.beActive(9);
+			expect(changed).to.be.false;
+		});
+
 	});
 
 	describe('hovering after dragging', () => {

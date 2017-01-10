@@ -1,0 +1,20 @@
+:local(.rcSlider) {
+	
+	width: 100%;
+
+	.rc-slider-rail {
+		height: 10px;
+		background-color: 'rgba(0,0,0,0)';
+		border-width: 1px;
+		border-style: solid;
+	}
+
+	.rc-slider-handle {
+	    border-width: 1px;
+	    height: 10px;
+	    border-style: solid;
+	    width: 20px;
+	    top: -12px;
+	    position: relative;
+	}
+}

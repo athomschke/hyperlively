@@ -93,13 +93,13 @@ export function getCombinedCanvas () {
 }
 
 export function sliderWithHandleInApp (domApp) {
-	return domApp.childNodes[2].childNodes[0].childNodes[0];
+	return domApp.getElementsByClassName('rc-slider');
 }
 
 export function gotToHalfTimeInApp (domApp) {
-	let sliderWithHandle = sliderWithHandleInApp(domApp);
-	let slider = sliderWithHandle.childNodes[1];
-	TestUtils.Simulate.click(slider, {
-		pageX: slider.offsetWidth / 2
+	let track = domApp.getElementsByClassName('rc-slider')[0];
+	TestUtils.Simulate.mouseDown(track, {
+		pageX: track.offsetWidth / 2,
+		button: 0
 	});
 }

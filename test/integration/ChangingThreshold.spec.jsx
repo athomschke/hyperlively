@@ -27,9 +27,10 @@ describe('Integration', () => {
 			let renderedApp = renderApplicationWithState(canvasJson);
 			expect(getCanvasNodes().length).to.equal(2);
 			let domApp = findDOMNode(renderedApp);
-			let thresholdSlider = domApp.childNodes[2].childNodes[1].childNodes[0];
-			TestUtils.Simulate.click(thresholdSlider, {
-				pageX: 1
+			let thresholdSlider = domApp.getElementsByClassName('rc-slider-rail')[1];
+			TestUtils.Simulate.mouseDown(thresholdSlider, {
+				pageX: 1,
+				button: 0
 			});
 			expect(getCanvasNodes().length).to.equal(3);
 		});
@@ -40,9 +41,10 @@ describe('Integration', () => {
 			let renderedApp = renderApplicationWithState(canvasJson);
 			expect(getCanvasNodes().length).to.equal(3);
 			let domApp = findDOMNode(renderedApp);
-			let thresholdSlider = domApp.childNodes[2].childNodes[1].childNodes[0];
-			TestUtils.Simulate.click(thresholdSlider, {
-				pageX: thresholdSlider.offsetWidth / 2
+			let thresholdSlider = domApp.getElementsByClassName('rc-slider-rail')[1];
+			TestUtils.Simulate.mouseDown(thresholdSlider, {
+				pageX: thresholdSlider.offsetWidth / 2,
+				button: 0
 			});
 			expect(getCanvasNodes().length).to.equal(2);
 		});

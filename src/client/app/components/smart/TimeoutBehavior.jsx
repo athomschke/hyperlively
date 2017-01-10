@@ -9,7 +9,8 @@ export default (Wrapped) => class extends Component {
 		onChange: PropTypes.func,
 		callbackEnabled: PropTypes.bool,
 		timeout: PropTypes.number,
-		max: PropTypes.number
+		max: PropTypes.number,
+		disabled: PropTypes.bool
 	};
 
 	static defaultProps = {
@@ -17,7 +18,8 @@ export default (Wrapped) => class extends Component {
 		onChange: () => {},
 		callbackEnabled: false,
 		timeout: 1000,
-		max: 0
+		max: 0,
+		disabled: false
 	};
 
 	componentDidMount() {
@@ -35,21 +37,23 @@ export default (Wrapped) => class extends Component {
 	}
 
 	beActive(newValue) {
-		let disableFunction = this.state.disableFunction;
-		if (this.props.callbackEnabled && !disableFunction) {
-			this.props.temporaryCallback(false);
-			disableFunction = this.props.temporaryCallback.bind(this, true);
+		if (!this.props.disabled && newValue !== this.props.value) {
+			let disableFunction = this.state.disableFunction;
+			if (this.props.callbackEnabled && !disableFunction) {
+				this.props.temporaryCallback(false);
+				disableFunction = this.props.temporaryCallback.bind(this, true);
+			}
+			if (runningTimeout) {
+				clearTimeout(runningTimeout);
+			}
+			if (disableFunction) {
+				runningTimeout = setTimeout(this.resetState.bind(this, disableFunction), this.props.timeout);
+			}
+			this.props.onChange(Math.min(this.props.max, Math.max(0, newValue)));
+			this.setState({
+				disableFunction: disableFunction
+			});
 		}
-		if (runningTimeout) {
-			clearTimeout(runningTimeout);
-		}
-		if (disableFunction) {
-			runningTimeout = setTimeout(this.resetState.bind(this, disableFunction), this.props.timeout);
-		}
-		this.props.onChange(Math.min(this.props.max, Math.max(0, newValue)));
-		this.setState({
-			disableFunction: disableFunction
-		});
 	}
 
 	beNotActive() {

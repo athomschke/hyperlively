@@ -1,0 +1,33 @@
+$sliderHeight: 80px;
+$trackOffset: 20px;
+$trackHeight: $sliderHeight - $trackOffset;
+
+
+:local(.rcSlider) {
+	&.rc-slider {
+	    width: 100%;
+	    height: $sliderHeight;
+	    border-width: 1px;
+	}
+
+	.rc-slider-rail {
+		height: $trackHeight;
+		background-color: 'rgba(0,0,0,0)';
+		border-width: 1px;
+		border-radius: 3;
+		margin-top: 10px;
+		border-style: solid;
+	}
+
+	.rc-slider-handle {
+		height: $sliderHeight;
+		background-color: 'rgba(0,0,0,0)';
+		border-radius: 3;
+		border-style: solid;
+		width: 20px;
+		border-width: 1px;
+		margin-left: -10px;
+	    top: -($sliderHeight - ($trackOffset / 2) + 2);
+	    position: relative;
+	}
+}

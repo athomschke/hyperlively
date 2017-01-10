@@ -35,7 +35,7 @@ describe('Integration', () => {
 			let domApp = findDOMNode(renderedApp);
 			expect(parseInt(getCanvasNodes()[0].parentNode.style.getPropertyValue('width'))).to.equal(10);
 			expect(parseInt(getCanvasNodes()[0].parentNode.style.getPropertyValue('height'))).to.equal(60);
-			gotToHalfTimeInApp(domApp)
+			gotToHalfTimeInApp(domApp);
 			expect(parseInt(getCanvasNodes()[0].parentNode.style.getPropertyValue('width'))).to.equal(10);
 			expect(parseInt(getCanvasNodes()[0].parentNode.style.getPropertyValue('height'))).to.equal(60);
 		});

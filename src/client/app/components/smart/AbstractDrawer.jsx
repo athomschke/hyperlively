@@ -177,8 +177,7 @@ export default class AbstractDrawer extends Component {
 			pointerEvents: this.props.active && this.props.finished ? 'auto' : 'none',
 			width: this.props.bounds.width,
 			height: this.props.bounds.height,
-			borderLeft: (this.props.showBorder ? '1' : '0') + 'px solid black',
-			borderRight: (this.props.showBorder ? '1' : '0') + 'px solid black'
+			borderLeft: (this.props.showBorder ? '1' : '0') + 'px solid black'
 		};
 	}
 

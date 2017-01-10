@@ -21,8 +21,10 @@ const mapStateToProps = (state, ownProps) => {
 	let returnProps = {};
 	let pastStatesInScene = relevantStatesForScene(state.content.undoableScenes.past, ownProps.sceneIndex);
 	let futureStatesInScene = relevantStatesForScene(state.content.undoableScenes.future, ownProps.sceneIndex);
+	let max = pastStatesInScene + futureStatesInScene;
 	Object.assign(returnProps, {
 		max:  pastStatesInScene + futureStatesInScene,
+		disabled: max <= 0,
 		value: pastStatesInScene,
 		callbackEnabled: state.ploma.usePloma,
 		timeout: UNDO_TIMEOUT,

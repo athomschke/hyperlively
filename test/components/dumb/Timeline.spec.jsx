@@ -21,12 +21,19 @@ let renderComponentWithSketches = (sketches) => {
 	></Timeline>);
 };
 
+let renderComponentWithProps = (props) => {
+	return TestUtils.renderIntoDocument(<Timeline {...props}
+	></Timeline>);
+};
+
 describe('Timeline', () => {
 
 	describe('rendering the slider', () => {
 
-		it('disables Slider when max is 0', () => {
-			let temporaryCallbackSlider = renderComponentWithValueAndMax(0, 0);
+		it('disables Slider when timeline is diabled', () => {
+			let temporaryCallbackSlider = renderComponentWithProps({
+				disabled: true
+			});
 			expect(temporaryCallbackSlider.refs.wrapped.refs.slider.props.disabled).to.be.true;
 		});
 		

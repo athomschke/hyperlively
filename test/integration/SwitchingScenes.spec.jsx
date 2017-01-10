@@ -1,5 +1,5 @@
 import { findDOMNode } from 'react-dom';
-import { createAppStore, renderApplicationWithStore, mountApp, dismountApp, sliderWithHandleInApp } from './helpers';
+import { createAppStore, renderApplicationWithStore, mountApp, dismountApp } from './helpers';
 import { nextScene } from 'actions/drawing';
 import { cloneDeep } from 'lodash';
 
@@ -39,17 +39,16 @@ describe('Switching Scenes', () => {
 			expect(getTimelineCanvasNodes()).to.have.length(1);
 		});
 
-		it('moves the timeline slider to the very right', () => {
+		it('keeps the timeline slider to the very right', () => {
 			let canvasJson = cloneDeep(require('json!./data/canvasWithTwoScenes.json').json);
 			canvasJson.content.sceneIndex = 0;
 			let store = createAppStore(canvasJson);
 			let renderedApp = renderApplicationWithStore(store);
 			store.dispatch(nextScene());
 			let domApp = findDOMNode(renderedApp);
-			let sliderWithHandle = sliderWithHandleInApp(domApp);
-			let handle = sliderWithHandle.childNodes[1].childNodes[1];
+			let handle = domApp.getElementsByClassName('rc-slider-handle')[0];
 			let relativeHandlePosition = parseInt(handle.style.getPropertyValue('left'));
-			expect(relativeHandlePosition).to.equal(98);
+			expect(relativeHandlePosition).to.equal(100);
 		});
 	});
 });
