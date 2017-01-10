@@ -40,6 +40,80 @@
 								{ "x": 20, "y": 10, "timeStamp": 1100 }
 							]
 						}]
+					}],
+					[{
+						"strokes": [{
+							"finished": true,
+							"points": [
+								{ "x": 10, "y": 10, "timeStamp": 100 },
+								{ "x": 10, "y": 30, "timeStamp": 101 }
+							]
+						}]
+					}, {
+						"strokes": [{
+							"finished": false,
+							"points": [
+								{ "x": 20, "y": 10, "timeStamp": 1100 },
+								{ "x": 20, "y": 30, "timeStamp": 1101 }
+							]
+						}]
+					}],
+					[{
+						"strokes": [{
+							"finished": true,
+							"points": [
+								{ "x": 10, "y": 10, "timeStamp": 100 },
+								{ "x": 10, "y": 30, "timeStamp": 101 }
+							]
+						}]
+					}, {
+						"strokes": [{
+							"finished": false,
+							"points": [
+								{ "x": 20, "y": 10, "timeStamp": 1100 },
+								{ "x": 20, "y": 30, "timeStamp": 1101 },
+								{ "x": 20, "y": 50, "timeStamp": 1102 }
+							]
+						}]
+					}],
+					[{
+						"strokes": [{
+							"finished": true,
+							"points": [
+								{ "x": 10, "y": 10, "timeStamp": 100 },
+								{ "x": 10, "y": 30, "timeStamp": 101 }
+							]
+						}]
+					}, {
+						"strokes": [{
+							"finished": false,
+							"points": [
+								{ "x": 20, "y": 10, "timeStamp": 1100 },
+								{ "x": 20, "y": 30, "timeStamp": 1101 },
+								{ "x": 20, "y": 50, "timeStamp": 1102 },
+								{ "x": 20, "y": 70, "timeStamp": 1103 }
+							]
+						}]
+					}],
+					[{
+						"strokes": [{
+							"finished": true,
+							"points": [
+								{ "x": 10, "y": 10, "timeStamp": 100 },
+								{ "x": 10, "y": 30, "timeStamp": 101 }
+							]
+						}]
+					}, {
+						"strokes": [{
+							"finished": false,
+							"points": [
+								{ "x": 20, "y": 10, "timeStamp": 1100 },
+								{ "x": 20, "y": 30, "timeStamp": 1101 },
+								{ "x": 20, "y": 50, "timeStamp": 1102 },
+								{ "x": 20, "y": 70, "timeStamp": 1103 },
+								{ "x": 20, "y": 90, "timeStamp": 1104 }
+							]
+						}]
 					}]
 				],
 				"future": [],
@@ -56,7 +130,11 @@
 						"finished": false,
 						"points": [
 							{ "x": 20, "y": 10, "timeStamp": 1100 },
-							{ "x": 20, "y": 30, "timeStamp": 1101 }
+							{ "x": 20, "y": 30, "timeStamp": 1101 },
+							{ "x": 20, "y": 50, "timeStamp": 1102 },
+							{ "x": 20, "y": 70, "timeStamp": 1103 },
+							{ "x": 20, "y": 90, "timeStamp": 1104 },
+							{ "x": 20, "y": 110, "timeStamp": 1105 }
 						]
 					}]
 				}]

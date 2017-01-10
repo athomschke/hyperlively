@@ -1,5 +1,16 @@
 import { JUMP_TO } from 'constants/actionTypes';
-import { concat, slice, isEqual, cloneDeep } from 'lodash';
+import { concat, slice, isEqual, cloneDeep, reduce, fill } from 'lodash';
+
+const relevantStatesForScene = (states, sceneIndex) => {
+	let length = 0;
+	reduce(states, (previousState, state) => {
+		if (state[sceneIndex] && !isEqual(state[sceneIndex], previousState[sceneIndex])){
+			length += 1;
+		}
+		return state;
+	}, fill(new Array(sceneIndex), undefined));
+	return length;
+};
 
 function undoable (reducer) {
 
@@ -9,9 +20,11 @@ function undoable (reducer) {
 		future: []
 	};
 
-	const nextState = (pointInTime, past, present, future) => {
+	const nextState = (pointInTime, past, present, future, sceneIndex) => {
 		let allStates = concat(past, [present], future);
-		let normalizedPointInTime = Math.max(0, Math.min(allStates.length - 1, pointInTime));
+		let relevantStatesCount = relevantStatesForScene(allStates, sceneIndex);
+		let globalPointInTime = pointInTime + (allStates.length - relevantStatesCount);
+		let normalizedPointInTime = Math.max(0, Math.min(allStates.length - 1, globalPointInTime));
 		return {
 			past: slice(allStates, 0, normalizedPointInTime),
 			present: slice(allStates, normalizedPointInTime , normalizedPointInTime + 1)[0],
@@ -38,7 +51,7 @@ function undoable (reducer) {
 
 		switch (action.type) {
 		case JUMP_TO: {
-			return nextState(action.pointInTime, past, present, future);
+			return nextState(action.pointInTime, past, present, future, action.sceneIndex);
 		}
 		default:
 			return defaultNextState(state, action);

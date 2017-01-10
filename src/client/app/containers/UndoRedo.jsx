@@ -4,7 +4,7 @@ import UndoRedo from 'components/dumb/UndoRedo';
 import SketchCombiner from 'components/smart/SketchCombiner';
 import { togglePloma, setObserveMutations } from 'actions/configuring';
 import UNDO_TIMEOUT from 'constants/canvas';
-import { reduce, isEqual } from 'lodash';
+import { reduce, isEqual, fill } from 'lodash';
 
 const relevantStatesForScene = (states, sceneIndex) => {
 	let length = 0;
@@ -13,14 +13,14 @@ const relevantStatesForScene = (states, sceneIndex) => {
 			length += 1;
 		}
 		return state;
-	}, new Array(sceneIndex).fill(undefined));
+	}, fill(new Array(sceneIndex), undefined));
 	return length;
 };
 
 const mapStateToProps = (state, ownProps) => {
 	let returnProps = {};
-	let pastStatesInScene = relevantStatesForScene(state.content.undoableScenes.past, ownProps.sceneIndex);
-	let futureStatesInScene = relevantStatesForScene(state.content.undoableScenes.future, ownProps.sceneIndex);
+	let pastStatesInScene = relevantStatesForScene(state.content.undoableScenes.past, state.content.sceneIndex);
+	let futureStatesInScene = relevantStatesForScene(state.content.undoableScenes.future, state.content.sceneIndex);
 	let max = pastStatesInScene + futureStatesInScene;
 	Object.assign(returnProps, {
 		max:  pastStatesInScene + futureStatesInScene,
@@ -33,11 +33,11 @@ const mapStateToProps = (state, ownProps) => {
 	return returnProps;
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
 		onChange: (value) => {
 			dispatch(setObserveMutations(false));
-			dispatch(jumpTo(value));
+			dispatch(jumpTo(value, ownProps.sceneIndex));
 			dispatch(setObserveMutations(true));
 		},
 		temporaryCallback: (bool) => dispatch(togglePloma(bool))
