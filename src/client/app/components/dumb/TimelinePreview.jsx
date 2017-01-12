@@ -3,6 +3,7 @@ import SketchTransformer from 'components/smart/SketchTransformer';
 import Point2BoundsScaler from 'components/smart/Point2BoundsScaler';
 import SketchFitter from 'components/smart/SketchFitter';
 import PlainDrawer from 'components/smart/PlainDrawer';
+import { timelinePreview } from 'stylesheets/components/dumb/TimelinePreview';
 
 let Canvas = Point2BoundsScaler(SketchTransformer(SketchFitter(PlainDrawer)));
 
@@ -23,14 +24,13 @@ export default class TimelinePreview extends Component {
 	};
 
 	render() {
-		return (<div ref='canvas'
-			style={{
-				pointerEvents: 'none'
-			}}
-		><Canvas {...this.props}
-			finished={true}
-			showBorder={true}
-		/></div>);
+		return (
+			<div ref='canvas' className={timelinePreview}>
+				<Canvas {...this.props}
+					finished={true}
+					showBorder={true}
+				/>
+			</div>);
 	}
 
 }

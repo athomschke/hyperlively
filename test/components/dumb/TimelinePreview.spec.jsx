@@ -15,7 +15,7 @@ describe('TimelinePreview', () => {
 					actionIndex: 0
 				}]}
 			></TimelinePreview>);
-			expect(timelinePreview.refs.canvas.style.getPropertyValue('pointer-events')).to.equal('none');
+			expect(timelinePreview.refs.canvas.childNodes).to.have.length(1);
 		});
 
 	});

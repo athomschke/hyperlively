@@ -1,5 +1,5 @@
 import React, { PropTypes, Component } from 'react';
-
+import { configuration } from 'stylesheets/components/dumb/AppConfiguration';
 
 export default class AppConfiguration extends Component {
 
@@ -11,18 +11,13 @@ export default class AppConfiguration extends Component {
 		active: true
 	}
 
-	getControlStyle() {
-		return {
-			position: 'absolute',
-			pointerEvents: this.props.active ? 'auto' : 'none',
-			top: 20,
-			left: 20
-		};
-	}
-
 	render() {
 		return (
-			<div id='configuration' style={this.getControlStyle()}>
+			<div id='configuration' className={configuration}
+				style={{
+					pointerEvents: this.props.active ? 'auto' : 'none'
+				}}
+			>
 				{this.props.children}
 			</div>
 		);
