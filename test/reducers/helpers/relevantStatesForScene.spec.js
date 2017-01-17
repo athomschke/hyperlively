@@ -1,4 +1,4 @@
-import relevantStatesForScene from 'reducers/helpers/relevantStatesForScene';
+import relevantStatesForScene from 'helpers/relevantStatesForScene';
 import * as exampleStates from '../data/exampleStates';
 
 describe('Calculating states relevant for a scene', () => {

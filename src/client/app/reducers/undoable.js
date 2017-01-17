@@ -1,5 +1,5 @@
 import { JUMP_TO } from 'constants/actionTypes';
-import relevantStatesForScene from './helpers/relevantStatesForScene';
+import relevantStatesForScene from 'helpers/relevantStatesForScene';
 import { concat, slice, isEqual, cloneDeep } from 'lodash';
 
 function undoable (reducer) {

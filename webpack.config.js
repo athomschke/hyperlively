@@ -45,6 +45,7 @@ var config = {
 			containers: APP_DIR + '/containers',
 			reducers: APP_DIR + '/reducers',
 			stylesheets: APP_DIR + '/stylesheets',
+			helpers: APP_DIR + '/helpers',
 			credentials: CREDENTIALS_DIR,
 			base: APP_DIR
 		}
