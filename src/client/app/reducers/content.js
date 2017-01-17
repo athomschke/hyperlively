@@ -1,13 +1,14 @@
 import { undoable } from 'reducers/undoable';
 import { sceneIndex } from 'reducers/sceneIndex';
 import { scenes } from 'reducers/scenes';
+import { defaultSceneIndex } from './defaultState';
 import { ADD_SCENE, ADD_SCENE_AT, SET_SCENE_INDEX, NEXT_SCENE } from 'constants/actionTypes';
 
 const undoableScenes = undoable(scenes, {});
 
 const defaultState = () => {
 	return {
-		sceneIndex: 0,
+		sceneIndex: defaultSceneIndex,
 		undoableScenes: undoableScenes(undefined, {})
 	};
 };

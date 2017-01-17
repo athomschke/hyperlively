@@ -3,6 +3,7 @@
 		"ploma": {
 			"usePloma": false
 		},
+		"handwritingRecognition": false,
 		"threshold": 500,
 		"content": {
 			"undoableScenes": {

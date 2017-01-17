@@ -1,8 +1,9 @@
 import { TOGGLE_PLOMA } from 'constants/actionTypes';
+import { defaultUsePloma } from './defaultState';
 
 let initialState = () => {
 	return {
-		usePloma: true,
+		usePloma: defaultUsePloma,
 		uniqueCanvasFactor: Math.random()
 	};
 };

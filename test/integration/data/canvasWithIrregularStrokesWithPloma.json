@@ -4,6 +4,7 @@
 			"usePloma": true,
 			"uniqueCanvasFactor": 0.315
 		},
+		"handwritingRecognition": false,
 		"threshold": 500,
 		"content": {
 			"undoableScenes": {

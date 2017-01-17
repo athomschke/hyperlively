@@ -4,6 +4,7 @@
 			"usePloma": false
 		},
 		"threshold": 500,
+		"handwritingRecognition": false,
 		"content": {
 			"sceneIndex": 1,
 			"undoableScenes": {

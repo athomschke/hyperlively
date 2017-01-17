@@ -5,8 +5,8 @@ describe('handwriting recognition', () => {
 
 	describe('initial state', () => {
 
-		it('does not use handwriting recognition', () => {
-			expect(handwritingRecognition(undefined, {})).to.be.false;
+		it('does use handwriting recognition', () => {
+			expect(handwritingRecognition(undefined, {})).to.be.true;
 		});
 
 	});
