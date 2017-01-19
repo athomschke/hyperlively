@@ -128,29 +128,6 @@ describe('Interpreter', () => {
 			expect(moveByArgument).to.not.be.defined;
 		});
 
-		it('removes the arrow afterwards', () => {
-			let hiddenStrokes;
-			let arrowSketch = {
-				strokes: [{
-					points: [{ x: 1, y: 6 }, { x: 6, y: 1 }, { x: 11, y: 6 }, { x: 6, y: 11 }]
-				}]
-			};
-			let sketches = sketchesAroundPoint55();
-			sketches.push(arrowSketch);
-			let interpreter = renderWithProps({
-				onHide: (strokes) => {
-					hiddenStrokes = strokes;
-				},
-				onUpdatePosition: () => {},
-				sketches: sketches
-			});
-			interpreter.onShapeDetected(shapeCandidateFactory('arrow'));
-			interpreter.performAction({}, 'updatePosition');
-			expect(hiddenStrokes).to.be.defined;
-			expect(hiddenStrokes).to.have.length(1);
-			expect(hiddenStrokes[0]).to.equal(arrowSketch.strokes[0]);
-		});
-
 	});
 
 	describe('allowing to choose', () => {
@@ -259,37 +236,6 @@ describe('Interpreter', () => {
 			});
 			interpreter.performAction({}, 'foobarRun');
 			expect(performedActionName).to.equal('foobarRun');
-		});
-
-		it('at first hides strokes', () => {
-			let performedActions = [];
-			let interpreter = renderWithProps({
-				performAction: (actionName) => {
-					performedActions.push(actionName);
-				},
-				onHide: () => {
-					performedActions.push('hide');
-				},
-				sketches: [{
-					strokes: [{
-						points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }]
-					}]
-				}, {
-					strokes: [{
-						points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }]
-					}]
-				}, {
-					strokes: [{
-						points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }]
-					}]
-				}]
-			});
-			interpreter.setState({
-				interpretation: {}
-			});
-			interpreter.performAction({}, 'foobarRun');
-			expect(performedActions).to.have.length(2);
-			expect(performedActions[0]).to.equal('hide');
 		});
 
 		it('at first hides strokes even without callback', () => {

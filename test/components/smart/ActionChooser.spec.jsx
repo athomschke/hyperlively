@@ -23,14 +23,19 @@ let exampleTree = {
 let exampleArray = [
 	{
 		label: 'a',
+		key: 'a',
+		checkbox: true,
+		checked: false,
 		children: [
 			{
 				label: 'a1: a1',
+				key: 'a1',
 				checkbox: true,
 				checked: false
 			},
 			{
 				label: 'a2: a2 (parameter 0)',
+				key: 'a2',
 				checkbox: true,
 				checked: true
 			}
@@ -38,11 +43,13 @@ let exampleArray = [
 	},
 	{
 		label: 'b: b (parameter 1)',
+		key: 'b',
 		checkbox: true,
 		checked: true
 	},
 	{
 		label: 'c: c',
+		key: 'c',
 		checkbox: true,
 		checked: false
 	}
@@ -76,12 +83,12 @@ describe('Action Chooser', () => {
 			expect(actionChooser.refs.tree).to.be.instanceOf(TreeMenu);
 		});
 
-		it('renders an entry for each handwriting recognition result', () => {
-			expect(TestUtils.scryRenderedDOMComponentsWithClass(actionChooser.refs.tree, 'tree-view-node-label')).to.have.length(5);
+		it('renders an entry for each handwriting recognition result plus one for the selected strokes', () => {
+			expect(TestUtils.scryRenderedDOMComponentsWithClass(actionChooser.refs.tree, 'tree-view-node-label')).to.have.length(6);
 		});
 
-		it('renders a checkbox for each handwriting recognition result', () => {
-			expect(TestUtils.scryRenderedDOMComponentsWithTag(actionChooser.refs.tree, 'input')).to.have.length(4);
+		it('renders a checkbox for each handwriting recognition result, nodes as well as leafes', () => {
+			expect(TestUtils.scryRenderedDOMComponentsWithTag(actionChooser.refs.tree, 'input')).to.have.length(6);
 		});
 
 		it('renders an item for each available action type', () => {
@@ -139,7 +146,6 @@ describe('Action Chooser', () => {
 				jsonTree: exampleTree
 			});
 			let checkbox = document.getElementsByClassName('tree-view-node-checkbox')[0];
-			sinon.spy(actionChooser, 'onTreeNodeCheckChange');
 			TestUtils.Simulate.click(checkbox);
 			expect(actionChooser.state.checkedPaths).to.have.length(1);
 			TestUtils.Simulate.click(checkbox);

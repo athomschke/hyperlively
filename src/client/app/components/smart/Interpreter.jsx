@@ -57,7 +57,7 @@ export default (Wrapped) => class extends Component {
 	}
 
 	performAction(event, item, values) {
-		this.props.sketches.length > 0 && this.props.onHide(last(this.props.sketches).strokes);
+		// this.props.sketches.length > 0 && this.props.onHide(last(this.props.sketches).strokes);
 		this.props.performAction.apply(this, [item].concat(values));
 		this.deactivateInterpretation();
 	}
@@ -79,6 +79,7 @@ export default (Wrapped) => class extends Component {
 				onRequestClose={this.deactivateInterpretation.bind(this)}
 				onActionChoose={this.performAction.bind(this)}
 				jsonTree={this.state && this.state.interpretation && this.state.interpretation.candidate}
+				strokes={(this.props.sketches.length && last(this.props.sketches).strokes) || []}
 			/>
 		</div>);
 	}

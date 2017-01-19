@@ -3,7 +3,7 @@ import actions from 'actions/actions';
 import HoverList from 'components/smart/HoverList';
 import Modal from 'react-modal';
 import { TreeMenu } from 'react-tree-menu';
-import { keys, map, cloneDeep, filter, isEqual, findIndex, reduce } from 'lodash';
+import { last, keys, map, cloneDeep, filter, isEqual, findIndex, reduce, flatten } from 'lodash';
 import { actionChooser } from 'stylesheets/components/smart/actionChooser';
 
 const findArraysIndex = (containingArray, containedArray) => {
@@ -40,23 +40,30 @@ export default class ActionChooser extends Component {
 		let originalCheckedArrays = optOriginalCheckedArrays || [];
 		let depth = optDepth|| 0;
 		return map(keys(anObject), (key) => {
-			let matchingChecks = filter(checkedArrays, (checkedArray) => {
+			let checksContainingNode = filter(checkedArrays, (checkedArray) => {
 				return checkedArray[depth] === key;
 			});
+			let children;
 			if (anObject[key] instanceof Object) {
-				return {
-					label: key,
-					children: that.formatObject(anObject[key], matchingChecks, originalCheckedArrays, depth + 1)
-				};
-			} else {
-				let parameterIndex = findArraysIndex(checkedArrays, matchingChecks[0]);
-				let parameterIndicator = parameterIndex >= 0 ? ` (parameter ${parameterIndex})` : '';
-				return {
-					label: `${key}: ${anObject[key]}${parameterIndicator}`,
-					checkbox: true,
-					checked: matchingChecks.length > 0
-				};
+				children = that.formatObject(anObject[key], checksContainingNode, originalCheckedArrays, depth + 1);
 			}
+			let matchingChecks = checksContainingNode.filter((matchingCheck) => {
+				return last(matchingCheck) === key;
+			});
+			let parameterIndex = findArraysIndex(checkedArrays, matchingChecks[0]);
+			let parameterIndicator = parameterIndex >= 0 ? ` (parameter ${parameterIndex})` : '';
+			let item = {
+				checkbox: true,
+				checked: matchingChecks.length > 0,
+				key: key
+			};
+			if (children) {
+				item.label = `${key}${parameterIndicator}`;
+				item.children  = children;
+			} else {
+				item.label = `${key}: ${anObject[key]}${parameterIndicator}`;
+			}
+			return item;
 		});
 	}
 
@@ -66,7 +73,7 @@ export default class ActionChooser extends Component {
 		};
 		return map(nestedArrayPath, (index) => {
 			node = node.children[index];
-			return node.label.split(':')[0];
+			return node.key;
 		});
 	}
 
@@ -90,14 +97,21 @@ export default class ActionChooser extends Component {
 
 	getFormattedData() {
 		let rawData = cloneDeep(this.props.jsonTree);
+		if (rawData) {
+			rawData.strokes = this.props.strokes;
+		}
 		return this.formatObject(rawData, this.state && this.state.checkedPaths);
 	}
 
 	onActionChoose (event, name) {
+		let rawData = {
+			strokes: this.props.strokes
+		};
+		Object.assign(rawData, this.props.jsonTree);
 		let values = map(this.state.checkedPaths, (checkedPath) => {
 			return reduce(checkedPath, (value, key) => {
 				return value[key];
-			}, this.props.jsonTree);
+			}, rawData);
 		});
 		this.props.onActionChoose(event, name, values);
 		this.setState({
