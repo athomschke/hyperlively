@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import { flatten, last, isEqual, cloneDeep, forEach, map } from 'lodash';
+import { flatten, last, isEqual, cloneDeep, forEach, map, find } from 'lodash';
 import { ERROR_OVERWRITE } from 'constants/errors';
 import { OFFSET } from 'constants/canvas';
 
@@ -14,6 +14,12 @@ let allPoints = (strokes) => {
 let pointCount = (strokes) => {
 	return allPoints(strokes).length;
 };
+
+const strokeWhereColorChanged = (strokes1, strokes2) => {
+	return find(strokes1, (stroke, index) => {
+		return !isEqual(stroke.color, strokes2[index].color);
+	});
+}
 
 export default class AbstractDrawer extends Component {
 
@@ -102,6 +108,14 @@ export default class AbstractDrawer extends Component {
 		showBorder: false
 	};
 
+	componentDidMount() {
+		this.setState({
+			strokes: cloneDeep(this.props.strokes),
+			width: this.props.width,
+			height: this.props.height
+		}, this.redrawEverything.bind(this, last(this.props.strokes) && last(this.props.strokes).finished));
+	}
+
 	componentDidUpdate() {
 		if (!isEqual(this.props.strokes, this.state.strokes)) {
 			this.onStrokesUpdated();
@@ -135,11 +149,16 @@ export default class AbstractDrawer extends Component {
 		context.putImageData(oldImageData, this.props.bounds.x, this.props.bounds.y);
 	}
 
+	colorRemainedEqual() {
+		return !strokeWhereColorChanged(this.props.strokes, this.state.strokes);
+	}
+
 	onStrokesUpdated() {
 		if (pointCount(this.props.strokes) === (pointCount(this.state.strokes) + 1)) {
 			this.addPointPerformanceEnhanced();
 		} else if (this.props.strokes.length === (this.state.strokes.length) &&
-				(pointCount(this.props.strokes) === (pointCount(this.state.strokes)))) {
+				(pointCount(this.props.strokes) === (pointCount(this.state.strokes))) &&
+				this.colorRemainedEqual()) {
 			this.moveImageDataToNewPosition();
 		} else {
 			this.redrawEverything(this.props.strokes[0] && this.props.strokes[0].finished);

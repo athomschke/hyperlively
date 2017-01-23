@@ -17,7 +17,7 @@ export default class PlomaDrawer extends AbstractDrawer {
 		uniqueCanvasFactor: 1
 	});
 
-	componentDidMount() {
+	componentDidMount(...args) {
 		let plomaConfig = {
 			uniqueCanvasFactor: this.props.uniqueCanvasFactor,
 			paperColor: 'rgba(0, 0, 0, 0)'
@@ -26,10 +26,8 @@ export default class PlomaDrawer extends AbstractDrawer {
 		ballpointPen.setSample(1);
 		this.setState({
 			ballpointPen: ballpointPen,
-			strokes: cloneDeep(this.props.strokes),
-			width: this.props.width,
-			height: this.props.height
-		}, this.redrawEverything.bind(this, last(this.props.strokes) && last(this.props.strokes).finished));
+		});
+		super.componentDidMount.apply(this, args);
 	}
 
 	onStrokeStarted(strokes) {

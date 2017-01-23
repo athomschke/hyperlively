@@ -1,19 +1,13 @@
 import AbstractDrawer from 'components/smart/AbstractDrawer';
 import { without, last, head, tail, reduce, cloneDeep } from 'lodash';
 import React from 'react';
+import Color from 'color';
 
 'use strict';
 
-export default class PlainDrawer extends AbstractDrawer {
+const defaultPenColor = 'rgb(25, 8, 45)';
 
-	componentDidMount() {
-		this.setState({
-			strokes: cloneDeep(this.props.strokes),
-			width: this.props.width,
-			height: this.props.height
-		});
-		this.redrawEverything(last(this.props.strokes) && last(this.props.strokes).finished);
-	}
+export default class PlainDrawer extends AbstractDrawer {
 
 	secondToLastPointInStrokes (strokes) {
 		let points = last(strokes).points;
@@ -36,7 +30,7 @@ export default class PlainDrawer extends AbstractDrawer {
 	}
 
 	onStrokeStarted(strokes) {
-		this.startStrokeAt(this.lastPointInStrokes(strokes));
+		this.startStrokeAt(this.lastPointInStrokes(strokes), last(strokes).color);
 	}
 
 	onStrokesExtended(strokes) {
@@ -45,6 +39,10 @@ export default class PlainDrawer extends AbstractDrawer {
 
 	onStrokesEnded(strokes) {
 		this.endStrokeAt(this.lastPointInStrokes(strokes), this.secondToLastPointInStrokes(strokes));
+	}
+
+	startStrokeAt(aPoint, aColor) {
+		this.refs.canvas.getContext('2d').strokeStyle = `${(new Color(aColor || defaultPenColor)).hex()}`;
 	}
 
 	extendStrokeAt(point, optPointBefore) {
@@ -70,7 +68,7 @@ export default class PlainDrawer extends AbstractDrawer {
 		let that = this;
 		let points = stroke.points;
 		if (points.length > 1) {
-			that.startStrokeAt(head(points));
+			that.startStrokeAt(head(points), stroke.color);
 			reduce(without(tail(points), last(points)), function (pointBefore, point) {
 				that.extendStrokeAt(point, pointBefore);
 				return point;

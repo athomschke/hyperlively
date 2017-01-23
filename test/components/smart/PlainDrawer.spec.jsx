@@ -88,6 +88,41 @@ describe('PlainDrawer', () => {
 			expect(sumAfter).to.equal(sumBefore);
 		});
 
+		it('draws blue strokes different from normal ones', () => {
+			let sumBefore = sum(canvasImageData(canvas.refs.canvas).data);
+			canvas.props.strokes[0].color = { r: 4, g: 1, b: 2};
+			canvas.componentDidUpdate();
+			let sumAfter = sum(canvasImageData(canvas.refs.canvas).data);
+			expect(sumBefore).to.not.deep.equal(sumAfter);
+		});
+
+	});
+
+	describe('starting a colored stroke', () => {
+
+		it('chooses the requested pen', () => {
+			let canvas =  renderComponentWithProps({});
+			let aPoint = {
+				x: 10,
+				y: 10
+			};
+			let aColor = {
+				r: 1,
+				g: 1,
+				b: 1
+			};
+			canvas.startStrokeAt(aPoint, aColor);
+			expect(canvas.refs.canvas.getContext('2d').strokeStyle).to.equal('#010101');
+		});
+
+		it('changes stroke style on canvas', () => {
+			let styleBefore = canvas.refs.canvas.getContext('2d').strokeStyle;
+			canvas.props.strokes[0].color = { r: 5, g: 1, b: 1};
+			canvas.componentDidUpdate();
+			let styleAfter = canvas.refs.canvas.getContext('2d').strokeStyle;
+			expect(styleBefore).to.not.deep.equal(styleAfter);
+		});
+
 	});
 
 	describe('rendering an empty canvas', () => {
@@ -212,6 +247,10 @@ describe('PlainDrawer', () => {
 			canvas.componentDidUpdate();
 			let sumAfter = sum(canvasImageData(canvas.refs.canvas).data);
 			expect(sumAfter).to.equal(sumBefore);
+		});
+
+		it('chooses the default color if no other chosen', () => {
+			expect(canvas.refs.canvas.getContext('2d').strokeStyle).to.equal('#19082d');
 		});
 	});
 
