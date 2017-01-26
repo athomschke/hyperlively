@@ -69,6 +69,12 @@ describe('AbstractDrawer', () => {
 			expect(AbstractDrawer.prototype.redrawStroke).to.throw(ERROR_OVERWRITE);
 
 		});
+
+		it('does nothing for startStrokeAt', () => {
+
+			expect(AbstractDrawer.prototype.startStrokeAt()).to.not.fail;
+
+		});
 	});
 
 	describe('changing a strokes color', () => {

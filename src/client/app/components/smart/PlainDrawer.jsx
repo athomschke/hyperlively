@@ -1,11 +1,10 @@
 import AbstractDrawer from 'components/smart/AbstractDrawer';
-import { without, last, head, tail, reduce, cloneDeep } from 'lodash';
+import { without, last, head, tail, reduce, cloneDeep, first } from 'lodash';
 import React from 'react';
 import Color from 'color';
+import { DEFAULT_PEN_COLOR, SELECTED_PEN_COLOR } from 'constants/drawing';
 
 'use strict';
-
-const defaultPenColor = 'rgb(25, 8, 45)';
 
 export default class PlainDrawer extends AbstractDrawer {
 
@@ -30,7 +29,7 @@ export default class PlainDrawer extends AbstractDrawer {
 	}
 
 	onStrokeStarted(strokes) {
-		this.startStrokeAt(this.lastPointInStrokes(strokes), last(strokes).color);
+		this.startStrokeAt(this.lastPointInStrokes(strokes), first(strokes).color);
 	}
 
 	onStrokesExtended(strokes) {
@@ -42,7 +41,7 @@ export default class PlainDrawer extends AbstractDrawer {
 	}
 
 	startStrokeAt(aPoint, aColor) {
-		this.refs.canvas.getContext('2d').strokeStyle = `${(new Color(aColor || defaultPenColor)).hex()}`;
+		this.refs.canvas.getContext('2d').strokeStyle = `${(new Color(aColor || DEFAULT_PEN_COLOR)).hex()}`;
 	}
 
 	extendStrokeAt(point, optPointBefore) {
@@ -68,7 +67,7 @@ export default class PlainDrawer extends AbstractDrawer {
 		let that = this;
 		let points = stroke.points;
 		if (points.length > 1) {
-			that.startStrokeAt(head(points), stroke.color);
+			that.startStrokeAt(head(points), stroke.selected ? SELECTED_PEN_COLOR : stroke.color);
 			reduce(without(tail(points), last(points)), function (pointBefore, point) {
 				that.extendStrokeAt(point, pointBefore);
 				return point;

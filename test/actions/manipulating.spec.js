@@ -1,4 +1,4 @@
-import { updatePosition, hide } from 'actions/manipulating';
+import { updatePosition, hide, select } from 'actions/manipulating';
 
 describe('actions', () => {
 
@@ -24,6 +24,16 @@ describe('actions', () => {
 			strokes
 		};
 		expect(hide(strokes, sceneIndex)).to.deep.equal(expectedAction);
+	});
+
+	it('should create an action to select a set of strokes', () => {
+		const strokes = [];
+		const sceneIndex = 0;
+		const expectedAction = {
+			type: 'SELECT',
+			strokes
+		};
+		expect(select(strokes, sceneIndex)).to.deep.equal(expectedAction);
 	});
 
 });

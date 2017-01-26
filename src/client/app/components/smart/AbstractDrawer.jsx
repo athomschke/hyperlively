@@ -19,7 +19,12 @@ const strokeWhereColorChanged = (strokes1, strokes2) => {
 	return find(strokes1, (stroke, index) => {
 		return !isEqual(stroke.color, strokes2[index].color);
 	});
-}
+};
+const strokeWhereSelectStatusChanged = (strokes1, strokes2) => {
+	return find(strokes1, (stroke, index) => {
+		return !isEqual(stroke.selected, strokes2[index].selected);
+	});
+};
 
 export default class AbstractDrawer extends Component {
 
@@ -49,7 +54,8 @@ export default class AbstractDrawer extends Component {
 
 	/**
 	 * @overwrite
-	 * @param {array} strokes
+	 * @param {object} point
+	 * @param {object} color (optional)
 	 */
 	startStrokeAt() { }
 
@@ -150,7 +156,8 @@ export default class AbstractDrawer extends Component {
 	}
 
 	colorRemainedEqual() {
-		return !strokeWhereColorChanged(this.props.strokes, this.state.strokes);
+		return !strokeWhereColorChanged(this.props.strokes, this.state.strokes) &&
+			!strokeWhereSelectStatusChanged(this.props.strokes, this.state.strokes);
 	}
 
 	onStrokesUpdated() {

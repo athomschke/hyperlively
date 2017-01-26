@@ -1,6 +1,6 @@
 import { strokes } from 'reducers/strokes';
 import { appendPoint, createStroke, finishStroke } from 'actions/drawing';
-import { updatePosition, hide } from 'actions/manipulating';
+import { updatePosition, hide, select } from 'actions/manipulating';
 import { point, event } from '../helpers';
 
 describe('strokes', () => {
@@ -199,6 +199,54 @@ describe('strokes', () => {
 			expect(result[2].hidden).to.not.be.defined;
 		});
 
+
+	});
+
+
+
+	describe('selecting a stroke', () => {
+
+		let strokeToSelect;
+		let currentState;
+
+		beforeEach(() => {
+			strokeToSelect = {
+				points: [point(10, 11, 100), point(10, 12, 100), point(10, 13, 100)]
+			};
+			currentState = [{
+				points: [point(10, 11, 100), point(10, 12, 100), point(10, 13, 100)]
+			}, {
+				points: [point(20, 21, 200), point(20, 22, 200), point(20, 23, 200)]
+			}, {
+				points: [point(30, 31, 300), point(30, 32, 300), point(30, 33, 300)]
+			}];
+		});
+
+		it('sets it to selected', () => {
+			let result = strokes(
+				currentState,
+				select([strokeToSelect])
+			);
+			expect(result[0].selected).to.be.true;
+		});
+
+		it('sets it to selected if it was previously selected', () => {
+			currentState[0].selected = true;
+			let result = strokes(
+				currentState,
+				select([strokeToSelect])
+			);
+			expect(result[0].selected).to.be.true;
+		});
+
+		it('deselects all the others', () => {
+			currentState[1].selected = true;
+			let result = strokes(
+				currentState,
+				select([strokeToSelect])
+			);
+			expect(result[1].selected).to.not.be.defined;
+		});
 
 	});
 });

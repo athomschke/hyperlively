@@ -1,9 +1,10 @@
 import { PropTypes } from 'react';
 import AbstractDrawer from 'components/smart/AbstractDrawer';
-import { last, forEach, head, tail, cloneDeep } from 'lodash';
-import { PRESSURE } from 'constants/drawing';
+import { last, forEach, head, tail, first } from 'lodash';
 import React from 'react';
 import { BallpointPen } from 'ploma';
+import { PRESSURE, DEFAULT_PEN_COLOR, SELECTED_PEN_COLOR } from 'constants/drawing';
+import Color from 'color';
 
 'use strict';
 
@@ -17,7 +18,7 @@ export default class PlomaDrawer extends AbstractDrawer {
 		uniqueCanvasFactor: 1
 	});
 
-	componentDidMount(...args) {
+	componentDidMount() {
 		let plomaConfig = {
 			uniqueCanvasFactor: this.props.uniqueCanvasFactor,
 			paperColor: 'rgba(0, 0, 0, 0)'
@@ -27,11 +28,11 @@ export default class PlomaDrawer extends AbstractDrawer {
 		this.setState({
 			ballpointPen: ballpointPen,
 		});
-		super.componentDidMount.apply(this, args);
+		super.componentDidMount();
 	}
 
 	onStrokeStarted(strokes) {
-		this.startStrokeAt(this.lastPointInStrokes(strokes));
+		this.startStrokeAt(this.lastPointInStrokes(strokes), first(strokes).color);
 	}
 
 	onStrokesExtended(strokes) {
@@ -42,7 +43,14 @@ export default class PlomaDrawer extends AbstractDrawer {
 		this.endStrokeAt(this.lastPointInStrokes(strokes));
 	}
 
-	startStrokeAt(point) {
+	startStrokeAt(point, aColor) {
+		let parsedColor = Color(aColor || DEFAULT_PEN_COLOR).color;
+		let plomaFormattedColor = {
+			r: parsedColor[0],
+			g: parsedColor[1],
+			b: parsedColor[2]
+		};
+		this.state.ballpointPen.setPenColor(plomaFormattedColor);
 		this.state.ballpointPen.beginStroke(point.x, point.y, PRESSURE);
 	}
 
@@ -62,7 +70,7 @@ export default class PlomaDrawer extends AbstractDrawer {
 		let that = this;
 		let points = stroke.points;
 		if (points.length > 1) {
-			that.startStrokeAt(head(points));
+			that.startStrokeAt(head(points), stroke.selected ? SELECTED_PEN_COLOR : stroke.color);
 			forEach(tail(points), function (point) {
 				that.extendStrokeAt(point);
 			});

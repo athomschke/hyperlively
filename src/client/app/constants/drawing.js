@@ -9,3 +9,7 @@ export const PRESSURE = 0.9;
 export const PAPER_COLOR = 'rgb(240, 235, 219)';
 
 export const WHITE = 'rgb(255, 255, 255)';
+
+export const DEFAULT_PEN_COLOR = 'rgb(25, 8, 45)';
+
+export const SELECTED_PEN_COLOR = 'rgb(255, 0, 0)';

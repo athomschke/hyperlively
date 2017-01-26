@@ -1,7 +1,7 @@
 import PlomaDrawer from 'components/smart/PlomaDrawer';
 import TestUtils from 'react-addons-test-utils';
 import React from 'react';
-import { remove, forEach } from 'lodash';
+import { remove, forEach, filter, isNumber } from 'lodash';
 
 'use strict';
 
@@ -23,6 +23,7 @@ let spyOnPen = (pen) => {
 	sinon.spy(pen, 'extendStroke');
 	sinon.spy(pen, 'endStroke');
 	sinon.spy(pen, 'clear');
+	sinon.spy(pen, 'setPenColor');
 };
 
 let resetPenSpies = (pen) => {
@@ -30,6 +31,7 @@ let resetPenSpies = (pen) => {
 	pen.extendStroke.reset();
 	pen.endStroke.reset();
 	pen.clear.reset();
+	pen.setPenColor.reset();
 };
 
 let restorePen = (pen) => {
@@ -220,6 +222,20 @@ describe('PlomaDrawer', () => {
 		it('draws the beginning', () => {
 			expect(canvas.state.ballpointPen.beginStroke.callCount).to.equal(1);
 		});
+
+		it('with a colored pen chooses a different pen color', () => {
+			let callCountBefore = canvas.state.ballpointPen.setPenColor.callCount;
+			canvas.startStrokeAt({x: 10, y: 10}, {r: 45, g: 56, b: 67});
+			expect(canvas.state.ballpointPen.setPenColor.callCount - callCountBefore).to.equal(1);
+		});
+
+		it('with a colored pen needs to choose the right color format', () => {
+			canvas.startStrokeAt({x: 10, y: 10}, {r: 45, g: 56, b: 67});
+			let wrongFormats = filter(canvas.state.ballpointPen.setPenColor.args, (arg) => {
+				return !(isNumber(arg[0].r) && isNumber(arg[0].g) && isNumber(arg[0].b));
+			});
+			expect(wrongFormats).to.have.length(0);
+		});
 	});
 
 	describe('changing the position of displayed points', () => {
@@ -231,6 +247,25 @@ describe('PlomaDrawer', () => {
 
 		it('Does not trigger a complete rerendering', () => {
 			expect(canvas.state.ballpointPen.clear.callCount).to.equal(0);
+		});
+
+	});
+
+	describe('selecting strokes', () => {
+
+		beforeEach(() => {
+			forEach(canvas.props.strokes[0].points, (point) => { point.x += 10; });
+			canvas.componentDidUpdate();
+		});
+
+		it('Gives them a different color than normally', () => {
+			canvas.props.strokes.push({points: [{x: 30, y: 30}, {x: 31, y: 31}, {x: 32, y: 32}] });
+			canvas.componentDidUpdate();
+			canvas.props.strokes[1].selected = true;
+			canvas.state.ballpointPen.setPenColor.reset();
+			canvas.componentDidUpdate();
+			expect(canvas.state.ballpointPen.setPenColor.callCount).to.equal(2);
+			expect(canvas.state.ballpointPen.setPenColor.args[0][0]).to.not.deep.equal(canvas.state.ballpointPen.setPenColor.args[1][0]);
 		});
 
 	});

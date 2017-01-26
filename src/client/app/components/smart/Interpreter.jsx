@@ -7,13 +7,11 @@ export default (Wrapped) => class extends Component {
 
 	static propTypes =  {
 		performAction: PropTypes.func,
-		onHide: PropTypes.func,
 		sketches: PropTypes.array
 	};
 
 	static defaultProps = {
 		performAction: () => {},
-		onHide: () => {},
 		sketches: []
 	};
 
@@ -57,7 +55,6 @@ export default (Wrapped) => class extends Component {
 	}
 
 	performAction(event, item, values) {
-		// this.props.sketches.length > 0 && this.props.onHide(last(this.props.sketches).strokes);
 		this.props.performAction.apply(this, [item].concat(values));
 		this.deactivateInterpretation();
 	}

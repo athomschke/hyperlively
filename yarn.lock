@@ -3811,7 +3811,7 @@ pkg-dir@^1.0.0:
     find-up "^1.0.0"
 
 "ploma@file:../ploma":
-  version "1.0.0"
+  version "1.0.1"
   dependencies:
     lodash "^4.15.0"
     raw-loader "^0.5.1"

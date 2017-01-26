@@ -291,4 +291,25 @@ describe('PlainDrawer', () => {
 		});
 	});
 
+	describe('selecting strokes', () => {
+
+		it('Gives them a different color than normally', () => {
+			let canvas = renderComponentWithProps({
+				strokes: [{
+					points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}, {x:10, y:13}],
+					finished: true
+				}, {
+					points: [{x: 30, y: 30}, {x: 31, y: 31}, {x: 32, y: 32}]
+				}]
+			});
+			sinon.spy(canvas, 'startStrokeAt');
+			canvas.props.strokes[1].selected = true;
+			canvas.componentDidUpdate();
+			expect(canvas.startStrokeAt.callCount).to.equal(2);
+			expect(canvas.startStrokeAt.args[0][1]).to.not.deep.equal(canvas.startStrokeAt.args[1][1]);
+			canvas.startStrokeAt.restore();
+		});
+
+	});
+
 });
