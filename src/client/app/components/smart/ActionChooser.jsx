@@ -18,6 +18,26 @@ const findArraysEndingOnItem = (arrays, item) => {
 	});
 };
 
+const formatTreeNode = (object, key, keyChecks, allChecks, children, keyCollapses) => {
+	let matchingChecks = findArraysEndingOnItem(keyChecks, key);
+	let parameterIndex = findArraysIndex(allChecks, matchingChecks[0]);
+	let parameterIndicator = parameterIndex >= 0 ? ` (parameter ${parameterIndex})` : '';
+	let item = {
+		checkbox: true,
+		checked: matchingChecks.length > 0,
+		key: key
+	};
+	if (children) {
+		item.label = `${key}${parameterIndicator}`;
+		item.children  = children;
+		item.collapsed = findArraysEndingOnItem(keyCollapses, key).length > 0;
+		item.collapsible = true;
+	} else {
+		item.label = `${key}: ${object[key]}${parameterIndicator}`;
+	}
+	return item;
+};
+
 export default class ActionChooser extends Component {
 
 	static propTypes = {
@@ -53,23 +73,7 @@ export default class ActionChooser extends Component {
 			if (anObject[key] instanceof Object) {
 				children = this.formatObject(anObject[key], checksContainingNode, collapsesContainingNode, originalCheckedArrays, depth + 1);
 			}
-			let matchingChecks = findArraysEndingOnItem(checksContainingNode, key);
-			let parameterIndex = findArraysIndex(originalCheckedArrays, matchingChecks[0]);
-			let parameterIndicator = parameterIndex >= 0 ? ` (parameter ${parameterIndex})` : '';
-			let item = {
-				checkbox: true,
-				checked: matchingChecks.length > 0,
-				key: key
-			};
-			if (children) {
-				item.label = `${key}${parameterIndicator}`;
-				item.children  = children;
-				item.collapsed = findArraysEndingOnItem(collapsesContainingNode, key).length > 0;
-				item.collapsible = true;
-			} else {
-				item.label = `${key}: ${anObject[key]}${parameterIndicator}`;
-			}
-			return item;
+			return formatTreeNode(anObject, key, checksContainingNode, originalCheckedArrays, children, collapsesContainingNode);
 		}, this);
 	}
 
