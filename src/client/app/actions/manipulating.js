@@ -1,4 +1,4 @@
-import { UPDATE_POSITION, HIDE, SELECT } from 'constants/actionTypes';
+import { UPDATE_POSITION, HIDE, SELECT, SELECT_INSIDE } from 'constants/actionTypes';
 
 export function updatePosition(strokes, x, y) {
 	return { type: UPDATE_POSITION,
@@ -16,6 +16,12 @@ export function hide(strokes) {
 
 export function select(strokes) {
 	return { type: SELECT,
+		strokes: strokes
+	};
+}
+
+export function selectInside(strokes) {
+	return { type: SELECT_INSIDE,
 		strokes: strokes
 	};
 }

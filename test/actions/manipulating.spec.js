@@ -1,4 +1,4 @@
-import { updatePosition, hide, select } from 'actions/manipulating';
+import { updatePosition, hide, select, selectInside } from 'actions/manipulating';
 
 describe('actions', () => {
 
@@ -34,6 +34,16 @@ describe('actions', () => {
 			strokes
 		};
 		expect(select(strokes, sceneIndex)).to.deep.equal(expectedAction);
+	});
+
+	it('should create an action to select strokes inside a set of strokes', () => {
+		const strokes = [];
+		const sceneIndex = 0;
+		const expectedAction = {
+			type: 'SELECT_INSIDE',
+			strokes
+		};
+		expect(selectInside(strokes, sceneIndex)).to.deep.equal(expectedAction);
 	});
 
 });

@@ -34,6 +34,7 @@
     "myscript": "^1.1.2",
     "node-static": "^0.7.9",
     "ploma": "file:../ploma",
+    "polygon": "^1.0.2",
     "q": "^1.4.1",
     "rc-slider": "^5.4.3",
     "react": "^15.3.2",

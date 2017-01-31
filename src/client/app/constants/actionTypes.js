@@ -31,3 +31,5 @@ export const ADD_SCENE_AT = 'ADD_SCENE_AT';
 export const NEXT_SCENE = 'NEXT_SCENE';
 
 export const PREVIOUS_SCENE = 'PREVIOUS_SCENE';
+
+export const SELECT_INSIDE = 'SELECT_INSIDE';

@@ -1,7 +1,8 @@
 import { points } from 'reducers/points';
-import { APPEND_POINT, CREATE_STROKE, FINISH_STROKE, UPDATE_POSITION, HIDE, SELECT } from 'constants/actionTypes';
-import { last, forEach, concat, find, map, isEqual } from 'lodash';
+import { APPEND_POINT, CREATE_STROKE, FINISH_STROKE, UPDATE_POSITION, HIDE, SELECT, SELECT_INSIDE } from 'constants/actionTypes';
+import { last, forEach, concat, find, map, isEqual, without, flatten } from 'lodash';
 import { appendPoint } from 'actions/drawing';
+import Polygon from 'polygon';
 
 const appendPointTo = (state, action) => {
 	if (state.length > 0) {
@@ -54,15 +55,28 @@ const hide = (state, action) => {
 	});
 };
 
-
-const select = (state, action) => {
+const select = (state, strokes) => {
 	forEach(state, (stateStroke) => {
-		if (doStrokesContainStroke(action.strokes, stateStroke)) {
+		if (doStrokesContainStroke(strokes, stateStroke)) {
 			stateStroke.selected = true;
 		} else {
 			delete stateStroke.selected;
 		}
 	});
+};
+
+const strokesSurroundedBy = (allStrokes, surroundingStrokes) => {
+	let outerPolygon = new Polygon(flatten(map(surroundingStrokes, 'points')));
+	return without(allStrokes, surroundingStrokes).filter((innerStroke) => {
+		if (!innerStroke.hidden) {
+			let innerPolygon = new Polygon(innerStroke.points);
+			return outerPolygon.containsPolygon(innerPolygon);
+		}
+	});
+};
+
+const selectInside = (state, action) => {
+	select(state, strokesSurroundedBy(state, action.strokes));
 };
 
 function strokes (state = [], action) {
@@ -80,7 +94,10 @@ function strokes (state = [], action) {
 		hide(state, action);
 		return state;
 	case SELECT:
-		select(state, action);
+		select(state, action.strokes);
+		return state;
+	case SELECT_INSIDE:
+		selectInside(state, action);
 		return state;
 	default:
 		return state;

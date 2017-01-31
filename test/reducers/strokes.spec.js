@@ -1,6 +1,6 @@
 import { strokes } from 'reducers/strokes';
 import { appendPoint, createStroke, finishStroke } from 'actions/drawing';
-import { updatePosition, hide, select } from 'actions/manipulating';
+import { updatePosition, hide, select, selectInside } from 'actions/manipulating';
 import { point, event } from '../helpers';
 
 describe('strokes', () => {
@@ -202,8 +202,6 @@ describe('strokes', () => {
 
 	});
 
-
-
 	describe('selecting a stroke', () => {
 
 		let strokeToSelect;
@@ -246,6 +244,83 @@ describe('strokes', () => {
 				select([strokeToSelect])
 			);
 			expect(result[1].selected).to.not.be.defined;
+		});
+
+	});
+
+	describe('selecting strokes within a stroke', () => {
+
+		it('sets one completely circled stroke to selected', () => {
+			let strokesToSelect = [{
+				points: [point(2, 2, 100), point(3, 3, 100), point(4, 4, 100)]
+			}];
+			let strokesAround = [{
+				points: [point(0, 0, 100), point(10, 0, 100), point(10, 10, 100), point(0, 10, 100), point(0, 0, 100)]
+			}];
+			let currentState = strokesAround.concat(strokesToSelect);
+			let result = strokes(
+				currentState,
+				selectInside(strokesAround)
+			);
+			expect(result[1].selected).to.be.true;
+		});
+
+		it('sets two completely circled strokes to selected', () => {
+			let strokesToSelect = [{
+				points: [point(2, 2, 100), point(3, 3, 100), point(4, 4, 100)]
+			}, {
+				points: [point(6, 6, 100), point(7, 7, 100), point(8, 8, 100)]
+			}];
+			let strokesAround = [{
+				points: [point(0, 0, 100), point(10, 0, 100), point(10, 10, 100), point(0, 10, 100), point(0, 0, 100)]
+			}];
+			let currentState = strokesAround.concat(strokesToSelect);
+			let result = strokes(
+				currentState,
+				selectInside(strokesAround)
+			);
+			expect(result[1].selected).to.be.true;
+			expect(result[2].selected).to.be.true;
+		});
+
+		it('sets a stroke surrounded by multiple strokes', () => {
+			let strokesToSelect = [{
+				points: [point(2, 2, 100), point(3, 3, 100), point(4, 4, 100)]
+			}];
+			let strokesAround = [{
+				points: [point(0, 0, 100), point(5, 0, 100), point(10, 0, 100)]
+			}, {
+				points: [point(10, 0, 100), point(10, 5, 100), point(10, 10, 100)]
+			}, {
+				points: [point(10, 10, 100), point(5, 10, 100), point(0, 10, 100)]
+			}, {
+				points: [point(0, 10, 100), point(0, 5, 100), point(0, 0, 100)]
+			}];
+			let currentState = strokesAround.concat(strokesToSelect);
+			let result = strokes(
+				currentState,
+				selectInside(strokesAround)
+			);
+			expect(result[4].selected).to.be.true;
+		});
+
+		it('does not select hidden strokes', () => {
+			let strokesToSelect = [{
+				points: [point(2, 2, 100), point(3, 3, 100), point(4, 4, 100)],
+				hidden: true
+			}, {
+				points: [point(2, 2, 100), point(3, 3, 100), point(4, 4, 100)]
+			}];
+			let strokesAround = [{
+				points: [point(0, 0, 100), point(10, 0, 100), point(10, 10, 100), point(0, 10, 100), point(0, 0, 100)]
+			}];
+			let currentState = strokesAround.concat(strokesToSelect);
+			let result = strokes(
+				currentState,
+				selectInside(strokesAround)
+			);
+			expect(result[1].selected).to.be.falsee;
+			expect(result[2].selected).to.be.true;
 		});
 
 	});
