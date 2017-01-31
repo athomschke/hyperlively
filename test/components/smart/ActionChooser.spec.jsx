@@ -26,6 +26,8 @@ let exampleArray = [
 		key: 'a',
 		checkbox: true,
 		checked: false,
+		collapsed: false,
+		collapsible: true,
 		children: [
 			{
 				label: 'a1: a1',

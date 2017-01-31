@@ -3,7 +3,7 @@ import actions from 'actions/actions';
 import HoverList from 'components/smart/HoverList';
 import Modal from 'react-modal';
 import { TreeMenu } from 'react-tree-menu';
-import { last, keys, map, cloneDeep, filter, isEqual, findIndex, reduce, flatten } from 'lodash';
+import { last, keys, map, cloneDeep, filter, isEqual, findIndex, reduce } from 'lodash';
 import { actionChooser } from 'stylesheets/components/smart/actionChooser';
 
 const findArraysIndex = (containingArray, containedArray) => {
@@ -30,27 +30,35 @@ export default class ActionChooser extends Component {
 
 	componentDidMount () {
 		this.setState({
-			checkedPaths: []
+			checkedPaths: [],
+			collapsedPaths: []
 		});
 	}
 
-	formatObject(anObject, optCheckedArrays, optOriginalCheckedArrays, optDepth) {
+	formatObject(anObject, optCheckedArrays, optCollapsedArrays, optOriginalCheckedArrays, optDepth) {
 		let that = this;
 		let checkedArrays = optCheckedArrays || [];
-		let originalCheckedArrays = optOriginalCheckedArrays || [];
+		let collapsedArrays = optCollapsedArrays || [];
+		let originalCheckedArrays = optOriginalCheckedArrays || optCheckedArrays || [];
 		let depth = optDepth|| 0;
 		return map(keys(anObject), (key) => {
 			let checksContainingNode = filter(checkedArrays, (checkedArray) => {
 				return checkedArray[depth] === key;
 			});
+			let collapsesContainingNode = filter(collapsedArrays, (collapsedArray) => {
+				return collapsedArray[depth] === key;
+			});
 			let children;
 			if (anObject[key] instanceof Object) {
-				children = that.formatObject(anObject[key], checksContainingNode, originalCheckedArrays, depth + 1);
+				children = that.formatObject(anObject[key], checksContainingNode, collapsesContainingNode, originalCheckedArrays, depth + 1);
 			}
 			let matchingChecks = checksContainingNode.filter((matchingCheck) => {
 				return last(matchingCheck) === key;
 			});
-			let parameterIndex = findArraysIndex(checkedArrays, matchingChecks[0]);
+			let matchingCollapses = collapsesContainingNode.filter((matchingCollapse) => {
+				return last(matchingCollapse) === key;
+			});
+			let parameterIndex = findArraysIndex(originalCheckedArrays, matchingChecks[0]);
 			let parameterIndicator = parameterIndex >= 0 ? ` (parameter ${parameterIndex})` : '';
 			let item = {
 				checkbox: true,
@@ -60,6 +68,8 @@ export default class ActionChooser extends Component {
 			if (children) {
 				item.label = `${key}${parameterIndicator}`;
 				item.children  = children;
+				item.collapsed = matchingCollapses.length > 0;
+				item.collapsible = true;
 			} else {
 				item.label = `${key}: ${anObject[key]}${parameterIndicator}`;
 			}
@@ -80,9 +90,6 @@ export default class ActionChooser extends Component {
 	onTreeNodeCheckChange(path) {
 		let pathToProperty = this.getPathToProperty(path, this.getFormattedData());
 		let checkedIndex = findArraysIndex(this.state.checkedPaths, pathToProperty);
-		findIndex(this.state.checkedPaths, (checkedPath) => {
-			return isEqual(checkedPath, pathToProperty);
-		});
 		if (checkedIndex >= 0) {
 			this.setState({
 				checkedPaths: this.state.checkedPaths.slice(0, checkedIndex).concat(this.state.checkedPaths.slice(checkedIndex + 1))
@@ -95,12 +102,26 @@ export default class ActionChooser extends Component {
 		this.props.onCheckChange();
 	}
 
+	onTreeNodeCollapseChange(path) {
+		let pathToProperty = this.getPathToProperty(path, this.getFormattedData());
+		let collapsedIndex = findArraysIndex(this.state.collapsedPaths, pathToProperty);
+		if (collapsedIndex >= 0) {
+			this.setState({
+				collapsedPaths: this.state.collapsedPaths.slice(0, collapsedIndex).concat(this.state.collapsedPaths.slice(collapsedIndex + 1))
+			});
+		} else {
+			this.setState({
+				collapsedPaths: this.state.collapsedPaths.concat([pathToProperty])
+			});
+		}
+	}
+
 	getFormattedData() {
 		let rawData = cloneDeep(this.props.jsonTree);
 		if (rawData) {
 			rawData.strokes = this.props.strokes;
 		}
-		return this.formatObject(rawData, this.state && this.state.checkedPaths);
+		return this.formatObject(rawData, this.state && this.state.checkedPaths, this.state && this.state.collapsedPaths);
 	}
 
 	onActionChoose (event, name) {
@@ -133,8 +154,13 @@ export default class ActionChooser extends Component {
 				<TreeMenu ref='tree'
 					data={this.getFormattedData()}
 					collapsible={true}
+					expandIconClass='expanded'
+					collapseIconClass='collapsed'
 					onTreeNodeCheckChange={(path) => {
 						this.onTreeNodeCheckChange(path);
+					}}
+					onTreeNodeCollapseChange={(path) => {
+						this.onTreeNodeCollapseChange(path);
 					}}
 				/>
 			</Modal>);
