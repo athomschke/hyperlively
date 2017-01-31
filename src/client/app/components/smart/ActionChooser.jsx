@@ -12,6 +12,12 @@ const findArraysIndex = (containingArray, containedArray) => {
 	});
 };
 
+const findArraysEndingOnItem = (arrays, item) => {
+	return arrays.filter((matchingCheck) => {
+		return last(matchingCheck) === item;
+	});
+};
+
 export default class ActionChooser extends Component {
 
 	static propTypes = {
@@ -35,12 +41,7 @@ export default class ActionChooser extends Component {
 		});
 	}
 
-	formatObject(anObject, optCheckedArrays, optCollapsedArrays, optOriginalCheckedArrays, optDepth) {
-		let that = this;
-		let checkedArrays = optCheckedArrays || [];
-		let collapsedArrays = optCollapsedArrays || [];
-		let originalCheckedArrays = optOriginalCheckedArrays || optCheckedArrays || [];
-		let depth = optDepth|| 0;
+	formatObject(anObject, checkedArrays, collapsedArrays, originalCheckedArrays, depth) {
 		return map(keys(anObject), (key) => {
 			let checksContainingNode = filter(checkedArrays, (checkedArray) => {
 				return checkedArray[depth] === key;
@@ -50,14 +51,9 @@ export default class ActionChooser extends Component {
 			});
 			let children;
 			if (anObject[key] instanceof Object) {
-				children = that.formatObject(anObject[key], checksContainingNode, collapsesContainingNode, originalCheckedArrays, depth + 1);
+				children = this.formatObject(anObject[key], checksContainingNode, collapsesContainingNode, originalCheckedArrays, depth + 1);
 			}
-			let matchingChecks = checksContainingNode.filter((matchingCheck) => {
-				return last(matchingCheck) === key;
-			});
-			let matchingCollapses = collapsesContainingNode.filter((matchingCollapse) => {
-				return last(matchingCollapse) === key;
-			});
+			let matchingChecks = findArraysEndingOnItem(checksContainingNode, key);
 			let parameterIndex = findArraysIndex(originalCheckedArrays, matchingChecks[0]);
 			let parameterIndicator = parameterIndex >= 0 ? ` (parameter ${parameterIndex})` : '';
 			let item = {
@@ -68,13 +64,13 @@ export default class ActionChooser extends Component {
 			if (children) {
 				item.label = `${key}${parameterIndicator}`;
 				item.children  = children;
-				item.collapsed = matchingCollapses.length > 0;
+				item.collapsed = findArraysEndingOnItem(collapsesContainingNode, key).length > 0;
 				item.collapsible = true;
 			} else {
 				item.label = `${key}: ${anObject[key]}${parameterIndicator}`;
 			}
 			return item;
-		});
+		}, this);
 	}
 
 	getPathToProperty(nestedArrayPath, arrayedJsonTree) {
@@ -121,7 +117,7 @@ export default class ActionChooser extends Component {
 		if (rawData) {
 			rawData.strokes = this.props.strokes;
 		}
-		return this.formatObject(rawData, this.state && this.state.checkedPaths, this.state && this.state.collapsedPaths);
+		return this.formatObject(rawData, this.state && this.state.checkedPaths, this.state && this.state.collapsedPaths, this.state && this.state.checkedPaths, 0);
 	}
 
 	onActionChoose (event, name) {

@@ -102,13 +102,13 @@ describe('Action Chooser', () => {
 		});
 
 		it('formats the json tree for the tree view menu', () => {
-			let gottenArray = ActionChooser.prototype.formatObject(exampleTree, exampleChecks);
+			let gottenArray = ActionChooser.prototype.formatObject(exampleTree, exampleChecks, [], exampleChecks, 0);
 			let wantedArray = exampleArray;
 			expect(gottenArray).to.deep.equal(wantedArray);
 		});
 
 		it('checks the chosen checkmarks', () => {
-			let formattedTree = ActionChooser.prototype.formatObject(exampleTree, exampleChecks);
+			let formattedTree = ActionChooser.prototype.formatObject(exampleTree, exampleChecks, [], exampleChecks, 0);
 			expect(formattedTree[0].children[1].checked).to.be.true;
 		});
 
@@ -127,7 +127,7 @@ describe('Action Chooser', () => {
 		});
 
 		it('calculates the path to the nested property', () => {
-			let formattedTree = ActionChooser.prototype.formatObject(exampleTree);
+			let formattedTree = ActionChooser.prototype.formatObject(exampleTree, [], [], [], 0);
 			let pathToProperty = ActionChooser.prototype.getPathToProperty([0,1], formattedTree);
 			expect(pathToProperty).to.deep.equal(['a', 'a2']);
 		});
