@@ -129,7 +129,7 @@ export default class ActionChooser extends Component {
 		return this.formatObject(rawData, this.state && this.state.checkedPaths, this.state && this.state.collapsedPaths, this.state && this.state.checkedPaths, 0);
 	}
 
-	onActionChoose (event, name) {
+	onActionChoose (event, signature) {
 		let rawData = {
 			lastStrokes: this.props.lastStrokes
 		};
@@ -142,10 +142,22 @@ export default class ActionChooser extends Component {
 				return value[key];
 			}, rawData);
 		});
-		this.props.onActionChoose(event, name, values);
+		this.props.onActionChoose(event, this.getFunctionNameFromSignature(signature), values);
 		this.setState({
 			checkedPaths: []
 		});
+	}
+
+	getSignatureFromFunction(aFunction) {
+		return aFunction.toString().split(' {')[0].split('function ')[1];
+	}
+
+	getActions() {
+		return Object.keys(actions).map((actionName) => this.getSignatureFromFunction(actions[actionName]));
+	}
+
+	getFunctionNameFromSignature(signature) {
+		return signature.split('(')[0];
 	}
 
 	render() {
@@ -157,7 +169,7 @@ export default class ActionChooser extends Component {
 					onItemClick={(event, name) => {
 						this.onActionChoose(event, name);
 					}}
-					items={Object.keys(actions).map((actionName) => actionName)}
+					items={this.getActions()}
 				/>
 				<TreeMenu ref='tree'
 					data={this.getFormattedData()}
