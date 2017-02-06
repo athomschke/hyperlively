@@ -1,10 +1,16 @@
 import { UPDATE_POSITION, HIDE, SELECT, SELECT_INSIDE } from 'constants/actionTypes';
 
-export function updatePosition(strokes, x, y) {
+export function updatePosition(strokes, originX, originY, targetX, targetY) {
 	return { type: UPDATE_POSITION,
 		strokes: strokes,
-		x: x,
-		y: y
+		origin: {
+			x: originX,
+			y: originY
+		},
+		target: {
+			x: targetX,
+			y: targetY
+		}
 	};
 }
 

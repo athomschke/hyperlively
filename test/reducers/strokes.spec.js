@@ -137,13 +137,17 @@ describe('strokes', () => {
 			let currentState = [{
 				points: [point(10, 11, 100), point(10, 12, 100), point(10, 13, 100)]
 			}];
-			let bounds = {
+			let origin = {
+				x: 0,
+				y: 0
+			};
+			let target = {
 				x: 0,
 				y: 1
 			};
 			let result = strokes(
 				currentState,
-				updatePosition(strokesToMove, bounds.x, bounds.y, 0)
+				updatePosition(strokesToMove, origin.x, origin.y, target.x, target.y, 0)
 			);
 			expect(result[0].points[0].x).to.equal(10);
 			expect(result[0].points[0].y).to.equal(12);

@@ -1,5 +1,4 @@
 import { findDOMNode } from 'react-dom';
-import TestUtils from 'react-addons-test-utils';
 import { point } from '../helpers';
 import { hashCode, mountApp, dismountApp, getCanvasNodes, getWindowNode, getCombinedCanvas, renderApplicationWithState, manuallyDrawStrokes, gotToHalfTimeInApp } from './helpers';
 import { cloneDeep } from 'lodash';

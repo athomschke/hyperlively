@@ -27,10 +27,10 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
-		performAction: (actionName, strokes, x, y) => {
+		performAction: (actionName, ...args) => {
 			if (actions[actionName]) {
 				dispatch(actions.setObserveMutations(false));
-				dispatch(actions[actionName](strokes, x, y));
+				dispatch(actions[actionName](...args));
 				dispatch(actions.setObserveMutations(true));
 			}
 		},

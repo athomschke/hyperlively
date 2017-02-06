@@ -44,14 +44,18 @@ export default class ActionChooser extends Component {
 		isOpen: PropTypes.bool,
 		onActionChoose: PropTypes.func,
 		jsonTree: PropTypes.object,
-		onCheckChange: PropTypes.func
+		onCheckChange: PropTypes.func,
+		lastStrokes: PropTypes.array,
+		selectedStrokes: PropTypes.array
 	};
 
 	static defaultProps = {
 		isOpen: false,
 		onActionChoose: () => {},
 		jsonTree: {},
-		onCheckChange: () => {}
+		onCheckChange: () => {},
+		lastStrokes: [],
+		selectedStrokes: []
 	}
 
 	componentDidMount () {
@@ -118,16 +122,20 @@ export default class ActionChooser extends Component {
 
 	getFormattedData() {
 		let rawData = cloneDeep(this.props.jsonTree);
-		if (rawData) {
-			rawData.strokes = this.props.strokes;
+		rawData.lastStrokes = this.props.lastStrokes;
+		if (this.props.selectedStrokes.length > 0) {
+			rawData.selectedStrokes = this.props.selectedStrokes;
 		}
 		return this.formatObject(rawData, this.state && this.state.checkedPaths, this.state && this.state.collapsedPaths, this.state && this.state.checkedPaths, 0);
 	}
 
 	onActionChoose (event, name) {
 		let rawData = {
-			strokes: this.props.strokes
+			lastStrokes: this.props.lastStrokes
 		};
+		if (this.props.selectedStrokes.length > 0) {
+			rawData.selectedStrokes = this.props.selectedStrokes;
+		}
 		Object.assign(rawData, this.props.jsonTree);
 		let values = map(this.state.checkedPaths, (checkedPath) => {
 			return reduce(checkedPath, (value, key) => {
@@ -154,8 +162,8 @@ export default class ActionChooser extends Component {
 				<TreeMenu ref='tree'
 					data={this.getFormattedData()}
 					collapsible={true}
-					expandIconClass='expanded'
-					collapseIconClass='collapsed'
+					expandIconClass='expand'
+					collapseIconClass='collapse'
 					onTreeNodeCheckChange={(path) => {
 						this.onTreeNodeCheckChange(path);
 					}}

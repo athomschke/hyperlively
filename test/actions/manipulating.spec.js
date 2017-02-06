@@ -1,19 +1,27 @@
 import { updatePosition, hide, select, selectInside } from 'actions/manipulating';
 
-describe('actions', () => {
+describe('actions to manipulate things on canvas', () => {
 
 	it('should create an action move a set of strokes', () => {
 		const strokes = [];
-		const x = 1;
-		const y = 2;
+		const originX = 1;
+		const originY = 2;
+		const targetX = 3;
+		const targetY = 4;
 		const sceneIndex = 0;
 		const expectedAction = {
 			type: 'UPDATE_POSITION',
 			strokes,
-			x,
-			y
+			origin: {
+				x: originX,
+				y: originY
+			},
+			target: {
+				x: targetX,
+				y: targetY
+			}
 		};
-		expect(updatePosition(strokes, x, y, sceneIndex)).to.deep.equal(expectedAction);
+		expect(updatePosition(strokes, originX, originY, targetX, targetY, sceneIndex)).to.deep.equal(expectedAction);
 	});
 
 	it('should create an action to hide a set of strokes', () => {

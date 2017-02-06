@@ -24,12 +24,16 @@ const appendStrokeTo = (state, action) => {
 	}]);
 };
 
-const moveBy = (state, action) => {
+const updatePosition = (state, action) => {
+	let moveByPoint = {
+		x: action.target.x - action.origin.x,
+		y: action.target.y - action.origin.y
+	};
 	forEach(state, (stateStroke) => {
 		if (find(action.strokes, stateStroke)) {
 			forEach(stateStroke.points, (point) => {
-				point.x += action.x;
-				point.y += action.y;
+				point.x += moveByPoint.x;
+				point.y += moveByPoint.y;
 			});			
 		}
 	});
@@ -88,7 +92,7 @@ function strokes (state = [], action) {
 	case FINISH_STROKE:
 		return finishStroke(state, action);
 	case UPDATE_POSITION:
-		moveBy(state, action);
+		updatePosition(state, action);
 		return state;
 	case HIDE:
 		hide(state, action);

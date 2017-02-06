@@ -261,5 +261,38 @@ describe('Interpreter', () => {
 			expect(interpreter).to.exist;
 		});
 	});
+
+	describe('Choosing selected strokes from sketches', () => {
+
+		let interpreter;
+
+		beforeEach(() => {
+			interpreter = renderWithProps({
+				sketches: [{
+					strokes: [{
+						points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }]
+					}]
+				}, {
+					strokes: [{
+						points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }]
+					}]
+				}, {
+					strokes: [{
+						points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }]
+					}]
+				}]
+			});
+		});
+
+		it('returns an empty array if none are selected', () => {
+			expect(interpreter.getSelectedStrokes()).to.have.length(0);
+		});
+
+		it('returns an empty array if none are selected', () => {
+			interpreter.props.sketches[0].strokes[0].selected = true;
+			expect(interpreter.getSelectedStrokes()).to.have.length(1);
+		});
+
+	});
 	
 });

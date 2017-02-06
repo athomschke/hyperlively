@@ -28,12 +28,12 @@
 		.tree-view-node {
 			margin-left: 20px;
 
-			.expanded:before {
-				content: ">";
+			.expand:before {
+				content: "v";
 			}
 			
-			.collapsed:before {
-				content: "v";
+			.collapse:before {
+				content: ">";
 			}
 		}
 	}

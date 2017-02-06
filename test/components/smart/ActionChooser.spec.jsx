@@ -11,6 +11,8 @@ let renderWithProps = (props) => {
 
 let exampleChecks = [['a', 'a2'], ['b']];
 
+let exampleCollapses = [['a']];
+
 let exampleTree = {
 	a: {
 		a1: 'a1',
@@ -19,6 +21,14 @@ let exampleTree = {
 	b: 'b',
 	c: 'c'
 };
+
+let exampleLastStrokes = [{
+	d: 'd'
+}];
+
+let exampleSelectedStrokes = [{
+	e: 'e'
+}];
 
 let exampleArray = [
 	{
@@ -72,7 +82,9 @@ describe('Action Chooser', () => {
 		beforeEach(()=>{
 			actionChooser = renderWithProps({
 				isOpen: true,
-				jsonTree: exampleTree
+				jsonTree: exampleTree,
+				lastStrokes: exampleLastStrokes,
+				selectedStrokes: exampleSelectedStrokes
 			});
 		});
 
@@ -85,12 +97,12 @@ describe('Action Chooser', () => {
 			expect(actionChooser.refs.tree).to.be.instanceOf(TreeMenu);
 		});
 
-		it('renders an entry for each handwriting recognition result plus one for the selected strokes', () => {
-			expect(TestUtils.scryRenderedDOMComponentsWithClass(actionChooser.refs.tree, 'tree-view-node-label')).to.have.length(6);
+		it('renders an entry for each handwriting recognition result plus one for the last strokes plus the selected strokes', () => {
+			expect(TestUtils.scryRenderedDOMComponentsWithClass(actionChooser.refs.tree, 'tree-view-node-label')).to.have.length(11);
 		});
 
 		it('renders a checkbox for each handwriting recognition result, nodes as well as leafes', () => {
-			expect(TestUtils.scryRenderedDOMComponentsWithTag(actionChooser.refs.tree, 'input')).to.have.length(6);
+			expect(TestUtils.scryRenderedDOMComponentsWithTag(actionChooser.refs.tree, 'input')).to.have.length(11);
 		});
 
 		it('renders an item for each available action type', () => {
@@ -110,6 +122,12 @@ describe('Action Chooser', () => {
 		it('checks the chosen checkmarks', () => {
 			let formattedTree = ActionChooser.prototype.formatObject(exampleTree, exampleChecks, [], exampleChecks, 0);
 			expect(formattedTree[0].children[1].checked).to.be.true;
+		});
+
+
+		it('collapses collapsed nodes', () => {
+			let formattedTree = ActionChooser.prototype.formatObject(exampleTree, exampleChecks, exampleCollapses, exampleChecks, 0);
+			expect(formattedTree[0].collapsed).to.be.true;
 		});
 
 	});
@@ -156,6 +174,59 @@ describe('Action Chooser', () => {
 
 	});
 
+	describe('Collapsing a json property that is an object', () => {
+		
+		it('performs the callback', () => {
+			let actionChooser = renderWithProps({
+				isOpen: true,
+				jsonTree: exampleTree
+			});
+			let collapseIcon = document.getElementsByClassName('collapse')[0];
+			sinon.spy(actionChooser, 'onTreeNodeCollapseChange');
+			TestUtils.Simulate.click(collapseIcon);
+			expect(actionChooser.onTreeNodeCollapseChange.callCount).to.equal(1);
+		});
+
+		it('toggles the collapse icon', () => {
+			renderWithProps({
+				isOpen: true,
+				jsonTree: exampleTree
+			});
+			let collapseIcon = document.getElementsByClassName('collapse')[0];
+			TestUtils.Simulate.click(collapseIcon);
+			expect(collapseIcon.className).to.include('expand');
+			expect(collapseIcon.className.split('tree-view-node-collapse-toggle')[1]).to.not.include('collapse');
+		});
+
+	});
+
+	describe('Expanding a json property that is an object', () => {
+
+		it('performs the callback', () => {
+			let actionChooser = renderWithProps({
+				isOpen: true,
+				jsonTree: exampleTree
+			});
+			let collapseIcon = document.getElementsByClassName('collapse')[0];
+			sinon.spy(actionChooser, 'onTreeNodeCollapseChange');
+			TestUtils.Simulate.click(collapseIcon);
+			expect(actionChooser.onTreeNodeCollapseChange.callCount).to.equal(1);
+		});
+
+		it('toggles the collapse icon', () => {
+			renderWithProps({
+				isOpen: true,
+				jsonTree: exampleTree
+			});
+			let collapseIcon = document.getElementsByClassName('collapse')[0];
+			TestUtils.Simulate.click(collapseIcon);
+			TestUtils.Simulate.click(collapseIcon);
+			expect(collapseIcon.className).to.include('collapse');
+			expect(collapseIcon.className).to.not.include('expand');
+		});
+
+	});
+
 
 	describe('Choosing an action', () => {
 
@@ -184,6 +255,24 @@ describe('Action Chooser', () => {
 			expect(passedValues.length).to.equal(2);
 			expect(passedValues[0]).to.equal('a2');
 			expect(passedValues[1]).to.equal('b');
+		});
+
+		it('can pass selected strokes', () => {
+			let passedValues;
+			let actionChooser = renderWithProps({
+				isOpen: true,
+				jsonTree: exampleTree,
+				selectedStrokes: exampleSelectedStrokes,
+				onActionChoose: (event, name, values) => {
+					passedValues = values;
+				}
+			});
+			actionChooser.setState({
+				checkedPaths: [['selectedStrokes', '0', 'e']]
+			});
+			actionChooser.onActionChoose({}, 'updateThreshold');
+			expect(passedValues.length).to.equal(1);
+			expect(passedValues[0]).to.equal('e');
 		});
 
 		it('does nothing without a callback', () => {

@@ -65,19 +65,34 @@ export default (Wrapped) => class extends Component {
 		});
 	}
 
+	getSelectedStrokes() {
+		return filter(flatten(map(this.props.sketches, 'strokes')), 'selected');
+	}
+
+	renderActionChooser() {
+		let actionChooserProps = {
+			isOpen: !!(this.state && this.state.interpretation),
+			onRequestClose: this.deactivateInterpretation.bind(this),
+			onActionChoose: this.performAction.bind(this),
+			selectedStrokes: this.getSelectedStrokes()
+		};
+		if (this.props.sketches.length && last(this.props.sketches).strokes) {
+			actionChooserProps.lastStrokes = last(this.props.sketches).strokes;
+		}
+		if (this.state && this.state.interpretation && this.state.interpretation.candidate) {
+			actionChooserProps.jsonTree = this.state.interpretation.candidate;
+		}
+		return <ActionChooser {...this.props} {...actionChooserProps} ref='actionChooser' />;
+	}
+
 	render() {
+
 		return (<div>
 			<Wrapped {...this.props}
 				onTextDetected={this.onTextDetected.bind(this)}
 				onShapeDetected={this.onShapeDetected.bind(this)}
 			></Wrapped>
-			<ActionChooser {...this.props} ref='actionChooser'
-				isOpen={!!(this.state && this.state.interpretation)}
-				onRequestClose={this.deactivateInterpretation.bind(this)}
-				onActionChoose={this.performAction.bind(this)}
-				jsonTree={this.state && this.state.interpretation && this.state.interpretation.candidate}
-				strokes={(this.props.sketches.length && last(this.props.sketches).strokes) || []}
-			/>
+			{this.renderActionChooser()}
 		</div>);
 	}
 };

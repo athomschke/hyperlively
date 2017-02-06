@@ -47,8 +47,8 @@ export default (Wrapped) => class extends Component {
 		this.ignore();
 	}
 
-	boundsUpdatedWith(moveBy) {
-		this.props.performAction('updatePosition', this.props.strokes, moveBy.x, moveBy.y);
+	boundsUpdatedWith(fromX, fromY, toX, toY) {
+		this.props.performAction('updatePosition', this.props.strokes, fromX, fromY, toX, toY);
 	}
 
 	onMutations(mutationRecords) {
@@ -60,7 +60,12 @@ export default (Wrapped) => class extends Component {
 						y: parseInt(this.refs.wrapped.refs.node.style.top) - this.props.bounds.y
 					};
 					if (moveBy.x !== 0 || moveBy.y !== 0) {
-						this.boundsUpdatedWith(moveBy);
+						this.boundsUpdatedWith(
+								this.props.bounds.x,
+								this.props.bounds.y,
+								parseInt(this.refs.wrapped.refs.node.style.left),
+								parseInt(this.refs.wrapped.refs.node.style.top)
+						);
 					}
 				}
 			});

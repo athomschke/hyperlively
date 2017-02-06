@@ -59,6 +59,14 @@ describe('Bounds mutation observer', () => {
 			sinon.spy(mockedComponent, 'boundsUpdatedWith');
 		});
 
+		it('horizontally calls the callback with enough information with a position when one is given', (done) => {
+			mockedComponent.refs.wrapped.refs.node.style.setProperty('left', '2px');
+			setTimeout(() => {
+				expect(mockedComponent.boundsUpdatedWith.args[0]).to.have.length(4);
+				done();
+			});
+		});
+
 		it('horizontally calls the callback with a position when one is given', (done) => {
 			mockedComponent.refs.wrapped.refs.node.style.setProperty('left', '2px');
 			setTimeout(() => {
