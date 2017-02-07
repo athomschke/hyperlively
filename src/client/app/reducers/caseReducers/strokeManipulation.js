@@ -1,4 +1,4 @@
-import { forEach, find, map, isEqual, without, flatten } from 'lodash';
+import { find, map, isEqual, without, flatten } from 'lodash';
 import Polygon from 'polygon';
 
 export const updatePosition = (state, action) => {
@@ -6,15 +6,22 @@ export const updatePosition = (state, action) => {
 		x: action.target.x - action.origin.x,
 		y: action.target.y - action.origin.y
 	};
-	forEach(state, (stateStroke) => {
+	return map(state, (stateStroke) => {
 		if (find(action.strokes, stateStroke)) {
-			forEach(stateStroke.points, (point) => {
-				point.x += moveByPoint.x;
-				point.y += moveByPoint.y;
-			});			
+			let newPoints = stateStroke.points.map((point) => {
+				let newCoordinates = {
+					x: point.x + moveByPoint.x,
+					y: point.y + moveByPoint.y
+				};
+				return Object.assign({}, point, newCoordinates);
+			});
+			let newStroke = Object.assign({}, stateStroke, {
+				points: newPoints
+			});
+			return newStroke;
 		}
+		return stateStroke;
 	});
-	return state;
 };
 
 const doStrokesContainStroke = (strokes, stroke) => {
@@ -24,23 +31,31 @@ const doStrokesContainStroke = (strokes, stroke) => {
 };
 
 export const hide = (state, action) => {
-	forEach(state, (stateStroke) => {
+	return map(state, (stateStroke) => {
 		if (doStrokesContainStroke(action.strokes, stateStroke)) {
-			stateStroke.hidden = true;
+			return Object.assign({}, stateStroke, {
+				hidden: true
+			});
+		} else {
+			return stateStroke;
 		}
 	});
-	return state;
 };
 
 const selectStrokes = (state, strokes) => {
-	forEach(state, (stateStroke) => {
+	return map(state, (stateStroke) => {
 		if (doStrokesContainStroke(strokes, stateStroke)) {
-			stateStroke.selected = true;
+			return Object.assign({}, stateStroke, {
+				selected: true
+			});
+		} else if (stateStroke.selected) {
+			let newStroke = Object.assign({}, stateStroke);
+			delete newStroke.selected;
+			return newStroke;
 		} else {
-			delete stateStroke.selected;
+			return stateStroke;
 		}
 	});
-	return state;
 };
 
 export const select = (state, action) => {
