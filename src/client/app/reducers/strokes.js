@@ -1,22 +1,22 @@
 import { points } from 'reducers/points';
 import { APPEND_POINT, CREATE_STROKE, FINISH_STROKE, UPDATE_POSITION, HIDE, SELECT, SELECT_INSIDE } from 'constants/actionTypes';
 import { last, forEach, concat, find, map, isEqual, without, flatten } from 'lodash';
-import { appendPoint } from 'actions/drawing';
+import { appendPoint as appendPointAction } from 'actions/drawing';
 import Polygon from 'polygon';
 
-const appendPointTo = (state, action) => {
+const appendPoint = (state, action) => {
 	if (state.length > 0) {
-		last(state).points = points(last(state).points, appendPoint(action.x, action.y, action.timeStamp));
+		last(state).points = points(last(state).points, appendPointAction(action.x, action.y, action.timeStamp));
 		return state;
 	} else {
-		return appendStrokeTo(state, action);
+		return appendStroke(state, action);
 	}
 };
 
-const appendStrokeTo = (state, action) => {
+const appendStroke = (state, action) => {
 	return concat(state, [{
 		actionIndex: action.index,
-		points: points([], appendPoint(action.x, action.y, action.timeStamp)),
+		points: points([], appendPointAction(action.x, action.y, action.timeStamp)),
 		position: {
 			x: action.x,
 			y: action.y
@@ -37,10 +37,11 @@ const updatePosition = (state, action) => {
 			});			
 		}
 	});
+	return state;
 };
 
 const finishStroke = (state, action) => {
-	let nextState = appendPointTo(state, action);
+	let nextState = appendPoint(state, action);
 	last(nextState).finished = true;
 	return nextState; 
 };
@@ -57,6 +58,7 @@ const hide = (state, action) => {
 			stateStroke.hidden = true;
 		}
 	});
+	return state;
 };
 
 const select = (state, strokes) => {
@@ -67,6 +69,7 @@ const select = (state, strokes) => {
 			delete stateStroke.selected;
 		}
 	});
+	return state;
 };
 
 const strokesSurroundedBy = (allStrokes, surroundingStrokes) => {
@@ -81,28 +84,25 @@ const strokesSurroundedBy = (allStrokes, surroundingStrokes) => {
 
 const selectInside = (state, action) => {
 	select(state, strokesSurroundedBy(state, action.strokes));
+	return state;
 };
 
 function strokes (state = [], action) {
 	switch(action.type) {
 	case APPEND_POINT:
-		return appendPointTo(state, action);
+		return appendPoint(state, action);
 	case CREATE_STROKE:
-		return appendStrokeTo(state, action);
+		return appendStroke(state, action);
 	case FINISH_STROKE:
 		return finishStroke(state, action);
 	case UPDATE_POSITION:
-		updatePosition(state, action);
-		return state;
+		return updatePosition(state, action);
 	case HIDE:
-		hide(state, action);
-		return state;
+		return hide(state, action);
 	case SELECT:
-		select(state, action.strokes);
-		return state;
+		return select(state, action.strokes);
 	case SELECT_INSIDE:
-		selectInside(state, action);
-		return state;
+		return selectInside(state, action);
 	default:
 		return state;
 	}
