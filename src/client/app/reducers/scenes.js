@@ -1,5 +1,5 @@
 import { strokes } from 'reducers/strokes';
-import { APPEND_POINT, CREATE_STROKE, FINISH_STROKE, UPDATE_POSITION, HIDE, ADD_SCENE, ADD_SCENE_AT, SELECT, SELECT_INSIDE } from 'constants/actionTypes';
+import { APPEND_POINT, APPEND_STROKE, FINISH_STROKE, UPDATE_POSITION, HIDE, ADD_SCENE, ADD_SCENE_AT, SELECT, SELECT_INSIDE } from 'constants/actionTypes';
 
 let defaultScene = () => {
 	return {
@@ -10,7 +10,7 @@ let defaultScene = () => {
 function scenes (state = [defaultScene()], action) {
 	switch(action.type) {
 	case APPEND_POINT:
-	case CREATE_STROKE:
+	case APPEND_STROKE:
 	case FINISH_STROKE:
 		if (state.length > 0) {
 			state[action.sceneIndex].strokes = strokes(state[action.sceneIndex].strokes, action);

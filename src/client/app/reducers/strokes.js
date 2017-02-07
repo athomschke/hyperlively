@@ -1,5 +1,5 @@
 import { points } from 'reducers/points';
-import { APPEND_POINT, CREATE_STROKE, FINISH_STROKE, UPDATE_POSITION, HIDE, SELECT, SELECT_INSIDE } from 'constants/actionTypes';
+import { APPEND_POINT, APPEND_STROKE, FINISH_STROKE, UPDATE_POSITION, HIDE, SELECT, SELECT_INSIDE } from 'constants/actionTypes';
 import { last, forEach, concat, find, map, isEqual, without, flatten } from 'lodash';
 import { appendPoint as appendPointAction } from 'actions/drawing';
 import Polygon from 'polygon';
@@ -91,7 +91,7 @@ function strokes (state = [], action) {
 	switch(action.type) {
 	case APPEND_POINT:
 		return appendPoint(state, action);
-	case CREATE_STROKE:
+	case APPEND_STROKE:
 		return appendStroke(state, action);
 	case FINISH_STROKE:
 		return finishStroke(state, action);

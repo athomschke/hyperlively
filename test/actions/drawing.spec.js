@@ -20,7 +20,7 @@ describe('actions', () => {
 		const y = 10;
 		const timeStamp = 20;
 		const expectedAction = {
-			type: 'CREATE_STROKE',
+			type: 'APPEND_STROKE',
 			x,
 			y,
 			timeStamp
