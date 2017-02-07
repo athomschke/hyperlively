@@ -1,10 +1,13 @@
-import * as cases from './caseReducers/strokes';
+import * as creationCases from './caseReducers/strokeCreation';
+import * as manipulationCases from './caseReducers/strokeManipulation';
 import { camelCase } from 'lodash';
 
 function strokes (state = [], action) {
 	let functionName = camelCase(action.type);
-	if (cases.hasOwnProperty(functionName)) {
-		return cases[functionName](state, action);
+	if (creationCases.hasOwnProperty(functionName)) {
+		return creationCases[functionName](state, action);
+	} else if (manipulationCases.hasOwnProperty(functionName)) {
+		return manipulationCases[functionName](state, action);
 	} else {
 		return state;
 	}
