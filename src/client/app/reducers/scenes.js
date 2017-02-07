@@ -13,18 +13,34 @@ function scenes (state = [defaultScene()], action) {
 	case APPEND_STROKE:
 	case FINISH_STROKE:
 		if (state.length > 0) {
-			state[action.sceneIndex].strokes = strokes(state[action.sceneIndex].strokes, action);
+			let newScene = Object.assign({}, state[action.sceneIndex], {
+				strokes: strokes(state[action.sceneIndex].strokes, action)
+			});
+			let newState = [].concat(
+				state.slice(action.sceneIndex-1, action.sceneIndex),
+				[newScene],
+				state.slice(action.sceneIndex+1),
+			);
+			return newState;
 		} else {
-			state = [defaultScene()];
-			state[0].strokes = strokes(state[0].strokes, action);
+			let newState = [defaultScene()];
+			newState[0].strokes = strokes(newState[0].strokes, action);
+			return newState;
 		}
-		return state;
 	case HIDE:
 	case SELECT:
 	case SELECT_INSIDE:
-	case UPDATE_POSITION:
-		strokes(state[action.sceneIndex].strokes, action);
-		return state;
+	case UPDATE_POSITION: {
+		let newScene = Object.assign({}, state[action.sceneIndex], {
+			strokes: strokes(state[action.sceneIndex].strokes, action)
+		});
+		let newState = [].concat(
+			state.slice(action.sceneIndex-1, action.sceneIndex),
+			[newScene],
+			state.slice(action.sceneIndex+1),
+		);
+		return newState;
+	}
 	case ADD_SCENE:
 		return state.concat([defaultScene()]);
 	case ADD_SCENE_AT:

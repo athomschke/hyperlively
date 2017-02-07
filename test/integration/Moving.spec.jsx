@@ -44,7 +44,7 @@ describe('Integration', () => {
 		xhr.restore();
 	});
 
-	describe('moving a canvas', () => {
+	describe('moving a canvas and recording the move', () => {
 
 		it('works without errors', (done) => {
 			let oldLeftValue;
