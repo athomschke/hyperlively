@@ -3,7 +3,7 @@ import TestUtils from 'react-addons-test-utils';
 import SketchCombiner from 'components/smart/SketchCombiner';
 import { point } from '../../helpers';
 
-let expectOneStrokeInOneSketch = (combinedSketches, addedPoint) => {
+const expectOneStrokeInOneSketch = (combinedSketches, addedPoint) => {
 	expect(combinedSketches).to.have.length(1);
 	expect(combinedSketches[0].strokes).to.exist;
 	expect(combinedSketches[0].strokes).to.have.length(1);
@@ -11,7 +11,7 @@ let expectOneStrokeInOneSketch = (combinedSketches, addedPoint) => {
 	expect(combinedSketches[0].strokes[0].points[0]).to.deep.equal(addedPoint);
 };
 
-let expectTwoSketches = (combinedSketches, addedPoint1, addedPoint2) => {
+const expectTwoSketches = (combinedSketches, addedPoint1, addedPoint2) => {
 	expect(combinedSketches).to.have.length(2);
 	expect(combinedSketches[0].strokes).to.exist;
 	expect(combinedSketches[0].strokes).to.have.length(1);
@@ -23,7 +23,7 @@ let expectTwoSketches = (combinedSketches, addedPoint1, addedPoint2) => {
 	expect(combinedSketches[1].strokes[0].points[0]).to.deep.equal(addedPoint2);
 };
 
-let expectTwoStrokesInOneSketch = (combinedSketches, addedPoint1) => {
+const expectTwoStrokesInOneSketch = (combinedSketches, addedPoint1) => {
 	expect(combinedSketches).to.have.length(1);
 	expect(combinedSketches[0].strokes).to.exist;
 	expect(combinedSketches[0].strokes).to.have.length(2);

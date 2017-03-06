@@ -7,16 +7,16 @@ export default class Threshold extends Component {
 
 	static propTypes = {
 		threshold: PropTypes.number,
-		onChange: PropTypes.func
+		onChange: PropTypes.func,
 	};
 
 	static defaultProps = {
 		threshold: 0,
-		onChange: () => {}
+		onChange: () => {},
 	};
 
 	render() {
-		return <Slider
+		return (<Slider
 			ref='slider'
 			className={rcSlider}
 			value={Math.min(MAX_THRESHOLD, Math.max(MIN_THRESHOLD, this.props.threshold))}
@@ -24,7 +24,7 @@ export default class Threshold extends Component {
 			min={MIN_THRESHOLD}
 			onChange={this.props.onChange}
 			tipFormatter={null}
-		/>;
+		/>);
 	}
 
 }

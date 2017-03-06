@@ -1,14 +1,9 @@
-import React, { Component } from 'react';
-import LabelledBox from 'components/dumb/LabelledBox';
+import React from 'react';
+import LabelledBox from './LabelledBox';
 
-'use strict';
-
-export default class Ploma extends Component {
-
-	render() {
-		return (<LabelledBox {...this.props}
-			label={'Use Ploma'}
-		/>);
-	}
-
+export default function (props) {
+	return (<LabelledBox
+		{...props}
+		label={'Use Ploma'}
+	/>);
 }

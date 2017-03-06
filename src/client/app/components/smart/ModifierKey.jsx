@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 
-export default (Wrapped) => class extends Component {
+export default Wrapped => class extends Component {
 
 	constructor(props) {
 		super(props);
 		this.state = {
 			cmdPressed: false,
-			ctrlPressed: false
+			ctrlPressed: false,
 		};
 	}
 
@@ -33,7 +33,7 @@ export default (Wrapped) => class extends Component {
 	}
 
 	handleKeyUp(event) {
-		if (this.state.cmdPressed && !event.metaKey || event.ctrlKey) {
+		if (this.state.cmdPressed && (!event.metaKey || event.ctrlKey)) {
 			this.setState({ cmdPressed: false });
 		}
 		if (this.state.returnPressed && (event.which === 13 && event.keyCode === 13)) {
@@ -45,6 +45,6 @@ export default (Wrapped) => class extends Component {
 	}
 
 	render() {
-		return (<Wrapped {...this.props} {...this.state} ></Wrapped>);
+		return (<Wrapped {...this.props} {...this.state} />);
 	}
 };

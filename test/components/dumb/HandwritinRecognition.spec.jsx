@@ -6,8 +6,7 @@ import React from 'react';
 describe('Handwriting Recognition Configuration', () => {
 
 	it('labels the button Handwriting Recognition', () => {
-		let component = TestUtils.renderIntoDocument(<HandwritingRecognition></HandwritingRecognition>);
-		let domNode = findDOMNode(component);
-		expect(domNode.textContent).to.equal('Use Handwriting Recognition');
+		let component = HandwritingRecognition({});
+		expect(component.props.label).to.equal('Use Handwriting Recognition');
 	});
 });

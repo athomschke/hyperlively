@@ -1,43 +1,43 @@
-import AbstractDrawer from 'components/smart/AbstractDrawer';
-import { without, last, head, tail, reduce, cloneDeep, first } from 'lodash';
 import React from 'react';
 import Color from 'color';
+import { without, last, head, tail, reduce, cloneDeep, first } from 'lodash';
+import AbstractDrawer from './AbstractDrawer';
+import lastPointInStrokes from 'helpers/lastPointInStrokes';
 import { DEFAULT_PEN_COLOR, SELECTED_PEN_COLOR } from 'constants/drawing';
 
-'use strict';
+const secondToLastPointInStrokes = (strokes) => {
+	const points = last(strokes).points;
+	return points[points.length - 2];
+};
 
 export default class PlainDrawer extends AbstractDrawer {
 
-	secondToLastPointInStrokes (strokes) {
-		let points = last(strokes).points;
-		return points[points.length - 2];
-	}
-
 	wasFirstPointEdited() {
-		return this.props.strokes[0] && this.state.strokes[0] && (this.props.strokes[0].points[0].x !== this.state.strokes[0].points[0].x);
+		return this.props.strokes[0] && this.state.strokes[0] &&
+			(this.props.strokes[0].points[0].x !== this.state.strokes[0].points[0].x);
 	}
 
 	onStrokesUpdated() {
 		if (this.wasFirstPointEdited()) {
 			this.redrawEverything(this.props.strokes[0] && this.props.strokes[0].finished);
 			this.setState({
-				strokes: cloneDeep(this.props.strokes)
+				strokes: cloneDeep(this.props.strokes),
 			});
 		} else {
-			return super.onStrokesUpdated();
+			super.onStrokesUpdated();
 		}
 	}
 
 	onStrokeStarted(strokes) {
-		this.startStrokeAt(this.lastPointInStrokes(strokes), first(strokes).color);
+		this.startStrokeAt(lastPointInStrokes(strokes), first(strokes).color);
 	}
 
 	onStrokesExtended(strokes) {
-		this.extendStrokeAt(this.lastPointInStrokes(strokes), this.secondToLastPointInStrokes(strokes));
+		this.extendStrokeAt(lastPointInStrokes(strokes), secondToLastPointInStrokes(strokes));
 	}
 
 	onStrokesEnded(strokes) {
-		this.endStrokeAt(this.lastPointInStrokes(strokes), this.secondToLastPointInStrokes(strokes));
+		this.endStrokeAt(lastPointInStrokes(strokes), secondToLastPointInStrokes(strokes));
 	}
 
 	startStrokeAt(aPoint, aColor) {
@@ -46,7 +46,7 @@ export default class PlainDrawer extends AbstractDrawer {
 
 	extendStrokeAt(point, optPointBefore) {
 		if (optPointBefore && (point !== optPointBefore)) {
-			let context = this.refs.canvas.getContext('2d');
+			const context = this.refs.canvas.getContext('2d');
 			context.beginPath();
 			context.moveTo(optPointBefore.x, optPointBefore.y);
 			context.lineTo(point.x, point.y);
@@ -64,18 +64,18 @@ export default class PlainDrawer extends AbstractDrawer {
 	}
 
 	redrawStroke(stroke, shouldFinish) {
-		let that = this;
-		let points = stroke.points;
+		const that = this;
+		const points = stroke.points;
 		if (points.length > 1) {
 			that.startStrokeAt(head(points), stroke.selected ? SELECTED_PEN_COLOR : stroke.color);
-			reduce(without(tail(points), last(points)), function (pointBefore, point) {
+			reduce(without(tail(points), last(points)), (pointBefore, point) => {
 				that.extendStrokeAt(point, pointBefore);
 				return point;
 			}, tail(points)[0]);
 			if (shouldFinish) {
-				that.endStrokeAt(last(points), points[points.length-2]);
+				that.endStrokeAt(last(points), points[points.length - 2]);
 			} else {
-				that.extendStrokeAt(last(points), points[points.length-2]);
+				that.extendStrokeAt(last(points), points[points.length - 2]);
 			}
 		}
 	}

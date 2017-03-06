@@ -2,49 +2,48 @@ import React, { Component, PropTypes } from 'react';
 import { reduce, last, first, concat } from 'lodash';
 import { DEFAULT_THRESHOLD } from 'constants/drawing';
 
-'use strict';
-
-let strokeFollowedSuit = (collectedSketches, stroke, threshold) => {
-	return last(collectedSketches) &&
+const strokeFollowedSuit = (collectedSketches, stroke, threshold) => {
+	const lastPoint = last(collectedSketches) &&
 		last(last(collectedSketches).strokes) &&
 		last(last(last(collectedSketches).strokes).points) &&
-		last(stroke.points) &&
-		first(stroke.points).timeStamp - last(last(last(collectedSketches).strokes).points).timeStamp < threshold;
+		last(last(last(collectedSketches).strokes).points);
+	const firstPointFromLastStroke = last(stroke.points) &&
+		first(stroke.points);
+	return firstPointFromLastStroke && lastPoint &&
+		firstPointFromLastStroke.timeStamp - lastPoint.timeStamp < threshold;
 };
 
-let sketches = (strokes, threshold) => {
-	return reduce(strokes, (collectedSketches, stroke) => {
-		if (strokeFollowedSuit(collectedSketches, stroke, threshold)) {
-			last(collectedSketches).strokes.push(stroke);
-			last(collectedSketches).finished = stroke.finished;
-			return collectedSketches;
-		} else {
-			return concat(collectedSketches, [{
-				strokes: [stroke],
-				finished: stroke.finished
-			}]);
-		}
-	}, []);
-};
+const sketches = (strokes, threshold) => reduce(strokes, (collectedSketches, stroke) => {
+	if (strokeFollowedSuit(collectedSketches, stroke, threshold)) {
+		last(collectedSketches).strokes.push(stroke);
+		last(collectedSketches).finished = stroke.finished;
+		return collectedSketches;
+	}
+	return concat(collectedSketches, [{
+		strokes: [stroke],
+		finished: stroke.finished,
+	}]);
+}, []);
 
-export default (Wrapped) => class extends Component {
+export default Wrapped => class extends Component {
 
 	static propTypes = {
 		scene: PropTypes.object,
-		threshold: PropTypes.number
+		threshold: PropTypes.number,
 	};
 
 	static defaultProps = {
 		scene: {
-			strokes: []
+			strokes: [],
 		},
-		threshold: DEFAULT_THRESHOLD
+		threshold: DEFAULT_THRESHOLD,
 	}
 
 	render() {
-		let strokes = this.props.scene.strokes;
-		return (<Wrapped {...this.props}
+		const strokes = this.props.scene.strokes;
+		return (<Wrapped
+			{...this.props}
 			sketches={sketches(strokes, this.props.threshold)}
-		></Wrapped>);
+		/>);
 	}
 };

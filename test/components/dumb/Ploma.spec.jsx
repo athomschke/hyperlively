@@ -6,8 +6,7 @@ import React from 'react';
 describe('Ploma Configuration', () => {
 
 	it('labels the button Ploma', () => {
-		let component = TestUtils.renderIntoDocument(<Ploma></Ploma>);
-		let domNode = findDOMNode(component);
-		expect(domNode.textContent).to.equal('Use Ploma');
+		let component = Ploma({})
+		expect(component.props.label).to.equal('Use Ploma');
 	});
 });

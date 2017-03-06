@@ -1,103 +1,30 @@
-import React, {Component, PropTypes} from 'react';
+import React, { Component, PropTypes } from 'react';
 import { flatten, last, isEqual, cloneDeep, forEach, map, find } from 'lodash';
 import { ERROR_OVERWRITE } from 'constants/errors';
 import { OFFSET } from 'constants/canvas';
 
-'use strict';
+const allPoints = strokes => flatten(map(strokes, stroke => stroke.points));
 
-let allPoints = (strokes) => {
-	return flatten(map(strokes, (stroke) => {
-		return stroke.points;
-	}));
-};
+const pointCount = strokes => allPoints(strokes).length;
 
-let pointCount = (strokes) => {
-	return allPoints(strokes).length;
-};
+const strokeWhereColorChanged = (strokes1, strokes2) =>
+	find(strokes1, (stroke, index) =>
+		!isEqual(stroke.color, strokes2[index].color));
 
-const strokeWhereColorChanged = (strokes1, strokes2) => {
-	return find(strokes1, (stroke, index) => {
-		return !isEqual(stroke.color, strokes2[index].color);
-	});
-};
-const strokeWhereSelectStatusChanged = (strokes1, strokes2) => {
-	return find(strokes1, (stroke, index) => {
-		return !isEqual(stroke.selected, strokes2[index].selected);
-	});
-};
+const strokeWhereSelectStatusChanged = (strokes1, strokes2) =>
+	find(strokes1, (stroke, index) =>
+		!isEqual(stroke.selected, strokes2[index].selected));
 
 export default class AbstractDrawer extends Component {
 
-	/**
-	 * @overwrite
-	 * @param {array} strokes
-	 */
-	onStrokeStarted() {
-		throw(new Error(ERROR_OVERWRITE));
-	}
-
-	/**
-	 * @overwrite
-	 * @param {array} strokes
-	 */
-	onStrokesExtended() {
-		throw(new Error(ERROR_OVERWRITE));
-	}
-
-	/**
-	 * @overwrite
-	 * @param {array} strokes
-	 */
-	onStrokesEnded() {
-		throw(new Error(ERROR_OVERWRITE));
-	}
-
-	/**
-	 * @overwrite
-	 * @param {object} point
-	 * @param {object} color (optional)
-	 */
-	startStrokeAt() { }
-
-	/**
-	 * @overwrite
-	 * @param {array} strokes
-	 * @param {object} optPointBefore
-	 */
-	extendStrokeAt() {
-		throw(new Error(ERROR_OVERWRITE));
-	}
-
-	/**
-	 * @overwrite
-	 * @param {array} strokes
-	 * @param {object} optPointBefore
-	 */
-	endStrokeAt() {
-		throw(new Error(ERROR_OVERWRITE));
-	}
-
-	/**
-	 * @overwrite
-	 */
-	resetCanvas() {
-		throw(new Error(ERROR_OVERWRITE));
-	}
-
-	/**
-	 * @overwrite
-	 */
-	redrawStroke() {
-		throw(new Error(ERROR_OVERWRITE));
-	}
-
 	static propTypes = {
-		strokes: PropTypes.array,
-		bounds: PropTypes.object,
+		strokes: PropTypes.arrayOf(PropTypes.object),
+		bounds: PropTypes.objectOf(React.PropTypes.number),
 		active: PropTypes.bool,
 		width: PropTypes.number,
 		height: PropTypes.number,
-		showBorder: PropTypes.bool
+		showBorder: PropTypes.bool,
+		finished: PropTypes.bool,
 	};
 
 	static defaultProps = {
@@ -105,21 +32,23 @@ export default class AbstractDrawer extends Component {
 		bounds: {
 			x: 0,
 			y: 0,
-			width: 2*OFFSET,
-			height: 2*OFFSET
+			width: 2 * OFFSET,
+			height: 2 * OFFSET,
 		},
 		active: false,
 		width: window.innerWidth,
 		height: window.innerHeight,
-		showBorder: false
+		showBorder: false,
+		finished: false,
 	};
 
 	componentDidMount() {
+		const isFinished = last(this.props.strokes) && last(this.props.strokes).finished;
 		this.setState({
 			strokes: cloneDeep(this.props.strokes),
 			width: this.props.width,
-			height: this.props.height
-		}, this.redrawEverything.bind(this, last(this.props.strokes) && last(this.props.strokes).finished));
+			height: this.props.height,
+		}, this.redrawEverything.bind(this, isFinished));
 	}
 
 	componentDidUpdate() {
@@ -128,29 +57,92 @@ export default class AbstractDrawer extends Component {
 		}
 		if (!isEqual(this.props.width, this.state.width)) {
 			this.setState({
-				width: this.props.width
+				width: this.props.width,
 			}, this.redrawEverything);
 		}
 		if (!isEqual(this.props.height, this.state.height)) {
 			this.setState({
-				height: this.props.height
+				height: this.props.height,
 			}, this.redrawEverything);
 		}
 	}
 
-	lastPointInStrokes (strokes) {
-		return last(last(strokes).points);
+	/**
+	 * @overwrite
+	 * @param {array} strokes
+	 */
+	onStrokeStarted() {
+		throw new Error(ERROR_OVERWRITE);
+	}
+
+	/**
+	 * @overwrite
+	 * @param {array} strokes
+	 */
+	onStrokesExtended() {
+		throw new Error(ERROR_OVERWRITE);
+	}
+
+	/**
+	 * @overwrite
+	 * @param {array} strokes
+	 */
+	onStrokesEnded() {
+		throw new Error(ERROR_OVERWRITE);
+	}
+
+	/**
+	 * @overwrite
+	 * @param {array} strokes
+	 * @param {object} optPointBefore
+	 */
+	extendStrokeAt() {
+		throw new Error(ERROR_OVERWRITE);
+	}
+
+	/**
+	 * @overwrite
+	 * @param {array} strokes
+	 * @param {object} optPointBefore
+	 */
+	endStrokeAt() {
+		throw new Error(ERROR_OVERWRITE);
+	}
+
+	/**
+	 * @overwrite
+	 */
+	resetCanvas() {
+		throw new Error(ERROR_OVERWRITE);
+	}
+
+	/**
+	 * @overwrite
+	 * @param {object} point
+	 * @param {object} color (optional)
+	 */
+	startStrokeAt() {}
+
+	/**
+	 * @overwrite
+	 */
+	redrawStroke() {
+		throw new Error(ERROR_OVERWRITE);
 	}
 
 	moveImageDataToNewPosition() {
-		let oldFirstPoint = allPoints(this.state.strokes)[0];
-		let newFirstPoint = allPoints(this.props.strokes)[0];
-		let moveBy ={ 
+		const oldFirstPoint = allPoints(this.state.strokes)[0];
+		const newFirstPoint = allPoints(this.props.strokes)[0];
+		const moveBy = {
 			x: newFirstPoint.x - oldFirstPoint.x,
-			y: newFirstPoint.y - oldFirstPoint.y
+			y: newFirstPoint.y - oldFirstPoint.y,
 		};
-		let context = this.refs.canvas.getContext('2d');
-		let oldImageData = context.getImageData(this.props.bounds.x - moveBy.x, this.props.bounds.y - moveBy.y, this.props.bounds.width, this.props.bounds.height);
+		const context = this.refs.canvas.getContext('2d');
+		const oldImageData = context.getImageData(
+				this.props.bounds.x - moveBy.x,
+				this.props.bounds.y - moveBy.y,
+				this.props.bounds.width,
+				this.props.bounds.height);
 		context.clearRect(0, 0, this.refs.canvas.width, this.refs.canvas.height);
 		context.putImageData(oldImageData, this.props.bounds.x, this.props.bounds.y);
 	}
@@ -171,13 +163,13 @@ export default class AbstractDrawer extends Component {
 			this.redrawEverything(this.props.strokes[0] && this.props.strokes[0].finished);
 		}
 		this.setState({
-			strokes: cloneDeep(this.props.strokes)
+			strokes: cloneDeep(this.props.strokes),
 		});
 	}
 
 	addPointPerformanceEnhanced() {
-		let oldStrokes = this.state.strokes;
-		let newStrokes = this.props.strokes;
+		const oldStrokes = this.state.strokes;
+		const newStrokes = this.props.strokes;
 		if (newStrokes.length > oldStrokes.length) {
 			this.onStrokeStarted(newStrokes);
 		} else if (last(newStrokes).finished && !last(oldStrokes).finished) {
@@ -188,7 +180,7 @@ export default class AbstractDrawer extends Component {
 	}
 
 	redrawEverything(shouldFinish) {
-		let that = this;
+		const that = this;
 		this.resetCanvas();
 		forEach(this.props.strokes, (stroke) => {
 			that.redrawStroke(stroke, shouldFinish);
@@ -203,7 +195,7 @@ export default class AbstractDrawer extends Component {
 			pointerEvents: this.props.active && this.props.finished ? 'auto' : 'none',
 			width: this.props.bounds.width,
 			height: this.props.bounds.height,
-			borderLeft: (this.props.showBorder ? '1' : '0') + 'px solid black'
+			borderLeft: `${this.props.showBorder ? '1' : '0'}px solid black`,
 		};
 	}
 
@@ -212,21 +204,21 @@ export default class AbstractDrawer extends Component {
 			position: 'absolute',
 			top: -this.props.bounds.y,
 			left: -this.props.bounds.x,
-			pointerEvents: 'none'
+			pointerEvents: 'none',
 		};
 	}
 
 	render() {
-		return <div
-				ref='node'
-				style={this.getPassepartoutStyle()}
-			>
-				<canvas 
-					ref='canvas'
-					width={this.props.width}
-					height={this.props.height}
-					style={this.getCanvasStyle()}
-				/>
-			</div>;
+		return (<div
+			ref="node"
+			style={this.getPassepartoutStyle()}
+		>
+			<canvas
+				ref="canvas"
+				width={this.props.width}
+				height={this.props.height}
+				style={this.getCanvasStyle()}
+			/>
+		</div>);
 	}
 }

@@ -1,40 +1,39 @@
-import React, {Component, PropTypes} from 'react';
+import React, { Component, PropTypes } from 'react';
 import { map } from 'lodash';
 
 export default class HoverList extends Component {
 
 	static propTypes = {
 		onItemClick: PropTypes.func,
-		items: PropTypes.array
+		items: PropTypes.arrayOf(PropTypes.string),
 	};
 
 	static defaultProps = {
 		onItemClick: () => {},
-		items: []
+		items: [],
 	};
 
 	componentDidMount() {
 		this.setState({});
 	}
 
+	onEnterItem(hoveredIndex) {
+		this.setState({ hoveredIndex });
+	}
+
+	onLeaveItem(index) {
+		const hoveredIndex = this.state && (this.state.hoveredIndex === index) ?
+			undefined :
+			this.state.hoveredIndex;
+		this.setState({ hoveredIndex });
+	}
+
 	getItemStyleAt(index) {
 		return {
 			listStyleType: 'none',
 			padding: 5,
-			backgroundColor: this.state && (this.state.hoveredIndex === index) ? 'lightGray' : 'transparent'
+			backgroundColor: this.state && (this.state.hoveredIndex === index) ? 'lightGray' : 'transparent',
 		};
-	}
-
-	onEnterItem(index) {
-		this.setState({
-			hoveredIndex: index
-		});
-	}
-
-	onLeaveItem(index) {
-		this.setState({
-			hoveredIndex: this.state && (this.state.hoveredIndex === index) ? undefined : this.state.hoveredIndex
-		});
 	}
 
 	renderChildren() {
@@ -52,7 +51,7 @@ export default class HoverList extends Component {
 	}
 
 	render() {
-		return (<ul className='list-view'>
+		return (<ul className="list-view">
 			{this.renderChildren()}
 		</ul>);
 	}

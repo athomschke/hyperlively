@@ -1,27 +1,27 @@
 import React, { Component, PropTypes } from 'react';
 
-export default (Wrapped) => class extends Component {
+export default Wrapped => class extends Component {
 
 	static propTypes = {
 		onDragStart: PropTypes.func,
 		onDrag: PropTypes.func,
 		onDragEnd: PropTypes.func,
-		cmdPressed: PropTypes.bool
+		cmdPressed: PropTypes.bool,
 	};
 
 	static defaultProps = {
 		onDragStart: () => {},
 		onDrag: () => {},
 		onDragEnd: () => {},
-		cmdPressed: false
+		cmdPressed: false,
 	}
-	
+
 	componentDidMount() {
 		this.onMouseDown = this.onMouseDown.bind(this);
 		this.onMouseMove = this.onMouseMove.bind(this);
 		this.onMouseUp = this.onMouseUp.bind(this);
 		this.state = {
-			mousePressed: false
+			mousePressed: false,
 		};
 	}
 
@@ -53,7 +53,7 @@ export default (Wrapped) => class extends Component {
 
 	onPointerDown(evt) {
 		this.setState({
-			mousePressed: true
+			mousePressed: true,
 		}, this.props.onDragStart.bind(this, evt));
 	}
 
@@ -67,21 +67,26 @@ export default (Wrapped) => class extends Component {
 		if (this.state.mousePressed) {
 			this.props.onDragEnd.call(this, evt);
 			this.setState({
-				mousePressed: false
+				mousePressed: false,
 			});
 		}
 	}
 
 	render() {
-		let callbacks = this.props.cmdPressed ? {} : {
+		const callbacks = this.props.cmdPressed ? {} : {
 			onMouseUp: this.onMouseUp.bind(this),
 			onMouseMove: this.onMouseMove.bind(this),
 			onMouseDown: this.onMouseDown.bind(this),
 			onTouchStart: this.onTouchStart.bind(this),
 			onTouchMove: this.onTouchMove.bind(this),
-			onTouchEnd: this.onTouchEnd.bind(this)
+			onTouchEnd: this.onTouchEnd.bind(this),
 		};
 		return (
-			<div ref='node' {...callbacks} ><Wrapped {...this.props}/></div>);
+			<div
+				ref="node"
+				{...callbacks}
+			>
+				<Wrapped {...this.props} />
+			</div>);
 	}
 };

@@ -1,19 +1,31 @@
-import React, {Component, PropTypes} from 'react';
-import { OFFSET } from 'constants/canvas';
+import React, { Component, PropTypes } from 'react';
 import { map, last, filter } from 'lodash';
+import { OFFSET } from 'constants/canvas';
+import { WHITE } from 'constants/drawing';
 
-export default (Wrapped) => class extends Component {
+const visibleStrokesInSketch = sketch => filter(sketch.strokes || [], stroke => !stroke.hidden);
+
+export default Wrapped => class extends Component {
 
 	static propTypes = {
-		sketches: PropTypes.array
+		sketches: PropTypes.arrayOf(PropTypes.object),
+		cmdPressed: PropTypes.bool,
+		width: PropTypes.number,
+		height: PropTypes.number,
+		paperColor: PropTypes.string,
 	};
 
 	static defaultProps = {
-		sketches: []
+		sketches: [],
+		cmdPressed: false,
+		width: 0,
+		height: 0,
+		paperColor: WHITE,
 	}
 
 	renderCanvas(strokes, id, finished) {
-		return (<Wrapped {...this.props}
+		return (<Wrapped
+			{...this.props}
 			active={this.props.cmdPressed}
 			strokes={strokes}
 			finished={finished}
@@ -22,22 +34,16 @@ export default (Wrapped) => class extends Component {
 		/>);
 	}
 
-	visibleStrokesInSketch(sketch) {
-		return filter(sketch.strokes || [], (stroke) => !stroke.hidden);
-	}
-
 	renderSketchedCanvasses() {
-		let that = this;
+		const that = this;
 		return map(this.props.sketches, (sketch, id) => {
-			let strokesToRender = this.visibleStrokesInSketch(sketch);
-			if (strokesToRender.length > 0) {
-				return that.renderCanvas(strokesToRender, id, true);
-			}
+			const strokesToRender = visibleStrokesInSketch(sketch);
+			return strokesToRender.length > 0 && that.renderCanvas(strokesToRender, id, true);
 		});
 	}
 
 	renderPlaceholderCanvas() {
-		let sketch = last(this.props.sketches);
+		const sketch = last(this.props.sketches);
 		if ((!sketch || !sketch.strokes || sketch.finished)) {
 			return this.renderCanvas([], this.props.sketches.length, false);
 		}
@@ -50,14 +56,15 @@ export default (Wrapped) => class extends Component {
 			position: 'absolute',
 			top: 0,
 			left: 0,
-			backgroundColor: this.props.paperColor
+			backgroundColor: this.props.paperColor,
 		};
 	}
 
 	render() {
 		return (<div
-			id='desk'
-			style={this.getStyle()}>
+			id="desk"
+			style={this.getStyle()}
+		>
 			{this.renderSketchedCanvasses().concat(this.renderPlaceholderCanvas())}
 		</div>);
 	}

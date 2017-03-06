@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 
 let runningTimeout;
 
-export default (Wrapped) => class extends Component {
+export default Wrapped => class extends Component {
 
 	static propTypes = {
 		temporaryCallback: PropTypes.func,
@@ -10,7 +10,8 @@ export default (Wrapped) => class extends Component {
 		callbackEnabled: PropTypes.bool,
 		timeout: PropTypes.number,
 		max: PropTypes.number,
-		disabled: PropTypes.bool
+		disabled: PropTypes.bool,
+		value: PropTypes.number,
 	};
 
 	static defaultProps = {
@@ -19,20 +20,23 @@ export default (Wrapped) => class extends Component {
 		callbackEnabled: false,
 		timeout: 1000,
 		max: 0,
-		disabled: false
+		disabled: false,
+		value: 0,
 	};
 
 	componentDidMount() {
 		this.setState({
-			disableFunction: null
+			disableFunction: null,
 		});
 	}
 
 	resetState(boundDisableFunction) {
-		boundDisableFunction && boundDisableFunction(true);
+		if (boundDisableFunction) {
+			boundDisableFunction(true);
+		}
 		runningTimeout = undefined;
 		this.setState({
-			disableFunction: null
+			disableFunction: null,
 		});
 	}
 
@@ -47,12 +51,12 @@ export default (Wrapped) => class extends Component {
 				clearTimeout(runningTimeout);
 			}
 			if (disableFunction) {
-				runningTimeout = setTimeout(this.resetState.bind(this, disableFunction), this.props.timeout);
+				runningTimeout = setTimeout(
+						this.resetState.bind(this, disableFunction),
+						this.props.timeout);
 			}
 			this.props.onChange(Math.min(this.props.max, Math.max(0, newValue)));
-			this.setState({
-				disableFunction: disableFunction
-			});
+			this.setState({ disableFunction });
 		}
 	}
 
@@ -64,7 +68,9 @@ export default (Wrapped) => class extends Component {
 	}
 
 	render() {
-		return (<Wrapped ref='wrapped' {...this.props}
+		return (<Wrapped
+			ref="wrapped"
+			{...this.props}
 			onChange={this.beActive.bind(this)}
 			afterChange={this.beNotActive.bind(this)}
 		/>);

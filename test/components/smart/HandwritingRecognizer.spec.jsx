@@ -103,51 +103,6 @@ describe('HandwritingRecognizer', () => {
 
 	describe('requesting handwritin recognition for text', () => {
 
-		it('converts 2 strokes in 2 components', () => {
-			let recognizer = renderWithProps({
-				ctrlPressed: true,
-				useHandwritingRecognition: true
-			});
-			let strokes = [{
-				points: [point(10,11,12), point(13,14,15), point(16,17,18)]
-			}, {
-				points: [point(19,20,21), point(22,23,24), point(25,26,27)]
-			}];
-			let result = recognizer.strokesToComponents(strokes);
-			let components = [{
-				type: 'stroke',
-				x: [10,13,16],
-				y: [11,14,17],
-				t: [12,15,18]
-			}, {
-				type: 'stroke',
-				x: [19,22,25],
-				y: [20,23,26],
-				t: [21,24,27]
-			}];
-			expect(result).to.deep.equal(components);
-		});
-
-		it('creates the correct textInput object for request', () => {
-			let recognizer = renderWithProps({
-				useHandwritingRecognition: true,
-				ctrlPressed: true
-			});
-			let testInput = JSON.stringify({
-				textParameter: {
-					textProperties: {},
-					language: LANGUAGE,
-					textInputMode: TEXT_INPUT_MODE
-				},
-				inputUnits: [{
-					textInputType: TEXT_INPUT_TYPE,
-					components: 'foobar'
-				}]
-			});
-			let result = recognizer.getStringInput('foobar');
-			expect(result).to.deep.equal(testInput);
-		});
-
 		it('creates an xmlhttprequest', () => {
 			let recognizer = renderWithProps({
 				useHandwritingRecognition: true,

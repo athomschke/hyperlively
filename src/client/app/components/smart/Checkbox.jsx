@@ -1,17 +1,15 @@
-import React, {Component, PropTypes} from 'react';
-
-'use strict';
+import React, { Component, PropTypes } from 'react';
 
 export default class Checkbox extends Component {
 
 	static propTypes = {
 		onChange: PropTypes.func,
-		checked: PropTypes.bool
+		checked: PropTypes.bool,
 	};
 
 	static defaultProps = {
 		onChange: () => {},
-		checked: true
+		checked: true,
 	};
 
 	onClick() {
@@ -20,11 +18,11 @@ export default class Checkbox extends Component {
 
 	render() {
 		return (
-			<input 
-				type='checkbox'
+			<input
+				type="checkbox"
 				checked={this.props.checked}
 				onClick={this.onClick.bind(this)}
-				onChange={()=>{}}
+				onChange={() => {}}
 			/>
 		);
 	}

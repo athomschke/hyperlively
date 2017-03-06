@@ -1,100 +1,24 @@
 import Point2BoundsScaler from 'components/smart/Point2BoundsScaler';
 import React, { Component } from 'react';
-import { point } from '../../helpers';
+import TestUtils from 'react-addons-test-utils';
 
 class Wrapped extends Component {
-	render () {
-		return (<div />);
+	render() {
+		return (<div/>);
 	}
 }
 
 let WrappedWithPoint2BoundsScaler = Point2BoundsScaler(Wrapped);
 
 describe('Point2BoundsScaler', () => {
-
-	describe('scaling strokes to fit into preview', () => {
-
-		let scale = WrappedWithPoint2BoundsScaler.prototype.scaleToTime;
-
-		it('Scales to maximum width', () => {
-			let strokes = [{
-				points: [point(0,0), point(10,10), point(20,20)]
-			}];
-			let maxWidth = 10;
-			let scaledStrokes = scale(strokes, maxWidth, Infinity);
-			expect(scaledStrokes[0].points[0].x).to.equal(0);
-			expect(scaledStrokes[0].points[1].x).to.equal(5);
-			expect(scaledStrokes[0].points[2].x).to.equal(10);
+	describe('using the scaler to render', () => {
+		it('shows a border around the wrapped component', () => {
+			let component = TestUtils.renderIntoDocument(<WrappedWithPoint2BoundsScaler />);
+			expect(component.refs.point2BoundsScaled.props.showBorder).to.true;
 		});
-
-		it('Scales to maximum height', () => {
-			let strokes = [{
-				points: [point(0,0), point(10,10), point(20,20)]
-			}];
-			let maxHeight = 10;
-			let scaledStrokes = scale(strokes, Infinity, maxHeight);
-			expect(scaledStrokes[0].points[0].y).to.equal(0);
-			expect(scaledStrokes[0].points[1].y).to.equal(5);
-			expect(scaledStrokes[0].points[2].y).to.equal(10);
+		it('sets wrapped component to finished', () => {
+			let component = TestUtils.renderIntoDocument(<WrappedWithPoint2BoundsScaler />);
+			expect(component.refs.point2BoundsScaled.props.finished).to.true;
 		});
-
-		it('does not scale if small enough', () => {
-			let strokes = [{
-				points: [point(0,0), point(10,10), point(20,20)]
-			}];
-			let maxWidth = 30;
-			let scaledStrokes = scale(strokes, maxWidth, Infinity);
-			expect(scaledStrokes[0].points[0].x).to.equal(0);
-			expect(scaledStrokes[0].points[1].x).to.equal(10);
-			expect(scaledStrokes[0].points[2].x).to.equal(20);
-		});
-
 	});
-
-	describe('fitting passepartout to preview width', () => {
-
-		let getFittedWidth = WrappedWithPoint2BoundsScaler.prototype.getFittedWidth;
-
-		it('defaults to zero', () => {
-			let strokes = [{
-				points: [point(0,0), point(10,10), point(20,20), point(30,30)]
-			}];
-			let maxWidth = 0;
-			let sliderWidth = 100;
-			let fittedWidth = getFittedWidth(strokes, sliderWidth, maxWidth);
-			expect(fittedWidth).to.equal(0);
-		});
-
-		it('spans half the slider when canvas contains half the points', () => {
-			let strokes = [{
-				points: [point(0,0), point(10,10), point(20,20), point(30,30)]
-			}];
-			let maxWidth = 8;
-			let sliderWidth = 100;
-			let fittedWidth = getFittedWidth(strokes, sliderWidth, maxWidth);
-			expect(fittedWidth).to.equal(50);
-		});
-
-		it('reverts to zero if max width is zero', () => {
-			let strokes = [{
-				points: [point(0,0), point(10,10), point(20,20), point(30,30)]
-			}];
-			let maxWidth = 0;
-			let sliderWidth = 100;
-			let fittedWidth = getFittedWidth(strokes, sliderWidth, maxWidth);
-			expect(fittedWidth).to.equal(0);
-		});
-
-		it('has the slider height', () => {
-			let strokes = [{
-				points: [point(0,0), point(10,10), point(20,20), point(30,30)]
-			}];
-			let maxWidth = 8;
-			let sliderWidth = 100;
-			let fittedWidth = getFittedWidth(strokes, sliderWidth, maxWidth);
-			expect(fittedWidth).to.equal(50);
-		});
-
-	});
-	
 });

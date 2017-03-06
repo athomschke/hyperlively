@@ -4,18 +4,22 @@ import { configuration } from 'stylesheets/components/dumb/AppConfiguration';
 export default class AppConfiguration extends Component {
 
 	static propTypes = {
-		active: PropTypes.bool
+		active: PropTypes.bool,
+		children: PropTypes.arrayOf(PropTypes.object),
 	};
 
 	static defaultProps = {
-		active: true
+		active: true,
+		children: [],
 	}
 
 	render() {
 		return (
-			<div id='configuration' className={configuration}
+			<div
+				id="configuration"
+				className={configuration}
 				style={{
-					pointerEvents: this.props.active ? 'auto' : 'none'
+					pointerEvents: this.props.active ? 'auto' : 'none',
 				}}
 			>
 				{this.props.children}
