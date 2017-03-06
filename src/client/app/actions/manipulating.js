@@ -2,32 +2,32 @@ import { UPDATE_POSITION, HIDE, SELECT, SELECT_INSIDE } from 'constants/actionTy
 
 export function updatePosition(strokes, originX, originY, targetX, targetY) {
 	return { type: UPDATE_POSITION,
-		strokes: strokes,
+		strokes,
 		origin: {
 			x: originX,
-			y: originY
+			y: originY,
 		},
 		target: {
 			x: targetX,
-			y: targetY
-		}
+			y: targetY,
+		},
 	};
 }
 
 export function hide(strokes) {
 	return { type: HIDE,
-		strokes: strokes
+		strokes,
 	};
 }
 
 export function select(strokes) {
 	return { type: SELECT,
-		strokes: strokes
+		strokes,
 	};
 }
 
 export function selectInside(strokes) {
 	return { type: SELECT_INSIDE,
-		strokes: strokes
+		strokes,
 	};
 }
