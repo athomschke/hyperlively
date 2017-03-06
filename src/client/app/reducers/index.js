@@ -1,10 +1,10 @@
-import { threshold } from 'reducers/threshold';
-import { ploma } from 'reducers/ploma';
-import { handwritingRecognition } from 'reducers/handwritingRecognition';
-import { observeMutations } from 'reducers/observeMutations';
-import { drawing } from 'reducers/drawing';
-import { content } from 'reducers/content';
 import { combineReducers } from 'redux';
+import { threshold } from './threshold';
+import { ploma } from './ploma';
+import { handwritingRecognition } from './handwritingRecognition';
+import { observeMutations } from './observeMutations';
+import { drawing } from './drawing';
+import { content } from './content';
 
 export default combineReducers({
 	ploma,
@@ -12,5 +12,5 @@ export default combineReducers({
 	observeMutations,
 	threshold,
 	drawing,
-	content
+	content,
 });

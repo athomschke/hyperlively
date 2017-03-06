@@ -1,16 +1,15 @@
+import { camelCase } from 'lodash';
 import * as creationCases from './caseReducers/strokeCreation';
 import * as manipulationCases from './caseReducers/strokeManipulation';
-import { camelCase } from 'lodash';
 
-function strokes (state = [], action) {
-	let functionName = camelCase(action.type);
-	if (creationCases.hasOwnProperty(functionName)) {
+function strokes(state = [], action) {
+	const functionName = camelCase(action.type);
+	if (Object.prototype.hasOwnProperty.call(creationCases, functionName)) {
 		return creationCases[functionName](state, action);
-	} else if (manipulationCases.hasOwnProperty(functionName)) {
+	} else if (Object.prototype.hasOwnProperty.call(manipulationCases, functionName)) {
 		return manipulationCases[functionName](state, action);
-	} else {
-		return state;
 	}
+	return state;
 }
 
 export { strokes };

@@ -2,21 +2,21 @@ import { find, map, isEqual, without, flatten } from 'lodash';
 import Polygon from 'polygon';
 
 export const updatePosition = (state, action) => {
-	let moveByPoint = {
+	const moveByPoint = {
 		x: action.target.x - action.origin.x,
-		y: action.target.y - action.origin.y
+		y: action.target.y - action.origin.y,
 	};
 	return map(state, (stateStroke) => {
 		if (find(action.strokes, stateStroke)) {
-			let newPoints = stateStroke.points.map((point) => {
-				let newCoordinates = {
+			const newPoints = stateStroke.points.map((point) => {
+				const newCoordinates = {
 					x: point.x + moveByPoint.x,
-					y: point.y + moveByPoint.y
+					y: point.y + moveByPoint.y,
 				};
 				return Object.assign({}, point, newCoordinates);
 			});
-			let newStroke = Object.assign({}, stateStroke, {
-				points: newPoints
+			const newStroke = Object.assign({}, stateStroke, {
+				points: newPoints,
 			});
 			return newStroke;
 		}
@@ -24,51 +24,44 @@ export const updatePosition = (state, action) => {
 	});
 };
 
-const doStrokesContainStroke = (strokes, stroke) => {
-	return find(map(strokes, 'points'), (points) => {
-		return isEqual(points, stroke.points);
-	});
-};
+const doStrokesContainStroke = (strokes, stroke) =>
+	find(map(strokes, 'points'), points =>
+		isEqual(points, stroke.points));
 
-export const hide = (state, action) => {
-	return map(state, (stateStroke) => {
+export const hide = (state, action) =>
+	map(state, (stateStroke) => {
 		if (doStrokesContainStroke(action.strokes, stateStroke)) {
 			return Object.assign({}, stateStroke, {
-				hidden: true
+				hidden: true,
 			});
-		} else {
-			return stateStroke;
 		}
+		return stateStroke;
 	});
-};
 
-const selectStrokes = (state, strokes) => {
-	return map(state, (stateStroke) => {
+const selectStrokes = (state, strokes) =>
+	map(state, (stateStroke) => {
 		if (doStrokesContainStroke(strokes, stateStroke)) {
 			return Object.assign({}, stateStroke, {
-				selected: true
+				selected: true,
 			});
 		} else if (stateStroke.selected) {
-			let newStroke = Object.assign({}, stateStroke);
+			const newStroke = Object.assign({}, stateStroke);
 			delete newStroke.selected;
 			return newStroke;
-		} else {
-			return stateStroke;
 		}
+		return stateStroke;
 	});
-};
 
-export const select = (state, action) => {
-	return selectStrokes(state, action.strokes);
-};
+export const select = (state, action) => selectStrokes(state, action.strokes);
 
 export const selectInside = (state, action) => {
-	let outerPolygon = new Polygon(flatten(map(action.strokes, 'points')));
-	let innerStrokes = without(state, action.strokes).filter((innerStroke) => {
-		if (!innerStroke.hidden) {
-			let innerPolygon = new Polygon(innerStroke.points);
-			return outerPolygon.containsPolygon(innerPolygon);
+	const outerPolygon = new Polygon(flatten(map(action.strokes, 'points')));
+	const innerStrokes = without(state, action.strokes).filter((innerStroke) => {
+		if (innerStroke.hidden) {
+			return false;
 		}
+		const innerPolygon = new Polygon(innerStroke.points);
+		return outerPolygon.containsPolygon(innerPolygon);
 	});
 	return selectStrokes(state, innerStrokes);
 };
