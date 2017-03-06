@@ -1,7 +1,5 @@
 import React from 'react';
-import Application from 'containers/Application';
-
-'use strict';
+import Application from './containers/Application';
 
 export default () => (
 	<Application />
