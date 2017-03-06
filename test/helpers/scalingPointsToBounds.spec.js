@@ -1,7 +1,7 @@
 import { scaleToTime, getFittedWidth } from 'helpers/scalingPointsToBounds';
 import { point } from '../helpers';
 
-describe('Point2BoundsScaler', () => {
+describe('Scaling points to bounds', () => {
 	describe('scaling strokes to fit into preview', () => {
 		it('Scales to maximum width', () => {
 			const strokes = [{

@@ -1,4 +1,4 @@
-import { map, flatten, cloneDeep, forEach } from 'lodash';
+import { map, flatten } from 'lodash';
 
 export function getFittedWidth(strokes, sliderWidth, max) {
 	if (max > 0) {
@@ -17,14 +17,15 @@ export function scaleToTime(strokes, width, height) {
 	scale = Math.min(scale, width / (maxX - minX));
 	scale = Math.min(scale, height / (maxY - minY));
 	if (scale < 1) {
-		let clonedStrokes = cloneDeep(strokes);
-		forEach(clonedStrokes, (clonedStroke) => {
-			forEach(clonedStroke.points, (point) => {
-				point.x = point.x * scale;
-				point.y = point.y * scale;
-			});
-		});
-		return clonedStrokes;
+		return map(strokes, stroke =>
+			Object.assign({}, stroke, {
+				points: map(stroke.points, point =>
+					Object.assign({}, point, {
+						x: point.x * scale,
+						y: point.y * scale,
+					}),
+				),
+			}));
 	}
 	return strokes;
 }
