@@ -17,7 +17,6 @@ export default class Threshold extends Component {
 
 	render() {
 		return (<Slider
-			ref='slider'
 			className={rcSlider}
 			value={Math.min(MAX_THRESHOLD, Math.max(MIN_THRESHOLD, this.props.threshold))}
 			max={MAX_THRESHOLD}

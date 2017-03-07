@@ -13,7 +13,7 @@ describe('TimelinePreview', () => {
 					actionIndex: 0,
 				}]}
 			/>);
-			expect(timelinePreview.refs.canvas.childNodes).to.have.length(1);
+			expect(TestUtils.scryRenderedDOMComponentsWithTag(timelinePreview, 'div')[0].childNodes).to.have.length(1);
 		});
 	});
 });

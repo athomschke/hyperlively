@@ -82,10 +82,7 @@ export default Wrapped => class extends Component {
 			onTouchEnd: this.onTouchEnd.bind(this),
 		};
 		return (
-			<div
-				ref="node"
-				{...callbacks}
-			>
+			<div {...callbacks} >
 				<Wrapped {...this.props} />
 			</div>);
 	}

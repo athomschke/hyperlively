@@ -17,7 +17,6 @@ const Window = class Window extends Component {
 	render() {
 		return (<div
 			className="window"
-			ref="window"
 			style={{
 				position: 'absolute',
 				width: this.props.width,

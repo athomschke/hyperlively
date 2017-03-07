@@ -1,7 +1,9 @@
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import { tail, forEach } from 'lodash';
+import { shallow } from 'enzyme';
 import Interpreter from 'components/smart/Interpreter';
+import ActionChooser from 'components/smart/ActionChooser';
 import recognizedShape from './data/recognizedShape.json';
 
 const shapeCandidateFactory = (type) => {
@@ -17,6 +19,12 @@ const renderWithProps = (props) => {
 	return TestUtils.renderIntoDocument(<InterpreterComponent {...props} />);
 };
 
+const shallowWithProps = (props) => {
+	const WrappedComponent = () => <div />;
+	const InterpreterComponent = Interpreter(WrappedComponent);
+	return shallow(<InterpreterComponent {...props} />);
+};
+
 const sketchesAroundPoint55 = () => [{
 	strokes: [{
 		points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }],
@@ -28,7 +36,7 @@ const sketchesAroundPoint55 = () => [{
 	}],
 }];
 
-describe('Interpreter', () => {
+describe.only('Interpreter', () => {
 	afterEach(() => {
 		forEach(document.getElementsByClassName('ReactModalPortal'), (modalNode) => {
 			modalNode.parentNode.removeChild(modalNode);
@@ -38,7 +46,7 @@ describe('Interpreter', () => {
 	describe('rendering', () => {
 		it('wraps a handed component', () => {
 			const interpreter = renderWithProps({});
-			expect(interpreter).to.exist;
+			expect(interpreter).to.exist();
 		});
 	});
 
@@ -72,8 +80,8 @@ describe('Interpreter', () => {
 			interpreter.onShapeDetected([{
 				label: 'arrow',
 			}]);
-			expect(interpreter.state.interpretation.candidate.text).to.exist;
-			expect(interpreter.state.interpretation.candidate.shape).to.exist;
+			expect(interpreter.state.interpretation.candidate.text).to.exist();
+			expect(interpreter.state.interpretation.candidate.shape).to.exist();
 		});
 	});
 
@@ -81,7 +89,7 @@ describe('Interpreter', () => {
 		it('does nothing without a callback', () => {
 			const interpreter = renderWithProps({});
 			interpreter.onShapeDetected(shapeCandidateFactory('arrow'));
-			expect(interpreter).to.exist;
+			expect(interpreter).to.exist();
 		});
 
 		it('ignores non-arrow shapes', () => {
@@ -93,7 +101,7 @@ describe('Interpreter', () => {
 				sketches: sketchesAroundPoint55(),
 			});
 			interpreter.onShapeDetected(shapeCandidateFactory('foobar'));
-			expect(moveByArgument).to.not.be.defined;
+			expect(moveByArgument).to.not.be.defined();
 		});
 
 		it('does nothing if no callback is given', () => {
@@ -101,7 +109,7 @@ describe('Interpreter', () => {
 				sketches: sketchesAroundPoint55(),
 			});
 			interpreter.onShapeDetected(shapeCandidateFactory('arrow'));
-			expect(true).to.be.true;
+			expect(true).to.be.true();
 		});
 
 		it('does nothing if there is no match', () => {
@@ -115,17 +123,17 @@ describe('Interpreter', () => {
 				sketches,
 			});
 			interpreter.onShapeDetected(shapeCandidateFactory('arrow'));
-			expect(moveByArgument).to.not.be.defined;
+			expect(moveByArgument).to.not.be.defined();
 		});
 	});
 
 	describe('allowing to choose', () => {
 		it('renders an action chooser', () => {
-			const list = renderWithProps({});
+			const list = shallowWithProps({});
 			list.setState({
 				interpretation: {},
 			});
-			expect(list.refs.actionChooser.props.isOpen).to.be.true;
+			expect(list.find(ActionChooser).props.isOpen).to.be.true();
 		});
 	});
 
@@ -241,7 +249,7 @@ describe('Interpreter', () => {
 				interpretation: {},
 			});
 			interpreter.performAction({}, 'foobarRun');
-			expect(interpreter).to.exist;
+			expect(interpreter).to.exist();
 		});
 	});
 

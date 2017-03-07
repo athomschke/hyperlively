@@ -11,7 +11,7 @@ export default class TimelinePreview extends Component {
 
 	render() {
 		return (
-			<div ref="canvas" className={timelinePreview}>
+			<div className={timelinePreview}>
 				<Canvas
 					{...this.props}
 					finished

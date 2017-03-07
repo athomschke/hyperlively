@@ -1,6 +1,7 @@
 import TestUtils from 'react-addons-test-utils';
 import React, { Component, PropTypes } from 'react';
 import { sum, forEach, remove } from 'lodash';
+import { mount } from 'enzyme';
 import PlainDrawer from 'components/smart/PlainDrawer';
 
 class WrappedPlainDrawer extends Component {
@@ -37,6 +38,18 @@ const renderWrapperAroundComponentWithProps = props =>
 	/>);
 
 const renderComponentWithProps = props => TestUtils.renderIntoDocument(<PlainDrawer
+	bounds={{
+		width: 1000,
+		height: 500,
+		x: 0,
+		y: 0,
+	}}
+	strokes={props.strokes || []}
+	active={props.active}
+	finished={props.finished}
+/>);
+
+const mountComponentWithProps = props => mount(<PlainDrawer
 	bounds={{
 		width: 1000,
 		height: 500,
@@ -142,7 +155,7 @@ describe('PlainDrawer', () => {
 
 	describe('activating events on a canvas', () => {
 		it('enables pointer events on its containing div when it is finished', () => {
-			const canvas = renderComponentWithProps({
+			const canvasWrapper = mountComponentWithProps({
 				active: true,
 				strokes: [{
 					points: [{ x: 10, y: 10 }, { x: 10, y: 11 }, { x: 10, y: 12 }, { x: 10, y: 13 }],
@@ -150,11 +163,11 @@ describe('PlainDrawer', () => {
 				finished: true,
 			});
 
-			expect(canvas.refs.node.style.getPropertyValue('pointer-events')).to.equal('auto');
+			expect(canvasWrapper.find('div').node.style.getPropertyValue('pointer-events')).to.equal('auto');
 		});
 
 		it('does not enable pointer events on its containing div when its not finished', () => {
-			const canvas = renderComponentWithProps({
+			const canvasWrapper = mountComponentWithProps({
 				active: true,
 				strokes: [{
 					points: [{ x: 10, y: 10 }, { x: 10, y: 11 }, { x: 10, y: 12 }, { x: 10, y: 13 }],
@@ -162,7 +175,7 @@ describe('PlainDrawer', () => {
 				finished: false,
 			});
 
-			expect(canvas.refs.node.style.getPropertyValue('pointer-events')).to.equal('none');
+			expect(canvasWrapper.find('div').node.style.getPropertyValue('pointer-events')).to.equal('none');
 		});
 	});
 

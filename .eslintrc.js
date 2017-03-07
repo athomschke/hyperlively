@@ -15,7 +15,10 @@ module.exports = {
     	"indent": [2, "tab"],
     	"no-tabs": 0,
         "react/jsx-indent-props": [2, 'tab'],
-        "react/jsx-indent": [2, 'tab']
+        "react/jsx-indent": [2, 'tab'],
+        'import/no-extraneous-dependencies': ['error', {
+            'devDependencies': true
+        }]
     },
     "globals": {
         "expect": true,
