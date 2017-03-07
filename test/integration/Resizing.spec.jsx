@@ -1,13 +1,10 @@
-import { mountApp, dismountApp, renderApplicationWithState } from './helpers';
 import { forEach } from 'lodash';
+import { mountApp, dismountApp, renderApplicationWithState } from './helpers';
 import emptyCanvas from './data/emptyCanvas.json';
 
-'use strict';
-
 describe('Integration', () => {
-	
 	let xhr;
-	
+
 	beforeEach(() => {
 		xhr = sinon.useFakeXMLHttpRequest();
 		mountApp();
@@ -19,73 +16,70 @@ describe('Integration', () => {
 	});
 
 	describe('resizing the window', () => {
-
 		it('keeps the input window in fullscreen size', () => {
-			let oldWidth = window.innerWidth;
-			let oldHeight = window.innerHeight;
-			let canvasJson = emptyCanvas.json;
-			let listeners = [];
-			let oldAddEventListener = window.addEventListener;
-			let that = window;
-			window.addEventListener = function (type, listener) {
+			const oldWidth = window.innerWidth;
+			const oldHeight = window.innerHeight;
+			const canvasJson = emptyCanvas.json;
+			const listeners = [];
+			const oldAddEventListener = window.addEventListener;
+			const that = window;
+			window.addEventListener = function addEventListener(type, listener) {
 				listeners.push({
-					type: type,
-					callback: listener
+					type,
+					callback: listener,
 				});
 				oldAddEventListener.apply(that, arguments);
 			};
 			renderApplicationWithState(canvasJson);
-			let windowNode = document.getElementsByClassName('window')[0];
-			expect(parseInt(windowNode.style.width)).to.equal(window.innerWidth);
-			expect(parseInt(windowNode.style.height)).to.equal(window.innerHeight);
+			const windowNode = document.getElementsByClassName('window')[0];
+			expect(parseInt(windowNode.style.width ,10)).to.equal(window.innerWidth);
+			expect(parseInt(windowNode.style.height ,10)).to.equal(window.innerHeight);
 			window.innerHeight = 100;
 			window.innerWidth = 100;
 			forEach(listeners, (listener) => {
 				listener.type === 'resize' && listener.callback({
 					pageX: 100,
-					pageY: 100
+					pageY: 100,
 				});
 			});
-			expect(parseInt(windowNode.style.width)).to.equal(window.innerWidth);
-			expect(parseInt(windowNode.style.height)).to.equal(window.innerHeight);
+			expect(parseInt(windowNode.style.width, 10)).to.equal(window.innerWidth);
+			expect(parseInt(windowNode.style.height, 10)).to.equal(window.innerHeight);
 			window.addEventListener = oldAddEventListener.bind(window);
 			window.innerWidth = oldWidth;
 			window.innerHeight = oldHeight;
 		});
 
 		it('keeps the background in fullscreen size', () => {
-			let oldWidth = window.innerWidth;
-			let oldHeight = window.innerHeight;
-			let canvasJson = emptyCanvas.json;
-			let listeners = [];
-			let oldAddEventListener = window.addEventListener;
-			let that = window;
-			window.addEventListener = function (type, listener) {
+			const oldWidth = window.innerWidth;
+			const oldHeight = window.innerHeight;
+			const canvasJson = emptyCanvas.json;
+			const listeners = [];
+			const oldAddEventListener = window.addEventListener;
+			const that = window;
+			window.addEventListener = function addEventListener(type, listener) {
 				listeners.push({
-					type: type,
-					callback: listener
+					type,
+					callback: listener,
 				});
 				oldAddEventListener.apply(that, arguments);
 			};
 			renderApplicationWithState(canvasJson);
-			let backgroundNode = document.getElementById('app').children[0].children[0];
-			expect(parseInt(backgroundNode.offsetWidth)).to.equal(window.innerWidth);
-			expect(parseInt(backgroundNode.offsetHeight)).to.equal(window.innerHeight);
+			const backgroundNode = document.getElementById('app').children[0].children[0];
+			expect(parseInt(backgroundNode.offsetWidth, 10)).to.equal(window.innerWidth);
+			expect(parseInt(backgroundNode.offsetHeight, 10)).to.equal(window.innerHeight);
 			window.innerHeight = 100;
 			window.innerWidth = 100;
 			forEach(listeners, (listener) => {
 				listener.type === 'resize' && listener.callback({
 					pageX: 100,
-					pageY: 100
+					pageY: 100,
 				});
 			});
-			expect(parseInt(backgroundNode.offsetWidth)).to.equal(window.innerWidth);
-			expect(parseInt(backgroundNode.offsetHeight)).to.equal(window.innerHeight);
+			expect(parseInt(backgroundNode.offsetWidth, 10)).to.equal(window.innerWidth);
+			expect(parseInt(backgroundNode.offsetHeight, 10)).to.equal(window.innerHeight);
 			window.addEventListener = oldAddEventListener.bind(window);
 			window.innerWidth = oldWidth;
 			window.innerHeight = oldHeight;
 		});
-
 	});
-
 });

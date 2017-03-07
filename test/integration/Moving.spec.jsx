@@ -1,40 +1,35 @@
 import { hashCode, mountApp, dismountApp, renderApplicationWithStore, createAppStore } from './helpers';
 import canvasWithTwoStrokes from './data/canvasWithTwoStrokes.json';
 
-'use strict';
-
 let storeDispatch;
 
-let renderTwoStrokeApplicationWithDispatchObject = (afterStoreDispatchCallbackObject) => {
-	let canvasJson = canvasWithTwoStrokes.json;
-	let store = createAppStore(canvasJson);
-	let oldStoreDispatch = store.dispatch.bind(store);
-	storeDispatch = function () {
-		let result = oldStoreDispatch.apply(store, arguments);
-		afterStoreDispatchCallbackObject && afterStoreDispatchCallbackObject.statement && afterStoreDispatchCallbackObject.statement();
+const renderTwoStrokeApplicationWithDispatchObject = (afterStoreDispatchCallbackObject) => {
+	const canvasJson = canvasWithTwoStrokes.json;
+	const store = createAppStore(canvasJson);
+	const oldStoreDispatch = store.dispatch.bind(store);
+	storeDispatch = (...args) => {
+		const result = oldStoreDispatch.apply(store, args);
+		if (afterStoreDispatchCallbackObject && afterStoreDispatchCallbackObject.statement) {
+			afterStoreDispatchCallbackObject.statement();
+		}
 		return result;
 	};
 	store.dispatch = storeDispatch;
 	return renderApplicationWithStore(store);
 };
 
-let moveCanvasLeftBy = (moveBy) => {
-	let canvasNode = document.getElementsByTagName('canvas')[0].parentNode;
-	canvasNode.style.setProperty('left',  `${parseInt(getCanvasLeftValue()) + moveBy}px`);
-};
+const getCanvasLeftValue = () => document.getElementsByTagName('canvas')[0].parentNode.style.getPropertyValue('left');
 
-let getCanvasLeftValue = () => {
-	return document.getElementsByTagName('canvas')[0].parentNode.style.getPropertyValue('left');
-};
+const getCanvasDataURL = () => document.getElementsByTagName('canvas')[0].toDataURL();
 
-let getCanvasDataURL = () => {
-	return document.getElementsByTagName('canvas')[0].toDataURL();
+const moveCanvasLeftBy = (moveBy) => {
+	const canvasNode = document.getElementsByTagName('canvas')[0].parentNode;
+	canvasNode.style.setProperty('left', `${parseInt(getCanvasLeftValue(), 10) + moveBy}px`);
 };
 
 describe('Integration', () => {
-	
 	let xhr;
-	
+
 	beforeEach(() => {
 		xhr = sinon.useFakeXMLHttpRequest();
 		mountApp();
@@ -46,50 +41,48 @@ describe('Integration', () => {
 	});
 
 	describe('moving a canvas and recording the move', () => {
-
 		it('works without errors', (done) => {
 			let oldLeftValue;
-			let moveByX = 1;
+			const moveByX = 1;
 			let dataURL;
 			(new Promise(
-				function (resolve) {
+				(resolve) => {
 					renderTwoStrokeApplicationWithDispatchObject({ statement: resolve });
 					dataURL = getCanvasDataURL();
 					oldLeftValue = getCanvasLeftValue();
 					moveCanvasLeftBy(moveByX);
-				}
+				},
 			))
-			.then(function () {
+			.then(() => {
 				expect(hashCode(getCanvasDataURL())).to.not.equal(hashCode(dataURL));
-				expect(getCanvasLeftValue()).to.equal(`${parseInt(oldLeftValue) + moveByX}px`);
+				expect(getCanvasLeftValue()).to.equal(`${parseInt(oldLeftValue, 10) + moveByX}px`);
 			})
 			.then(done, done);
 		});
 
 		it('and moving it back again doesn\'t change the image data', (done) => {
-			let moveByX = 1;
+			const moveByX = 1;
 			let dataURL;
-			let resolveObject = {
-				statement: undefined
+			const resolveObject = {
+				statement: undefined,
 			};
 			(new Promise(
-				function (resolve) {
+				(resolve) => {
 					resolveObject.statement = resolve;
 					renderTwoStrokeApplicationWithDispatchObject(resolveObject);
 					dataURL = getCanvasDataURL();
-					moveCanvasLeftBy(moveByX);					
-				}
+					moveCanvasLeftBy(moveByX);
+				},
 			))
-			.then(function (resolve) {
+			.then((resolve) => {
 				expect(hashCode(getCanvasDataURL())).to.not.equal(hashCode(dataURL));
 				resolveObject.statement = resolve;
 				moveCanvasLeftBy(-moveByX);
 			})
-			.then(function() {
+			.then(() => {
 				expect(hashCode(getCanvasDataURL())).to.equal(hashCode(dataURL));
 			})
 			.then(done, done);
 		});
 	});
-
 });

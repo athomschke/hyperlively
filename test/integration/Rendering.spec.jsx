@@ -1,25 +1,22 @@
-import { hashCode, renderApplicationWithState, mountApp, dismountApp, getCanvasNodes, getWindowNode, getCombinedCanvas } from './helpers';
 import { cloneDeep, find, forEach } from 'lodash';
 import TestUtils from 'react-addons-test-utils';
+import { hashCode, renderApplicationWithState, mountApp, dismountApp, getCanvasNodes, getWindowNode, getCombinedCanvas } from './helpers';
 import emptyCanvas from './data/emptyCanvas.json';
 import canvasWithTwoScenes from './data/canvasWithTwoScenes.json';
 import canvasWithTwoStrokes from './data/canvasWithTwoStrokes.json';
 
 const expectInputNodeWithLabelAndState = (label, initialState) => {
-	let labelNode = find(document.body.getElementsByTagName('span'), ((tag) => {
-		return tag.textContent === label;
-	}));
+	const labelNode = find(document.body.getElementsByTagName('span'), (tag => tag.textContent === label));
 	expect(labelNode).to.exist;
-	let inputNode = labelNode.parentNode.children[0];
+	const inputNode = labelNode.parentNode.children[0];
 	expect(inputNode.checked).to.equal(initialState);
 	TestUtils.Simulate.click(inputNode, {});
 	expect(inputNode.checked).to.equal(!initialState);
 };
 
 describe('Integration', () => {
-	
 	let xhr;
-	
+
 	beforeEach(() => {
 		xhr = sinon.useFakeXMLHttpRequest();
 		mountApp();
@@ -31,7 +28,6 @@ describe('Integration', () => {
 	});
 
 	describe('rendering the application', () => {
-
 		it('renders the empty application', () => {
 			renderApplicationWithState(emptyCanvas.json);
 			expect(getWindowNode()).to.exist;
@@ -39,7 +35,7 @@ describe('Integration', () => {
 		});
 
 		it('renders the empty application with ploma', () => {
-			let emptyCanvasJson = cloneDeep(emptyCanvas.json);
+			const emptyCanvasJson = cloneDeep(emptyCanvas.json);
 			emptyCanvasJson.ploma.usePloma = true;
 			renderApplicationWithState(emptyCanvasJson);
 			expect(getWindowNode()).to.exist;
@@ -47,37 +43,36 @@ describe('Integration', () => {
 		});
 
 		it('shows a deactivated ploma toggle button', () => {
-			let emptyCanvasJson = cloneDeep(emptyCanvas.json);
+			const emptyCanvasJson = cloneDeep(emptyCanvas.json);
 			renderApplicationWithState(emptyCanvasJson);
 			expectInputNodeWithLabelAndState('Use Ploma', false);
 		});
 
 		it('shows a deactivated handwritingRecognition enable button', () => {
-			let emptyCanvasJson = cloneDeep(emptyCanvas.json);
+			const emptyCanvasJson = cloneDeep(emptyCanvas.json);
 			renderApplicationWithState(emptyCanvasJson);
 			expectInputNodeWithLabelAndState('Use Handwriting Recognition', false);
 		});
 
 		it('shows the first scene', () => {
-			let twoScenesJson = cloneDeep(canvasWithTwoScenes.json);
+			const twoScenesJson = cloneDeep(canvasWithTwoScenes.json);
 			twoScenesJson.content.sceneIndex = 0;
 			renderApplicationWithState(twoScenesJson);
 			expect(getCanvasNodes()).to.have.length(2);
 		});
 
 		it('shows the second scene', () => {
-			let twoScenesJson = cloneDeep(canvasWithTwoScenes.json);
+			const twoScenesJson = cloneDeep(canvasWithTwoScenes.json);
 			renderApplicationWithState(twoScenesJson);
 			expect(getCanvasNodes()).to.have.length(1);
 		});
-
 	});
 
 	describe('Hiding strokes', () => {
 		it('removes them from canvas', () => {
-			let canvasJson = canvasWithTwoStrokes.json;
+			const canvasJson = canvasWithTwoStrokes.json;
 			renderApplicationWithState(canvasJson);
-			let renderedStrokesData = getCombinedCanvas().toDataURL();
+			const renderedStrokesData = getCombinedCanvas().toDataURL();
 			dismountApp();
 			mountApp();
 			canvasJson.content.undoableScenes.present[0].strokes.push({
@@ -85,15 +80,15 @@ describe('Integration', () => {
 				hidden: true,
 				points: [
 					{ x: 20, y: 20, timeStamp: 102 },
-					{ x: 20, y: 40, timeStamp: 103 }
-				]
+					{ x: 20, y: 40, timeStamp: 103 },
+				],
 			});
 			renderApplicationWithState(canvasJson);
 			expect(hashCode(getCombinedCanvas().toDataURL())).to.equal(hashCode(renderedStrokesData));
 		});
 
 		it('removes them from scene', () => {
-			let canvasJson = cloneDeep(canvasWithTwoStrokes.json);
+			const canvasJson = cloneDeep(canvasWithTwoStrokes.json);
 			canvasJson.threshold = 1500;
 			canvasJson.handwritingRecognition = true;
 			forEach(canvasJson.content.undoableScenes.present[0].strokes, (stroke) => {
@@ -103,5 +98,4 @@ describe('Integration', () => {
 			expect(getCanvasNodes()).to.have.length(1);
 		});
 	});
-
 });
