@@ -21,7 +21,6 @@ export default Wrapped => class extends Component {
 		const fittedWidth = getFittedWidth(this.props.strokes, this.props.sliderWidth, this.props.max);
 		const strokes = scaleToTime(this.props.strokes, fittedWidth, this.props.previewHeight);
 		return (<Wrapped
-			ref="point2BoundsScaled"
 			{...this.props}
 			strokes={strokes}
 			fittedWidth={fittedWidth}

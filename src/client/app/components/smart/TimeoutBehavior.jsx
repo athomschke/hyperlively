@@ -69,7 +69,6 @@ export default Wrapped => class extends Component {
 
 	render() {
 		return (<Wrapped
-			ref="wrapped"
 			{...this.props}
 			onChange={this.beActive.bind(this)}
 			afterChange={this.beNotActive.bind(this)}

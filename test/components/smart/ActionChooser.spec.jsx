@@ -1,36 +1,34 @@
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
-import actions from 'actions/actions';
-import ActionChooser from 'components/smart/ActionChooser';
 import { TreeMenu } from 'react-tree-menu';
 import { forEach } from 'lodash';
+import actions from 'actions/actions';
+import ActionChooser from 'components/smart/ActionChooser';
 
-let renderWithProps = (props) => {
-	return TestUtils.renderIntoDocument(<ActionChooser {...props}/>);
-};
+const renderWithProps = props => TestUtils.renderIntoDocument(<ActionChooser {...props} />);
 
-let exampleChecks = [['a', 'a2'], ['b']];
+const exampleChecks = [['a', 'a2'], ['b']];
 
-let exampleCollapses = [['a']];
+const exampleCollapses = [['a']];
 
-let exampleTree = {
+const exampleTree = {
 	a: {
 		a1: 'a1',
-		a2: 'a2'
+		a2: 'a2',
 	},
 	b: 'b',
-	c: 'c'
+	c: 'c',
 };
 
-let exampleLastStrokes = [{
-	d: 'd'
+const exampleLastStrokes = [{
+	d: 'd',
 }];
 
-let exampleSelectedStrokes = [{
-	e: 'e'
+const exampleSelectedStrokes = [{
+	e: 'e',
 }];
 
-let exampleArray = [
+const exampleArray = [
 	{
 		label: 'a',
 		key: 'a',
@@ -43,32 +41,31 @@ let exampleArray = [
 				label: 'a1: a1',
 				key: 'a1',
 				checkbox: true,
-				checked: false
+				checked: false,
 			},
 			{
 				label: 'a2: a2 (parameter 0)',
 				key: 'a2',
 				checkbox: true,
-				checked: true
-			}
-		]
+				checked: true,
+			},
+		],
 	},
 	{
 		label: 'b: b (parameter 1)',
 		key: 'b',
 		checkbox: true,
-		checked: true
+		checked: true,
 	},
 	{
 		label: 'c: c',
 		key: 'c',
 		checkbox: true,
-		checked: false
-	}
+		checked: false,
+	},
 ];
 
 describe('Action Chooser', () => {
-
 	afterEach(() => {
 		forEach(document.getElementsByClassName('ReactModalPortal'), (modalNode) => {
 			modalNode.parentNode.removeChild(modalNode);
@@ -76,15 +73,14 @@ describe('Action Chooser', () => {
 	});
 
 	describe('showing the action chooser', () => {
-
 		let actionChooser;
 
-		beforeEach(()=>{
+		beforeEach(() => {
 			actionChooser = renderWithProps({
 				isOpen: true,
 				jsonTree: exampleTree,
 				lastStrokes: exampleLastStrokes,
-				selectedStrokes: exampleSelectedStrokes
+				selectedStrokes: exampleSelectedStrokes,
 			});
 		});
 
@@ -114,74 +110,74 @@ describe('Action Chooser', () => {
 		});
 
 		it('formats the json tree for the tree view menu', () => {
-			let gottenArray = ActionChooser.prototype.formatObject(exampleTree, exampleChecks, [], exampleChecks, 0);
-			let wantedArray = exampleArray;
+			const gottenArray = ActionChooser.prototype.formatObject(
+					exampleTree, exampleChecks, [], exampleChecks, 0);
+			const wantedArray = exampleArray;
 			expect(gottenArray).to.deep.equal(wantedArray);
 		});
 
 		it('checks the chosen checkmarks', () => {
-			let formattedTree = ActionChooser.prototype.formatObject(exampleTree, exampleChecks, [], exampleChecks, 0);
+			const formattedTree = ActionChooser.prototype.formatObject(
+					exampleTree, exampleChecks, [], exampleChecks, 0);
 			expect(formattedTree[0].children[1].checked).to.be.true;
 		});
 
 
 		it('collapses collapsed nodes', () => {
-			let formattedTree = ActionChooser.prototype.formatObject(exampleTree, exampleChecks, exampleCollapses, exampleChecks, 0);
+			const formattedTree = ActionChooser.prototype.formatObject(
+					exampleTree, exampleChecks, exampleCollapses, exampleChecks, 0);
 			expect(formattedTree[0].collapsed).to.be.true;
 		});
-
 	});
 
 	describe('Checking a json property', () => {
 		it('performs the callback', () => {
-			let actionChooser = renderWithProps({
+			const actionChooser = renderWithProps({
 				isOpen: true,
-				jsonTree: exampleTree
+				jsonTree: exampleTree,
 			});
-			let checkbox = document.getElementsByClassName('tree-view-node-checkbox')[0];
+			const checkbox = document.getElementsByClassName('tree-view-node-checkbox')[0];
 			sinon.spy(actionChooser, 'onTreeNodeCheckChange');
 			TestUtils.Simulate.click(checkbox);
 			expect(actionChooser.onTreeNodeCheckChange.callCount).to.equal(1);
 		});
 
 		it('calculates the path to the nested property', () => {
-			let formattedTree = ActionChooser.prototype.formatObject(exampleTree, [], [], [], 0);
-			let pathToProperty = ActionChooser.prototype.getPathToProperty([0,1], formattedTree);
+			const formattedTree = ActionChooser.prototype.formatObject(exampleTree, [], [], [], 0);
+			const pathToProperty = ActionChooser.prototype.getPathToProperty([0, 1], formattedTree);
 			expect(pathToProperty).to.deep.equal(['a', 'a2']);
 		});
 
 		it('shows the checkmark', () => {
 			renderWithProps({
 				isOpen: true,
-				jsonTree: exampleTree
+				jsonTree: exampleTree,
 			});
-			let checkbox = document.getElementsByClassName('tree-view-node-checkbox')[0];
+			const checkbox = document.getElementsByClassName('tree-view-node-checkbox')[0];
 			TestUtils.Simulate.click(checkbox);
 			expect(checkbox.checked).to.be.true;
 		});
 
 		it('deselects it if it was selected', () => {
-			let actionChooser = renderWithProps({
+			const actionChooser = renderWithProps({
 				isOpen: true,
-				jsonTree: exampleTree
+				jsonTree: exampleTree,
 			});
-			let checkbox = document.getElementsByClassName('tree-view-node-checkbox')[0];
+			const checkbox = document.getElementsByClassName('tree-view-node-checkbox')[0];
 			TestUtils.Simulate.click(checkbox);
 			expect(actionChooser.state.checkedPaths).to.have.length(1);
 			TestUtils.Simulate.click(checkbox);
 			expect(actionChooser.state.checkedPaths).to.have.length(0);
 		});
-
 	});
 
 	describe('Collapsing a json property that is an object', () => {
-		
 		it('performs the callback', () => {
-			let actionChooser = renderWithProps({
+			const actionChooser = renderWithProps({
 				isOpen: true,
-				jsonTree: exampleTree
+				jsonTree: exampleTree,
 			});
-			let collapseIcon = document.getElementsByClassName('collapse')[0];
+			const collapseIcon = document.getElementsByClassName('collapse')[0];
 			sinon.spy(actionChooser, 'onTreeNodeCollapseChange');
 			TestUtils.Simulate.click(collapseIcon);
 			expect(actionChooser.onTreeNodeCollapseChange.callCount).to.equal(1);
@@ -190,24 +186,22 @@ describe('Action Chooser', () => {
 		it('toggles the collapse icon', () => {
 			renderWithProps({
 				isOpen: true,
-				jsonTree: exampleTree
+				jsonTree: exampleTree,
 			});
-			let collapseIcon = document.getElementsByClassName('collapse')[0];
+			const collapseIcon = document.getElementsByClassName('collapse')[0];
 			TestUtils.Simulate.click(collapseIcon);
 			expect(collapseIcon.className).to.include('expand');
 			expect(collapseIcon.className.split('tree-view-node-collapse-toggle')[1]).to.not.include('collapse');
 		});
-
 	});
 
 	describe('Expanding a json property that is an object', () => {
-
 		it('performs the callback', () => {
-			let actionChooser = renderWithProps({
+			const actionChooser = renderWithProps({
 				isOpen: true,
-				jsonTree: exampleTree
+				jsonTree: exampleTree,
 			});
-			let collapseIcon = document.getElementsByClassName('collapse')[0];
+			const collapseIcon = document.getElementsByClassName('collapse')[0];
 			sinon.spy(actionChooser, 'onTreeNodeCollapseChange');
 			TestUtils.Simulate.click(collapseIcon);
 			expect(actionChooser.onTreeNodeCollapseChange.callCount).to.equal(1);
@@ -216,22 +210,20 @@ describe('Action Chooser', () => {
 		it('toggles the collapse icon', () => {
 			renderWithProps({
 				isOpen: true,
-				jsonTree: exampleTree
+				jsonTree: exampleTree,
 			});
-			let collapseIcon = document.getElementsByClassName('collapse')[0];
+			const collapseIcon = document.getElementsByClassName('collapse')[0];
 			TestUtils.Simulate.click(collapseIcon);
 			TestUtils.Simulate.click(collapseIcon);
 			expect(collapseIcon.className).to.include('collapse');
 			expect(collapseIcon.className).to.not.include('expand');
 		});
-
 	});
 
 
 	describe('Choosing an action', () => {
-
 		it('performs the action', () => {
-			let actionChooser = renderWithProps({
+			const actionChooser = renderWithProps({
 				isOpen: true,
 			});
 			sinon.spy(actionChooser, 'onActionChoose');
@@ -241,12 +233,12 @@ describe('Action Chooser', () => {
 
 		it('selects checked values from json tree and passes them in an array', () => {
 			let passedValues;
-			let actionChooser = renderWithProps({
+			const actionChooser = renderWithProps({
 				isOpen: true,
 				jsonTree: exampleTree,
 				onActionChoose: (event, name, values) => {
 					passedValues = values;
-				}
+				},
 			});
 			actionChooser.setState({
 				checkedPaths: exampleChecks
@@ -259,16 +251,16 @@ describe('Action Chooser', () => {
 
 		it('can pass selected strokes', () => {
 			let passedValues;
-			let actionChooser = renderWithProps({
+			const actionChooser = renderWithProps({
 				isOpen: true,
 				jsonTree: exampleTree,
 				selectedStrokes: exampleSelectedStrokes,
 				onActionChoose: (event, name, values) => {
 					passedValues = values;
-				}
+				},
 			});
 			actionChooser.setState({
-				checkedPaths: [['selectedStrokes', '0', 'e']]
+				checkedPaths: [['selectedStrokes', '0', 'e']],
 			});
 			actionChooser.onActionChoose({}, 'updateThreshold');
 			expect(passedValues.length).to.equal(1);
@@ -276,12 +268,11 @@ describe('Action Chooser', () => {
 		});
 
 		it('does nothing without a callback', () => {
-			let actionChooser = renderWithProps({
-				isOpen: true
+			const actionChooser = renderWithProps({
+				isOpen: true,
 			});
 			actionChooser.refs.list.props.onItemClick({}, 'updatePosition');
 			expect(actionChooser).to.exist;
 		});
 	});
-	
 });

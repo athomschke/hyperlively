@@ -1,66 +1,58 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import SketchTransformer from 'components/smart/SketchTransformer';
 import TestUtils from 'react-addons-test-utils';
 import { point } from '../../helpers';
 
 describe('Sketch transformer', () => {
-
 	let bounds;
 
 	class MockedSubComponent extends React.Component {
 
 		static propTypes = {
-			bounds: React.PropTypes.object.isRequired
+			bounds: PropTypes.objectOf(PropTypes.number).isRequired,
 		};
 
 		componentDidMount() {
 			bounds = this.props.bounds;
 		}
 
-		render () {
-			return <div></div>;
+		render() {
+			return <div />;
 		}
 	}
 
 	const MockedComponent = SketchTransformer(MockedSubComponent);
 
-	let renderComponentWithProps = (props) => {
-		return TestUtils.renderIntoDocument(
-			<MockedComponent {...props} />
+	const renderComponentWithProps = props => TestUtils.renderIntoDocument(
+		<MockedComponent {...props} />,
 		);
-	};
 
-	let renderComponent = () => {
-		return renderComponentWithProps({});
-	};
+	const renderComponent = () => renderComponentWithProps({});
 
 	describe('Rendering', () => {
-
 		it('with default properties works', () => {
-			let component = renderComponent();
+			const component = renderComponent();
 			expect(component).to.exist;
 		});
 
 		it('one finished but empty stroke', () => {
-			let component = renderComponentWithProps({
-				finished: true
+			const component = renderComponentWithProps({
+				finished: true,
 			});
 			expect(component).to.exist;
 		});
-		
 	});
 
 	describe('adding strokes', () => {
-
 		beforeEach(() => {
 			renderComponentWithProps({
 				strokes: [{
-					points: [point(7,10), point(7,15), point(15,15), point(15,10)],
+					points: [point(7, 10), point(7, 15), point(15, 15), point(15, 10)],
 					finished: true,
 				}],
 				offset: 5,
-				finished: true
-			});	
+				finished: true,
+			});
 		});
 
 		it('calculating bounds of a finished sketch adds an offset', () => {
@@ -72,7 +64,5 @@ describe('Sketch transformer', () => {
 			expect(bounds.x).to.equal(2);
 			expect(bounds.y).to.equal(5);
 		});
-
 	});
-
 });

@@ -1,80 +1,73 @@
+import React, { Component, PropTypes } from 'react';
+import { first, concat, reduce, initial, last } from 'lodash';
+import TestUtils from 'react-addons-test-utils';
 import HandwritingRecognizer from 'components/smart/HandwritingRecognizer';
 import { point } from '../../helpers';
-import React, { Component, PropTypes } from 'react';
-import { TEXT_INPUT_TYPE, LANGUAGE, TEXT_INPUT_MODE } from 'constants/handwriting';
-import TestUtils from 'react-addons-test-utils';
-import { first, concat, reduce, initial, last } from 'lodash';
+import textPoints from './data/textPoints';
+import shapePoints from './data/shapePoints';
+import recognizedText from './data/recognizedText.json';
+import recognizedShapeResult from './data/recognizedShape.json';
 
 const drawStroke = (wrapper, stroke) => {
-	let oldStrokes = wrapper.state.strokes || [];
-	let fullStroke = reduce(initial(stroke), (previousPoints, point) => {	
-		let fullStroke = concat(previousPoints, [point]);
+	const oldStrokes = wrapper.state.strokes || [];
+	const fullStroke = reduce(initial(stroke), (previousPoints, aPoint) => {
+		const fullPoints = concat(previousPoints, [aPoint]);
 		wrapper.setState({
 			strokes: (concat, oldStrokes, [{
-				points: fullStroke
-			}])
+				points: fullPoints,
+			}]),
 		});
-		return fullStroke;
+		return fullPoints;
 	}, first(stroke));
 	wrapper.setState({
 		strokes: (concat, oldStrokes, [{
 			points: (concat, fullStroke, [last(stroke)]),
-			finished: true
-		}])
+			finished: true,
+		}]),
 	});
 };
 
 const renderWithProps = (props) => {
-	class WrappedComponent extends React.Component {
-		render () {
-			return <div></div>;
-		}
-	}
-	let HandwritingRecognizerComponent = HandwritingRecognizer(WrappedComponent);
-	return TestUtils.renderIntoDocument(<HandwritingRecognizerComponent {...props}/>);
+	const WrappedComponent = () => <div />;
+	const HandwritingRecognizerComponent = HandwritingRecognizer(WrappedComponent);
+	return TestUtils.renderIntoDocument(<HandwritingRecognizerComponent {...props} />);
 };
 
-const Wrapper = (HandwritingRecognizerComponent) => class extends Component {
+const Wrapper = HandwritingRecognizerComponent => class extends Component {
 
 	static propTypes = {
-		strokes: PropTypes.array,
-		useHandwritingRecognition: PropTypes.bool
+		strokes: PropTypes.arrayOf(PropTypes.object),
+		useHandwritingRecognition: PropTypes.bool,
 	};
 
 	static defaultProps = {
 		strokes: [],
-		useHandwritingRecognition: false
+		useHandwritingRecognition: false,
 	}
 
 	componentDidMount() {
 		this.setState({
 			strokes: [],
-			useHandwritingRecognition: false
+			useHandwritingRecognition: false,
 		});
 	}
 
 	render() {
-		return <HandwritingRecognizerComponent {...this.props} {...this.state}/>;
+		return <HandwritingRecognizerComponent {...this.props} {...this.state} />;
 	}
 };
 
 const renderWrappedWithProps = (props) => {
-	class WrappedComponent extends React.Component {
-		render () {
-			return <div></div>;
-		}
-	}
-	let HandwritingRecognizerComponent = Wrapper(HandwritingRecognizer(WrappedComponent));
-	return TestUtils.renderIntoDocument(<HandwritingRecognizerComponent {...props}/>);
+	const WrappedComponent = () => <div />;
+	const HandwritingRecognizerComponent = Wrapper(HandwritingRecognizer(WrappedComponent));
+	return TestUtils.renderIntoDocument(<HandwritingRecognizerComponent {...props} />);
 };
 
 describe('HandwritingRecognizer', () => {
-
 	let xhr;
 	let requests;
 
 	beforeEach(() => {
-		
 		xhr = sinon.useFakeXMLHttpRequest();
 		requests = [];
 		xhr.onCreate = (request) => {
@@ -87,53 +80,49 @@ describe('HandwritingRecognizer', () => {
 	});
 
 	describe('initializing the component', () => {
-
 		it('disables recognition per default', () => {
-			let recognizer = renderWithProps({});
-			let length = requests.length;
+			const recognizer = renderWithProps({});
+			const length = requests.length;
 			recognizer.props.strokes.push({
-				points: [point(10,11,12), point(13,14,15), point(16,17,18)],
-				finished: true
+				points: [point(10, 11, 12), point(13, 14, 15), point(16, 17, 18)],
+				finished: true,
 			});
 			recognizer.componentDidUpdate();
 			expect(requests.length).to.equal(length);
 		});
-		
 	});
 
 	describe('requesting handwritin recognition for text', () => {
-
 		it('creates an xmlhttprequest', () => {
-			let recognizer = renderWithProps({
+			const recognizer = renderWithProps({
 				useHandwritingRecognition: true,
-				ctrlPressed: true
+				ctrlPressed: true,
 			});
-			let request = recognizer.xmlHttpRequest('', () => {});
+			const request = recognizer.xmlHttpRequest('', () => {});
 			expect(request).to.exist;
 		});
 	});
 
 	describe('interpreting the recognized text', () => {
-
 		it('parses the candidates from a result', () => {
 			let candidates;
-			let recognizer = renderWithProps({
+			const recognizer = renderWithProps({
 				useHandwritingRecognition: true,
 				ctrlPressed: true,
 				onTextDetected: (arg1) => {
 					candidates = arg1;
-				}
+				},
 			});
-			let request = {
+			const request = {
 				readyState: 4,
 				status: 200,
 				responseText: JSON.stringify({
 					result: {
 						textSegmentResult: {
-							candidates: [{ label: 'a' }, { label: 'b' }, { label: 'c' }]
-						}
-					}
-				})
+							candidates: [{ label: 'a' }, { label: 'b' }, { label: 'c' }],
+						},
+					},
+				}),
 			};
 			recognizer.onReadyStateChange(request);
 			expect(candidates).to.have.length(3);
@@ -142,50 +131,50 @@ describe('HandwritingRecognizer', () => {
 
 		it('Informs the user if a text was drawn', () => {
 			let detected = false;
-			let wrapper = renderWrappedWithProps({
-				onTextDetected: () => {detected = true;},
+			const wrapper = renderWrappedWithProps({
+				onTextDetected: () => { detected = true; },
 				useHandwritingRecognition: false,
-				returnPressed: true
+				returnPressed: true,
 			});
-			drawStroke(wrapper, [point(324, 211), point(320, 210), point(304, 205), point(292, 203), point(283, 202), point(275, 202), point(267, 202), point(262, 205), point(255, 211), point(252, 217), point(247, 225), point(245, 232), point(244, 240), point(244, 248), point(244, 256), point(244, 265), point(247, 272), point(253, 280), point(259, 288), point(266, 295), point(273, 299), point(283, 302), point(292, 304), point(303, 305), point(314, 305), point(325, 303), point(336, 298), point(342, 294), point(350, 288), point(355, 282), point(359, 278), point(362, 273), point(364, 269), point(366, 264), point(367, 258), point(367, 253), point(367, 249), point(367, 244), point(366, 240), point(363, 236), point(359, 233), point(354, 229), point(350, 227), point(345, 225), point(341, 223), point(337, 222), point(333, 221), point(328, 220), point(325, 220), point(322, 219), point(321, 219), point(320, 219), point(319, 219), point(319, 218), point(319, 217), point(318, 217), point(318, 217)]);
+			drawStroke(wrapper, textPoints());
 			wrapper.setState({
-				useHandwritingRecognition: true
+				useHandwritingRecognition: true,
 			});
 			expect(requests.length).to.equal(2);
 			requests[0].respond(200, {
 				'Content-Type': 'application/json',
-				readyState: 4
+				readyState: 4,
 			}, JSON.stringify({
-				result: require('json!./data/recognizedText.json')
+				result: recognizedText,
 			}));
 			expect(detected).to.be.true;
 		});
 
 		it('Informs the user if a shape was drawn', () => {
 			let detected = false;
-			let wrapper = renderWrappedWithProps({
-				onShapeDetected: () => {detected = true;},
+			const wrapper = renderWrappedWithProps({
+				onShapeDetected: () => { detected = true; },
 				useHandwritingRecognition: false,
-				returnPressed: true
+				returnPressed: true,
 			});
-			drawStroke(wrapper, [point(324, 211), point(320, 210), point(304, 205), point(292, 203), point(283, 202), point(275, 202), point(267, 202), point(262, 205), point(255, 211), point(252, 217), point(247, 225), point(245, 232), point(244, 240), point(244, 248), point(244, 256), point(244, 265), point(247, 272), point(253, 280), point(259, 288), point(266, 295), point(273, 299), point(283, 302), point(292, 304), point(303, 305), point(314, 305), point(325, 303), point(336, 298), point(342, 294), point(350, 288), point(355, 282), point(359, 278), point(362, 273), point(364, 269), point(366, 264), point(367, 258), point(367, 253), point(367, 249), point(367, 244), point(366, 240), point(363, 236), point(359, 233), point(354, 229), point(350, 227), point(345, 225), point(341, 223), point(337, 222), point(333, 221), point(328, 220), point(325, 220), point(322, 219), point(321, 219), point(320, 219), point(319, 219), point(319, 218), point(319, 217), point(318, 217), point(318, 217)]);
+			drawStroke(wrapper, shapePoints());
 			wrapper.setState({
-				useHandwritingRecognition: true
+				useHandwritingRecognition: true,
 			});
 			expect(requests.length).to.equal(2);
 			requests[0].respond(200, {
 				'Content-Type': 'application/json',
-				readyState: 4
+				readyState: 4,
 			}, JSON.stringify({
-				result: require('json!./data/recognizedShape.json')
+				result: recognizedShapeResult,
 			}));
 			expect(detected).to.be.true;
 		});
 
 		it('does nothing when no callback is defined', () => {
-			let recognizer = renderWithProps({
+			const recognizer = renderWithProps({
 				useHandwritingRecognition: false,
-				returnPressed: true
+				returnPressed: true,
 			});
 			recognizer.props.onTextDetected();
 			expect(true).to.be.true;
@@ -193,26 +182,25 @@ describe('HandwritingRecognizer', () => {
 
 		it('does nothing if no candidates were found', () => {
 			let ranCallback = false;
-			let recognizer = renderWithProps({
+			const recognizer = renderWithProps({
 				onTextDetected: () => {
 					ranCallback = true;
-				}
+				},
 			});
 			recognizer.dispatchResult({
 				textSegmentResult: {
-					candidates: []
-				}
+					candidates: [],
+				},
 			});
 			expect(ranCallback).to.be.false;
 		});
 	});
 
 	describe('Interpreting the recognized shape', () => {
-
 		it('does nothing when no callback is defined', () => {
-			let recognizer = renderWithProps({
+			const recognizer = renderWithProps({
 				useHandwritingRecognition: false,
-				returnPressed: true
+				returnPressed: true,
 			});
 			recognizer.props.onShapeDetected();
 			expect(true).to.be.true;
@@ -220,67 +208,64 @@ describe('HandwritingRecognizer', () => {
 
 		it('does nothing if no candidates were found', () => {
 			let ranCallback = false;
-			let recognizer = renderWithProps({
+			const recognizer = renderWithProps({
 				onShapeDetected: () => {
 					ranCallback = true;
-				}
+				},
 			});
 			recognizer.dispatchResult({
-				segments: []
+				segments: [],
 			});
 			expect(ranCallback).to.be.false;
 		});
 	});
 
 	describe('automatically triggering recognition', () => {
-		
 		it('recognizing empty array of strokes is possible', () => {
-			let recognizer = renderWithProps({
+			const recognizer = renderWithProps({
 				useHandwritingRecognition: true,
-				ctrlPressed: true
+				ctrlPressed: true,
 			});
 			recognizer.componentDidUpdate();
 			expect(true).to.be.true;
 		});
 
 		it('creates a request when a stroke is added and finished', () => {
-			let recognizer = renderWithProps({
+			const recognizer = renderWithProps({
 				useHandwritingRecognition: true,
-				ctrlPressed: true
+				ctrlPressed: true,
 			});
-			let length = requests.length;
+			const length = requests.length;
 			recognizer.props.strokes.push({
-				points: [point(10,11,12), point(13,14,15), point(16,17,18)],
-				finished: true
+				points: [point(10, 11, 12), point(13, 14, 15), point(16, 17, 18)],
+				finished: true,
 			});
 			recognizer.componentDidUpdate();
 			expect(requests.length).to.equal(length + 2);
 		});
 
 		it('can recognize again when a new stroke is added', () => {
-			let wrapper = renderWrappedWithProps({
+			const wrapper = renderWrappedWithProps({
 				useHandwritingRecognition: false,
-				returnPressed: true
+				returnPressed: true,
 			});
-			drawStroke(wrapper, [point(10,11,12), point(13,14,15), point(16,17,18)]);
+			drawStroke(wrapper, [point(10, 11, 12), point(13, 14, 15), point(16, 17, 18)]);
 			wrapper.setState({
-				useHandwritingRecognition: true
+				useHandwritingRecognition: true,
 			});
 			expect(requests.length).to.equal(2);
 			wrapper.setState({
-				useHandwritingRecognition: false
+				useHandwritingRecognition: false,
 			});
-			drawStroke(wrapper, [point(19,20,21), point(22,23,24)]);
+			drawStroke(wrapper, [point(19, 20, 21), point(22, 23, 24)]);
 			wrapper.setState({
-				useHandwritingRecognition: true
+				useHandwritingRecognition: true,
 			});
 			expect(requests.length).to.equal(4);
 			wrapper.setState({
-				useHandwritingRecognition: false
+				useHandwritingRecognition: false,
 			});
 			expect(requests.length).to.equal(4);
 		});
-
 	});
-
 });

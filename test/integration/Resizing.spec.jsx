@@ -1,5 +1,6 @@
 import { mountApp, dismountApp, renderApplicationWithState } from './helpers';
 import { forEach } from 'lodash';
+import emptyCanvas from './data/emptyCanvas.json';
 
 'use strict';
 
@@ -22,7 +23,7 @@ describe('Integration', () => {
 		it('keeps the input window in fullscreen size', () => {
 			let oldWidth = window.innerWidth;
 			let oldHeight = window.innerHeight;
-			let canvasJson = require('json!./data/emptyCanvas.json').json;
+			let canvasJson = emptyCanvas.json;
 			let listeners = [];
 			let oldAddEventListener = window.addEventListener;
 			let that = window;
@@ -55,7 +56,7 @@ describe('Integration', () => {
 		it('keeps the background in fullscreen size', () => {
 			let oldWidth = window.innerWidth;
 			let oldHeight = window.innerHeight;
-			let canvasJson = require('json!./data/emptyCanvas.json').json;
+			let canvasJson = emptyCanvas.json;
 			let listeners = [];
 			let oldAddEventListener = window.addEventListener;
 			let that = window;

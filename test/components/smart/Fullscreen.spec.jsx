@@ -3,14 +3,15 @@ import TestUtils from 'react-addons-test-utils';
 import Fullscreen from 'components/smart/Fullscreen';
 
 class MockedSubComponent extends React.Component {
-
 	static propTypes = {
 		width: React.PropTypes.number.isRequired,
-		height: React.PropTypes.number.isRequired
+		height: React.PropTypes.number.isRequired,
 	};
 
-	render () {
-		return <div></div>;
+	static defaultProps = {}
+
+	render() {
+		return <div />;
 	}
 }
 
@@ -18,7 +19,6 @@ const MockedComponent = Fullscreen(MockedSubComponent);
 
 describe('Fullscreen', () => {
 	describe('resizes', () => {
-
 		let restorableWidth;
 		let restorableHeight;
 		let fullscreenComponent;
@@ -27,7 +27,7 @@ describe('Fullscreen', () => {
 		beforeEach(() => {
 			restorableWidth = window.innerWidth;
 			restorableHeight = window.innerHeight;
-			fullscreenComponent = TestUtils.renderIntoDocument(<MockedComponent></MockedComponent>);
+			fullscreenComponent = TestUtils.renderIntoDocument(<MockedComponent />);
 			oldRemoveEventListener = window.removeEventListener;
 		});
 

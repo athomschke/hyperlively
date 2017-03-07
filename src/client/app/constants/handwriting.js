@@ -1,4 +1,4 @@
-let credentials = require('json!credentials/myscriptjs.json');
+import credentials from 'credentials/myscriptjs.json';
 
 export const APPLICATION_KEY = credentials.applicationKey;
 

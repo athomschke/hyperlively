@@ -17,6 +17,15 @@ module.exports = {
         "react/jsx-indent-props": [2, 'tab'],
         "react/jsx-indent": [2, 'tab']
     },
+    "globals": {
+        "expect": true,
+        "beforeEach": true,
+        "afterEach": true,
+        "it": true,
+        "describe": true,
+        "__dirname": true,
+        "sinon": true
+    },
     "env": {
         "browser": true
     },

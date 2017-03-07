@@ -42,11 +42,10 @@ export default class Timeline extends Component {
 
 	render() {
 		return (<div>
-			<div ref="previewContainer" >
+			<div>
 				{this.renderPreview()}
 			</div>
 			<Slider
-				ref="slider"
 				{...this.props}
 				min={0}
 				className={rcSlider}

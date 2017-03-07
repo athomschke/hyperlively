@@ -1,11 +1,12 @@
 import { hashCode, mountApp, dismountApp, renderApplicationWithStore, createAppStore } from './helpers';
+import canvasWithTwoStrokes from './data/canvasWithTwoStrokes.json';
 
 'use strict';
 
 let storeDispatch;
 
 let renderTwoStrokeApplicationWithDispatchObject = (afterStoreDispatchCallbackObject) => {
-	let canvasJson = require('json!./data/canvasWithTwoStrokes.json').json;
+	let canvasJson = canvasWithTwoStrokes.json;
 	let store = createAppStore(canvasJson);
 	let oldStoreDispatch = store.dispatch.bind(store);
 	storeDispatch = function () {

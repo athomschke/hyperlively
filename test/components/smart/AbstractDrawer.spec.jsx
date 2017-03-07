@@ -1,84 +1,55 @@
-import AbstractDrawer from 'components/smart/AbstractDrawer';
-import { ERROR_OVERWRITE } from 'constants/errors';
 import TestUtils from 'react-addons-test-utils';
 import React from 'react';
-
-'use strict';
+import AbstractDrawer from 'components/smart/AbstractDrawer';
+import { ERROR_OVERWRITE } from 'constants/errors';
 
 class SpecificDrawer extends AbstractDrawer {
-
 	onStrokeStarted() {}
-
 	onStrokesExtended() {}
-
 	onStrokesEnded() {}
-
 	startStrokeAt() {}
-
 	extendStrokeAt() {}
-
 	endStrokeAt() {}
-
 	resetCanvas() {}
-
 	redrawStroke() {}
 }
 
 describe('AbstractDrawer', () => {
-
 	describe('calling an abstract function directly', () => {
-
 		it('throws an error for onStrokeStarted', () => {
-
 			expect(AbstractDrawer.prototype.onStrokeStarted).to.throw(ERROR_OVERWRITE);
-
 		});
 
 		it('throws an error for onStrokesExtended', () => {
-
 			expect(AbstractDrawer.prototype.onStrokesExtended).to.throw(ERROR_OVERWRITE);
-
 		});
 
 		it('throws an error for onStrokesEnded', () => {
-
 			expect(AbstractDrawer.prototype.onStrokesEnded).to.throw(ERROR_OVERWRITE);
-
 		});
 
 		it('throws an error for extendStrokeAt', () => {
-
 			expect(AbstractDrawer.prototype.extendStrokeAt).to.throw(ERROR_OVERWRITE);
-
 		});
 
 		it('throws an error for endStrokeAt', () => {
-
 			expect(AbstractDrawer.prototype.endStrokeAt).to.throw(ERROR_OVERWRITE);
-
 		});
 
 		it('throws an error for resetCanvas', () => {
-
 			expect(AbstractDrawer.prototype.resetCanvas).to.throw(ERROR_OVERWRITE);
-
 		});
 
 		it('throws an error for redrawStroke', () => {
-
 			expect(AbstractDrawer.prototype.redrawStroke).to.throw(ERROR_OVERWRITE);
-
 		});
 
 		it('does nothing for startStrokeAt', () => {
-
 			expect(AbstractDrawer.prototype.startStrokeAt()).to.not.fail;
-
 		});
 	});
 
 	describe('changing a strokes color', () => {
-
 		let strokes;
 		let specificDrawer;
 
@@ -92,18 +63,18 @@ describe('AbstractDrawer', () => {
 
 		beforeEach(() => {
 			strokes = [{
-				points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}, {x:10, y:13}]
+				points: [{ x: 10, y: 10 }, { x: 10, y: 11 }, { x: 10, y: 12 }, { x: 10, y: 13 }],
 			}];
 			specificDrawer = TestUtils.renderIntoDocument(<SpecificDrawer
 				bounds={{
 					width: 1000,
 					height: 500,
 					x: 0,
-					y: 0
+					y: 0,
 				}}
 				strokes={strokes}
-				active ={false}
-				finished ={true}
+				active={false}
+				finished
 			/>);
 		});
 
@@ -118,7 +89,5 @@ describe('AbstractDrawer', () => {
 		it('redraws everything', () => {
 			updatingColorShouldCallFunctionNTimes('redrawEverything', 1);
 		});
-
 	});
-
 });

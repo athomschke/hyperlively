@@ -8,35 +8,39 @@ var config = {
 	entry: APP_DIR + '/index.jsx',
 	output: {
 		path: BUILD_DIR,
-		filename: 'bundle.js'
+		filename: 'bundle.js',
 	},
-	module : {
-		loaders : [
+	module: {
+		loaders: [
 			{
 				test: /\.(jsx|js)$/,
-				exclude : [
-					/node_modules/
+				exclude: [
+					/node_modules/,
 				],
-				loader : 'babel-loader'
+				loader: 'babel-loader',
 			},
 			{
 				test: /\.(jsx|js)$/,
-				include : [
-					/node_modules\/react-tree-menu/
+				include: [
+					/node_modules\/react-tree-menu/,
 				],
-				loader : 'babel-loader'
+				loader: 'babel-loader',
 			},
 			{
 				test: /\.(scss|css)$/,
-				loaders : ['style-loader', 'css-loader', 'sass-loader']
-			}
-		]
+				loaders: ['style-loader', 'css-loader', 'sass-loader'],
+			},
+			{
+				test: /\.json$/,
+				loader: 'json-loader',
+			},
+		],
 	},
 	resolve: {
 		extensions: [
-			'', '.webpack.js', '.web.js', '.js', //default
+			'', '.webpack.js', '.web.js', '.js',
 			'.jsx',
-			'.scss'
+			'.scss',
 		],
 		alias: {
 			actions: APP_DIR + '/actions',
@@ -47,9 +51,9 @@ var config = {
 			stylesheets: APP_DIR + '/stylesheets',
 			helpers: APP_DIR + '/helpers',
 			credentials: CREDENTIALS_DIR,
-			base: APP_DIR
-		}
-	}
+			base: APP_DIR,
+		},
+	},
 };
 
 module.exports = config;

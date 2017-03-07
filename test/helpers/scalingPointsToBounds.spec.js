@@ -77,6 +77,5 @@ describe('Scaling points to bounds', () => {
 			const fittedWidth = getFittedWidth(strokes, sliderWidth, maxWidth);
 			expect(fittedWidth).to.equal(50);
 		});
-
 	});
 });

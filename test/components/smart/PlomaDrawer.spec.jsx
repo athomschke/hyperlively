@@ -1,24 +1,20 @@
-import PlomaDrawer from 'components/smart/PlomaDrawer';
 import TestUtils from 'react-addons-test-utils';
 import React from 'react';
 import { remove, forEach, filter, isNumber } from 'lodash';
+import PlomaDrawer from 'components/smart/PlomaDrawer';
 
-'use strict';
+const renderComponentWithProps = props => TestUtils.renderIntoDocument(<PlomaDrawer
+	bounds={{
+		width: 1000,
+		height: 500,
+		x: 0,
+		y: 0,
+	}}
+	uniqueCanvasFactor={props.uniqueCanvasFactor || Math.random()}
+	strokes={props.strokes || []}
+/>);
 
-let renderComponentWithProps = (props) => {
-	return TestUtils.renderIntoDocument(<PlomaDrawer
-		bounds={{
-			width: 1000,
-			height: 500,
-			x: 0,
-			y: 0
-		}}
-		uniqueCanvasFactor={props.uniqueCanvasFactor || Math.random()}
-		strokes={props.strokes || []}
-	/>);
-};
-
-let spyOnPen = (pen) => {
+const spyOnPen = (pen) => {
 	sinon.spy(pen, 'beginStroke');
 	sinon.spy(pen, 'extendStroke');
 	sinon.spy(pen, 'endStroke');
@@ -26,7 +22,7 @@ let spyOnPen = (pen) => {
 	sinon.spy(pen, 'setPenColor');
 };
 
-let resetPenSpies = (pen) => {
+const resetPenSpies = (pen) => {
 	pen.beginStroke.reset();
 	pen.extendStroke.reset();
 	pen.endStroke.reset();
@@ -34,7 +30,7 @@ let resetPenSpies = (pen) => {
 	pen.setPenColor.reset();
 };
 
-let restorePen = (pen) => {
+const restorePen = (pen) => {
 	pen.beginStroke.restore();
 	pen.extendStroke.restore();
 	pen.endStroke.restore();
@@ -42,11 +38,14 @@ let restorePen = (pen) => {
 };
 
 describe('PlomaDrawer', () => {
-
 	let canvas;
 
 	beforeEach(() => {
-		canvas = renderComponentWithProps({ strokes: [{ points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}, {x:10, y:13}] }] });
+		canvas = renderComponentWithProps({
+			strokes: [{
+				points: [{ x: 10, y: 10 }, { x: 10, y: 11 }, { x: 10, y: 12 }, { x: 10, y: 13 }],
+			}],
+		});
 		canvas.componentDidUpdate();
 		spyOnPen(canvas.state.ballpointPen);
 	});
@@ -56,12 +55,11 @@ describe('PlomaDrawer', () => {
 	});
 
 	describe('removing one point', () => {
-
 		beforeEach(() => {
 			canvas.props.strokes[0].points.splice(-1);
 			canvas.componentDidUpdate();
 		});
-		
+
 		it('clears the canvas', () => {
 			expect(canvas.state.ballpointPen.clear.callCount).to.equal(1);
 		});
@@ -73,16 +71,14 @@ describe('PlomaDrawer', () => {
 		it('redraws all remaining strokes', () => {
 			expect(canvas.state.ballpointPen.extendStroke.callCount).to.equal(3);
 		});
-
 	});
 
 	describe('removing two points', () => {
-
 		beforeEach(() => {
 			canvas.props.strokes[0].points.splice(-2);
 			canvas.componentDidUpdate();
 		});
-		
+
 		it('clears the canvas', () => {
 			expect(canvas.state.ballpointPen.clear.callCount).to.equal(1);
 		});
@@ -94,16 +90,14 @@ describe('PlomaDrawer', () => {
 		it('redraws all remaining strokes', () => {
 			expect(canvas.state.ballpointPen.extendStroke.callCount).to.equal(2);
 		});
-
 	});
 
 	describe('removing all but one point', () => {
-
 		beforeEach(() => {
 			canvas.props.strokes[0].points.splice(-3);
 			canvas.componentDidUpdate();
 		});
-		
+
 		it('clears the canvas', () => {
 			expect(canvas.state.ballpointPen.clear.callCount).to.equal(1);
 		});
@@ -115,20 +109,18 @@ describe('PlomaDrawer', () => {
 		it('doesn\'t extend a stroke', () => {
 			expect(canvas.state.ballpointPen.extendStroke.callCount).to.equal(0);
 		});
-
 	});
 
 	describe('removing the second stroke', () => {
-
 		beforeEach(() => {
 			canvas.props.strokes[0].finished = true;
-			canvas.props.strokes.push({ points: [{x: 10, y: 15}] });
+			canvas.props.strokes.push({ points: [{ x: 10, y: 15 }] });
 			canvas.componentDidUpdate();
 			resetPenSpies(canvas.state.ballpointPen);
 			canvas.props.strokes.splice(-1);
 			canvas.componentDidUpdate();
 		});
-		
+
 		it('clears the canvas', () => {
 			expect(canvas.state.ballpointPen.clear.callCount).to.equal(1);
 		});
@@ -144,13 +136,11 @@ describe('PlomaDrawer', () => {
 		it('ends the first stroke', () => {
 			expect(canvas.state.ballpointPen.endStroke.callCount).to.equal(1);
 		});
-
 	});
 
 	describe('adding a point', () => {
-
 		beforeEach(() => {
-			canvas.props.strokes[0].points.push({x: 10, y: 15});
+			canvas.props.strokes[0].points.push({ x: 10, y: 15 });
 			canvas.componentDidUpdate();
 		});
 
@@ -161,14 +151,12 @@ describe('PlomaDrawer', () => {
 		it('does not clear the canvas', () => {
 			expect(canvas.state.ballpointPen.clear.callCount).to.equal(0);
 		});
-
 	});
 
 	describe('ending a stroke', () => {
-
 		beforeEach(() => {
 			canvas.props.strokes[0].finished = true;
-			canvas.props.strokes[0].points.push({x: 10, y: 14});
+			canvas.props.strokes[0].points.push({ x: 10, y: 14 });
 			canvas.componentDidUpdate();
 		});
 
@@ -183,13 +171,11 @@ describe('PlomaDrawer', () => {
 		it('does not extend a stroke', () => {
 			expect(canvas.state.ballpointPen.extendStroke.callCount).to.equal(0);
 		});
-
 	});
 
 	describe('starting a new stroke', () => {
-
 		beforeEach(() => {
-			canvas.props.strokes.push({ points: [{x: 10, y: 15}] });
+			canvas.props.strokes.push({ points: [{ x: 10, y: 15 }] });
 			canvas.componentDidUpdate();
 		});
 
@@ -200,17 +186,15 @@ describe('PlomaDrawer', () => {
 		it('begins a stroke', () => {
 			expect(canvas.state.ballpointPen.beginStroke.callCount).to.equal(1);
 		});
-
 	});
 
 	describe('starting the first stroke', () => {
-
 		beforeEach(() => {
 			remove(canvas.props.strokes, canvas.props.strokes[0]);
 			canvas.componentDidUpdate();
 			resetPenSpies(canvas.state.ballpointPen);
 			canvas.props.strokes.push({
-				points: [{ x: 10, y: 10 }]
+				points: [{ x: 10, y: 10 }],
 			});
 			canvas.componentDidUpdate();
 		});
@@ -224,22 +208,20 @@ describe('PlomaDrawer', () => {
 		});
 
 		it('with a colored pen chooses a different pen color', () => {
-			let callCountBefore = canvas.state.ballpointPen.setPenColor.callCount;
-			canvas.startStrokeAt({x: 10, y: 10}, {r: 45, g: 56, b: 67});
+			const callCountBefore = canvas.state.ballpointPen.setPenColor.callCount;
+			canvas.startStrokeAt({ x: 10, y: 10 }, { r: 45, g: 56, b: 67 });
 			expect(canvas.state.ballpointPen.setPenColor.callCount - callCountBefore).to.equal(1);
 		});
 
 		it('with a colored pen needs to choose the right color format', () => {
-			canvas.startStrokeAt({x: 10, y: 10}, {r: 45, g: 56, b: 67});
-			let wrongFormats = filter(canvas.state.ballpointPen.setPenColor.args, (arg) => {
-				return !(isNumber(arg[0].r) && isNumber(arg[0].g) && isNumber(arg[0].b));
-			});
+			canvas.startStrokeAt({ x: 10, y: 10 }, { r: 45, g: 56, b: 67 });
+			const wrongFormats = filter(canvas.state.ballpointPen.setPenColor.args, arg =>
+					!(isNumber(arg[0].r) && isNumber(arg[0].g) && isNumber(arg[0].b)));
 			expect(wrongFormats).to.have.length(0);
 		});
 	});
 
 	describe('changing the position of displayed points', () => {
-
 		beforeEach(() => {
 			forEach(canvas.props.strokes[0].points, (point) => { point.x += 10; });
 			canvas.componentDidUpdate();
@@ -248,26 +230,24 @@ describe('PlomaDrawer', () => {
 		it('Does not trigger a complete rerendering', () => {
 			expect(canvas.state.ballpointPen.clear.callCount).to.equal(0);
 		});
-
 	});
 
 	describe('selecting strokes', () => {
-
 		beforeEach(() => {
 			forEach(canvas.props.strokes[0].points, (point) => { point.x += 10; });
 			canvas.componentDidUpdate();
 		});
 
 		it('Gives them a different color than normally', () => {
-			canvas.props.strokes.push({points: [{x: 30, y: 30}, {x: 31, y: 31}, {x: 32, y: 32}] });
+			canvas.props.strokes.push({ points: [{ x: 30, y: 30 }, { x: 31, y: 31 }, { x: 32, y: 32 }] });
 			canvas.componentDidUpdate();
 			canvas.props.strokes[1].selected = true;
 			canvas.state.ballpointPen.setPenColor.reset();
 			canvas.componentDidUpdate();
 			expect(canvas.state.ballpointPen.setPenColor.callCount).to.equal(2);
-			expect(canvas.state.ballpointPen.setPenColor.args[0][0]).to.not.deep.equal(canvas.state.ballpointPen.setPenColor.args[1][0]);
+			const firstCalledArg = canvas.state.ballpointPen.setPenColor.args[0][0];
+			const secondCalledArg = canvas.state.ballpointPen.setPenColor.args[1][0];
+			expect(firstCalledArg).to.not.deep.equal(secondCalledArg);
 		});
-
 	});
-
 });

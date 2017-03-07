@@ -1,35 +1,41 @@
-import AppConfiguration from 'components/dumb/AppConfiguration';
 import { findDOMNode } from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 import React from 'react';
+import AppConfiguration from 'components/dumb/AppConfiguration';
 
 describe('App Configuration', () => {
-
 	it('renders all its children', () => {
-		let appConfiguration = TestUtils.renderIntoDocument(<AppConfiguration><div/><div/><div/></AppConfiguration>);
-		let domNode = findDOMNode(appConfiguration);
+		const appConfiguration = TestUtils.renderIntoDocument(
+			<AppConfiguration>
+				<div />
+				<div />
+				<div />
+			</AppConfiguration>);
+		const domNode = findDOMNode(appConfiguration);
 		expect(domNode.childNodes).to.have.length(3);
 	});
 
 	it('is active by default', () => {
-		let appConfiguration = TestUtils.renderIntoDocument(<AppConfiguration></AppConfiguration>);
-		let domNode = findDOMNode(appConfiguration);
+		const appConfiguration = TestUtils.renderIntoDocument(<AppConfiguration />);
+		const domNode = findDOMNode(appConfiguration);
 		expect(domNode.style.getPropertyValue('pointer-events')).to.equal('auto');
 	});
 
 	it('can be deactivated', () => {
-		let appConfiguration = TestUtils.renderIntoDocument(<AppConfiguration
-			active={false}
-		></AppConfiguration>);
-		let domNode = findDOMNode(appConfiguration);
+		const appConfiguration = TestUtils.renderIntoDocument(
+			<AppConfiguration
+				active={false}
+			/>);
+		const domNode = findDOMNode(appConfiguration);
 		expect(domNode.style.getPropertyValue('pointer-events')).to.equal('none');
 	});
 
 	it('can be activated', () => {
-		let appConfiguration = TestUtils.renderIntoDocument(<AppConfiguration
-			active={true}
-		></AppConfiguration>);
-		let domNode = findDOMNode(appConfiguration);
+		const appConfiguration = TestUtils.renderIntoDocument(
+			<AppConfiguration
+				active
+			/>);
+		const domNode = findDOMNode(appConfiguration);
 		expect(domNode.style.getPropertyValue('pointer-events')).to.equal('auto');
 	});
 });

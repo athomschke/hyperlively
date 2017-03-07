@@ -1,199 +1,201 @@
-import PlainDrawer from 'components/smart/PlainDrawer';
 import TestUtils from 'react-addons-test-utils';
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { sum, forEach, remove } from 'lodash';
-
-'use strict';
+import PlainDrawer from 'components/smart/PlainDrawer';
 
 class WrappedPlainDrawer extends Component {
+
+	static propTypes = {
+		width: PropTypes.number.isRequired,
+		height: PropTypes.number.isRequired,
+	}
 
 	constructor(props) {
 		super(props);
 		this.state = {
 			width: props.width,
-			height: props.height
+			height: props.height,
 		};
 	}
 
 	render() {
-		return <PlainDrawer ref='plainDrawer' {...this.props} {...this.state} />;
+		return <PlainDrawer ref="plainDrawer" {...this.props} {...this.state} />;
 	}
 }
 
-let renderWrapperAroundComponentWithProps = (props) => {
-	return TestUtils.renderIntoDocument(<WrappedPlainDrawer {...props}
+const renderWrapperAroundComponentWithProps = props =>
+	TestUtils.renderIntoDocument(<WrappedPlainDrawer
+		{...props}
 		bounds={{
 			width: 1000,
 			height: 500,
 			x: 0,
-			y: 0
+			y: 0,
 		}}
 		strokes={props.strokes || []}
-		active ={props.active}
+		active={props.active}
 	/>);
-};
 
-let renderComponentWithProps = (props) => {
-	return TestUtils.renderIntoDocument(<PlainDrawer
-		bounds={{
-			width: 1000,
-			height: 500,
-			x: 0,
-			y: 0
-		}}
-		strokes={props.strokes || []}
-		active ={props.active}
-		finished ={props.finished}
-	/>);
-};
+const renderComponentWithProps = props => TestUtils.renderIntoDocument(<PlainDrawer
+	bounds={{
+		width: 1000,
+		height: 500,
+		x: 0,
+		y: 0,
+	}}
+	strokes={props.strokes || []}
+	active={props.active}
+	finished={props.finished}
+/>);
 
-let canvasImageData = (canvas) => {
-	return canvas.getContext('2d').getImageData(0,0,canvas.width, canvas.height);
-};
+const canvasImageData = canvas => canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height);
 
 describe('PlainDrawer', () => {
-
-	let canvas;
-
 	describe('plain rendered image', () => {
+		let canvas;
 
 		beforeEach(() => {
 			canvas = renderComponentWithProps({
 				strokes: [{
-					points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}, {x:10, y:13}]
-				}]
+					points: [{ x: 10, y: 10 }, { x: 10, y: 11 }, { x: 10, y: 12 }, { x: 10, y: 13 }],
+				}],
 			});
 		});
 
 		it('is updated when a point is added', () => {
-			let sumBefore = sum(canvasImageData(canvas.refs.canvas).data);
-			canvas.props.strokes[0].points.push({x: 10, y: 14});
+			const sumBefore = sum(canvasImageData(canvas.refs.canvas).data);
+			canvas.props.strokes[0].points.push({ x: 10, y: 14 });
 			canvas.componentDidUpdate();
-			let sumAfter = sum(canvasImageData(canvas.refs.canvas).data);
+			const sumAfter = sum(canvasImageData(canvas.refs.canvas).data);
 			expect(sumAfter).to.not.equal(sumBefore);
 		});
 
 		it('is updated when a point is removed', () => {
-			let sumBefore = sum(canvasImageData(canvas.refs.canvas).data);
+			const sumBefore = sum(canvasImageData(canvas.refs.canvas).data);
 			canvas.props.strokes[0].points.splice(-1);
 			canvas.componentDidUpdate();
-			let sumAfter = sum(canvasImageData(canvas.refs.canvas).data);
+			const sumAfter = sum(canvasImageData(canvas.refs.canvas).data);
 			expect(sumAfter).to.not.equal(sumBefore);
 		});
 
 		it('does not re-render when nothing changed', () => {
-			let sumBefore = sum(canvasImageData(canvas.refs.canvas).data);
+			const sumBefore = sum(canvasImageData(canvas.refs.canvas).data);
 			canvas.componentDidUpdate();
-			let sumAfter = sum(canvasImageData(canvas.refs.canvas).data);
+			const sumAfter = sum(canvasImageData(canvas.refs.canvas).data);
 			expect(sumAfter).to.equal(sumBefore);
 		});
 
 		it('draws blue strokes different from normal ones', () => {
-			let sumBefore = sum(canvasImageData(canvas.refs.canvas).data);
-			canvas.props.strokes[0].color = { r: 4, g: 1, b: 2};
+			const sumBefore = sum(canvasImageData(canvas.refs.canvas).data);
+			canvas.props.strokes[0].color = { r: 4, g: 1, b: 2 };
 			canvas.componentDidUpdate();
-			let sumAfter = sum(canvasImageData(canvas.refs.canvas).data);
+			const sumAfter = sum(canvasImageData(canvas.refs.canvas).data);
 			expect(sumBefore).to.not.deep.equal(sumAfter);
 		});
-
 	});
 
 	describe('starting a colored stroke', () => {
+		let canvas;
+
+		beforeEach(() => {
+			canvas = renderComponentWithProps({
+				strokes: [{
+					points: [{ x: 10, y: 10 }, { x: 10, y: 11 }, { x: 10, y: 12 }, { x: 10, y: 13 }],
+				}],
+			});
+		});
 
 		it('chooses the requested pen', () => {
-			let canvas =  renderComponentWithProps({});
-			let aPoint = {
+			canvas = renderComponentWithProps({});
+			const aPoint = {
 				x: 10,
-				y: 10
+				y: 10,
 			};
-			let aColor = {
+			const aColor = {
 				r: 1,
 				g: 1,
-				b: 1
+				b: 1,
 			};
 			canvas.startStrokeAt(aPoint, aColor);
 			expect(canvas.refs.canvas.getContext('2d').strokeStyle).to.equal('#010101');
 		});
 
 		it('changes stroke style on canvas', () => {
-			let styleBefore = canvas.refs.canvas.getContext('2d').strokeStyle;
-			canvas.props.strokes[0].color = { r: 5, g: 1, b: 1};
+			const styleBefore = canvas.refs.canvas.getContext('2d').strokeStyle;
+			canvas.props.strokes[0].color = { r: 5, g: 1, b: 1 };
 			canvas.componentDidUpdate();
-			let styleAfter = canvas.refs.canvas.getContext('2d').strokeStyle;
+			const styleAfter = canvas.refs.canvas.getContext('2d').strokeStyle;
 			expect(styleBefore).to.not.deep.equal(styleAfter);
 		});
-
 	});
 
 	describe('rendering an empty canvas', () => {
-
 		it('works for only one point on canvas', () => {
-			let canvas =  renderComponentWithProps({
+			const canvas = renderComponentWithProps({
 				strokes: [{
-					points: [{x:10, y:10}]
-				}]
+					points: [{ x: 10, y: 10 }],
+				}],
 			});
 			expect(canvas).to.exist;
 		});
 	});
 
 	describe('activating events on a canvas', () => {
-
 		it('enables pointer events on its containing div when it is finished', () => {
-			let canvas = renderComponentWithProps({
+			const canvas = renderComponentWithProps({
 				active: true,
 				strokes: [{
-					points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}, {x:10, y:13}]
+					points: [{ x: 10, y: 10 }, { x: 10, y: 11 }, { x: 10, y: 12 }, { x: 10, y: 13 }],
 				}],
-				finished: true
+				finished: true,
 			});
 
 			expect(canvas.refs.node.style.getPropertyValue('pointer-events')).to.equal('auto');
 		});
 
 		it('does not enable pointer events on its containing div when its not finished', () => {
-			let canvas = renderComponentWithProps({
+			const canvas = renderComponentWithProps({
 				active: true,
 				strokes: [{
-					points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}, {x:10, y:13}]
+					points: [{ x: 10, y: 10 }, { x: 10, y: 11 }, { x: 10, y: 12 }, { x: 10, y: 13 }],
 				}],
-				finished: false
+				finished: false,
 			});
 
 			expect(canvas.refs.node.style.getPropertyValue('pointer-events')).to.equal('none');
 		});
-
 	});
 
 	describe('finishing a stroke', () => {
+		let canvas;
 
 		beforeEach(() => {
 			canvas = renderComponentWithProps({
 				strokes: [{
-					points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}, {x:10, y:13}]
-				}]
+					points: [{ x: 10, y: 10 }, { x: 10, y: 11 }, { x: 10, y: 12 }, { x: 10, y: 13 }],
+				}],
 			});
 		});
 
 		it('adds the last point', () => {
-			let sumBefore = sum(canvasImageData(canvas.refs.canvas).data);
+			const sumBefore = sum(canvasImageData(canvas.refs.canvas).data);
 			canvas.props.strokes[0].finished = true;
-			canvas.props.strokes[0].points.push({x: 10, y: 14});
+			canvas.props.strokes[0].points.push({ x: 10, y: 14 });
 			canvas.componentDidUpdate();
-			let sumAfter = sum(canvasImageData(canvas.refs.canvas).data);
+			const sumAfter = sum(canvasImageData(canvas.refs.canvas).data);
 			expect(sumAfter).to.not.equal(sumBefore);
 		});
-
 	});
 
 	describe('changing the positions of strokes', () => {
+		let canvas;
 
 		it('triggers a redraw everything', () => {
 			canvas = renderComponentWithProps({
 				strokes: [{
-					points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}, {x:10, y:13}],
-					finished: true
-				}]
+					points: [{ x: 10, y: 10 }, { x: 10, y: 11 }, { x: 10, y: 12 }, { x: 10, y: 13 }],
+					finished: true,
+				}],
 			});
 			sinon.spy(canvas, 'redrawEverything');
 			forEach(canvas.props.strokes[0].points, (point) => {
@@ -204,48 +206,50 @@ describe('PlainDrawer', () => {
 			expect(canvas.redrawEverything.callCount).to.equal(1);
 			canvas.redrawEverything.restore();
 		});
-
 	});
 
 	describe('taking away the second stroke', () => {
+		let canvas;
+
 		beforeEach(() => {
 			canvas = renderComponentWithProps({
 				strokes: [{
-					points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}, {x:10, y:13}],
-					finished: true
-				},{
-					points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}, {x:10, y:13}],
-					finished: true
-				}]
+					points: [{ x: 10, y: 10 }, { x: 10, y: 11 }, { x: 10, y: 12 }, { x: 10, y: 13 }],
+					finished: true,
+				}, {
+					points: [{ x: 10, y: 10 }, { x: 10, y: 11 }, { x: 10, y: 12 }, { x: 10, y: 13 }],
+					finished: true,
+				}],
 			});
 		});
 
 		it('draws only the first', () => {
-			let sumBefore = sum(canvasImageData(canvas.refs.canvas).data);
+			const sumBefore = sum(canvasImageData(canvas.refs.canvas).data);
 			remove(canvas.props.strokes, canvas.props.strokes[1]);
 			canvas.componentDidUpdate();
-			let sumAfter = sum(canvasImageData(canvas.refs.canvas).data);
+			const sumAfter = sum(canvasImageData(canvas.refs.canvas).data);
 			expect(sumAfter).to.not.equal(sumBefore);
 		});
 	});
 
 	describe('starting a stroke', () => {
+		let canvas;
 		beforeEach(() => {
 			canvas = renderComponentWithProps({
 				strokes: [{
-					points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}, {x:10, y:13}],
-					finished: true
-				}]
+					points: [{ x: 10, y: 10 }, { x: 10, y: 11 }, { x: 10, y: 12 }, { x: 10, y: 13 }],
+					finished: true,
+				}],
 			});
 		});
 
 		it('does nothing, really', () => {
-			let sumBefore = sum(canvasImageData(canvas.refs.canvas).data);
+			const sumBefore = sum(canvasImageData(canvas.refs.canvas).data);
 			canvas.props.strokes.push({
-				points: [{x:20, y:10}]
+				points: [{ x: 20, y: 10 }],
 			});
 			canvas.componentDidUpdate();
-			let sumAfter = sum(canvasImageData(canvas.refs.canvas).data);
+			const sumAfter = sum(canvasImageData(canvas.refs.canvas).data);
 			expect(sumAfter).to.equal(sumBefore);
 		});
 
@@ -255,31 +259,30 @@ describe('PlainDrawer', () => {
 	});
 
 	describe('changing the canvasses dimensions', () => {
-
 		it('does not change the image', (done) => {
-			let wrappedComponent = renderWrapperAroundComponentWithProps({
+			const wrappedComponent = renderWrapperAroundComponentWithProps({
 				width: 100,
 				height: 200,
 				strokes: [{
-					points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}, {x:10, y:13}],
-					finished: true
-				}]
+					points: [{ x: 10, y: 10 }, { x: 10, y: 11 }, { x: 10, y: 12 }, { x: 10, y: 13 }],
+					finished: true,
+				}],
 			});
-			let canvas = wrappedComponent.refs.plainDrawer;
-			let sumBefore = sum(canvasImageData(canvas.refs.canvas).data);
+			const canvas = wrappedComponent.refs.plainDrawer;
+			const sumBefore = sum(canvasImageData(canvas.refs.canvas).data);
 			wrappedComponent.setState({
-				width: 150
-			}, () => {			
+				width: 150,
+			}, () => {
 				wrappedComponent.setState({
-					width: 100
+					width: 100,
 				}, () => {
 					let sumAfter = sum(canvasImageData(canvas.refs.canvas).data);
 					expect(sumAfter).to.equal(sumBefore);
 					wrappedComponent.setState({
-						height: 150
+						height: 150,
 					}, () => {
 						wrappedComponent.setState({
-							height: 200
+							height: 200,
 						}, () => {
 							sumAfter = sum(canvasImageData(canvas.refs.canvas).data);
 							expect(sumAfter).to.equal(sumBefore);
@@ -292,15 +295,14 @@ describe('PlainDrawer', () => {
 	});
 
 	describe('selecting strokes', () => {
-
 		it('Gives them a different color than normally', () => {
-			let canvas = renderComponentWithProps({
+			const canvas = renderComponentWithProps({
 				strokes: [{
-					points: [{x:10, y:10}, {x:10, y:11}, {x:10, y:12}, {x:10, y:13}],
-					finished: true
+					points: [{ x: 10, y: 10 }, { x: 10, y: 11 }, { x: 10, y: 12 }, { x: 10, y: 13 }],
+					finished: true,
 				}, {
-					points: [{x: 30, y: 30}, {x: 31, y: 31}, {x: 32, y: 32}]
-				}]
+					points: [{ x: 30, y: 30 }, { x: 31, y: 31 }, { x: 32, y: 32 }],
+				}],
 			});
 			sinon.spy(canvas, 'startStrokeAt');
 			canvas.props.strokes[1].selected = true;
@@ -309,7 +311,5 @@ describe('PlainDrawer', () => {
 			expect(canvas.startStrokeAt.args[0][1]).to.not.deep.equal(canvas.startStrokeAt.args[1][1]);
 			canvas.startStrokeAt.restore();
 		});
-
 	});
-
 });

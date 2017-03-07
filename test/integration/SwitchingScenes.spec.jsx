@@ -2,6 +2,7 @@ import TestUtils from 'react-addons-test-utils';
 import { createAppStore, renderApplicationWithStore, mountApp, dismountApp } from './helpers';
 import { nextScene } from 'actions/drawing';
 import { cloneDeep } from 'lodash';
+import canvasWithTwoScenes from './data/canvasWithTwoScenes.json';
 
 'use strict';
 
@@ -10,7 +11,7 @@ let getTimelineCanvasNodes = () => {
 };
 
 const createStoreAndRenderAppAtPage = (pageNumber) => {
-	let canvasJson = cloneDeep(require('json!./data/canvasWithTwoScenes.json').json);
+	let canvasJson = cloneDeep(canvasWithTwoScenes.json);
 	canvasJson.content.sceneIndex = pageNumber;
 	let store = createAppStore(canvasJson);
 	renderApplicationWithStore(store);

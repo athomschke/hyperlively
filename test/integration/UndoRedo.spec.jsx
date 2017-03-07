@@ -2,6 +2,7 @@ import { findDOMNode } from 'react-dom';
 import { point } from '../helpers';
 import { hashCode, mountApp, dismountApp, getCanvasNodes, getWindowNode, getCombinedCanvas, renderApplicationWithState, manuallyDrawStrokes, gotToHalfTimeInApp } from './helpers';
 import { cloneDeep } from 'lodash';
+import emptyCanvas from './data/emptyCanvas.json';
 
 'use strict';
 
@@ -22,9 +23,9 @@ describe('Integration', () => {
 	describe('undoing', () => {
 
 		it('keeps the canvas at content size', () => {
-			let emptyCanvas = cloneDeep(require('json!./data/emptyCanvas.json'));
-			emptyCanvas.json.threshold = 10;
-			let renderedApp = renderApplicationWithState(emptyCanvas.json);
+			let clonedEmptyCanvas = cloneDeep(emptyCanvas);
+			clonedEmptyCanvas.json.threshold = 10;
+			let renderedApp = renderApplicationWithState(clonedEmptyCanvas.json);
 			manuallyDrawStrokes(getWindowNode(), [{
 				points: [ point(10,10, 100), point(10,30, 101), point(10,60, 102) ]
 			}, {
@@ -40,8 +41,8 @@ describe('Integration', () => {
 		});
 
 		it('affects the canvas', () => {
-			let emptyCanvas = cloneDeep(require('json!./data/emptyCanvas.json'));
-			let renderedApp = renderApplicationWithState(emptyCanvas.json);
+			let clonedEmptyCanvas = cloneDeep(emptyCanvas);
+			let renderedApp = renderApplicationWithState(clonedEmptyCanvas.json);
 			manuallyDrawStrokes(getWindowNode(), [{
 				points: [ point(10,10), point(10,30), point(10,60) ]
 			}, {

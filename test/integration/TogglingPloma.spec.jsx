@@ -1,5 +1,6 @@
 import TestUtils from 'react-addons-test-utils';
 import { hashCode, renderApplicationWithState, mountApp, dismountApp, getCombinedCanvas } from './helpers';
+import canvasWithIrregularStrokesWithPloma from './data/canvasWithIrregularStrokesWithPloma.json';
 
 'use strict';
 
@@ -20,7 +21,6 @@ describe('Integration', () => {
 	describe('activating ploma', () => {
 
 		it('switches to Ploma when it was deactivated', () => {
-			let canvasWithIrregularStrokesWithPloma = require('json!./data/canvasWithIrregularStrokesWithPloma.json');
 			renderApplicationWithState(canvasWithIrregularStrokesWithPloma.json);
 			let nonPlomaImageData = getCombinedCanvas().toDataURL();
 			let plomaButton = document.getElementsByTagName('input')[0];
@@ -29,7 +29,6 @@ describe('Integration', () => {
 		});
 
 		it('changes background color to more of a paper type', () => {
-			let canvasWithIrregularStrokesWithPloma = require('json!./data/canvasWithIrregularStrokesWithPloma.json');
 			renderApplicationWithState(canvasWithIrregularStrokesWithPloma.json);
 			let backgroundNode = document.getElementById('app').children[0].children[0];
 			let nonPlomaBackgroundColor = backgroundNode.style.getPropertyValue('background-color');

@@ -1,49 +1,47 @@
-import Window from 'components/dumb/Window';
 import TestUtils from 'react-addons-test-utils';
 import React from 'react';
+import Window from 'components/dumb/Window';
 
 describe('Window', () => {
-		
 	it('setting cmdPressed to true disables events on window', () => {
-		let windowComponent = TestUtils.renderIntoDocument(<Window
+		const windowComponent = TestUtils.renderIntoDocument(<Window
 			width={100}
 			height={100}
-			cmdPressed={true}
-		></Window>);
+			cmdPressed
+		/>);
 		expect(windowComponent.refs.window.style.getPropertyValue('pointer-events')).to.equal('none');
 	});
-	
+
 	it('setting cmdPressed to false enables events on window', () => {
-		let windowComponent = TestUtils.renderIntoDocument(<Window
+		const windowComponent = TestUtils.renderIntoDocument(<Window
 			width={100}
 			height={100}
 			cmdPressed={false}
-		></Window>);
+		/>);
 		expect(windowComponent.refs.window.style.getPropertyValue('pointer-events')).to.equal('auto');
-	});
-	
-	it('enables events per default', () => {
-		let windowComponent = TestUtils.renderIntoDocument(<Window
-			width={100}
-			height={100}
-		></Window>);
-		expect(windowComponent.refs.window.style.getPropertyValue('pointer-events')).to.equal('auto');
-	});
-	
-	it('has the given width', () => {
-		let windowComponent = TestUtils.renderIntoDocument(<Window
-			width={100}
-			height={100}
-		></Window>);
-		expect(windowComponent.refs.window.style.getPropertyValue('width')).to.equal('100px');
-	});
-	
-	it('has the given height', () => {
-		let windowComponent = TestUtils.renderIntoDocument(<Window
-			width={100}
-			height={100}
-		></Window>);
-		expect(windowComponent.refs.window.style.getPropertyValue('height')).to.equal('100px');
 	});
 
+	it('enables events per default', () => {
+		const windowComponent = TestUtils.renderIntoDocument(<Window
+			width={100}
+			height={100}
+		/>);
+		expect(windowComponent.refs.window.style.getPropertyValue('pointer-events')).to.equal('auto');
+	});
+
+	it('has the given width', () => {
+		const windowComponent = TestUtils.renderIntoDocument(<Window
+			width={100}
+			height={100}
+		/>);
+		expect(windowComponent.refs.window.style.getPropertyValue('width')).to.equal('100px');
+	});
+
+	it('has the given height', () => {
+		const windowComponent = TestUtils.renderIntoDocument(<Window
+			width={100}
+			height={100}
+		/>);
+		expect(windowComponent.refs.window.style.getPropertyValue('height')).to.equal('100px');
+	});
 });

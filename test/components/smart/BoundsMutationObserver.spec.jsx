@@ -1,27 +1,29 @@
 import TestUtils from 'react-addons-test-utils';
-import React from 'react';
+import React, { PropTypes } from 'react';
 import BoundsMutationObserver from 'components/smart/BoundsMutationObserver';
 
 class MockedSubComponent extends React.Component {
 
-	render () {
-		return <div ref='node'
+	static propTypes = {
+		bounds: PropTypes.objectOf(PropTypes.number).isRequired,
+	};
+
+	render() {
+		return (<div ref="node"
 			style={{
 				top: this.props.bounds.y,
-				left: this.props.bounds.x
+				left: this.props.bounds.x,
 			}}
-		></div>;
+		/>);
 	}
 }
 
 const MockedComponent = BoundsMutationObserver(MockedSubComponent);
 
-let renderComponentWithBoundsAndCallback = (options) => {
-	return TestUtils.renderIntoDocument(<MockedComponent {...options}/>);
-};
+const renderComponentWithBoundsAndCallback = options =>
+	TestUtils.renderIntoDocument(<MockedComponent {...options} />);
 
 describe('Bounds mutation observer', () => {
-
 	let mockedComponent;
 
 	afterEach(() => {
@@ -29,11 +31,10 @@ describe('Bounds mutation observer', () => {
 	});
 
 	describe('manipulating bounds of a wrapped component', () => {
-
 		beforeEach(() => {
-			let options = {
+			const options = {
 				bounds: { x: 1, y: 0 },
-				observeMutations: false
+				observeMutations: false,
 			};
 			mockedComponent = renderComponentWithBoundsAndCallback(options);
 			sinon.spy(mockedComponent, 'boundsUpdatedWith');
@@ -46,14 +47,12 @@ describe('Bounds mutation observer', () => {
 				done();
 			});
 		});
-
 	});
 
 	describe('moving the wrapped component', () => {
-
 		beforeEach(() => {
-			let options = {
-				bounds: { x: 1, y: 0 }
+			const options = {
+				bounds: { x: 1, y: 0 },
 			};
 			mockedComponent = renderComponentWithBoundsAndCallback(options);
 			sinon.spy(mockedComponent, 'boundsUpdatedWith');
@@ -118,14 +117,12 @@ describe('Bounds mutation observer', () => {
 				done();
 			});
 		});
-
 	});
 
 	describe('setting width of a wrapped component', () => {
-
 		beforeEach(() => {
-			let options = {
-				bounds: { x: 1, y: 0 }
+			const options = {
+				bounds: { x: 1, y: 0 },
 			};
 			mockedComponent = renderComponentWithBoundsAndCallback(options);
 			sinon.spy(mockedComponent, 'boundsUpdatedWith');
@@ -141,10 +138,9 @@ describe('Bounds mutation observer', () => {
 	});
 
 	describe('setting border style of wrapped component', () => {
-
 		beforeEach(() => {
-			let options = {
-				bounds: { x: 1, y: 0 }
+			const options = {
+				bounds: { x: 1, y: 0 },
 			};
 			mockedComponent = renderComponentWithBoundsAndCallback(options);
 			sinon.spy(mockedComponent, 'boundsUpdatedWith');
@@ -158,5 +154,4 @@ describe('Bounds mutation observer', () => {
 			});
 		});
 	});
-
 });

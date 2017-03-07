@@ -1,7 +1,6 @@
 import { updatePosition, hide, select, selectInside } from 'actions/manipulating';
 
 describe('actions to manipulate things on canvas', () => {
-
 	it('should create an action move a set of strokes', () => {
 		const strokes = [];
 		const originX = 1;
@@ -14,14 +13,15 @@ describe('actions to manipulate things on canvas', () => {
 			strokes,
 			origin: {
 				x: originX,
-				y: originY
+				y: originY,
 			},
 			target: {
 				x: targetX,
-				y: targetY
-			}
+				y: targetY,
+			},
 		};
-		expect(updatePosition(strokes, originX, originY, targetX, targetY, sceneIndex)).to.deep.equal(expectedAction);
+		expect(updatePosition(strokes, originX, originY, targetX, targetY, sceneIndex))
+			.to.deep.equal(expectedAction);
 	});
 
 	it('should create an action to hide a set of strokes', () => {
@@ -29,7 +29,7 @@ describe('actions to manipulate things on canvas', () => {
 		const sceneIndex = 0;
 		const expectedAction = {
 			type: 'HIDE',
-			strokes
+			strokes,
 		};
 		expect(hide(strokes, sceneIndex)).to.deep.equal(expectedAction);
 	});
@@ -39,7 +39,7 @@ describe('actions to manipulate things on canvas', () => {
 		const sceneIndex = 0;
 		const expectedAction = {
 			type: 'SELECT',
-			strokes
+			strokes,
 		};
 		expect(select(strokes, sceneIndex)).to.deep.equal(expectedAction);
 	});
@@ -49,9 +49,8 @@ describe('actions to manipulate things on canvas', () => {
 		const sceneIndex = 0;
 		const expectedAction = {
 			type: 'SELECT_INSIDE',
-			strokes
+			strokes,
 		};
 		expect(selectInside(strokes, sceneIndex)).to.deep.equal(expectedAction);
 	});
-
 });

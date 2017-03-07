@@ -1,24 +1,30 @@
-import Point2BoundsScaler from 'components/smart/Point2BoundsScaler';
-import React, { Component } from 'react';
+import React from 'react';
 import TestUtils from 'react-addons-test-utils';
+import Point2BoundsScaler from 'components/smart/Point2BoundsScaler';
 
-class Wrapped extends Component {
-	render() {
-		return (<div/>);
-	}
-}
+let calledWithProps;
 
-let WrappedWithPoint2BoundsScaler = Point2BoundsScaler(Wrapped);
+const Wrapped = (props) => {
+	calledWithProps = props;
+	return <div />;
+};
+
+const WrappedWithPoint2BoundsScaler = Point2BoundsScaler(Wrapped);
 
 describe('Point2BoundsScaler', () => {
 	describe('using the scaler to render', () => {
-		it('shows a border around the wrapped component', () => {
-			let component = TestUtils.renderIntoDocument(<WrappedWithPoint2BoundsScaler />);
-			expect(component.refs.point2BoundsScaled.props.showBorder).to.true;
+		beforeEach(() => {
+			calledWithProps = null;
 		});
+
+		it('shows a border around the wrapped component', () => {
+			TestUtils.renderIntoDocument(<WrappedWithPoint2BoundsScaler />);
+			expect(calledWithProps.showBorder).to.be.true;
+		});
+
 		it('sets wrapped component to finished', () => {
-			let component = TestUtils.renderIntoDocument(<WrappedWithPoint2BoundsScaler />);
-			expect(component.refs.point2BoundsScaled.props.finished).to.true;
+			TestUtils.renderIntoDocument(<WrappedWithPoint2BoundsScaler />);
+			expect(calledWithProps.finished).to.be.true;
 		});
 	});
 });

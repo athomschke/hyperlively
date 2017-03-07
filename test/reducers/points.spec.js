@@ -7,37 +7,37 @@ describe('points', () => {
 		expect(
 			points(
 				undefined,
-				{}
-			)
+				{},
+			),
 		).to.deep.equal(
-			[]
+			[],
 		);
 	});
 
 	it('appends first point', () => {
-		let pointAddEvent = event(10, 10, 100);
-		let newPoint = point(10, 10, 100);
+		const pointAddEvent = event(10, 10, 100);
+		const newPoint = point(10, 10, 100);
 		expect(
 			points(
 				[],
-				appendPoint(pointAddEvent.pageX, pointAddEvent.pageY, pointAddEvent.timeStamp)
-			)
+				appendPoint(pointAddEvent.pageX, pointAddEvent.pageY, pointAddEvent.timeStamp),
+			),
 		).to.deep.equal(
-			[newPoint]
+			[newPoint],
 		);
 	});
 
 	it('appends second point', () => {
-		let existingPoint = point(10,10, 100);
-		let pointAddEvent = event(10,11, 100);
-		let newPoint = point(10, 11, pointAddEvent.timeStamp);
+		const existingPoint = point(10, 10, 100);
+		const pointAddEvent = event(10, 11, 100);
+		const newPoint = point(10, 11, pointAddEvent.timeStamp);
 		expect(
 			points(
 				[existingPoint],
-				appendPoint(pointAddEvent.pageX, pointAddEvent.pageY, pointAddEvent.timeStamp)
-			)
+				appendPoint(pointAddEvent.pageX, pointAddEvent.pageY, pointAddEvent.timeStamp),
+			),
 		).to.deep.equal(
-			[existingPoint, newPoint]
+			[existingPoint, newPoint],
 		);
 	});
 });

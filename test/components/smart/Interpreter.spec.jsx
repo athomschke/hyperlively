@@ -1,40 +1,34 @@
-import Interpreter from 'components/smart/Interpreter';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import { tail, forEach } from 'lodash';
+import Interpreter from 'components/smart/Interpreter';
+import recognizedShape from './data/recognizedShape.json';
 
 const shapeCandidateFactory = (type) => {
-	let result = require('json!./data/recognizedShape.json');
-	let candidates = result.segments[0].candidates;
+	const result = recognizedShape;
+	const candidates = result.segments[0].candidates;
 	candidates[0].label = type;
 	return candidates;
 };
 
 const renderWithProps = (props) => {
-	class WrappedComponent extends React.Component {
-		render () {
-			return <div></div>;
-		}
-	}
-	let InterpreterComponent = Interpreter(WrappedComponent);
-	return TestUtils.renderIntoDocument(<InterpreterComponent {...props}/>);
+	const WrappedComponent = () => <div />;
+	const InterpreterComponent = Interpreter(WrappedComponent);
+	return TestUtils.renderIntoDocument(<InterpreterComponent {...props} />);
 };
 
-let sketchesAroundPoint55 = () => {
-	return [{
-		strokes: [{
-			points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }]
-		}]
-	}, {
-		// the arrow itself
-		strokes: [{
-			points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }]
-		}]
-	}];
-};
+const sketchesAroundPoint55 = () => [{
+	strokes: [{
+		points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }],
+	}],
+}, {
+	// the arrow itself
+	strokes: [{
+		points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }],
+	}],
+}];
 
 describe('Interpreter', () => {
-
 	afterEach(() => {
 		forEach(document.getElementsByClassName('ReactModalPortal'), (modalNode) => {
 			modalNode.parentNode.removeChild(modalNode);
@@ -42,16 +36,14 @@ describe('Interpreter', () => {
 	});
 
 	describe('rendering', () => {
-
 		it('wraps a handed component', () => {
-			let interpreter = renderWithProps({});
+			const interpreter = renderWithProps({});
 			expect(interpreter).to.exist;
 		});
 	});
 
 
-	describe('distinguishing results', () => { 
-
+	describe('distinguishing results', () => {
 		let interpreter;
 
 		beforeEach(() => {
@@ -61,95 +53,89 @@ describe('Interpreter', () => {
 		it('wants to detect an action in a character', () => {
 			sinon.spy(interpreter, 'chooseAction');
 			interpreter.onTextDetected([{
-				label: 'I'
+				label: 'I',
 			}]);
 			expect(interpreter.chooseAction.callCount).to.equal(1);
 		});
 
 		it('shows floats as such even if text was detected', () => {
 			interpreter.onTextDetected([{
-				label: '1'
+				label: '1',
 			}]);
 			expect(interpreter.state.interpretation.candidate.text.label).to.equal(1);
 		});
 
 		it('shows text and shape results', () => {
 			interpreter.onTextDetected([{
-				label: 'I'
+				label: 'I',
 			}]);
 			interpreter.onShapeDetected([{
-				label: 'arrow'
+				label: 'arrow',
 			}]);
 			expect(interpreter.state.interpretation.candidate.text).to.exist;
 			expect(interpreter.state.interpretation.candidate.shape).to.exist;
 		});
-		
 	});
 
 	describe('interpreting arrows', () => {
-
 		it('does nothing without a callback', () => {
-			let interpreter = renderWithProps({});
+			const interpreter = renderWithProps({});
 			interpreter.onShapeDetected(shapeCandidateFactory('arrow'));
 			expect(interpreter).to.exist;
 		});
 
 		it('ignores non-arrow shapes', () => {
 			let moveByArgument;
-			let interpreter = renderWithProps({
+			const interpreter = renderWithProps({
 				onUpdatePosition: (strokes, moveBy) => {
 					moveByArgument = moveBy;
 				},
-				sketches: sketchesAroundPoint55()
+				sketches: sketchesAroundPoint55(),
 			});
 			interpreter.onShapeDetected(shapeCandidateFactory('foobar'));
 			expect(moveByArgument).to.not.be.defined;
 		});
 
 		it('does nothing if no callback is given', () => {
-			let interpreter = renderWithProps({
-				sketches: sketchesAroundPoint55()
+			const interpreter = renderWithProps({
+				sketches: sketchesAroundPoint55(),
 			});
 			interpreter.onShapeDetected(shapeCandidateFactory('arrow'));
-			expect(true).to.be.true; 
+			expect(true).to.be.true;
 		});
 
 		it('does nothing if there is no match', () => {
 			let moveByArgument;
 			let sketches = sketchesAroundPoint55();
 			sketches = tail(sketches);
-			let interpreter = renderWithProps({
+			const interpreter = renderWithProps({
 				onUpdatePosition: (strokes, moveBy) => {
 					moveByArgument = moveBy;
 				},
-				sketches: sketches
+				sketches,
 			});
 			interpreter.onShapeDetected(shapeCandidateFactory('arrow'));
 			expect(moveByArgument).to.not.be.defined;
 		});
-
 	});
 
 	describe('allowing to choose', () => {
-
 		it('renders an action chooser', () => {
-			let list = renderWithProps({});
+			const list = renderWithProps({});
 			list.setState({
-				interpretation: {}
+				interpretation: {},
 			});
 			expect(list.refs.actionChooser.props.isOpen).to.be.true;
 		});
-
 	});
 
 	describe('Choosing an action', () => {
-
 		let list;
 
 		beforeEach(() => {
 			list = renderWithProps({});
 			list.setState({
-				interpretation: {}
+				interpretation: {},
 			});
 		});
 
@@ -162,100 +148,97 @@ describe('Interpreter', () => {
 	});
 
 	describe('searching sketches at a given point', () => {
-
 		it('finds one where the point is in the center', () => {
-			let interpreter = renderWithProps({
+			const interpreter = renderWithProps({
 				sketches: [{
 					strokes: [{
-						points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }]
-					}]
+						points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }],
+					}],
 				}, {
 					strokes: [{
-						points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }]
-					}]
-				}]
+						points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }],
+					}],
+				}],
 			});
-			let sketches = interpreter.findSketchesAtPoint({ x: 5, y: 5 });
+			const sketches = interpreter.findSketchesAtPoint({ x: 5, y: 5 });
 			expect(sketches).to.have.length(1);
 		});
 
 		it('rejects one that doesn\'t contain the point', () => {
-			let allSketches = [{
+			const allSketches = [{
 				strokes: [{
-					points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }]
-				}]
+					points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }],
+				}],
 			}, {
 				strokes: [{
-					points: [{ x: 0, y: 1 }, { x: 1, y: 0 }, { x: 2, y: 1 }, { x: 1, y: 2 }]
-				}]
+					points: [{ x: 0, y: 1 }, { x: 1, y: 0 }, { x: 2, y: 1 }, { x: 1, y: 2 }],
+				}],
 			}, {
 				strokes: [{
-					points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }]
-				}]
+					points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }],
+				}],
 			}];
-			let interpreter = renderWithProps({
-				sketches: allSketches
+			const interpreter = renderWithProps({
+				sketches: allSketches,
 			});
-			let sketches = interpreter.findSketchesAtPoint({ x: 5, y: 5 });
+			const sketches = interpreter.findSketchesAtPoint({ x: 5, y: 5 });
 			expect(sketches).to.have.length(1);
 		});
 
 		it('finds two where the point is in the center', () => {
-			let interpreter = renderWithProps({
+			const interpreter = renderWithProps({
 				sketches: [{
 					strokes: [{
-						points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }]
-					}]
+						points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }],
+					}],
 				}, {
 					strokes: [{
-						points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }]
-					}]
+						points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }],
+					}],
 				}, {
 					strokes: [{
-						points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }]
-					}]
-				}]
+						points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }],
+					}],
+				}],
 			});
-			let sketches = interpreter.findSketchesAtPoint({ x: 5, y: 5 });
+			const sketches = interpreter.findSketchesAtPoint({ x: 5, y: 5 });
 			expect(sketches).to.have.length(2);
 		});
-
 	});
 
 	describe('performing an interpreted action', () => {
-
 		it('chooses a routine in the form of onDoSomething for type doSomething and runs it', () => {
 			let performedActionName;
-			let interpreter = renderWithProps({
+			const interpreter = renderWithProps({
 				performAction: (actionName) => {
 					performedActionName = actionName;
-				}
+				},
 			});
 			interpreter.setState({
-				interpretation: {}
+				interpretation: {},
 			});
 			interpreter.performAction({}, 'foobarRun');
 			expect(performedActionName).to.equal('foobarRun');
 		});
 
 		it('at first hides strokes even without callback', () => {
-			let interpreter = renderWithProps({
+			const interpreter = renderWithProps({
 				sketches: [{
 					strokes: [{
-						points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }]
-					}]
+						points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }],
+					}],
 				}, {
 					strokes: [{
-						points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }]
-					}]
+						points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }],
+					}],
 				}, {
 					strokes: [{
-						points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }]
-					}]
-				}]
+						points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }],
+					}],
+				}],
 			});
 			interpreter.setState({
-				interpretation: {}
+				interpretation: {},
 			});
 			interpreter.performAction({}, 'foobarRun');
 			expect(interpreter).to.exist;
@@ -263,24 +246,23 @@ describe('Interpreter', () => {
 	});
 
 	describe('Choosing selected strokes from sketches', () => {
-
 		let interpreter;
 
 		beforeEach(() => {
 			interpreter = renderWithProps({
 				sketches: [{
 					strokes: [{
-						points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }]
-					}]
+						points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }],
+					}],
 				}, {
 					strokes: [{
-						points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }]
-					}]
+						points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }],
+					}],
 				}, {
 					strokes: [{
-						points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }]
-					}]
-				}]
+						points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }],
+					}],
+				}],
 			});
 		});
 
@@ -292,7 +274,5 @@ describe('Interpreter', () => {
 			interpreter.props.sketches[0].strokes[0].selected = true;
 			expect(interpreter.getSelectedStrokes()).to.have.length(1);
 		});
-
 	});
-	
 });

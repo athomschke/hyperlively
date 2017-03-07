@@ -1,105 +1,104 @@
-import TimeoutBehavior from 'components/smart/TimeoutBehavior';
 import TestUtils from 'react-addons-test-utils';
-import React, { Component } from 'react';
+import React from 'react';
+import TimeoutBehavior from 'components/smart/TimeoutBehavior';
 
-class Wrapped extends Component {
-	render() {
-		return (<div />);	
-	}
-}
+let calledWithProps;
 
-let WrappedWithTimeoutBehavior = TimeoutBehavior(Wrapped);
+const Wrapped = (props) => {
+	calledWithProps = props;
+	return <div />;
+};
+
+const WrappedWithTimeoutBehavior = TimeoutBehavior(Wrapped);
 
 describe('WrappedWithTimeoutBehavior', () => {
+	beforeEach(() => {
+		calledWithProps = null;
+	});
 
 	describe('moving the slider handle left', () => {
-
 		it('temporarily disables ploma when callback given', () => {
 			let argument = true;
-			let temporaryCallbackSlider = TestUtils.renderIntoDocument(<WrappedWithTimeoutBehavior
+			TestUtils.renderIntoDocument(<WrappedWithTimeoutBehavior
 				max={10}
 				value={9}
-				callbackEnabled={true}
+				callbackEnabled
 				temporaryCallback={(value) => { argument = value; }}
-			></WrappedWithTimeoutBehavior>);
-			temporaryCallbackSlider.refs.wrapped.props.onChange(4);
+			/>);
+			calledWithProps.onChange(4);
 			expect(argument).to.equal(false);
 		});
 
 		it('Does nothing when initialized without a temporaryCallback callback', () => {
-			let temporaryCallbackSlider = TestUtils.renderIntoDocument(<WrappedWithTimeoutBehavior
+			const temporaryCallbackSlider = TestUtils.renderIntoDocument(<WrappedWithTimeoutBehavior
 				max={10}
 				value={9}
-				callbackEnabled={true}
-			></WrappedWithTimeoutBehavior>);
+				callbackEnabled
+			/>);
 			temporaryCallbackSlider.beActive();
 			expect(temporaryCallbackSlider.props.value).to.equal(9);
 		});
 
 		it('does nothing if not changing the value', () => {
 			let changed = false;
-			let temporaryCallbackSlider = TestUtils.renderIntoDocument(<WrappedWithTimeoutBehavior
+			const temporaryCallbackSlider = TestUtils.renderIntoDocument(<WrappedWithTimeoutBehavior
 				max={10}
 				value={9}
-				callbackEnabled={true}
+				callbackEnabled
 				onChange={() => {
 					changed = true;
 				}}
-			></WrappedWithTimeoutBehavior>);
+			/>);
 			temporaryCallbackSlider.beActive(9);
 			expect(changed).to.be.false;
 		});
-
 	});
 
 	describe('hovering after dragging', () => {
 		it('restores state after the custom timeout', (done) => {
 			(new Promise(
-				function(resolve) {
-					let temporaryCallbackSlider = TestUtils.renderIntoDocument(<WrappedWithTimeoutBehavior
+				(resolve) => {
+					const temporaryCallbackSlider = TestUtils.renderIntoDocument(<WrappedWithTimeoutBehavior
 						max={10}
 						value={5}
-						callbackEnabled={true}
+						callbackEnabled
 						timeout={1}
 						temporaryCallback={() => { resolve(); }}
-					></WrappedWithTimeoutBehavior>);
+					/>);
 					temporaryCallbackSlider.beActive();
-				}
+				},
 			))
 			.then(done)
-			.catch(function(error) {
+			.catch((error) => {
 				expect(false).to.be.true;
-				throw(error);
+				throw (error);
 			});
 		});
 	});
 
 	describe('releasing the slider handle', () => {
-
 		it('restores ploma', () => {
 			let argument = true;
-			let temporaryCallbackSlider = TestUtils.renderIntoDocument(<WrappedWithTimeoutBehavior
+			TestUtils.renderIntoDocument(<WrappedWithTimeoutBehavior
 				max={10}
 				value={9}
-				callbackEnabled={true}
+				callbackEnabled
 				temporaryCallback={(value) => { argument = value; }}
-			></WrappedWithTimeoutBehavior>);
-			temporaryCallbackSlider.refs.wrapped.props.onChange(4);
-			temporaryCallbackSlider.refs.wrapped.props.afterChange();
+			/>);
+			calledWithProps.onChange(4);
+			calledWithProps.afterChange();
 			expect(argument).to.equal(true);
 		});
 
 		it('does nothing if not grabbed before', () => {
 			let argument = true;
-			let temporaryCallbackSlider = TestUtils.renderIntoDocument(<WrappedWithTimeoutBehavior
+			const temporaryCallbackSlider = TestUtils.renderIntoDocument(<WrappedWithTimeoutBehavior
 				max={10}
 				value={9}
 				temporaryCallback={(value) => { argument = value; }}
-			></WrappedWithTimeoutBehavior>);
-			temporaryCallbackSlider.beNotActive (4);
+			/>);
+			temporaryCallbackSlider.beNotActive(4);
 			expect(argument).to.equal(true);
 		});
-		
 	});
-	
 });

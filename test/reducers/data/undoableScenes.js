@@ -3,11 +3,10 @@ export const emptyState = {
 
 	],
 	present:
-		[[]]
-	,
+		[[]],
 	future: [
 
-	]
+	],
 };
 
 export const dummyEightsState = {
@@ -18,14 +17,13 @@ export const dummyEightsState = {
 		[[1, 2, 3]],
 		[[1, 2, 3, 4]],
 		[[1, 2, 3, 4, 5]],
-		[[1, 2, 3, 4, 5, 6]]
+		[[1, 2, 3, 4, 5, 6]],
 	],
 	present:
-		[[1, 2, 3, 4, 5, 6, 7]]
-	,
+		[[1, 2, 3, 4, 5, 6, 7]],
 	future: [
 
-	]
+	],
 };
 
 export const dummyEightsStateWithTwoScenes = {
@@ -36,14 +34,13 @@ export const dummyEightsStateWithTwoScenes = {
 		[[1], [1, 2, 3]],
 		[[1], [1, 2, 3, 4]],
 		[[1], [1, 2, 3, 4, 5]],
-		[[1], [1, 2, 3, 4, 5, 6]]
+		[[1], [1, 2, 3, 4, 5, 6]],
 	],
 	present:
-		[[1], [1, 2, 3, 4, 5, 6, 7]]
-	,
+		[[1], [1, 2, 3, 4, 5, 6, 7]],
 	future: [
 
-	]
+	],
 };
 
 export const dummyFirstState = {
@@ -51,8 +48,7 @@ export const dummyFirstState = {
 
 	],
 	present:
-		[[]]
-	,
+		[[]],
 	future: [
 		[[1]],
 		[[1, 2]],
@@ -60,59 +56,56 @@ export const dummyFirstState = {
 		[[1, 2, 3, 4]],
 		[[1, 2, 3, 4, 5]],
 		[[1, 2, 3, 4, 5, 6]],
-		[[1, 2, 3, 4, 5, 6, 7]]
-	]
+		[[1, 2, 3, 4, 5, 6, 7]],
+	],
 };
 
 export const dummySecondState = {
 	past: [
-		[[]]
+		[[]],
 	],
 	present:
-		[[1]]
-	,
+		[[1]],
 	future: [
 		[[1, 2]],
 		[[1, 2, 3]],
 		[[1, 2, 3, 4]],
 		[[1, 2, 3, 4, 5]],
 		[[1, 2, 3, 4, 5, 6]],
-		[[1, 2, 3, 4, 5, 6, 7]]
-	]
+		[[1, 2, 3, 4, 5, 6, 7]],
+	],
 };
 
 export const dummyThirdState = {
 	past: [
 		[[]],
-		[[1]]
+		[[1]],
 	],
 	present:
-		[[1, 2]]
-	,
+		[[1, 2]],
 	future: [
 		[[1, 2, 3]],
 		[[1, 2, 3, 4]],
 		[[1, 2, 3, 4, 5]],
 		[[1, 2, 3, 4, 5, 6]],
-		[[1, 2, 3, 4, 5, 6, 7]]
-	]
+		[[1, 2, 3, 4, 5, 6, 7]],
+	],
 };
 
 export const dummyFourthState = {
 	past: [
 		[[]],
 		[[1]],
-		[[1, 2]]
+		[[1, 2]],
 	],
 	present:
-		[[1, 2, 3]]
-	,
+		[[1, 2, 3]],
 	future: [
 		[[1, 2, 3, 4]],
 		[[1, 2, 3, 4, 5]],
 		[[1, 2, 3, 4, 5, 6]],
-		[[1, 2, 3, 4, 5, 6, 7]]
-	]
+		[[1, 2, 3, 4, 5, 6, 7]],
+	],
 };
 
 export const dummySixthState = {
@@ -121,15 +114,14 @@ export const dummySixthState = {
 		[[1]],
 		[[1, 2]],
 		[[1, 2, 3]],
-		[[1, 2, 3, 4]]
+		[[1, 2, 3, 4]],
 	],
 	present:
-		[[1, 2, 3, 4, 5]]
-	,
+		[[1, 2, 3, 4, 5]],
 	future: [
 		[[1, 2, 3, 4, 5, 6]],
-		[[1, 2, 3, 4, 5, 6, 7]]
-	]
+		[[1, 2, 3, 4, 5, 6, 7]],
+	],
 };
 
 export const dummySixthStateWithTwoScenes = {
@@ -138,13 +130,12 @@ export const dummySixthStateWithTwoScenes = {
 		[[1], [1]],
 		[[1], [1, 2]],
 		[[1], [1, 2, 3]],
-		[[1], [1, 2, 3, 4]]
+		[[1], [1, 2, 3, 4]],
 	],
 	present:
-		[[1], [1, 2, 3, 4, 5]]
-	,
+		[[1], [1, 2, 3, 4, 5]],
 	future: [
 		[[1], [1, 2, 3, 4, 5, 6]],
-		[[1], [1, 2, 3, 4, 5, 6, 7]]
-	]
+		[[1], [1, 2, 3, 4, 5, 6, 7]],
+	],
 };

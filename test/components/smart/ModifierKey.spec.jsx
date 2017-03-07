@@ -1,27 +1,27 @@
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
-import ModifierKey from 'components/smart/ModifierKey';
 import { forEach } from 'lodash';
+import ModifierKey from 'components/smart/ModifierKey';
 
 class MockedSubComponent extends React.Component {
 
 	static propTypes = {
-		cmdPressed: React.PropTypes.bool.isRequired
+		cmdPressed: React.PropTypes.bool.isRequired,
 	};
 
-	render () {
-		return <div></div>;
+	static defaultProps = {};
+
+	render() {
+		return <div />;
 	}
 }
 
 const MockedComponent = ModifierKey(MockedSubComponent);
 
 describe('ModifierKey', () => {
-
 	describe('pressing a keyboard button', () => {
-
 		it('is not handeled after dismount', () => {
-			let modifierKeyComponent = TestUtils.renderIntoDocument(<MockedComponent></MockedComponent>);
+			const modifierKeyComponent = TestUtils.renderIntoDocument(<MockedComponent />);
 			let wasKeyDownHandlerRemoved = false;
 			let wasKeyUpHandlerRemoved = false;
 			window.removeEventListener = (listener) => {
@@ -35,25 +35,26 @@ describe('ModifierKey', () => {
 	});
 
 	describe('pressing cmd key', () => {
-
 		it('sets cmdPressed state to true', () => {
-			let oldAddEventListener = window.addEventListener;
-			let that = window;
-			let listeners = [];
-			window.addEventListener = function (type, listener) {
+			const oldAddEventListener = window.addEventListener;
+			const that = window;
+			const listeners = [];
+			window.addEventListener = function addEventListener(type, listener) {
 				listeners.push({
-					type: type,
-					callback: listener
+					type,
+					callback: listener,
 				});
 				oldAddEventListener.apply(that, arguments);
 			};
-			let modifierKeyComponent = TestUtils.renderIntoDocument(<MockedComponent></MockedComponent>);
+			const modifierKeyComponent = TestUtils.renderIntoDocument(<MockedComponent />);
 			expect(modifierKeyComponent.state.cmdPressed).to.be.false;
 			forEach(listeners, (listener) => {
-				listener.type === 'keydown' && listener.callback({
-					metaKey: true,
-					ctrlKey: false
-				});
+				if (listener.type === 'keydown') {
+					listener.callback({
+						metaKey: true,
+						ctrlKey: false,
+					});
+				}
 			});
 			window.addEventListener = oldAddEventListener.bind(window);
 			expect(modifierKeyComponent.state.cmdPressed).to.be.true;
@@ -62,24 +63,25 @@ describe('ModifierKey', () => {
 	});
 
 	describe('pressing ctrl key', () => {
-
 		it('sets cmdPressed state to true', () => {
-			let oldAddEventListener = window.addEventListener;
-			let that = window;
-			let listeners = [];
-			window.addEventListener = function (type, listener) {
+			const oldAddEventListener = window.addEventListener;
+			const that = window;
+			const listeners = [];
+			window.addEventListener = function addEventListener(type, listener) {
 				listeners.push({
-					type: type,
-					callback: listener
+					type,
+					callback: listener,
 				});
 				oldAddEventListener.apply(that, arguments);
 			};
-			let modifierKeyComponent = TestUtils.renderIntoDocument(<MockedComponent></MockedComponent>);
+			const modifierKeyComponent = TestUtils.renderIntoDocument(<MockedComponent />);
 			expect(modifierKeyComponent.state.ctrlPressed).to.be.false;
 			forEach(listeners, (listener) => {
-				listener.type === 'keydown' && listener.callback({
-					ctrlKey: true
-				});
+				if (listener.type === 'keydown') {
+					listener.callback({
+						ctrlKey: true,
+					});
+				}
 			});
 			window.addEventListener = oldAddEventListener.bind(window);
 			expect(modifierKeyComponent.state.cmdPressed).to.be.false;

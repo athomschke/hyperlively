@@ -1,5 +1,6 @@
 import { mountApp, dismountApp, renderApplicationWithState, getCanvasNodes } from './helpers';
 import { forEach } from 'lodash';
+import canvasWithTwoStrokes from './data/canvasWithTwoStrokes.json';
 
 'use strict';
 
@@ -20,7 +21,7 @@ describe('Integration', () => {
 	describe('Pressing the cmd key', () => {
 
 		it('enables events on canvasses', () => {
-			let canvasJson = require('json!./data/canvasWithTwoStrokes.json').json;
+			let canvasJson = canvasWithTwoStrokes.json;
 			let oldAddEventListener = window.addEventListener;
 			let that = window;
 			let listeners = [];
@@ -45,7 +46,7 @@ describe('Integration', () => {
 		});
 
 		it('disables events on window div', () => {
-			let canvasJson = require('json!./data/canvasWithTwoStrokes.json').json;
+			let canvasJson = canvasWithTwoStrokes.json;
 			let oldAddEventListener = window.addEventListener;
 			let that = window;
 			let listeners = [];
