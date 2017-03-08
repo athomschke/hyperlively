@@ -7,7 +7,7 @@ import canvasWithTwoStrokes from './data/canvasWithTwoStrokes.json';
 
 const expectInputNodeWithLabelAndState = (label, initialState) => {
 	const labelNode = find(document.body.getElementsByTagName('span'), (tag => tag.textContent === label));
-	expect(labelNode).to.exist;
+	expect(labelNode).to.exist();
 	const inputNode = labelNode.parentNode.children[0];
 	expect(inputNode.checked).to.equal(initialState);
 	TestUtils.Simulate.click(inputNode, {});
@@ -30,7 +30,7 @@ describe('Integration', () => {
 	describe('rendering the application', () => {
 		it('renders the empty application', () => {
 			renderApplicationWithState(emptyCanvas.json);
-			expect(getWindowNode()).to.exist;
+			expect(getWindowNode()).to.exist();
 			expect(getCanvasNodes()).to.have.length(1);
 		});
 
@@ -38,7 +38,7 @@ describe('Integration', () => {
 			const emptyCanvasJson = cloneDeep(emptyCanvas.json);
 			emptyCanvasJson.ploma.usePloma = true;
 			renderApplicationWithState(emptyCanvasJson);
-			expect(getWindowNode()).to.exist;
+			expect(getWindowNode()).to.exist();
 			expect(getCanvasNodes()).to.have.length(1);
 		});
 

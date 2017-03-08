@@ -19,7 +19,7 @@ describe('LabelledBox', () => {
 			}}
 		/>);
 		TestUtils.Simulate.click(TestUtils.findRenderedDOMComponentWithTag(ploma, 'input'));
-		expect(value).to.be.true;
+		expect(value).to.be.true();
 	});
 
 	it('displays the label', () => {

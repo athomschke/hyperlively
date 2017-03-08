@@ -32,14 +32,14 @@ describe('Sketch transformer', () => {
 	describe('Rendering', () => {
 		it('with default properties works', () => {
 			const component = renderComponent();
-			expect(component).to.exist;
+			expect(component).to.exist();
 		});
 
 		it('one finished but empty stroke', () => {
 			const component = renderComponentWithProps({
 				finished: true,
 			});
-			expect(component).to.exist;
+			expect(component).to.exist();
 		});
 	});
 

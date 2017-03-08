@@ -89,7 +89,7 @@ describe('Action Chooser', () => {
 		});
 
 		it('renders a tree', () => {
-			expect(actionChooser.refs.tree).to.exist;
+			expect(actionChooser.refs.tree).to.exist();
 			expect(actionChooser.refs.tree).to.be.instanceOf(TreeMenu);
 		});
 
@@ -106,7 +106,7 @@ describe('Action Chooser', () => {
 		});
 
 		it('shows a modal dialog', () => {
-			expect(actionChooser.refs.modal.props.isOpen).to.be.true;
+			expect(actionChooser.refs.modal.props.isOpen).to.be.true();
 		});
 
 		it('formats the json tree for the tree view menu', () => {
@@ -119,14 +119,14 @@ describe('Action Chooser', () => {
 		it('checks the chosen checkmarks', () => {
 			const formattedTree = ActionChooser.prototype.formatObject(
 					exampleTree, exampleChecks, [], exampleChecks, 0);
-			expect(formattedTree[0].children[1].checked).to.be.true;
+			expect(formattedTree[0].children[1].checked).to.be.true();
 		});
 
 
 		it('collapses collapsed nodes', () => {
 			const formattedTree = ActionChooser.prototype.formatObject(
 					exampleTree, exampleChecks, exampleCollapses, exampleChecks, 0);
-			expect(formattedTree[0].collapsed).to.be.true;
+			expect(formattedTree[0].collapsed).to.be.true();
 		});
 	});
 
@@ -155,7 +155,7 @@ describe('Action Chooser', () => {
 			});
 			const checkbox = document.getElementsByClassName('tree-view-node-checkbox')[0];
 			TestUtils.Simulate.click(checkbox);
-			expect(checkbox.checked).to.be.true;
+			expect(checkbox.checked).to.be.true();
 		});
 
 		it('deselects it if it was selected', () => {
@@ -241,7 +241,7 @@ describe('Action Chooser', () => {
 				},
 			});
 			actionChooser.setState({
-				checkedPaths: exampleChecks
+				checkedPaths: exampleChecks,
 			});
 			actionChooser.onActionChoose({}, 'updateThreshold');
 			expect(passedValues.length).to.equal(2);
@@ -272,7 +272,7 @@ describe('Action Chooser', () => {
 				isOpen: true,
 			});
 			actionChooser.refs.list.props.onItemClick({}, 'updatePosition');
-			expect(actionChooser).to.exist;
+			expect(actionChooser).to.exist();
 		});
 	});
 });

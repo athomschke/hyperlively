@@ -1,4 +1,4 @@
-import { find, map, isEqual, without, flatten } from 'lodash';
+import { find, map, isEqual, without, flatten, filter } from 'lodash';
 import Polygon from 'polygon';
 
 export const updatePosition = (state, action) => {
@@ -24,9 +24,12 @@ export const updatePosition = (state, action) => {
 	});
 };
 
-const doStrokesContainStroke = (strokes, stroke) =>
-	find(map(strokes, 'points'), points =>
+const doStrokesContainStroke = (strokes, stroke) => {
+	const matchingInStrokeProperties = filter(strokes, stateStroke =>
+		stateStroke.hidden === stroke.hidden);
+	return find(map(matchingInStrokeProperties, 'points'), points =>
 		isEqual(points, stroke.points));
+};
 
 export const hide = (state, action) =>
 	map(state, (stateStroke) => {

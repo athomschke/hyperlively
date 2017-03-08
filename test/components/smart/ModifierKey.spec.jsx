@@ -29,8 +29,8 @@ describe('ModifierKey', () => {
 				wasKeyUpHandlerRemoved = wasKeyUpHandlerRemoved || listener === 'keyup';
 			};
 			modifierKeyComponent.componentWillUnmount();
-			expect(wasKeyDownHandlerRemoved).to.be.true;
-			expect(wasKeyUpHandlerRemoved).to.be.true;
+			expect(wasKeyDownHandlerRemoved).to.be.true();
+			expect(wasKeyUpHandlerRemoved).to.be.true();
 		});
 	});
 
@@ -47,7 +47,7 @@ describe('ModifierKey', () => {
 				oldAddEventListener.apply(that, arguments);
 			};
 			const modifierKeyComponent = TestUtils.renderIntoDocument(<MockedComponent />);
-			expect(modifierKeyComponent.state.cmdPressed).to.be.false;
+			expect(modifierKeyComponent.state.cmdPressed).to.be.false();
 			forEach(listeners, (listener) => {
 				if (listener.type === 'keydown') {
 					listener.callback({
@@ -57,8 +57,8 @@ describe('ModifierKey', () => {
 				}
 			});
 			window.addEventListener = oldAddEventListener.bind(window);
-			expect(modifierKeyComponent.state.cmdPressed).to.be.true;
-			expect(modifierKeyComponent.state.ctrlPressed).to.be.false;
+			expect(modifierKeyComponent.state.cmdPressed).to.be.true();
+			expect(modifierKeyComponent.state.ctrlPressed).to.be.false();
 		});
 	});
 
@@ -75,7 +75,7 @@ describe('ModifierKey', () => {
 				oldAddEventListener.apply(that, arguments);
 			};
 			const modifierKeyComponent = TestUtils.renderIntoDocument(<MockedComponent />);
-			expect(modifierKeyComponent.state.ctrlPressed).to.be.false;
+			expect(modifierKeyComponent.state.ctrlPressed).to.be.false();
 			forEach(listeners, (listener) => {
 				if (listener.type === 'keydown') {
 					listener.callback({
@@ -84,8 +84,8 @@ describe('ModifierKey', () => {
 				}
 			});
 			window.addEventListener = oldAddEventListener.bind(window);
-			expect(modifierKeyComponent.state.cmdPressed).to.be.false;
-			expect(modifierKeyComponent.state.ctrlPressed).to.be.true;
+			expect(modifierKeyComponent.state.cmdPressed).to.be.false();
+			expect(modifierKeyComponent.state.ctrlPressed).to.be.true();
 		});
 	});
 });

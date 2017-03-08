@@ -77,7 +77,7 @@ export function mountApp() {
 
 export function dismountApp() {
 	const appNode = document.getElementById('app');
-	appNode && document.body.removeChild(appNode);
+	if (appNode) document.body.removeChild(appNode);
 }
 
 export function getCanvasNodes() {

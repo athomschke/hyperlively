@@ -23,7 +23,7 @@ describe('Sketch Fitter', () => {
 					}],
 				}]}
 			/>);
-			expect(component).to.exist;
+			expect(component).to.exist();
 		});
 	});
 });

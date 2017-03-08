@@ -50,7 +50,7 @@ describe('WrappedWithTimeoutBehavior', () => {
 				}}
 			/>);
 			temporaryCallbackSlider.beActive(9);
-			expect(changed).to.be.false;
+			expect(changed).to.be.false();
 		});
 	});
 
@@ -70,7 +70,7 @@ describe('WrappedWithTimeoutBehavior', () => {
 			))
 			.then(done)
 			.catch((error) => {
-				expect(false).to.be.true;
+				expect(false).to.be.true();
 				throw (error);
 			});
 		});

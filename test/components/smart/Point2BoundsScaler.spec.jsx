@@ -19,12 +19,12 @@ describe('Point2BoundsScaler', () => {
 
 		it('shows a border around the wrapped component', () => {
 			TestUtils.renderIntoDocument(<WrappedWithPoint2BoundsScaler />);
-			expect(calledWithProps.showBorder).to.be.true;
+			expect(calledWithProps.showBorder).to.be.true();
 		});
 
 		it('sets wrapped component to finished', () => {
 			TestUtils.renderIntoDocument(<WrappedWithPoint2BoundsScaler />);
-			expect(calledWithProps.finished).to.be.true;
+			expect(calledWithProps.finished).to.be.true();
 		});
 	});
 });

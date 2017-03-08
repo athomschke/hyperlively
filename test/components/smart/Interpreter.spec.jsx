@@ -1,9 +1,8 @@
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import { tail, forEach } from 'lodash';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import Interpreter from 'components/smart/Interpreter';
-import ActionChooser from 'components/smart/ActionChooser';
 import recognizedShape from './data/recognizedShape.json';
 
 const shapeCandidateFactory = (type) => {
@@ -19,10 +18,10 @@ const renderWithProps = (props) => {
 	return TestUtils.renderIntoDocument(<InterpreterComponent {...props} />);
 };
 
-const shallowWithProps = (props) => {
+const mountWithProps = (props) => {
 	const WrappedComponent = () => <div />;
 	const InterpreterComponent = Interpreter(WrappedComponent);
-	return shallow(<InterpreterComponent {...props} />);
+	return mount(<InterpreterComponent {...props} />);
 };
 
 const sketchesAroundPoint55 = () => [{
@@ -36,7 +35,7 @@ const sketchesAroundPoint55 = () => [{
 	}],
 }];
 
-describe.only('Interpreter', () => {
+describe('Interpreter', () => {
 	afterEach(() => {
 		forEach(document.getElementsByClassName('ReactModalPortal'), (modalNode) => {
 			modalNode.parentNode.removeChild(modalNode);
@@ -101,7 +100,7 @@ describe.only('Interpreter', () => {
 				sketches: sketchesAroundPoint55(),
 			});
 			interpreter.onShapeDetected(shapeCandidateFactory('foobar'));
-			expect(moveByArgument).to.not.be.defined();
+			expect(moveByArgument).to.be.undefined();
 		});
 
 		it('does nothing if no callback is given', () => {
@@ -123,17 +122,17 @@ describe.only('Interpreter', () => {
 				sketches,
 			});
 			interpreter.onShapeDetected(shapeCandidateFactory('arrow'));
-			expect(moveByArgument).to.not.be.defined();
+			expect(moveByArgument).to.be.undefined();
 		});
 	});
 
 	describe('allowing to choose', () => {
 		it('renders an action chooser', () => {
-			const list = shallowWithProps({});
+			const list = renderWithProps({});
 			list.setState({
 				interpretation: {},
 			});
-			expect(list.find(ActionChooser).props.isOpen).to.be.true();
+			expect(list.refs.actionChooser.props.isOpen).to.equal(true);
 		});
 	});
 

@@ -28,7 +28,7 @@ describe('Timeline', () => {
 				disabled: true,
 			});
 			const slider = TestUtils.scryRenderedComponentsWithType(temporaryCallbackSlider, Slider)[0];
-			expect(slider.props.disabled).to.be.true;
+			expect(slider.props.disabled).to.be.true();
 		});
 
 		it('enables Slider when max is larger than 0', () => {
@@ -37,7 +37,7 @@ describe('Timeline', () => {
 				value={4}
 			/>);
 			const slider = TestUtils.scryRenderedComponentsWithType(temporaryCallbackSlider, Slider)[0];
-			expect(slider.props.disabled).to.be.false;
+			expect(slider.props.disabled).to.be.false();
 		});
 
 		it('shows a preview canvas for every sketch handed to it', () => {

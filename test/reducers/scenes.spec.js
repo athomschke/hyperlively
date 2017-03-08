@@ -155,7 +155,7 @@ describe('scenes', () => {
 				],
 				addScene(),
 			);
-			expect(result[1].strokes).to.exist;
+			expect(result[1].strokes).to.exist();
 			expect(result[1].strokes).to.have.length(0);
 		});
 	});

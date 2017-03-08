@@ -153,7 +153,7 @@ describe('Sketch combiner', () => {
 				}],
 			},
 		});
-		expect(sketches[0].finished).to.be.true;
+		expect(sketches[0].finished).to.be.true();
 	});
 
 	it('sets multiple sketches to finished if their last stroke is finished', () => {
@@ -171,7 +171,7 @@ describe('Sketch combiner', () => {
 			},
 			threshold,
 		});
-		expect(sketches[0].finished).to.be.true;
-		expect(sketches[1].finished).to.not.be.true;
+		expect(sketches[0].finished).to.be.true();
+		expect(sketches[1].finished).to.not.be.true();
 	});
 });

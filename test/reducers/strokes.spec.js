@@ -115,7 +115,7 @@ describe('strokes', () => {
 			);
 			expect(result).to.have.length(2);
 			expect(result[1].points).to.have.length(1);
-			expect(result[1].finished).to.be.true;
+			expect(result[1].finished).to.be.true();
 			expect(result[1].points[0]).to.deep.equal(newPoint);
 		});
 	});
@@ -187,9 +187,9 @@ describe('strokes', () => {
 				currentState,
 				hide(strokesToHide),
 			);
-			expect(result[0].hidden).to.be.true;
-			expect(result[1].hidden).to.be.true;
-			expect(result[2].hidden).to.not.be.defined;
+			expect(result[0].hidden).to.be.true();
+			expect(result[1].hidden).to.be.true();
+			expect(result[2].hidden).to.be.undefined();
 		});
 	});
 
@@ -215,7 +215,7 @@ describe('strokes', () => {
 				currentState,
 				select([strokeToSelect]),
 			);
-			expect(result[0].selected).to.be.true;
+			expect(result[0].selected).to.be.true();
 		});
 
 		it('sets it to selected if it was previously selected', () => {
@@ -224,7 +224,7 @@ describe('strokes', () => {
 				currentState,
 				select([strokeToSelect]),
 			);
-			expect(result[0].selected).to.be.true;
+			expect(result[0].selected).to.be.true();
 		});
 
 		it('deselects all the others', () => {
@@ -233,7 +233,7 @@ describe('strokes', () => {
 				currentState,
 				select([strokeToSelect]),
 			);
-			expect(result[1].selected).to.not.be.defined;
+			expect(result[1].selected).to.be.undefined();
 		});
 	});
 
@@ -256,7 +256,7 @@ describe('strokes', () => {
 				currentState,
 				selectInside(strokesAround),
 			);
-			expect(result[1].selected).to.be.true;
+			expect(result[1].selected).to.be.true();
 		});
 
 		it('sets two completely circled strokes to selected', () => {
@@ -279,8 +279,8 @@ describe('strokes', () => {
 				currentState,
 				selectInside(strokesAround),
 			);
-			expect(result[1].selected).to.be.true;
-			expect(result[2].selected).to.be.true;
+			expect(result[1].selected).to.be.true();
+			expect(result[2].selected).to.be.true();
 		});
 
 		it('sets a stroke surrounded by multiple strokes', () => {
@@ -301,7 +301,7 @@ describe('strokes', () => {
 				currentState,
 				selectInside(strokesAround),
 			);
-			expect(result[4].selected).to.be.true;
+			expect(result[4].selected).to.be.true();
 		});
 
 		it('does not select hidden strokes', () => {
@@ -325,8 +325,8 @@ describe('strokes', () => {
 				currentState,
 				selectInside(strokesAround),
 			);
-			expect(result[1].selected).to.be.falsee;
-			expect(result[2].selected).to.be.true;
+			expect(result[1].selected).to.be.undefined();
+			expect(result[2].selected).to.be.true();
 		});
 	});
 });

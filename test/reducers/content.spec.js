@@ -10,7 +10,7 @@ describe('Content', () => {
 				undefined,
 				{},
 			);
-			expect(result.sceneIndex).to.exist;
+			expect(result.sceneIndex).to.exist();
 		});
 
 		it('contains undoable scenes', () => {
@@ -18,7 +18,7 @@ describe('Content', () => {
 				undefined,
 				{},
 			);
-			expect(result.undoableScenes).to.exist;
+			expect(result.undoableScenes).to.exist();
 		});
 	});
 
@@ -75,7 +75,7 @@ describe('Content', () => {
 				existingContent,
 				addSceneAt(1),
 			);
-			expect(result.undoableScenes.present[1].strokes).to.exist;
+			expect(result.undoableScenes.present[1].strokes).to.exist();
 			expect(result.sceneIndex).to.equal(0);
 		});
 	});

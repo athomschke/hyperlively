@@ -10,14 +10,14 @@ const MockedComponent = Desk(MockedSubComponent);
 describe('Desk', () => {
 	it('Renders with default properties', () => {
 		const desk = TestUtils.renderIntoDocument(<MockedComponent />);
-		expect(desk).to.exist;
+		expect(desk).to.exist();
 	});
 
 	it('Renders exactly one canvas when no sketches given', () => {
 		const desk = TestUtils.renderIntoDocument(<MockedComponent />);
-		expect(desk).to.exist;
+		expect(desk).to.exist();
 		const node = TestUtils.findRenderedDOMComponentWithTag(desk, 'canvas');
-		expect(node).to.exist;
+		expect(node).to.exist();
 	});
 
 	it('Renders two canvasses when one finished sketch is given', () => {
@@ -30,7 +30,7 @@ describe('Desk', () => {
 				finished: true,
 			}]}
 		/>);
-		expect(desk).to.exist;
+		expect(desk).to.exist();
 		const nodes = TestUtils.scryRenderedDOMComponentsWithTag(desk, 'canvas');
 		expect(nodes).to.have.length(2);
 	});
@@ -39,7 +39,7 @@ describe('Desk', () => {
 		const desk = TestUtils.renderIntoDocument(<MockedComponent
 			sketches={[{}]}
 		/>);
-		expect(desk).to.exist;
+		expect(desk).to.exist();
 		const nodes = TestUtils.scryRenderedDOMComponentsWithTag(desk, 'canvas');
 		expect(nodes).to.have.length(1);
 	});
@@ -66,7 +66,7 @@ describe('Desk', () => {
 				}],
 			}]}
 		/>);
-		expect(desk).to.exist;
+		expect(desk).to.exist();
 		const nodes = TestUtils.scryRenderedDOMComponentsWithTag(desk, 'canvas');
 		expect(nodes).to.have.length(1);
 	});

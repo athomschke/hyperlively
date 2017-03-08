@@ -149,7 +149,7 @@ describe('PlainDrawer', () => {
 					points: [{ x: 10, y: 10 }],
 				}],
 			});
-			expect(canvas).to.exist;
+			expect(canvas).to.exist();
 		});
 	});
 
