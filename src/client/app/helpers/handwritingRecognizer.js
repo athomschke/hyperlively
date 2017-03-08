@@ -1,7 +1,9 @@
+// @flow
 import { map } from 'lodash';
 import { TEXT_INPUT_TYPE, LANGUAGE, TEXT_INPUT_MODE } from 'constants/handwriting';
+import { type Stroke } from '../typeDefinitions';
 
-export function strokesToComponents(strokes) {
+export function strokesToComponents(strokes: Array<Stroke>) {
 	return map(strokes, stroke => ({
 		type: 'stroke',
 		x: map(stroke.points, 'x'),
@@ -10,7 +12,7 @@ export function strokesToComponents(strokes) {
 	}));
 }
 
-export function getStringInput(strokes) {
+export function getStringInput(strokes: Array<Stroke>) {
 	return JSON.stringify({
 		textParameter: {
 			textProperties: {},
