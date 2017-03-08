@@ -1,5 +1,4 @@
 // @flow
-
 import { TOGGLE_PLOMA, UPDATE_THRESHOLD, TOGGLE_HANDWRITING_RECOGNITION, OBSERVE_MUTATIONS, SET_SCENE_INDEX } from 'constants/actionTypes';
 
 export function togglePloma(bool: boolean) {
