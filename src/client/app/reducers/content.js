@@ -1,8 +1,10 @@
+// @flow
 import { undoable } from './undoable';
 import { sceneIndex } from './sceneIndex';
 import { scenes } from './scenes';
 import { defaultSceneIndex } from './defaultState';
 import { ADD_SCENE, ADD_SCENE_AT, SET_SCENE_INDEX, NEXT_SCENE } from 'constants/actionTypes';
+import { type Content } from '../typeDefinitions';
 
 const undoableScenes = undoable(scenes, {});
 
@@ -11,12 +13,12 @@ const defaultState = () => ({
 	undoableScenes: undoableScenes(undefined, {}),
 });
 
-const combinedState = (state, action) => ({
+const combinedState = (state: Content = defaultState(), action) => ({
 	sceneIndex: sceneIndex(state.sceneIndex, action),
 	undoableScenes: undoableScenes(state.undoableScenes, action),
 });
 
-function content(state = defaultState(), action) {
+function content(state: Content = defaultState(), action) {
 	switch (action.type) {
 	case ADD_SCENE_AT:
 		if (action.index <= state.undoableScenes.present.length + 1 && action.index >= 0) {

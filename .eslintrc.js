@@ -18,7 +18,7 @@ module.exports = {
         "react/jsx-indent": [2, 'tab'],
         'import/no-extraneous-dependencies': ['error', {
             'devDependencies': true
-        }]
+        }],
     },
     "globals": {
         "expect": true,

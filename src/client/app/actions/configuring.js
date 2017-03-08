@@ -1,21 +1,23 @@
+// @flow
+
 import { TOGGLE_PLOMA, UPDATE_THRESHOLD, TOGGLE_HANDWRITING_RECOGNITION, OBSERVE_MUTATIONS, SET_SCENE_INDEX } from 'constants/actionTypes';
 
-export function togglePloma(bool) {
+export function togglePloma(bool: boolean) {
 	return { type: TOGGLE_PLOMA, bool };
 }
 
-export function updateThreshold(number) {
+export function updateThreshold(number: number) {
 	return { type: UPDATE_THRESHOLD, number };
 }
 
-export function toggleHandwritingRecognition(bool) {
+export function toggleHandwritingRecognition(bool: boolean) {
 	return { type: TOGGLE_HANDWRITING_RECOGNITION, bool };
 }
 
-export function setObserveMutations(bool) {
+export function setObserveMutations(bool: boolean) {
 	return { type: OBSERVE_MUTATIONS, bool };
 }
 
-export function setSceneIndex(index) {
+export function setSceneIndex(index: number) {
 	return { type: SET_SCENE_INDEX, index };
 }

@@ -1,7 +1,8 @@
-export const defaultUsePloma = true;
+// @flow
+export const defaultUsePloma: boolean = true;
 
-export const defaultHandwritingRecognition = true;
+export const defaultHandwritingRecognition: boolean = true;
 
-export const defaultThreshold = 500;
+export const defaultThreshold: number = 500;
 
-export const defaultSceneIndex = 0;
+export const defaultSceneIndex: number = 0;

@@ -1,6 +1,7 @@
+// @flow
 import { SET_SCENE_INDEX, NEXT_SCENE, PREVIOUS_SCENE } from 'constants/actionTypes';
 
-function sceneIndex(state = 0, action) {
+function sceneIndex(state: number = 0, action) {
 	switch (action.type) {
 	case SET_SCENE_INDEX:
 		return Math.max(Math.min(action.index, action.max), 0);

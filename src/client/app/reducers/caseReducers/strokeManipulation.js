@@ -1,7 +1,9 @@
+// @flow
 import { find, map, isEqual, without, flatten, filter } from 'lodash';
 import Polygon from 'polygon';
+import { type Stroke } from '../../typeDefinitions';
 
-export const updatePosition = (state, action) => {
+export const updatePosition = (state: Array<Stroke>, action) => {
 	const moveByPoint = {
 		x: action.target.x - action.origin.x,
 		y: action.target.y - action.origin.y,
@@ -24,14 +26,14 @@ export const updatePosition = (state, action) => {
 	});
 };
 
-const doStrokesContainStroke = (strokes, stroke) => {
+const doStrokesContainStroke = (strokes: Array<Stroke>, stroke: Stroke) => {
 	const matchingInStrokeProperties = filter(strokes, stateStroke =>
 		stateStroke.hidden === stroke.hidden);
 	return find(map(matchingInStrokeProperties, 'points'), points =>
 		isEqual(points, stroke.points));
 };
 
-export const hide = (state, action) =>
+export const hide = (state: Array<Stroke>, action) =>
 	map(state, (stateStroke) => {
 		if (doStrokesContainStroke(action.strokes, stateStroke)) {
 			return Object.assign({}, stateStroke, {
@@ -41,7 +43,7 @@ export const hide = (state, action) =>
 		return stateStroke;
 	});
 
-const selectStrokes = (state, strokes) =>
+const selectStrokes = (state: Array<Stroke>, strokes: Array<Stroke>) =>
 	map(state, (stateStroke) => {
 		if (doStrokesContainStroke(strokes, stateStroke)) {
 			return Object.assign({}, stateStroke, {
@@ -55,9 +57,9 @@ const selectStrokes = (state, strokes) =>
 		return stateStroke;
 	});
 
-export const select = (state, action) => selectStrokes(state, action.strokes);
+export const select = (state: Array<Stroke>, action) => selectStrokes(state, action.strokes);
 
-export const selectInside = (state, action) => {
+export const selectInside = (state: Array<Stroke>, action) => {
 	const outerPolygon = new Polygon(flatten(map(action.strokes, 'points')));
 	const innerStrokes = without(state, action.strokes).filter((innerStroke) => {
 		if (innerStroke.hidden) {

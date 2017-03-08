@@ -1,6 +1,7 @@
+// @flow
 import { TOGGLE_DRAWING } from 'constants/actionTypes';
 
-function drawing(state = false, action) {
+function drawing(state: boolean = false, action) {
 	switch (action.type) {
 	case TOGGLE_DRAWING:
 		return action.bool;

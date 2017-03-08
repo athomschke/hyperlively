@@ -1,8 +1,10 @@
+// @flow
 import { last } from 'lodash';
 import { points } from '../points';
 import { appendPoint as appendPointAction } from 'actions/drawing';
+import { type Stroke } from '../../typeDefinitions';
 
-export const appendStroke = (state, action) => {
+export const appendStroke = (state: Array<Stroke>, action) => {
 	const newState = state.slice(0);
 	return newState.concat([{
 		actionIndex: action.index,
@@ -14,7 +16,7 @@ export const appendStroke = (state, action) => {
 	}]);
 };
 
-export const appendPoint = (state, action) => {
+export const appendPoint = (state: Array<Stroke>, action) => {
 	if (state.length > 0) {
 		const newState = state.slice(0, -1);
 		const manipulatedStroke = {
@@ -26,7 +28,7 @@ export const appendPoint = (state, action) => {
 	return appendStroke(state, action);
 };
 
-export const finishStroke = (state, action) => {
+export const finishStroke = (state: Array<Stroke>, action) => {
 	const nextState = appendPoint(state, action);
 	last(nextState).finished = true;
 	return nextState;

@@ -1,6 +1,8 @@
+// @flow
 import { APPEND_POINT } from 'constants/actionTypes';
+import { type Point } from '../typeDefinitions';
 
-function points(state = [], action) {
+function points(state: Array<Point> = [], action) {
 	switch (action.type) {
 	case APPEND_POINT:
 		return state.concat([{

@@ -1,15 +1,22 @@
+// @flow
 import { concat, slice, isEqual, cloneDeep } from 'lodash';
 import { JUMP_TO } from 'constants/actionTypes';
 import relevantStatesForScene from 'helpers/relevantStatesForScene';
+import { type Reducer, type UndoableScenes, type SceneState } from '../typeDefinitions';
 
-function undoable(reducer) {
+function undoable(reducer: Reducer) {
 	const initialState = {
 		past: [],
 		present: reducer(undefined, {}),
 		future: [],
 	};
 
-	const nextState = (pointInTime, past, present, future, sceneIndex) => {
+	const nextState = (
+			pointInTime: number,
+			past: Array<SceneState>,
+			present: SceneState,
+			future: Array<SceneState>,
+			sceneIndex: number) => {
 		const allStates = concat(past, [present], future);
 		const relevantStates = relevantStatesForScene(allStates, sceneIndex);
 		const normalizedPointInTime = Math.min(relevantStates.length - 1, Math.max(0, pointInTime));
@@ -21,7 +28,7 @@ function undoable(reducer) {
 		};
 	};
 
-	const defaultNextState = (state, action) => {
+	const defaultNextState = (state: UndoableScenes, action) => {
 		const passedAction = Object.assign({}, action, {
 			index: state.past.length,
 		});
@@ -36,7 +43,7 @@ function undoable(reducer) {
 		};
 	};
 
-	return (state = initialState, action) => {
+	return (state: UndoableScenes = initialState, action) => {
 		const { past, present, future } = state;
 
 		switch (action.type) {

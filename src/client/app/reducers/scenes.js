@@ -1,11 +1,13 @@
+// @flow
 import { strokes } from './strokes';
 import { APPEND_POINT, APPEND_STROKE, FINISH_STROKE, UPDATE_POSITION, HIDE, ADD_SCENE, ADD_SCENE_AT, SELECT, SELECT_INSIDE } from 'constants/actionTypes';
+import { type Scene } from '../typeDefinitions';
 
 const defaultScene = () => ({
 	strokes: [],
 });
 
-function scenes(state = [defaultScene()], action) {
+function scenes(state: Array<Scene> = [defaultScene()], action) {
 	switch (action.type) {
 	case APPEND_POINT:
 	case APPEND_STROKE:

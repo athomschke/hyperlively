@@ -1,22 +1,23 @@
+// @flow
 import { APPEND_POINT, APPEND_STROKE, FINISH_STROKE, TOGGLE_DRAWING, ADD_SCENE_AT, ADD_SCENE, NEXT_SCENE, PREVIOUS_SCENE } from 'constants/actionTypes';
 
-export function appendPoint(x, y, timeStamp) {
+export function appendPoint(x: number, y: number, timeStamp: number) {
 	return { type: APPEND_POINT, x, y, timeStamp };
 }
 
-export function createStroke(x, y, timeStamp) {
+export function createStroke(x: number, y: number, timeStamp: number) {
 	return { type: APPEND_STROKE, x, y, timeStamp };
 }
 
-export function finishStroke(x, y, timeStamp) {
+export function finishStroke(x: number, y: number, timeStamp: number) {
 	return { type: FINISH_STROKE, x, y, timeStamp };
 }
 
-export function toggleDrawing(bool) {
+export function toggleDrawing(bool: boolean) {
 	return { type: TOGGLE_DRAWING, bool };
 }
 
-export function addSceneAt(index) {
+export function addSceneAt(index: number) {
 	return { type: ADD_SCENE_AT, index };
 }
 
