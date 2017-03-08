@@ -8,33 +8,39 @@ import { last, concat } from 'lodash';
 import relevantStatesForScene from 'helpers/relevantStatesForScene';
 
 const mapStateToProps = (state, ownProps) => {
-	let returnProps = {};
-	let pastStatesInScene = relevantStatesForScene(state.content.undoableScenes.past, state.content.sceneIndex);
-	let futureStatesInScene = relevantStatesForScene(state.content.undoableScenes.future, state.content.sceneIndex);
-	let max = pastStatesInScene.length + futureStatesInScene.length;
+	const returnProps = {};
+	const pastStatesInScene = relevantStatesForScene(
+			state.content.undoableScenes.past,
+			state.content.sceneIndex);
+	const futureStatesInScene = relevantStatesForScene(
+			state.content.undoableScenes.future,
+			state.content.sceneIndex);
+	const max = pastStatesInScene.length + futureStatesInScene.length;
+	const allStatesInScene = concat(
+			pastStatesInScene,
+			[state.content.undoableScenes.present],
+			futureStatesInScene);
 	Object.assign(returnProps, ownProps, {
-		max:  max,
+		max,
 		disabled: max <= 0,
 		value: pastStatesInScene.length,
 		callbackEnabled: state.ploma.usePloma,
 		timeout: UNDO_TIMEOUT,
-		scene: last(concat(pastStatesInScene, [state.content.undoableScenes.present], futureStatesInScene))[state.content.sceneIndex]
+		scene: last(allStatesInScene)[state.content.sceneIndex],
 	});
 	return returnProps;
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-	return {
-		onChange: (value) => {
-			dispatch(setObserveMutations(false));
-			dispatch(jumpTo(value, ownProps.sceneIndex));
-			dispatch(setObserveMutations(true));
-		},
-		temporaryCallback: (bool) => dispatch(togglePloma(bool))
-	};
-};
+const mapDispatchToProps = (dispatch, ownProps) => ({
+	onChange: (value) => {
+		dispatch(setObserveMutations(false));
+		dispatch(jumpTo(value, ownProps.sceneIndex));
+		dispatch(setObserveMutations(true));
+	},
+	temporaryCallback: bool => dispatch(togglePloma(bool)),
+});
 
 export default connect(
 	mapStateToProps,
-	mapDispatchToProps
+	mapDispatchToProps,
 )(SketchCombiner(UndoRedo));

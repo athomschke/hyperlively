@@ -1,24 +1,21 @@
-import React, {Component} from 'react';
-import Scene from 'containers/Scene';
-import UndoRedo from 'containers/UndoRedo';
-import Ploma from 'containers/Ploma';
-import HandwritingRecognition from 'containers/HandwritingRecognition';
-import Threshold from 'containers/Threshold';
-import Window from 'containers/Window';
-import AppConfiguration from 'containers/AppConfiguration';
+import React from 'react';
+import Scene from './Scene';
+import UndoRedo from './UndoRedo';
+import Ploma from './Ploma';
+import HandwritingRecognition from './HandwritingRecognition';
+import Threshold from './Threshold';
+import Window from './Window';
+import AppConfiguration from './AppConfiguration';
 
-export default class Page extends Component {
-
-	render() {
-		return (<div>
-			<Scene {...this.props}/>
-			<Window {...this.props}/>
-			<AppConfiguration>
-				<UndoRedo {...this.props} />
-				<Threshold />
-				<Ploma />
-				<HandwritingRecognition />
-			</AppConfiguration>
-		</div>);
-	}
+export default function Page(props) {
+	return (<div>
+		<Scene {...props} />
+		<Window {...props} />
+		<AppConfiguration>
+			<UndoRedo {...props} />
+			<Threshold />
+			<Ploma />
+			<HandwritingRecognition />
+		</AppConfiguration>
+	</div>);
 }

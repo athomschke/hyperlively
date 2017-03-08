@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import actions from 'actions/actions';
-import { PAPER_COLOR, WHITE} from 'constants/drawing';
+import { PAPER_COLOR, WHITE } from 'constants/drawing';
 import Desk from 'components/smart/Desk';
 import ModuleChooser from 'components/smart/ModuleChooser';
 import SketchTransformer from 'components/smart/SketchTransformer';
@@ -15,7 +15,7 @@ import SketchCombiner from 'components/smart/SketchCombiner';
 import HandwritingRecognitionTrigger from 'components/smart/HandwritingRecognitionTrigger';
 
 const mapStateToProps = (state, ownProps) => {
-	let returnState = {};
+	const returnState = {};
 	Object.assign(returnState, state.ploma, ownProps);
 	returnState.handwritingRecognitionEnabled = state.handwritingRecognition;
 	returnState.componentIndex = state.ploma.usePloma ? 1 : 0;
@@ -25,22 +25,39 @@ const mapStateToProps = (state, ownProps) => {
 	return returnState;
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-	return {
-		performAction: (actionName, ...args) => {
-			if (actions[actionName]) {
-				dispatch(actions.setObserveMutations(false));
-				dispatch(actions[actionName](...args));
-				dispatch(actions.setObserveMutations(true));
-			}
-		},
-		onHide: (strokes) => {
-			dispatch(actions.hide(strokes, ownProps.sceneIndex));
+const mapDispatchToProps = (dispatch, ownProps) => ({
+	performAction: (actionName, ...args) => {
+		if (actions[actionName]) {
+			dispatch(actions.setObserveMutations(false));
+			dispatch(actions[actionName](...args));
+			dispatch(actions.setObserveMutations(true));
 		}
-	};
-};
+	},
+	onHide: (strokes) => {
+		dispatch(actions.hide(strokes, ownProps.sceneIndex));
+	},
+});
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
-)(SketchCombiner(Fullscreen(ModifierKey(Desk(Interpreter(HandwritingRecognitionTrigger(HandwritingRecognizer(SketchTransformer(ModuleChooser([BoundsMutationObserver(PlainDrawer), BoundsMutationObserver(PlomaDrawer)]))))))))));
+  mapDispatchToProps,
+)(SketchCombiner(
+	Fullscreen(
+		ModifierKey(
+			Desk(
+				Interpreter(
+					HandwritingRecognitionTrigger(
+						HandwritingRecognizer(
+							SketchTransformer(
+								ModuleChooser([
+									BoundsMutationObserver(PlainDrawer),
+									BoundsMutationObserver(PlomaDrawer)]),
+								),
+							),
+						),
+					),
+				),
+			),
+		),
+	),
+);

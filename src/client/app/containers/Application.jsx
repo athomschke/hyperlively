@@ -1,20 +1,18 @@
 import { connect } from 'react-redux';
-import Page from 'containers/Page';
+import Page from './Page';
 
 const mapStateToProps = (state) => {
-	let returnState = {};
+	const returnState = {};
 	returnState.threshold = state.threshold;
 	returnState.drawing = state.drawing;
 	returnState.sceneIndex = state.content.sceneIndex;
 	returnState.scene = state.content.undoableScenes.present[state.content.sceneIndex];
-	return returnState;	
+	return returnState;
 };
 
-const mapDispatchToProps = () => {
-	return { };
-};
+const mapDispatchToProps = () => ({ });
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(Page);
