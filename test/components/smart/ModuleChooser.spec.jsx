@@ -1,7 +1,7 @@
 import TestUtils from 'react-addons-test-utils';
 import React from 'react';
-import { point } from '../../helpers';
 import ModuleChooser from 'components/smart/ModuleChooser';
+import { point } from '../../helpers';
 
 const MockedSubComponent1 = () => <canvas />;
 const MockedSubComponent2 = () => <span />;

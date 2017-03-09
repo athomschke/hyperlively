@@ -9,7 +9,8 @@ class MockedSubComponent extends React.Component {
 	};
 
 	render() {
-		return (<div ref="node"
+		return (<div
+			ref="node"
 			style={{
 				top: this.props.bounds.y,
 				left: this.props.bounds.x,

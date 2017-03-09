@@ -1,6 +1,6 @@
 import TestUtils from 'react-addons-test-utils';
 import React from 'react';
-import { remove, forEach, filter, isNumber } from 'lodash';
+import { remove, filter, isNumber, map } from 'lodash';
 import PlomaDrawer from 'components/smart/PlomaDrawer';
 
 const renderComponentWithProps = props => TestUtils.renderIntoDocument(<PlomaDrawer
@@ -223,7 +223,9 @@ describe('PlomaDrawer', () => {
 
 	describe('changing the position of displayed points', () => {
 		beforeEach(() => {
-			forEach(canvas.props.strokes[0].points, (point) => { point.x += 10; });
+			const firstStroke = canvas.props.strokes[0];
+			firstStroke.points = map(firstStroke.points, point =>
+					Object.assign({}, point, { x: point.x + 10 }));
 			canvas.componentDidUpdate();
 		});
 
@@ -234,7 +236,9 @@ describe('PlomaDrawer', () => {
 
 	describe('selecting strokes', () => {
 		beforeEach(() => {
-			forEach(canvas.props.strokes[0].points, (point) => { point.x += 10; });
+			const firstStroke = canvas.props.strokes[0];
+			firstStroke.points = map(firstStroke.points, point =>
+					Object.assign({}, point, { x: point.x + 10 }));
 			canvas.componentDidUpdate();
 		});
 

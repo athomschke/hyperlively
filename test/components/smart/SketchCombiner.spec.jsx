@@ -5,7 +5,7 @@ import { point } from '../../helpers';
 
 const expectOneStrokeInOneSketch = (combinedSketches, addedPoint) => {
 	expect(combinedSketches).to.have.length(1);
-	expect(combinedSketches[0].strokes).to.exist;
+	expect(combinedSketches[0].strokes).to.exist();
 	expect(combinedSketches[0].strokes).to.have.length(1);
 	expect(combinedSketches[0].strokes[0].points).to.have.length(1);
 	expect(combinedSketches[0].strokes[0].points[0]).to.deep.equal(addedPoint);
@@ -13,11 +13,11 @@ const expectOneStrokeInOneSketch = (combinedSketches, addedPoint) => {
 
 const expectTwoSketches = (combinedSketches, addedPoint1, addedPoint2) => {
 	expect(combinedSketches).to.have.length(2);
-	expect(combinedSketches[0].strokes).to.exist;
+	expect(combinedSketches[0].strokes).to.exist();
 	expect(combinedSketches[0].strokes).to.have.length(1);
 	expect(combinedSketches[0].strokes[0].points).to.have.length(1);
 	expect(combinedSketches[0].strokes[0].points[0]).to.deep.equal(addedPoint1);
-	expect(combinedSketches[1].strokes).to.exist;
+	expect(combinedSketches[1].strokes).to.exist();
 	expect(combinedSketches[1].strokes).to.have.length(1);
 	expect(combinedSketches[1].strokes[0].points).to.have.length(1);
 	expect(combinedSketches[1].strokes[0].points[0]).to.deep.equal(addedPoint2);
@@ -25,7 +25,7 @@ const expectTwoSketches = (combinedSketches, addedPoint1, addedPoint2) => {
 
 const expectTwoStrokesInOneSketch = (combinedSketches, addedPoint1) => {
 	expect(combinedSketches).to.have.length(1);
-	expect(combinedSketches[0].strokes).to.exist;
+	expect(combinedSketches[0].strokes).to.exist();
 	expect(combinedSketches[0].strokes).to.have.length(2);
 	expect(combinedSketches[0].strokes[0].points).to.have.length(1);
 	expect(combinedSketches[0].strokes[0].points[0]).to.deep.equal(addedPoint1);

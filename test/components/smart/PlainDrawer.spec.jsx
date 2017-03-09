@@ -1,6 +1,6 @@
 import TestUtils from 'react-addons-test-utils';
 import React, { Component, PropTypes } from 'react';
-import { sum, forEach, remove } from 'lodash';
+import { sum, map, remove } from 'lodash';
 import { mount } from 'enzyme';
 import PlainDrawer from 'components/smart/PlainDrawer';
 
@@ -211,10 +211,11 @@ describe('PlainDrawer', () => {
 				}],
 			});
 			sinon.spy(canvas, 'redrawEverything');
-			forEach(canvas.props.strokes[0].points, (point) => {
-				point.x += 10;
-				point.y += 10;
-			});
+			const firstStroke = canvas.props.strokes[0];
+			firstStroke.points = map(firstStroke.points, point => Object.assign({}, point, {
+				x: point.x + 10,
+				y: point.y + 10,
+			}));
 			canvas.componentDidUpdate();
 			expect(canvas.redrawEverything.callCount).to.equal(1);
 			canvas.redrawEverything.restore();

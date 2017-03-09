@@ -1,7 +1,7 @@
 import TestUtils from 'react-addons-test-utils';
 import { cloneDeep } from 'lodash';
-import { createAppStore, renderApplicationWithStore, mountApp, dismountApp } from './helpers';
 import { nextScene } from 'actions/drawing';
+import { createAppStore, renderApplicationWithStore, mountApp, dismountApp } from './helpers';
 import canvasWithTwoScenes from './data/canvasWithTwoScenes.json';
 
 const getTimelineCanvasNodes = () => document.getElementById('configuration').getElementsByTagName('canvas');

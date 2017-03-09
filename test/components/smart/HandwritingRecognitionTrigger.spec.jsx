@@ -23,7 +23,7 @@ describe('Handwriting Recognition Trigger', () => {
 		it('with disables handwriting recognition', () => {
 			const props = {};
 			const trigger = TestUtils.renderIntoDocument(<HandwritingRecognizerComponent {...props} />);
-			expect(trigger.state.handwritingRecognitionEnabled).to.be.false;
+			expect(trigger.state.handwritingRecognitionEnabled).to.be.false();
 		});
 	});
 
@@ -38,7 +38,7 @@ describe('Handwriting Recognition Trigger', () => {
 				},
 			};
 			const trigger = TestUtils.renderIntoDocument(<HandwritingRecognizerComponent {...props} />);
-			expect(trigger.doRecognize()).to.be.true;
+			expect(trigger.doRecognize()).to.be.true();
 		});
 
 		it('fails if recognition is disabled', () => {
@@ -51,7 +51,7 @@ describe('Handwriting Recognition Trigger', () => {
 				},
 			};
 			const trigger = TestUtils.renderIntoDocument(<HandwritingRecognizerComponent {...props} />);
-			expect(trigger.doRecognize()).to.be.false;
+			expect(trigger.doRecognize()).to.be.false();
 		});
 
 		it('fails if recognition is enabled but return key is not pressed', () => {
@@ -64,7 +64,7 @@ describe('Handwriting Recognition Trigger', () => {
 				},
 			};
 			const trigger = TestUtils.renderIntoDocument(<HandwritingRecognizerComponent {...props} />);
-			expect(trigger.doRecognize()).to.be.false;
+			expect(trigger.doRecognize()).to.be.false();
 		});
 
 		it('fails if scene is not the last one drawn', () => {
@@ -77,7 +77,7 @@ describe('Handwriting Recognition Trigger', () => {
 				},
 			};
 			const trigger = TestUtils.renderIntoDocument(<HandwritingRecognizerComponent {...props} />);
-			expect(trigger.doRecognize()).to.be.false;
+			expect(trigger.doRecognize()).to.be.false();
 		});
 
 		it('fails if last stroke was not finished yet', () => {
@@ -91,7 +91,7 @@ describe('Handwriting Recognition Trigger', () => {
 				},
 			};
 			const trigger = TestUtils.renderIntoDocument(<HandwritingRecognizerComponent {...props} />);
-			expect(trigger.doRecognize()).to.be.false;
+			expect(trigger.doRecognize()).to.be.false();
 		});
 	});
 
@@ -107,7 +107,7 @@ describe('Handwriting Recognition Trigger', () => {
 			};
 			const trigger = TestUtils.renderIntoDocument(<HandwritingRecognizerComponent {...props} />);
 			trigger.componentDidUpdate();
-			expect(trigger.state.useHandwritingRecognition).to.be.true;
+			expect(trigger.state.useHandwritingRecognition).to.be.true();
 		});
 	});
 
@@ -126,7 +126,7 @@ describe('Handwriting Recognition Trigger', () => {
 			trigger.componentDidUpdate();
 			trigger.props.strokes.push(fourthStroke);
 			trigger.componentDidUpdate();
-			expect(trigger.state.useHandwritingRecognition).to.be.false;
+			expect(trigger.state.useHandwritingRecognition).to.be.false();
 		});
 	});
 });

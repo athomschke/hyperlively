@@ -14,8 +14,8 @@ export function createAppStore(initialState) {
 export function hashCode(aString) {
 	let hash = 0;
 	let i = 0;
-	if (aString.length == 0) return hash;
-	for (i = 0; i < aString.length; i++) {
+	if (aString.length === 0) return hash;
+	for (i = 0; i < aString.length; i += 1) {
 		const char = aString.charCodeAt(i);
 		hash = ((hash << 5) - hash) + char;
 		hash &= hash; // Convert to 32bit integer

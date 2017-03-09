@@ -1,5 +1,14 @@
 src/client/libs/ploma.js
 
+README.md
+yarn.lock
+
+# other files
+*.json
+*.html
+*.ico
+*.scss
+
 # Logs
 logs
 *.log

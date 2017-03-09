@@ -1,7 +1,6 @@
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import { tail, forEach } from 'lodash';
-import { mount } from 'enzyme';
 import Interpreter from 'components/smart/Interpreter';
 import recognizedShape from './data/recognizedShape.json';
 
@@ -16,12 +15,6 @@ const renderWithProps = (props) => {
 	const WrappedComponent = () => <div />;
 	const InterpreterComponent = Interpreter(WrappedComponent);
 	return TestUtils.renderIntoDocument(<InterpreterComponent {...props} />);
-};
-
-const mountWithProps = (props) => {
-	const WrappedComponent = () => <div />;
-	const InterpreterComponent = Interpreter(WrappedComponent);
-	return mount(<InterpreterComponent {...props} />);
 };
 
 const sketchesAroundPoint55 = () => [{

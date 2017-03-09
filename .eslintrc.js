@@ -20,6 +20,7 @@ module.exports = {
             'devDependencies': true
         }],
         'import/prefer-default-export': 0,
+        'no-bitwise': 0,
     },
     "globals": {
         "expect": true,
@@ -32,5 +33,12 @@ module.exports = {
     },
     "env": {
         "browser": true
+    },
+    "settings": {
+        "import/resolver": {
+            "webpack": {
+                "config": "webpack.config.js"
+            },
+        },
     },
 };

@@ -23,24 +23,26 @@ describe('Integration', () => {
 			const listeners = [];
 			const oldAddEventListener = window.addEventListener;
 			const that = window;
-			window.addEventListener = function addEventListener(type, listener) {
+			window.addEventListener = function addEventListener(type, listener, ...args) {
 				listeners.push({
 					type,
 					callback: listener,
 				});
-				oldAddEventListener.apply(that, arguments);
+				oldAddEventListener.call(that, type, listener, ...args);
 			};
 			renderApplicationWithState(canvasJson);
 			const windowNode = document.getElementsByClassName('window')[0];
-			expect(parseInt(windowNode.style.width ,10)).to.equal(window.innerWidth);
-			expect(parseInt(windowNode.style.height ,10)).to.equal(window.innerHeight);
+			expect(parseInt(windowNode.style.width, 10)).to.equal(window.innerWidth);
+			expect(parseInt(windowNode.style.height, 10)).to.equal(window.innerHeight);
 			window.innerHeight = 100;
 			window.innerWidth = 100;
 			forEach(listeners, (listener) => {
-				listener.type === 'resize' && listener.callback({
-					pageX: 100,
-					pageY: 100,
-				});
+				if (listener.type === 'resize') {
+					listener.callback({
+						pageX: 100,
+						pageY: 100,
+					});
+				}
 			});
 			expect(parseInt(windowNode.style.width, 10)).to.equal(window.innerWidth);
 			expect(parseInt(windowNode.style.height, 10)).to.equal(window.innerHeight);
@@ -56,12 +58,12 @@ describe('Integration', () => {
 			const listeners = [];
 			const oldAddEventListener = window.addEventListener;
 			const that = window;
-			window.addEventListener = function addEventListener(type, listener) {
+			window.addEventListener = function addEventListener(type, listener, ...args) {
 				listeners.push({
 					type,
 					callback: listener,
 				});
-				oldAddEventListener.apply(that, arguments);
+				oldAddEventListener.call(that, type, listener, ...args);
 			};
 			renderApplicationWithState(canvasJson);
 			const backgroundNode = document.getElementById('app').children[0].children[0];
@@ -70,10 +72,12 @@ describe('Integration', () => {
 			window.innerHeight = 100;
 			window.innerWidth = 100;
 			forEach(listeners, (listener) => {
-				listener.type === 'resize' && listener.callback({
-					pageX: 100,
-					pageY: 100,
-				});
+				if (listener.type === 'resize') {
+					listener.callback({
+						pageX: 100,
+						pageY: 100,
+					});
+				}
 			});
 			expect(parseInt(backgroundNode.offsetWidth, 10)).to.equal(window.innerWidth);
 			expect(parseInt(backgroundNode.offsetHeight, 10)).to.equal(window.innerHeight);

@@ -56,7 +56,7 @@ describe('Fullscreen', () => {
 				wasResizeHandlerRemoved = wasResizeHandlerRemoved || listener === 'resize';
 			};
 			fullscreenComponent.componentWillUnmount();
-			expect(wasResizeHandlerRemoved).to.be.true;
+			expect(wasResizeHandlerRemoved).to.be.true();
 		});
 	});
 });

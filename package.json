@@ -8,7 +8,7 @@
     "watch": "webpack -d --watch",
     "test": "karma start",
     "coverage": "karma start karma-coverage.conf.js",
-    "lint": "eslint . --ext .js --ext .jsx --ignore-path .gitignore --ignore-pattern src/client/libs/ploma.js"
+    "lint": "./node_modules/eslint/bin/eslint.js \"./**\""
   },
   "repository": {
     "type": "git",

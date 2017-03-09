@@ -45,7 +45,7 @@ describe('AbstractDrawer', () => {
 		});
 
 		it('does nothing for startStrokeAt', () => {
-			expect(AbstractDrawer.prototype.startStrokeAt()).to.not.fail;
+			expect(AbstractDrawer.prototype.startStrokeAt()).to.not.fail();
 		});
 	});
 

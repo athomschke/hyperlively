@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { first, concat, reduce, initial, last } from 'lodash';
 import TestUtils from 'react-addons-test-utils';
 import HandwritingRecognizer from 'components/smart/HandwritingRecognizer';
@@ -34,16 +34,6 @@ const renderWithProps = (props) => {
 };
 
 const Wrapper = HandwritingRecognizerComponent => class extends Component {
-
-	static propTypes = {
-		strokes: PropTypes.arrayOf(PropTypes.object),
-		useHandwritingRecognition: PropTypes.bool,
-	};
-
-	static defaultProps = {
-		strokes: [],
-		useHandwritingRecognition: false,
-	}
 
 	componentDidMount() {
 		this.setState({
@@ -200,7 +190,7 @@ describe('HandwritingRecognizer', () => {
 			}, JSON.stringify({
 				result: recognizedShapeResult,
 			}));
-			expect(detected).to.be.true;
+			expect(detected).to.be.true();
 		});
 
 		it('does nothing when no callback is defined', () => {
@@ -209,7 +199,7 @@ describe('HandwritingRecognizer', () => {
 				returnPressed: true,
 			});
 			recognizer.props.onTextDetected();
-			expect(true).to.be.true;
+			expect(true).to.be.true();
 		});
 
 		it('does nothing if no candidates were found', () => {
@@ -224,7 +214,7 @@ describe('HandwritingRecognizer', () => {
 					candidates: [],
 				},
 			});
-			expect(ranCallback).to.be.false;
+			expect(ranCallback).to.be.false();
 		});
 	});
 
@@ -235,7 +225,7 @@ describe('HandwritingRecognizer', () => {
 				returnPressed: true,
 			});
 			recognizer.props.onShapeDetected();
-			expect(true).to.be.true;
+			expect(true).to.be.true();
 		});
 
 		it('does nothing if no candidates were found', () => {
@@ -248,7 +238,7 @@ describe('HandwritingRecognizer', () => {
 			recognizer.dispatchResult({
 				segments: [],
 			});
-			expect(ranCallback).to.be.false;
+			expect(ranCallback).to.be.false();
 		});
 	});
 
@@ -259,7 +249,7 @@ describe('HandwritingRecognizer', () => {
 				ctrlPressed: true,
 			});
 			recognizer.componentDidUpdate();
-			expect(true).to.be.true;
+			expect(true).to.be.true();
 		});
 
 		it('creates a request when a stroke is added and finished', () => {

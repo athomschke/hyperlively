@@ -1,4 +1,4 @@
-import { cloneDeep, find, forEach } from 'lodash';
+import { cloneDeep, find, map } from 'lodash';
 import TestUtils from 'react-addons-test-utils';
 import { hashCode, renderApplicationWithState, mountApp, dismountApp, getCanvasNodes, getWindowNode, getCombinedCanvas } from './helpers';
 import emptyCanvas from './data/emptyCanvas.json';
@@ -91,9 +91,10 @@ describe('Integration', () => {
 			const canvasJson = cloneDeep(canvasWithTwoStrokes.json);
 			canvasJson.threshold = 1500;
 			canvasJson.handwritingRecognition = true;
-			forEach(canvasJson.content.undoableScenes.present[0].strokes, (stroke) => {
-				stroke.hidden = true;
-			});
+			const presentScene = canvasJson.content.undoableScenes.present[0];
+			presentScene.strokes = map(presentScene.strokes, stroke => Object.assign({}, stroke, {
+				hidden: true,
+			}));
 			renderApplicationWithState(canvasJson);
 			expect(getCanvasNodes()).to.have.length(1);
 		});

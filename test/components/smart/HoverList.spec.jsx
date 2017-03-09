@@ -70,7 +70,7 @@ describe('HoverList', () => {
 			/>);
 			const items = TestUtils.scryRenderedDOMComponentsWithTag(list, 'li');
 			TestUtils.Simulate.click(items[1]);
-			expect(items[1]).to.exist;
+			expect(items[1]).to.exist();
 		});
 
 		it('calls the callback if handed', () => {

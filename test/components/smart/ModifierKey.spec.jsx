@@ -39,12 +39,12 @@ describe('ModifierKey', () => {
 			const oldAddEventListener = window.addEventListener;
 			const that = window;
 			const listeners = [];
-			window.addEventListener = function addEventListener(type, listener) {
+			window.addEventListener = function addEventListener(type, listener, ...args) {
 				listeners.push({
 					type,
 					callback: listener,
 				});
-				oldAddEventListener.apply(that, arguments);
+				oldAddEventListener.call(that, type, listener, ...args);
 			};
 			const modifierKeyComponent = TestUtils.renderIntoDocument(<MockedComponent />);
 			expect(modifierKeyComponent.state.cmdPressed).to.be.false();
@@ -67,12 +67,12 @@ describe('ModifierKey', () => {
 			const oldAddEventListener = window.addEventListener;
 			const that = window;
 			const listeners = [];
-			window.addEventListener = function addEventListener(type, listener) {
+			window.addEventListener = function addEventListener(type, listener, ...args) {
 				listeners.push({
 					type,
 					callback: listener,
 				});
-				oldAddEventListener.apply(that, arguments);
+				oldAddEventListener.call(that, type, listener, ...args);
 			};
 			const modifierKeyComponent = TestUtils.renderIntoDocument(<MockedComponent />);
 			expect(modifierKeyComponent.state.ctrlPressed).to.be.false();
