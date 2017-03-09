@@ -19,6 +19,7 @@ module.exports = {
         'import/no-extraneous-dependencies': ['error', {
             'devDependencies': true
         }],
+        'import/prefer-default': 0,
     },
     "globals": {
         "expect": true,

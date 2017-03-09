@@ -1,4 +1,4 @@
-import { jumpTo } from 'actions/timetravel';
+import { jumpTo } from 'actions/configuring';
 import { connect } from 'react-redux';
 import UndoRedo from 'components/dumb/UndoRedo';
 import SketchCombiner from 'components/smart/SketchCombiner';

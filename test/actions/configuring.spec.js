@@ -1,4 +1,4 @@
-import { togglePloma, updateThreshold, toggleHandwritingRecognition, setObserveMutations, setSceneIndex } from 'actions/configuring';
+import { togglePloma, updateThreshold, toggleHandwritingRecognition, setObserveMutations, setSceneIndex, jumpTo } from 'actions/configuring';
 
 describe('actions', () => {
 	it('should create an action to toggle ploma', () => {
@@ -44,5 +44,16 @@ describe('actions', () => {
 			index,
 		};
 		expect(setSceneIndex(index)).to.deep.equal(expectedAction);
+	});
+
+	it('should create an action to jump to point 3 in time on a scene index', () => {
+		const pointInTime = 3;
+		const sceneIndex = 0;
+		const expectedAction = {
+			type: 'JUMP_TO',
+			pointInTime,
+			sceneIndex,
+		};
+		expect(jumpTo(pointInTime, sceneIndex)).to.deep.equal(expectedAction);
 	});
 });

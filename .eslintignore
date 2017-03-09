@@ -45,3 +45,17 @@ public
 # IDE
 *.sublime-project
 *.sublime-workspace
+
+# karma
+karma-coverage.conf.js
+karma.conf.js
+
+# server
+server.js
+
+# webpack
+webpack.config.js
+
+# eslint
+.eslintignore
+.eslintrc.js
