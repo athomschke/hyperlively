@@ -8,15 +8,16 @@ module.exports = function (config) {
 	config.reporters.push('coverage');
 	
 	config.webpack.devtool = 'inline-source-map';
-	config.webpack.module.preLoaders = [{
+	config.webpack.module.rules.push({
+		enforce: 'pre',
 		test: /\.jsx|\.js$/,
 		include: /hyperlively/,
 		exclude: /(test|libs|node_modules|bower_components|containers)\//,
-		loader: 'babel-istanbul',
+		loader: 'babel-istanbul-loader',
 		query: {
-			cacheDirectory: true
-		}
-	}];	
+	        cacheDirectory: true
+	    }
+	});	
 	
 	config.set({
 		browsers: ['PhantomJS'],

@@ -11,7 +11,7 @@ var config = {
 		filename: 'bundle.js',
 	},
 	module: {
-		loaders: [
+		rules: [
 			{
 				test: /\.(jsx|js)$/,
 				exclude: [
@@ -38,7 +38,7 @@ var config = {
 	},
 	resolve: {
 		extensions: [
-			'', '.webpack.js', '.web.js', '.js',
+			'.webpack.js', '.web.js', '.js',
 			'.jsx',
 			'.scss',
 		],
