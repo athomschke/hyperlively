@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import Slider from 'rc-slider';
 import { map, flatten } from 'lodash';
+import { rcSlider } from 'stylesheets/components/dumb/Timeline.scss';
 import TimelinePreview from './TimelinePreview';
-import { rcSlider } from 'stylesheets/components/dumb/Timeline';
 
 export default class Timeline extends Component {
 

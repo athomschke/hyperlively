@@ -1,8 +1,7 @@
-import { jumpTo } from 'actions/configuring';
 import { connect } from 'react-redux';
 import UndoRedo from 'components/dumb/UndoRedo';
 import SketchCombiner from 'components/smart/SketchCombiner';
-import { togglePloma, setObserveMutations } from 'actions/configuring';
+import { togglePloma, setObserveMutations, jumpTo } from 'actions/configuring';
 import UNDO_TIMEOUT from 'constants/canvas';
 import { last, concat } from 'lodash';
 import relevantStatesForScene from 'helpers/relevantStatesForScene';

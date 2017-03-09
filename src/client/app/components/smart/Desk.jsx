@@ -42,11 +42,13 @@ export default Wrapped => class extends Component {
 		});
 	}
 
-	renderPlaceholderCanvas() {
+	renderCanvasses() {
 		const sketch = last(this.props.sketches);
+		const canvasses = this.renderSketchedCanvasses();
 		if ((!sketch || !sketch.strokes || sketch.finished)) {
-			return this.renderCanvas([], this.props.sketches.length, false);
+			canvasses.push(this.renderCanvas([], this.props.sketches.length, false));
 		}
+		return canvasses;
 	}
 
 	getStyle() {
@@ -65,7 +67,7 @@ export default Wrapped => class extends Component {
 			id="desk"
 			style={this.getStyle()}
 		>
-			{this.renderSketchedCanvasses().concat(this.renderPlaceholderCanvas())}
+			{this.renderCanvasses()}
 		</div>);
 	}
 

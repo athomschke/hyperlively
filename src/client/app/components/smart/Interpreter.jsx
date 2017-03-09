@@ -87,7 +87,8 @@ export default Wrapped => class extends Component {
 
 	render() {
 		return (<div>
-			<Wrapped {...this.props}
+			<Wrapped
+				{...this.props}
 				onTextDetected={this.onTextDetected.bind(this)}
 				onShapeDetected={this.onShapeDetected.bind(this)}
 			/>

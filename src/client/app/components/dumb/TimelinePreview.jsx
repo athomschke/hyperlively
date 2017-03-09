@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
+import { timelinePreview } from 'stylesheets/components/dumb/TimelinePreview.scss';
 import SketchTransformer from '../smart/SketchTransformer';
 import Point2BoundsScaler from '../smart/Point2BoundsScaler';
 import SketchFitter from '../smart/SketchFitter';
 import PlainDrawer from '../smart/PlainDrawer';
-import { timelinePreview } from 'stylesheets/components/dumb/TimelinePreview';
 
 const Canvas = Point2BoundsScaler(SketchTransformer(SketchFitter(PlainDrawer)));
 

@@ -4,6 +4,7 @@ import { TreeMenu } from 'react-tree-menu';
 import { forEach } from 'lodash';
 import actions from 'actions/actions';
 import ActionChooser from 'components/smart/ActionChooser';
+import { getPathToProperty, formatObject } from 'helpers/choosingActions';
 
 const renderWithProps = props => TestUtils.renderIntoDocument(<ActionChooser {...props} />);
 
@@ -110,21 +111,21 @@ describe('Action Chooser', () => {
 		});
 
 		it('formats the json tree for the tree view menu', () => {
-			const gottenArray = ActionChooser.prototype.formatObject(
+			const gottenArray = formatObject(
 					exampleTree, exampleChecks, [], exampleChecks, 0);
 			const wantedArray = exampleArray;
 			expect(gottenArray).to.deep.equal(wantedArray);
 		});
 
 		it('checks the chosen checkmarks', () => {
-			const formattedTree = ActionChooser.prototype.formatObject(
+			const formattedTree = formatObject(
 					exampleTree, exampleChecks, [], exampleChecks, 0);
 			expect(formattedTree[0].children[1].checked).to.be.true();
 		});
 
 
 		it('collapses collapsed nodes', () => {
-			const formattedTree = ActionChooser.prototype.formatObject(
+			const formattedTree = formatObject(
 					exampleTree, exampleChecks, exampleCollapses, exampleChecks, 0);
 			expect(formattedTree[0].collapsed).to.be.true();
 		});
@@ -143,8 +144,8 @@ describe('Action Chooser', () => {
 		});
 
 		it('calculates the path to the nested property', () => {
-			const formattedTree = ActionChooser.prototype.formatObject(exampleTree, [], [], [], 0);
-			const pathToProperty = ActionChooser.prototype.getPathToProperty([0, 1], formattedTree);
+			const formattedTree = formatObject(exampleTree, [], [], [], 0);
+			const pathToProperty = getPathToProperty([0, 1], formattedTree);
 			expect(pathToProperty).to.deep.equal(['a', 'a2']);
 		});
 

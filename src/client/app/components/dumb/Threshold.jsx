@@ -1,6 +1,6 @@
 import Slider from 'rc-slider';
 import React, { Component, PropTypes } from 'react';
-import { rcSlider } from 'stylesheets/components/dumb/Threshold';
+import { rcSlider } from 'stylesheets/components/dumb/Threshold.scss';
 import { MIN_THRESHOLD, MAX_THRESHOLD } from 'constants/drawing';
 
 export default class Threshold extends Component {

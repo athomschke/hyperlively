@@ -1,38 +1,19 @@
 import React, { Component, PropTypes } from 'react';
 import Modal from 'react-modal';
 import { TreeMenu } from 'react-tree-menu';
-import { last, keys, map, cloneDeep, filter, isEqual, findIndex, reduce } from 'lodash';
-import HoverList from './HoverList';
+import { map, cloneDeep, reduce } from 'lodash';
 import actions from 'actions/actions';
-import { actionChooser } from 'stylesheets/components/smart/actionChooser';
+import { actionChooser } from 'stylesheets/components/smart/actionChooser.scss';
+import { getPathToProperty, findArraysIndex, formatObject } from 'helpers/choosingActions';
+import HoverList from './HoverList';
 
-const findArraysIndex = (containingArray, containedArray) =>
-	findIndex(containingArray, possibleMatch =>
-		isEqual(possibleMatch, containedArray));
+const getFunctionNameFromSignature = signature => signature.split('(')[0];
 
-const findArraysEndingOnItem = (arrays, item) =>
-	arrays.filter(matchingCheck =>
-		last(matchingCheck) === item);
+const getSignatureFromFunction = aFunction =>
+		aFunction.toString().split(' {')[0].split('function ')[1];
 
-const formatTreeNode = (object, key, keyChecks, allChecks, children, keyCollapses) => {
-	const matchingChecks = findArraysEndingOnItem(keyChecks, key);
-	const parameterIndex = findArraysIndex(allChecks, matchingChecks[0]);
-	const parameterIndicator = parameterIndex >= 0 ? ` (parameter ${parameterIndex})` : '';
-	const item = {
-		checkbox: true,
-		checked: matchingChecks.length > 0,
-		key,
-	};
-	if (children) {
-		item.label = `${key}${parameterIndicator}`;
-		item.children = children;
-		item.collapsed = findArraysEndingOnItem(keyCollapses, key).length > 0;
-		item.collapsible = true;
-	} else {
-		item.label = `${key}: ${object[key]}${parameterIndicator}`;
-	}
-	return item;
-};
+const getActions = () => Object.keys(actions).map(actionName =>
+	getSignatureFromFunction(actions[actionName]));
 
 export default class ActionChooser extends Component {
 
@@ -60,7 +41,7 @@ export default class ActionChooser extends Component {
 	}
 
 	onTreeNodeCheckChange(path) {
-		const pathToProperty = this.getPathToProperty(path, this.getFormattedData());
+		const pathToProperty = getPathToProperty(path, this.getFormattedData());
 		const checkedIndex = findArraysIndex(this.state.checkedPaths, pathToProperty);
 		if (checkedIndex >= 0) {
 			this.setState({
@@ -77,7 +58,7 @@ export default class ActionChooser extends Component {
 	}
 
 	onTreeNodeCollapseChange(path) {
-		const pathToProperty = this.getPathToProperty(path, this.getFormattedData());
+		const pathToProperty = getPathToProperty(path, this.getFormattedData());
 		const collapsedIndex = findArraysIndex(this.state.collapsedPaths, pathToProperty);
 		if (collapsedIndex >= 0) {
 			this.setState({
@@ -102,7 +83,7 @@ export default class ActionChooser extends Component {
 		Object.assign(rawData, this.props.jsonTree);
 		const values = map(this.state.checkedPaths, checkedPath =>
 			reduce(checkedPath, (value, key) => value[key], rawData));
-		this.props.onActionChoose(event, this.getFunctionNameFromSignature(signature), values);
+		this.props.onActionChoose(event, getFunctionNameFromSignature(signature), values);
 		this.setState({
 			checkedPaths: [],
 		});
@@ -114,60 +95,12 @@ export default class ActionChooser extends Component {
 		if (this.props.selectedStrokes.length > 0) {
 			rawData.selectedStrokes = this.props.selectedStrokes;
 		}
-		return this.formatObject(
+		return formatObject(
 			rawData,
 			this.state && this.state.checkedPaths,
 			this.state && this.state.collapsedPaths,
 			this.state && this.state.checkedPaths,
 			0);
-	}
-
-	getPathToProperty(nestedArrayPath, arrayedJsonTree) {
-		let node = {
-			children: arrayedJsonTree,
-		};
-		return map(nestedArrayPath, (index) => {
-			node = node.children[index];
-			return node.key;
-		});
-	}
-
-	getSignatureFromFunction(aFunction) {
-		return aFunction.toString().split(' {')[0].split('function ')[1];
-	}
-
-	getActions() {
-		return Object.keys(actions).map(actionName =>
-			this.getSignatureFromFunction(actions[actionName]));
-	}
-
-	getFunctionNameFromSignature(signature) {
-		return signature.split('(')[0];
-	}
-
-	formatObject(anObject, checkedArrays, collapsedArrays, originalCheckedArrays, depth) {
-		return map(keys(anObject), (key) => {
-			const checksContainingNode = filter(checkedArrays, checkedArray =>
-				checkedArray[depth] === key);
-			const collapsesContainingNode = filter(collapsedArrays, collapsedArray =>
-				collapsedArray[depth] === key);
-			let children;
-			if (anObject[key] instanceof Object) {
-				children = this.formatObject(
-					anObject[key],
-					checksContainingNode,
-					collapsesContainingNode,
-					originalCheckedArrays,
-					depth + 1);
-			}
-			return formatTreeNode(
-				anObject,
-				key,
-				checksContainingNode,
-				originalCheckedArrays,
-				children,
-				collapsesContainingNode);
-		}, this);
 	}
 
 	render() {
@@ -184,7 +117,7 @@ export default class ActionChooser extends Component {
 					onItemClick={(event, name) => {
 						this.onActionChoose(event, name);
 					}}
-					items={this.getActions()}
+					items={getActions()}
 				/>
 				<TreeMenu
 					ref="tree"

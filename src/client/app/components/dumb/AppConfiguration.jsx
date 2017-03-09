@@ -1,5 +1,5 @@
 import React, { PropTypes, Component } from 'react';
-import { configuration } from 'stylesheets/components/dumb/AppConfiguration';
+import { configuration } from 'stylesheets/components/dumb/AppConfiguration.scss';
 
 export default class AppConfiguration extends Component {
 

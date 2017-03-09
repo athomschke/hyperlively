@@ -1,9 +1,8 @@
-import React from 'react';
 import Color from 'color';
 import { without, last, head, tail, reduce, cloneDeep, first } from 'lodash';
-import AbstractDrawer from './AbstractDrawer';
 import lastPointInStrokes from 'helpers/lastPointInStrokes';
 import { DEFAULT_PEN_COLOR, SELECTED_PEN_COLOR } from 'constants/drawing';
+import AbstractDrawer from './AbstractDrawer';
 
 const secondToLastPointInStrokes = (strokes) => {
 	const points = last(strokes).points;

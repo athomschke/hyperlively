@@ -1,15 +1,15 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import Color from 'color';
 import { BallpointPen } from 'ploma';
 import { last, forEach, head, tail, first } from 'lodash';
-import AbstractDrawer from './AbstractDrawer';
 import lastPointInStrokes from 'helpers/lastPointInStrokes';
 import { PRESSURE, DEFAULT_PEN_COLOR, SELECTED_PEN_COLOR } from 'constants/drawing';
+import AbstractDrawer from './AbstractDrawer';
 
 export default class PlomaDrawer extends AbstractDrawer {
 
 	static propTypes = Object.assign({}, AbstractDrawer.propTypes, {
-		uniqueCanvasFactor: PropTypes.number,
+		uniqueCanvasFactor: React.PropTypes.number,
 	});
 
 	static defaultProps = Object.assign({}, AbstractDrawer.defaultProps, {

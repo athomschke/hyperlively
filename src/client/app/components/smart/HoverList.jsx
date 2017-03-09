@@ -37,8 +37,8 @@ export default class HoverList extends Component {
 	}
 
 	renderChildren() {
-		return map(this.props.items, (aText, index) => {
-			return (<li
+		return map(this.props.items, (aText, index) => (
+			<li
 				key={index}
 				style={this.getItemStyleAt(index)}
 				onMouseEnter={this.onEnterItem.bind(this, index)}
@@ -46,8 +46,9 @@ export default class HoverList extends Component {
 				onClick={(event) => {
 					this.props.onItemClick(event, aText);
 				}}
-			>{aText}</li>);
-		});
+			>
+				{aText}
+			</li>));
 	}
 
 	render() {
