@@ -1,7 +1,7 @@
 // @flow
 import { last } from 'lodash';
-import { points } from '../points';
 import { appendPoint as appendPointAction } from 'actions/drawing';
+import { points } from '../points';
 import { type Stroke } from '../../typeDefinitions';
 
 export const appendStroke = (state: Array<Stroke>, action) => {

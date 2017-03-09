@@ -1,9 +1,9 @@
 // @flow
+import { ADD_SCENE, ADD_SCENE_AT, SET_SCENE_INDEX, NEXT_SCENE } from 'constants/actionTypes';
 import { undoable } from './undoable';
 import { sceneIndex } from './sceneIndex';
 import { scenes } from './scenes';
 import { defaultSceneIndex } from './defaultState';
-import { ADD_SCENE, ADD_SCENE_AT, SET_SCENE_INDEX, NEXT_SCENE } from 'constants/actionTypes';
 import { type Content } from '../typeDefinitions';
 
 const undoableScenes = undoable(scenes, {});

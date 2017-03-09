@@ -1,6 +1,6 @@
 // @flow
-import { strokes } from './strokes';
 import { APPEND_POINT, APPEND_STROKE, FINISH_STROKE, UPDATE_POSITION, HIDE, ADD_SCENE, ADD_SCENE_AT, SELECT, SELECT_INSIDE } from 'constants/actionTypes';
+import { strokes } from './strokes';
 import { type Scene } from '../typeDefinitions';
 
 const defaultScene = () => ({
