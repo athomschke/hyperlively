@@ -99,7 +99,7 @@ describe('HandwritingRecognizer', () => {
 				ctrlPressed: true,
 			});
 			const request = recognizer.xmlHttpRequest('', () => {});
-			expect(request).to.exist;
+			expect(request).to.exist();
 		});
 	});
 
@@ -129,6 +129,38 @@ describe('HandwritingRecognizer', () => {
 			expect(candidates[0].label).to.equal('a');
 		});
 
+		it('does not parse bad results', () => {
+			const recognizer = renderWithProps({
+				useHandwritingRecognition: true,
+				ctrlPressed: true,
+			});
+			const request = {
+				readyState: 4,
+				status: 404,
+				responseText: '{5',
+			};
+			const myFunction = () => recognizer.onReadyStateChange(request);
+			expect(myFunction).not.to.throw(Error);
+		});
+
+		it('does not parse answers without result', () => {
+			const recognizer = renderWithProps({
+				useHandwritingRecognition: true,
+				ctrlPressed: true,
+			});
+			const request = {
+				readyState: 4,
+				status: 200,
+				responseText: JSON.stringify({
+					result: null,
+				}),
+			};
+			sinon.spy(recognizer, 'dispatchResult');
+			recognizer.onReadyStateChange(request);
+			expect(recognizer.dispatchResult.callCount).to.equal(0);
+			recognizer.dispatchResult.restore();
+		});
+
 		it('Informs the user if a text was drawn', () => {
 			let detected = false;
 			const wrapper = renderWrappedWithProps({
@@ -147,7 +179,7 @@ describe('HandwritingRecognizer', () => {
 			}, JSON.stringify({
 				result: recognizedText,
 			}));
-			expect(detected).to.be.true;
+			expect(detected).to.be.true();
 		});
 
 		it('Informs the user if a shape was drawn', () => {

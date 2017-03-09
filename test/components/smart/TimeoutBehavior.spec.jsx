@@ -54,6 +54,20 @@ describe('WrappedWithTimeoutBehavior', () => {
 		});
 	});
 
+	describe('Resetting the state', () => {
+		it('works when no disable function is given', () => {
+			const temporaryCallbackSlider = TestUtils.renderIntoDocument(<WrappedWithTimeoutBehavior
+				max={10}
+				value={9}
+				callbackEnabled
+			/>);
+			sinon.spy(temporaryCallbackSlider, 'setState');
+			temporaryCallbackSlider.resetState();
+			expect(temporaryCallbackSlider.setState.callCount).to.equal(1);
+			temporaryCallbackSlider.setState.restore();
+		});
+	});
+
 	describe('hovering after dragging', () => {
 		it('restores state after the custom timeout', (done) => {
 			(new Promise(
