@@ -36,10 +36,10 @@ const renderWithProps = (props) => {
 const Wrapper = HandwritingRecognizerComponent => class extends Component {
 
 	componentDidMount() {
-		this.setState({
+		this.state = {
 			strokes: [],
 			useHandwritingRecognition: false,
-		});
+		};
 	}
 
 	render() {

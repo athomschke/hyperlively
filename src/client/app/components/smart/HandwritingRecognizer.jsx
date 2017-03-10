@@ -96,13 +96,10 @@ export default Wrapped => class extends Component {
 
 	componentDidUpdate() {
 		if (this.state.hasRecognized && this.newStrokeStarted()) {
-			this.setState({
-				hasRecognized: false,
-			});
+			this.state.hasRecognized = false;
 		} else if (this.props.useHandwritingRecognition && !this.state.hasRecognized) {
-			this.setState({
-				hasRecognized: true,
-			}, this.recognize.bind(this));
+			this.state.hasRecognized = true;
+			this.recognize();
 		}
 	}
 

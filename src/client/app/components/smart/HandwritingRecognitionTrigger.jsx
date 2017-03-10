@@ -18,9 +18,9 @@ export default Wrapped => class extends Component {
 	}
 
 	componentDidMount() {
-		this.setState({
+		this.state = {
 			handwritingRecognitionEnabled: false,
-		});
+		};
 	}
 
 	doRecognize() {
@@ -32,13 +32,9 @@ export default Wrapped => class extends Component {
 
 	componentDidUpdate() {
 		if (!this.state.useHandwritingRecognition && this.doRecognize()) {
-			this.setState({
-				useHandwritingRecognition: true,
-			});
+			this.state.useHandwritingRecognition = true;
 		} else if (this.state.useHandwritingRecognition && !this.doRecognize()) {
-			this.setState({
-				useHandwritingRecognition: false,
-			});
+			this.state.useHandwritingRecognition = false;
 		}
 	}
 

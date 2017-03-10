@@ -25,9 +25,9 @@ export default Wrapped => class extends Component {
 	};
 
 	componentDidMount() {
-		this.setState({
+		this.state = {
 			disableFunction: null,
-		});
+		};
 	}
 
 	resetState(boundDisableFunction) {

@@ -14,7 +14,7 @@ export default class HoverList extends Component {
 	};
 
 	componentDidMount() {
-		this.setState({});
+		this.state = {};
 	}
 
 	onEnterItem(hoveredIndex) {

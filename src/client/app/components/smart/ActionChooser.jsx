@@ -34,10 +34,10 @@ export default class ActionChooser extends Component {
 	}
 
 	componentDidMount() {
-		this.setState({
+		this.state = {
 			checkedPaths: [],
 			collapsedPaths: [],
-		});
+		};
 	}
 
 	onTreeNodeCheckChange(path) {

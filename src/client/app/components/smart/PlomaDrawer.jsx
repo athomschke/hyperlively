@@ -23,7 +23,7 @@ export default class PlomaDrawer extends AbstractDrawer {
 		};
 		const ballpointPen = new BallpointPen(this.refs.canvas, plomaConfig);
 		ballpointPen.setSample(1);
-		this.setState({ ballpointPen });
+		this.state = { ballpointPen };
 		super.componentDidMount();
 	}
 
