@@ -14,6 +14,12 @@ export default Wrapped => class extends Component {
 		sketches: [],
 	};
 
+	constructor() {
+		super();
+		this.onTextDetected = this.onTextDetected.bind(this);
+		this.onShapeDetected = this.onShapeDetected.bind(this);
+	}
+
 	onTextDetected(candidates) {
 		const floatParsedCandidates = candidates.map((candidate) => {
 			const float = parseFloat(candidate.label);
@@ -89,8 +95,8 @@ export default Wrapped => class extends Component {
 		return (<div>
 			<Wrapped
 				{...this.props}
-				onTextDetected={this.onTextDetected.bind(this)}
-				onShapeDetected={this.onShapeDetected.bind(this)}
+				onTextDetected={this.onTextDetected}
+				onShapeDetected={this.onShapeDetected}
 			/>
 			{this.renderActionChooser()}
 		</div>);

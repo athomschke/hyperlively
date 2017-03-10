@@ -12,6 +12,11 @@ export default class Checkbox extends Component {
 		checked: true,
 	};
 
+	constructor() {
+		super();
+		this.onClick = this.onClick.bind(this);
+	}
+
 	onClick() {
 		this.props.onChange(!this.props.checked);
 	}
@@ -21,7 +26,7 @@ export default class Checkbox extends Component {
 			<input
 				type="checkbox"
 				checked={this.props.checked}
-				onClick={this.onClick.bind(this)}
+				onClick={this.onClick}
 				onChange={() => {}}
 			/>
 		);

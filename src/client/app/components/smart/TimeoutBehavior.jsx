@@ -24,6 +24,12 @@ export default Wrapped => class extends Component {
 		value: 0,
 	};
 
+	constructor() {
+		super();
+		this.beActive = this.beActive.bind(this);
+		this.beNotActive = this.beNotActive.bind(this);
+	}
+
 	componentDidMount() {
 		this.state = {
 			disableFunction: null,
@@ -70,8 +76,8 @@ export default Wrapped => class extends Component {
 	render() {
 		return (<Wrapped
 			{...this.props}
-			onChange={this.beActive.bind(this)}
-			afterChange={this.beNotActive.bind(this)}
+			onChange={this.beActive}
+			afterChange={this.beNotActive}
 		/>);
 	}
 

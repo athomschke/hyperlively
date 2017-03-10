@@ -16,10 +16,17 @@ export default Wrapped => class extends Component {
 		cmdPressed: false,
 	}
 
-	componentDidMount() {
-		this.onMouseDown = this.onMouseDown.bind(this);
-		this.onMouseMove = this.onMouseMove.bind(this);
+	constructor() {
+		super();
 		this.onMouseUp = this.onMouseUp.bind(this);
+		this.onMouseMove = this.onMouseMove.bind(this);
+		this.onMouseDown = this.onMouseDown.bind(this);
+		this.onTouchStart = this.onTouchStart.bind(this);
+		this.onTouchMove = this.onTouchMove.bind(this);
+		this.onTouchEnd = this.onTouchEnd.bind(this);
+	}
+
+	componentDidMount() {
 		this.state = {
 			mousePressed: false,
 		};
@@ -74,12 +81,12 @@ export default Wrapped => class extends Component {
 
 	render() {
 		const callbacks = this.props.cmdPressed ? {} : {
-			onMouseUp: this.onMouseUp.bind(this),
-			onMouseMove: this.onMouseMove.bind(this),
-			onMouseDown: this.onMouseDown.bind(this),
-			onTouchStart: this.onTouchStart.bind(this),
-			onTouchMove: this.onTouchMove.bind(this),
-			onTouchEnd: this.onTouchEnd.bind(this),
+			onMouseUp: this.onMouseUp,
+			onMouseMove: this.onMouseMove,
+			onMouseDown: this.onMouseDown,
+			onTouchStart: this.onTouchStart,
+			onTouchMove: this.onTouchMove,
+			onTouchEnd: this.onTouchEnd,
 		};
 		return (
 			<div {...callbacks} >

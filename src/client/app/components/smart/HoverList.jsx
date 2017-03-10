@@ -13,15 +13,23 @@ export default class HoverList extends Component {
 		items: [],
 	};
 
+	constructor() {
+		super();
+		this.onEnterItem = this.onEnterItem.bind(this);
+		this.onLeaveItem = this.onLeaveItem.bind(this);
+	}
+
 	componentDidMount() {
 		this.state = {};
 	}
 
-	onEnterItem(hoveredIndex) {
+	onEnterItem(event) {
+		const hoveredIndex = Array.from(event.target.parentElement.childNodes).indexOf(event.target);
 		this.setState({ hoveredIndex });
 	}
 
-	onLeaveItem(index) {
+	onLeaveItem(event) {
+		const index = Array.from(event.target.parentElement.childNodes).indexOf(event.target);
 		const hoveredIndex = this.state && (this.state.hoveredIndex === index) ?
 			undefined :
 			this.state.hoveredIndex;
@@ -41,8 +49,8 @@ export default class HoverList extends Component {
 			<li
 				key={index}
 				style={this.getItemStyleAt(index)}
-				onMouseEnter={this.onEnterItem.bind(this, index)}
-				onMouseLeave={this.onLeaveItem.bind(this, index)}
+				onMouseEnter={this.onEnterItem}
+				onMouseLeave={this.onLeaveItem}
 				onClick={(event) => {
 					this.props.onItemClick(event, aText);
 				}}
