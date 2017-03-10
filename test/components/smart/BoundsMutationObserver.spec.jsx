@@ -10,7 +10,7 @@ class MockedSubComponent extends React.Component {
 
 	render() {
 		return (<div
-			ref="node"
+			ref={(divNode) => { this.node = divNode; }}
 			style={{
 				top: this.props.bounds.y,
 				left: this.props.bounds.x,
@@ -42,7 +42,7 @@ describe('Bounds mutation observer', () => {
 		});
 
 		it('recognizes nothing if bounds mutation observation is disabled', (done) => {
-			mockedComponent.refs.wrapped.refs.node.style.setProperty('left', '2px');
+			mockedComponent.wrappedComponent.node.style.setProperty('left', '2px');
 			setTimeout(() => {
 				expect(mockedComponent.boundsUpdatedWith.callCount).to.equal(0);
 				done();
@@ -60,7 +60,7 @@ describe('Bounds mutation observer', () => {
 		});
 
 		it('horizontally calls the callback with enough information with a position when one is given', (done) => {
-			mockedComponent.refs.wrapped.refs.node.style.setProperty('left', '2px');
+			mockedComponent.wrappedComponent.node.style.setProperty('left', '2px');
 			setTimeout(() => {
 				expect(mockedComponent.boundsUpdatedWith.args[0]).to.have.length(4);
 				done();
@@ -68,7 +68,7 @@ describe('Bounds mutation observer', () => {
 		});
 
 		it('horizontally calls the callback with a position when one is given', (done) => {
-			mockedComponent.refs.wrapped.refs.node.style.setProperty('left', '2px');
+			mockedComponent.wrappedComponent.node.style.setProperty('left', '2px');
 			setTimeout(() => {
 				expect(mockedComponent.boundsUpdatedWith.callCount).to.equal(1);
 				done();
@@ -76,7 +76,7 @@ describe('Bounds mutation observer', () => {
 		});
 
 		it('vertically calls the callback with a position when one is given', (done) => {
-			mockedComponent.refs.wrapped.refs.node.style.setProperty('top', '2px');
+			mockedComponent.wrappedComponent.node.style.setProperty('top', '2px');
 			setTimeout(() => {
 				expect(mockedComponent.boundsUpdatedWith.callCount).to.equal(1);
 				done();
@@ -84,7 +84,7 @@ describe('Bounds mutation observer', () => {
 		});
 
 		it('changes nothing if no callback is given', (done) => {
-			mockedComponent.refs.wrapped.refs.node.style.setProperty('left', '2px');
+			mockedComponent.wrappedComponent.node.style.setProperty('left', '2px');
 			setTimeout(() => {
 				expect(mockedComponent.props.bounds.x).to.equal(1);
 				expect(mockedComponent.props.bounds.y).to.equal(0);
@@ -94,7 +94,7 @@ describe('Bounds mutation observer', () => {
 
 		it('is not recognized when component is not in dom anymore', (done) => {
 			mockedComponent.componentWillUnmount();
-			mockedComponent.refs.wrapped.refs.node.style.setProperty('top', '2px');
+			mockedComponent.wrappedComponent.node.style.setProperty('top', '2px');
 			setTimeout(() => {
 				expect(mockedComponent.boundsUpdatedWith.callCount).to.equal(0);
 				done();
@@ -104,7 +104,7 @@ describe('Bounds mutation observer', () => {
 		it('is not recognized when no observer exists', (done) => {
 			mockedComponent.ignore();
 			mockedComponent.componentWillUnmount();
-			mockedComponent.refs.wrapped.refs.node.style.setProperty('top', '2px');
+			mockedComponent.wrappedComponent.node.style.setProperty('top', '2px');
 			setTimeout(() => {
 				expect(mockedComponent.boundsUpdatedWith.callCount).to.equal(0);
 				done();
@@ -112,7 +112,7 @@ describe('Bounds mutation observer', () => {
 		});
 
 		it('is not recognized when component is not really moved', (done) => {
-			mockedComponent.refs.wrapped.refs.node.style.setProperty('left', '1px');
+			mockedComponent.wrappedComponent.node.style.setProperty('left', '1px');
 			setTimeout(() => {
 				expect(mockedComponent.boundsUpdatedWith.callCount).to.equal(0);
 				done();
@@ -130,7 +130,7 @@ describe('Bounds mutation observer', () => {
 		});
 
 		it('triggers no callback', (done) => {
-			mockedComponent.refs.wrapped.refs.node.setAttribute('width', '100px');
+			mockedComponent.wrappedComponent.node.setAttribute('width', '100px');
 			setTimeout(() => {
 				expect(mockedComponent.boundsUpdatedWith.callCount).to.equal(0);
 				done();
@@ -148,7 +148,7 @@ describe('Bounds mutation observer', () => {
 		});
 
 		it('triggers no callback', (done) => {
-			mockedComponent.refs.wrapped.refs.node.style.setProperty('border-style', 'solid');
+			mockedComponent.wrappedComponent.node.style.setProperty('border-style', 'solid');
 			setTimeout(() => {
 				expect(mockedComponent.boundsUpdatedWith.callCount).to.equal(0);
 				done();

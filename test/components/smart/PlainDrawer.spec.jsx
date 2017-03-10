@@ -20,7 +20,7 @@ class WrappedPlainDrawer extends Component {
 	}
 
 	render() {
-		return <PlainDrawer ref="plainDrawer" {...this.props} {...this.state} />;
+		return <PlainDrawer {...this.props} {...this.state} />;
 	}
 }
 
@@ -76,33 +76,33 @@ describe('PlainDrawer', () => {
 		});
 
 		it('is updated when a point is added', () => {
-			const sumBefore = sum(canvasImageData(canvas.refs.canvas).data);
+			const sumBefore = sum(canvasImageData(canvas.canvas).data);
 			canvas.props.strokes[0].points.push({ x: 10, y: 14 });
 			canvas.componentDidUpdate();
-			const sumAfter = sum(canvasImageData(canvas.refs.canvas).data);
+			const sumAfter = sum(canvasImageData(canvas.canvas).data);
 			expect(sumAfter).to.not.equal(sumBefore);
 		});
 
 		it('is updated when a point is removed', () => {
-			const sumBefore = sum(canvasImageData(canvas.refs.canvas).data);
+			const sumBefore = sum(canvasImageData(canvas.canvas).data);
 			canvas.props.strokes[0].points.splice(-1);
 			canvas.componentDidUpdate();
-			const sumAfter = sum(canvasImageData(canvas.refs.canvas).data);
+			const sumAfter = sum(canvasImageData(canvas.canvas).data);
 			expect(sumAfter).to.not.equal(sumBefore);
 		});
 
 		it('does not re-render when nothing changed', () => {
-			const sumBefore = sum(canvasImageData(canvas.refs.canvas).data);
+			const sumBefore = sum(canvasImageData(canvas.canvas).data);
 			canvas.componentDidUpdate();
-			const sumAfter = sum(canvasImageData(canvas.refs.canvas).data);
+			const sumAfter = sum(canvasImageData(canvas.canvas).data);
 			expect(sumAfter).to.equal(sumBefore);
 		});
 
 		it('draws blue strokes different from normal ones', () => {
-			const sumBefore = sum(canvasImageData(canvas.refs.canvas).data);
+			const sumBefore = sum(canvasImageData(canvas.canvas).data);
 			canvas.props.strokes[0].color = { r: 4, g: 1, b: 2 };
 			canvas.componentDidUpdate();
-			const sumAfter = sum(canvasImageData(canvas.refs.canvas).data);
+			const sumAfter = sum(canvasImageData(canvas.canvas).data);
 			expect(sumBefore).to.not.deep.equal(sumAfter);
 		});
 	});
@@ -130,14 +130,14 @@ describe('PlainDrawer', () => {
 				b: 1,
 			};
 			canvas.startStrokeAt(aPoint, aColor);
-			expect(canvas.refs.canvas.getContext('2d').strokeStyle).to.equal('#010101');
+			expect(canvas.canvas.getContext('2d').strokeStyle).to.equal('#010101');
 		});
 
 		it('changes stroke style on canvas', () => {
-			const styleBefore = canvas.refs.canvas.getContext('2d').strokeStyle;
+			const styleBefore = canvas.canvas.getContext('2d').strokeStyle;
 			canvas.props.strokes[0].color = { r: 5, g: 1, b: 1 };
 			canvas.componentDidUpdate();
-			const styleAfter = canvas.refs.canvas.getContext('2d').strokeStyle;
+			const styleAfter = canvas.canvas.getContext('2d').strokeStyle;
 			expect(styleBefore).to.not.deep.equal(styleAfter);
 		});
 	});
@@ -191,11 +191,11 @@ describe('PlainDrawer', () => {
 		});
 
 		it('adds the last point', () => {
-			const sumBefore = sum(canvasImageData(canvas.refs.canvas).data);
+			const sumBefore = sum(canvasImageData(canvas.canvas).data);
 			canvas.props.strokes[0].finished = true;
 			canvas.props.strokes[0].points.push({ x: 10, y: 14 });
 			canvas.componentDidUpdate();
-			const sumAfter = sum(canvasImageData(canvas.refs.canvas).data);
+			const sumAfter = sum(canvasImageData(canvas.canvas).data);
 			expect(sumAfter).to.not.equal(sumBefore);
 		});
 	});
@@ -238,10 +238,10 @@ describe('PlainDrawer', () => {
 		});
 
 		it('draws only the first', () => {
-			const sumBefore = sum(canvasImageData(canvas.refs.canvas).data);
+			const sumBefore = sum(canvasImageData(canvas.canvas).data);
 			remove(canvas.props.strokes, canvas.props.strokes[1]);
 			canvas.componentDidUpdate();
-			const sumAfter = sum(canvasImageData(canvas.refs.canvas).data);
+			const sumAfter = sum(canvasImageData(canvas.canvas).data);
 			expect(sumAfter).to.not.equal(sumBefore);
 		});
 	});
@@ -258,17 +258,17 @@ describe('PlainDrawer', () => {
 		});
 
 		it('does nothing, really', () => {
-			const sumBefore = sum(canvasImageData(canvas.refs.canvas).data);
+			const sumBefore = sum(canvasImageData(canvas.canvas).data);
 			canvas.props.strokes.push({
 				points: [{ x: 20, y: 10 }],
 			});
 			canvas.componentDidUpdate();
-			const sumAfter = sum(canvasImageData(canvas.refs.canvas).data);
+			const sumAfter = sum(canvasImageData(canvas.canvas).data);
 			expect(sumAfter).to.equal(sumBefore);
 		});
 
 		it('chooses the default color if no other chosen', () => {
-			expect(canvas.refs.canvas.getContext('2d').strokeStyle).to.equal('#19082d');
+			expect(canvas.canvas.getContext('2d').strokeStyle).to.equal('#19082d');
 		});
 	});
 
@@ -282,15 +282,15 @@ describe('PlainDrawer', () => {
 					finished: true,
 				}],
 			});
-			const canvas = wrappedComponent.refs.plainDrawer;
-			const sumBefore = sum(canvasImageData(canvas.refs.canvas).data);
+			const canvas = TestUtils.scryRenderedDOMComponentsWithTag(wrappedComponent, 'canvas')[0];
+			const sumBefore = sum(canvasImageData(canvas).data);
 			wrappedComponent.setState({
 				width: 150,
 			}, () => {
 				wrappedComponent.setState({
 					width: 100,
 				}, () => {
-					let sumAfter = sum(canvasImageData(canvas.refs.canvas).data);
+					let sumAfter = sum(canvasImageData(canvas).data);
 					expect(sumAfter).to.equal(sumBefore);
 					wrappedComponent.setState({
 						height: 150,
@@ -298,7 +298,7 @@ describe('PlainDrawer', () => {
 						wrappedComponent.setState({
 							height: 200,
 						}, () => {
-							sumAfter = sum(canvasImageData(canvas.refs.canvas).data);
+							sumAfter = sum(canvasImageData(canvas).data);
 							expect(sumAfter).to.equal(sumBefore);
 							done();
 						});

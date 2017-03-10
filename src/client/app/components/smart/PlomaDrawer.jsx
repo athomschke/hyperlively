@@ -21,7 +21,7 @@ export default class PlomaDrawer extends AbstractDrawer {
 			uniqueCanvasFactor: this.props.uniqueCanvasFactor,
 			paperColor: 'rgba(0, 0, 0, 0)',
 		};
-		const ballpointPen = new BallpointPen(this.refs.canvas, plomaConfig);
+		const ballpointPen = new BallpointPen(this.canvas, plomaConfig);
 		ballpointPen.setSample(1);
 		this.state = { ballpointPen };
 		super.componentDidMount();

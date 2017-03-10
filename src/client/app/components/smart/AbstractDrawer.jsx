@@ -104,6 +104,20 @@ export default class AbstractDrawer extends Component {
 		this.onAbstractMethodCalled('onStrokesEnded');
 	}
 
+	onStrokesUpdated() {
+		if (pointCount(this.props.strokes) === (pointCount(this.state.strokes) + 1)) {
+			this.addPointPerformanceEnhanced();
+		} else if (this.props.strokes.length === (this.state.strokes.length) &&
+				(pointCount(this.props.strokes) === (pointCount(this.state.strokes))) &&
+				this.colorRemainedEqual()) {
+			this.moveImageDataToNewPosition();
+		} else {
+			this.redrawEverything(this.props.strokes[0] && this.props.strokes[0].finished);
+		}
+		this.setState({
+			strokes: cloneDeep(this.props.strokes),
+		});
+	}
 
 	getPassepartoutStyle() {
 		return {
@@ -174,34 +188,19 @@ export default class AbstractDrawer extends Component {
 			x: newFirstPoint.x - oldFirstPoint.x,
 			y: newFirstPoint.y - oldFirstPoint.y,
 		};
-		const context = this.refs.canvas.getContext('2d');
+		const context = this.canvas.getContext('2d');
 		const oldImageData = context.getImageData(
 				this.props.bounds.x - moveBy.x,
 				this.props.bounds.y - moveBy.y,
 				this.props.bounds.width,
 				this.props.bounds.height);
-		context.clearRect(0, 0, this.refs.canvas.width, this.refs.canvas.height);
+		context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 		context.putImageData(oldImageData, this.props.bounds.x, this.props.bounds.y);
 	}
 
 	colorRemainedEqual() {
 		return !strokeWhereColorChanged(this.props.strokes, this.state.strokes) &&
 			!strokeWhereSelectStatusChanged(this.props.strokes, this.state.strokes);
-	}
-
-	onStrokesUpdated() {
-		if (pointCount(this.props.strokes) === (pointCount(this.state.strokes) + 1)) {
-			this.addPointPerformanceEnhanced();
-		} else if (this.props.strokes.length === (this.state.strokes.length) &&
-				(pointCount(this.props.strokes) === (pointCount(this.state.strokes))) &&
-				this.colorRemainedEqual()) {
-			this.moveImageDataToNewPosition();
-		} else {
-			this.redrawEverything(this.props.strokes[0] && this.props.strokes[0].finished);
-		}
-		this.setState({
-			strokes: cloneDeep(this.props.strokes),
-		});
 	}
 
 	addPointPerformanceEnhanced() {
@@ -226,11 +225,11 @@ export default class AbstractDrawer extends Component {
 
 	render() {
 		return (<div
-			ref="node"
+			ref={(divNode) => { this.node = divNode; }}
 			style={this.getPassepartoutStyle()}
 		>
 			<canvas
-				ref="canvas"
+				ref={(canvas) => { this.canvas = canvas; }}
 				width={this.props.width}
 				height={this.props.height}
 				style={this.getCanvasStyle()}

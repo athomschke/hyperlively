@@ -22,7 +22,7 @@ export default Wrapped => class extends Component {
 
 	observe() {
 		const observer = new MutationObserver(this.onMutations.bind(this));
-		observer.observe(this.refs.wrapped.refs.node, {
+		observer.observe(this.wrappedComponent.node, {
 			attributes: true,
 		});
 		this.setState({
@@ -56,15 +56,15 @@ export default Wrapped => class extends Component {
 			forEach(mutationRecords, (mutationRecord) => {
 				if (mutationRecord.attributeName === 'style') {
 					const moveBy = {
-						x: parseInt(this.refs.wrapped.refs.node.style.left, 10) - this.props.bounds.x,
-						y: parseInt(this.refs.wrapped.refs.node.style.top, 10) - this.props.bounds.y,
+						x: parseInt(this.wrappedComponent.node.style.left, 10) - this.props.bounds.x,
+						y: parseInt(this.wrappedComponent.node.style.top, 10) - this.props.bounds.y,
 					};
 					if (moveBy.x !== 0 || moveBy.y !== 0) {
 						this.boundsUpdatedWith(
 								this.props.bounds.x,
 								this.props.bounds.y,
-								parseInt(this.refs.wrapped.refs.node.style.left, 10),
-								parseInt(this.refs.wrapped.refs.node.style.top, 10),
+								parseInt(this.wrappedComponent.node.style.left, 10),
+								parseInt(this.wrappedComponent.node.style.top, 10),
 						);
 					}
 				}
@@ -74,7 +74,7 @@ export default Wrapped => class extends Component {
 
 	render() {
 		return (<Wrapped
-			ref="wrapped"
+			ref={(wrapped) => { this.wrappedComponent = wrapped; }}
 			{...this.props}
 		/>);
 	}
