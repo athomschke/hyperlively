@@ -19,7 +19,7 @@ export default class ActionChooser extends Component {
 
 	static propTypes = {
 		onActionChoose: PropTypes.func,
-		jsonTree: PropTypes.object,
+		jsonTree: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.object, PropTypes.string])),
 		onCheckChange: PropTypes.func,
 		lastStrokes: PropTypes.arrayOf(PropTypes.object),
 		selectedStrokes: PropTypes.arrayOf(PropTypes.object),
@@ -107,12 +107,10 @@ export default class ActionChooser extends Component {
 		return (
 			<Modal
 				className={actionChooser}
-				ref="modal"
 				{...this.props}
 				contentLabel="I am required by a11y"
 			>
 				<HoverList
-					ref="list"
 					{...this.props}
 					onItemClick={(event, name) => {
 						this.onActionChoose(event, name);
@@ -120,7 +118,6 @@ export default class ActionChooser extends Component {
 					items={getActions()}
 				/>
 				<TreeMenu
-					ref="tree"
 					data={this.getFormattedData()}
 					collapsible
 					expandIconClass="expand"

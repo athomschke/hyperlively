@@ -3,7 +3,6 @@ import TestUtils from 'react-addons-test-utils';
 import React from 'react';
 import TimelineView from 'components/dumb/Timeline';
 import TimeoutBehavior from 'components/smart/TimeoutBehavior';
-import TimelinePreview from 'components/dumb/TimelinePreview';
 import { point } from '../../helpers';
 
 const Timeline = TimeoutBehavior(TimelineView);
@@ -57,9 +56,6 @@ describe('Timeline', () => {
 					actionIndex: 6,
 				}],
 			}]);
-			const previews = TestUtils.scryRenderedComponentsWithType(
-					temporaryCallbackSlider, TimelinePreview);
-			expect(previews).to.have.length(3);
 			const canvasses = TestUtils.scryRenderedDOMComponentsWithTag(temporaryCallbackSlider, 'canvas');
 			expect(canvasses).to.have.length(3);
 		});

@@ -1,14 +1,18 @@
-import React, { Component, PropTypes } from 'react';
+// @flow
+import React, { Component } from 'react';
 import last from 'lodash/last';
+import { type Scene, type Stroke } from '../../typeDefinitions';
+
+type Props = {
+	scene: Scene,
+	strokes: Array<Stroke>,
+	returnPressed: boolean,
+	handwritingRecognitionEnabled: boolean,
+};
 
 export default Wrapped => class extends Component {
 
-	static propTypes = {
-		scene: PropTypes.object,
-		strokes: PropTypes.arrayOf(PropTypes.object),
-		returnPressed: PropTypes.bool,
-		handwritingRecognitionEnabled: PropTypes.bool,
-	};
+	props: Props
 
 	static defaultProps = {
 		strokes: [],

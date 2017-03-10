@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { timelinePreview } from 'stylesheets/components/dumb/TimelinePreview.scss';
 import SketchTransformer from '../smart/SketchTransformer';
 import Point2BoundsScaler from '../smart/Point2BoundsScaler';
@@ -7,17 +7,13 @@ import PlainDrawer from '../smart/PlainDrawer';
 
 const Canvas = Point2BoundsScaler(SketchTransformer(SketchFitter(PlainDrawer)));
 
-export default class TimelinePreview extends Component {
-
-	render() {
-		return (
-			<div className={timelinePreview}>
-				<Canvas
-					{...this.props}
-					finished
-					showBorder
-				/>
-			</div>);
-	}
-
+export default function TimelinePreview(props) {
+	return (
+		<div className={timelinePreview}>
+			<Canvas
+				{...props}
+				finished
+				showBorder
+			/>
+		</div>);
 }

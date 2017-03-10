@@ -1,6 +1,8 @@
-import React, { Component, PropTypes } from 'react';
+// @flow
+import React, { Component } from 'react';
 import { reduce, last, first, concat } from 'lodash';
 import { DEFAULT_THRESHOLD } from 'constants/drawing';
+import { type Scene } from '../../typeDefinitions';
 
 const strokeFollowedSuit = (collectedSketches, stroke, threshold) => {
 	const lastPoint = last(collectedSketches) &&
@@ -25,12 +27,14 @@ const sketches = (strokes, threshold) => reduce(strokes, (collectedSketches, str
 	}]);
 }, []);
 
+type Props = {
+	scene: Scene,
+	threshold: number,
+};
+
 export default Wrapped => class extends Component {
 
-	static propTypes = {
-		scene: PropTypes.object,
-		threshold: PropTypes.number,
-	};
+	props: Props
 
 	static defaultProps = {
 		scene: {

@@ -18,48 +18,10 @@ describe('HoverList', () => {
 			expect(items).to.have.length(3);
 		});
 
-		it('gives them no icons', () => {
-			expect(items[0].style.getPropertyValue('list-style-type')).to.equal('none');
-		});
-	});
-
-	describe('Hovering over the second list item', () => {
-		let list;
-		let items;
-
-		beforeEach(() => {
-			list = TestUtils.renderIntoDocument(<HoverList
-				items={['a', 'b', 'c']}
-			/>);
-			items = TestUtils.scryRenderedDOMComponentsWithTag(list, 'li');
-		});
-
-		it('colors it', () => {
-			TestUtils.Simulate.mouseEnter(items[1]);
-			expect(items[1].style.getPropertyValue('background-color')).to.not.equal('transparent');
-		});
-	});
-
-	describe('Leaving the second list item', () => {
-		let list;
-		let items;
-
-		beforeEach(() => {
-			list = TestUtils.renderIntoDocument(<HoverList
-				items={['a', 'b', 'c']}
-			/>);
-			items = TestUtils.scryRenderedDOMComponentsWithTag(list, 'li');
-		});
-
-		it('removes its color', () => {
-			TestUtils.Simulate.mouseLeave(items[1]);
-			expect(items[1].style.getPropertyValue('background-color')).to.equal('transparent');
-		});
-
-		it('after entering it removes its color', () => {
-			TestUtils.Simulate.mouseEnter(items[1]);
-			TestUtils.Simulate.mouseLeave(items[1]);
-			expect(items[1].style.getPropertyValue('background-color')).to.equal('transparent');
+		it('labels all list items', () => {
+			expect(items[0].textContent).to.equal('a');
+			expect(items[1].textContent).to.equal('b');
+			expect(items[2].textContent).to.equal('c');
 		});
 	});
 
@@ -82,7 +44,7 @@ describe('HoverList', () => {
 				}}
 			/>);
 			const items = TestUtils.scryRenderedDOMComponentsWithTag(list, 'li');
-			TestUtils.Simulate.click(items[1]);
+			TestUtils.Simulate.click(items[1].childNodes[0]);
 			expect(clickedItem).to.equal('b');
 		});
 	});

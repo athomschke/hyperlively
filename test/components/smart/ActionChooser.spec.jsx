@@ -1,12 +1,16 @@
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import { TreeMenu } from 'react-tree-menu';
-import { forEach } from 'lodash';
+import { forEach, map, flatten, filter } from 'lodash';
+import Modal from 'react-modal';
+import { shallow } from 'enzyme';
 import actions from 'actions/actions';
 import ActionChooser from 'components/smart/ActionChooser';
+import HoverList from 'components/smart/HoverList';
 import { getPathToProperty, formatObject } from 'helpers/choosingActions';
 
 const renderWithProps = props => TestUtils.renderIntoDocument(<ActionChooser {...props} />);
+const shallowWithProps = props => shallow(<ActionChooser {...props} />);
 
 const exampleChecks = [['a', 'a2'], ['b']];
 
@@ -66,6 +70,16 @@ const exampleArray = [
 	},
 ];
 
+const flattenedTree = (root) => {
+	let items = [root];
+	forEach(root.children, (child) => {
+		items = items.concat(flattenedTree(child));
+	});
+	return items;
+};
+
+const getItemsFromDataArray = dataArray => flatten(map(dataArray, item => flattenedTree(item)));
+
 describe('Action Chooser', () => {
 	afterEach(() => {
 		forEach(document.getElementsByClassName('ReactModalPortal'), (modalNode) => {
@@ -77,7 +91,7 @@ describe('Action Chooser', () => {
 		let actionChooser;
 
 		beforeEach(() => {
-			actionChooser = renderWithProps({
+			actionChooser = shallowWithProps({
 				isOpen: true,
 				jsonTree: exampleTree,
 				lastStrokes: exampleLastStrokes,
@@ -86,28 +100,32 @@ describe('Action Chooser', () => {
 		});
 
 		it('renders a list', () => {
-			expect(actionChooser.refs.list.props.items.length).to.not.equal(0);
+			const list = actionChooser.find(HoverList);
+			expect(list.props().items.length).to.not.equal(0);
 		});
 
-		it('renders a tree', () => {
-			expect(actionChooser.refs.tree).to.exist();
-			expect(actionChooser.refs.tree).to.be.instanceOf(TreeMenu);
+		it('renders a tree menu', () => {
+			expect(actionChooser.find(TreeMenu)).to.exist();
 		});
 
-		it('renders an entry for each handwriting recognition result plus one for the last strokes plus the selected strokes', () => {
-			expect(TestUtils.scryRenderedDOMComponentsWithClass(actionChooser.refs.tree, 'tree-view-node-label')).to.have.length(11);
+		it('renders an entry for each top level handwriting recognition result plus one for the last strokes plus the selected strokes', () => {
+			const items = getItemsFromDataArray(actionChooser.find(TreeMenu).props().data);
+			expect(filter(items, 'label')).to.have.length(11);
 		});
 
 		it('renders a checkbox for each handwriting recognition result, nodes as well as leafes', () => {
-			expect(TestUtils.scryRenderedDOMComponentsWithTag(actionChooser.refs.tree, 'input')).to.have.length(11);
+			const items = getItemsFromDataArray(actionChooser.find(TreeMenu).props().data);
+			expect(filter(items, 'checkbox')).to.have.length(11);
 		});
 
 		it('renders an item for each available action type', () => {
-			expect(actionChooser.refs.list.props.items).to.have.length(Object.keys(actions).length);
+			const items = actionChooser.find(HoverList).props().items;
+			expect(items).to.have.length(Object.keys(actions).length);
 		});
 
 		it('shows a modal dialog', () => {
-			expect(actionChooser.refs.modal.props.isOpen).to.be.true();
+			const modal = actionChooser.find(Modal);
+			expect(modal.props().isOpen).to.be.true();
 		});
 
 		it('formats the json tree for the tree view menu', () => {
@@ -224,12 +242,13 @@ describe('Action Chooser', () => {
 
 	describe('Choosing an action', () => {
 		it('performs the action', () => {
-			const actionChooser = renderWithProps({
+			const actionChooser = shallowWithProps({
 				isOpen: true,
 			});
-			sinon.spy(actionChooser, 'onActionChoose');
-			actionChooser.refs.list.props.onItemClick({}, 'updatePosition');
-			expect(actionChooser.onActionChoose.callCount).to.equal(1);
+			sinon.stub(actionChooser.instance(), 'onActionChoose');
+			const list = actionChooser.find(HoverList);
+			list.props().onItemClick({}, 'updatePosition');
+			expect(actionChooser.instance().onActionChoose.callCount).to.equal(1);
 		});
 
 		it('selects checked values from json tree and passes them in an array', () => {
@@ -269,11 +288,14 @@ describe('Action Chooser', () => {
 		});
 
 		it('does nothing without a callback', () => {
-			const actionChooser = renderWithProps({
+			const actionChooser = shallowWithProps({
 				isOpen: true,
 			});
-			actionChooser.refs.list.props.onItemClick({}, 'updatePosition');
+			const list = actionChooser.find(HoverList);
+			sinon.stub(actionChooser.instance(), 'onActionChoose');
+			list.props().onItemClick({}, 'updatePosition');
 			expect(actionChooser).to.exist();
+			actionChooser.instance().onActionChoose.restore();
 		});
 	});
 });

@@ -88,7 +88,7 @@ export default Wrapped => class extends Component {
 		if (this.state && this.state.interpretation && this.state.interpretation.candidate) {
 			actionChooserProps.jsonTree = this.state.interpretation.candidate;
 		}
-		return <ActionChooser ref="actionChooser" {...this.props} {...actionChooserProps} />;
+		return <ActionChooser {...this.props} {...actionChooserProps} />;
 	}
 
 	render() {
