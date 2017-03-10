@@ -1,51 +1,64 @@
 import TestUtils from 'react-addons-test-utils';
-import React from 'react';
+import React, { PropTypes } from 'react';
 import AbstractDrawer from 'components/smart/AbstractDrawer';
-import { ERROR_OVERWRITE } from 'constants/errors';
+import { ERROR_CALL_SUPER_TO_ABSTRACT } from 'constants/errors';
 
 class SpecificDrawer extends AbstractDrawer {
-	onStrokeStarted() {}
-	onStrokesExtended() {}
-	onStrokesEnded() {}
-	startStrokeAt() {}
-	extendStrokeAt() {}
-	endStrokeAt() {}
-	resetCanvas() {}
-	redrawStroke() {}
+
+	static propTypes = {
+		overwriteFunctionCalled: PropTypes.func.isRequired,
+	}
+
+	onStrokeStarted() { this.props.overwriteFunctionCalled(); }
+	onStrokesExtended() { this.props.overwriteFunctionCalled(); }
+	onStrokesEnded() { this.props.overwriteFunctionCalled(); }
+	startStrokeAt() { this.props.overwriteFunctionCalled(); }
+	extendStrokeAt() { this.props.overwriteFunctionCalled(); }
+	endStrokeAt() { this.props.overwriteFunctionCalled(); }
+	resetCanvas() { this.props.overwriteFunctionCalled(); }
+	redrawStroke() { this.props.overwriteFunctionCalled(); }
 }
 
 describe('AbstractDrawer', () => {
 	describe('calling an abstract function directly', () => {
 		it('throws an error for onStrokeStarted', () => {
-			expect(AbstractDrawer.prototype.onStrokeStarted).to.throw(ERROR_OVERWRITE);
+			expect(AbstractDrawer.prototype.onStrokeStarted.bind(AbstractDrawer.prototype))
+				.to.throw(ERROR_CALL_SUPER_TO_ABSTRACT);
 		});
 
 		it('throws an error for onStrokesExtended', () => {
-			expect(AbstractDrawer.prototype.onStrokesExtended).to.throw(ERROR_OVERWRITE);
+			expect(AbstractDrawer.prototype.onStrokesExtended.bind(AbstractDrawer.prototype))
+				.to.throw(ERROR_CALL_SUPER_TO_ABSTRACT);
 		});
 
 		it('throws an error for onStrokesEnded', () => {
-			expect(AbstractDrawer.prototype.onStrokesEnded).to.throw(ERROR_OVERWRITE);
+			expect(AbstractDrawer.prototype.onStrokesEnded.bind(AbstractDrawer.prototype))
+				.to.throw(ERROR_CALL_SUPER_TO_ABSTRACT);
 		});
 
 		it('throws an error for extendStrokeAt', () => {
-			expect(AbstractDrawer.prototype.extendStrokeAt).to.throw(ERROR_OVERWRITE);
+			expect(AbstractDrawer.prototype.extendStrokeAt.bind(AbstractDrawer.prototype))
+				.to.throw(ERROR_CALL_SUPER_TO_ABSTRACT);
 		});
 
 		it('throws an error for endStrokeAt', () => {
-			expect(AbstractDrawer.prototype.endStrokeAt).to.throw(ERROR_OVERWRITE);
+			expect(AbstractDrawer.prototype.endStrokeAt.bind(AbstractDrawer.prototype))
+				.to.throw(ERROR_CALL_SUPER_TO_ABSTRACT);
 		});
 
 		it('throws an error for resetCanvas', () => {
-			expect(AbstractDrawer.prototype.resetCanvas).to.throw(ERROR_OVERWRITE);
+			expect(AbstractDrawer.prototype.resetCanvas.bind(AbstractDrawer.prototype))
+				.to.throw(ERROR_CALL_SUPER_TO_ABSTRACT);
 		});
 
 		it('throws an error for redrawStroke', () => {
-			expect(AbstractDrawer.prototype.redrawStroke).to.throw(ERROR_OVERWRITE);
+			expect(AbstractDrawer.prototype.redrawStroke.bind(AbstractDrawer.prototype))
+				.to.throw(ERROR_CALL_SUPER_TO_ABSTRACT);
 		});
 
 		it('does nothing for startStrokeAt', () => {
-			expect(AbstractDrawer.prototype.startStrokeAt).to.not.throw(ERROR_OVERWRITE);
+			expect(AbstractDrawer.prototype.startStrokeAt.bind(AbstractDrawer.prototype))
+				.to.throw(ERROR_CALL_SUPER_TO_ABSTRACT);
 		});
 	});
 
@@ -66,6 +79,7 @@ describe('AbstractDrawer', () => {
 				points: [{ x: 10, y: 10 }, { x: 10, y: 11 }, { x: 10, y: 12 }, { x: 10, y: 13 }],
 			}];
 			specificDrawer = TestUtils.renderIntoDocument(<SpecificDrawer
+				overwriteFunctionCalled={() => {}}
 				bounds={{
 					width: 1000,
 					height: 500,
