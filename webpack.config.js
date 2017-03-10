@@ -5,6 +5,7 @@ var APP_DIR = path.resolve(__dirname, 'src/client/app');
 var CREDENTIALS_DIR = path.resolve(__dirname, 'credentials');
 
 var config = {
+	devtool: 'source-map',
 	entry: APP_DIR + '/index.jsx',
 	output: {
 		path: BUILD_DIR,
