@@ -1,3 +1,4 @@
+// @flow
 import Slider from 'rc-slider';
 import React, { Component, PropTypes } from 'react';
 import { rcSlider } from 'stylesheets/components/dumb/Threshold.scss';

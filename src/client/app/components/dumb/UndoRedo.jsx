@@ -1,10 +1,11 @@
+// @flow
 import React from 'react';
 import TimelineView from './Timeline';
 import TimeoutBehavior from '../smart/TimeoutBehavior';
 
 const Timeline = TimeoutBehavior(TimelineView);
 
-export default function UndoRedo(props) {
+export default function UndoRedo(props: Object) {
 	return (<div
 		style={{
 			width: window.innerWidth - 40,

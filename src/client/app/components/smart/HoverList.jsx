@@ -1,6 +1,8 @@
+// @flow
 import React, { Component, PropTypes } from 'react';
 import { map } from 'lodash';
 import { hoverList } from 'stylesheets/components/smart/hoverList.scss';
+import { type SyntheticMouseEvent } from 'flow-bin';
 
 export default class HoverList extends Component {
 
@@ -14,7 +16,7 @@ export default class HoverList extends Component {
 		items: [],
 	};
 
-	handleItemClick(event, aText) {
+	handleItemClick(event: SyntheticMouseEvent, aText: string) {
 		this.props.onItemClick(event, aText);
 	}
 

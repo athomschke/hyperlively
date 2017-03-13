@@ -13,12 +13,12 @@ export function finishStroke(x: number, y: number, timeStamp: number) {
 	return { type: FINISH_STROKE, x, y, timeStamp };
 }
 
-export function toggleDrawing(bool: boolean) {
-	return { type: TOGGLE_DRAWING, bool };
+export function toggleDrawing(boolean: boolean) {
+	return { type: TOGGLE_DRAWING, boolean };
 }
 
-export function addSceneAt(index: number) {
-	return { type: ADD_SCENE_AT, index };
+export function addSceneAt(number: number) {
+	return { type: ADD_SCENE_AT, number };
 }
 
 export function addScene() {

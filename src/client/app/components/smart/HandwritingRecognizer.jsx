@@ -1,8 +1,10 @@
+// @flow
 import React, { Component, PropTypes } from 'react';
 import { map, last, flatten } from 'lodash';
 import { HmacSHA512, enc } from 'crypto-js';
 import { APPLICATION_KEY, HMAC_KEY, TEXT_RECOGNITION_URL, SHAPE_RECOGNITION_URL } from 'constants/handwriting';
 import { strokesToComponents, getStringInput } from 'helpers/handwritingRecognizer';
+import { type RecognizerShapeResult, type RecognizerComponent } from '../../typeDefinitions';
 
 const hmacData = stringInput =>
 	encodeURIComponent(HmacSHA512(stringInput, APPLICATION_KEY + HMAC_KEY)
@@ -33,13 +35,17 @@ export default Wrapped => class extends Component {
 		useHandwritingRecognition: false,
 	}
 
+	state: {
+		hasRecognized: boolean,
+	}
+
 	componentDidMount() {
 		this.state = {
 			hasRecognized: false,
 		};
 	}
 
-	xmlHttpRequest(url, callback) {
+	xmlHttpRequest(url: string, callback: (cmlhttp: XMLHttpRequest) => void) {
 		const xmlhttp = new XMLHttpRequest();
 		xmlhttp.open('POST', url, true);
 		xmlhttp.withCredentials = true;
@@ -49,7 +55,7 @@ export default Wrapped => class extends Component {
 		return xmlhttp;
 	}
 
-	onReadyStateChange(request) {
+	onReadyStateChange(request: XMLHttpRequest) {
 		if (request.readyState === 4 && request.status === 200) {
 			const answer = JSON.parse(request.responseText);
 			if (answer && answer.result) {
@@ -58,7 +64,7 @@ export default Wrapped => class extends Component {
 		}
 	}
 
-	dispatchResult(result) {
+	dispatchResult(result: RecognizerShapeResult) {
 		if (result.textSegmentResult) {
 			const candidates = result.textSegmentResult.candidates;
 			if (candidates.length > 0) {
@@ -70,13 +76,13 @@ export default Wrapped => class extends Component {
 	}
 
 
-	recognizeText(components) {
+	recognizeText(components: Array<RecognizerComponent>) {
 		const stringInput = getStringInput(components);
 		const data = `applicationKey=${applicationKeyData()}&textInput=${encodedInputData(stringInput)}&hmac=${hmacData(stringInput)}`;
 		this.xmlHttpRequest(TEXT_RECOGNITION_URL, this.onReadyStateChange.bind(this)).send(data);
 	}
 
-	recognizeShape(components) {
+	recognizeShape(components: Array<RecognizerComponent>) {
 		const shapeInput = getShapeInput(components);
 		const data = `applicationKey=${applicationKeyData()}&shapeInput=${encodedInputData(shapeInput)}&hmac=${hmacData(shapeInput)}`;
 		this.xmlHttpRequest(SHAPE_RECOGNITION_URL, this.onReadyStateChange.bind(this)).send(data);

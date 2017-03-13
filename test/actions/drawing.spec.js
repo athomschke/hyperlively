@@ -41,21 +41,21 @@ describe('actions', () => {
 	});
 
 	it('should create an action to toggle drawing mode', () => {
-		const bool = false;
+		const boolean = false;
 		const expectedAction = {
 			type: 'TOGGLE_DRAWING',
-			bool,
+			boolean,
 		};
-		expect(actions.toggleDrawing(bool)).to.deep.equal(expectedAction);
+		expect(actions.toggleDrawing(boolean)).to.deep.equal(expectedAction);
 	});
 
 	it('should create an action to add a scene at an index', () => {
-		const index = 0;
+		const number = 0;
 		const expectedAction = {
 			type: 'ADD_SCENE_AT',
-			index,
+			number,
 		};
-		expect(actions.addSceneAt(index)).to.deep.equal(expectedAction);
+		expect(actions.addSceneAt(number)).to.deep.equal(expectedAction);
 	});
 
 	it('should create an action to add a scene to the end', () => {

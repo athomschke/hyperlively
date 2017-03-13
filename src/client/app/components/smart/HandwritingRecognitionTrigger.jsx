@@ -14,6 +14,10 @@ export default Wrapped => class extends Component {
 
 	props: Props
 
+	state: {
+		useHandwritingRecognition: boolean
+	}
+
 	static defaultProps = {
 		strokes: [],
 		scene: { strokes: [] },

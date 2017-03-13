@@ -1,14 +1,20 @@
+// @flow
 import React, { Component } from 'react';
 
 export default Wrapped => class extends Component {
 
-	constructor(props) {
+	constructor(props: Object) {
 		super(props);
 		this.state = {
 			width: window.innerWidth,
 			height: window.innerHeight,
 		};
 		this.handleResize = this.handleResize.bind(this);
+	}
+
+	state: {
+		width: number,
+		height: number,
 	}
 
 	componentDidMount() {

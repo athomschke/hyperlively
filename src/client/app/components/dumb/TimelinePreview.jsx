@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import { timelinePreview } from 'stylesheets/components/dumb/TimelinePreview.scss';
 import SketchTransformer from '../smart/SketchTransformer';
@@ -7,7 +8,7 @@ import PlainDrawer from '../smart/PlainDrawer';
 
 const Canvas = Point2BoundsScaler(SketchTransformer(SketchFitter(PlainDrawer)));
 
-export default function TimelinePreview(props) {
+export default function TimelinePreview(props: Object) {
 	return (
 		<div className={timelinePreview}>
 			<Canvas

@@ -1,7 +1,9 @@
-import React, { Component, PropTypes } from 'react';
+// @flow
+import React, { Component } from 'react';
 import { flatten, last, isEqual, cloneDeep, forEach, map, find } from 'lodash';
 import { ERROR_DIRECT_ABSTRACT_CALL, ERROR_CALL_SUPER_TO_ABSTRACT } from 'constants/errors';
 import { OFFSET } from 'constants/canvas';
+import { type Stroke, type Point } from '../../typeDefinitions';
 
 const allPoints = strokes => flatten(map(strokes, stroke => stroke.points));
 
@@ -15,17 +17,22 @@ const strokeWhereSelectStatusChanged = (strokes1, strokes2) =>
 	find(strokes1, (stroke, index) =>
 		!isEqual(stroke.selected, strokes2[index].selected));
 
-export default class AbstractDrawer extends Component {
+type Props = {
+	strokes: Array<Stroke>,
+	bounds: {
+		x: number,
+		y: number,
+		width: number,
+		height: number
+	},
+	active: boolean,
+	width: number,
+	height: number,
+	showBorder: boolean,
+	finished: boolean,
+}
 
-	static propTypes = {
-		strokes: PropTypes.arrayOf(PropTypes.object),
-		bounds: PropTypes.objectOf(React.PropTypes.number),
-		active: PropTypes.bool,
-		width: PropTypes.number,
-		height: PropTypes.number,
-		showBorder: PropTypes.bool,
-		finished: PropTypes.bool,
-	};
+export default class AbstractDrawer extends Component {
 
 	static defaultProps = {
 		strokes: [],
@@ -41,6 +48,12 @@ export default class AbstractDrawer extends Component {
 		showBorder: false,
 		finished: false,
 	};
+
+	state: {
+		strokes: Array<Stroke>,
+		width: number,
+		height: number
+	}
 
 	componentDidMount() {
 		const isFinished = last(this.props.strokes) && last(this.props.strokes).finished;
@@ -60,17 +73,17 @@ export default class AbstractDrawer extends Component {
 			this.state = Object.assign({}, this.state, {
 				width: this.props.width,
 			});
-			this.redrawEverything();
+			this.redrawEverything(false);
 		}
 		if (!isEqual(this.props.height, this.state.height)) {
 			this.state = Object.assign({}, this.state, {
 				height: this.props.height,
 			});
-			this.redrawEverything();
+			this.redrawEverything(false);
 		}
 	}
 
-	onAbstractMethodCalled(methodName) {
+	onAbstractMethodCalledWith(methodName: string) {
 		if (this !== AbstractDrawer && this[methodName] !== AbstractDrawer[methodName]) {
 			throw new Error(ERROR_CALL_SUPER_TO_ABSTRACT);
 		}
@@ -81,24 +94,24 @@ export default class AbstractDrawer extends Component {
 	 * @overwrite
 	 * @param {array} strokes
 	 */
-	onStrokeStarted() {
-		this.onAbstractMethodCalled('onStrokeStarted');
+	onStrokeStarted(strokes: Array<Stroke>) {
+		this.onAbstractMethodCalledWith('onStrokeStarted', [strokes]);
 	}
 
 	/**
 	 * @overwrite
 	 * @param {array} strokes
 	 */
-	onStrokesExtended() {
-		this.onAbstractMethodCalled('onStrokesExtended');
+	onStrokesExtended(strokes: Array<Stroke>) {
+		this.onAbstractMethodCalledWith('onStrokesExtended', [strokes]);
 	}
 
 	/**
 	 * @overwrite
 	 * @param {array} strokes
 	 */
-	onStrokesEnded() {
-		this.onAbstractMethodCalled('onStrokesEnded');
+	onStrokesEnded(strokes: Array<Stroke>) {
+		this.onAbstractMethodCalledWith('onStrokesEnded', [strokes]);
 	}
 
 	onStrokesUpdated() {
@@ -137,13 +150,19 @@ export default class AbstractDrawer extends Component {
 		};
 	}
 
+	props: Props
+
+	node: HTMLDivElement;
+
+	canvas: HTMLCanvasElement;
+
 	/**
 	 * @overwrite
 	 * @param {array} strokes
 	 * @param {object} optPointBefore
 	 */
-	extendStrokeAt() {
-		this.onAbstractMethodCalled('extendStrokeAt');
+	extendStrokeAt(point: Point, optPointBefore: Point) {
+		this.onAbstractMethodCalledWith('extendStrokeAt', [point, optPointBefore]);
 	}
 
 	/**
@@ -151,15 +170,15 @@ export default class AbstractDrawer extends Component {
 	 * @param {array} strokes
 	 * @param {object} optPointBefore
 	 */
-	endStrokeAt() {
-		this.onAbstractMethodCalled('endStrokeAt');
+	endStrokeAt(point: Point, optPointBefore: Point) {
+		this.onAbstractMethodCalledWith('endStrokeAt', [point, optPointBefore]);
 	}
 
 	/**
 	 * @overwrite
 	 */
 	resetCanvas() {
-		this.onAbstractMethodCalled('resetCanvas');
+		this.onAbstractMethodCalledWith('resetCanvas');
 	}
 
 	/**
@@ -167,15 +186,15 @@ export default class AbstractDrawer extends Component {
 	 * @param {object} point
 	 * @param {object} color (optional)
 	 */
-	startStrokeAt() {
-		this.onAbstractMethodCalled('startStrokeAt');
+	startStrokeAt(aPoint: Point, aColor: string) {
+		this.onAbstractMethodCalledWith('startStrokeAt', [aPoint, aColor]);
 	}
 
 	/**
 	 * @overwrite
 	 */
-	redrawStroke() {
-		this.onAbstractMethodCalled('redrawStroke');
+	redrawStroke(stroke: Stroke, shouldFinish: boolean) {
+		this.onAbstractMethodCalledWith('redrawStroke', [stroke, shouldFinish]);
 	}
 
 	moveImageDataToNewPosition() {
@@ -212,7 +231,7 @@ export default class AbstractDrawer extends Component {
 		}
 	}
 
-	redrawEverything(shouldFinish) {
+	redrawEverything(shouldFinish: boolean) {
 		const that = this;
 		this.resetCanvas();
 		forEach(this.props.strokes, (stroke) => {

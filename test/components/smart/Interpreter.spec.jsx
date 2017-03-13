@@ -149,7 +149,7 @@ describe('Interpreter', () => {
 		});
 	});
 
-	describe('searching sketches at a given point', () => {
+	describe.skip('searching sketches at a given point', () => {
 		it('finds one where the point is in the center', () => {
 			const interpreter = renderWithProps({
 				sketches: [{

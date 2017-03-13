@@ -1,3 +1,4 @@
+// @flow
 import React, { PropTypes, Component } from 'react';
 import { forEach } from 'lodash';
 
@@ -19,6 +20,12 @@ export default Wrapped => class extends Component {
 		},
 		strokes: [],
 	};
+
+	wrappedComponent: Component
+
+	state: {
+		observer: MutationObserver,
+	}
 
 	observe() {
 		const observer = new MutationObserver(this.onMutations.bind(this));
@@ -47,11 +54,11 @@ export default Wrapped => class extends Component {
 		this.ignore();
 	}
 
-	boundsUpdatedWith(fromX, fromY, toX, toY) {
+	boundsUpdatedWith(fromX: number, fromY: number, toX: number, toY: number) {
 		this.props.performAction('updatePosition', this.props.strokes, fromX, fromY, toX, toY);
 	}
 
-	onMutations(mutationRecords) {
+	onMutations(mutationRecords: Array<MutationRecord>) {
 		if (this.props.observeMutations) {
 			forEach(mutationRecords, (mutationRecord) => {
 				if (mutationRecord.attributeName === 'style') {

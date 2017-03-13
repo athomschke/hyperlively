@@ -1,13 +1,21 @@
+// @flow
 import React, { Component } from 'react';
 
 export default Wrapped => class extends Component {
 
-	constructor(props) {
+	constructor(props: Object) {
 		super(props);
 		this.state = {
 			cmdPressed: false,
+			returnPressed: false,
 			ctrlPressed: false,
 		};
+	}
+
+	state: {
+		cmdPressed: boolean,
+		returnPressed: boolean,
+		ctrlPressed: boolean,
 	}
 
 	componentDidMount() {
@@ -20,7 +28,7 @@ export default Wrapped => class extends Component {
 		window.removeEventListener('keyup', this.handleKeyUp.bind(this));
 	}
 
-	handleKeyDown(event) {
+	handleKeyDown(event: KeyboardEvent) {
 		if (event.metaKey && !event.ctrlKey) {
 			this.setState({ cmdPressed: true });
 		}
@@ -32,7 +40,7 @@ export default Wrapped => class extends Component {
 		}
 	}
 
-	handleKeyUp(event) {
+	handleKeyUp(event: KeyboardEvent) {
 		if (this.state.cmdPressed && (!event.metaKey || event.ctrlKey)) {
 			this.setState({ cmdPressed: false });
 		}

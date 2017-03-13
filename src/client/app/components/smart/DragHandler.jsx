@@ -1,4 +1,6 @@
+// @flow
 import React, { Component, PropTypes } from 'react';
+import { type SyntheticTouchEvent, type SyntheticMouseEvent } from 'flow-bin';
 
 export default Wrapped => class extends Component {
 
@@ -26,51 +28,55 @@ export default Wrapped => class extends Component {
 		this.onTouchEnd = this.onTouchEnd.bind(this);
 	}
 
+	state: {
+		mousePressed: boolean,
+	}
+
 	componentDidMount() {
 		this.state = {
 			mousePressed: false,
 		};
 	}
 
-	onTouchStart(evt) {
+	onTouchStart(evt: SyntheticTouchEvent) {
 		evt.persist();
 		return this.onPointerDown(evt.changedTouches[0]);
 	}
 
-	onTouchMove(evt) {
+	onTouchMove(evt: SyntheticTouchEvent) {
 		return this.onPointerMove(evt.changedTouches[0]);
 	}
 
-	onTouchEnd(evt) {
+	onTouchEnd(evt: SyntheticTouchEvent) {
 		return this.onPointerUp(evt.changedTouches[0]);
 	}
 
-	onMouseDown(evt) {
+	onMouseDown(evt: SyntheticMouseEvent) {
 		evt.persist();
 		this.onPointerDown(evt);
 	}
 
-	onMouseMove(evt) {
+	onMouseMove(evt: SyntheticMouseEvent) {
 		this.onPointerMove(evt);
 	}
 
-	onMouseUp(evt) {
+	onMouseUp(evt: SyntheticMouseEvent) {
 		this.onPointerUp(evt);
 	}
 
-	onPointerDown(evt) {
+	onPointerDown(evt: SyntheticMouseEvent | SyntheticTouchEvent) {
 		this.setState({
 			mousePressed: true,
 		}, this.props.onDragStart.bind(this, evt));
 	}
 
-	onPointerMove(evt) {
+	onPointerMove(evt: SyntheticMouseEvent | SyntheticTouchEvent) {
 		if (this.state.mousePressed) {
 			this.props.onDrag.call(this, evt);
 		}
 	}
 
-	onPointerUp(evt) {
+	onPointerUp(evt: SyntheticMouseEvent | SyntheticTouchEvent) {
 		if (this.state.mousePressed) {
 			this.props.onDragEnd.call(this, evt);
 			this.setState({

@@ -2,12 +2,12 @@ import { togglePloma, updateThreshold, toggleHandwritingRecognition, setObserveM
 
 describe('actions', () => {
 	it('should create an action to toggle ploma', () => {
-		const bool = true;
+		const boolean = true;
 		const expectedAction = {
 			type: 'TOGGLE_PLOMA',
-			bool,
+			boolean,
 		};
-		expect(togglePloma(bool)).to.deep.equal(expectedAction);
+		expect(togglePloma(boolean)).to.deep.equal(expectedAction);
 	});
 
 	it('should create an action to update threshold', () => {
@@ -20,30 +20,30 @@ describe('actions', () => {
 	});
 
 	it('should create an action to toggle handwriting recognition', () => {
-		const bool = false;
+		const boolean = false;
 		const expectedAction = {
 			type: 'TOGGLE_HANDWRITING_RECOGNITION',
-			bool,
+			boolean,
 		};
-		expect(toggleHandwritingRecognition(bool)).to.deep.equal(expectedAction);
+		expect(toggleHandwritingRecognition(boolean)).to.deep.equal(expectedAction);
 	});
 
 	it('should create an action to toggle mutation observation', () => {
-		const bool = false;
+		const boolean = false;
 		const expectedAction = {
 			type: 'OBSERVE_MUTATIONS',
-			bool,
+			boolean,
 		};
-		expect(setObserveMutations(bool)).to.deep.equal(expectedAction);
+		expect(setObserveMutations(boolean)).to.deep.equal(expectedAction);
 	});
 
 	it('should create an action to set the scene index', () => {
-		const index = 1;
+		const number = 1;
 		const expectedAction = {
 			type: 'SET_SCENE_INDEX',
-			index,
+			number,
 		};
-		expect(setSceneIndex(index)).to.deep.equal(expectedAction);
+		expect(setSceneIndex(number)).to.deep.equal(expectedAction);
 	});
 
 	it('should create an action to jump to point 3 in time on a scene index', () => {

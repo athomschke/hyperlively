@@ -1,7 +1,9 @@
+// @flow
 import React, { Component, PropTypes } from 'react';
 import { map, last, filter } from 'lodash';
 import { OFFSET } from 'constants/canvas';
 import { WHITE } from 'constants/drawing';
+import { type Stroke } from '../../typeDefinitions';
 
 const visibleStrokesInSketch = sketch => filter(sketch.strokes || [], stroke => !stroke.hidden);
 
@@ -23,7 +25,7 @@ export default Wrapped => class extends Component {
 		paperColor: WHITE,
 	}
 
-	renderCanvas(strokes, id, finished) {
+	renderCanvas(strokes: Array<Stroke>, id: string, finished: boolean) {
 		return (<Wrapped
 			{...this.props}
 			active={this.props.cmdPressed}

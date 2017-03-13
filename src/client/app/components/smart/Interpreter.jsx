@@ -1,6 +1,9 @@
+// @flow
 import React, { Component, PropTypes } from 'react';
 import { map, flatten, filter, last, initial } from 'lodash';
 import ActionChooser from './ActionChooser';
+import { type TextCandidate, type ShapeCandidate, type Point } from '../../typeDefinitions';
+import { type SyntheticMouseEvent } from 'flow-bin';
 
 export default Wrapped => class extends Component {
 
@@ -14,13 +17,22 @@ export default Wrapped => class extends Component {
 		sketches: [],
 	};
 
+	state: {
+		interpretation: ?{
+			candidate: {
+				shape: ?ShapeCandidate,
+				text: ? TextCandidate,
+			}
+		}
+	}
+
 	constructor() {
 		super();
 		this.onTextDetected = this.onTextDetected.bind(this);
 		this.onShapeDetected = this.onShapeDetected.bind(this);
 	}
 
-	onTextDetected(candidates) {
+	onTextDetected(candidates: Array<TextCandidate>) {
 		const floatParsedCandidates = candidates.map((candidate) => {
 			const float = parseFloat(candidate.label);
 			if (isNaN(float)) {
@@ -33,7 +45,7 @@ export default Wrapped => class extends Component {
 		this.chooseAction(floatParsedCandidates[0], 'text');
 	}
 
-	findSketchesAtPoint(point) {
+	findSketchesAtPoint(point: Point) {
 		// initial removes the arrow itself
 		const sketchesToMove = filter(initial(this.props.sketches), (sketch) => {
 			const points = flatten(map(filter(sketch.strokes, stroke => !stroke.hidden), 'points'));
@@ -48,19 +60,22 @@ export default Wrapped => class extends Component {
 		return sketchesToMove;
 	}
 
-	chooseAction(candidate, type) {
+	chooseAction(candidate: TextCandidate | ShapeCandidate, type: string) {
 		const interpretation = (this.state && this.state.interpretation) || {
-			candidate: {},
+			candidate: {
+				text: null,
+				shape: null,
+			},
 		};
 		interpretation.candidate[type] = candidate;
 		this.setState({ interpretation });
 	}
 
-	onShapeDetected(candidates) {
+	onShapeDetected(candidates: Array<ShapeCandidate>) {
 		this.chooseAction(candidates[0], 'shape');
 	}
 
-	performAction(event, item, values) {
+	performAction(event: SyntheticMouseEvent, item: string, values: Array<number | string>) {
 		this.props.performAction.apply(this, [item].concat(values));
 		this.deactivateInterpretation();
 	}
@@ -82,13 +97,20 @@ export default Wrapped => class extends Component {
 			onActionChoose: this.performAction.bind(this),
 			selectedStrokes: this.getSelectedStrokes(),
 		};
+		const lastStrokesProps = {};
 		if (this.props.sketches.length && last(this.props.sketches).strokes) {
-			actionChooserProps.lastStrokes = last(this.props.sketches).strokes;
+			lastStrokesProps.lastStrokes = last(this.props.sketches).strokes;
 		}
+		const jsonTreeProps = {};
 		if (this.state && this.state.interpretation && this.state.interpretation.candidate) {
-			actionChooserProps.jsonTree = this.state.interpretation.candidate;
+			jsonTreeProps.jsonTree = this.state.interpretation.candidate;
 		}
-		return <ActionChooser {...this.props} {...actionChooserProps} />;
+		return (<ActionChooser
+			{...this.props}
+			{...actionChooserProps}
+			{...lastStrokesProps}
+			{...jsonTreeProps}
+		/>);
 	}
 
 	render() {

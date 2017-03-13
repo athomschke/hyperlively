@@ -1,3 +1,4 @@
+// @flow
 import React, { Component, PropTypes } from 'react';
 import { cloneDeep } from 'lodash';
 import { offsetToOrigin, getOffsetForTime } from 'helpers/sketchFitting';

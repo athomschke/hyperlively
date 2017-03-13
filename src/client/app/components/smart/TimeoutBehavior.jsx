@@ -1,3 +1,4 @@
+// @flow
 import React, { Component, PropTypes } from 'react';
 
 let runningTimeout;
@@ -30,13 +31,17 @@ export default Wrapped => class extends Component {
 		this.beNotActive = this.beNotActive.bind(this);
 	}
 
+	state: {
+		disableFunction: ?(boolean) => void,
+	}
+
 	componentDidMount() {
 		this.state = {
 			disableFunction: null,
 		};
 	}
 
-	resetState(boundDisableFunction) {
+	resetState(boundDisableFunction: ?(boolean) => void) {
 		if (boundDisableFunction) {
 			boundDisableFunction(true);
 		}
@@ -46,7 +51,7 @@ export default Wrapped => class extends Component {
 		});
 	}
 
-	beActive(newValue) {
+	beActive(newValue: number) {
 		if (!this.props.disabled && newValue !== this.props.value) {
 			let disableFunction = this.state.disableFunction;
 			if (this.props.callbackEnabled && !disableFunction) {

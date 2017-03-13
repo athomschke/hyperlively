@@ -1,3 +1,4 @@
+// @flow
 import React, { Component, PropTypes } from 'react';
 
 export default possibleComponents => class extends Component {

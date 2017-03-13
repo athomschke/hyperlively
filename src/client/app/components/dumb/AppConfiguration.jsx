@@ -1,3 +1,4 @@
+// @flow
 import React, { PropTypes, Component } from 'react';
 import { configuration } from 'stylesheets/components/dumb/AppConfiguration.scss';
 

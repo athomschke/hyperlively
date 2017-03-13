@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import Color from 'color';
 import { BallpointPen } from 'ploma';
@@ -5,6 +6,7 @@ import { last, forEach, head, tail, first } from 'lodash';
 import lastPointInStrokes from 'helpers/lastPointInStrokes';
 import { PRESSURE, DEFAULT_PEN_COLOR, SELECTED_PEN_COLOR } from 'constants/drawing';
 import AbstractDrawer from './AbstractDrawer';
+import { type Stroke, type Point } from '../../typeDefinitions';
 
 export default class PlomaDrawer extends AbstractDrawer {
 
@@ -16,6 +18,13 @@ export default class PlomaDrawer extends AbstractDrawer {
 		uniqueCanvasFactor: 1,
 	});
 
+	state: {
+		ballpointPen: Object,
+		strokes: Array<Stroke>,
+		width: number,
+		height: number
+	}
+
 	componentDidMount() {
 		const plomaConfig = {
 			uniqueCanvasFactor: this.props.uniqueCanvasFactor,
@@ -23,23 +32,25 @@ export default class PlomaDrawer extends AbstractDrawer {
 		};
 		const ballpointPen = new BallpointPen(this.canvas, plomaConfig);
 		ballpointPen.setSample(1);
-		this.state = { ballpointPen };
+		this.state = {
+			ballpointPen,
+		};
 		super.componentDidMount();
 	}
 
-	onStrokeStarted(strokes) {
+	onStrokeStarted(strokes: Array<Stroke>) {
 		this.startStrokeAt(lastPointInStrokes(strokes), first(strokes).color);
 	}
 
-	onStrokesExtended(strokes) {
+	onStrokesExtended(strokes: Array<Stroke>) {
 		this.extendStrokeAt(lastPointInStrokes(strokes));
 	}
 
-	onStrokesEnded(strokes) {
+	onStrokesEnded(strokes: Array<Stroke>) {
 		this.endStrokeAt(lastPointInStrokes(strokes));
 	}
 
-	startStrokeAt(point, aColor) {
+	startStrokeAt(point: Point, aColor: string) {
 		const parsedColor = Color(aColor || DEFAULT_PEN_COLOR).color;
 		const plomaFormattedColor = {
 			r: parsedColor[0],
@@ -50,11 +61,11 @@ export default class PlomaDrawer extends AbstractDrawer {
 		this.state.ballpointPen.beginStroke(point.x, point.y, PRESSURE);
 	}
 
-	extendStrokeAt(point) {
+	extendStrokeAt(point: Point) {
 		this.state.ballpointPen.extendStroke(point.x, point.y, PRESSURE);
 	}
 
-	endStrokeAt(point) {
+	endStrokeAt(point: Point) {
 		this.state.ballpointPen.endStroke(point.x, point.y, PRESSURE);
 	}
 
@@ -62,7 +73,7 @@ export default class PlomaDrawer extends AbstractDrawer {
 		this.state.ballpointPen.clear();
 	}
 
-	redrawStroke(stroke, shouldFinish) {
+	redrawStroke(stroke: Stroke, shouldFinish: boolean) {
 		const that = this;
 		const points = stroke.points;
 		if (points.length > 1) {

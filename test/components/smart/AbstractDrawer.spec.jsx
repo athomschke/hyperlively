@@ -48,7 +48,7 @@ describe('AbstractDrawer', () => {
 		});
 
 		it('cannot trigger an abstract method on Abstract Drawer implementation', () => {
-			expect(AbstractDrawer.prototype.onAbstractMethodCalled.bind(AbstractDrawer))
+			expect(AbstractDrawer.prototype.onAbstractMethodCalledWith.bind(AbstractDrawer, []))
 				.to.throw(ERROR_DIRECT_ABSTRACT_CALL);
 		});
 

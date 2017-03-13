@@ -1,3 +1,4 @@
+// @flow
 import React, { Component, PropTypes } from 'react';
 import Slider from 'rc-slider';
 import { map, flatten } from 'lodash';

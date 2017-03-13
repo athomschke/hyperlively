@@ -1,5 +1,7 @@
+// @flow
 import React, { Component, PropTypes } from 'react';
 import { find, reduce } from 'lodash';
+import { type Stroke } from '../../typeDefinitions';
 
 const joinBounds = (bounds1, bounds2) => ({
 	left: Math.min(bounds1.left, bounds2.left),
@@ -38,7 +40,7 @@ export default Wrapped => class extends Component {
 		offset: 0,
 	}
 
-	getBoundsForLimits(limits) {
+	getBoundsForLimits(limits: { left: number, top: number, bottom: number, right: number }) {
 		return {
 			x: limits.left - this.props.offset,
 			y: limits.top - this.props.offset,
@@ -47,11 +49,11 @@ export default Wrapped => class extends Component {
 		};
 	}
 
-	getContentTransform(strokes) {
+	getContentTransform(strokes: Array<Stroke>) {
 		return this.getBoundsForLimits(getLimitsForStrokes(strokes));
 	}
 
-	getCanvasTransform(strokes, finished) {
+	getCanvasTransform(strokes: Array<Stroke>, finished: boolean) {
 		return finished ?
 			this.getContentTransform(strokes) :
 			{ x: 0, y: 0, width: window.innerWidth, height: window.innerHeight };

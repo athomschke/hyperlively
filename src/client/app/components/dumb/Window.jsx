@@ -1,3 +1,4 @@
+// @flow
 import React, { Component, PropTypes } from 'react';
 
 const Window = class Window extends Component {

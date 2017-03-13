@@ -1,3 +1,4 @@
+// @flow
 import React, { Component, PropTypes } from 'react';
 import Modal from 'react-modal';
 import { TreeMenu } from 'react-tree-menu';
@@ -14,6 +15,11 @@ const getSignatureFromFunction = aFunction =>
 
 const getActions = () => Object.keys(actions).map(actionName =>
 	getSignatureFromFunction(actions[actionName]));
+
+type State = {
+	checkedPaths: Array<Array<string>>,
+	collapsedPaths: Array<Array<string>>,
+};
 
 export default class ActionChooser extends Component {
 
@@ -33,6 +39,8 @@ export default class ActionChooser extends Component {
 		selectedStrokes: [],
 	}
 
+	state: State;
+
 	componentDidMount() {
 		this.state = {
 			checkedPaths: [],
@@ -40,7 +48,7 @@ export default class ActionChooser extends Component {
 		};
 	}
 
-	onTreeNodeCheckChange(path) {
+	onTreeNodeCheckChange(path: Array<number>) {
 		const pathToProperty = getPathToProperty(path, this.getFormattedData());
 		const checkedIndex = findArraysIndex(this.state.checkedPaths, pathToProperty);
 		if (checkedIndex >= 0) {
@@ -57,7 +65,7 @@ export default class ActionChooser extends Component {
 		this.props.onCheckChange();
 	}
 
-	onTreeNodeCollapseChange(path) {
+	onTreeNodeCollapseChange(path: Array<number>) {
 		const pathToProperty = getPathToProperty(path, this.getFormattedData());
 		const collapsedIndex = findArraysIndex(this.state.collapsedPaths, pathToProperty);
 		if (collapsedIndex >= 0) {
@@ -73,10 +81,9 @@ export default class ActionChooser extends Component {
 		}
 	}
 
-	onActionChoose(event, signature) {
-		const rawData = {
-			lastStrokes: this.props.lastStrokes,
-		};
+	onActionChoose(event: Object, signature: string) {
+		const rawData = {};
+		rawData.lastStrokes = this.props.lastStrokes;
 		if (this.props.selectedStrokes.length > 0) {
 			rawData.selectedStrokes = this.props.selectedStrokes;
 		}

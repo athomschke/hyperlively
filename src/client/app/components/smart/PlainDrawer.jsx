@@ -1,8 +1,10 @@
+// @flow
 import Color from 'color';
 import { without, last, head, tail, reduce, cloneDeep, first } from 'lodash';
 import lastPointInStrokes from 'helpers/lastPointInStrokes';
 import { DEFAULT_PEN_COLOR, SELECTED_PEN_COLOR } from 'constants/drawing';
 import AbstractDrawer from './AbstractDrawer';
+import { type Stroke, type Point } from '../../typeDefinitions';
 
 const secondToLastPointInStrokes = (strokes) => {
 	const points = last(strokes).points;
@@ -27,23 +29,23 @@ export default class PlainDrawer extends AbstractDrawer {
 		}
 	}
 
-	onStrokeStarted(strokes) {
+	onStrokeStarted(strokes: Array<Stroke>) {
 		this.startStrokeAt(lastPointInStrokes(strokes), first(strokes).color);
 	}
 
-	onStrokesExtended(strokes) {
+	onStrokesExtended(strokes: Array<Stroke>) {
 		this.extendStrokeAt(lastPointInStrokes(strokes), secondToLastPointInStrokes(strokes));
 	}
 
-	onStrokesEnded(strokes) {
+	onStrokesEnded(strokes: Array<Stroke>) {
 		this.endStrokeAt(lastPointInStrokes(strokes), secondToLastPointInStrokes(strokes));
 	}
 
-	startStrokeAt(aPoint, aColor) {
+	startStrokeAt(aPoint: Point, aColor: string) {
 		this.canvas.getContext('2d').strokeStyle = `${(new Color(aColor || DEFAULT_PEN_COLOR)).hex()}`;
 	}
 
-	extendStrokeAt(point, optPointBefore) {
+	extendStrokeAt(point: Point, optPointBefore: Point) {
 		if (optPointBefore && (point !== optPointBefore)) {
 			const context = this.canvas.getContext('2d');
 			context.beginPath();
@@ -54,7 +56,7 @@ export default class PlainDrawer extends AbstractDrawer {
 		}
 	}
 
-	endStrokeAt(point, optPointBefore) {
+	endStrokeAt(point: Point, optPointBefore: Point) {
 		this.extendStrokeAt(point, optPointBefore);
 	}
 
@@ -62,7 +64,7 @@ export default class PlainDrawer extends AbstractDrawer {
 		this.canvas.getContext('2d').clearRect(0, 0, this.canvas.width, this.canvas.height);
 	}
 
-	redrawStroke(stroke, shouldFinish) {
+	redrawStroke(stroke: Stroke, shouldFinish: boolean) {
 		const that = this;
 		const points = stroke.points;
 		if (points.length > 1) {

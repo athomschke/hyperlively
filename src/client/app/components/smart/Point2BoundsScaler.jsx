@@ -1,3 +1,4 @@
+// @flow
 import React, { Component, PropTypes } from 'react';
 import { getFittedWidth, scaleToTime } from 'helpers/scalingPointsToBounds';
 
