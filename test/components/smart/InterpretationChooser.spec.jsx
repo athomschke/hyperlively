@@ -10,8 +10,6 @@ import ParameterChooser from 'components/smart/ParameterChooser';
 const renderWithProps = props => TestUtils.renderIntoDocument(<InterpretationChooser {...props} />);
 const shallowWithProps = props => shallow(<InterpretationChooser {...props} />);
 
-const exampleChecks = [['a', 'a2'], ['b']];
-
 const exampleParameters = ['a2', 'b'];
 
 const exampleTree = {
@@ -74,14 +72,32 @@ describe('Interpretation Chooser', () => {
 	});
 
 	describe('Choosing an action', () => {
-		it('performs the action', () => {
+		it('stores the action', () => {
 			const interpretationChooser = shallowWithProps({
 				isOpen: true,
 			});
 			interpretationChooser.instance().componentDidMount();
+			interpretationChooser.instance().onActionChoose(['actionName']);
+			expect(interpretationChooser.instance().state.functionNames.length).to.equal(1);
+		});
+
+		it('Accepting the interpretation', () => {
+			let functionName;
+			let parameters;
+			const interpretationChooser = shallowWithProps({
+				isOpen: true,
+				onInterpretationChoose: (passedFunctionName, passedParameters) => {
+					functionName = passedFunctionName;
+					parameters = passedParameters;
+				},
+			});
+			interpretationChooser.instance().componentDidMount();
 			sinon.spy(interpretationChooser.instance(), 'onInterpretationChoose');
-			interpretationChooser.instance().onActionChoose({}, 'actionName');
-			expect(interpretationChooser.instance().onInterpretationChoose.callCount).to.equal(1);
+			interpretationChooser.instance().onActionChoose(['actionName']);
+			interpretationChooser.instance().onParameterChoose([['a']]);
+			interpretationChooser.instance().onInterpretationChoose();
+			expect(functionName).to.equal('actionName');
+			expect(parameters).to.deep.equal([['a']]);
 		});
 
 		it('selects checked values from json tree and passes them in an array', () => {
@@ -89,7 +105,7 @@ describe('Interpretation Chooser', () => {
 			const interpretationChooser = renderWithProps({
 				isOpen: true,
 				jsonTree: exampleTree,
-				onInterpretationChoose: (event, name, values) => {
+				onInterpretationChoose: (name, values) => {
 					passedValues = values;
 				},
 			});
@@ -108,7 +124,7 @@ describe('Interpretation Chooser', () => {
 				isOpen: true,
 				jsonTree: exampleTree,
 				selectedStrokes: exampleSelectedStrokes,
-				onInterpretationChoose: (event, name, values) => {
+				onInterpretationChoose: (name, values) => {
 					passedValues = values;
 				},
 			});

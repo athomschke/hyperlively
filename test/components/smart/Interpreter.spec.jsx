@@ -220,7 +220,7 @@ describe('Interpreter', () => {
 			interpreter.setState({
 				interpretation: {},
 			});
-			interpreter.performAction({}, 'foobarRun');
+			interpreter.performAction('foobarRun');
 			expect(performedActionName).to.equal('foobarRun');
 		});
 

@@ -75,7 +75,7 @@ export default Wrapped => class extends Component {
 		this.chooseAction(candidates[0], 'shape');
 	}
 
-	performAction(event: SyntheticMouseEvent, item: string, values: Array<number | string>) {
+	performAction(item: string, values: Array<number | string>) {
 		this.props.performAction.apply(this, [item].concat(values));
 		this.deactivateInterpretation();
 	}

@@ -1,19 +1,27 @@
 // @flow
 import React, { Component } from 'react';
-import { SyntheticMouseEvent } from 'flow-bin';
+import { forEach, map } from 'lodash';
 import actions from 'actions/actions';
-import HoverList from './HoverList';
+import JsonPropertyChooser from './JsonPropertyChooser';
 
-const getFunctionNameFromSignature = signature => signature.split('(')[0];
+const getFunctionNameFromSignatures = signatures => map(signatures, signature => signature.split('(')[0]);
 
 const getSignatureFromFunction = aFunction =>
 		aFunction.toString().split(' {')[0].split('function ')[1];
 
-const getActions = () => Object.keys(actions).map(actionName =>
+const getActions = () => {
+	const jsonObject = {};
+	forEach(Object.keys(actions), (actionName, index) => {
+		jsonObject[index] = getSignatureFromFunction(actions[actionName]);
+	});
+	return jsonObject;
+};
+
+Object.keys(actions).map(actionName =>
 	getSignatureFromFunction(actions[actionName]));
 
 type Props = {
-	onActionChoose: (MouseEvent, string) => void,
+	onActionChoose: (string) => void,
 }
 
 export default class InterpretationChooser extends Component {
@@ -22,20 +30,20 @@ export default class InterpretationChooser extends Component {
 		onActionChoose: () => {},
 	}
 
-	onActionChoose(event: MouseEvent, signature: string) {
-		this.props.onActionChoose(event, getFunctionNameFromSignature(signature));
+	onActionChoose(signatures: Array<string>) {
+		this.props.onActionChoose(getFunctionNameFromSignatures(signatures));
 	}
 
 	props: Props
 
 	render() {
 		return (
-			<HoverList
+			<JsonPropertyChooser
 				{...this.props}
-				onItemClick={(event: SyntheticMouseEvent, name: string) => {
-					this.onActionChoose(event, name);
+				onParameterChoose={(parameters) => {
+					this.onActionChoose(parameters);
 				}}
-				items={getActions()}
+				jsonTree={getActions()}
 			/>);
 	}
 
