@@ -94,7 +94,7 @@ export default Wrapped => class extends Component {
 		const actionChooserProps = {
 			isOpen: !!(this.state && this.state.interpretation),
 			onRequestClose: this.deactivateInterpretation.bind(this),
-			onActionChoose: this.performAction.bind(this),
+			onInterpretationChoose: this.performAction.bind(this),
 			selectedStrokes: this.getSelectedStrokes(),
 		};
 		const lastStrokesProps = {};
