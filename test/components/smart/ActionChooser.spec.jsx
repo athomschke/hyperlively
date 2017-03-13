@@ -5,12 +5,12 @@ import { forEach, map, flatten, filter } from 'lodash';
 import Modal from 'react-modal';
 import { shallow } from 'enzyme';
 import actions from 'actions/actions';
-import ActionChooser from 'components/smart/ActionChooser';
+import InterpretationChooser from 'components/smart/InterpretationChooser';
 import HoverList from 'components/smart/HoverList';
 import { getPathToProperty, formatObject } from 'helpers/choosingActions';
 
-const renderWithProps = props => TestUtils.renderIntoDocument(<ActionChooser {...props} />);
-const shallowWithProps = props => shallow(<ActionChooser {...props} />);
+const renderWithProps = props => TestUtils.renderIntoDocument(<InterpretationChooser {...props} />);
+const shallowWithProps = props => shallow(<InterpretationChooser {...props} />);
 
 const exampleChecks = [['a', 'a2'], ['b']];
 

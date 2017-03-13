@@ -1,7 +1,7 @@
 // @flow
 import React, { Component, PropTypes } from 'react';
 import { map, flatten, filter, last, initial } from 'lodash';
-import ActionChooser from './ActionChooser';
+import InterpretationChooser from './InterpretationChooser';
 import { type TextCandidate, type ShapeCandidate, type Point } from '../../typeDefinitions';
 import { type SyntheticMouseEvent } from 'flow-bin';
 
@@ -90,7 +90,7 @@ export default Wrapped => class extends Component {
 		return filter(flatten(map(this.props.sketches, 'strokes')), 'selected');
 	}
 
-	renderActionChooser() {
+	renderInterpretationChooser() {
 		const actionChooserProps = {
 			isOpen: !!(this.state && this.state.interpretation),
 			onRequestClose: this.deactivateInterpretation.bind(this),
@@ -105,7 +105,7 @@ export default Wrapped => class extends Component {
 		if (this.state && this.state.interpretation && this.state.interpretation.candidate) {
 			jsonTreeProps.jsonTree = this.state.interpretation.candidate;
 		}
-		return (<ActionChooser
+		return (<InterpretationChooser
 			{...this.props}
 			{...actionChooserProps}
 			{...lastStrokesProps}
@@ -120,7 +120,7 @@ export default Wrapped => class extends Component {
 				onTextDetected={this.onTextDetected}
 				onShapeDetected={this.onShapeDetected}
 			/>
-			{this.renderActionChooser()}
+			{this.renderInterpretationChooser()}
 		</div>);
 	}
 };

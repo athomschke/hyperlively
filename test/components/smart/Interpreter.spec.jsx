@@ -2,7 +2,7 @@ import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import { tail, forEach } from 'lodash';
 import Interpreter from 'components/smart/Interpreter';
-import ActionChooser from 'components/smart/ActionChooser';
+import InterpretationChooser from 'components/smart/InterpretationChooser';
 import recognizedShape from './data/recognizedShape.json';
 
 const shapeCandidateFactory = (type) => {
@@ -126,7 +126,7 @@ describe('Interpreter', () => {
 			list.setState({
 				interpretation: {},
 			});
-			const actionChooser = TestUtils.scryRenderedComponentsWithType(list, ActionChooser)[0];
+			const actionChooser = TestUtils.scryRenderedComponentsWithType(list, InterpretationChooser)[0];
 			expect(actionChooser.props.isOpen).to.equal(true);
 		});
 	});

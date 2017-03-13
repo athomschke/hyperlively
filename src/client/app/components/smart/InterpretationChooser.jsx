@@ -21,7 +21,7 @@ type State = {
 	collapsedPaths: Array<Array<string>>,
 };
 
-export default class ActionChooser extends Component {
+export default class InterpretationChooser extends Component {
 
 	static propTypes = {
 		onActionChoose: PropTypes.func,
