@@ -126,7 +126,8 @@ describe('Interpreter', () => {
 			list.setState({
 				interpretation: {},
 			});
-			const actionChooser = TestUtils.scryRenderedComponentsWithType(list, InterpretationChooser)[0];
+			const actionChooser = TestUtils.scryRenderedComponentsWithType(
+					list, InterpretationChooser)[0];
 			expect(actionChooser.props.isOpen).to.equal(true);
 		});
 	});
@@ -149,7 +150,7 @@ describe('Interpreter', () => {
 		});
 	});
 
-	describe.skip('searching sketches at a given point', () => {
+	describe('searching sketches at a given point', () => {
 		it('finds one where the point is in the center', () => {
 			const interpreter = renderWithProps({
 				sketches: [{
