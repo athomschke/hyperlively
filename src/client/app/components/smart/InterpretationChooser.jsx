@@ -7,7 +7,10 @@ import ParameterChooser from './ParameterChooser';
 
 type State = {
 	parameters: Array<Array<string>>,
-	functionNames: Array<string>,
+	functions: Array<{
+		name: string,
+		parameters: number,
+	}>
 };
 
 export default class InterpretationChooser extends Component {
@@ -32,12 +35,15 @@ export default class InterpretationChooser extends Component {
 	componentDidMount() {
 		this.state = {
 			parameters: [],
-			functionNames: [],
+			functions: [],
 		};
 	}
 
-	onActionChoose(functionNames: Array<string>) {
-		this.setState({ functionNames });
+	onActionChoose(functions: Array<{
+		name: string,
+		parameters: number,
+	}>) {
+		this.setState({ functions });
 	}
 
 	onParameterChoose(parameters: Array<Array<string>>) {
@@ -45,7 +51,7 @@ export default class InterpretationChooser extends Component {
 	}
 
 	onInterpretationChoose() {
-		this.props.onInterpretationChoose(this.state.functionNames[0], this.state.parameters);
+		this.props.onInterpretationChoose(this.state.functions[0].name, this.state.parameters);
 	}
 
 	render() {

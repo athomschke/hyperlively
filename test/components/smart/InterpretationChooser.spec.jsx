@@ -78,7 +78,7 @@ describe('Interpretation Chooser', () => {
 			});
 			interpretationChooser.instance().componentDidMount();
 			interpretationChooser.instance().onActionChoose(['actionName']);
-			expect(interpretationChooser.instance().state.functionNames.length).to.equal(1);
+			expect(interpretationChooser.instance().state.functions.length).to.equal(1);
 		});
 
 		it('Accepting the interpretation', () => {
@@ -93,7 +93,10 @@ describe('Interpretation Chooser', () => {
 			});
 			interpretationChooser.instance().componentDidMount();
 			sinon.spy(interpretationChooser.instance(), 'onInterpretationChoose');
-			interpretationChooser.instance().onActionChoose(['actionName']);
+			interpretationChooser.instance().onActionChoose([{
+				name: 'actionName',
+				parameters: 3,
+			}]);
 			interpretationChooser.instance().onParameterChoose([['a']]);
 			interpretationChooser.instance().onInterpretationChoose();
 			expect(functionName).to.equal('actionName');
@@ -111,8 +114,12 @@ describe('Interpretation Chooser', () => {
 			});
 			interpretationChooser.setState({
 				parameters: exampleParameters,
+				functions: [{
+					name: 'a2',
+					parameters: 2,
+				}],
 			});
-			interpretationChooser.onInterpretationChoose({}, 'updateThreshold');
+			interpretationChooser.onInterpretationChoose();
 			expect(passedValues.length).to.equal(2);
 			expect(passedValues[0]).to.equal('a2');
 			expect(passedValues[1]).to.equal('b');
@@ -130,8 +137,12 @@ describe('Interpretation Chooser', () => {
 			});
 			interpretationChooser.setState({
 				parameters: ['e'],
+				functions: [{
+					name: 'updateThreshold',
+					parameters: 1,
+				}],
 			});
-			interpretationChooser.onInterpretationChoose({}, 'updateThreshold');
+			interpretationChooser.onInterpretationChoose();
 			expect(passedValues.length).to.equal(1);
 			expect(passedValues[0]).to.equal('e');
 		});

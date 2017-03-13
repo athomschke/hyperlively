@@ -4,7 +4,10 @@ import { forEach, map } from 'lodash';
 import actions from 'actions/actions';
 import JsonPropertyChooser from './JsonPropertyChooser';
 
-const getFunctionNameFromSignatures = signatures => map(signatures, signature => signature.split('(')[0]);
+const formattedSignaturs = signatures => map(signatures, signature => ({
+	name: signature.split('(')[0],
+	parameters: signature.split('(')[1].split(')')[0].split(',').length,
+}));
 
 const getSignatureFromFunction = aFunction =>
 		aFunction.toString().split(' {')[0].split('function ')[1];
@@ -31,7 +34,7 @@ export default class InterpretationChooser extends Component {
 	}
 
 	onActionChoose(signatures: Array<string>) {
-		this.props.onActionChoose(getFunctionNameFromSignatures(signatures));
+		this.props.onActionChoose(formattedSignaturs(signatures));
 	}
 
 	props: Props
