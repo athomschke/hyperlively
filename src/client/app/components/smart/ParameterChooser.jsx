@@ -12,16 +12,12 @@ type State = {
 export default class ParameterChooser extends Component {
 
 	static propTypes = {
-		jsonTree: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.object, PropTypes.string])),
-		lastStrokes: PropTypes.arrayOf(PropTypes.object),
-		selectedStrokes: PropTypes.arrayOf(PropTypes.object),
+		jsonTree: PropTypes.object,
 		onParameterChoose: PropTypes.func,
 	};
 
 	static defaultProps = {
 		jsonTree: {},
-		lastStrokes: [],
-		selectedStrokes: [],
 		onParameterChoose: () => {},
 	}
 
@@ -46,10 +42,6 @@ export default class ParameterChooser extends Component {
 			checkedPaths = this.state.checkedPaths.concat([pathToProperty]);
 		}
 		const rawData = {};
-		rawData.lastStrokes = this.props.lastStrokes;
-		if (this.props.selectedStrokes.length > 0) {
-			rawData.selectedStrokes = this.props.selectedStrokes;
-		}
 		Object.assign(rawData, this.props.jsonTree);
 		const values = map(checkedPaths, checkedPath =>
 			reduce(checkedPath, (value, key) => value[key], rawData));
@@ -77,10 +69,6 @@ export default class ParameterChooser extends Component {
 
 	getFormattedData() {
 		const rawData = cloneDeep(this.props.jsonTree);
-		rawData.lastStrokes = this.props.lastStrokes;
-		if (this.props.selectedStrokes.length > 0) {
-			rawData.selectedStrokes = this.props.selectedStrokes;
-		}
 		return formatObject(
 			rawData,
 			this.state && this.state.checkedPaths,

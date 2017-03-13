@@ -84,9 +84,11 @@ describe('Parameter Chooser', () => {
 		beforeEach(() => {
 			parameterChooser = shallowWithProps({
 				isOpen: true,
-				jsonTree: exampleTree,
-				lastStrokes: exampleLastStrokes,
-				selectedStrokes: exampleSelectedStrokes,
+				jsonTree: Object.assign({}, exampleTree, {
+					lastStrokes: exampleLastStrokes,
+				}, {
+					selectedStrokes: exampleSelectedStrokes,
+				}),
 			});
 		});
 
@@ -215,8 +217,9 @@ describe('Parameter Chooser', () => {
 		it('calls the callback with it', () => {
 			let parameters;
 			const parameterChooser = renderWithProps({
-				jsonTree: exampleTree,
-				selectedStrokes: exampleSelectedStrokes,
+				jsonTree: Object.assign({}, exampleTree, {
+					selectedStrokes: exampleSelectedStrokes,
+				}),
 				onParameterChoose: (params) => {
 					parameters = params;
 				},
@@ -224,7 +227,7 @@ describe('Parameter Chooser', () => {
 			const checkbox = TestUtils.scryRenderedDOMComponentsWithClass(parameterChooser, 'tree-view-node-checkbox')[6];
 			TestUtils.Simulate.click(checkbox);
 			expect(parameterChooser.state.checkedPaths[0][0]).to.equal('selectedStrokes');
-			expect(parameters[0][0]).to.deep.equal({ e: 'e' });
+			expect(parameters[0]).to.deep.equal({ e: 'e' });
 		});
 	});
 });

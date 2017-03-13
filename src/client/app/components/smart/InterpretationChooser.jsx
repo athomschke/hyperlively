@@ -14,10 +14,16 @@ export default class InterpretationChooser extends Component {
 
 	static propTypes = {
 		onInterpretationChoose: PropTypes.func,
+		lastStrokes: PropTypes.arrayOf(PropTypes.object),
+		selectedStrokes: PropTypes.arrayOf(PropTypes.object),
+		jsonTree: PropTypes.object,
 	};
 
 	static defaultProps = {
 		onInterpretationChoose: () => {},
+		lastStrokes: [],
+		selectedStrokes: [],
+		jsonTree: {},
 	}
 
 	constructor() {
@@ -46,6 +52,17 @@ export default class InterpretationChooser extends Component {
 		this.props.onInterpretationChoose(event, functionName, this.state.parameters);
 	}
 
+	getJsonTree() {
+		const rawData = Object.assign({}, this.props.jsonTree);
+		if (this.props.lastStrokes.length > 0) {
+			rawData.lastStrokes = this.props.lastStrokes;
+		}
+		if (this.props.selectedStrokes.length > 0) {
+			rawData.selectedStrokes = this.props.selectedStrokes;
+		}
+		return rawData;
+	}
+
 	render() {
 		return (
 			<Modal
@@ -59,6 +76,7 @@ export default class InterpretationChooser extends Component {
 				<ParameterChooser
 					{...this.props}
 					{...this.state}
+					jsonTree={this.getJsonTree()}
 					onParameterChoose={this.onParameterChoose}
 				/>
 			</Modal>);
