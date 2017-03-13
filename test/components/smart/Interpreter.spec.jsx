@@ -220,7 +220,10 @@ describe('Interpreter', () => {
 			interpreter.setState({
 				interpretation: {},
 			});
-			interpreter.performAction('foobarRun');
+			interpreter.performAction([{
+				name: 'foobarRun',
+				parameters: 2,
+			}], []);
 			expect(performedActionName).to.equal('foobarRun');
 		});
 

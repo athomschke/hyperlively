@@ -81,13 +81,13 @@ describe('Interpretation Chooser', () => {
 			expect(interpretationChooser.instance().state.functions.length).to.equal(1);
 		});
 
-		it('Accepting the interpretation', () => {
-			let functionName;
+		it('dispatches it with the right parameters', () => {
+			let functions;
 			let parameters;
 			const interpretationChooser = shallowWithProps({
 				isOpen: true,
-				onInterpretationChoose: (passedFunctionName, passedParameters) => {
-					functionName = passedFunctionName;
+				onInterpretationChoose: (passedFunctions, passedParameters) => {
+					functions = passedFunctions;
 					parameters = passedParameters;
 				},
 			});
@@ -99,7 +99,10 @@ describe('Interpretation Chooser', () => {
 			}]);
 			interpretationChooser.instance().onParameterChoose([['a']]);
 			interpretationChooser.instance().onInterpretationChoose();
-			expect(functionName).to.equal('actionName');
+			expect(functions).to.deep.equal([{
+				name: 'actionName',
+				parameters: 3,
+			}]);
 			expect(parameters).to.deep.equal([['a']]);
 		});
 
