@@ -1,7 +1,7 @@
 import TestUtils from 'react-addons-test-utils';
 import React, { PropTypes } from 'react';
 import AbstractDrawer from 'components/smart/AbstractDrawer';
-import { ERROR_CALL_SUPER_TO_ABSTRACT } from 'constants/errors';
+import { ERROR_CALL_SUPER_TO_ABSTRACT, ERROR_DIRECT_ABSTRACT_CALL } from 'constants/errors';
 
 class SpecificDrawer extends AbstractDrawer {
 
@@ -9,8 +9,9 @@ class SpecificDrawer extends AbstractDrawer {
 		overwriteFunctionCalled: PropTypes.func.isRequired,
 	}
 
-	onStrokeStarted() { this.props.overwriteFunctionCalled(); }
-	onStrokesExtended() { this.props.overwriteFunctionCalled(); }
+	onStrokesExtended(...args) {
+		AbstractDrawer.prototype.onStrokesExtended.call(this, ...args);
+	}
 	onStrokesEnded() { this.props.overwriteFunctionCalled(); }
 	startStrokeAt() { this.props.overwriteFunctionCalled(); }
 	extendStrokeAt() { this.props.overwriteFunctionCalled(); }
@@ -21,6 +22,36 @@ class SpecificDrawer extends AbstractDrawer {
 
 describe('AbstractDrawer', () => {
 	describe('calling an abstract function directly', () => {
+		it('throws an error for onStrokeStarted when not implemented in subclass', () => {
+			expect(SpecificDrawer.prototype.onStrokeStarted.bind(SpecificDrawer.prototype))
+				.to.throw(ERROR_CALL_SUPER_TO_ABSTRACT);
+		});
+
+		it('throws an error for onStrokesExtended when implemented in subclass but calling the superclass', () => {
+			const strokes = [{
+				points: [{ x: 10, y: 10 }, { x: 10, y: 11 }, { x: 10, y: 12 }, { x: 10, y: 13 }],
+			}];
+			const specificDrawer = TestUtils.renderIntoDocument(<SpecificDrawer
+				overwriteFunctionCalled={() => {}}
+				bounds={{
+					width: 1000,
+					height: 500,
+					x: 0,
+					y: 0,
+				}}
+				strokes={strokes}
+				active={false}
+				finished
+			/>);
+			expect(specificDrawer.onStrokesExtended.bind(specificDrawer))
+				.to.throw(ERROR_CALL_SUPER_TO_ABSTRACT);
+		});
+
+		it('cannot trigger an abstract method on Abstract Drawer implementation', () => {
+			expect(AbstractDrawer.prototype.onAbstractMethodCalled.bind(AbstractDrawer))
+				.to.throw(ERROR_DIRECT_ABSTRACT_CALL);
+		});
+
 		it('throws an error for onStrokeStarted', () => {
 			expect(AbstractDrawer.prototype.onStrokeStarted.bind(AbstractDrawer.prototype))
 				.to.throw(ERROR_CALL_SUPER_TO_ABSTRACT);

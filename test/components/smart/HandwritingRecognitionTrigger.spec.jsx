@@ -23,7 +23,7 @@ describe('Handwriting Recognition Trigger', () => {
 		it('with disables handwriting recognition', () => {
 			const props = {};
 			const trigger = TestUtils.renderIntoDocument(<HandwritingRecognizerComponent {...props} />);
-			expect(trigger.state.handwritingRecognitionEnabled).to.be.false();
+			expect(trigger.state.useHandwritingRecognition).to.be.false();
 		});
 	});
 
@@ -108,6 +108,20 @@ describe('Handwriting Recognition Trigger', () => {
 			const trigger = TestUtils.renderIntoDocument(<HandwritingRecognizerComponent {...props} />);
 			trigger.componentDidUpdate();
 			expect(trigger.state.useHandwritingRecognition).to.be.true();
+		});
+
+		it('with handwriting recognition disabled leaves handwriting recognition off', () => {
+			const props = {
+				handwritingRecognitionEnabled: false,
+				returnPressed: true,
+				strokes: [firstStroke, secondStroke, thirdStroke],
+				scene: {
+					strokes: [thirdStroke],
+				},
+			};
+			const trigger = TestUtils.renderIntoDocument(<HandwritingRecognizerComponent {...props} />);
+			trigger.componentDidUpdate();
+			expect(trigger.state.useHandwritingRecognition).to.be.false();
 		});
 	});
 

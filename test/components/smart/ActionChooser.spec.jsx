@@ -245,7 +245,8 @@ describe('Action Chooser', () => {
 			const actionChooser = shallowWithProps({
 				isOpen: true,
 			});
-			sinon.stub(actionChooser.instance(), 'onActionChoose');
+			actionChooser.instance().componentDidMount();
+			sinon.spy(actionChooser.instance(), 'onActionChoose');
 			const list = actionChooser.find(HoverList);
 			list.props().onItemClick({}, 'updatePosition');
 			expect(actionChooser.instance().onActionChoose.callCount).to.equal(1);

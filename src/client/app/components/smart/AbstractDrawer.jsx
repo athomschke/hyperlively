@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { flatten, last, isEqual, cloneDeep, forEach, map, find } from 'lodash';
-import { ERROR_DIRECT_ABSTRACT_CALL, ERROR_IMPLEMENT_IN_CHILD, ERROR_CALL_SUPER_TO_ABSTRACT } from 'constants/errors';
+import { ERROR_DIRECT_ABSTRACT_CALL, ERROR_CALL_SUPER_TO_ABSTRACT } from 'constants/errors';
 import { OFFSET } from 'constants/canvas';
 
 const allPoints = strokes => flatten(map(strokes, stroke => stroke.points));
@@ -57,13 +57,13 @@ export default class AbstractDrawer extends Component {
 			this.onStrokesUpdated();
 		}
 		if (!isEqual(this.props.width, this.state.width)) {
-			this.state = Object.assign({}, this.state || {}, {
+			this.state = Object.assign({}, this.state, {
 				width: this.props.width,
 			});
 			this.redrawEverything();
 		}
 		if (!isEqual(this.props.height, this.state.height)) {
-			this.state = Object.assign({}, this.state || {}, {
+			this.state = Object.assign({}, this.state, {
 				height: this.props.height,
 			});
 			this.redrawEverything();
@@ -71,13 +71,10 @@ export default class AbstractDrawer extends Component {
 	}
 
 	onAbstractMethodCalled(methodName) {
-		if (this === AbstractDrawer) {
-			throw new Error(ERROR_DIRECT_ABSTRACT_CALL);
-		} else if (this[methodName] === AbstractDrawer[methodName]) {
-			throw new Error(ERROR_IMPLEMENT_IN_CHILD);
-		} else {
+		if (this !== AbstractDrawer && this[methodName] !== AbstractDrawer[methodName]) {
 			throw new Error(ERROR_CALL_SUPER_TO_ABSTRACT);
 		}
+		throw new Error(ERROR_DIRECT_ABSTRACT_CALL);
 	}
 
 	/**

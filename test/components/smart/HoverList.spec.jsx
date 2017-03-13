@@ -30,9 +30,11 @@ describe('HoverList', () => {
 			const list = TestUtils.renderIntoDocument(<HoverList
 				items={['a', 'b', 'c']}
 			/>);
+			sinon.spy(list, 'handleItemClick');
 			const items = TestUtils.scryRenderedDOMComponentsWithTag(list, 'li');
-			TestUtils.Simulate.click(items[1]);
-			expect(items[1]).to.exist();
+			TestUtils.Simulate.click(items[1].childNodes[0]);
+			expect(list.handleItemClick.callCount).to.equal(1);
+			list.handleItemClick.restore();
 		});
 
 		it('calls the callback if handed', () => {

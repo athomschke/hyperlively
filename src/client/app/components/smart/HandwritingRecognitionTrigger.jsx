@@ -23,7 +23,7 @@ export default Wrapped => class extends Component {
 
 	componentDidMount() {
 		this.state = {
-			handwritingRecognitionEnabled: false,
+			useHandwritingRecognition: false,
 		};
 	}
 

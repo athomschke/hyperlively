@@ -14,12 +14,16 @@ export default class HoverList extends Component {
 		items: [],
 	};
 
+	handleItemClick(event, aText) {
+		this.props.onItemClick(event, aText);
+	}
+
 	renderChildren() {
 		return map(this.props.items, (aText, index) => (
 			<li key={index} >
 				<button
 					onClick={(event) => {
-						this.props.onItemClick(event, aText);
+						this.handleItemClick(event, aText);
 					}}
 				>{aText}</button>
 			</li>));
