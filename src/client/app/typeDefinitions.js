@@ -124,3 +124,8 @@ export type RecognizerComponent = {
 	x: Array<number>,
 	y: Array<number>,
 }
+
+export type FunctionConfiguration = {
+	name: string,
+	parameters: number,
+}

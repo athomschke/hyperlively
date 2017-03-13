@@ -1,9 +1,8 @@
 // @flow
 import React, { Component, PropTypes } from 'react';
-import { map, flatten, filter, last, initial } from 'lodash';
+import { map, flatten, filter, last, initial, forEach } from 'lodash';
 import InterpretationChooser from './InterpretationChooser';
-import { type TextCandidate, type ShapeCandidate, type Point } from '../../typeDefinitions';
-import { type SyntheticMouseEvent } from 'flow-bin';
+import { type TextCandidate, type ShapeCandidate, type Point, type FunctionConfiguration } from '../../typeDefinitions';
 
 export default Wrapped => class extends Component {
 
@@ -75,8 +74,14 @@ export default Wrapped => class extends Component {
 		this.chooseAction(candidates[0], 'shape');
 	}
 
-	performAction(item: string, values: Array<number | string>) {
-		this.props.performAction.apply(this, [item].concat(values));
+	performAction(items: Array<FunctionConfiguration>, values: Array<number | string>) {
+		let valueIndex = 0;
+		forEach(items, (item) => {
+			const functionName = item.name;
+			const functionParameters = values.slice(valueIndex, item.parameters);
+			valueIndex += item.parameters;
+			this.props.performAction.apply(this, [functionName].concat(functionParameters));
+		});
 		this.deactivateInterpretation();
 	}
 

@@ -4,6 +4,7 @@ import Modal from 'react-modal';
 import { actionChooser } from 'stylesheets/components/smart/actionChooser.scss';
 import ActionChooser from './ActionChooser';
 import ParameterChooser from './ParameterChooser';
+import { type FunctionConfiguration } from '../../typeDefinitions';
 
 type State = {
 	parameters: Array<Array<string>>,
@@ -39,10 +40,7 @@ export default class InterpretationChooser extends Component {
 		};
 	}
 
-	onActionChoose(functions: Array<{
-		name: string,
-		parameters: number,
-	}>) {
+	onActionChoose(functions: Array<FunctionConfiguration>) {
 		this.setState({ functions });
 	}
 
@@ -51,7 +49,7 @@ export default class InterpretationChooser extends Component {
 	}
 
 	onInterpretationChoose() {
-		this.props.onInterpretationChoose(this.state.functions[0].name, this.state.parameters);
+		this.props.onInterpretationChoose(this.state.functions, this.state.parameters);
 	}
 
 	render() {
