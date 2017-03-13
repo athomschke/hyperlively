@@ -9,7 +9,7 @@ type State = {
 	checkedPaths: Array<Array<string>>,
 };
 
-export default class ParameterChooser extends Component {
+export default class JsonPropertyChooser extends Component {
 
 	static propTypes = {
 		jsonTree: PropTypes.object,

@@ -4,7 +4,7 @@ import Modal from 'react-modal';
 import { SyntheticMouseEvent } from 'flow-bin';
 import { actionChooser } from 'stylesheets/components/smart/actionChooser.scss';
 import ActionChooser from './ActionChooser';
-import ParameterChooser from './ParameterChooser';
+import JsonPropertyChooser from './JsonPropertyChooser';
 
 type State = {
 	parameters: Array<Array<string>>,
@@ -73,7 +73,7 @@ export default class InterpretationChooser extends Component {
 				<ActionChooser
 					onActionChoose={this.onActionChoose}
 				/>
-				<ParameterChooser
+				<JsonPropertyChooser
 					{...this.props}
 					{...this.state}
 					jsonTree={this.getJsonTree()}

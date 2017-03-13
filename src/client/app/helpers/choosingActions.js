@@ -21,7 +21,7 @@ const formatTreeNode = (
 		ReactTreeNodeFormat => {
 	const matchingChecks = findArraysEndingOnItem(keyChecks, key);
 	const parameterIndex = findArraysIndex(allChecks, matchingChecks[0]);
-	const parameterIndicator = parameterIndex >= 0 ? ` (parameter ${parameterIndex})` : '';
+	const parameterIndicator = parameterIndex >= 0 ? ` (property ${parameterIndex})` : '';
 	return {
 		checkbox: true,
 		checked: matchingChecks.length > 0,
@@ -40,7 +40,7 @@ export const formatTreeLeaf = (
 		allChecks: Array<Array<string>>) : ReactTreeLeafFormat => {
 	const matchingChecks = findArraysEndingOnItem(keyChecks, key);
 	const parameterIndex = findArraysIndex(allChecks, matchingChecks[0]);
-	const parameterIndicator = parameterIndex >= 0 ? ` (parameter ${parameterIndex})` : '';
+	const parameterIndicator = parameterIndex >= 0 ? ` (property ${parameterIndex})` : '';
 	return {
 		checkbox: true,
 		checked: matchingChecks.length > 0,

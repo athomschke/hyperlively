@@ -3,11 +3,11 @@ import TestUtils from 'react-addons-test-utils';
 import { shallow } from 'enzyme';
 import { TreeMenu } from 'react-tree-menu';
 import { flatten, map, forEach, filter } from 'lodash';
-import ParameterChooser from 'components/smart/ParameterChooser';
+import JsonPropertyChooser from 'components/smart/JsonPropertyChooser';
 import { getPathToProperty, formatObject } from 'helpers/choosingActions';
 
-const renderWithProps = props => TestUtils.renderIntoDocument(<ParameterChooser {...props} />);
-const shallowWithProps = props => shallow(<ParameterChooser {...props} />);
+const renderWithProps = props => TestUtils.renderIntoDocument(<JsonPropertyChooser {...props} />);
+const shallowWithProps = props => shallow(<JsonPropertyChooser {...props} />);
 
 const exampleChecks = [['a', 'a2'], ['b']];
 
@@ -46,7 +46,7 @@ const exampleArray = [
 				checked: false,
 			},
 			{
-				label: 'a2: a2 (parameter 0)',
+				label: 'a2: a2 (property 0)',
 				key: 'a2',
 				checkbox: true,
 				checked: true,
@@ -54,7 +54,7 @@ const exampleArray = [
 		],
 	},
 	{
-		label: 'b: b (parameter 1)',
+		label: 'b: b (property 1)',
 		key: 'b',
 		checkbox: true,
 		checked: true,
@@ -77,7 +77,7 @@ const flattenedTree = (root) => {
 
 const getItemsFromDataArray = dataArray => flatten(map(dataArray, item => flattenedTree(item)));
 
-describe('Parameter Chooser', () => {
+describe('JsonProperty Chooser', () => {
 	describe('showing the parameter chooser', () => {
 		let parameterChooser;
 
@@ -93,7 +93,7 @@ describe('Parameter Chooser', () => {
 		});
 
 		it('renders a tree menu', () => {
-			expect(parameterChooser.find(ParameterChooser)).to.exist();
+			expect(parameterChooser.find(JsonPropertyChooser)).to.exist();
 		});
 
 		it('renders an entry for each top level handwriting recognition result plus one for the last strokes plus the selected strokes', () => {
