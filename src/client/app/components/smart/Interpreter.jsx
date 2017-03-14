@@ -78,11 +78,23 @@ export default Wrapped => class extends Component {
 		let valueIndex = 0;
 		forEach(items, (item) => {
 			const functionName = item.name;
-			const functionParameters = values.slice(valueIndex, item.parameters);
+			const functionParameters = values.slice(valueIndex, valueIndex + item.parameters);
 			valueIndex += item.parameters;
 			this.props.performAction.apply(this, [functionName].concat(functionParameters));
 		});
 		this.deactivateInterpretation();
+	}
+
+	tickActions(items: Array<FunctionConfiguration>, values: Array<number | string>,
+			interval: number, endAfter: number) {
+		let counter = endAfter || 0;
+		const tickInterval = setInterval(() => {
+			this.performAction(items, values);
+			counter -= 1;
+			if (counter === 0) {
+				clearInterval(tickInterval);
+			}
+		}, interval);
 	}
 
 	deactivateInterpretation() {
@@ -100,6 +112,7 @@ export default Wrapped => class extends Component {
 			isOpen: !!(this.state && this.state.interpretation),
 			onRequestClose: this.deactivateInterpretation.bind(this),
 			onInterpretationChoose: this.performAction.bind(this),
+			onInterpretationTick: this.tickActions.bind(this),
 			selectedStrokes: this.getSelectedStrokes(),
 		};
 		const lastStrokesProps = {};

@@ -37,6 +37,9 @@ const flattenedTree = (root) => {
 	return items;
 };
 
+const findElementOfTypeWithTextContent = (wrapper, type, content) =>
+	wrapper.findWhere(n => n.type() === type && n.text().indexOf(content) >= 0);
+
 describe('Interpretation Chooser', () => {
 	afterEach(() => {
 		forEach(document.getElementsByClassName('ReactModalPortal'), (modalNode) => {
@@ -63,6 +66,14 @@ describe('Interpretation Chooser', () => {
 
 		it('renders a parameter chooser', () => {
 			expect(interpretationChooser.find(ParameterChooser)).to.exist();
+		});
+
+		it('renders a button to accept the interpretation', () => {
+			expect(findElementOfTypeWithTextContent(interpretationChooser, 'button', 'Accept')).to.have.length(1);
+		});
+
+		it('renders a button to start ticking', () => {
+			expect(findElementOfTypeWithTextContent(interpretationChooser, 'button', 'Tick')).to.have.length(1);
 		});
 
 		it('shows a modal dialog', () => {
@@ -159,6 +170,34 @@ describe('Interpretation Chooser', () => {
 			});
 			interpretationChooser.onParameterChoose([['a']]);
 			expect(interpretationChooser.state.parameters[0][0]).to.equal('a');
+		});
+	});
+
+	describe('Ticking an action', () => {
+		it('triggers the onInterpretationTick property callback', () => {
+			let tickedActionFunctions;
+			let tickedActionParameters;
+			let tickedActionInterval;
+			const interpretationChooser = shallowWithProps({
+				isOpen: true,
+				onInterpretationTick: (functions, parameters, interval) => {
+					tickedActionFunctions = functions;
+					tickedActionParameters = parameters;
+					tickedActionInterval = interval;
+				},
+			});
+			interpretationChooser.instance().onParameterChoose([['a']]);
+			interpretationChooser.instance().onActionChoose([{
+				name: 'actionName',
+				parameter: 1,
+			}]);
+			const tickButton = findElementOfTypeWithTextContent(interpretationChooser, 'button', 'Tick');
+			tickButton.simulate('click');
+			expect(tickedActionFunctions).to.have.length(1);
+			expect(tickedActionFunctions[0].name).to.equal('actionName');
+			expect(tickedActionFunctions[0].parameter).to.equal(1);
+			expect(tickedActionParameters[0]).to.deep.equal(['a']);
+			expect(tickedActionInterval).to.equal(1000);
 		});
 	});
 });

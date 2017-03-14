@@ -227,6 +227,27 @@ describe('Interpreter', () => {
 			expect(performedActionName).to.equal('foobarRun');
 		});
 
+		it('can perform multiple actions', () => {
+			const performedActions = [];
+			const interpreter = renderWithProps({
+				performAction: (...args) => {
+					performedActions.push(args);
+				},
+			});
+			interpreter.performAction([{
+				name: 'runWithTwoParameters',
+				parameters: 2,
+			}, {
+				name: 'runWithOneParameter',
+				parameters: 1,
+			}], [1, 2, 3]);
+			expect(performedActions[0][0]).to.equal('runWithTwoParameters');
+			expect(performedActions[0][1]).to.equal(1);
+			expect(performedActions[0][2]).to.equal(2);
+			expect(performedActions[1][0]).to.equal('runWithOneParameter');
+			expect(performedActions[1][1]).to.equal(3);
+		});
+
 		it('at first hides strokes even without callback', () => {
 			const interpreter = renderWithProps({
 				sketches: [{
@@ -279,6 +300,58 @@ describe('Interpreter', () => {
 		it('returns an empty array if none are selected', () => {
 			interpreter.props.sketches[0].strokes[0].selected = true;
 			expect(interpreter.getSelectedStrokes()).to.have.length(1);
+		});
+	});
+
+	describe('Letting actions tick', () => {
+		let interpreter;
+		let performedActionName;
+		let performedActionParameters;
+		let timeout;
+		let interval;
+		let clearedTimout;
+
+		beforeEach(() => {
+			interpreter = renderWithProps({
+				performAction: (...args) => {
+					performedActionName = args[0];
+					performedActionParameters = args.slice(1);
+				},
+			});
+			sinon.stub(window, 'setInterval', (aFunction, anInterval) => { timeout = aFunction; interval = anInterval; return aFunction; });
+			sinon.stub(window, 'clearInterval', (aTimeout) => { clearedTimout = aTimeout; });
+		});
+
+		afterEach(() => {
+			window.setInterval.restore();
+			window.clearInterval.restore();
+		});
+
+		it('lets them tick forever without a fourth parameter', () => {
+			interpreter.tickActions([{ name: 'action', parameters: 2 }], ['a', 'b'], 1000);
+			expect(interval).to.equal(1000);
+			timeout();
+			expect(performedActionName).to.equal('action');
+			expect(performedActionParameters[0]).to.equal('a');
+			expect(performedActionParameters[1]).to.equal('b');
+			expect(clearedTimout).to.be.undefined();
+		});
+
+		it('stops after n ticks if given', () => {
+			interpreter.tickActions([{ name: 'action', parameters: 2 }], ['a', 'b'], 1000, 2);
+			expect(interval).to.equal(1000);
+			timeout();
+			expect(performedActionName).to.equal('action');
+			expect(performedActionParameters[0]).to.equal('a');
+			expect(performedActionParameters[1]).to.equal('b');
+			expect(clearedTimout).to.be.undefined();
+			performedActionName = undefined;
+			performedActionParameters = undefined;
+			timeout();
+			expect(performedActionName).to.equal('action');
+			expect(performedActionParameters[0]).to.equal('a');
+			expect(performedActionParameters[1]).to.equal('b');
+			expect(clearedTimout).to.equal(timeout);
 		});
 	});
 });

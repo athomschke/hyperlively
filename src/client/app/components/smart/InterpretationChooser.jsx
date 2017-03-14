@@ -18,10 +18,12 @@ export default class InterpretationChooser extends Component {
 
 	static propTypes = {
 		onInterpretationChoose: PropTypes.func,
+		onInterpretationTick: PropTypes.func,
 	};
 
 	static defaultProps = {
 		onInterpretationChoose: () => {},
+		onInterpretationTick: () => {},
 	}
 
 	constructor() {
@@ -29,6 +31,7 @@ export default class InterpretationChooser extends Component {
 		this.onActionChoose = this.onActionChoose.bind(this);
 		this.onParameterChoose = this.onParameterChoose.bind(this);
 		this.onInterpretationChoose = this.onInterpretationChoose.bind(this);
+		this.onInterpretationTick = this.onInterpretationTick.bind(this);
 	}
 
 	state: State;
@@ -52,6 +55,10 @@ export default class InterpretationChooser extends Component {
 		this.props.onInterpretationChoose(this.state.functions, this.state.parameters);
 	}
 
+	onInterpretationTick() {
+		this.props.onInterpretationTick(this.state.functions, this.state.parameters, 1000);
+	}
+
 	render() {
 		return (
 			<Modal
@@ -62,6 +69,9 @@ export default class InterpretationChooser extends Component {
 				<button
 					onClick={this.onInterpretationChoose}
 				>{'Accept Interpretation'}</button>
+				<button
+					onClick={this.onInterpretationTick}
+				>{'Tick'}</button>
 				<div>
 					<ActionChooser
 						onActionChoose={this.onActionChoose}
