@@ -1,10 +1,10 @@
 // @flow
-import { TOGGLE_INTERPRETER, RECOGNIZE_HANDWRITING } from 'constants/actionTypes';
+import { TOGGLE_INTERPRETER, RECOGNIZE_HANDWRITING, APPEND_POINT, APPEND_STROKE } from 'constants/actionTypes';
 import { map, flatten } from 'lodash';
 import { HmacSHA512, enc } from 'crypto-js';
 import { APPLICATION_KEY, HMAC_KEY, TEXT_RECOGNITION_URL, SHAPE_RECOGNITION_URL } from 'constants/handwriting';
 import { strokesToComponents, getStringInput } from 'helpers/handwritingRecognizer';
-import { type TOGGLE_INTERPRETER_ACTION, RECOGNIZE_HANDWRITING_ACTION } from '../actionTypeDefinitions';
+import { type TOGGLE_INTERPRETER_ACTION, RECOGNIZE_HANDWRITING_ACTION, APPEND_POINT_ACTION, APPEND_STROKE_ACTION } from '../actionTypeDefinitions';
 import { type InterpretationState, type RecognizerShapeResult, type RecognizerTextResult, type RecognizerComponent } from '../typeDefinitions';
 
 const hmacData = stringInput =>
@@ -89,7 +89,8 @@ const initialState = () => ({
 
 function interpretation(
 		state: InterpretationState = initialState(),
-		action: TOGGLE_INTERPRETER_ACTION | RECOGNIZE_HANDWRITING_ACTION) {
+		action: TOGGLE_INTERPRETER_ACTION | RECOGNIZE_HANDWRITING_ACTION |
+			APPEND_POINT_ACTION | APPEND_STROKE_ACTION) {
 	switch (action.type) {
 	case TOGGLE_INTERPRETER: {
 		return Object.assign({}, state, {
@@ -99,6 +100,12 @@ function interpretation(
 	case RECOGNIZE_HANDWRITING: {
 		return Object.assign({}, state, {
 			interpretations: getInterpretations(action.strokes),
+		});
+	}
+	case APPEND_POINT:
+	case APPEND_STROKE: {
+		return Object.assign({}, state, {
+			interpretations: initialState().interpretations,
 		});
 	}
 	default: {

@@ -9,7 +9,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
 	onHandwritingRecognitionClick: () => {
-		dispatch(recognizeHandwriting(ownProps.scene.strokes));
+		if (!ownProps.interpretation.interpretations.candidate.shape &&
+				!ownProps.interpretation.interpretations.candidate.text) {
+			dispatch(recognizeHandwriting(ownProps.scene.strokes));
+		}
 		dispatch(toggleInterpreter(true));
 	},
 });
