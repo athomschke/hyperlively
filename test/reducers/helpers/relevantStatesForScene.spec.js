@@ -1,7 +1,7 @@
 import relevantStatesForScene from 'helpers/relevantStatesForScene';
 import * as exampleStates from '../data/exampleStates';
 
-describe('Calculating states relevant for a scene', () => {
+describe.skip('Calculating states relevant for a scene', () => {
 	it('handles an empty state on first scene', () => {
 		expect(relevantStatesForScene([], 0)).to.have.length(0);
 	});

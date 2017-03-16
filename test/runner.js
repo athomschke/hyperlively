@@ -1,3 +1,3 @@
-const context = require.context('.', true, /.spec$/);
+const context = require.context('.', true, /^((?![\\/]performance[\\/]).)*\.spec$/);
 context.keys().forEach(context);
 module.exports = context;

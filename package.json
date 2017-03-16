@@ -8,6 +8,7 @@
     "watch": "webpack -d --watch",
     "test": "karma start",
     "coverage": "karma start karma-coverage.conf.js",
+    "performance": "karma start karma-performance.conf.js",
     "lint": "./node_modules/eslint/bin/eslint.js \"./**\""
   },
   "repository": {
