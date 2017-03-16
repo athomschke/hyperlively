@@ -1,8 +1,8 @@
 // @flow
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import { type SyntheticTouchEvent, type SyntheticMouseEvent } from 'flow-bin';
 
-export default Wrapped => class extends Component {
+export default Wrapped => class extends PureComponent {
 
 	static propTypes = {
 		onDragStart: PropTypes.func,

@@ -1,9 +1,9 @@
 // @flow
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 
 let runningTimeout;
 
-export default Wrapped => class extends Component {
+export default Wrapped => class extends PureComponent {
 
 	static propTypes = {
 		temporaryCallback: PropTypes.func,

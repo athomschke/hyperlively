@@ -1,7 +1,7 @@
 // @flow
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 
-export default class Checkbox extends Component {
+export default class Checkbox extends PureComponent {
 
 	static propTypes = {
 		onChange: PropTypes.func,

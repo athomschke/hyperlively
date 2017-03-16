@@ -1,10 +1,10 @@
 // @flow
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import { map } from 'lodash';
 import { hoverList } from 'stylesheets/components/smart/hoverList.scss';
 import { type SyntheticMouseEvent } from 'flow-bin';
 
-export default class HoverList extends Component {
+export default class HoverList extends PureComponent {
 
 	static propTypes = {
 		onItemClick: PropTypes.func,

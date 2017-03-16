@@ -1,10 +1,10 @@
 // @flow
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import { map, flatten, filter, last, initial, forEach } from 'lodash';
 import InterpretationChooser from './InterpretationChooser';
 import { type TextCandidate, type ShapeCandidate, type Point, type FunctionConfiguration } from '../../typeDefinitions';
 
-export default Wrapped => class extends Component {
+export default Wrapped => class extends PureComponent {
 
 	static propTypes = {
 		performAction: PropTypes.func,

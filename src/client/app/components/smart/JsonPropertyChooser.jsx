@@ -1,5 +1,5 @@
 // @flow
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import { TreeMenu } from 'react-tree-menu';
 import { cloneDeep, map, reduce } from 'lodash';
 import { getPathToProperty, findArraysIndex, formatObject } from 'helpers/choosingActions';
@@ -9,7 +9,7 @@ type State = {
 	checkedPaths: Array<Array<string>>,
 };
 
-export default class JsonPropertyChooser extends Component {
+export default class JsonPropertyChooser extends PureComponent {
 
 	static propTypes = {
 		jsonTree: PropTypes.object,

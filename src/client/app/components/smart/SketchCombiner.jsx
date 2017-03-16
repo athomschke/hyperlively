@@ -1,5 +1,5 @@
 // @flow
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { reduce, last, first, concat } from 'lodash';
 import { DEFAULT_THRESHOLD } from 'constants/drawing';
 import { type Scene } from '../../typeDefinitions';
@@ -32,7 +32,7 @@ type Props = {
 	threshold: number,
 };
 
-export default Wrapped => class extends Component {
+export default Wrapped => class extends PureComponent {
 
 	props: Props
 

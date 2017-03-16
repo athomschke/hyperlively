@@ -1,7 +1,7 @@
 // @flow
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 
-const Window = class Window extends Component {
+const Window = class Window extends PureComponent {
 
 	static propTypes = {
 		width: PropTypes.number.isRequired,

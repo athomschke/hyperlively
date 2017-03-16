@@ -1,5 +1,5 @@
 // @flow
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import last from 'lodash/last';
 import { type Scene, type Stroke } from '../../typeDefinitions';
 
@@ -10,7 +10,7 @@ type Props = {
 	handwritingRecognitionEnabled: boolean,
 };
 
-export default Wrapped => class extends Component {
+export default Wrapped => class extends PureComponent {
 
 	props: Props
 

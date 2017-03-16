@@ -1,8 +1,8 @@
 // @flow
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import Checkbox from '../smart/Checkbox';
 
-export default class LabelledBox extends Component {
+export default class LabelledBox extends PureComponent {
 
 	static propTypes = {
 		label: PropTypes.string,

@@ -1,7 +1,7 @@
 // @flow
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
-export default Wrapped => class extends Component {
+export default Wrapped => class extends PureComponent {
 
 	constructor(props: Object) {
 		super(props);

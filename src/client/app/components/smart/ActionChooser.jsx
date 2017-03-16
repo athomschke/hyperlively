@@ -1,5 +1,5 @@
 // @flow
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { forEach, map } from 'lodash';
 import actions from 'actions/actions';
 import JsonPropertyChooser from './JsonPropertyChooser';
@@ -27,7 +27,7 @@ type Props = {
 	onActionChoose: (string) => void,
 }
 
-export default class InterpretationChooser extends Component {
+export default class InterpretationChooser extends PureComponent {
 
 	static defaultProps = {
 		onActionChoose: () => {},

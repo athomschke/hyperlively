@@ -1,5 +1,5 @@
 // @flow
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import Modal from 'react-modal';
 import { actionChooser } from 'stylesheets/components/smart/actionChooser.scss';
 import ActionChooser from './ActionChooser';
@@ -14,7 +14,7 @@ type State = {
 	}>
 };
 
-export default class InterpretationChooser extends Component {
+export default class InterpretationChooser extends PureComponent {
 
 	static propTypes = {
 		onInterpretationChoose: PropTypes.func,

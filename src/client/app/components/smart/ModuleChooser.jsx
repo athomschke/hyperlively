@@ -1,7 +1,7 @@
 // @flow
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 
-export default possibleComponents => class extends Component {
+export default possibleComponents => class extends PureComponent {
 
 	static propTypes = {
 		componentIndex: PropTypes.number,

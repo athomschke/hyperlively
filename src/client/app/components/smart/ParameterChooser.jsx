@@ -1,8 +1,8 @@
 // @flow
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import JsonPropertyChooser from './JsonPropertyChooser';
 
-export default class ParameterChooser extends Component {
+export default class ParameterChooser extends PureComponent {
 
 	static propTypes = {
 		onParameterChoose: PropTypes.func,

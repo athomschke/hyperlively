@@ -1,11 +1,11 @@
 // @flow
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import Slider from 'rc-slider';
 import { map, flatten } from 'lodash';
 import { rcSlider } from 'stylesheets/components/dumb/Timeline.scss';
 import TimelinePreview from './TimelinePreview';
 
-export default class Timeline extends Component {
+export default class Timeline extends PureComponent {
 
 	static propTypes = {
 		sliderHeight: PropTypes.number,

@@ -1,5 +1,5 @@
 // @flow
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import { map, last, flatten } from 'lodash';
 import { HmacSHA512, enc } from 'crypto-js';
 import { APPLICATION_KEY, HMAC_KEY, TEXT_RECOGNITION_URL, SHAPE_RECOGNITION_URL } from 'constants/handwriting';
@@ -19,7 +19,7 @@ const applicationKeyData = () => encodeURIComponent(APPLICATION_KEY);
 
 const encodedInputData = input => encodeURIComponent(input);
 
-export default Wrapped => class extends Component {
+export default Wrapped => class extends PureComponent {
 
 	static propTypes = {
 		strokes: PropTypes.arrayOf(PropTypes.object),

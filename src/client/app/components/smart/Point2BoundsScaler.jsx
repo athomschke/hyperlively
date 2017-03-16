@@ -1,8 +1,8 @@
 // @flow
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import { getFittedWidth, scaleToTime } from 'helpers/scalingPointsToBounds';
 
-export default Wrapped => class extends Component {
+export default Wrapped => class extends PureComponent {
 
 	static propTypes = {
 		strokes: PropTypes.arrayOf(PropTypes.object),

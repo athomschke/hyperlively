@@ -1,8 +1,8 @@
 // @flow
-import React, { PropTypes, Component } from 'react';
+import React, { PropTypes, Component, PureComponent } from 'react';
 import { forEach } from 'lodash';
 
-export default Wrapped => class extends Component {
+export default Wrapped => class extends PureComponent {
 
 	static propTypes = {
 		observeMutations: PropTypes.bool,

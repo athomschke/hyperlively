@@ -1,9 +1,9 @@
 // @flow
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import { cloneDeep } from 'lodash';
 import { offsetToOrigin, getOffsetForTime } from 'helpers/sketchFitting';
 
-export default Wrapped => class extends Component {
+export default Wrapped => class extends PureComponent {
 
 	static propTypes = {
 		index: PropTypes.number,
