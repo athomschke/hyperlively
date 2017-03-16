@@ -1,17 +1,19 @@
+// @flow
 import { forEach, tail, last, first } from 'lodash';
 import { render } from 'react-dom';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
-import hyperlively from 'reducers/index';
-import Application from 'base/Application';
+import hyperlively from '../../src/client/app/reducers/index';
+import Application from '../../src/client/app/Application';
+import { type HyperlivelyState, type Stroke } from '../../src/client/app/typeDefinitions';
 
-export function createAppStore(initialState) {
+export function createAppStore(initialState: HyperlivelyState) {
 	return createStore(hyperlively, initialState);
 }
 
-export function hashCode(aString) {
+export function hashCode(aString: string) {
 	let hash = 0;
 	let i = 0;
 	if (aString.length === 0) return hash;
@@ -23,7 +25,7 @@ export function hashCode(aString) {
 	return hash;
 }
 
-export function manuallyDrawStrokes(windowNode, strokes) {
+export function manuallyDrawStrokes(windowNode: HTMLElement, strokes: Array<Stroke>) {
 	const simulateDrawingEventOnCanvasAt = (eventType, canvas, x, y, timeStamp) => {
 		TestUtils.Simulate[eventType](canvas, {
 			pageX: x,
@@ -42,20 +44,25 @@ export function manuallyDrawStrokes(windowNode, strokes) {
 	});
 }
 
-export function combineCanvasses(canvasses, width, height) {
+export function combineCanvasses(
+		canvasses: HTMLCollection<HTMLCanvasElement>,
+		width: number, height: number) {
 	const combinedCanvas = document.createElement('canvas');
-	combinedCanvas.setAttribute('width', width);
-	combinedCanvas.setAttribute('height', height);
-	combinedCanvas.getContext('2d').fillStyle = 'rgba(1, 1, 1, 0)';
-	forEach(canvasses, (canvasNode) => {
-		const img = new Image();
-		img.src = canvasNode.toDataURL('image/png');
-		combinedCanvas.getContext('2d').drawImage(img, 0, 0, width, height, 0, 0, width, height);
-	});
+	combinedCanvas.setAttribute('width', `${width}px`);
+	combinedCanvas.setAttribute('height', `${height}px`);
+	const context = combinedCanvas.getContext('2d');
+	if (context) {
+		context.fillStyle = 'rgba(1, 1, 1, 0)';
+		forEach(canvasses, (canvasNode) => {
+			const img = new Image();
+			img.src = canvasNode.toDataURL('image/png');
+			context.drawImage(img, 0, 0, width, height, 0, 0, width, height);
+		});
+	}
 	return combinedCanvas;
 }
 
-export function renderApplicationWithStore(store) {
+export function renderApplicationWithStore(store: Provider) {
 	const renderedApp = render(
 		<Provider store={store}>
 			<Application />
@@ -65,23 +72,29 @@ export function renderApplicationWithStore(store) {
 	return renderedApp;
 }
 
-export function renderApplicationWithState(initialState) {
+export function renderApplicationWithState(initialState: HyperlivelyState) {
 	return renderApplicationWithStore(createAppStore(initialState));
 }
 
 export function mountApp() {
 	const appNode = document.createElement('div');
 	appNode.setAttribute('id', 'app');
-	document.body.appendChild(appNode);
+	if (document.body) {
+		document.body.appendChild(appNode);
+	}
 }
 
 export function dismountApp() {
 	const appNode = document.getElementById('app');
-	if (appNode) document.body.removeChild(appNode);
+	if (appNode && document.body) document.body.removeChild(appNode);
 }
 
 export function getCanvasNodes() {
-	return document.getElementById('desk').getElementsByTagName('canvas');
+	const desk = document.getElementById('desk');
+	if (desk) {
+		return desk.getElementsByTagName('canvas');
+	}
+	return new HTMLCollection();
 }
 
 export function getWindowNode() {
@@ -92,11 +105,11 @@ export function getCombinedCanvas() {
 	return combineCanvasses(getCanvasNodes(), 1000, 500);
 }
 
-export function sliderWithHandleInApp(domApp) {
+export function sliderWithHandleInApp(domApp: HTMLElement) {
 	return domApp.getElementsByClassName('rc-slider');
 }
 
-export function gotToHalfTimeInApp(domApp) {
+export function gotToHalfTimeInApp(domApp: HTMLElement) {
 	const track = domApp.getElementsByClassName('rc-slider')[0];
 	TestUtils.Simulate.mouseDown(track, {
 		pageX: track.offsetWidth / 2,

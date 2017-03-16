@@ -36,6 +36,15 @@ export type PlomaState = {
 	uniqueCanvasFactor: number
 }
 
+export type HyperlivelyState = {
+	ploma: PlomaState,
+	handwritingRecognition: boolean,
+	observeMutations: boolean,
+	threshold: number,
+	drawing: boolean,
+	content: Content,
+}
+
 export type Action = {}
 
 export type Reducer = (state: any, action: Action) => any;
