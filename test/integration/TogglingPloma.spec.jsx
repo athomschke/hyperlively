@@ -26,7 +26,7 @@ describe('Integration', () => {
 
 		it('changes background color to more of a paper type', () => {
 			renderApplicationWithState(canvasWithIrregularStrokesWithPloma.json);
-			const backgroundNode = document.getElementById('app').children[0].children[0];
+			const backgroundNode = document.getElementById('app').children[0].children[0].children[0];
 			const nonPlomaBackgroundColor = backgroundNode.style.getPropertyValue('background-color');
 			const plomaButton = document.getElementsByTagName('input')[0];
 			TestUtils.Simulate.click(plomaButton);

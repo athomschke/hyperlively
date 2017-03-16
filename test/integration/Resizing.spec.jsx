@@ -66,7 +66,7 @@ describe('Integration', () => {
 				oldAddEventListener.call(that, type, listener, ...args);
 			};
 			renderApplicationWithState(canvasJson);
-			const backgroundNode = document.getElementById('app').children[0].children[0];
+			const backgroundNode = document.getElementById('app').children[0].children[0].children[0];
 			expect(parseInt(backgroundNode.offsetWidth, 10)).to.equal(window.innerWidth);
 			expect(parseInt(backgroundNode.offsetHeight, 10)).to.equal(window.innerHeight);
 			window.innerHeight = 100;
