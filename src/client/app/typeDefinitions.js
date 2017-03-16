@@ -128,6 +128,13 @@ export type RecognizerShapeResult = {
 	}>
 }
 
+export type RecognitionResult = {
+	candidate: {
+		shape: ?ShapeCandidate,
+		text: ?TextCandidate,
+	}
+}
+
 export type RecognizerComponent = {
 	type: 'stroke',
 	x: Array<number>,
@@ -137,4 +144,9 @@ export type RecognizerComponent = {
 export type FunctionConfiguration = {
 	name: string,
 	parameters: number,
+}
+
+export type InterpretationState = {
+	showInterpreter: boolean,
+	interpretations: RecognitionResult,
 }

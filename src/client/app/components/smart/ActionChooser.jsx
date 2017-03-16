@@ -27,7 +27,7 @@ type Props = {
 	onActionChoose: (string) => void,
 }
 
-export default class InterpretationChooser extends PureComponent {
+export default class ActionChooser extends PureComponent {
 
 	static defaultProps = {
 		onActionChoose: () => {},

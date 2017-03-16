@@ -2,77 +2,30 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { map, flatten, filter, last, initial, forEach } from 'lodash';
 import InterpretationChooser from './InterpretationChooser';
-import { type TextCandidate, type ShapeCandidate, type Point, type FunctionConfiguration } from '../../typeDefinitions';
+import { type Point, type FunctionConfiguration } from '../../typeDefinitions';
 
 export default Wrapped => class extends PureComponent {
 
 	static propTypes = {
 		performAction: PropTypes.func,
 		sketches: PropTypes.arrayOf(PropTypes.object),
+		showInterpreter: PropTypes.bool,
+		interpretations: PropTypes.object,
+		onInterpretationDone: PropTypes.func,
 	};
 
 	static defaultProps = {
 		performAction: () => {},
 		sketches: [],
-	};
-
-	state: {
-		interpretation: ?{
-			candidate: {
-				shape: ?ShapeCandidate,
-				text: ? TextCandidate,
-			}
-		}
-	}
-
-	constructor() {
-		super();
-		this.onTextDetected = this.onTextDetected.bind(this);
-		this.onShapeDetected = this.onShapeDetected.bind(this);
-	}
-
-	onTextDetected(candidates: Array<TextCandidate>) {
-		const floatParsedCandidates = candidates.map((candidate) => {
-			const float = parseFloat(candidate.label);
-			if (isNaN(float)) {
-				return candidate;
-			}
-			return Object.assign({}, candidate, {
-				label: float,
-			});
-		});
-		this.chooseAction(floatParsedCandidates[0], 'text');
-	}
-
-	findSketchesAtPoint(point: Point) {
-		// initial removes the arrow itself
-		const sketchesToMove = filter(initial(this.props.sketches), (sketch) => {
-			const points = flatten(map(filter(sketch.strokes, stroke => !stroke.hidden), 'points'));
-			const xs = map(points, 'x');
-			const ys = map(points, 'y');
-			const minX = Math.min(...xs);
-			const maxX = Math.max(...xs);
-			const minY = Math.min(...ys);
-			const maxY = Math.max(...ys);
-			return minX < point.x && maxX > point.x && minY < point.y && maxY > point.y;
-		});
-		return sketchesToMove;
-	}
-
-	chooseAction(candidate: TextCandidate | ShapeCandidate, type: string) {
-		const interpretation = (this.state && this.state.interpretation) || {
+		showInterpreter: false,
+		interpretations: {
 			candidate: {
 				text: null,
 				shape: null,
 			},
-		};
-		interpretation.candidate[type] = candidate;
-		this.setState({ interpretation });
-	}
-
-	onShapeDetected(candidates: Array<ShapeCandidate>) {
-		this.chooseAction(candidates[0], 'shape');
-	}
+		},
+		onInterpretationDone: () => {},
+	};
 
 	performAction(items: Array<FunctionConfiguration>, values: Array<number | string>) {
 		let valueIndex = 0;
@@ -98,9 +51,7 @@ export default Wrapped => class extends PureComponent {
 	}
 
 	deactivateInterpretation() {
-		this.setState({
-			interpretation: null,
-		});
+		this.props.onInterpretationDone(false);
 	}
 
 	getSelectedStrokes() {
@@ -109,7 +60,7 @@ export default Wrapped => class extends PureComponent {
 
 	renderInterpretationChooser() {
 		const actionChooserProps = {
-			isOpen: !!(this.state && this.state.interpretation),
+			isOpen: this.props.showInterpreter,
 			onRequestClose: this.deactivateInterpretation.bind(this),
 			onInterpretationChoose: this.performAction.bind(this),
 			onInterpretationTick: this.tickActions.bind(this),
@@ -120,8 +71,8 @@ export default Wrapped => class extends PureComponent {
 			lastStrokesProps.lastStrokes = last(this.props.sketches).strokes;
 		}
 		const jsonTreeProps = {};
-		if (this.state && this.state.interpretation && this.state.interpretation.candidate) {
-			jsonTreeProps.jsonTree = this.state.interpretation.candidate;
+		if (this.props.interpretations && this.props.interpretations.candidate) {
+			jsonTreeProps.jsonTree = this.props.interpretations.candidate;
 		}
 		return (<InterpretationChooser
 			{...this.props}
@@ -135,8 +86,6 @@ export default Wrapped => class extends PureComponent {
 		return (<div>
 			<Wrapped
 				{...this.props}
-				onTextDetected={this.onTextDetected}
-				onShapeDetected={this.onShapeDetected}
 			/>
 			{this.renderInterpretationChooser()}
 		</div>);

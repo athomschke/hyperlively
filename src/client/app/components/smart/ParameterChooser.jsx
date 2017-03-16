@@ -8,14 +8,14 @@ export default class ParameterChooser extends PureComponent {
 		onParameterChoose: PropTypes.func,
 		lastStrokes: PropTypes.arrayOf(PropTypes.object),
 		selectedStrokes: PropTypes.arrayOf(PropTypes.object),
-		jsonTree: PropTypes.object,
+		interpretations: PropTypes.object,
 	};
 
 	static defaultProps = {
 		onParameterChoose: () => {},
 		lastStrokes: [],
 		selectedStrokes: [],
-		jsonTree: {},
+		interpretations: {},
 	}
 
 	constructor() {
@@ -28,7 +28,7 @@ export default class ParameterChooser extends PureComponent {
 	}
 
 	getParameterObject() {
-		const rawData = Object.assign({}, this.props.jsonTree);
+		const rawData = Object.assign({}, this.props.interpretations);
 		if (this.props.lastStrokes.length > 0) {
 			rawData.lastStrokes = this.props.lastStrokes;
 		}

@@ -71,6 +71,11 @@ export type OBSERVE_MUTATIONS_ACTION = {
 	boolean: boolean;
 }
 
+export type TOGGLE_INTERPRETER_ACTION = {
+	type: 'TOGGLE_INTERPRETER';
+	boolean: boolean;
+}
+
 export type SET_SCENE_INDEX_ACTION = {
 	type: 'SET_SCENE_INDEX';
 	number: number;
@@ -96,4 +101,9 @@ export type PREVIOUS_SCENE_ACTION = {
 export type SELECT_INSIDE_ACTION = {
 	type: 'SELECT_INSIDE';
 	strokes: Array<Stroke>;
+}
+
+export type RECOGNIZE_HANDWRITING_ACTION = {
+	type: 'RECOGNIZE_HANDWRITING';
+	components: Array
 }
