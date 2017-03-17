@@ -1,5 +1,5 @@
 // @flow
-import { TOGGLE_INTERPRETER, RECOGNIZE_HANDWRITING, APPEND_POINT, APPEND_STROKE } from 'constants/actionTypes';
+import { TOGGLE_INTERPRETER, APPEND_POINT, APPEND_STROKE, REQUEST_SHAPE_CANDIDATES, REQUEST_TEXT_CANDIDATES, RECEIVE_TEXT_CANDIDATES, RECEIVE_SHAPE_CANDIDATES } from 'constants/actionTypes';
 import { map, flatten } from 'lodash';
 import { HmacSHA512, enc } from 'crypto-js';
 import { APPLICATION_KEY, HMAC_KEY, TEXT_RECOGNITION_URL, SHAPE_RECOGNITION_URL } from 'constants/handwriting';
@@ -97,9 +97,22 @@ function interpretation(
 			showInterpreter: action.boolean,
 		});
 	}
-	case RECOGNIZE_HANDWRITING: {
+	case REQUEST_SHAPE_CANDIDATES:
+	case REQUEST_TEXT_CANDIDATES: {
+		return state;
+	}
+	case RECEIVE_TEXT_CANDIDATES: {
 		return Object.assign({}, state, {
-			interpretations: getInterpretations(action.strokes),
+			interpretations: Object.assign({}, state.interpretations, {
+				text: action.candidates[0],
+			}),
+		});
+	}
+	case RECEIVE_SHAPE_CANDIDATES: {
+		return Object.assign({}, state, {
+			interpretations: Object.assign({}, state.interpretations, {
+				shape: action.candidates[0],
+			}),
 		});
 	}
 	case APPEND_POINT:
