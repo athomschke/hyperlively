@@ -1,15 +1,16 @@
 // @flow
-import React, { PureComponent, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
 import JsonPropertyChooser from './JsonPropertyChooser';
+import { type Stroke, type RecognitionResult } from '../../typeDefinitions';
+
+type Props = {
+	onParameterChoose: (parameters: Array<Array<string>>) => void,
+	lastStrokes: Array<Stroke>,
+	selectedStrokes: Array<Stroke>,
+	interpretations: RecognitionResult,
+}
 
 export default class ParameterChooser extends PureComponent {
-
-	static propTypes = {
-		onParameterChoose: PropTypes.func,
-		lastStrokes: PropTypes.arrayOf(PropTypes.object),
-		selectedStrokes: PropTypes.arrayOf(PropTypes.object),
-		interpretations: PropTypes.object,
-	};
 
 	static defaultProps = {
 		onParameterChoose: () => {},
@@ -20,14 +21,16 @@ export default class ParameterChooser extends PureComponent {
 
 	constructor() {
 		super();
-		this.onParameterChoose = this.onParameterChoose.bind(this);
+		this.handleParameterChoose = this.handleParameterChoose.bind(this);
 	}
 
-	onParameterChoose(parameters: Array<Array<string>>) {
+	props: Props
+
+	handleParameterChoose(parameters: Array<Array<string>>) {
 		this.props.onParameterChoose(parameters);
 	}
 
-	getParameterObject() {
+	parameterObject() {
 		const rawData = Object.assign({}, this.props.interpretations);
 		if (this.props.lastStrokes.length > 0) {
 			rawData.lastStrokes = this.props.lastStrokes;
@@ -42,8 +45,8 @@ export default class ParameterChooser extends PureComponent {
 		return (
 			<JsonPropertyChooser
 				{...this.props}
-				jsonTree={this.getParameterObject()}
-				onParameterChoose={this.onParameterChoose}
+				jsonTree={this.parameterObject()}
+				onParameterChoose={this.handleParameterChoose}
 			/>);
 	}
 

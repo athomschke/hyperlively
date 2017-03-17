@@ -46,6 +46,14 @@ describe('Interpreter', () => {
 			});
 		});
 
+		it('Does nothing without a callback', () => {
+			list.performAction([{
+				name: 'foobar',
+				parameters: 0,
+			}], []);
+			expect(list).to.exist();
+		});
+
 		it('removes the list', () => {
 			sinon.spy(list, 'deactivateInterpretation');
 			list.performAction({}, 'updatePosition');

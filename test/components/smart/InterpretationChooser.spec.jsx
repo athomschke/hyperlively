@@ -92,6 +92,15 @@ describe('Interpretation Chooser', () => {
 			expect(interpretationChooser.instance().state.functions.length).to.equal(1);
 		});
 
+		it('Does nothing without a callback', () => {
+			const interpretationChooser = shallowWithProps({
+				isOpen: true,
+			});
+			interpretationChooser.instance().componentDidMount();
+			interpretationChooser.instance().onInterpretationChoose();
+			expect(interpretationChooser).to.exist();
+		});
+
 		it('dispatches it with the right parameters', () => {
 			let functions;
 			let parameters;
@@ -174,6 +183,15 @@ describe('Interpretation Chooser', () => {
 	});
 
 	describe('Ticking an action', () => {
+		it('Does nothing without a callback', () => {
+			const interpretationChooser = shallowWithProps({
+				isOpen: true,
+			});
+			interpretationChooser.instance().componentDidMount();
+			interpretationChooser.instance().onInterpretationTick();
+			expect(interpretationChooser).to.exist();
+		});
+
 		it('triggers the onInterpretationTick property callback', () => {
 			let tickedActionFunctions;
 			let tickedActionParameters;

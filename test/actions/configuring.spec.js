@@ -1,4 +1,4 @@
-import { togglePloma, updateThreshold, toggleHandwritingRecognition, setObserveMutations, setSceneIndex, jumpTo } from 'actions/configuring';
+import { recognizeHandwriting, toggleInterpreter, togglePloma, updateThreshold, toggleHandwritingRecognition, setObserveMutations, setSceneIndex, jumpTo } from 'actions/configuring';
 
 describe('actions', () => {
 	it('should create an action to toggle ploma', () => {
@@ -55,5 +55,23 @@ describe('actions', () => {
 			sceneIndex,
 		};
 		expect(jumpTo(pointInTime, sceneIndex)).to.deep.equal(expectedAction);
+	});
+
+	it('Should create an action to show interpretation', () => {
+		const boolean = true;
+		const expectedAction = {
+			type: 'TOGGLE_INTERPRETER',
+			boolean,
+		};
+		expect(toggleInterpreter(boolean)).to.deep.equal(expectedAction);
+	});
+
+	it('Should create an action to trigger an interpretation', () => {
+		const strokes = [];
+		const expectedAction = {
+			type: 'RECOGNIZE_HANDWRITING',
+			strokes,
+		};
+		expect(recognizeHandwriting(strokes)).to.deep.equal(expectedAction);
 	});
 });
