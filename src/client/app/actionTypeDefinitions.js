@@ -1,4 +1,4 @@
-import { type Stroke } from './typeDefinitions';
+import { type Stroke, type TextCandidate, type ShapeCandidate } from './typeDefinitions';
 
 export type APPEND_POINT_ACTION = {
 	type: 'APPEND_POINT';
@@ -103,7 +103,20 @@ export type SELECT_INSIDE_ACTION = {
 	strokes: Array<Stroke>;
 }
 
-export type RECOGNIZE_HANDWRITING_ACTION = {
-	type: 'RECOGNIZE_HANDWRITING';
-	components: Array
+export type REQUEST_SHAPE_CANDIDATES_ACTION = {
+	type: 'REQUEST_SHAPE_CANDIDATES_ACTION';
+}
+
+export type RECEIVE_SHAPE_CANDIDATES_ACTION = {
+	type: 'RECEIVE_SHAPE_CANDIDATES_ACTION';
+	candidates: Array<ShapeCandidate>
+}
+
+export type REQUEST_TEXT_CANDIDATES_ACTION = {
+	type: 'REQUEST_TEXT_CANDIDATES_ACTION';
+}
+
+export type RECEIVE_TEXT_CANDIDATES_ACTION = {
+	type: 'RECEIVE_TEXT_CANDIDATES_ACTION';
+	candidates: Array<TextCandidate>
 }

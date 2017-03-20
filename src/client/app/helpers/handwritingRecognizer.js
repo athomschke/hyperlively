@@ -1,9 +1,23 @@
 // @flow
-import { map } from 'lodash';
-import { TEXT_INPUT_TYPE, LANGUAGE, TEXT_INPUT_MODE } from 'constants/handwriting';
-import { type Stroke, type RecognizerComponent } from '../typeDefinitions';
+import { HmacSHA512, enc } from 'crypto-js';
+import { map, flatten } from 'lodash';
+import { APPLICATION_KEY, HMAC_KEY, TEXT_INPUT_TYPE, LANGUAGE, TEXT_INPUT_MODE, TEXT_RECOGNITION_URL, SHAPE_RECOGNITION_URL } from 'constants/handwriting';
+import { type Stroke, type RecognizerComponent, type ShapeCandidate } from '../typeDefinitions';
 
-export function strokesToComponents(strokes: Array<Stroke>) {
+const hmacData = stringInput =>
+	encodeURIComponent(HmacSHA512(stringInput, APPLICATION_KEY + HMAC_KEY)
+		.toString(enc.Hex));
+
+const applicationKeyData = () => encodeURIComponent(APPLICATION_KEY);
+
+const encodedInputData = input => encodeURIComponent(input);
+
+const getShapeInput = strokes => JSON.stringify({
+	components: strokes,
+	doBeautification: true,
+});
+
+function strokesToComponents(strokes: Array<Stroke>) {
 	return map(strokes, stroke => ({
 		type: 'stroke',
 		x: map(stroke.points, 'x'),
@@ -12,7 +26,7 @@ export function strokesToComponents(strokes: Array<Stroke>) {
 	}));
 }
 
-export function getStringInput(components: Array<RecognizerComponent>) {
+function getStringInput(components: Array<RecognizerComponent>) {
 	return JSON.stringify({
 		textParameter: {
 			textProperties: {},
@@ -24,4 +38,68 @@ export function getStringInput(components: Array<RecognizerComponent>) {
 			components,
 		}],
 	});
+}
+
+function getShapeRecognitionData(strokes: Array<Stroke>) {
+	const components = strokesToComponents(strokes);
+	const shapeInput = getShapeInput(components);
+	return `applicationKey=${applicationKeyData()}&shapeInput=${encodedInputData(shapeInput)}&hmac=${hmacData(shapeInput)}`;
+}
+
+function getTextRecognitionData(strokes: Array<Stroke>) {
+	const components = strokesToComponents(strokes);
+	const stringInput = getStringInput(components);
+	return `applicationKey=${applicationKeyData()}&textInput=${encodedInputData(stringInput)}&hmac=${hmacData(stringInput)}`;
+}
+
+function parseShapeResponse(responseText: string) {
+	const answer = JSON.parse(responseText);
+	if (answer && answer.result) {
+		return flatten(map(answer.result.segments, 'candidates'));
+	}
+	return [];
+}
+
+function parseTextResponse(responseText: string) {
+	const answer = JSON.parse(responseText);
+	if (answer && answer.result) {
+		const candidates = answer.result.textSegmentResult.candidates;
+		if (candidates.length > 0) {
+			return candidates;
+		}
+		return [];
+	}
+	return [];
+}
+
+function sendRequestThenDo(url: string, data: string, parseCallback) {
+	const xmlhttp = new XMLHttpRequest();
+	xmlhttp.open('POST', url, true);
+	xmlhttp.withCredentials = true;
+	xmlhttp.setRequestHeader('Accept', 'application/json');
+	xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8');
+	xmlhttp.onreadystatechange = () => {
+		if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
+			parseCallback(xmlhttp.responseText);
+		}
+	};
+	xmlhttp.send(data);
+}
+
+export function requestTextRecognitionForStrokesThenDo(
+		strokes: Array<Stroke>, callback: () => void) {
+	sendRequestThenDo(
+		TEXT_RECOGNITION_URL,
+		getTextRecognitionData(strokes),
+		(responseText: string) => callback(parseTextResponse(responseText)),
+	);
+}
+
+export function requestShapeRecognitionForStrokesThenDo(
+		strokes: Array<Stroke>, callback: () => Array<ShapeCandidate>) {
+	sendRequestThenDo(
+		SHAPE_RECOGNITION_URL,
+		getShapeRecognitionData(strokes),
+		(responseText: string) => callback(parseShapeResponse(responseText)),
+	);
 }

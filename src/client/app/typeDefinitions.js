@@ -129,10 +129,8 @@ export type RecognizerShapeResult = {
 }
 
 export type RecognitionResult = {
-	candidate: {
-		shape: ?ShapeCandidate,
-		text: ?TextCandidate,
-	}
+	shape: ?ShapeCandidate,
+	text: ?TextCandidate,
 }
 
 export type RecognizerComponent = {
