@@ -18,7 +18,7 @@ describe('MyScriptJS Sagas', () => {
 		requests = [];
 	});
 
-	describe.only('Running sagas', () => {
+	describe('Running sagas', () => {
 		const sagas = [];
 		beforeEach(() => {
 			const sagaGenerator = myScriptJs();
