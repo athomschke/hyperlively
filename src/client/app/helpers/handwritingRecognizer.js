@@ -86,20 +86,22 @@ function sendRequestThenDo(url: string, data: string, parseCallback) {
 	xmlhttp.send(data);
 }
 
-export function requestTextRecognitionForStrokesThenDo(
-		strokes: Array<Stroke>, callback: () => void) {
-	sendRequestThenDo(
-		TEXT_RECOGNITION_URL,
-		getTextRecognitionData(strokes),
-		(responseText: string) => callback(parseTextResponse(responseText)),
-	);
+export function requestTextCandidates(strokes: Array<Stroke>) {
+	return new Promise((resolve) => {
+		sendRequestThenDo(
+			TEXT_RECOGNITION_URL,
+			getTextRecognitionData(strokes),
+			(responseText: string) => resolve(parseTextResponse(responseText)),
+		);
+	});
 }
 
-export function requestShapeRecognitionForStrokesThenDo(
-		strokes: Array<Stroke>, callback: () => Array<ShapeCandidate>) {
-	sendRequestThenDo(
-		SHAPE_RECOGNITION_URL,
-		getShapeRecognitionData(strokes),
-		(responseText: string) => callback(parseShapeResponse(responseText)),
-	);
+export function requestShapeCandidates(strokes: Array<Stroke>) {
+	return new Promise((resolve) => {
+		sendRequestThenDo(
+			SHAPE_RECOGNITION_URL,
+			getShapeRecognitionData(strokes),
+			(responseText: string) => resolve(parseShapeResponse(responseText)),
+		);
+	});
 }

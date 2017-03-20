@@ -46,6 +46,7 @@
     "react-simple-list": "^2.2.0",
     "react-tree-menu": "^1.5.0",
     "redux": "^3.6.0",
+    "redux-saga": "^0.14.3",
     "redux-thunk": "^2.2.0",
     "require": "^2.4.20",
     "webpack": "^2.2.1"

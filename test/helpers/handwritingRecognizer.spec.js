@@ -1,25 +1,25 @@
-import { requestShapeRecognitionForStrokesThenDo, requestTextRecognitionForStrokesThenDo } from 'helpers/handwritingRecognizer';
+import { requestShapeCandidates, requestTextCandidates } from 'helpers/handwritingRecognizer';
 import { shapeResponse, textResponse, strokesExample } from '../data';
 
 describe('Helpers for handwriting recognition', () => {
-	describe('recognizing handwriting', () => {
-		let xhr;
-		let requests = [];
+	let xhr;
+	let requests = [];
 
-		beforeEach(() => {
-			xhr = sinon.useFakeXMLHttpRequest();
-			xhr.onCreate = (req) => {
-				requests.push(req);
-			};
-		});
+	beforeEach(() => {
+		xhr = sinon.useFakeXMLHttpRequest();
+		xhr.onCreate = (req) => {
+			requests.push(req);
+		};
+	});
 
-		afterEach(() => {
-			xhr.restore();
-			requests = [];
-		});
+	afterEach(() => {
+		xhr.restore();
+		requests = [];
+	});
 
+	describe('recognizing shapes in handwriting', () => {
 		it('finds a single shape in the response when in shape domain', (done) => {
-			requestShapeRecognitionForStrokesThenDo(strokesExample, (shapeCandidates) => {
+			requestShapeCandidates(strokesExample).then((shapeCandidates) => {
 				expect(shapeCandidates).to.have.length(1);
 				done();
 			});
@@ -31,7 +31,7 @@ describe('Helpers for handwriting recognition', () => {
 		});
 
 		it('handles no shape result when in shape domain', (done) => {
-			requestShapeRecognitionForStrokesThenDo(strokesExample, (shapeCandidates) => {
+			requestShapeCandidates(strokesExample).then((shapeCandidates) => {
 				expect(shapeCandidates).to.have.length(0);
 				done();
 			});
@@ -41,9 +41,11 @@ describe('Helpers for handwriting recognition', () => {
 				'{"result": null}',
 			);
 		});
+	});
 
+	describe('recognizing text in handwriting', () => {
 		it('handles result when in text domain', (done) => {
-			requestTextRecognitionForStrokesThenDo(strokesExample, (textCandidates) => {
+			requestTextCandidates(strokesExample).then((textCandidates) => {
 				expect(textCandidates).to.have.length(0);
 				done();
 			});
@@ -55,7 +57,7 @@ describe('Helpers for handwriting recognition', () => {
 		});
 
 		it('handles no text result when in text domain', (done) => {
-			requestTextRecognitionForStrokesThenDo(strokesExample, (textCandidates) => {
+			requestTextCandidates(strokesExample).then((textCandidates) => {
 				expect(textCandidates).to.have.length(0);
 				done();
 			});
@@ -67,7 +69,7 @@ describe('Helpers for handwriting recognition', () => {
 		});
 
 		it('finds a single text in the response when in text domain', (done) => {
-			requestTextRecognitionForStrokesThenDo(strokesExample, (textCandidates) => {
+			requestTextCandidates(strokesExample).then((textCandidates) => {
 				expect(textCandidates).to.have.length(1);
 				done();
 			});

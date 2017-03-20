@@ -45,6 +45,7 @@ var config = {
 		],
 		alias: {
 			actions: APP_DIR + '/actions',
+			sagas: APP_DIR + '/sagas',
 			components: APP_DIR + '/components',
 			constants: APP_DIR + '/constants',
 			containers: APP_DIR + '/containers',
