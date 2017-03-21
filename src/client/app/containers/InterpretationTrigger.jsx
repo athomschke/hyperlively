@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { toggleInterpreter } from 'actions/configuring';
-import { requestTextCandidates, requestShapeCandidates } from 'actions/handwritingRecognition';
+import { fetchTextCandidates, fetchShapeCandidates } from 'actions/handwritingRecognition';
 import InterpretationTrigger from 'components/dumb/InterpretationTrigger';
 
 const mapStateToProps = state => ({
@@ -11,10 +11,10 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = (dispatch, ownProps) => ({
 	onHandwritingRecognitionClick: () => {
 		if (!ownProps.interpretation.interpretations.shape) {
-			dispatch(requestShapeCandidates(ownProps.scene.strokes));
+			dispatch(fetchShapeCandidates(ownProps.scene.strokes));
 		}
 		if (!ownProps.interpretation.interpretations.text) {
-			dispatch(requestTextCandidates(ownProps.scene.strokes));
+			dispatch(fetchTextCandidates(ownProps.scene.strokes));
 		}
 		dispatch(toggleInterpreter(true));
 	},

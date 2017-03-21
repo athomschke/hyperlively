@@ -3,7 +3,7 @@ import { requestTextCandidates, requestShapeCandidates } from 'helpers/handwriti
 import { receiveTextCandidates, receiveShapeCandidates } from 'actions/handwritingRecognition';
 import { TEXT_CANDIDATES_FETCH_REQUESTED, SHAPE_CANDIDATES_FETCH_REQUESTED } from 'constants/actionTypes';
 
-function* fetchTextCandidates(action) {
+export function* fetchTextCandidates(action) {
 	try {
 		const textCandidates = yield call(requestTextCandidates, action.strokes);
 		yield put(receiveTextCandidates(textCandidates));
@@ -12,7 +12,7 @@ function* fetchTextCandidates(action) {
 	}
 }
 
-function* fetchShapeCandidates(action) {
+export function* fetchShapeCandidates(action) {
 	try {
 		const shapeCandidates = yield call(requestShapeCandidates, action.strokes);
 		yield put(receiveShapeCandidates(shapeCandidates));
@@ -21,9 +21,7 @@ function* fetchShapeCandidates(action) {
 	}
 }
 
-function* myScriptJs() {
+export function* myScriptJs() {
 	yield takeEvery(TEXT_CANDIDATES_FETCH_REQUESTED, fetchTextCandidates);
 	yield takeEvery(SHAPE_CANDIDATES_FETCH_REQUESTED, fetchShapeCandidates);
 }
-
-export default myScriptJs;

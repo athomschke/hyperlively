@@ -1,6 +1,11 @@
-import myScriptJs from 'sagas/myScriptJs';
-import { requestTextCandidates } from 'actions/handwritingRecognition';
-import { strokesExample, textResponse, shapeResponse } from '../data';
+import { filter } from 'lodash';
+import { call } from 'redux-saga/effects';
+import { myScriptJs, fetchTextCandidates, fetchShapeCandidates } from 'sagas/myScriptJs';
+import * as actions from 'actions/handwritingRecognition';
+import { TEXT_CANDIDATES_FETCH_REQUESTED, SHAPE_CANDIDATES_FETCH_REQUESTED } from 'constants/actionTypes';
+import initialState from '../integration/data/canvasWithIrregularStrokesWithPloma.json';
+
+const getInitialState = () => initialState.json;
 
 describe('MyScriptJS Sagas', () => {
 	let xhr;
@@ -18,55 +23,43 @@ describe('MyScriptJS Sagas', () => {
 		requests = [];
 	});
 
-	describe('Running sagas', () => {
-		const sagas = [];
-		beforeEach(() => {
-			const sagaGenerator = myScriptJs();
-			let saga = sagaGenerator.next();
-			while (saga.value) {
-				sagas.push(saga);
-				saga = sagaGenerator.next();
+	describe('Main saga', () => {
+		it('forks sagas to fetch shape and text recognition', () => {
+			const generator = myScriptJs(getInitialState);
+			const items = [];
+			let next = generator.next();
+			while (next.value) {
+				items.push(next);
+				next = generator.next();
 			}
-		});
-
-		it('creates two myScriptJs sagas', () => {
-			expect(sagas).to.have.length(2);
-		});
-
-		it('requests text candidates from myscript.js', () => {
-			const textFetchGenerator = sagas[0].value.FORK.args[1](requestTextCandidates(strokesExample));
-			expect(textFetchGenerator.next().value.CALL.args[0]).to.deep.equal(strokesExample);
-		});
-
-		it('requests shape candidates from myscript.js', () => {
-			const textFetchGenerator = sagas[1].value.FORK.args[1](requestTextCandidates(strokesExample));
-			expect(textFetchGenerator.next().value.CALL.args[0]).to.deep.equal(strokesExample);
+			const text = filter(items,
+				item => item.value.FORK.args[0] === TEXT_CANDIDATES_FETCH_REQUESTED);
+			const shape = filter(items,
+				item => item.value.FORK.args[0] === SHAPE_CANDIDATES_FETCH_REQUESTED);
+			expect(text).to.exist();
+			expect(shape).to.exist();
 		});
 	});
 
-	describe('Fetching text candidates', () => {
-		it.skip('fetches and receive results for shape recognition', (done) => {
-			let dispatchedAction;
-			const dispatch = (action) => {
-				dispatchedAction = action;
-			};
-			const strokes = strokesExample;
-			const asynchronousFunction = fetchShapeCandidates(strokes);
-			const checkFinalAction = () => {
-				expect(dispatchedAction.type).to.equal('RECEIVE_SHAPE_CANDIDATES');
-				done();
-			};
-			const checkIntermediateAction = () => {
-				expect(dispatchedAction.type).to.equal('REQUEST_SHAPE_CANDIDATES');
-			};
-			asynchronousFunction(dispatch).then(checkFinalAction);
-			expect(requests).to.have.length(1);
-			checkIntermediateAction();
-			requests[0].respond(
-				200,
-				{ 'Content-Type': 'application/json' },
-				shapeResponse,
-			);
+	describe('Text recognition saga', () => {
+		it('yields a requestTextCandidates action', () => {
+			const strokes = initialState.json.content.undoableScenes.present[0].strokes;
+			const fetchAction = actions.fetchTextCandidates(strokes);
+			const generator = fetchTextCandidates(fetchAction);
+			const next = generator.next();
+			const desiredCall = call(actions.requestTextCandidates, strokes);
+			expect(next.value.CALL.fn.name).to.deep.equal(desiredCall.CALL.fn.name);
 		});
-	})
-})
+	});
+
+	describe('Shape recognition saga', () => {
+		it('yields a requestShapeCandidates action', () => {
+			const strokes = initialState.json.content.undoableScenes.present[0].strokes;
+			const fetchAction = actions.fetchShapeCandidates(strokes);
+			const generator = fetchShapeCandidates(fetchAction);
+			const next = generator.next();
+			const desiredCall = call(actions.requestShapeCandidates, strokes);
+			expect(next.value.CALL.fn.name).to.deep.equal(desiredCall.CALL.fn.name);
+		});
+	});
+});
