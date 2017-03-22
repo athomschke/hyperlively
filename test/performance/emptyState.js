@@ -1,6 +1,6 @@
 // @flow
 import { DEFAULT_PEN_COLOR } from '../../src/client/app/constants/drawing';
-import { type Stroke, type Content, type HyperlivelyState, type UndoableScenes } from '../../src/client/app/typeDefinitions';
+import type { Stroke, Content, HyperlivelyState, UndoableScenes } from '../../src/client/app/typeDefinitions';
 
 const dummyStroke: Stroke = {
 	points: [],
