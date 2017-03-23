@@ -1,7 +1,7 @@
 // @flow
 import React, { PureComponent } from 'react';
 import { TreeMenu } from 'react-tree-menu';
-import { cloneDeep, map, reduce } from 'lodash';
+import { cloneDeep, map, reduce, keys } from 'lodash';
 import { getPathToProperty, findArraysIndex, formatObject } from 'helpers/choosingActions';
 import type { TreeParameter } from '../../typeDefinitions';
 
@@ -29,6 +29,12 @@ export default class JsonPropertyChooser extends PureComponent {
 			collapsedPaths: [],
 			checkedPaths: [],
 		};
+	}
+
+	componentWillReceiveProps(props: any) {
+		this.state = Object.assign({}, this.state, {
+			collapsedPaths: map(keys(props.jsonTree), key => [key]),
+		});
 	}
 
 	onTreeNodeCheckChange(path: Array<number>) {

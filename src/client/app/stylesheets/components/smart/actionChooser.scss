@@ -19,11 +19,11 @@
 			margin-left: 20px;
 
 			.expand:before {
-				content: "v";
+				content: ">";
 			}
 			
 			.collapse:before {
-				content: ">";
+				content: "v";
 			}
 		}
 	}
