@@ -24,14 +24,14 @@ function interpretation(
 	case RECEIVE_TEXT_CANDIDATES: {
 		return Object.assign({}, state, {
 			interpretations: Object.assign({}, state.interpretations, {
-				text: action.candidates[0],
+				text: action.candidates,
 			}),
 		});
 	}
 	case RECEIVE_SHAPE_CANDIDATES: {
 		return Object.assign({}, state, {
 			interpretations: Object.assign({}, state.interpretations, {
-				shape: action.candidates[0],
+				shape: action.candidates,
 			}),
 		});
 	}

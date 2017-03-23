@@ -39,7 +39,7 @@ export type UPDATE_THRESHOLD_ACTION = {
 
 export type UPDATE_POSITION_ACTION = {
 	type: 'UPDATE_POSITION';
-	strokes: Array<Stroke>;
+	stroke: Stroke;
 	originX: number;
 	originY: number;
 	targetX: number;

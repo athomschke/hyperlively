@@ -3,13 +3,13 @@ import { UPDATE_POSITION, HIDE, SELECT, SELECT_INSIDE } from 'constants/actionTy
 import { type Stroke } from '../typeDefinitions';
 
 export function updatePosition(
-		strokes: Array<Stroke>,
+		stroke: Stroke,
 		originX: number,
 		originY: number,
 		targetX: number,
 		targetY: number) {
 	return { type: UPDATE_POSITION,
-		strokes,
+		stroke,
 		origin: {
 			x: originX,
 			y: originY,
