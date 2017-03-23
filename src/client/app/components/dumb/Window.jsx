@@ -4,14 +4,12 @@ import React, { PureComponent, PropTypes } from 'react';
 const Window = class Window extends PureComponent {
 
 	static propTypes = {
-		width: PropTypes.number.isRequired,
-		height: PropTypes.number.isRequired,
+		relativeDividerPosition: PropTypes.number.isRequired,
 		cmdPressed: PropTypes.bool,
 	};
 
 	static defaultProps = {
-		width: 0,
-		height: 0,
+		relativeDividerPostiion: 0.6,
 		cmdPressed: false,
 	};
 
@@ -20,7 +18,7 @@ const Window = class Window extends PureComponent {
 			className="window"
 			style={{
 				position: 'absolute',
-				width: '60%',
+				width: `${this.props.relativeDividerPosition * 100}%`,
 				height: '100%',
 				top: 0,
 				left: 0,

@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import SketchCombiner from 'components/smart/SketchCombiner';
+import { relativeDividerPosition } from '../reducers/defaultState';
 import Page from './Page';
 
 const SketchCombinedPage = SketchCombiner(Page);
@@ -11,6 +12,7 @@ const mapStateToProps = (state) => {
 	returnState.sceneIndex = state.content.sceneIndex;
 	returnState.scene = state.content.undoableScenes.present[state.content.sceneIndex];
 	returnState.interpretation = state.interpretation;
+	returnState.relativeDividerPosition = relativeDividerPosition;
 	return returnState;
 };
 

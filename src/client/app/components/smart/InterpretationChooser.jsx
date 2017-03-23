@@ -18,11 +18,13 @@ export default class InterpretationChooser extends PureComponent {
 	static propTypes = {
 		onInterpretationChoose: PropTypes.func,
 		onInterpretationTick: PropTypes.func,
+		relativeDividerPosition: PropTypes.number,
 	};
 
 	static defaultProps = {
 		onInterpretationChoose: () => {},
 		onInterpretationTick: () => {},
+		relativeDividerPosition: 0,
 	}
 
 	constructor() {
@@ -62,6 +64,7 @@ export default class InterpretationChooser extends PureComponent {
 		return (
 			<div
 				className={actionChooser}
+				style={{ width: `${(1 - this.props.relativeDividerPosition) * 100}%` }}
 			>
 				<button
 					onClick={this.onInterpretationChoose}

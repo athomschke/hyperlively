@@ -12,7 +12,7 @@ export default Wrapped => class extends PureComponent {
 	static propTypes = {
 		sketches: PropTypes.arrayOf(PropTypes.object),
 		cmdPressed: PropTypes.bool,
-		width: PropTypes.number,
+		relativeDividerPosition: PropTypes.number,
 		height: PropTypes.number,
 		paperColor: PropTypes.string,
 	};
@@ -20,7 +20,7 @@ export default Wrapped => class extends PureComponent {
 	static defaultProps = {
 		sketches: [],
 		cmdPressed: false,
-		width: 0,
+		relativeDividerPosition: 0.6,
 		height: 0,
 		paperColor: WHITE,
 	}
@@ -55,7 +55,7 @@ export default Wrapped => class extends PureComponent {
 
 	getStyle() {
 		return {
-			width: '60%',
+			width: `${this.props.relativeDividerPosition * 100}%`,
 			height: this.props.height,
 			backgroundColor: this.props.paperColor,
 			display: 'inline-block',
