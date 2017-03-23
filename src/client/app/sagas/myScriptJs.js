@@ -1,4 +1,4 @@
-import { takeEvery, call, put } from 'redux-saga/effects';
+import { takeLatest, call, put } from 'redux-saga/effects';
 import { requestTextCandidates, requestShapeCandidates } from 'helpers/handwritingRecognizer';
 import { receiveTextCandidates, receiveShapeCandidates } from 'actions/handwritingRecognition';
 import { TEXT_CANDIDATES_FETCH_REQUESTED, SHAPE_CANDIDATES_FETCH_REQUESTED } from 'constants/actionTypes';
@@ -22,6 +22,6 @@ export function* fetchShapeCandidates(action) {
 }
 
 export function* myScriptJs() {
-	yield takeEvery(TEXT_CANDIDATES_FETCH_REQUESTED, fetchTextCandidates);
-	yield takeEvery(SHAPE_CANDIDATES_FETCH_REQUESTED, fetchShapeCandidates);
+	yield takeLatest(TEXT_CANDIDATES_FETCH_REQUESTED, fetchTextCandidates);
+	yield takeLatest(SHAPE_CANDIDATES_FETCH_REQUESTED, fetchShapeCandidates);
 }

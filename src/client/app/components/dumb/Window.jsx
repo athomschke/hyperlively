@@ -20,8 +20,8 @@ const Window = class Window extends PureComponent {
 			className="window"
 			style={{
 				position: 'absolute',
-				width: this.props.width,
-				height: this.props.height,
+				width: '60%',
+				height: '100%',
 				top: 0,
 				left: 0,
 				pointerEvents: this.props.cmdPressed ? 'none' : 'auto',

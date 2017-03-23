@@ -55,12 +55,11 @@ export default Wrapped => class extends PureComponent {
 
 	getStyle() {
 		return {
-			width: this.props.width,
+			width: '60%',
 			height: this.props.height,
-			position: 'absolute',
-			top: 0,
-			left: 0,
 			backgroundColor: this.props.paperColor,
+			display: 'inline-block',
+			verticalAlign: 'top',
 		};
 	}
 

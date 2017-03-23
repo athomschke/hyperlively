@@ -1,5 +1,8 @@
 import { connect } from 'react-redux';
+import SketchCombiner from 'components/smart/SketchCombiner';
 import Page from './Page';
+
+const SketchCombinedPage = SketchCombiner(Page);
 
 const mapStateToProps = (state) => {
 	const returnState = {};
@@ -16,4 +19,4 @@ const mapDispatchToProps = () => ({ });
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Page);
+)(SketchCombinedPage);

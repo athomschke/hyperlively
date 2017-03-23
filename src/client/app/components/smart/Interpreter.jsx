@@ -1,10 +1,10 @@
 // @flow
 import React, { PureComponent, PropTypes } from 'react';
-import { map, flatten, filter, last, initial, forEach } from 'lodash';
+import { map, flatten, filter, last, forEach } from 'lodash';
 import InterpretationChooser from './InterpretationChooser';
-import { type Point, type FunctionConfiguration } from '../../typeDefinitions';
+import type { FunctionConfiguration } from '../../typeDefinitions';
 
-export default Wrapped => class extends PureComponent {
+export default class extends PureComponent {
 
 	static propTypes = {
 		performAction: PropTypes.func,
@@ -58,7 +58,7 @@ export default Wrapped => class extends PureComponent {
 		return filter(flatten(map(this.props.sketches, 'strokes')), 'selected');
 	}
 
-	renderInterpretationChooser() {
+	render() {
 		const actionChooserProps = {
 			isOpen: this.props.showInterpreter,
 			onRequestClose: this.deactivateInterpretation.bind(this),
@@ -81,13 +81,4 @@ export default Wrapped => class extends PureComponent {
 			{...jsonTreeProps}
 		/>);
 	}
-
-	render() {
-		return (<div>
-			<Wrapped
-				{...this.props}
-			/>
-			{this.renderInterpretationChooser()}
-		</div>);
-	}
-};
+}

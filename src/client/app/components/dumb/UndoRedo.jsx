@@ -1,20 +1,47 @@
 // @flow
-import React from 'react';
+import React, { PureComponent } from 'react';
 import TimelineView from './Timeline';
 import TimeoutBehavior from '../smart/TimeoutBehavior';
 
 const Timeline = TimeoutBehavior(TimelineView);
 
-export default function UndoRedo(props: Object) {
-	return (<div
-		style={{
-			width: window.innerWidth - 40,
-		}}
-	>
-		<Timeline
-			{...props}
-			sliderWidth={window.innerWidth - 40}
-			sliderHeight={80}
-		/>
-	</div>);
+type State = {
+	sliderWidth: number,
+}
+
+type Props = {}
+
+export default class UndoRedo extends PureComponent {
+
+	constructor(props: any) {
+		super(props);
+		this.state = {
+			sliderWidth: 0,
+		};
+	}
+
+	state: State
+
+	componentDidMount() {
+		this.state.sliderWidth = this.node.getBoundingClientRect().width;
+	}
+
+	props: Props
+
+	node: HTMLDivElement
+
+	render() {
+		return (<div
+			ref={(node) => { this.node = node; }}
+			style={{
+				width: '100%',
+			}}
+		>
+			<Timeline
+				{...this.props}
+				{...this.state}
+				sliderHeight={80}
+			/>
+		</div>);
+	}
 }

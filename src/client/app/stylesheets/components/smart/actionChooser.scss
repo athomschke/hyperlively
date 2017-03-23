@@ -1,31 +1,20 @@
-.ReactModal__Overlay {
-
-	text-align: center;
-	padding: 20px;
-
-}
-
 :local(.actionChooser) {
 
-	overflow-y: scroll;
 	height: 100%;
 	text-align: left;
 	display: inline-block;
 	background-color: white;
-	padding: 5px;
-
-	.list-view {
-		vertical-align: top;
-		display: inline-block;
-	}
+	width: 40%;
 
 	.tree-view {
-
+		overflow-y: scroll;
+		overflow-x: scroll;
 	    font-family: system-ui;
 	    font-size: 13;
-		vertical-align: top;
 		display: inline-block;
 		padding-top: 20px;
+	    height: 100%;
+    	width: 50%;
 
 		.tree-view-node {
 			margin-left: 20px;

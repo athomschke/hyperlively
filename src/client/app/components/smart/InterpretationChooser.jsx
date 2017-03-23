@@ -1,6 +1,5 @@
 // @flow
 import React, { PureComponent, PropTypes } from 'react';
-import Modal from 'react-modal';
 import { actionChooser } from 'stylesheets/components/smart/actionChooser.scss';
 import ActionChooser from './ActionChooser';
 import ParameterChooser from './ParameterChooser';
@@ -61,10 +60,8 @@ export default class InterpretationChooser extends PureComponent {
 
 	render() {
 		return (
-			<Modal
+			<div
 				className={actionChooser}
-				{...this.props}
-				contentLabel="I am required by a11y"
 			>
 				<button
 					onClick={this.onInterpretationChoose}
@@ -81,7 +78,7 @@ export default class InterpretationChooser extends PureComponent {
 						onParameterChoose={this.onParameterChoose}
 					/>
 				</div>
-			</Modal>);
+			</div>);
 	}
 
 }
