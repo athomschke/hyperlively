@@ -3,10 +3,10 @@ import React, { PureComponent, PropTypes } from 'react';
 import { actionChooser } from 'stylesheets/components/smart/actionChooser.scss';
 import ActionChooser from './ActionChooser';
 import ParameterChooser from './ParameterChooser';
-import { type FunctionConfiguration } from '../../typeDefinitions';
+import type { FunctionConfiguration, TreeParameter } from '../../typeDefinitions';
 
 type State = {
-	parameters: Array<Array<string>>,
+	parameters: Array<Array<TreeParameter>>,
 	functions: Array<{
 		name: string,
 		parameters: number,
@@ -48,7 +48,7 @@ export default class InterpretationChooser extends PureComponent {
 		this.setState({ functions });
 	}
 
-	onParameterChoose(parameters: Array<Array<string>>) {
+	onParameterChoose(parameters: Array<Array<TreeParameter>>) {
 		this.setState({ parameters });
 	}
 

@@ -1,8 +1,9 @@
 // @flow
 import React, { PureComponent, PropTypes } from 'react';
 import { getFittedWidth, scaleToTime } from 'helpers/scalingPointsToBounds';
+import type { Component } from 'react-flow-types';
 
-export default Wrapped => class extends PureComponent {
+export default (Wrapped: Component<Object>) => class extends PureComponent {
 
 	static propTypes = {
 		strokes: PropTypes.arrayOf(PropTypes.object),

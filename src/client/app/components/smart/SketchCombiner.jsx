@@ -1,5 +1,6 @@
 // @flow
 import React, { PureComponent } from 'react';
+import type { Component } from 'react-flow-types';
 import { reduce, last, first, concat } from 'lodash';
 import { DEFAULT_THRESHOLD } from 'constants/drawing';
 import { type Scene } from '../../typeDefinitions';
@@ -32,7 +33,7 @@ type Props = {
 	threshold: number,
 };
 
-export default Wrapped => class extends PureComponent {
+export default (Wrapped: Component<Object>) => class extends PureComponent {
 
 	props: Props
 

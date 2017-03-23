@@ -1,9 +1,10 @@
 // @flow
 import React, { PureComponent, PropTypes } from 'react';
+import type { Component } from 'react-flow-types';
 
 let runningTimeout;
 
-export default Wrapped => class extends PureComponent {
+export default (Wrapped: Component<Object>) => class extends PureComponent {
 
 	static propTypes = {
 		temporaryCallback: PropTypes.func,
@@ -27,8 +28,8 @@ export default Wrapped => class extends PureComponent {
 
 	constructor() {
 		super();
-		this.beActive = this.beActive.bind(this);
-		this.beNotActive = this.beNotActive.bind(this);
+		(this:any).beActive = this.beActive.bind(this);
+		(this:any).beNotActive = this.beNotActive.bind(this);
 	}
 
 	state: {
