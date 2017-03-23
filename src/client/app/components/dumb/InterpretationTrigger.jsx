@@ -12,7 +12,7 @@ export default class InterpretationTrigger extends PureComponent {
 
 	constructor() {
 		super();
-		this.onHandwritingRecognitionClick = this.onHandwritingRecognitionClick.bind(this);
+		(this:any).onHandwritingRecognitionClick = this.onHandwritingRecognitionClick.bind(this);
 	}
 
 	onHandwritingRecognitionClick() {
@@ -22,6 +22,6 @@ export default class InterpretationTrigger extends PureComponent {
 	render() {
 		return (<button
 			onClick={this.onHandwritingRecognitionClick}
-		>Show Interpreter</button>);
+		>Recognize Handwriting</button>);
 	}
 }
