@@ -1,7 +1,8 @@
 // @flow
 import React, { PureComponent } from 'react';
+import type { Component } from 'react-flow-types';
 
-export default Wrapped => class extends PureComponent {
+export default (Wrapped: Component<Object>) => class extends PureComponent {
 
 	constructor(props: Object) {
 		super(props);
@@ -9,7 +10,7 @@ export default Wrapped => class extends PureComponent {
 			width: window.innerWidth,
 			height: window.innerHeight,
 		};
-		this.handleResize = this.handleResize.bind(this);
+		(this:any).handleResize = this.handleResize.bind(this);
 	}
 
 	state: {

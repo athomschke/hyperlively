@@ -29,10 +29,10 @@ export default class InterpretationChooser extends PureComponent {
 
 	constructor() {
 		super();
-		this.onActionChoose = this.onActionChoose.bind(this);
-		this.onParameterChoose = this.onParameterChoose.bind(this);
-		this.onInterpretationChoose = this.onInterpretationChoose.bind(this);
-		this.onInterpretationTick = this.onInterpretationTick.bind(this);
+		(this:any).onActionChoose = this.onActionChoose.bind(this);
+		(this:any).onParameterChoose = this.onParameterChoose.bind(this);
+		(this:any).onInterpretationChoose = this.onInterpretationChoose.bind(this);
+		(this:any).onInterpretationTick = this.onInterpretationTick.bind(this);
 	}
 
 	state: State;

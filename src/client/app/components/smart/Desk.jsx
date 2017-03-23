@@ -1,13 +1,14 @@
 // @flow
 import React, { PureComponent, PropTypes } from 'react';
 import { map, last, filter } from 'lodash';
+import type { Component } from 'react-flow-types';
 import { OFFSET } from 'constants/canvas';
 import { WHITE } from 'constants/drawing';
 import { type Stroke } from '../../typeDefinitions';
 
 const visibleStrokesInSketch = sketch => filter(sketch.strokes || [], stroke => !stroke.hidden);
 
-export default Wrapped => class extends PureComponent {
+export default (Wrapped: Component<Object>) => class extends PureComponent {
 
 	static propTypes = {
 		sketches: PropTypes.arrayOf(PropTypes.object),

@@ -15,7 +15,7 @@ export default class Checkbox extends PureComponent {
 
 	constructor() {
 		super();
-		this.onClick = this.onClick.bind(this);
+		(this:any).onClick = this.onClick.bind(this);
 	}
 
 	onClick() {

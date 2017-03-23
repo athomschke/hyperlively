@@ -1,8 +1,9 @@
 // @flow
-import React, { PropTypes, Component, PureComponent } from 'react';
+import React, { PropTypes, PureComponent } from 'react';
 import { forEach } from 'lodash';
+import type { Component } from 'react-flow-types';
 
-export default Wrapped => class extends PureComponent {
+export default (Wrapped: Component<Object>) => class extends PureComponent {
 
 	static propTypes = {
 		observeMutations: PropTypes.bool,
@@ -21,7 +22,7 @@ export default Wrapped => class extends PureComponent {
 		strokes: [],
 	};
 
-	wrappedComponent: Component
+	wrappedComponent: Component<Object> & {node: HTMLElement }
 
 	state: {
 		observer: MutationObserver,

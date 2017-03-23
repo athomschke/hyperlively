@@ -3,11 +3,15 @@ import React, { PureComponent } from 'react';
 import { forEach, map } from 'lodash';
 import actions from 'actions/actions';
 import JsonPropertyChooser from './JsonPropertyChooser';
+import { type FunctionConfiguration } from '../../typeDefinitions';
 
-const formattedSignaturs = signatures => map(signatures, signature => ({
-	name: signature.split('(')[0],
-	parameters: signature.split('(')[1].split(')')[0].split(',').length,
-}));
+const formattedSignatures = (
+		signatures: Array<string>)
+		: Array<FunctionConfiguration> =>
+	map(signatures, signature => ({
+		name: signature.split('(')[0],
+		parameters: signature.split('(')[1].split(')')[0].split(',').length,
+	}));
 
 const getSignatureFromFunction = aFunction =>
 		aFunction.toString().split(' {')[0].split('function ')[1];
@@ -24,17 +28,17 @@ Object.keys(actions).map(actionName =>
 	getSignatureFromFunction(actions[actionName]));
 
 type Props = {
-	onActionChoose: (string) => void,
+	onActionChoose: (Array<FunctionConfiguration>) => void,
 }
 
 export default class ActionChooser extends PureComponent {
 
 	static defaultProps = {
-		onActionChoose: () => {},
+		onActionChoose: (actionSignatures: Array<FunctionConfiguration>) => {},
 	}
 
 	onActionChoose(signatures: Array<string>) {
-		this.props.onActionChoose(formattedSignaturs(signatures));
+		this.props.onActionChoose(formattedSignatures(signatures));
 	}
 
 	props: Props

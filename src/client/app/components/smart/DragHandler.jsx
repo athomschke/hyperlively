@@ -1,8 +1,9 @@
 // @flow
 import React, { PureComponent, PropTypes } from 'react';
 import { type SyntheticTouchEvent, type SyntheticMouseEvent } from 'flow-bin';
+import type { Component } from 'react-flow-types';
 
-export default Wrapped => class extends PureComponent {
+export default (Wrapped: Component<Object>) => class extends PureComponent {
 
 	static propTypes = {
 		onDragStart: PropTypes.func,
@@ -20,12 +21,12 @@ export default Wrapped => class extends PureComponent {
 
 	constructor() {
 		super();
-		this.onMouseUp = this.onMouseUp.bind(this);
-		this.onMouseMove = this.onMouseMove.bind(this);
-		this.onMouseDown = this.onMouseDown.bind(this);
-		this.onTouchStart = this.onTouchStart.bind(this);
-		this.onTouchMove = this.onTouchMove.bind(this);
-		this.onTouchEnd = this.onTouchEnd.bind(this);
+		(this:any).onMouseUp = this.onMouseUp.bind(this);
+		(this:any).onMouseMove = this.onMouseMove.bind(this);
+		(this:any).onMouseDown = this.onMouseDown.bind(this);
+		(this:any).onTouchStart = this.onTouchStart.bind(this);
+		(this:any).onTouchMove = this.onTouchMove.bind(this);
+		(this:any).onTouchEnd = this.onTouchEnd.bind(this);
 	}
 
 	state: {
