@@ -1,10 +1,10 @@
 // @flow
 import React, { PureComponent } from 'react';
 import JsonPropertyChooser from './JsonPropertyChooser';
-import { type Stroke, type RecognitionResult } from '../../typeDefinitions';
+import type { Stroke, RecognitionResult, TreeParameter } from '../../typeDefinitions';
 
 type Props = {
-	onParameterChoose: (parameters: Array<Array<string>>) => void,
+	onParameterChoose: (parameters: Array<TreeParameter>) => void,
 	lastStrokes: Array<Stroke>,
 	selectedStrokes: Array<Stroke>,
 	interpretations: RecognitionResult,
@@ -21,12 +21,12 @@ export default class ParameterChooser extends PureComponent {
 
 	constructor() {
 		super();
-		this.handleParameterChoose = this.handleParameterChoose.bind(this);
+		(this:any).handleParameterChoose = this.handleParameterChoose.bind(this);
 	}
 
 	props: Props
 
-	handleParameterChoose(parameters: Array<Array<string>>) {
+	handleParameterChoose(parameters: Array<TreeParameter>) {
 		this.props.onParameterChoose(parameters);
 	}
 

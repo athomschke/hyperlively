@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 import { TreeMenu } from 'react-tree-menu';
 import { cloneDeep, map, reduce } from 'lodash';
 import { getPathToProperty, findArraysIndex, formatObject } from 'helpers/choosingActions';
+import type { TreeParameter } from '../../typeDefinitions';
 
 type State = {
 	collapsedPaths: Array<Array<string>>,
@@ -11,14 +12,14 @@ type State = {
 
 type Props = {
 	jsonTree: Object,
-	onParameterChoose: (parameters: Array<string>) => void,
+	onParameterChoose: (parameters: Array<TreeParameter>) => void,
 }
 
 export default class JsonPropertyChooser extends PureComponent {
 
 	static defaultProps = {
 		jsonTree: {},
-		onParameterChoose: (parameters: Array<string>) => {},
+		onParameterChoose: (parameters: Array<TreeParameter>) => {},
 	}
 
 	state: State;
@@ -45,7 +46,7 @@ export default class JsonPropertyChooser extends PureComponent {
 		}
 		const rawData = {};
 		Object.assign(rawData, this.props.jsonTree);
-		const values: Array<string> = map(checkedPaths, (checkedPath: Array<string>) =>
+		const values: Array<TreeParameter> = map(checkedPaths, (checkedPath: Array<string>) =>
 			reduce(checkedPath, (value: Object, key: string) => value[key], rawData));
 		this.props.onParameterChoose(values);
 		this.setState({

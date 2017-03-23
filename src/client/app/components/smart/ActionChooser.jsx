@@ -3,10 +3,10 @@ import React, { PureComponent } from 'react';
 import { forEach, map } from 'lodash';
 import actions from 'actions/actions';
 import JsonPropertyChooser from './JsonPropertyChooser';
-import { type FunctionConfiguration } from '../../typeDefinitions';
+import type { FunctionConfiguration, TreeParameter } from '../../typeDefinitions';
 
 const formattedSignatures = (
-		signatures: Array<string>)
+		signatures: Array<TreeParameter>)
 		: Array<FunctionConfiguration> =>
 	map(signatures, signature => ({
 		name: signature.split('(')[0],
@@ -37,7 +37,7 @@ export default class ActionChooser extends PureComponent {
 		onActionChoose: (actionSignatures: Array<FunctionConfiguration>) => {},
 	}
 
-	onActionChoose(signatures: Array<string>) {
+	onActionChoose(signatures: Array<TreeParameter>) {
 		this.props.onActionChoose(formattedSignatures(signatures));
 	}
 
@@ -47,7 +47,7 @@ export default class ActionChooser extends PureComponent {
 		return (
 			<JsonPropertyChooser
 				{...this.props}
-				onParameterChoose={(parameters: Array<string>) => {
+				onParameterChoose={(parameters: Array<TreeParameter>) => {
 					this.onActionChoose(parameters);
 				}}
 				jsonTree={getActions()}

@@ -18,6 +18,8 @@ export type Scene = {
 	strokes: Array<Stroke>,
 }
 
+export type Sketch = Array<Stroke>
+
 export type SceneState = Array<Scene>
 
 export type UndoableScenes = {
@@ -48,6 +50,8 @@ export type HyperlivelyState = {
 export type Action = {}
 
 export type Reducer = (state: any, action: Action) => any;
+
+export type TreeParameter = string | number;
 
 export type ReactTreeLeafFormat = {
 	label: string,

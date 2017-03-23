@@ -1,7 +1,8 @@
 // @flow
 import React, { PureComponent } from 'react';
+import type { Component } from 'react-flow-types';
 
-export default Wrapped => class extends PureComponent {
+export default (Wrapped: Component<Object>) => class extends PureComponent {
 
 	constructor(props: Object) {
 		super(props);

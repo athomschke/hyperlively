@@ -1,18 +1,20 @@
 // @flow
-import React, { PureComponent, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
 import { map, flatten, filter, last, forEach } from 'lodash';
 import InterpretationChooser from './InterpretationChooser';
-import type { FunctionConfiguration } from '../../typeDefinitions';
+import type { FunctionConfiguration, Sketch, RecognitionResult } from '../../typeDefinitions';
+
+type Props = {
+	performAction: () => {},
+	sketches: Array<Sketch>,
+	showInterpreter: boolean,
+	interpretations: {
+		candidate: RecognitionResult
+	},
+	onInterpretationDone: (boolean) => {},
+}
 
 export default class extends PureComponent {
-
-	static propTypes = {
-		performAction: PropTypes.func,
-		sketches: PropTypes.arrayOf(PropTypes.object),
-		showInterpreter: PropTypes.bool,
-		interpretations: PropTypes.object,
-		onInterpretationDone: PropTypes.func,
-	};
 
 	static defaultProps = {
 		performAction: () => {},
@@ -27,15 +29,19 @@ export default class extends PureComponent {
 		onInterpretationDone: () => {},
 	};
 
-	performAction(items: Array<FunctionConfiguration>, values: Array<number | string>) {
-		let valueIndex = 0;
-		forEach(items, (item) => {
-			const functionName = item.name;
-			const functionParameters = values.slice(valueIndex, valueIndex + item.parameters);
-			valueIndex += item.parameters;
-			this.props.performAction.apply(this, [functionName].concat(functionParameters));
-		});
-		this.deactivateInterpretation();
+	constructor(props: any) {
+		super(props);
+		(this:any).deactivateInterpretation = this.deactivateInterpretation.bind(this);
+		(this:any).performAction = this.performAction.bind(this);
+		(this:any).tickActions = this.tickActions.bind(this);
+	}
+
+	getSelectedStrokes() {
+		return filter(flatten(map(this.props.sketches, 'strokes')), 'selected');
+	}
+
+	deactivateInterpretation() {
+		this.props.onInterpretationDone(false);
 	}
 
 	tickActions(items: Array<FunctionConfiguration>, values: Array<number | string>,
@@ -50,20 +56,25 @@ export default class extends PureComponent {
 		}, interval);
 	}
 
-	deactivateInterpretation() {
-		this.props.onInterpretationDone(false);
+	performAction(items: Array<FunctionConfiguration>, values: Array<number | string>) {
+		let valueIndex = 0;
+		forEach(items, (item) => {
+			const functionName = item.name;
+			const functionParameters = values.slice(valueIndex, valueIndex + item.parameters);
+			valueIndex += item.parameters;
+			this.props.performAction.apply(this, [functionName].concat(functionParameters));
+		});
+		this.deactivateInterpretation();
 	}
 
-	getSelectedStrokes() {
-		return filter(flatten(map(this.props.sketches, 'strokes')), 'selected');
-	}
+	props: Props
 
 	render() {
 		const actionChooserProps = {
 			isOpen: this.props.showInterpreter,
-			onRequestClose: this.deactivateInterpretation.bind(this),
-			onInterpretationChoose: this.performAction.bind(this),
-			onInterpretationTick: this.tickActions.bind(this),
+			onRequestClose: this.deactivateInterpretation,
+			onInterpretationChoose: this.performAction,
+			onInterpretationTick: this.tickActions,
 			selectedStrokes: this.getSelectedStrokes(),
 		};
 		const lastStrokesProps = {};

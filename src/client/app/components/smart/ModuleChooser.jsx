@@ -1,7 +1,8 @@
 // @flow
 import React, { PureComponent, PropTypes } from 'react';
+import type { Component } from 'react-flow-types';
 
-export default possibleComponents => class extends PureComponent {
+export default (possibleComponents: Array<Component<Object>>) => class extends PureComponent {
 
 	static propTypes = {
 		componentIndex: PropTypes.number,
