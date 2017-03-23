@@ -3,12 +3,16 @@ import { last, keys, map, filter, isEqual, findIndex } from 'lodash';
 import { type ReactTreeNodeFormat, type ReactTreeLeafFormat } from '../typeDefinitions';
 
 export const findArraysIndex = (
-		containingArray: Array<Array<string>>,
-		containedArray: Array<Array<string>>) =>
+		containingArray: Array<Array<any>>,
+		containedArray: Array<any>)
+		: number =>
 	findIndex(containingArray, possibleMatch =>
 		isEqual(possibleMatch, containedArray));
 
-export const findArraysEndingOnItem = (arrays: Array<Array<string>>, item: string) =>
+export const findArraysEndingOnItem = (
+		arrays: Array<Array<string>>,
+		item: string)
+		: Array<Array<string>> =>
 	filter(arrays, matchingCheck =>
 		last(matchingCheck) === item);
 
@@ -17,11 +21,15 @@ const formatTreeNode = (
 		key: string,
 		keyChecks: Array<Array<string>>,
 		allChecks: Array<Array<string>>,
-		children, keyCollapses) :
-		ReactTreeNodeFormat => {
-	const matchingChecks = findArraysEndingOnItem(keyChecks, key);
-	const parameterIndex = findArraysIndex(allChecks, matchingChecks[0]);
-	const parameterIndicator = parameterIndex >= 0 ? ` (property ${parameterIndex})` : '';
+		children: Array<ReactTreeLeafFormat | ReactTreeNodeFormat>,
+		keyCollapses: Array<Array<string>>)
+		: ReactTreeNodeFormat => {
+	const matchingChecks: Array<Array<string>> =
+		findArraysEndingOnItem(keyChecks, key);
+	const parameterIndex: number =
+		findArraysIndex(allChecks, matchingChecks[0]);
+	const parameterIndicator: string =
+		parameterIndex >= 0 ? ` (property ${parameterIndex})` : '';
 	return {
 		checkbox: true,
 		checked: matchingChecks.length > 0,
@@ -37,10 +45,14 @@ export const formatTreeLeaf = (
 		object: Object,
 		key: string,
 		keyChecks: Array<Array<string>>,
-		allChecks: Array<Array<string>>) : ReactTreeLeafFormat => {
-	const matchingChecks = findArraysEndingOnItem(keyChecks, key);
-	const parameterIndex = findArraysIndex(allChecks, matchingChecks[0]);
-	const parameterIndicator = parameterIndex >= 0 ? ` (property ${parameterIndex})` : '';
+		allChecks: Array<Array<string>>)
+		: ReactTreeLeafFormat => {
+	const matchingChecks: Array<Array<string>> =
+		findArraysEndingOnItem(keyChecks, key);
+	const parameterIndex: number =
+		findArraysIndex(allChecks, matchingChecks[0]);
+	const parameterIndicator: string =
+		parameterIndex >= 0 ? ` (property ${parameterIndex})` : '';
 	return {
 		checkbox: true,
 		checked: matchingChecks.length > 0,
@@ -51,7 +63,8 @@ export const formatTreeLeaf = (
 
 export const getPathToProperty = (
 		nestedArrayPath: Array<number>,
-		arrayedJsonTree: Array<ReactTreeNodeFormat | ReactTreeLeafFormat>) => {
+		arrayedJsonTree: Array<ReactTreeNodeFormat | ReactTreeLeafFormat>)
+		: Array<string> => {
 	let node = {
 		children: arrayedJsonTree,
 	};
@@ -61,18 +74,27 @@ export const getPathToProperty = (
 	});
 };
 
+export const arraysWithStringAtIndex = (
+		arrays: Array<Array<string>>,
+		string: string,
+		index: number)
+		: Array<Array<string>> =>
+	filter(arrays, (array: Array<string>) =>
+			array[index] === string);
+
 export const formatObject = (
 		anObject: Object,
 		checkedArrays: Array<Array<string>>,
 		collapsedArrays: Array<Array<string>>,
 		origCheckedArrays: Array<Array<string>>,
-		depth: number) =>
-	map(keys(anObject), (key) => {
-		const checksContainingNode = filter(checkedArrays, checkedArray =>
-			checkedArray[depth] === key);
-		const collapsesContainingNode = filter(collapsedArrays, collapsedArray =>
-			collapsedArray[depth] === key);
-		let children;
+		depth: number)
+		: Array<ReactTreeLeafFormat | ReactTreeNodeFormat> =>
+	map(keys(anObject), (key: string) => {
+		const checksContainingNode: Array<Array<string>> =
+			arraysWithStringAtIndex(checkedArrays, key, depth);
+		const collapsesContainingNode: Array<Array<string>> =
+			arraysWithStringAtIndex(collapsedArrays, key, depth);
+		let children: Array<ReactTreeLeafFormat | ReactTreeNodeFormat>;
 		if (anObject[key] instanceof Object) {
 			children = formatObject(
 				anObject[key],

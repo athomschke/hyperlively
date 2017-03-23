@@ -43,7 +43,7 @@ export default class ActionChooser extends PureComponent {
 		return (
 			<JsonPropertyChooser
 				{...this.props}
-				onParameterChoose={(parameters) => {
+				onParameterChoose={(parameters: Array<string>) => {
 					this.onActionChoose(parameters);
 				}}
 				jsonTree={getActions()}

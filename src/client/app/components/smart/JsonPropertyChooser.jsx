@@ -1,5 +1,5 @@
 // @flow
-import React, { PureComponent, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
 import { TreeMenu } from 'react-tree-menu';
 import { cloneDeep, map, reduce } from 'lodash';
 import { getPathToProperty, findArraysIndex, formatObject } from 'helpers/choosingActions';
@@ -9,16 +9,16 @@ type State = {
 	checkedPaths: Array<Array<string>>,
 };
 
-export default class JsonPropertyChooser extends PureComponent {
+type Props = {
+	jsonTree: Object,
+	onParameterChoose: (parameters: Array<string>) => void,
+}
 
-	static propTypes = {
-		jsonTree: PropTypes.object,
-		onParameterChoose: PropTypes.func,
-	};
+export default class JsonPropertyChooser extends PureComponent {
 
 	static defaultProps = {
 		jsonTree: {},
-		onParameterChoose: () => {},
+		onParameterChoose: (parameters: Array<string>) => {},
 	}
 
 	state: State;
@@ -31,9 +31,11 @@ export default class JsonPropertyChooser extends PureComponent {
 	}
 
 	onTreeNodeCheckChange(path: Array<number>) {
-		const pathToProperty = getPathToProperty(path, this.getFormattedData());
-		const checkedIndex = findArraysIndex(this.state.checkedPaths, pathToProperty);
-		let checkedPaths;
+		const pathToProperty: Array<string> =
+			getPathToProperty(path, this.getFormattedData());
+		const checkedIndex: number =
+			findArraysIndex(this.state.checkedPaths, pathToProperty);
+		let checkedPaths: Array<Array<string>>;
 		if (checkedIndex >= 0) {
 			checkedPaths = this.state.checkedPaths
 				.slice(0, checkedIndex)
@@ -43,8 +45,8 @@ export default class JsonPropertyChooser extends PureComponent {
 		}
 		const rawData = {};
 		Object.assign(rawData, this.props.jsonTree);
-		const values = map(checkedPaths, checkedPath =>
-			reduce(checkedPath, (value, key) => value[key], rawData));
+		const values: Array<string> = map(checkedPaths, (checkedPath: Array<string>) =>
+			reduce(checkedPath, (value: Object, key: string) => value[key], rawData));
 		this.props.onParameterChoose(values);
 		this.setState({
 			checkedPaths,
@@ -52,8 +54,10 @@ export default class JsonPropertyChooser extends PureComponent {
 	}
 
 	onTreeNodeCollapseChange(path: Array<number>) {
-		const pathToProperty = getPathToProperty(path, this.getFormattedData());
-		const collapsedIndex = findArraysIndex(this.state.collapsedPaths, pathToProperty);
+		const pathToProperty: Array<string> =
+			getPathToProperty(path, this.getFormattedData());
+		const collapsedIndex: number =
+			findArraysIndex(this.state.collapsedPaths, pathToProperty);
 		if (collapsedIndex >= 0) {
 			this.setState({
 				collapsedPaths: this.state.collapsedPaths
@@ -68,7 +72,7 @@ export default class JsonPropertyChooser extends PureComponent {
 	}
 
 	getFormattedData() {
-		const rawData = cloneDeep(this.props.jsonTree);
+		const rawData: Object = cloneDeep(this.props.jsonTree);
 		return formatObject(
 			rawData,
 			this.state && this.state.checkedPaths,
@@ -76,6 +80,8 @@ export default class JsonPropertyChooser extends PureComponent {
 			this.state && this.state.checkedPaths,
 			0);
 	}
+
+	props: Props
 
 	render() {
 		return (<TreeMenu

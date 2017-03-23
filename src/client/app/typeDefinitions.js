@@ -63,7 +63,7 @@ export type ReactTreeNodeFormat = {
 	checked: boolean,
 	collapsible: boolean,
 	collapsed: boolean,
-	children: ReactTreeNodeFormat | ReactTreeLeafFormat
+	children: Array<ReactTreeLeafFormat | ReactTreeNodeFormat>
 }
 
 export type TextCandidate = {
