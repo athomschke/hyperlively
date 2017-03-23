@@ -48,12 +48,6 @@ describe('Integration', () => {
 			expectInputNodeWithLabelAndState('Use Ploma', false);
 		});
 
-		it('shows a deactivated handwritingRecognition enable button', () => {
-			const emptyCanvasJson = cloneDeep(emptyCanvas.json);
-			renderApplicationWithState(emptyCanvasJson);
-			expectInputNodeWithLabelAndState('Use Handwriting Recognition', false);
-		});
-
 		it('shows the first scene', () => {
 			const twoScenesJson = cloneDeep(canvasWithTwoScenes.json);
 			twoScenesJson.content.sceneIndex = 0;

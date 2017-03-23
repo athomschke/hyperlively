@@ -72,7 +72,6 @@ describe('Desk', () => {
 	});
 
 	it('gives the background the provided width', () => {
-		const width = 100;
 		const height = 200;
 		const desk = TestUtils.renderIntoDocument(<MockedComponent
 			sketches={[{
@@ -80,11 +79,11 @@ describe('Desk', () => {
 					points: [point(10, 10)],
 				}],
 			}]}
-			width={width}
+			relativeDividerPosition={0.4}
 			height={height}
 		/>);
 		const nodes = TestUtils.scryRenderedDOMComponentsWithTag(desk, 'div');
-		expect(parseInt(nodes[0].style.width, 10)).to.equal(width);
+		expect(nodes[0].style.width).to.equal('40%');
 		expect(parseInt(nodes[0].style.height, 10)).to.equal(height);
 	});
 

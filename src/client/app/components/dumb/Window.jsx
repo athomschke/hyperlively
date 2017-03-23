@@ -9,7 +9,7 @@ const Window = class Window extends PureComponent {
 	};
 
 	static defaultProps = {
-		relativeDividerPostiion: 0.6,
+		relativeDividerPosition: 0.6,
 		cmdPressed: false,
 	};
 

@@ -19,7 +19,7 @@ describe('Integration', () => {
 		it('switches to Ploma when it was deactivated', () => {
 			renderApplicationWithState(canvasWithIrregularStrokesWithPloma.json);
 			const nonPlomaImageData = getCombinedCanvas().toDataURL();
-			const plomaButton = document.getElementsByTagName('input')[0];
+			const plomaButton = document.getElementById('configuration').getElementsByTagName('input')[0];
 			TestUtils.Simulate.click(plomaButton);
 			expect(hashCode(getCombinedCanvas().toDataURL())).to.not.equal(hashCode(nonPlomaImageData));
 		});
@@ -28,7 +28,7 @@ describe('Integration', () => {
 			renderApplicationWithState(canvasWithIrregularStrokesWithPloma.json);
 			const backgroundNode = document.getElementById('app').children[0].children[0].children[0];
 			const nonPlomaBackgroundColor = backgroundNode.style.getPropertyValue('background-color');
-			const plomaButton = document.getElementsByTagName('input')[0];
+			const plomaButton = document.getElementById('configuration').getElementsByTagName('input')[0];
 			TestUtils.Simulate.click(plomaButton);
 			const plomaBackgroundColor = backgroundNode.style.getPropertyValue('background-color');
 			expect(plomaBackgroundColor).to.not.equal(nonPlomaBackgroundColor);

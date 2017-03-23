@@ -75,11 +75,6 @@ describe('Interpretation Chooser', () => {
 		it('renders a button to start ticking', () => {
 			expect(findElementOfTypeWithTextContent(interpretationChooser, 'button', 'Tick')).to.have.length(1);
 		});
-
-		it('shows a modal dialog', () => {
-			const modal = interpretationChooser.find(Modal);
-			expect(modal.props().isOpen).to.be.true();
-		});
 	});
 
 	describe('Choosing an action', () => {

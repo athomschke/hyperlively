@@ -4,23 +4,12 @@ import { forEach } from 'lodash';
 import Interpreter from 'components/smart/Interpreter';
 import InterpretationChooser from 'components/smart/InterpretationChooser';
 
-const renderWithProps = (props) => {
-	const WrappedComponent = () => <div />;
-	const InterpreterComponent = Interpreter(WrappedComponent);
-	return TestUtils.renderIntoDocument(<InterpreterComponent {...props} />);
-};
+const renderWithProps = (props) => TestUtils.renderIntoDocument(<Interpreter {...props} />);
 
 describe('Interpreter', () => {
 	afterEach(() => {
 		forEach(document.getElementsByClassName('ReactModalPortal'), (modalNode) => {
 			modalNode.parentNode.removeChild(modalNode);
-		});
-	});
-
-	describe('rendering', () => {
-		it('wraps a handed component', () => {
-			const interpreter = renderWithProps({});
-			expect(interpreter).to.exist();
 		});
 	});
 

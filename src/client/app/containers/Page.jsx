@@ -3,7 +3,6 @@ import Scene from './Scene';
 import Interpreter from './Interpreter';
 import UndoRedo from './UndoRedo';
 import Ploma from './Ploma';
-import HandwritingRecognition from './HandwritingRecognition';
 import InterpretationTrigger from './InterpretationTrigger';
 import Threshold from './Threshold';
 import Window from './Window';
@@ -20,7 +19,6 @@ export default function Page(props) {
 			<UndoRedo {...props} />
 			<Threshold />
 			<Ploma />
-			<HandwritingRecognition />
 			<InterpretationTrigger {...props} />
 		</AppConfiguration>
 	</div>);
