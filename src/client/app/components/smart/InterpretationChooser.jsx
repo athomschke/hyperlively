@@ -1,9 +1,10 @@
 // @flow
-import React, { PureComponent, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
+import { forEach, find, map, concat } from 'lodash';
 import { actionChooser } from 'stylesheets/components/smart/actionChooser.scss';
 import ActionChooser from './ActionChooser';
 import ParameterChooser from './ParameterChooser';
-import type { FunctionConfiguration, TreeParameter } from '../../typeDefinitions';
+import type { FunctionConfiguration, TreeParameter, ActionMapping } from '../../typeDefinitions';
 
 type State = {
 	parameters: Array<Array<TreeParameter>>,
@@ -13,13 +14,15 @@ type State = {
 	}>
 };
 
-export default class InterpretationChooser extends PureComponent {
 
-	static propTypes = {
-		onInterpretationChoose: PropTypes.func,
-		onInterpretationTick: PropTypes.func,
-		relativeDividerPosition: PropTypes.number,
-	};
+type Props = {
+	onInterpretationChoose: () => void,
+	onInterpretationTick: () => void,
+	relativeDividerPosition: number,
+	specificActions: Array<ActionMapping>,
+};
+
+export default class InterpretationChooser extends PureComponent {
 
 	static defaultProps = {
 		onInterpretationChoose: () => {},
@@ -53,12 +56,26 @@ export default class InterpretationChooser extends PureComponent {
 	}
 
 	onInterpretationChoose() {
-		this.props.onInterpretationChoose(this.state.functions, this.state.parameters);
+		let functions = [];
+		forEach(this.state.functions, (aFunction) => {
+			const specificAction = find(this.props.specificActions,
+				action => action.actionName === aFunction.name);
+			if (specificAction) {
+				const primitiveActions = map(specificAction.actionNames,
+					actionName => ({ name: actionName, parameters: 1 }));
+				functions = concat(functions, primitiveActions);
+			} else {
+				functions.push(aFunction);
+			}
+		});
+		this.props.onInterpretationChoose(functions, this.state.parameters);
 	}
 
 	onInterpretationTick() {
 		this.props.onInterpretationTick(this.state.functions, this.state.parameters, 1000);
 	}
+
+	props: Props
 
 	render() {
 		return (
@@ -75,6 +92,7 @@ export default class InterpretationChooser extends PureComponent {
 				<div>
 					<ActionChooser
 						onActionChoose={this.onActionChoose}
+						specificActions={this.props.specificActions}
 					/>
 					<ParameterChooser
 						{...this.props}

@@ -152,3 +152,8 @@ export type InterpretationState = {
 	showInterpreter: boolean,
 	interpretations: RecognitionResult,
 }
+
+export type ActionMapping = {
+	actionName: string,
+	actionNames: Array<string>
+}

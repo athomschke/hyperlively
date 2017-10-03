@@ -13,6 +13,7 @@ const mapStateToProps = (state) => {
 	returnState.scene = state.content.undoableScenes.present[state.content.sceneIndex];
 	returnState.interpretation = state.interpretation;
 	returnState.relativeDividerPosition = relativeDividerPosition;
+	returnState.specificActions = state.specificActions;
 	return returnState;
 };
 

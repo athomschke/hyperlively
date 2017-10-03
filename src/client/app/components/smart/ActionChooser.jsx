@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { forEach, map } from 'lodash';
 import actions from 'actions/actions';
 import JsonPropertyChooser from './JsonPropertyChooser';
-import type { FunctionConfiguration, TreeParameter } from '../../typeDefinitions';
+import type { FunctionConfiguration, TreeParameter, ActionMapping } from '../../typeDefinitions';
 
 const formattedSignatures = (
 		signatures: Array<TreeParameter>)
@@ -16,19 +16,23 @@ const formattedSignatures = (
 const getSignatureFromFunction = aFunction =>
 		aFunction.toString().split(' {')[0].split('function ')[1];
 
-const getActions = () => {
+const allActions = (specificActions) => {
 	const jsonObject = {};
-	forEach(Object.keys(actions), (actionName, index) => {
-		jsonObject[index] = getSignatureFromFunction(actions[actionName]);
+	let actionsCount = 0;
+	forEach(Object.keys(actions), (actionName) => {
+		jsonObject[actionsCount] = getSignatureFromFunction(actions[actionName]);
+		actionsCount += 1;
+	});
+	forEach(specificActions, (specificAction) => {
+		jsonObject[actionsCount] = specificAction.actionName + '()';
+		actionsCount += 1;
 	});
 	return jsonObject;
 };
 
-Object.keys(actions).map(actionName =>
-	getSignatureFromFunction(actions[actionName]));
-
 type Props = {
 	onActionChoose: (Array<FunctionConfiguration>) => void,
+	specificActions: Array<ActionMapping>,
 }
 
 export default class ActionChooser extends PureComponent {
@@ -50,8 +54,7 @@ export default class ActionChooser extends PureComponent {
 				onParameterChoose={(parameters: Array<TreeParameter>) => {
 					this.onActionChoose(parameters);
 				}}
-				jsonTree={getActions()}
+				jsonTree={allActions(this.props.specificActions)}
 			/>);
 	}
-
 }

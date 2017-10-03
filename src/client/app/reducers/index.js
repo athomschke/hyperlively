@@ -6,6 +6,7 @@ import { observeMutations } from './observeMutations';
 import { interpretation } from './interpretation';
 import { drawing } from './drawing';
 import { content } from './content';
+import { specificActions } from './specificActions';
 
 export default combineReducers({
 	interpretation,
@@ -15,4 +16,5 @@ export default combineReducers({
 	threshold,
 	drawing,
 	content,
+	specificActions,
 });
