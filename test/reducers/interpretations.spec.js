@@ -7,8 +7,8 @@ import { shapeCandidate, letterCandidate } from '../data';
 const dummyState = {
 	showInterpreter: false,
 	interpretations: {
-		shape: null,
-		text: null,
+		shape: [],
+		text: [],
 	},
 };
 
@@ -89,27 +89,28 @@ describe('Interpretation reducer', () => {
 			const oldState = Object.assign({}, dummyState, {
 				showInterpreter: true,
 				interpretations: {
-					shape: null,
-					text: null,
+					shape: [],
+					text: [],
 				},
 			});
 			const newState = interpretation(oldState, receiveTextCandidates([letterCandidate]));
-			expect(newState.interpretations.text.label).to.equal('I');
-			expect(newState.interpretations.shape).to.not.exist();
+			expect(newState.interpretations.text[0].label).to.equal('I');
+			expect(newState.interpretations.shape[0]).to.not.exist();
 		});
+
 		it('overwrites an old text results and leaves the existing shape result', () => {
 			const oldState = Object.assign({}, dummyState, {
 				showInterpreter: true,
 				interpretations: {
-					shape: shapeCandidate,
-					text: Object.assign({}, letterCandidate, {
+					shape: [shapeCandidate],
+					text: [Object.assign({}, letterCandidate, {
 						label: 'K',
-					}),
+					})],
 				},
 			});
 			const newState = interpretation(oldState, receiveTextCandidates([letterCandidate]));
-			expect(newState.interpretations.text.label).to.equal('I');
-			expect(newState.interpretations.shape).to.deep.equal(shapeCandidate);
+			expect(newState.interpretations.text[0].label).to.equal('I');
+			expect(newState.interpretations.shape[0]).to.deep.equal(shapeCandidate);
 		});
 	});
 
@@ -118,27 +119,27 @@ describe('Interpretation reducer', () => {
 			const oldState = Object.assign({}, dummyState, {
 				showInterpreter: true,
 				interpretations: {
-					shape: null,
-					text: null,
+					shape: [],
+					text: [],
 				},
 			});
 			const newState = interpretation(oldState, receiveShapeCandidates([shapeCandidate]));
-			expect(newState.interpretations.shape.label).to.equal('line');
-			expect(newState.interpretations.text).to.not.exist();
+			expect(newState.interpretations.shape[0].label).to.equal('line');
+			expect(newState.interpretations.text[0]).to.not.exist();
 		});
 		it('overwrites an old shape results and leaves the existing text result', () => {
 			const oldState = Object.assign({}, dummyState, {
 				showInterpreter: true,
 				interpretations: {
-					shape: Object.assign({}, shapeCandidate, {
+					shape: [Object.assign({}, shapeCandidate, {
 						label: 'arrow',
-					}),
-					text: letterCandidate,
+					})],
+					text: [letterCandidate],
 				},
 			});
 			const newState = interpretation(oldState, receiveShapeCandidates([shapeCandidate]));
-			expect(newState.interpretations.shape.label).to.equal('line');
-			expect(newState.interpretations.text).to.deep.equal(letterCandidate);
+			expect(newState.interpretations.shape[0].label).to.equal('line');
+			expect(newState.interpretations.text[0]).to.deep.equal(letterCandidate);
 		});
 	});
 
@@ -163,13 +164,13 @@ describe('Interpretation reducer', () => {
 			const oldState = Object.assign({}, dummyState, {
 				showInterpreter: true,
 				interpretations: {
-					shape: shapeCandidate,
-					text: letterCandidate,
+					shape: [shapeCandidate],
+					text: [letterCandidate],
 				},
 			});
 			const newState = interpretation(oldState, toggleInterpreter(false));
-			expect(newState.interpretations.text).to.exist();
-			expect(newState.interpretations.shape).to.exist();
+			expect(newState.interpretations.text[0]).to.exist();
+			expect(newState.interpretations.shape[0]).to.exist();
 		});
 	});
 });

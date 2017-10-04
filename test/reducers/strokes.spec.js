@@ -40,31 +40,6 @@ describe('strokes', () => {
 			expect(result[1].points).to.have.length(1);
 			expect(result[1].points[0]).to.deep.equal(newPoint);
 		});
-
-		it('tags the stroke with the position of the first point', () => {
-			const pointAddEvent = event(10, 10, 100);
-			const newPoint = point(10, 10, 100);
-			const result = strokes(
-				[],
-				createStroke(pointAddEvent.pageX, pointAddEvent.pageY, pointAddEvent.timeStamp, 0),
-			);
-			expect(result[0].position).to.deep.equal({
-				x: newPoint.x,
-				y: newPoint.y,
-			});
-		});
-
-		it('remembers its action index', () => {
-			const pointAddEvent = event(10, 10, 100);
-			const createStrokeAction = createStroke(
-					pointAddEvent.pageX, pointAddEvent.pageY, pointAddEvent.timeStamp, 0);
-			createStrokeAction.index = 2;
-			const result = strokes(
-				[],
-				createStrokeAction,
-			);
-			expect(result[0].actionIndex).to.equal(2);
-		});
 	});
 
 	describe('appending a point', () => {
@@ -122,9 +97,9 @@ describe('strokes', () => {
 
 	describe('moving a stroke', () => {
 		it('changes the coordinates of that strokes points', () => {
-			const strokesToMove = [{
+			const strokeToMove = {
 				points: [point(10, 11, 100), point(10, 12, 100), point(10, 13, 100)],
-			}];
+			};
 			const currentState = [{
 				points: [point(10, 11, 100), point(10, 12, 100), point(10, 13, 100)],
 			}];
@@ -138,7 +113,7 @@ describe('strokes', () => {
 			};
 			const result = strokes(
 				currentState,
-				updatePosition(strokesToMove, origin.x, origin.y, target.x, target.y, 0),
+				updatePosition(strokeToMove, origin.x, origin.y, target.x, target.y, 0),
 			);
 			expect(result[0].points[0].x).to.equal(10);
 			expect(result[0].points[0].y).to.equal(12);
@@ -149,9 +124,9 @@ describe('strokes', () => {
 		});
 
 		it('does not change coordinates of other strokes', () => {
-			const strokesToMove = [{
+			const strokeToMove = {
 				points: [point(10, 11, 100), point(10, 12, 100), point(10, 13, 100)],
-			}];
+			};
 			const currentState = [{
 				points: [point(10, 11, 100), point(10, 12, 100), point(10, 13, 100)],
 			}, {
@@ -163,7 +138,7 @@ describe('strokes', () => {
 			};
 			const result = strokes(
 				currentState,
-				updatePosition(strokesToMove, bounds.x, bounds.y, 0),
+				updatePosition(strokeToMove, bounds.x, bounds.y, 0),
 			);
 			expect(result[1].points[0].x).to.equal(20);
 		});

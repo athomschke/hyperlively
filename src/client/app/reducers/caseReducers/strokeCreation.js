@@ -8,12 +8,7 @@ import { type APPEND_STROKE_ACTION, type APPEND_POINT_ACTION, type FINISH_STROKE
 export const appendStroke = (state: Array<Stroke>, action: APPEND_STROKE_ACTION) => {
 	const newState = state.slice(0);
 	return newState.concat([{
-		actionIndex: action.index,
 		points: points([], appendPointAction(action.x, action.y, action.timeStamp)),
-		position: {
-			x: action.x,
-			y: action.y,
-		},
 	}]);
 };
 
