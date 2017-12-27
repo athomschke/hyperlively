@@ -9,8 +9,8 @@ export const updatePosition = (state: Array<Stroke>, action: UPDATE_POSITION_ACT
 		x: action.target.x - action.origin.x,
 		y: action.target.y - action.origin.y,
 	};
-	return map(state, (stateStroke) => {
-		if (isEqual(action.stroke, stateStroke)) {
+	return map(state, (stateStroke, i) => {
+		if (isEqual(action.strokes[i], stateStroke)) {
 			const newPoints = stateStroke.points.map((point) => {
 				const newCoordinates = {
 					x: point.x + moveByPoint.x,

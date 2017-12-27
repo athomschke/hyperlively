@@ -3,7 +3,6 @@ import { strokesExample } from '../data';
 
 describe('actions to manipulate things on canvas', () => {
 	it('should create an action move a set of strokes', () => {
-		const stroke = strokesExample[0];
 		const originX = 1;
 		const originY = 2;
 		const targetX = 3;
@@ -11,7 +10,7 @@ describe('actions to manipulate things on canvas', () => {
 		const sceneIndex = 0;
 		const expectedAction = {
 			type: 'UPDATE_POSITION',
-			stroke,
+			strokes: strokesExample,
 			origin: {
 				x: originX,
 				y: originY,
@@ -21,7 +20,7 @@ describe('actions to manipulate things on canvas', () => {
 				y: targetY,
 			},
 		};
-		expect(updatePosition(stroke, originX, originY, targetX, targetY, sceneIndex))
+		expect(updatePosition(strokesExample, originX, originY, targetX, targetY, sceneIndex))
 			.to.deep.equal(expectedAction);
 	});
 

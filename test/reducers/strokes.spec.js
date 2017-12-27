@@ -113,7 +113,7 @@ describe('strokes', () => {
 			};
 			const result = strokes(
 				currentState,
-				updatePosition(strokeToMove, origin.x, origin.y, target.x, target.y, 0),
+				updatePosition([strokeToMove], origin.x, origin.y, target.x, target.y, 0),
 			);
 			expect(result[0].points[0].x).to.equal(10);
 			expect(result[0].points[0].y).to.equal(12);
