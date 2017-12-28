@@ -21,7 +21,9 @@ describe('Integration', () => {
 			const nonPlomaImageData = getCombinedCanvas().toDataURL();
 			const plomaButton = document.getElementById('configuration').getElementsByTagName('input')[0];
 			TestUtils.Simulate.click(plomaButton);
-			expect(hashCode(getCombinedCanvas().toDataURL())).to.not.equal(hashCode(nonPlomaImageData));
+
+			const plomaImageData = getCombinedCanvas().toDataURL();
+			expect(hashCode(plomaImageData)).to.not.equal(hashCode(nonPlomaImageData));
 		});
 
 		it('changes background color to more of a paper type', () => {
