@@ -40,7 +40,7 @@ describe('Integration', () => {
 		it('two strokes looks the same as adding two strokes point by point when ploma is enabled', () => {
 			const canvasJsonConfig = canvasWithIrregularStrokesWithPloma.json;
 			renderApplicationWithState(canvasJsonConfig);
-			return getCombinedCanvas().then((combineCanvas) => {
+			return getCombinedCanvas(100,100).then((combineCanvas) => {
 				const renderedStrokesDataBefore = combineCanvas.toDataURL();
 				dismountApp();
 				mountApp();
@@ -51,7 +51,7 @@ describe('Integration', () => {
 				renderApplicationWithState(emptyCanvasConfig);
 				const strokes = getPointsFromJSON(canvasJsonConfig);
 				manuallyDrawStrokes(getWindowNode(), strokes);
-				return getCombinedCanvas().then((combinedCanvas) => {
+				return getCombinedCanvas(100,100).then((combinedCanvas) => {
 					const renderedStrokesDataAfter = combinedCanvas.toDataURL();
 					expect(hashCode(renderedStrokesDataAfter)).to.equal(hashCode(renderedStrokesDataBefore));
 				})

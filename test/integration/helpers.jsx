@@ -107,8 +107,10 @@ export function getWindowNode() {
 	return document.getElementsByClassName('window')[0];
 }
 
-export function getCombinedCanvas() {
-	return combineCanvasses(getCanvasNodes(), 1000, 500);
+export function getCombinedCanvas(optWidth, optHeight) {
+	const width = optWidth || 1000;
+	const height = optHeight || 500;
+	return combineCanvasses(getCanvasNodes(), width, height);
 }
 
 export function sliderWithHandleInApp(domApp: HTMLElement) {
