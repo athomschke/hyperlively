@@ -38,8 +38,10 @@ describe('Integration', () => {
 			secondCanvas.getContext('2d').stroke();
 			secondCanvas.getContext('2d').closePath();
 			// get data
-			const combinedCanvas = combineCanvasses([firstCanvas, secondCanvas], 100, 100);
-			expect(combinedCanvas.toDataURL()).to.equal(bothDrawnOnOneCanvas.toDataURL());
+			const combinedCanvasPromise = combineCanvasses([firstCanvas, secondCanvas], 100, 100);
+			return combinedCanvasPromise.then((combinedCanvas) => {
+				expect(combinedCanvas.toDataURL()).to.equal(bothDrawnOnOneCanvas.toDataURL());
+			})
 		});
 	});
 

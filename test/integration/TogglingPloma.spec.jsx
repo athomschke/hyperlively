@@ -18,12 +18,15 @@ describe('Integration', () => {
 	describe('activating ploma', () => {
 		it('switches to Ploma when it was deactivated', () => {
 			renderApplicationWithState(canvasWithIrregularStrokesWithPloma.json);
-			const nonPlomaImageData = getCombinedCanvas().toDataURL();
-			const plomaButton = document.getElementById('configuration').getElementsByTagName('input')[0];
-			TestUtils.Simulate.click(plomaButton);
-
-			const plomaImageData = getCombinedCanvas().toDataURL();
-			expect(hashCode(plomaImageData)).to.not.equal(hashCode(nonPlomaImageData));
+			return getCombinedCanvas().then((combinedCanvas) => {
+				const nonPlomaImageData = combinedCanvas.toDataURL();
+				const plomaButton = document.getElementById('configuration').getElementsByTagName('input')[0];
+				TestUtils.Simulate.click(plomaButton);
+				getCombinedCanvas().then((combinedCanvas) => {
+					const plomaImageData = combinedCanvas.toDataURL();
+					expect(hashCode(plomaImageData)).to.not.equal(hashCode(nonPlomaImageData));
+				})
+			})
 		});
 
 		it('changes background color to more of a paper type', () => {

@@ -1,5 +1,5 @@
 // @flow
-import { forEach, tail, last, first } from 'lodash';
+import { map, forEach, tail, last, first } from 'lodash';
 import { render } from 'react-dom';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
@@ -44,7 +44,7 @@ export function manuallyDrawStrokes(windowNode: HTMLElement, strokes: Array<Stro
 	});
 }
 
-export function combineCanvasses(
+export async function combineCanvasses(
 		canvasses: HTMLCollection<HTMLCanvasElement>,
 		width: number, height: number) {
 	const combinedCanvas = document.createElement('canvas');
@@ -53,11 +53,17 @@ export function combineCanvasses(
 	const context = combinedCanvas.getContext('2d');
 	if (context) {
 		context.fillStyle = 'rgba(1, 1, 1, 0)';
-		forEach(canvasses, (canvasNode) => {
-			const img = new Image();
-			img.src = canvasNode.toDataURL('image/png');
-			context.drawImage(img, 0, 0, width, height, 0, 0, width, height);
+		const drawnPromises = map(canvasses, (canvasNode, i) => {
+			return new Promise((resolve, reject) => {
+				const img = new Image();
+				img.onload = function () {
+					context.drawImage(img, 0, 0, width, height, 0, 0, width, height);
+					resolve();
+				}
+				img.src = canvasNode.toDataURL('image/png');
+			})
 		});
+		await Promise.all(drawnPromises);
 	}
 	return combinedCanvas;
 }
