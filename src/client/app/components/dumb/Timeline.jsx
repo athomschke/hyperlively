@@ -1,25 +1,27 @@
 // @flow
-import React, { PureComponent, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
 import Slider from 'rc-slider';
 import { map, flatten } from 'lodash';
 import { rcSlider } from 'stylesheets/components/dumb/Timeline.scss';
 import TimelinePreview from './TimelinePreview';
+import type { Sketch } from '../../typeDefinitions';
 
-export default class Timeline extends PureComponent {
+type Props = {
+	sliderHeight: number,
+	trackOffset: number,
+	sketches: Array<Sketch>,
+};
 
-	static propTypes = {
-		sliderHeight: PropTypes.number,
-		trackOffset: PropTypes.number,
-		sketches: PropTypes.arrayOf(PropTypes.object),
-	};
-
+export default class Timeline extends PureComponent<Props> {
 	static defaultProps = {
 		sliderHeight: 0,
 		trackOffset: 20,
 		sketches: [],
 	};
 
-	getTrackHeight() {
+	props: Props;
+
+	calculateTrackHeight() {
 		return this.props.sliderHeight - this.props.trackOffset;
 	}
 
@@ -33,7 +35,7 @@ export default class Timeline extends PureComponent {
 				offsetIndex={offsetIndex}
 				strokes={sketch.strokes}
 				fittedHeight={this.props.sliderHeight}
-				previewHeight={this.getTrackHeight()}
+				previewHeight={this.calculateTrackHeight()}
 			/>);
 			const points = flatten(map(sketch.strokes, stroke => stroke.points));
 			offsetIndex += points.length;

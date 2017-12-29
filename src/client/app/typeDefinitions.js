@@ -53,6 +53,13 @@ export type Reducer = (state: any, action: Action) => any;
 
 export type TreeParameter = string | number;
 
+export type Functions = Array<{
+	name: string,
+	parameters: number,
+}>
+
+export type Parameters = Array<TreeParameter>;
+
 export type ReactTreeLeafFormat = {
 	label: string,
 	key: string,
@@ -75,6 +82,8 @@ export type TextCandidate = {
 	normalizedScore:number,
 	resemblanceScore:number,
 }
+
+export type TextCandidates = Array<TextCandidate>;
 
 export type RecognizerTextResult = {
 	textSegmentResult: {
@@ -124,6 +133,8 @@ export type ShapeCandidate = {
 	resemblanceScore: number,
 }
 
+export type ShapeCandidates = Array<ShapeCandidate>
+
 export type RecognizerShapeResult = {
 	segments: Array<{
 		elementType: 'shape',
@@ -156,4 +167,11 @@ export type InterpretationState = {
 export type ActionMapping = {
 	actionName: string,
 	actionNames: Array<string>
+}
+
+export type Bounds = {
+	x: number,
+	y: number,
+	width: number,
+	height: number
 }

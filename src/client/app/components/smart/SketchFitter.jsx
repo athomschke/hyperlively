@@ -1,28 +1,30 @@
 // @flow
-import React, { PureComponent, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
 import type { Component } from 'react-flow-types';
 import { cloneDeep } from 'lodash';
 import { offsetToOrigin, getOffsetForTime } from 'helpers/sketchFitting';
+import type { Bounds, Stroke } from '../../typeDefinitions';
 
-export default (Wrapped: Component<Object>) => class extends PureComponent {
-
-	static propTypes = {
-		index: PropTypes.number,
-		sliderWidth: PropTypes.number,
-		max: PropTypes.number,
-		sliderHeight: PropTypes.number,
-		offsetIndex: PropTypes.number,
-		bounds: PropTypes.objectOf(PropTypes.number).isRequired,
-		fittedWidth: PropTypes.number.isRequired,
-		previewHeight: PropTypes.number.isRequired,
-		strokes: PropTypes.arrayOf(PropTypes.object).isRequired,
+type Props = {
+		index: number,
+		sliderWidth: number,
+		sliderHeight: number,
+		max: number,
+		offsetIndex: number,
+		bounds: Bounds,
+		fittedWidth: number,
+		previewHeight: number,
+		strokes: Array<Stroke>,
 	};
+
+export default (Wrapped: Component<Object>) => class extends PureComponent<Props> {
+	props: Props;
 
 	static defaultProps = {
 		index: 0,
 		sliderWidth: 0,
-		max: 0,
 		sliderHeight: 0,
+		max: 0,
 		offsetIndex: 0,
 	};
 

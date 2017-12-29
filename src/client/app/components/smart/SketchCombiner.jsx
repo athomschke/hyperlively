@@ -33,7 +33,7 @@ type Props = {
 	threshold: number,
 };
 
-export default (Wrapped: Component<Object>) => class extends PureComponent {
+export default (Wrapped: Component<Object>) => class extends PureComponent<Props> {
 
 	props: Props
 

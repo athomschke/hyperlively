@@ -1,7 +1,7 @@
 // @flow
 import { last, cloneDeep } from 'lodash';
 import { DEFAULT_PEN_COLOR } from '../../src/client/app/constants/drawing';
-import type { Scene, SceneState, Stroke, Content, HyperlivelyState } from '../../src/client/app/typeDefinitions';
+import type { Scene, SceneState, Stroke, Content, UndoableScenes, HyperlivelyState } from '../../src/client/app/typeDefinitions';
 
 const dummyStroke: Stroke = {
 	points: [],
@@ -41,13 +41,17 @@ const createUndoableScenes = (numberOfStrokes: number, lengthOfStroke: number) =
 
 const sceneState: SceneState = createUndoableScenes(1, 3);
 
+const past: Array<SceneState> = [sceneState.slice(0, sceneState.length - 1)];
+
+const undoableScenes: UndoableScenes = {
+	past,
+	present: last(sceneState),
+	future: [],
+};
+
 const content: Content = {
 	sceneIndex: 0,
-	undoableScenes: {
-		past: sceneState.slice(0, sceneState.length - 1),
-		present: last(sceneState),
-		future: [],
-	},
+	undoableScenes,
 };
 
 const hyperlivelyState: HyperlivelyState = {

@@ -1,16 +1,18 @@
 // @flow
-import React, { PureComponent, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
 import { getFittedWidth, scaleToTime } from 'helpers/scalingPointsToBounds';
 import type { Component } from 'react-flow-types';
+import type { Stroke } from '../../typeDefinitions';
 
-export default (Wrapped: Component<Object>) => class extends PureComponent {
+type Props = {
+	strokes: Array<Stroke>,
+	sliderWidth: number,
+	previewHeight: number,
+	max: number,
+};
 
-	static propTypes = {
-		strokes: PropTypes.arrayOf(PropTypes.object),
-		sliderWidth: PropTypes.number,
-		previewHeight: PropTypes.number,
-		max: PropTypes.number,
-	};
+export default (Wrapped: Component<Object>) => class extends PureComponent<Props> {
+	props: Props;
 
 	static defaultProps = {
 		strokes: [],

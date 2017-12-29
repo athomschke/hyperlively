@@ -2,7 +2,7 @@
 import { HmacSHA512, enc } from 'crypto-js';
 import { map, flatten } from 'lodash';
 import { APPLICATION_KEY, HMAC_KEY, TEXT_INPUT_TYPE, LANGUAGE, TEXT_INPUT_MODE, TEXT_RECOGNITION_URL, SHAPE_RECOGNITION_URL } from 'constants/handwriting';
-import { type Stroke, type RecognizerComponent } from '../typeDefinitions';
+import type { Stroke, RecognizerComponent, TextCandidates } from '../typeDefinitions';
 
 const hmacData = stringInput =>
 	encodeURIComponent(HmacSHA512(stringInput, APPLICATION_KEY + HMAC_KEY)
@@ -60,7 +60,7 @@ function parseShapeResponse(responseText: string) {
 	return [];
 }
 
-function parseTextResponse(responseText: string) {
+function parseTextResponse(responseText: string): TextCandidates {
 	const answer = JSON.parse(responseText);
 	if (answer && answer.result) {
 		const candidates = answer.result.textSegmentResult.candidates;
@@ -87,13 +87,14 @@ function sendRequestThenDo(url: string, data: string, parseCallback) {
 }
 
 export function requestTextCandidates(strokes: Array<Stroke>) {
-	return new Promise((resolve) => {
+	const textPromise: Promise<TextCandidates> = new Promise((resolve) => {
 		sendRequestThenDo(
 			TEXT_RECOGNITION_URL,
 			getTextRecognitionData(strokes),
 			(responseText: string) => resolve(parseTextResponse(responseText)),
 		);
 	});
+	return textPromise;
 }
 
 export function requestShapeCandidates(strokes: Array<Stroke>) {

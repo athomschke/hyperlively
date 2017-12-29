@@ -1,5 +1,5 @@
 // @flow
-import React, { PureComponent, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
 import type { Component } from 'react-flow-types';
 import { find, reduce } from 'lodash';
 import { type Stroke } from '../../typeDefinitions';
@@ -27,13 +27,14 @@ const getLimitsForStrokes = (strokes) => {
 	return { left: 0, top: 0, right: 0, bottom: 0 };
 };
 
-export default (Wrapped: Component<Object>) => class extends PureComponent {
+type Props = {
+	strokes: Array<Stroke>,
+	finished: bool,
+	offset: number,
+}
 
-	static propTypes = {
-		strokes: PropTypes.arrayOf(PropTypes.object),
-		finished: PropTypes.bool,
-		offset: PropTypes.number,
-	};
+export default (Wrapped: Component<Object>) => class extends PureComponent<Props> {
+	props: Props;
 
 	static defaultProps = {
 		strokes: [],

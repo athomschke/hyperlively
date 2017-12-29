@@ -94,7 +94,7 @@ export const formatObject = (
 			arraysWithStringAtIndex(checkedArrays, key, depth);
 		const collapsesContainingNode: Array<Array<string>> =
 			arraysWithStringAtIndex(collapsedArrays, key, depth);
-		let children: Array<ReactTreeLeafFormat | ReactTreeNodeFormat>;
+		let children: Array<ReactTreeLeafFormat | ReactTreeNodeFormat> = [];
 		if (anObject[key] instanceof Object) {
 			children = formatObject(
 				anObject[key],
@@ -103,7 +103,7 @@ export const formatObject = (
 				origCheckedArrays,
 				depth + 1);
 		}
-		if (children) {
+		if (children.length > 0) {
 			return formatTreeNode(
 				anObject,
 				key,

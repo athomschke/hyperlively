@@ -66,13 +66,17 @@ export async function combineCanvasses(
 }
 
 export function renderApplicationWithStore(store: Provider) {
-	const renderedApp = render(
-		<Provider store={store}>
-			<Application />
-		</Provider>,
-		document.getElementById('app'),
-	);
-	return renderedApp;
+	const root = document.getElementById('app');
+	if (root) {
+		const renderedApp = render(
+			<Provider store={store}>
+				<Application />
+			</Provider>,
+			root,
+		);
+		return renderedApp;
+	}
+	return null;
 }
 
 export function renderApplicationWithState(initialState: HyperlivelyState) {
@@ -97,14 +101,15 @@ export function getCanvasNodes() {
 	if (desk) {
 		return desk.getElementsByTagName('canvas');
 	}
-	return new HTMLCollection();
+	const emptyCollection: HTMLCollection<HTMLCanvasElement> = new HTMLCollection();
+	return emptyCollection;
 }
 
 export function getWindowNode() {
 	return document.getElementsByClassName('window')[0];
 }
 
-export function getCombinedCanvas(optWidth, optHeight) {
+export function getCombinedCanvas(optWidth: number, optHeight: number) {
 	const width = optWidth || 1000;
 	const height = optHeight || 500;
 	return combineCanvasses(getCanvasNodes(), width, height);

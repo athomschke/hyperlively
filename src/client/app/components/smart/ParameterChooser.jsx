@@ -10,7 +10,7 @@ type Props = {
 	interpretations: RecognitionResult,
 }
 
-export default class ParameterChooser extends PureComponent {
+export default class ParameterChooser extends PureComponent<Props> {
 
 	static defaultProps = {
 		onParameterChoose: () => {},

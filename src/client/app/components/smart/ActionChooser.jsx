@@ -46,8 +46,7 @@ type Props = {
 	specificActions: Array<ActionMapping>,
 }
 
-export default class ActionChooser extends PureComponent {
-
+export default class ActionChooser extends PureComponent<Props> {
 	static defaultProps = {
 		onActionChoose: (_actionSignatures: Array<FunctionConfiguration>) => {},
 	}

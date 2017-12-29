@@ -12,7 +12,7 @@ import {
 	type ADD_SCENE_ACTION,
 } from '../actionTypeDefinitions';
 
-const undoableScenes = undoable(scenes, {});
+const undoableScenes = undoable(scenes);
 
 const defaultState = () => ({
 	sceneIndex: defaultSceneIndex,

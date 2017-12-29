@@ -4,25 +4,22 @@ import { forEach, find, map, concat } from 'lodash';
 import { actionChooser } from 'stylesheets/components/smart/actionChooser.scss';
 import ActionChooser from './ActionChooser';
 import ParameterChooser from './ParameterChooser';
-import type { FunctionConfiguration, TreeParameter, ActionMapping } from '../../typeDefinitions';
+import type { FunctionConfiguration, TreeParameter, ActionMapping, RecognitionResult, Parameters, Functions } from '../../typeDefinitions';
 
 type State = {
-	parameters: Array<Array<TreeParameter>>,
-	functions: Array<{
-		name: string,
-		parameters: number,
-	}>
+	parameters: Parameters,
+	functions: Functions
 };
-
 
 type Props = {
-	onInterpretationChoose: () => void,
-	onInterpretationTick: () => void,
+	onInterpretationChoose: (_functions: Functions, _parameters: Parameters) => void,
+	onInterpretationTick: (_functions: Functions, _parameters: Parameters, _interval: number) => void,
 	relativeDividerPosition: number,
 	specificActions: Array<ActionMapping>,
+	interpretations: RecognitionResult,
 };
 
-export default class InterpretationChooser extends PureComponent {
+export default class InterpretationChooser extends PureComponent<Props, State> {
 
 	static defaultProps = {
 		onInterpretationChoose: () => {},
@@ -51,7 +48,7 @@ export default class InterpretationChooser extends PureComponent {
 		this.setState({ functions });
 	}
 
-	onParameterChoose(parameters: Array<Array<TreeParameter>>) {
+	onParameterChoose(parameters: Array<TreeParameter>) {
 		this.setState({ parameters });
 	}
 
@@ -96,6 +93,7 @@ export default class InterpretationChooser extends PureComponent {
 					/>
 					<ParameterChooser
 						{...this.props}
+						interpretations={this.props.interpretations}
 						onParameterChoose={this.onParameterChoose}
 					/>
 				</div>

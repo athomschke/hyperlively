@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { map, flatten, filter, last, forEach } from 'lodash';
 import InterpretationChooser from './InterpretationChooser';
-import type { FunctionConfiguration, Sketch, RecognitionResult } from '../../typeDefinitions';
+import type { FunctionConfiguration, Sketch, RecognitionResult, Functions, Parameters, ActionMapping } from '../../typeDefinitions';
 
 type Props = {
 	performAction: () => {},
@@ -11,10 +11,11 @@ type Props = {
 	interpretations: {
 		candidate: RecognitionResult
 	},
+	specificActions: Array<ActionMapping>,
 	onInterpretationDone: (boolean) => {},
 }
 
-export default class extends PureComponent {
+export default class extends PureComponent<Props> {
 
 	static defaultProps = {
 		performAction: () => {},
@@ -44,8 +45,7 @@ export default class extends PureComponent {
 		this.props.onInterpretationDone(false);
 	}
 
-	tickActions(items: Array<FunctionConfiguration>, values: Array<number | string>,
-			interval: number, endAfter: number) {
+	tickActions(items: Functions, values: Parameters, interval: number, endAfter?: number) {
 		let counter = endAfter || 0;
 		const tickInterval = setInterval(() => {
 			this.performAction(items, values);
@@ -86,6 +86,8 @@ export default class extends PureComponent {
 			jsonTreeProps.jsonTree = this.props.interpretations.candidate;
 		}
 		return (<InterpretationChooser
+			specificActions={this.props.specificActions}
+			interpretations={this.props.interpretations}
 			{...this.props}
 			{...actionChooserProps}
 			{...lastStrokesProps}

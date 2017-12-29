@@ -11,8 +11,7 @@ type State = {
 
 type Props = {}
 
-export default class UndoRedo extends PureComponent {
-
+export default class UndoRedo extends PureComponent<Props, State> {
 	constructor(props: any) {
 		super(props);
 		this.state = {
@@ -28,7 +27,7 @@ export default class UndoRedo extends PureComponent {
 
 	props: Props
 
-	node: HTMLDivElement
+	node: HTMLDivElement | null
 
 	render() {
 		return (<div

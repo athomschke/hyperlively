@@ -1,21 +1,24 @@
 // @flow
-import React, { PureComponent, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
 import type { Component } from 'react-flow-types';
 
 let runningTimeout;
 
-export default (Wrapped: Component<Object>) => class extends PureComponent {
+type Props = {
+	temporaryCallback: (_togglePloma: bool) => void,
+	onChange: (_value: number) => void,
+	callbackEnabled: bool,
+	timeout: number,
+	max: number,
+	disabled: bool,
+	value: number,
+}
 
-	static propTypes = {
-		temporaryCallback: PropTypes.func,
-		onChange: PropTypes.func,
-		callbackEnabled: PropTypes.bool,
-		timeout: PropTypes.number,
-		max: PropTypes.number,
-		disabled: PropTypes.bool,
-		value: PropTypes.number,
-	};
+type State = {
+	disableFunction: ?(boolean) => void,
+}
 
+export default (Wrapped: Component<Object>) => class extends PureComponent<Props, State> {
 	static defaultProps = {
 		temporaryCallback: () => {},
 		onChange: () => {},
@@ -35,6 +38,8 @@ export default (Wrapped: Component<Object>) => class extends PureComponent {
 	state: {
 		disableFunction: ?(boolean) => void,
 	}
+
+	props: Props;
 
 	componentDidMount() {
 		this.state = {

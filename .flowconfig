@@ -1,6 +1,10 @@
 [options]
 module.system.node.resolve_dirname=app
 module.system.node.resolve_dirname=node_modules
-module.name_mapper.extension='scss' -> '<PROJECT_ROOT>/scss-module-stub.js'
+module.name_mapper='.*\(.scss\)' -> '<PROJECT_ROOT>/scss-module-stub.js'
 
 [ignore]
+.*/node_modules/fbjs/.*
+.*/node_modules/invariant/.*
+.*/node_modules/react-simple-list/.*
+.*/node_modules/editions/.*

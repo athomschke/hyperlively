@@ -15,7 +15,7 @@ type Props = {
 	onParameterChoose: (parameters: Array<TreeParameter>) => void,
 }
 
-export default class JsonPropertyChooser extends PureComponent {
+export default class JsonPropertyChooser extends PureComponent<Props, State> {
 
 	static defaultProps = {
 		jsonTree: {},
