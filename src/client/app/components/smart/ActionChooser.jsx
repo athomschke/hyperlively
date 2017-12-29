@@ -1,6 +1,6 @@
 // @flow
 import React, { PureComponent } from 'react';
-import { forEach, map } from 'lodash';
+import { forEach, map, flatten } from 'lodash';
 import actions from 'actions/actions';
 import JsonPropertyChooser from './JsonPropertyChooser';
 import type { FunctionConfiguration, TreeParameter, ActionMapping } from '../../typeDefinitions';
@@ -23,8 +23,18 @@ const allActions = (specificActions) => {
 		jsonObject[actionsCount] = getSignatureFromFunction(actions[actionName]);
 		actionsCount += 1;
 	});
+
 	forEach(specificActions, (specificAction) => {
-		jsonObject[actionsCount] = specificAction.actionName + '()';
+		const parameters = flatten(map(specificAction.actionNames, (originalActionName) => {
+			let i = 0;
+			while(jsonObject[i]) {
+				if (jsonObject[i].split('(')[0] === originalActionName) {
+					return jsonObject[i].split('(')[1].split(')')[0].split(', ');
+				}
+				i++;
+			}
+		}));
+		jsonObject[actionsCount] = specificAction.actionName + `(${parameters.join(', ')})`;
 		actionsCount += 1;
 	});
 	return jsonObject;
