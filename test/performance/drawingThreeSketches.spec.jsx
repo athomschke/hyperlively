@@ -14,7 +14,7 @@ const getRenderTime = (allStrokes) => {
 };
 
 describe('Performance', () => {
-	mocha.setup({ timeout: 100000 })
+	mocha.setup({ timeout: 100000 });
 	let xhr;
 
 	beforeEach(() => {

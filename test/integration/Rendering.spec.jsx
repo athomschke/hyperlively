@@ -66,8 +66,8 @@ describe('Integration', () => {
 		it('removes them from canvas', () => {
 			const canvasJson = canvasWithTwoStrokes.json;
 			renderApplicationWithState(canvasJson);
-			return getCombinedCanvas().then((combinedCanvas) => {
-				const renderedStrokesData = combinedCanvas.toDataURL();
+			return getCombinedCanvas().then((oldCombinedCanvas) => {
+				const renderedStrokesData = oldCombinedCanvas.toDataURL();
 				dismountApp();
 				mountApp();
 				canvasJson.content.undoableScenes.present[0].strokes.push({
@@ -79,10 +79,10 @@ describe('Integration', () => {
 					],
 				});
 				renderApplicationWithState(canvasJson);
-				return getCombinedCanvas().then((combinedCanvas) => {
-					expect(hashCode(combinedCanvas.toDataURL())).to.equal(hashCode(renderedStrokesData));
-				})
-			})
+				return getCombinedCanvas().then((newCombinedCanvas) => {
+					expect(hashCode(newCombinedCanvas.toDataURL())).to.equal(hashCode(renderedStrokesData));
+				});
+			});
 		});
 
 		it('removes them from scene', () => {

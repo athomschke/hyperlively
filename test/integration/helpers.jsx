@@ -53,17 +53,14 @@ export async function combineCanvasses(
 	const context = combinedCanvas.getContext('2d');
 	if (context) {
 		context.fillStyle = 'rgba(1, 1, 1, 0)';
-		const drawnPromises = map(canvasses, (canvasNode, i) => {
-			return new Promise((resolve, reject) => {
-				const img = new Image();
-				img.onload = function () {
-					context.drawImage(img, 0, 0, width, height, 0, 0, width, height);
-					resolve();
-				}
-				img.src = canvasNode.toDataURL('image/png');
-			})
-		});
-		await Promise.all(drawnPromises);
+		await Promise.all(map(canvasses, canvasNode => new Promise((resolve) => {
+			const img = new Image();
+			img.onload = () => {
+				context.drawImage(img, 0, 0, width, height, 0, 0, width, height);
+				resolve();
+			};
+			img.src = canvasNode.toDataURL('image/png');
+		})));
 	}
 	return combinedCanvas;
 }

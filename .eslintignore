@@ -57,6 +57,7 @@ public
 
 # karma
 karma-coverage.conf.js
+karma-performance.conf.js
 karma.conf.js
 
 # server

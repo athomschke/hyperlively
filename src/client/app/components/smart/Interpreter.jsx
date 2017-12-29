@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { map, flatten, filter, last, forEach } from 'lodash';
 import InterpretationChooser from './InterpretationChooser';
-import type { FunctionConfiguration, Sketch, RecognitionResult, ActionMapping } from '../../typeDefinitions';
+import type { FunctionConfiguration, Sketch, RecognitionResult } from '../../typeDefinitions';
 
 type Props = {
 	performAction: () => {},

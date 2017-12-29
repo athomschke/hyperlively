@@ -4,7 +4,7 @@ import { forEach } from 'lodash';
 import Interpreter from 'components/smart/Interpreter';
 import InterpretationChooser from 'components/smart/InterpretationChooser';
 
-const renderWithProps = (props) => TestUtils.renderIntoDocument(<Interpreter {...props} />);
+const renderWithProps = props => TestUtils.renderIntoDocument(<Interpreter {...props} />);
 
 describe('Interpreter', () => {
 	afterEach(() => {

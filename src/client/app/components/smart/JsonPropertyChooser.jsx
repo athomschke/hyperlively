@@ -19,7 +19,7 @@ export default class JsonPropertyChooser extends PureComponent {
 
 	static defaultProps = {
 		jsonTree: {},
-		onParameterChoose: (parameters: Array<TreeParameter>) => {},
+		onParameterChoose: (_parameters: Array<TreeParameter>) => {},
 	}
 
 	state: State;

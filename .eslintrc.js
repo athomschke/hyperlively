@@ -12,6 +12,7 @@ module.exports = {
         "import"
     ],
     "rules": {
+      "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
     	"indent": [2, "tab"],
     	"no-tabs": 0,
         "react/jsx-indent-props": [2, 'tab'],
@@ -28,6 +29,7 @@ module.exports = {
         "afterEach": true,
         "it": true,
         "describe": true,
+        "mocha": true,
         "__dirname": true,
         "sinon": true
     },

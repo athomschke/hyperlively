@@ -45,14 +45,14 @@ describe('Integration', () => {
 				points: [point(20, 10), point(20, 30), point(20, 60)],
 			}]);
 			const domApp = findDOMNode(renderedApp);
-			return getCombinedCanvas().then((combineCanvas) => {
-				const beforeUndoImageData = combineCanvas.toDataURL();
+			return getCombinedCanvas().then((oldCombinedCanvas) => {
+				const beforeUndoImageData = oldCombinedCanvas.toDataURL();
 				gotToHalfTimeInApp(domApp);
-				return getCombinedCanvas().then((combineCanvas) => {
-					const afterUndoImageData = combineCanvas.toDataURL();
+				return getCombinedCanvas().then((newCombinedCanvas) => {
+					const afterUndoImageData = newCombinedCanvas.toDataURL();
 					expect(hashCode(beforeUndoImageData)).to.not.equal(hashCode(afterUndoImageData));
-				})
-			})
+				});
+			});
 		});
 	});
 });

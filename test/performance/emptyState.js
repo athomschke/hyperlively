@@ -1,14 +1,5 @@
 // @flow
-import { DEFAULT_PEN_COLOR } from '../../src/client/app/constants/drawing';
-import type { Stroke, Content, HyperlivelyState, UndoableScenes } from '../../src/client/app/typeDefinitions';
-
-const dummyStroke: Stroke = {
-	points: [],
-	finished: false,
-	color: DEFAULT_PEN_COLOR,
-	hidden: false,
-	selected: false,
-};
+import type { Content, HyperlivelyState, UndoableScenes } from '../../src/client/app/typeDefinitions';
 
 const undoableScenes: UndoableScenes = {
 	past: [],

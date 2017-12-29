@@ -1,7 +1,6 @@
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import { forEach } from 'lodash';
-import Modal from 'react-modal';
 import { shallow } from 'enzyme';
 import InterpretationChooser from 'components/smart/InterpretationChooser';
 import ActionChooser from 'components/smart/ActionChooser';

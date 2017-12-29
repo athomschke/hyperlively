@@ -41,7 +41,7 @@ describe('Integration', () => {
 			const combinedCanvasPromise = combineCanvasses([firstCanvas, secondCanvas], 100, 100);
 			return combinedCanvasPromise.then((combinedCanvas) => {
 				expect(combinedCanvas.toDataURL()).to.equal(bothDrawnOnOneCanvas.toDataURL());
-			})
+			});
 		});
 	});
 

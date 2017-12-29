@@ -27,14 +27,15 @@ const allActions = (specificActions) => {
 	forEach(specificActions, (specificAction) => {
 		const parameters = flatten(map(specificAction.actionNames, (originalActionName) => {
 			let i = 0;
-			while(jsonObject[i]) {
+			while (jsonObject[i]) {
 				if (jsonObject[i].split('(')[0] === originalActionName) {
 					return jsonObject[i].split('(')[1].split(')')[0].split(', ');
 				}
-				i++;
+				i += 1;
 			}
+			return [];
 		}));
-		jsonObject[actionsCount] = specificAction.actionName + `(${parameters.join(', ')})`;
+		jsonObject[actionsCount] = `${specificAction.actionName} (${parameters.join(', ')})`;
 		actionsCount += 1;
 	});
 	return jsonObject;
@@ -48,7 +49,7 @@ type Props = {
 export default class ActionChooser extends PureComponent {
 
 	static defaultProps = {
-		onActionChoose: (actionSignatures: Array<FunctionConfiguration>) => {},
+		onActionChoose: (_actionSignatures: Array<FunctionConfiguration>) => {},
 	}
 
 	onActionChoose(signatures: Array<TreeParameter>) {
