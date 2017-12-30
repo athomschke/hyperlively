@@ -1,6 +1,6 @@
 // @flow
 import { map, flatten } from 'lodash';
-import { type Stroke } from '../typeDefinitions';
+import { type Stroke } from 'typeDefinitions';
 
 export function getFittedWidth(strokes: Array<Stroke>, sliderWidth: number, max: number) {
 	if (max > 0) {

@@ -1,7 +1,7 @@
 // @flow
 import { TOGGLE_INTERPRETER, APPEND_POINT, APPEND_STROKE, RECEIVE_TEXT_CANDIDATES, RECEIVE_SHAPE_CANDIDATES } from 'constants/actionTypes';
-import { type TOGGLE_INTERPRETER_ACTION, RECOGNIZE_HANDWRITING_ACTION, APPEND_POINT_ACTION, APPEND_STROKE_ACTION } from '../actionTypeDefinitions';
-import { type InterpretationState } from '../typeDefinitions';
+import { type TOGGLE_INTERPRETER_ACTION, RECOGNIZE_HANDWRITING_ACTION, APPEND_POINT_ACTION, APPEND_STROKE_ACTION } from 'actionTypeDefinitions';
+import { type InterpretationState } from 'typeDefinitions';
 
 const initialState = () => ({
 	showInterpreter: false,

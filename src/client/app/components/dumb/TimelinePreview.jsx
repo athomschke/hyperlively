@@ -1,10 +1,10 @@
 // @flow
 import React from 'react';
 import { timelinePreview } from 'stylesheets/components/dumb/TimelinePreview.scss';
-import SketchTransformer from '../hoc/SketchTransformer';
-import Point2BoundsScaler from '../hoc/Point2BoundsScaler';
-import SketchFitter from '../smart/SketchFitter';
-import PlainDrawer from '../smart/PlainDrawer';
+import SketchTransformer from 'components/hoc/SketchTransformer';
+import Point2BoundsScaler from 'components/hoc/Point2BoundsScaler';
+import SketchFitter from 'components/smart/SketchFitter';
+import PlainDrawer from 'components/smart/PlainDrawer';
 
 const Canvas = Point2BoundsScaler(SketchTransformer(SketchFitter(PlainDrawer)));
 

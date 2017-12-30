@@ -1,6 +1,6 @@
 // @flow
 import { UPDATE_POSITION, HIDE, SELECT, SELECT_INSIDE } from 'constants/actionTypes';
-import { type Stroke } from '../typeDefinitions';
+import { type Stroke } from 'typeDefinitions';
 
 export function updatePosition(
 		strokes: Stroke[],

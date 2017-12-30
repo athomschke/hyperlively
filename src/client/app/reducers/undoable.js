@@ -2,8 +2,8 @@
 import { concat, slice, isEqual, cloneDeep } from 'lodash';
 import { JUMP_TO } from 'constants/actionTypes';
 import relevantStatesForScene from 'helpers/relevantStatesForScene';
-import { type Reducer, type UndoableScenes, type SceneState } from '../typeDefinitions';
-import { type JUMP_TO_ACTION } from '../actionTypeDefinitions';
+import { type Reducer, type UndoableScenes, type SceneState } from 'typeDefinitions';
+import { type JUMP_TO_ACTION } from 'actionTypeDefinitions';
 
 function undoable(reducer: Reducer) {
 	const initialState = {

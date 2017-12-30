@@ -2,8 +2,8 @@
 import { concat } from 'lodash';
 
 import { APPEND_SPECIFC_ACTION } from 'constants/actionTypes';
-import { type APPEND_SPECIFC_ACTION_ACTION } from '../actionTypeDefinitions';
-import { type ActionMapping } from '../typeDefinitions';
+import { type APPEND_SPECIFC_ACTION_ACTION } from 'actionTypeDefinitions';
+import { type ActionMapping } from 'typeDefinitions';
 
 const deleteInside = {
 	actionName: 'deleteInside',

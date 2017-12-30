@@ -1,7 +1,7 @@
 // @flow
 import { TOGGLE_HANDWRITING_RECOGNITION } from 'constants/actionTypes';
+import { type TOGGLE_HANDWRITING_RECOGNITION_ACTION } from 'actionTypeDefinitions';
 import { defaultHandwritingRecognition } from './defaultState';
-import { type TOGGLE_HANDWRITING_RECOGNITION_ACTION } from '../actionTypeDefinitions';
 
 function handwritingRecognition(state: boolean = defaultHandwritingRecognition,
 		action: TOGGLE_HANDWRITING_RECOGNITION_ACTION) {
