@@ -4,7 +4,7 @@ import Slider from 'rc-slider';
 import { map, flatten } from 'lodash';
 import { rcSlider } from 'stylesheets/components/dumb/Timeline.scss';
 import TimelinePreview from './TimelinePreview';
-import type { Sketch } from '../../typeDefinitions';
+import type { Sketch } from 'typeDefinitions';
 
 type Props = {
 	sliderHeight: number,

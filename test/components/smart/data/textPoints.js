@@ -1,4 +1,4 @@
-import { point } from '../../../helpers';
+import { point } from 'test/helpers';
 
 export default function () {
 	return [

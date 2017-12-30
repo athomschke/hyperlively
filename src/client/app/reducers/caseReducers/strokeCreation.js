@@ -2,7 +2,7 @@
 import { last } from 'lodash';
 import { appendPoint as appendPointAction } from 'actions/drawing';
 import { points } from '../points';
-import { type Stroke } from '../../typeDefinitions';
+import { type Stroke } from 'typeDefinitions';
 import { type APPEND_STROKE_ACTION, type APPEND_POINT_ACTION, type FINISH_STROKE_ACTION } from '../../actionTypeDefinitions';
 
 export const appendStroke = (state: Array<Stroke>, action: APPEND_STROKE_ACTION) => {

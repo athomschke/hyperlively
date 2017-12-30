@@ -6,7 +6,7 @@ import { last, forEach, head, tail, first } from 'lodash';
 import lastPointInStrokes from 'helpers/lastPointInStrokes';
 import { PRESSURE, DEFAULT_PEN_COLOR, SELECTED_PEN_COLOR } from 'constants/drawing';
 import AbstractDrawer from './AbstractDrawer';
-import { type Stroke, type Point } from '../../typeDefinitions';
+import { type Stroke, type Point } from 'typeDefinitions';
 
 export default class PlomaDrawer extends AbstractDrawer {
 

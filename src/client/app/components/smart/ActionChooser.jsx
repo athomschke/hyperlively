@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { forEach, map, flatten } from 'lodash';
 import actions from 'actions/actions';
 import JsonPropertyChooser from './JsonPropertyChooser';
-import type { FunctionConfiguration, TreeParameter, ActionMapping } from '../../typeDefinitions';
+import type { FunctionConfiguration, TreeParameter, ActionMapping } from 'typeDefinitions';
 
 const formattedSignatures = (
 		signatures: Array<TreeParameter>)

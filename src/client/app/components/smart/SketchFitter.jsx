@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import type { Component } from 'react-flow-types';
 import { cloneDeep } from 'lodash';
 import { offsetToOrigin, getOffsetForTime } from 'helpers/sketchFitting';
-import type { Bounds, Stroke } from '../../typeDefinitions';
+import type { Bounds, Stroke } from 'typeDefinitions';
 
 type Props = {
 		index: number,

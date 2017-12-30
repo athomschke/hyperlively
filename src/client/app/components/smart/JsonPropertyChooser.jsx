@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { TreeMenu } from 'react-tree-menu';
 import { cloneDeep, map, reduce, keys } from 'lodash';
 import { getPathToProperty, findArraysIndex, formatObject } from 'helpers/choosingActions';
-import type { TreeParameter } from '../../typeDefinitions';
+import type { TreeParameter } from 'typeDefinitions';
 
 type State = {
 	collapsedPaths: Array<Array<string>>,

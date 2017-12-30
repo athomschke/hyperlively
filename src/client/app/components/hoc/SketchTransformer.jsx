@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import type { Component } from 'react-flow-types';
 import { find, reduce } from 'lodash';
-import { type Stroke } from '../../typeDefinitions';
+import { type Stroke } from 'typeDefinitions';
 
 const joinBounds = (bounds1, bounds2) => ({
 	left: Math.min(bounds1.left, bounds2.left),

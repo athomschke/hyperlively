@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { flatten, last, isEqual, cloneDeep, forEach, map, find } from 'lodash';
 import { ERROR_DIRECT_ABSTRACT_CALL, ERROR_CALL_SUPER_TO_ABSTRACT } from 'constants/errors';
 import { OFFSET } from 'constants/canvas';
-import type { Stroke, Point } from '../../typeDefinitions';
+import type { Stroke, Point } from 'typeDefinitions';
 
 const allPoints = strokes => flatten(map(strokes, stroke => stroke.points));
 
