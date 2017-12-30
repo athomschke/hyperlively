@@ -1,21 +1,22 @@
 // @flow
 import Slider from 'rc-slider';
-import React, { PureComponent, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
 
 import { rcSlider } from 'stylesheets/components/dumb/Threshold.scss';
 import { MIN_THRESHOLD, MAX_THRESHOLD } from 'constants/drawing';
 
-export default class Threshold extends PureComponent {
+type Props = {
+	threshold: number;
+	onChange: (_newThreshold: number) => void;
+};
 
-	static propTypes = {
-		threshold: PropTypes.number,
-		onChange: PropTypes.func,
-	};
-
+export default class Threshold extends PureComponent<Props> {
 	static defaultProps = {
 		threshold: 0,
 		onChange: () => {},
 	};
+
+	props: Props;
 
 	render() {
 		return (<Slider

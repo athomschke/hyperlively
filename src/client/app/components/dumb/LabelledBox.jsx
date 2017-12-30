@@ -1,17 +1,18 @@
 // @flow
-import React, { PureComponent, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
 
 import Checkbox from 'components/smart/Checkbox';
 
-export default class LabelledBox extends PureComponent {
+type Props = {
+		label: string;
+}
 
-	static propTypes = {
-		label: PropTypes.string,
-	};
-
+export default class LabelledBox extends PureComponent<Props> {
 	static defaultProps = {
 		label: '',
 	};
+
+	props: Props;
 
 	render() {
 		return (

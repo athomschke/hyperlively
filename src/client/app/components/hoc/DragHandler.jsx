@@ -1,9 +1,9 @@
 // @flow
 import React, { PureComponent, PropTypes } from 'react';
 import { type SyntheticTouchEvent, type SyntheticMouseEvent } from 'flow-bin';
-import type { Component } from 'react-flow-types';
+import type { ClassComponent } from 'react-flow-types';
 
-export default (Wrapped: Component<Object>) => class extends PureComponent {
+export default (Wrapped: ClassComponent<any, any>) => class extends PureComponent {
 
 	static propTypes = {
 		onDragStart: PropTypes.func,
