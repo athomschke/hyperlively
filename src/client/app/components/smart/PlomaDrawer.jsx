@@ -1,29 +1,30 @@
 // @flow
-import React from 'react';
 import Color from 'color';
 import { BallpointPen } from 'ploma';
 import { last, forEach, head, tail, first } from 'lodash';
 import lastPointInStrokes from 'helpers/lastPointInStrokes';
 import { PRESSURE, DEFAULT_PEN_COLOR, SELECTED_PEN_COLOR } from 'constants/drawing';
 import type { Stroke, Point } from 'typeDefinitions';
-import AbstractDrawer from './AbstractDrawer';
+import AbstractDrawer, { type AbstractDrawerProps } from './AbstractDrawer';
 
-export default class PlomaDrawer extends AbstractDrawer {
+type State = {
+	ballpointPen: Object,
+	strokes: Array<Stroke>,
+	width: number,
+	height: number
+}
 
-	static propTypes = Object.assign({}, AbstractDrawer.propTypes, {
-		uniqueCanvasFactor: React.PropTypes.number,
-	});
+type Props = AbstractDrawerProps & {
+	uniqueCanvasFactor: number;
+}
+
+export default class PlomaDrawer extends AbstractDrawer<Props, State> {
 
 	static defaultProps = Object.assign({}, AbstractDrawer.defaultProps, {
 		uniqueCanvasFactor: 1,
 	});
 
-	state: {
-		ballpointPen: Object,
-		strokes: Array<Stroke>,
-		width: number,
-		height: number
-	}
+	state: State;
 
 	componentDidMount() {
 		const plomaConfig = {

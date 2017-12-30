@@ -11,6 +11,14 @@ type Props = {
 	max: number,
 };
 
+// type WrappedProps = {
+// 	strokes: Array<Stroke>;
+// 	fittedWidth: number;
+// 	finished: boolean;
+// 	showBorder: boolean;
+// 	[key: string]: any;
+// }
+
 export default (Wrapped: ClassComponent<any, any>) => class extends PureComponent<Props> {
 	props: Props;
 

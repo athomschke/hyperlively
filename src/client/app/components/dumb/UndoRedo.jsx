@@ -22,7 +22,9 @@ export default class UndoRedo extends PureComponent<Props, State> {
 	state: State
 
 	componentDidMount() {
-		this.state.sliderWidth = this.node.getBoundingClientRect().width;
+		if (this.node) {
+			this.state.sliderWidth = this.node.getBoundingClientRect().width;
+		}
 	}
 
 	props: Props

@@ -42,11 +42,14 @@ export default class PlainDrawer extends AbstractDrawer {
 	}
 
 	startStrokeAt(aPoint: Point, aColor: string) {
-		this.canvas.getContext('2d').strokeStyle = `${(new Color(aColor || DEFAULT_PEN_COLOR)).hex()}`;
+		const canvas = this.canvas;
+		if (canvas) {
+			canvas.getContext('2d').strokeStyle = `${(new Color(aColor || DEFAULT_PEN_COLOR)).hex()}`;
+		}
 	}
 
 	extendStrokeAt(point: Point, optPointBefore: Point) {
-		if (optPointBefore && (point !== optPointBefore)) {
+		if (this.canvas && optPointBefore && (point !== optPointBefore)) {
 			const context = this.canvas.getContext('2d');
 			context.beginPath();
 			context.moveTo(optPointBefore.x, optPointBefore.y);
@@ -61,7 +64,10 @@ export default class PlainDrawer extends AbstractDrawer {
 	}
 
 	resetCanvas() {
-		this.canvas.getContext('2d').clearRect(0, 0, this.canvas.width, this.canvas.height);
+		const canvas = this.canvas;
+		if (canvas) {
+			canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+		}
 	}
 
 	redrawStroke(stroke: Stroke, shouldFinish: boolean) {

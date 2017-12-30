@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import type { ClassComponent } from 'react-flow-types';
 import { reduce, last, first, concat } from 'lodash';
 import { DEFAULT_THRESHOLD } from 'constants/drawing';
-import { type Scene } from 'typeDefinitions';
+import type { Scene/* , Sketch*/ } from 'typeDefinitions';
 
 const strokeFollowedSuit = (collectedSketches, stroke, threshold) => {
 	const lastPoint = last(collectedSketches) &&
@@ -32,6 +32,11 @@ type Props = {
 	scene: Scene,
 	threshold: number,
 };
+
+// type WrappedProps = {
+// 	sketches: Array<Sketch>;
+// 	[key: string]: any;
+// }
 
 export default (Wrapped: ClassComponent<any, any>) => class extends PureComponent<Props> {
 

@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import type { ClassComponent } from 'react-flow-types';
 import { find, reduce } from 'lodash';
-import { type Stroke } from 'typeDefinitions';
+import type { Stroke/* , Bounds*/ } from 'typeDefinitions';
 
 const joinBounds = (bounds1, bounds2) => ({
 	left: Math.min(bounds1.left, bounds2.left),
@@ -32,6 +32,11 @@ type Props = {
 	finished: bool,
 	offset: number,
 }
+
+// type WrappedProps = {
+// 	bounds: Bounds;
+// 	[key: string]: any;
+// }
 
 export default (Wrapped: ClassComponent<any, any>) => class extends PureComponent<Props> {
 	props: Props;
