@@ -1,8 +1,8 @@
 // @flow
 import React, { PureComponent } from 'react';
 import { map, flatten, filter, last, forEach } from 'lodash';
-import InterpretationChooser from './InterpretationChooser';
 import type { FunctionConfiguration, Sketch, RecognitionResult, Functions, Parameters, ActionMapping } from 'typeDefinitions';
+import InterpretationChooser from './InterpretationChooser';
 
 type Props = {
 	performAction: () => {},

@@ -3,8 +3,8 @@ import Color from 'color';
 import { without, last, head, tail, reduce, cloneDeep, first } from 'lodash';
 import lastPointInStrokes from 'helpers/lastPointInStrokes';
 import { DEFAULT_PEN_COLOR, SELECTED_PEN_COLOR } from 'constants/drawing';
+import type { Stroke, Point } from 'typeDefinitions';
 import AbstractDrawer from './AbstractDrawer';
-import { type Stroke, type Point } from 'typeDefinitions';
 
 const secondToLastPointInStrokes = (strokes) => {
 	const points = last(strokes).points;

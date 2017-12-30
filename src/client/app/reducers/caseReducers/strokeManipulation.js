@@ -1,8 +1,8 @@
 // @flow
 import { find, map, isEqual, without, flatten, filter } from 'lodash';
 import Polygon from 'polygon';
-import { type Stroke } from 'typeDefinitions';
-import { type UPDATE_POSITION_ACTION, type HIDE_ACTION, type SELECT_ACTION, type SELECT_INSIDE_ACTION } from '../../actionTypeDefinitions';
+import type { Stroke } from 'typeDefinitions';
+import type { UPDATE_POSITION_ACTION, HIDE_ACTION, SELECT_ACTION, SELECT_INSIDE_ACTION } from 'actionTypeDefinitions';
 
 export const updatePosition = (state: Array<Stroke>, action: UPDATE_POSITION_ACTION) => {
 	const moveByPoint = {

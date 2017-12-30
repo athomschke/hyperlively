@@ -2,8 +2,8 @@
 import React, { PureComponent } from 'react';
 import { forEach, map, flatten } from 'lodash';
 import actions from 'actions/actions';
-import JsonPropertyChooser from './JsonPropertyChooser';
 import type { FunctionConfiguration, TreeParameter, ActionMapping } from 'typeDefinitions';
+import JsonPropertyChooser from './JsonPropertyChooser';
 
 const formattedSignatures = (
 		signatures: Array<TreeParameter>)
