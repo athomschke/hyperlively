@@ -1,7 +1,7 @@
 import React from 'react';
+import { shallow } from 'enzyme';
 import ParameterChooser from 'components/smart/ParameterChooser';
 import JsonPropertyChooser from 'components/smart/JsonPropertyChooser';
-import { shallow } from 'enzyme';
 
 const dummyStrokes = [{
 	points: [{

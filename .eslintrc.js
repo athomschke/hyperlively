@@ -1,6 +1,5 @@
 module.exports = {
     "extends": "airbnb",
-    "import/resolver": "webpack",
     "parser": "babel-eslint",
     "parserOptions": {
         "sourceType": "module",
@@ -9,19 +8,20 @@ module.exports = {
     "plugins": [
         "react",
         "jsx-a11y",
-        "import"
+        "import",
     ],
     "rules": {
       "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
     	"indent": [2, "tab"],
     	"no-tabs": 0,
-        "react/jsx-indent-props": [2, 'tab'],
-        "react/jsx-indent": [2, 'tab'],
-        'import/no-extraneous-dependencies': ['error', {
-            'devDependencies': true
-        }],
-        'import/prefer-default-export': 0,
-        'no-bitwise': 0,
+      "react/jsx-indent-props": [2, 'tab'],
+      "react/jsx-indent": [2, 'tab'],
+      'import/no-extraneous-dependencies': ['error', {
+          'devDependencies': true
+      }],
+      'import/prefer-default-export': 0,
+      "import/order": ["error", {"groups": ["index", "sibling", "parent", "internal", "external", "builtin"]}],
+      'no-bitwise': 0,
     },
     "globals": {
         "expect": true,

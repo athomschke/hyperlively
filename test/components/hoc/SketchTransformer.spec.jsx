@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
-import SketchTransformer from 'components/hoc/SketchTransformer';
 import TestUtils from 'react-addons-test-utils';
+import SketchTransformer from 'components/hoc/SketchTransformer';
 import { point } from 'test/helpers';
 
 describe('Sketch transformer', () => {
