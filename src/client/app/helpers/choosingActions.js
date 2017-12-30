@@ -1,5 +1,6 @@
 // @flow
 import { last, keys, map, filter, isEqual, findIndex } from 'lodash';
+
 import { type ReactTreeNodeFormat, type ReactTreeLeafFormat } from 'typeDefinitions';
 
 export const findArraysIndex = (

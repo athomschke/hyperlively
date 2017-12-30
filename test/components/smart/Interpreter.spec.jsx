@@ -1,6 +1,7 @@
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import { forEach } from 'lodash';
+
 import Interpreter from 'components/smart/Interpreter';
 import InterpretationChooser from 'components/smart/InterpretationChooser';
 

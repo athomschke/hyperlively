@@ -1,5 +1,6 @@
 import TestUtils from 'react-addons-test-utils';
 import React, { PropTypes } from 'react';
+
 import AbstractDrawer from 'components/smart/AbstractDrawer';
 import { ERROR_CALL_SUPER_TO_ABSTRACT, ERROR_DIRECT_ABSTRACT_CALL } from 'constants/errors';
 

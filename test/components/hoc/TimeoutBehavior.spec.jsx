@@ -1,5 +1,6 @@
 import TestUtils from 'react-addons-test-utils';
 import React from 'react';
+
 import TimeoutBehavior from 'components/hoc/TimeoutBehavior';
 
 let calledWithProps;

@@ -2,6 +2,7 @@
 import { TOGGLE_PLOMA } from 'constants/actionTypes';
 import { type PlomaState } from 'typeDefinitions';
 import { type TOGGLE_PLOMA_ACTION } from 'actionTypeDefinitions';
+
 import { defaultUsePloma } from './defaultState';
 
 const initialState = () => ({

@@ -1,5 +1,6 @@
 import { mount } from 'enzyme';
 import React from 'react';
+
 import UndoRedo from 'components/dumb/UndoRedo';
 
 describe('Undo Redo', () => {

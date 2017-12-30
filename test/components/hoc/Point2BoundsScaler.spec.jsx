@@ -1,5 +1,6 @@
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
+
 import Point2BoundsScaler from 'components/hoc/Point2BoundsScaler';
 
 let calledWithProps;

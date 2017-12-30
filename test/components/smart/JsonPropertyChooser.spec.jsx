@@ -3,6 +3,7 @@ import TestUtils from 'react-addons-test-utils';
 import { shallow } from 'enzyme';
 import { TreeMenu } from 'react-tree-menu';
 import { flatten, map, forEach, filter } from 'lodash';
+
 import JsonPropertyChooser from 'components/smart/JsonPropertyChooser';
 import { getPathToProperty, formatObject } from 'helpers/choosingActions';
 

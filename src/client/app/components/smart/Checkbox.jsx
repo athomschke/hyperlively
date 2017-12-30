@@ -1,13 +1,12 @@
 // @flow
-import React, { PureComponent, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
 
-export default class Checkbox extends PureComponent {
+type Props = {
+	onChange: (_checked: boolean) => void;
+	checked: boolean;
+}
 
-	static propTypes = {
-		onChange: PropTypes.func,
-		checked: PropTypes.bool,
-	};
-
+export default class Checkbox extends PureComponent<Props> {
 	static defaultProps = {
 		onChange: () => {},
 		checked: true,
@@ -15,10 +14,12 @@ export default class Checkbox extends PureComponent {
 
 	constructor() {
 		super();
-		(this:any).onClick = this.onClick.bind(this);
+		(this:any).handleOnClick = this.handleOnClick.bind(this);
 	}
 
-	onClick() {
+	props: Props;
+
+	handleOnClick() {
 		this.props.onChange(!this.props.checked);
 	}
 
@@ -27,7 +28,7 @@ export default class Checkbox extends PureComponent {
 			<input
 				type="checkbox"
 				checked={this.props.checked}
-				onClick={this.onClick}
+				onClick={this.handleOnClick}
 				onChange={() => {}}
 			/>
 		);

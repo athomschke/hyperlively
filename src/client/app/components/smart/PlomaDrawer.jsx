@@ -2,9 +2,11 @@
 import Color from 'color';
 import { BallpointPen } from 'ploma';
 import { last, forEach, head, tail, first } from 'lodash';
+
 import lastPointInStrokes from 'helpers/lastPointInStrokes';
 import { PRESSURE, DEFAULT_PEN_COLOR, SELECTED_PEN_COLOR } from 'constants/drawing';
 import type { Stroke, Point } from 'typeDefinitions';
+
 import AbstractDrawer, { type AbstractDrawerProps } from './AbstractDrawer';
 
 type State = {

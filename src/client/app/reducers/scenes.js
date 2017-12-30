@@ -6,6 +6,7 @@ import type {
 	HIDE_ACTION, SELECT_ACTION, SELECT_INSIDE_ACTION, UPDATE_POSITION_ACTION,
 	ADD_SCENE_ACTION, ADD_SCENE_AT_ACTION,
 } from 'actionTypeDefinitions';
+
 import { strokes } from './strokes';
 
 const defaultScene = () => ({

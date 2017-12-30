@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+
 import { threshold } from './threshold';
 import { ploma } from './ploma';
 import { handwritingRecognition } from './handwritingRecognition';

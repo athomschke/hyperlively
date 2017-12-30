@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+
 import { toggleInterpreter } from 'actions/configuring';
 import { fetchTextCandidates, fetchShapeCandidates } from 'actions/handwritingRecognition';
 import InterpretationTrigger from 'components/dumb/InterpretationTrigger';

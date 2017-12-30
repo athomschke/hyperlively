@@ -1,4 +1,5 @@
 import { cloneDeep } from 'lodash';
+
 import { hashCode, renderApplicationWithState, mountApp, dismountApp, getWindowNode, getCombinedCanvas, manuallyDrawStrokes } from './helpers';
 import emptyCanvas from './data/emptyCanvas.json';
 import canvasWithIrregularStrokesWithPloma from './data/canvasWithIrregularStrokesWithPloma.json';

@@ -1,5 +1,6 @@
 import TestUtils from 'react-addons-test-utils';
 import React from 'react';
+
 import LabelledBox from 'components/dumb/LabelledBox';
 
 describe('LabelledBox', () => {

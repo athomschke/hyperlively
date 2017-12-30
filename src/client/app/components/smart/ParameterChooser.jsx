@@ -1,6 +1,8 @@
 // @flow
 import React, { PureComponent } from 'react';
+
 import type { Stroke, RecognitionResult, TreeParameter } from 'typeDefinitions';
+
 import JsonPropertyChooser from './JsonPropertyChooser';
 
 type Props = {

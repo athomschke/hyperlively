@@ -1,4 +1,5 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
+
 import { requestTextCandidates, requestShapeCandidates } from 'helpers/handwritingRecognizer';
 import { receiveTextCandidates, receiveShapeCandidates } from 'actions/handwritingRecognition';
 import { TEXT_CANDIDATES_FETCH_REQUESTED, SHAPE_CANDIDATES_FETCH_REQUESTED } from 'constants/actionTypes';

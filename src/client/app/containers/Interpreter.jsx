@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+
 import actions from 'actions/actions';
 import Interpreter from 'components/smart/Interpreter';
 

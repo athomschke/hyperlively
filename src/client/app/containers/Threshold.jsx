@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+
 import { updateThreshold } from 'actions/configuring';
 import Threshold from 'components/dumb/Threshold';
 

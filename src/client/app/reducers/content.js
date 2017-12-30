@@ -7,6 +7,7 @@ import type {
 	HIDE_ACTION, SELECT_ACTION, SELECT_INSIDE_ACTION, UPDATE_POSITION_ACTION,
 	ADD_SCENE_ACTION,
 } from 'actionTypeDefinitions';
+
 import { undoable } from './undoable';
 import { sceneIndex } from './sceneIndex';
 import { scenes } from './scenes';

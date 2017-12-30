@@ -1,5 +1,6 @@
 // @flow
 import { last } from 'lodash';
+
 import { appendPoint as appendPointAction } from 'actions/drawing';
 import { type Stroke } from 'typeDefinitions';
 import { type APPEND_STROKE_ACTION, type APPEND_POINT_ACTION, type FINISH_STROKE_ACTION } from 'actionTypeDefinitions';

@@ -1,5 +1,6 @@
 // @flow
 import React from 'react';
+
 import { timelinePreview } from 'stylesheets/components/dumb/TimelinePreview.scss';
 import SketchTransformer from 'components/hoc/SketchTransformer';
 import Point2BoundsScaler from 'components/hoc/Point2BoundsScaler';

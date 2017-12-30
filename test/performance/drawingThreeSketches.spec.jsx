@@ -1,5 +1,7 @@
 import { map, reduce, flatten } from 'lodash';
+
 import { renderApplicationWithState, mountApp, dismountApp, manuallyDrawStrokes, getWindowNode } from 'test/integration/helpers';
+
 import { createUndoableScenes } from './state';
 import emptyState from './emptyState';
 

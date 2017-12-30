@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+
 import { appendPoint, createStroke, finishStroke, toggleDrawing } from 'actions/drawing';
 import Fullscreen from 'components/hoc/Fullscreen';
 import ModifierKey from 'components/hoc/ModifierKey';

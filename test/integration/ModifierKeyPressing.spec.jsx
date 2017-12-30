@@ -1,4 +1,5 @@
 import { forEach } from 'lodash';
+
 import { mountApp, dismountApp, renderApplicationWithState, getCanvasNodes } from './helpers';
 import canvasWithTwoStrokes from './data/canvasWithTwoStrokes.json';
 

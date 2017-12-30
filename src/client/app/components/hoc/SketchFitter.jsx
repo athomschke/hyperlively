@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react';
 import type { ClassComponent } from 'react-flow-types';
 import { cloneDeep } from 'lodash';
+
 import { offsetToOrigin, getOffsetForTime } from 'helpers/sketchFitting';
 import type { Bounds, Stroke } from 'typeDefinitions';
 

@@ -1,5 +1,6 @@
 import { BallpointPen } from 'ploma';
 import { sum } from 'lodash';
+
 import { combineCanvasses } from './helpers';
 
 describe('Integration', () => {

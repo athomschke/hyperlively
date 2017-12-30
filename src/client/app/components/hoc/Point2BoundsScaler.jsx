@@ -1,6 +1,7 @@
 // @flow
 import React, { PureComponent } from 'react';
 import type { ClassComponent } from 'react-flow-types';
+
 import { getFittedWidth, scaleToTime } from 'helpers/scalingPointsToBounds';
 import type { Stroke } from 'typeDefinitions';
 

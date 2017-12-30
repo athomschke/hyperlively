@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react';
 import { map, last, filter } from 'lodash';
 import type { Component } from 'react-flow-types';
+
 import { OFFSET } from 'constants/canvas';
 import { WHITE } from 'constants/drawing';
 import type { Stroke, Sketch } from 'typeDefinitions';

@@ -1,6 +1,7 @@
 // @flow
 import { find, map, isEqual, without, flatten, filter } from 'lodash';
 import Polygon from 'polygon';
+
 import type { Stroke } from 'typeDefinitions';
 import type { UPDATE_POSITION_ACTION, HIDE_ACTION, SELECT_ACTION, SELECT_INSIDE_ACTION } from 'actionTypeDefinitions';
 

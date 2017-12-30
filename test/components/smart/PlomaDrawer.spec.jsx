@@ -1,6 +1,7 @@
 import TestUtils from 'react-addons-test-utils';
 import React from 'react';
 import { remove, filter, isNumber, map } from 'lodash';
+
 import PlomaDrawer from 'components/smart/PlomaDrawer';
 
 const renderComponentWithProps = props => TestUtils.renderIntoDocument(<PlomaDrawer

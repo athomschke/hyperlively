@@ -1,4 +1,5 @@
 import { relativeDividerPosition } from 'reducers/defaultState';
+
 import { mountApp, dismountApp, renderApplicationWithState } from './helpers';
 import emptyCanvas from './data/emptyCanvas.json';
 

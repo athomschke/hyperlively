@@ -1,6 +1,7 @@
 import { findDOMNode } from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 import { cloneDeep } from 'lodash';
+
 import { renderApplicationWithState, mountApp, dismountApp, getCanvasNodes } from './helpers';
 import canvasWithTwoStrokes from './data/canvasWithTwoStrokes.json';
 

@@ -1,6 +1,8 @@
 import { findDOMNode } from 'react-dom';
 import { cloneDeep } from 'lodash';
+
 import { point } from 'test/helpers';
+
 import { hashCode, mountApp, dismountApp, getCanvasNodes, getWindowNode, getCombinedCanvas, renderApplicationWithState, manuallyDrawStrokes, gotToHalfTimeInApp } from './helpers';
 import emptyCanvas from './data/emptyCanvas.json';
 

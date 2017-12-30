@@ -1,5 +1,6 @@
 import { cloneDeep, find, map } from 'lodash';
 import TestUtils from 'react-addons-test-utils';
+
 import { hashCode, renderApplicationWithState, mountApp, dismountApp, getCanvasNodes, getWindowNode, getCombinedCanvas } from './helpers';
 import emptyCanvas from './data/emptyCanvas.json';
 import canvasWithTwoScenes from './data/canvasWithTwoScenes.json';

@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+
 import { togglePloma } from 'actions/configuring';
 import Ploma from 'components/dumb/Ploma';
 

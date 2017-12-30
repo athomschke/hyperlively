@@ -1,6 +1,7 @@
 import { findDOMNode } from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 import React from 'react';
+
 import AppConfiguration from 'components/dumb/AppConfiguration';
 
 describe('App Configuration', () => {

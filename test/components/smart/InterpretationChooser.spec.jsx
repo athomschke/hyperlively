@@ -2,6 +2,7 @@ import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import { forEach } from 'lodash';
 import { shallow } from 'enzyme';
+
 import InterpretationChooser from 'components/smart/InterpretationChooser';
 import ActionChooser from 'components/smart/ActionChooser';
 import ParameterChooser from 'components/smart/ParameterChooser';

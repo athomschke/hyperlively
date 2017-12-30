@@ -2,6 +2,7 @@ import TestUtils from 'react-addons-test-utils';
 import React, { Component, PropTypes } from 'react';
 import { sum, map, remove } from 'lodash';
 import { mount } from 'enzyme';
+
 import PlainDrawer from 'components/smart/PlainDrawer';
 
 class WrappedPlainDrawer extends Component {

@@ -1,6 +1,7 @@
 // @flow
 import Slider from 'rc-slider';
 import React, { PureComponent, PropTypes } from 'react';
+
 import { rcSlider } from 'stylesheets/components/dumb/Threshold.scss';
 import { MIN_THRESHOLD, MAX_THRESHOLD } from 'constants/drawing';
 

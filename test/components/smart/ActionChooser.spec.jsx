@@ -1,5 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+
 import ActionChooser from 'components/smart/ActionChooser';
 import JsonPropertyChooser from 'components/smart/JsonPropertyChooser';
 import actions from 'actions/actions';

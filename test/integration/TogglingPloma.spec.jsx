@@ -1,4 +1,5 @@
 import TestUtils from 'react-addons-test-utils';
+
 import { hashCode, renderApplicationWithState, mountApp, dismountApp, getCombinedCanvas } from './helpers';
 import canvasWithIrregularStrokesWithPloma from './data/canvasWithIrregularStrokesWithPloma.json';
 

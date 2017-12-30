@@ -1,5 +1,6 @@
 import { shallow } from 'enzyme';
 import React from 'react';
+
 import InterpretationTrigger from 'components/dumb/InterpretationTrigger';
 
 describe('InterpretationTrigger', () => {

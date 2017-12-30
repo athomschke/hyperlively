@@ -1,6 +1,7 @@
 import Slider from 'rc-slider';
 import TestUtils from 'react-addons-test-utils';
 import React from 'react';
+
 import TimelineView from 'components/dumb/Timeline';
 import TimeoutBehavior from 'components/hoc/TimeoutBehavior';
 import { point } from 'test/helpers';

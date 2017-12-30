@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { last, concat } from 'lodash';
+
 import UndoRedo from 'components/dumb/UndoRedo';
 import SketchCombiner from 'components/hoc/SketchCombiner';
 import { togglePloma, setObserveMutations, jumpTo } from 'actions/configuring';

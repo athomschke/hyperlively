@@ -1,6 +1,8 @@
 import TestUtils from 'react-addons-test-utils';
 import { cloneDeep } from 'lodash';
+
 import { nextScene } from 'actions/drawing';
+
 import { createAppStore, renderApplicationWithStore, mountApp, dismountApp } from './helpers';
 import canvasWithTwoScenes from './data/canvasWithTwoScenes.json';
 

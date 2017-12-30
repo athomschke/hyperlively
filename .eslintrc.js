@@ -20,7 +20,10 @@ module.exports = {
           'devDependencies': true
       }],
       'import/prefer-default-export': 0,
-      "import/order": ["error", {"groups": ["index", "sibling", "parent", "internal", "external", "builtin"]}],
+      "import/order": ["error", {
+        "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
+        "newlines-between": "always"
+      }],
       'no-bitwise': 0,
     },
     "globals": {

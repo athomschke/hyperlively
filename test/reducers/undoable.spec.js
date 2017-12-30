@@ -1,5 +1,6 @@
 import { undoable } from 'reducers/undoable';
 import { jumpTo } from 'actions/configuring';
+
 import * as data from './data/undoableScenes';
 
 describe('undoable', () => {
