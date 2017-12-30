@@ -2,6 +2,7 @@ var path = require('path');
 
 var BUILD_DIR = path.resolve(__dirname, 'src/client/public');
 var APP_DIR = path.resolve(__dirname, 'src/client/app');
+var NODE_MODULES_DIR = path.resolve(__dirname, 'node_modules');
 var CREDENTIALS_DIR = path.resolve(__dirname, 'credentials');
 
 var config = {
@@ -38,6 +39,7 @@ var config = {
 		],
 	},
 	resolve: {
+		modules: ["node_modules", APP_DIR],
 		extensions: [
 			'.webpack.js', '.web.js', '.js',
 			'.jsx',
@@ -53,8 +55,7 @@ var config = {
 			stylesheets: APP_DIR + '/stylesheets',
 			helpers: APP_DIR + '/helpers',
 			credentials: CREDENTIALS_DIR,
-			base: APP_DIR,
-		},
+		}
 	},
 };
 
