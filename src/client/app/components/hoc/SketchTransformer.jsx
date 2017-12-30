@@ -1,6 +1,6 @@
 // @flow
 import React, { PureComponent } from 'react';
-import type { Component } from 'react-flow-types';
+import type { ClassComponent } from 'react-flow-types';
 import { find, reduce } from 'lodash';
 import { type Stroke } from 'typeDefinitions';
 
@@ -33,7 +33,7 @@ type Props = {
 	offset: number,
 }
 
-export default (Wrapped: Component<Object>) => class extends PureComponent<Props> {
+export default (Wrapped: ClassComponent<any, any>) => class extends PureComponent<Props> {
 	props: Props;
 
 	static defaultProps = {

@@ -1,6 +1,6 @@
 // @flow
 import React, { PureComponent } from 'react';
-import type { Component } from 'react-flow-types';
+import type { ClassComponent } from 'react-flow-types';
 
 let runningTimeout;
 
@@ -18,7 +18,7 @@ type State = {
 	disableFunction: ?(boolean) => void,
 }
 
-export default (Wrapped: Component<Object>) => class extends PureComponent<Props, State> {
+export default (Wrapped: ClassComponent<any, any>) => class extends PureComponent<Props, State> {
 	static defaultProps = {
 		temporaryCallback: () => {},
 		onChange: () => {},

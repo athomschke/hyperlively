@@ -1,7 +1,7 @@
 // @flow
 import React, { PureComponent } from 'react';
 import { getFittedWidth, scaleToTime } from 'helpers/scalingPointsToBounds';
-import type { Component } from 'react-flow-types';
+import type { ClassComponent } from 'react-flow-types';
 import type { Stroke } from 'typeDefinitions';
 
 type Props = {
@@ -11,7 +11,7 @@ type Props = {
 	max: number,
 };
 
-export default (Wrapped: Component<Object>) => class extends PureComponent<Props> {
+export default (Wrapped: ClassComponent<any, any>) => class extends PureComponent<Props> {
 	props: Props;
 
 	static defaultProps = {
