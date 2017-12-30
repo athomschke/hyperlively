@@ -1,5 +1,5 @@
 import { offsetToOrigin } from 'helpers/sketchFitting';
-import { point } from '../helpers';
+import { point } from 'test/helpers';
 
 describe('Fitting sketches', () => {
 	describe('adjusting the offset to origin', () => {

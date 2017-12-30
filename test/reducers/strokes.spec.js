@@ -1,7 +1,7 @@
 import { strokes } from 'reducers/strokes';
 import { appendPoint, createStroke, finishStroke } from 'actions/drawing';
 import { updatePosition, hide, select, selectInside } from 'actions/manipulating';
-import { point, event } from '../helpers';
+import { point, event } from 'test/helpers';
 
 describe('strokes', () => {
 	describe('handles', () => {

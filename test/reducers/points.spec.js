@@ -1,6 +1,6 @@
 import { points } from 'reducers/points';
 import { appendPoint } from 'actions/drawing';
-import { point, event } from '../helpers';
+import { point, event } from 'test/helpers';
 
 describe('points', () => {
 	it('handles initial state', () => {

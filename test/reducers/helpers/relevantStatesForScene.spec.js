@@ -1,5 +1,5 @@
 import relevantStatesForScene from 'helpers/relevantStatesForScene';
-import * as exampleStates from '../data/exampleStates';
+import * as exampleStates from 'test/reducers/data/exampleStates';
 
 describe.skip('Calculating states relevant for a scene', () => {
 	it('handles an empty state on first scene', () => {

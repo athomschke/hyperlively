@@ -1,7 +1,7 @@
 import { scenes } from 'reducers/scenes';
 import { appendPoint, createStroke, addScene, addSceneAt } from 'actions/drawing';
 import { updatePosition, hide } from 'actions/manipulating';
-import { point } from '../helpers';
+import { point } from 'test/helpers';
 
 describe('scenes', () => {
 	describe('initial state', () => {

@@ -1,5 +1,5 @@
 import { scaleToTime, getFittedWidth } from 'helpers/scalingPointsToBounds';
-import { point } from '../helpers';
+import { point } from 'test/helpers';
 
 describe('Scaling points to bounds', () => {
 	describe('scaling strokes to fit into preview', () => {

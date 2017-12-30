@@ -1,5 +1,5 @@
 import { requestTextCandidates, requestShapeCandidates, receiveTextCandidates, receiveShapeCandidates, fetchTextCandidates, fetchShapeCandidates } from 'actions/handwritingRecognition';
-import { strokesExample, textResponse, shapeResponse } from '../data';
+import { strokesExample, textResponse, shapeResponse } from 'test/data';
 
 describe('actions', () => {
 	let xhr;

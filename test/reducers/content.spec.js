@@ -1,7 +1,7 @@
 import { content } from 'reducers/content';
 import { setSceneIndex } from 'actions/configuring';
 import { addSceneAt, nextScene } from 'actions/drawing';
-import { point } from '../helpers';
+import { point } from 'test/helpers';
 
 describe('Content', () => {
 	describe('initial state', () => {

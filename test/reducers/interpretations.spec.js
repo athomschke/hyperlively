@@ -2,7 +2,7 @@ import { requestTextCandidates, requestShapeCandidates, receiveTextCandidates, r
 import { toggleInterpreter } from 'actions/configuring';
 import { createStroke } from 'actions/drawing';
 import { interpretation } from 'reducers/interpretation';
-import { shapeCandidate, letterCandidate } from '../data';
+import { shapeCandidate, letterCandidate } from 'test/data';
 
 const dummyState = {
 	showInterpreter: false,
