@@ -4,6 +4,7 @@ var BUILD_DIR = path.resolve(__dirname, 'src/client/public');
 var APP_DIR = path.resolve(__dirname, 'src/client/app');
 var NODE_MODULES_DIR = path.resolve(__dirname, 'node_modules');
 var CREDENTIALS_DIR = path.resolve(__dirname, 'credentials');
+var ROOT_DIR = path.resolve(__dirname);
 
 var config = {
 	devtool: 'source-map',
@@ -39,7 +40,7 @@ var config = {
 		],
 	},
 	resolve: {
-		modules: ["node_modules", APP_DIR],
+		modules: ["node_modules", APP_DIR, ROOT_DIR],
 		extensions: [
 			'.webpack.js', '.web.js', '.js',
 			'.jsx',
