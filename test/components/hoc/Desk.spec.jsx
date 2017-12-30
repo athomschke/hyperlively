@@ -1,6 +1,6 @@
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
-import Desk from 'components/smart/Desk';
+import Desk from 'components/hoc/Desk';
 import { point } from '../../helpers';
 
 const MockedSubComponent = () => <canvas />;

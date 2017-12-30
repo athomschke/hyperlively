@@ -1,7 +1,7 @@
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import { forEach } from 'lodash';
-import ModifierKey from 'components/smart/ModifierKey';
+import ModifierKey from 'components/hoc/ModifierKey';
 
 class MockedSubComponent extends React.Component {
 

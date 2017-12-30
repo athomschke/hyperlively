@@ -1,6 +1,6 @@
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
-import Fullscreen from 'components/smart/Fullscreen';
+import Fullscreen from 'components/hoc/Fullscreen';
 
 class MockedSubComponent extends React.Component {
 	static propTypes = {

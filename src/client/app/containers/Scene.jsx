@@ -1,14 +1,14 @@
 import { connect } from 'react-redux';
 import actions from 'actions/actions';
 import { PAPER_COLOR, WHITE } from 'constants/drawing';
-import Desk from 'components/smart/Desk';
-import ModuleChooser from 'components/smart/ModuleChooser';
-import SketchTransformer from 'components/smart/SketchTransformer';
+import Desk from 'components/hoc/Desk';
+import ModuleChooser from 'components/hoc/ModuleChooser';
+import SketchTransformer from 'components/hoc/SketchTransformer';
 import PlomaDrawer from 'components/smart/PlomaDrawer';
 import PlainDrawer from 'components/smart/PlainDrawer';
-import BoundsMutationObserver from 'components/smart/BoundsMutationObserver';
-import ModifierKey from 'components/smart/ModifierKey';
-import Fullscreen from 'components/smart/Fullscreen';
+import BoundsMutationObserver from 'components/hoc/BoundsMutationObserver';
+import ModifierKey from 'components/hoc/ModifierKey';
+import Fullscreen from 'components/hoc/Fullscreen';
 
 const mapStateToProps = (state, ownProps) => {
 	const returnState = {};

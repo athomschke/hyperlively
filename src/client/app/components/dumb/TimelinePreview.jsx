@@ -1,8 +1,8 @@
 // @flow
 import React from 'react';
 import { timelinePreview } from 'stylesheets/components/dumb/TimelinePreview.scss';
-import SketchTransformer from '../smart/SketchTransformer';
-import Point2BoundsScaler from '../smart/Point2BoundsScaler';
+import SketchTransformer from '../hoc/SketchTransformer';
+import Point2BoundsScaler from '../hoc/Point2BoundsScaler';
 import SketchFitter from '../smart/SketchFitter';
 import PlainDrawer from '../smart/PlainDrawer';
 

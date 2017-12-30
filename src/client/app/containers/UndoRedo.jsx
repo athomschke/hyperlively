@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import UndoRedo from 'components/dumb/UndoRedo';
-import SketchCombiner from 'components/smart/SketchCombiner';
+import SketchCombiner from 'components/hoc/SketchCombiner';
 import { togglePloma, setObserveMutations, jumpTo } from 'actions/configuring';
 import UNDO_TIMEOUT from 'constants/canvas';
 import { last, concat } from 'lodash';
