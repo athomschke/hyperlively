@@ -36,7 +36,7 @@ describe('Integration', () => {
 			});
 		});
 
-		it.only('two strokes looks the same as adding two strokes point by point when ploma is enabled', () => {
+		it('two strokes looks the same as adding two strokes point by point when ploma is enabled', () => {
 			const canvasJsonConfig = canvasWithIrregularStrokesWithPloma.json;
 			renderApplicationWithState(canvasJsonConfig);
 			return getCombinedCanvas(100, 100).then((oldCombinedCanvas) => {

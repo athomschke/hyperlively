@@ -3,7 +3,7 @@ import TestUtils from 'react-addons-test-utils';
 import React from 'react';
 import TimelineView from 'components/dumb/Timeline';
 import TimeoutBehavior from 'components/hoc/TimeoutBehavior';
-import { point } from '../../helpers';
+import { point } from 'test/helpers';
 
 const Timeline = TimeoutBehavior(TimelineView);
 

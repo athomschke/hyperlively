@@ -1,5 +1,5 @@
 import TimelinePreview from 'components/dumb/TimelinePreview';
-import { point } from '../../helpers';
+import { point } from 'test/helpers';
 
 describe('TimelinePreview', () => {
 	describe('rendering strokes to previews', () => {

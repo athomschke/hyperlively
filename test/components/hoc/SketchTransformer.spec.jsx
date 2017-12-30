@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import SketchTransformer from 'components/hoc/SketchTransformer';
 import TestUtils from 'react-addons-test-utils';
-import { point } from '../../helpers';
+import { point } from 'test/helpers';
 
 describe('Sketch transformer', () => {
 	let bounds;

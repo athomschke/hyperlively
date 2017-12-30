@@ -5,9 +5,9 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
-import hyperlively from '../../src/client/app/reducers/index';
-import Application from '../../src/client/app/Application';
-import type { HyperlivelyState, Stroke } from '../../src/client/app/typeDefinitions';
+import hyperlively from 'src/client/app/reducers/index';
+import Application from 'src/client/app/Application';
+import type { HyperlivelyState, Stroke } from 'src/client/app/typeDefinitions';
 
 export function createAppStore(initialState: HyperlivelyState) {
 	return createStore(hyperlively, initialState);

@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import TestUtils from 'react-addons-test-utils';
 import SketchCombiner from 'components/hoc/SketchCombiner';
-import { point } from '../../helpers';
+import { point } from 'test/helpers';
 
 const expectOneStrokeInOneSketch = (combinedSketches, addedPoint) => {
 	expect(combinedSketches).to.have.length(1);
