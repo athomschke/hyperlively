@@ -2,7 +2,13 @@
 import React, { PureComponent } from 'react';
 import type { ClassComponent } from 'react-flow-types';
 
-export default (Wrapped: ClassComponent<any, any>) => class extends PureComponent {
+type State = {
+	cmdPressed: boolean;
+	returnPressed: boolean;
+	ctrlPressed: boolean;
+}
+
+export default (Wrapped: ClassComponent<any, any>) => class extends PureComponent<any, State> {
 
 	constructor(props: Object) {
 		super(props);
@@ -13,11 +19,7 @@ export default (Wrapped: ClassComponent<any, any>) => class extends PureComponen
 		};
 	}
 
-	state: {
-		cmdPressed: boolean,
-		returnPressed: boolean,
-		ctrlPressed: boolean,
-	}
+	state: State;
 
 	componentDidMount() {
 		window.addEventListener('keydown', this.handleKeyDown.bind(this));

@@ -99,11 +99,12 @@ export function requestTextCandidates(strokes: Array<Stroke>) {
 }
 
 export function requestShapeCandidates(strokes: Array<Stroke>) {
-	return new Promise((resolve) => {
+	const shapePromise: Promise<TextCandidates> = new Promise((resolve) => {
 		sendRequestThenDo(
 			SHAPE_RECOGNITION_URL,
 			getShapeRecognitionData(strokes),
 			(responseText: string) => resolve(parseShapeResponse(responseText)),
 		);
 	});
+	return shapePromise;
 }

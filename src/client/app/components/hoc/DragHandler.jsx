@@ -1,16 +1,24 @@
 // @flow
-import React, { PureComponent, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
 import { type SyntheticTouchEvent, type SyntheticMouseEvent } from 'flow-bin';
 import type { ClassComponent } from 'react-flow-types';
 
-export default (Wrapped: ClassComponent<any, any>) => class extends PureComponent {
+type SyntheticPointerEvent = SyntheticMouseEvent | SyntheticTouchEvent;
 
-	static propTypes = {
-		onDragStart: PropTypes.func,
-		onDrag: PropTypes.func,
-		onDragEnd: PropTypes.func,
-		cmdPressed: PropTypes.bool,
-	};
+type Props = {
+	onDragStart: (_evt: SyntheticPointerEvent) => void;
+	onDrag: (_evt: SyntheticPointerEvent) => {};
+	onDragEnd: (_evt: SyntheticPointerEvent) => {};
+	cmdPressed: boolean;
+}
+
+type State = {
+	mousePressed: boolean;
+}
+
+export default (Wrapped: ClassComponent<any, any>) => class extends PureComponent<Props, State> {
+	props: Props;
+	state: State;
 
 	static defaultProps = {
 		onDragStart: () => {},
@@ -27,10 +35,6 @@ export default (Wrapped: ClassComponent<any, any>) => class extends PureComponen
 		(this:any).onTouchStart = this.onTouchStart.bind(this);
 		(this:any).onTouchMove = this.onTouchMove.bind(this);
 		(this:any).onTouchEnd = this.onTouchEnd.bind(this);
-	}
-
-	state: {
-		mousePressed: boolean,
 	}
 
 	componentDidMount() {
@@ -65,19 +69,19 @@ export default (Wrapped: ClassComponent<any, any>) => class extends PureComponen
 		this.onPointerUp(evt);
 	}
 
-	onPointerDown(evt: SyntheticMouseEvent | SyntheticTouchEvent) {
+	onPointerDown(evt: SyntheticPointerEvent) {
 		this.setState({
 			mousePressed: true,
 		}, this.props.onDragStart.bind(this, evt));
 	}
 
-	onPointerMove(evt: SyntheticMouseEvent | SyntheticTouchEvent) {
+	onPointerMove(evt: SyntheticPointerEvent) {
 		if (this.state.mousePressed) {
 			this.props.onDrag.call(this, evt);
 		}
 	}
 
-	onPointerUp(evt: SyntheticMouseEvent | SyntheticTouchEvent) {
+	onPointerUp(evt: SyntheticPointerEvent) {
 		if (this.state.mousePressed) {
 			this.props.onDragEnd.call(this, evt);
 			this.setState({

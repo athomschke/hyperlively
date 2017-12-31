@@ -18,7 +18,7 @@ const strokeWhereSelectStatusChanged = (strokes1, strokes2) =>
 	find(strokes1, (stroke, index) =>
 		!isEqual(stroke.selected, strokes2[index].selected));
 
-export type AbstractDrawerProps = {
+export type AbstractDrawerProps<P> = P & {
 	strokes: Array<Stroke>,
 	bounds: {
 		x: number,
@@ -33,58 +33,66 @@ export type AbstractDrawerProps = {
 	finished: boolean,
 }
 
-type State = {
+export type AbstractDrawerState<S> = S & {
 	strokes: Array<Stroke>,
 	width: number,
 	height: number
 }
 
-export default class AbstractDrawer extends PureComponent<AbstractDrawerProps, State> {
+export const defaultProps = {
+	strokes: [],
+	bounds: {
+		x: 0,
+		y: 0,
+		width: 2 * OFFSET,
+		height: 2 * OFFSET,
+	},
+	active: false,
+	width: window.innerWidth,
+	height: window.innerHeight,
+	showBorder: false,
+	finished: false,
+};
 
-	static defaultProps = {
-		strokes: [],
-		bounds: {
-			x: 0,
-			y: 0,
-			width: 2 * OFFSET,
-			height: 2 * OFFSET,
-		},
-		active: false,
-		width: window.innerWidth,
-		height: window.innerHeight,
-		showBorder: false,
-		finished: false,
-	};
+const defaultState: AbstractDrawerState<any> = {
+	width: 0,
+	height: 0,
+	strokes: [],
+};
+
+export default class AbstractDrawer<P, S> extends
+		PureComponent<AbstractDrawerProps<P>, AbstractDrawerState<S>> {
+	static defaultProps = defaultProps;
+	state: AbstractDrawerState<S>;
 
 	componentDidMount() {
 		const isFinished = last(this.props.strokes) && last(this.props.strokes).finished;
-		this.state = Object.assign({}, this.state || {}, {
-			strokes: cloneDeep(this.props.strokes),
-			width: this.props.width,
-			height: this.props.height,
-		});
+		this.state = this.state || defaultState;
+		this.state.width = this.props.width;
+		this.state.height = this.props.height;
+		this.state.strokes = cloneDeep(this.props.strokes);
 		this.redrawEverything(isFinished);
 	}
 
 	componentDidUpdate() {
 		if (!isEqual(this.props.strokes, this.state.strokes)) {
-			this.onStrokesUpdated();
+			this.handleStrokesUpdated();
 		}
 		if (!isEqual(this.props.width, this.state.width)) {
-			this.state = Object.assign({}, this.state, {
-				width: this.props.width,
-			});
+			this.state = this.state || defaultState;
+			this.state.width = this.props.width;
 			this.redrawEverything(false);
 		}
 		if (!isEqual(this.props.height, this.state.height)) {
-			this.state = Object.assign({}, this.state, {
-				height: this.props.height,
-			});
+			this.state = this.state || defaultState;
+			this.state.height = this.props.height;
 			this.redrawEverything(false);
 		}
 	}
 
-	onAbstractMethodCalled() {
+	props: AbstractDrawerProps<P>;
+
+	handleAbstractMethodCalled() {
 		if (this === AbstractDrawer) {
 			throw new Error(ERROR_DIRECT_ABSTRACT_CALL);
 		} else {
@@ -96,27 +104,27 @@ export default class AbstractDrawer extends PureComponent<AbstractDrawerProps, S
 	 * @overwrite
 	 * @param {array} strokes
 	 */
-	onStrokeStarted(_strokes: Array<Stroke>) {
-		this.onAbstractMethodCalled();
+	handleStrokeStarted(_strokes: Array<Stroke>) {
+		this.handleAbstractMethodCalled();
 	}
 
 	/**
 	 * @overwrite
 	 * @param {array} strokes
 	 */
-	onStrokesExtended(_strokes: Array<Stroke>) {
-		this.onAbstractMethodCalled();
+	handleStrokesExtended(_strokes: Array<Stroke>) {
+		this.handleAbstractMethodCalled();
 	}
 
 	/**
 	 * @overwrite
 	 * @param {array} strokes
 	 */
-	onStrokesEnded(_strokes: Array<Stroke>) {
-		this.onAbstractMethodCalled();
+	handleStrokesEnded(_strokes: Array<Stroke>) {
+		this.handleAbstractMethodCalled();
 	}
 
-	onStrokesUpdated() {
+	handleStrokesUpdated() {
 		if (pointCount(this.props.strokes) === (pointCount(this.state.strokes) + 1)) {
 			this.addPointPerformanceEnhanced();
 		} else if (this.props.strokes.length === (this.state.strokes.length) &&
@@ -131,7 +139,7 @@ export default class AbstractDrawer extends PureComponent<AbstractDrawerProps, S
 		});
 	}
 
-	getPassepartoutStyle() {
+	calculatePassepartoutStyle() {
 		return {
 			position: 'absolute',
 			top: this.props.bounds.y,
@@ -143,7 +151,7 @@ export default class AbstractDrawer extends PureComponent<AbstractDrawerProps, S
 		};
 	}
 
-	getCanvasStyle() {
+	calculateCanvasStyle() {
 		return {
 			position: 'absolute',
 			top: -this.props.bounds.y,
@@ -151,8 +159,6 @@ export default class AbstractDrawer extends PureComponent<AbstractDrawerProps, S
 			pointerEvents: 'none',
 		};
 	}
-
-	props: AbstractDrawerProps;
 
 	node: HTMLDivElement | null;
 
@@ -164,7 +170,7 @@ export default class AbstractDrawer extends PureComponent<AbstractDrawerProps, S
 	 * @param {object} optPointBefore
 	 */
 	extendStrokeAt(_point: Point, _optPointBefore: Point) {
-		this.onAbstractMethodCalled();
+		this.handleAbstractMethodCalled();
 	}
 
 	/**
@@ -173,14 +179,14 @@ export default class AbstractDrawer extends PureComponent<AbstractDrawerProps, S
 	 * @param {object} optPointBefore
 	 */
 	endStrokeAt(_point: Point, _optPointBefore: Point) {
-		this.onAbstractMethodCalled();
+		this.handleAbstractMethodCalled();
 	}
 
 	/**
 	 * @overwrite
 	 */
 	resetCanvas() {
-		this.onAbstractMethodCalled();
+		this.handleAbstractMethodCalled();
 	}
 
 	/**
@@ -189,14 +195,14 @@ export default class AbstractDrawer extends PureComponent<AbstractDrawerProps, S
 	 * @param {object} color (optional)
 	 */
 	startStrokeAt(_aPoint: Point, _aColor: string) {
-		this.onAbstractMethodCalled();
+		this.handleAbstractMethodCalled();
 	}
 
 	/**
 	 * @overwrite
 	 */
 	redrawStroke(_stroke: Stroke, _shouldFinish: boolean) {
-		this.onAbstractMethodCalled();
+		this.handleAbstractMethodCalled();
 	}
 
 	moveImageDataToNewPosition() {
@@ -230,11 +236,11 @@ export default class AbstractDrawer extends PureComponent<AbstractDrawerProps, S
 		const oldStrokes = this.state.strokes;
 		const newStrokes = this.props.strokes;
 		if (newStrokes.length > oldStrokes.length) {
-			this.onStrokeStarted(newStrokes);
+			this.handleStrokeStarted(newStrokes);
 		} else if (last(newStrokes).finished && !last(oldStrokes).finished) {
-			this.onStrokesEnded(newStrokes);
+			this.handleStrokesEnded(newStrokes);
 		} else {
-			this.onStrokesExtended(newStrokes);
+			this.handleStrokesExtended(newStrokes);
 		}
 	}
 
@@ -249,13 +255,13 @@ export default class AbstractDrawer extends PureComponent<AbstractDrawerProps, S
 	render() {
 		return (<div
 			ref={(divNode) => { this.node = divNode; }}
-			style={this.getPassepartoutStyle()}
+			style={this.calculatePassepartoutStyle()}
 		>
 			<canvas
 				ref={(canvas) => { this.canvas = canvas; }}
 				width={this.props.width}
 				height={this.props.height}
-				style={this.getCanvasStyle()}
+				style={this.calculateCanvasStyle()}
 			/>
 		</div>);
 	}

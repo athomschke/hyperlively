@@ -7,28 +7,24 @@ import lastPointInStrokes from 'src/client/app/helpers/lastPointInStrokes';
 import { PRESSURE, DEFAULT_PEN_COLOR, SELECTED_PEN_COLOR } from 'src/client/app/constants/drawing';
 import type { Stroke, Point } from 'src/client/app/typeDefinitions';
 
-import AbstractDrawer, { type AbstractDrawerProps } from './AbstractDrawer';
+import AbstractDrawer, { defaultProps } from './AbstractDrawer';
 
 type State = {
-	ballpointPen: Object,
-	strokes: Array<Stroke>,
-	width: number,
-	height: number
+	ballpointPen: Object;
 }
 
-type Props = AbstractDrawerProps & {
+type Props = {
 	uniqueCanvasFactor: number;
 }
 
 export default class PlomaDrawer extends AbstractDrawer<Props, State> {
-
-	static defaultProps = Object.assign({}, AbstractDrawer.defaultProps, {
+	static defaultProps = {
+		...defaultProps,
 		uniqueCanvasFactor: 1,
-	});
-
-	state: State;
+	}
 
 	componentDidMount() {
+		super.componentDidMount();
 		const plomaConfig = {
 			uniqueCanvasFactor: this.props.uniqueCanvasFactor,
 			paperColor: 'rgba(0, 0, 0, 0)',
@@ -36,9 +32,9 @@ export default class PlomaDrawer extends AbstractDrawer<Props, State> {
 		const ballpointPen = new BallpointPen(this.canvas, plomaConfig);
 		ballpointPen.setSample(1);
 		this.state = {
+			...this.state,
 			ballpointPen,
 		};
-		super.componentDidMount();
 	}
 
 	onStrokeStarted(strokes: Array<Stroke>) {
@@ -49,7 +45,7 @@ export default class PlomaDrawer extends AbstractDrawer<Props, State> {
 		this.extendStrokeAt(lastPointInStrokes(strokes));
 	}
 
-	onStrokesEnded(strokes: Array<Stroke>) {
+	handleStrokesEnded(strokes: Array<Stroke>) {
 		this.endStrokeAt(lastPointInStrokes(strokes));
 	}
 

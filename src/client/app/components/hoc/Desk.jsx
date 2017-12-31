@@ -1,7 +1,7 @@
 // @flow
 import React, { PureComponent } from 'react';
 import { map, last, filter } from 'lodash';
-import type { Component } from 'react-flow-types';
+import type { ClassComponent } from 'react-flow-types';
 
 import { OFFSET } from 'src/client/app/constants/canvas';
 import { WHITE } from 'src/client/app/constants/drawing';
@@ -17,7 +17,7 @@ type Props = {
 	paperColor: string,
 };
 
-export default (Wrapped: Component<Object>) => class extends PureComponent<Props> {
+export default (Wrapped: ClassComponent<any, any>) => class extends PureComponent<Props> {
 	props: Props;
 
 	static defaultProps = {
@@ -51,7 +51,7 @@ export default (Wrapped: Component<Object>) => class extends PureComponent<Props
 		const sketch = last(this.props.sketches);
 		const canvasses = this.renderSketchedCanvasses();
 		if ((!sketch || !sketch.strokes || sketch.finished)) {
-			canvasses.push(this.renderCanvas([], this.props.sketches.length, false));
+			canvasses.push(this.renderCanvas([], `canvas_${this.props.sketches.length}`, false));
 		}
 		return canvasses;
 	}

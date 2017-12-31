@@ -10,9 +10,7 @@ type Props = {
 	performAction: () => {},
 	sketches: Array<Sketch>,
 	showInterpreter: boolean,
-	interpretations: {
-		candidate: RecognitionResult
-	},
+	interpretations: RecognitionResult,
 	specificActions: Array<ActionMapping>,
 	onInterpretationDone: (boolean) => {},
 }
@@ -24,10 +22,8 @@ export default class extends PureComponent<Props> {
 		sketches: [],
 		showInterpreter: false,
 		interpretations: {
-			candidate: {
-				text: null,
-				shape: null,
-			},
+			text: null,
+			shape: null,
 		},
 		onInterpretationDone: () => {},
 	};

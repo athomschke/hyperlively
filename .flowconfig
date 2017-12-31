@@ -10,8 +10,4 @@
 module.name_mapper='^\(.*\)$' -> '<PROJECT_ROOT>/\1'
 module.name_mapper='.*\(.scss\)' -> '<PROJECT_ROOT>/scss-module-stub.js'
 
-[ignore]
-.*/node_modules/fbjs/.*
-.*/node_modules/invariant/.*
-.*/node_modules/react-simple-list/.*
-.*/node_modules/editions/.*
+[strict]

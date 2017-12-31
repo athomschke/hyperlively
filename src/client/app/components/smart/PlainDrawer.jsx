@@ -13,33 +13,32 @@ const secondToLastPointInStrokes = (strokes) => {
 	return points[points.length - 2];
 };
 
-export default class PlainDrawer extends AbstractDrawer {
-
+export default class PlainDrawer extends AbstractDrawer<{}, {}> {
 	wasFirstPointEdited() {
 		return this.props.strokes[0] && this.state.strokes[0] &&
 			(this.props.strokes[0].points[0].x !== this.state.strokes[0].points[0].x);
 	}
 
-	onStrokesUpdated() {
+	handleStrokesUpdated() {
 		if (this.wasFirstPointEdited()) {
 			this.redrawEverything(this.props.strokes[0] && this.props.strokes[0].finished);
 			this.setState({
 				strokes: cloneDeep(this.props.strokes),
 			});
 		} else {
-			super.onStrokesUpdated();
+			super.handleStrokesUpdated();
 		}
 	}
 
-	onStrokeStarted(strokes: Array<Stroke>) {
+	handleStrokeStarted(strokes: Array<Stroke>) {
 		this.startStrokeAt(lastPointInStrokes(strokes), first(strokes).color);
 	}
 
-	onStrokesExtended(strokes: Array<Stroke>) {
+	handleStrokesExtended(strokes: Array<Stroke>) {
 		this.extendStrokeAt(lastPointInStrokes(strokes), secondToLastPointInStrokes(strokes));
 	}
 
-	onStrokesEnded(strokes: Array<Stroke>) {
+	handleStrokesEnded(strokes: Array<Stroke>) {
 		this.endStrokeAt(lastPointInStrokes(strokes), secondToLastPointInStrokes(strokes));
 	}
 

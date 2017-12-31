@@ -10,10 +10,10 @@ class SpecificDrawer extends AbstractDrawer {
 		overwriteFunctionCalled: PropTypes.func.isRequired,
 	}
 
-	onStrokesExtended(...args) {
-		AbstractDrawer.prototype.onStrokesExtended.call(this, ...args);
+	handleStrokesExtended(...args) {
+		AbstractDrawer.prototype.handleStrokesExtended.call(this, ...args);
 	}
-	onStrokesEnded() { this.props.overwriteFunctionCalled(); }
+	handleStrokesEnded() { this.props.overwriteFunctionCalled(); }
 	startStrokeAt() { this.props.overwriteFunctionCalled(); }
 	extendStrokeAt() { this.props.overwriteFunctionCalled(); }
 	endStrokeAt() { this.props.overwriteFunctionCalled(); }
@@ -23,12 +23,12 @@ class SpecificDrawer extends AbstractDrawer {
 
 describe('AbstractDrawer', () => {
 	describe('calling an abstract function directly', () => {
-		it('throws an error for onStrokeStarted when not implemented in subclass', () => {
-			expect(SpecificDrawer.prototype.onStrokeStarted.bind(SpecificDrawer.prototype))
+		it('throws an error for handleStrokeStarted when not implemented in subclass', () => {
+			expect(SpecificDrawer.prototype.handleStrokeStarted.bind(SpecificDrawer.prototype))
 				.to.throw(ERROR_CALL_SUPER_TO_ABSTRACT);
 		});
 
-		it('throws an error for onStrokesExtended when implemented in subclass but calling the superclass', () => {
+		it('throws an error for handleStrokesExtended when implemented in subclass but calling the superclass', () => {
 			const strokes = [{
 				points: [{ x: 10, y: 10 }, { x: 10, y: 11 }, { x: 10, y: 12 }, { x: 10, y: 13 }],
 			}];
@@ -44,27 +44,27 @@ describe('AbstractDrawer', () => {
 				active={false}
 				finished
 			/>);
-			expect(specificDrawer.onStrokesExtended.bind(specificDrawer))
+			expect(specificDrawer.handleStrokesExtended.bind(specificDrawer))
 				.to.throw(ERROR_CALL_SUPER_TO_ABSTRACT);
 		});
 
 		it('cannot trigger an abstract method on Abstract Drawer implementation', () => {
-			expect(AbstractDrawer.prototype.onAbstractMethodCalledWith.bind(AbstractDrawer, []))
+			expect(AbstractDrawer.prototype.handleAbstractMethodCalledWith.bind(AbstractDrawer, []))
 				.to.throw(ERROR_DIRECT_ABSTRACT_CALL);
 		});
 
-		it('throws an error for onStrokeStarted', () => {
-			expect(AbstractDrawer.prototype.onStrokeStarted.bind(AbstractDrawer.prototype))
+		it('throws an error for handleStrokeStarted', () => {
+			expect(AbstractDrawer.prototype.handleStrokeStarted.bind(AbstractDrawer.prototype))
 				.to.throw(ERROR_CALL_SUPER_TO_ABSTRACT);
 		});
 
-		it('throws an error for onStrokesExtended', () => {
-			expect(AbstractDrawer.prototype.onStrokesExtended.bind(AbstractDrawer.prototype))
+		it('throws an error for handleStrokesExtended', () => {
+			expect(AbstractDrawer.prototype.handleStrokesExtended.bind(AbstractDrawer.prototype))
 				.to.throw(ERROR_CALL_SUPER_TO_ABSTRACT);
 		});
 
-		it('throws an error for onStrokesEnded', () => {
-			expect(AbstractDrawer.prototype.onStrokesEnded.bind(AbstractDrawer.prototype))
+		it('throws an error for handleStrokesEnded', () => {
+			expect(AbstractDrawer.prototype.handleStrokesEnded.bind(AbstractDrawer.prototype))
 				.to.throw(ERROR_CALL_SUPER_TO_ABSTRACT);
 		});
 
@@ -125,7 +125,7 @@ describe('AbstractDrawer', () => {
 		});
 
 		it('is recognized as an updated stroke', () => {
-			updatingColorShouldCallFunctionNTimes('onStrokesUpdated', 1);
+			updatingColorShouldCallFunctionNTimes('handleStrokesUpdated', 1);
 		});
 
 		it('is not recognized as moved strokes', () => {

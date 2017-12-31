@@ -1,7 +1,11 @@
 // @flow
 import React, { PureComponent } from 'react';
 
-export default class InterpretationTrigger extends PureComponent {
+type Props = {
+	onHandwritingRecognitionClick: () => void;
+}
+
+export default class InterpretationTrigger extends PureComponent<Props> {
 	static propTypes = {
 		onHandwritingRecognitionClick: React.PropTypes.func,
 	}

@@ -1,16 +1,24 @@
 // @flow
-import React, { PropTypes, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
 import { forEach } from 'lodash';
-import type { Component } from 'react-flow-types';
+import type { ClassComponent } from 'react-flow-types';
 
-export default (Wrapped: Component<Object>) => class extends PureComponent {
+import type { Stroke, Bounds } from 'src/client/app/typeDefinitions';
 
-	static propTypes = {
-		observeMutations: PropTypes.bool,
-		performAction: PropTypes.func,
-		bounds: PropTypes.objectOf(PropTypes.number),
-		strokes: PropTypes.arrayOf(PropTypes.object),
-	};
+type Props = {
+	observeMutations: boolean;
+	performAction: (_name: string, ..._rest: any[]) => void;
+	bounds: Bounds;
+	strokes: Array<Stroke>;
+}
+
+type State = {
+	observer: MutationObserver;
+}
+
+export default (Wrapped: ClassComponent<any, any>) => class extends PureComponent<Props, State> {
+	props: Props;
+	state: State;
 
 	static defaultProps = {
 		observeMutations: true,
@@ -22,20 +30,19 @@ export default (Wrapped: Component<Object>) => class extends PureComponent {
 		strokes: [],
 	};
 
-	wrappedComponent: Component<Object> & {node: HTMLElement }
-
-	state: {
-		observer: MutationObserver,
-	}
+	wrappedComponent: (React.Component<any, any> & {node: HTMLElement }) | null;
 
 	observe() {
-		const observer = new MutationObserver(this.onMutations.bind(this));
-		observer.observe(this.wrappedComponent.node, {
-			attributes: true,
-		});
-		this.setState({
-			observer,
-		});
+		const wrappedComponent = this.wrappedComponent;
+		if (wrappedComponent) {
+			const observer = new MutationObserver(this.onMutations.bind(this));
+			observer.observe(wrappedComponent.node, {
+				attributes: true,
+			});
+			this.setState({
+				observer,
+			});
+		}
 	}
 
 	ignore() {
@@ -60,19 +67,20 @@ export default (Wrapped: Component<Object>) => class extends PureComponent {
 	}
 
 	onMutations(mutationRecords: Array<MutationRecord>) {
-		if (this.props.observeMutations) {
+		const wrappedComponent = this.wrappedComponent;
+		if (this.props.observeMutations && wrappedComponent) {
 			forEach(mutationRecords, (mutationRecord) => {
 				if (mutationRecord.attributeName === 'style') {
 					const moveBy = {
-						x: parseInt(this.wrappedComponent.node.style.left, 10) - this.props.bounds.x,
-						y: parseInt(this.wrappedComponent.node.style.top, 10) - this.props.bounds.y,
+						x: parseInt(wrappedComponent.node.style.left, 10) - this.props.bounds.x,
+						y: parseInt(wrappedComponent.node.style.top, 10) - this.props.bounds.y,
 					};
 					if (moveBy.x !== 0 || moveBy.y !== 0) {
 						this.boundsUpdatedWith(
 								this.props.bounds.x,
 								this.props.bounds.y,
-								parseInt(this.wrappedComponent.node.style.left, 10),
-								parseInt(this.wrappedComponent.node.style.top, 10),
+								parseInt(wrappedComponent.node.style.left, 10),
+								parseInt(wrappedComponent.node.style.top, 10),
 						);
 					}
 				}

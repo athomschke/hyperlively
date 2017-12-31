@@ -1,19 +1,20 @@
 // @flow
-import React, { PropTypes, PureComponent } from 'react';
+import React, { type ChildrenArray, PureComponent } from 'react';
 
 import { configuration } from 'src/client/app/stylesheets/components/dumb/AppConfiguration.scss';
 
-export default class AppConfiguration extends PureComponent {
+type Props = {
+	active: boolean;
+	children: ChildrenArray<any>;
+}
 
-	static propTypes = {
-		active: PropTypes.bool,
-		children: PropTypes.arrayOf(PropTypes.object),
-	};
-
+export default class AppConfiguration extends PureComponent<Props> {
 	static defaultProps = {
 		active: true,
 		children: [],
 	}
+
+	props: Props;
 
 	render() {
 		return (

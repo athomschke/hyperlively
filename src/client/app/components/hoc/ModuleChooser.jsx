@@ -1,8 +1,8 @@
 // @flow
 import React, { PureComponent, PropTypes } from 'react';
-import type { Component } from 'react-flow-types';
+import type { ClassComponent } from 'react-flow-types';
 
-export default (possibleComponents: Array<Component<Object>>) => class extends PureComponent {
+export default (components: Array<ClassComponent<any, any>>) => class extends PureComponent<any> {
 
 	static propTypes = {
 		componentIndex: PropTypes.number,
@@ -13,7 +13,7 @@ export default (possibleComponents: Array<Component<Object>>) => class extends P
 	};
 
 	render() {
-		const ChosenMudule = possibleComponents[this.props.componentIndex];
+		const ChosenMudule = components[this.props.componentIndex];
 		if (ChosenMudule) {
 			return <ChosenMudule {...this.props} />;
 		}

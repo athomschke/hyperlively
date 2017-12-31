@@ -2,8 +2,12 @@
 import React, { PureComponent } from 'react';
 import type { ClassComponent } from 'react-flow-types';
 
-export default (Wrapped: ClassComponent<any, any>) => class extends PureComponent {
+type State = {
+	width: number;
+	height: number;
+}
 
+export default (Wrapped: ClassComponent<any, any>) => class extends PureComponent<any, State> {
 	constructor(props: Object) {
 		super(props);
 		this.state = {
