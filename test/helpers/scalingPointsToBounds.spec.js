@@ -1,4 +1,4 @@
-import { scaleToTime, getFittedWidth } from 'helpers/scalingPointsToBounds';
+import { scaleToTime, getFittedWidth } from 'src/client/app/helpers/scalingPointsToBounds';
 import { point } from 'test/helpers';
 
 describe('Scaling points to bounds', () => {

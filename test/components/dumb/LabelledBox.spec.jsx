@@ -1,7 +1,7 @@
 import TestUtils from 'react-addons-test-utils';
 import React from 'react';
 
-import LabelledBox from 'components/dumb/LabelledBox';
+import LabelledBox from 'src/client/app/components/dumb/LabelledBox';
 
 describe('LabelledBox', () => {
 	it('toggling without a callback does not change the checked state', () => {

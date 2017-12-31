@@ -1,5 +1,5 @@
-import { handwritingRecognition } from 'reducers/handwritingRecognition';
-import { toggleHandwritingRecognition } from 'actions/configuring';
+import { handwritingRecognition } from 'src/client/app/reducers/handwritingRecognition';
+import { toggleHandwritingRecognition } from 'src/client/app/actions/configuring';
 
 describe('handwriting recognition', () => {
 	describe('initial state', () => {

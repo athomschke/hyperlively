@@ -1,5 +1,5 @@
-import { ploma } from 'reducers/ploma';
-import { togglePloma } from 'actions/configuring';
+import { ploma } from 'src/client/app/reducers/ploma';
+import { togglePloma } from 'src/client/app/actions/configuring';
 
 describe('ploma', () => {
 	describe('initial state', () => {

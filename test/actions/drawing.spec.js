@@ -1,6 +1,6 @@
-import * as actions from 'actions/drawing';
+import * as actions from 'src/client/app/actions/drawing';
 
-describe('actions', () => {
+describe('src/client/app/actions', () => {
 	it('should create an action to add a point from an event', () => {
 		const x = 10;
 		const y = 10;

@@ -3,7 +3,7 @@ var path = require('path');
 var BUILD_DIR = path.resolve(__dirname, 'src/client/public');
 var APP_DIR = path.resolve(__dirname, 'src/client/app');
 var NODE_MODULES_DIR = path.resolve(__dirname, 'node_modules');
-var CREDENTIALS_DIR = path.resolve(__dirname, 'credentials');
+var CREDENTIALS_DIR = path.resolve(__dirname, 'src/client/app/credentials');
 var ROOT_DIR = path.resolve(__dirname);
 
 var config = {
@@ -40,23 +40,12 @@ var config = {
 		],
 	},
 	resolve: {
-		modules: ["node_modules", APP_DIR, ROOT_DIR],
+		modules: ["node_modules", ROOT_DIR],
 		extensions: [
 			'.webpack.js', '.web.js', '.js',
 			'.jsx',
 			'.scss',
-		],
-		alias: {
-			actions: APP_DIR + '/actions',
-			sagas: APP_DIR + '/sagas',
-			components: APP_DIR + '/components',
-			constants: APP_DIR + '/constants',
-			containers: APP_DIR + '/containers',
-			reducers: APP_DIR + '/reducers',
-			stylesheets: APP_DIR + '/stylesheets',
-			helpers: APP_DIR + '/helpers',
-			credentials: CREDENTIALS_DIR,
-		}
+		]
 	},
 };
 

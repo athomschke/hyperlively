@@ -1,4 +1,4 @@
-import { relativeDividerPosition } from 'reducers/defaultState';
+import { relativeDividerPosition } from 'src/client/app/reducers/defaultState';
 
 import { mountApp, dismountApp, renderApplicationWithState } from './helpers';
 import emptyCanvas from './data/emptyCanvas.json';

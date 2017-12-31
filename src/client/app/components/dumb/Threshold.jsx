@@ -2,8 +2,8 @@
 import Slider from 'rc-slider';
 import React, { PureComponent } from 'react';
 
-import { rcSlider } from 'stylesheets/components/dumb/Threshold.scss';
-import { MIN_THRESHOLD, MAX_THRESHOLD } from 'constants/drawing';
+import { rcSlider } from 'src/client/app/stylesheets/components/dumb/Threshold.scss';
+import { MIN_THRESHOLD, MAX_THRESHOLD } from 'src/client/app/constants/drawing';
 
 type Props = {
 	threshold: number;

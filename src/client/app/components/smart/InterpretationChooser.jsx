@@ -2,8 +2,8 @@
 import React, { PureComponent } from 'react';
 import { forEach, find, map, concat } from 'lodash';
 
-import { actionChooser } from 'stylesheets/components/smart/actionChooser.scss';
-import type { FunctionConfiguration, TreeParameter, ActionMapping, RecognitionResult, Parameters, Functions } from 'typeDefinitions';
+import { actionChooser } from 'src/client/app/stylesheets/components/smart/actionChooser.scss';
+import type { FunctionConfiguration, TreeParameter, ActionMapping, RecognitionResult, Parameters, Functions } from 'src/client/app/typeDefinitions';
 
 import ActionChooser from './ActionChooser';
 import ParameterChooser from './ParameterChooser';

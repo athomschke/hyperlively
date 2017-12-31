@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
-import { updateThreshold } from 'actions/configuring';
-import Threshold from 'components/dumb/Threshold';
+import { updateThreshold } from 'src/client/app/actions/configuring';
+import Threshold from 'src/client/app/components/dumb/Threshold';
 
 const mapStateToProps = state => ({
 	threshold: state.threshold,

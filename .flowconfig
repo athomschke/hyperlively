@@ -1,7 +1,13 @@
+[ignore]
+
+[include]
+
+[libs]
+
+[lints]
+
 [options]
-module.system.node.resolve_dirname=node_modules
-module.system.node.resolve_dirname=app
-module.system.node.resolve_dirname=.
+module.name_mapper='^\(.*\)$' -> '<PROJECT_ROOT>/\1'
 module.name_mapper='.*\(.scss\)' -> '<PROJECT_ROOT>/scss-module-stub.js'
 
 [ignore]

@@ -1,4 +1,4 @@
-import { offsetToOrigin } from 'helpers/sketchFitting';
+import { offsetToOrigin } from 'src/client/app/helpers/sketchFitting';
 import { point } from 'test/helpers';
 
 describe('Fitting sketches', () => {

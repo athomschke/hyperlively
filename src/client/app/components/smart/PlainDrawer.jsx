@@ -2,9 +2,9 @@
 import Color from 'color';
 import { without, last, head, tail, reduce, cloneDeep, first } from 'lodash';
 
-import lastPointInStrokes from 'helpers/lastPointInStrokes';
-import { DEFAULT_PEN_COLOR, SELECTED_PEN_COLOR } from 'constants/drawing';
-import type { Stroke, Point } from 'typeDefinitions';
+import lastPointInStrokes from 'src/client/app/helpers/lastPointInStrokes';
+import { DEFAULT_PEN_COLOR, SELECTED_PEN_COLOR } from 'src/client/app/constants/drawing';
+import type { Stroke, Point } from 'src/client/app/typeDefinitions';
 
 import AbstractDrawer from './AbstractDrawer';
 

@@ -1,7 +1,7 @@
 import { mount } from 'enzyme';
 import React from 'react';
 
-import UndoRedo from 'components/dumb/UndoRedo';
+import UndoRedo from 'src/client/app/components/dumb/UndoRedo';
 
 describe('Undo Redo', () => {
 	it('is smaller than the window size', () => {

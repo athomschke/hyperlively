@@ -1,5 +1,5 @@
 // @flow
-import { APPEND_POINT, APPEND_STROKE, FINISH_STROKE, TOGGLE_DRAWING, ADD_SCENE_AT, ADD_SCENE, NEXT_SCENE, PREVIOUS_SCENE } from 'constants/actionTypes';
+import { APPEND_POINT, APPEND_STROKE, FINISH_STROKE, TOGGLE_DRAWING, ADD_SCENE_AT, ADD_SCENE, NEXT_SCENE, PREVIOUS_SCENE } from 'src/client/app/constants/actionTypes';
 
 export function appendPoint(x: number, y: number, timeStamp: number) {
 	return { type: APPEND_POINT, x, y, timeStamp };

@@ -1,7 +1,7 @@
-import { requestTextCandidates, requestShapeCandidates, receiveTextCandidates, receiveShapeCandidates } from 'actions/handwritingRecognition';
-import { toggleInterpreter } from 'actions/configuring';
-import { createStroke } from 'actions/drawing';
-import { interpretation } from 'reducers/interpretation';
+import { requestTextCandidates, requestShapeCandidates, receiveTextCandidates, receiveShapeCandidates } from 'src/client/app/actions/handwritingRecognition';
+import { toggleInterpreter } from 'src/client/app/actions/configuring';
+import { createStroke } from 'src/client/app/actions/drawing';
+import { interpretation } from 'src/client/app/reducers/interpretation';
 import { shapeCandidate, letterCandidate } from 'test/data';
 
 const dummyState = {

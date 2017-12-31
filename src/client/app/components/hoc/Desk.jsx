@@ -3,9 +3,9 @@ import React, { PureComponent } from 'react';
 import { map, last, filter } from 'lodash';
 import type { Component } from 'react-flow-types';
 
-import { OFFSET } from 'constants/canvas';
-import { WHITE } from 'constants/drawing';
-import type { Stroke, Sketch } from 'typeDefinitions';
+import { OFFSET } from 'src/client/app/constants/canvas';
+import { WHITE } from 'src/client/app/constants/drawing';
+import type { Stroke, Sketch } from 'src/client/app/typeDefinitions';
 
 const visibleStrokesInSketch = sketch => filter(sketch.strokes || [], stroke => !stroke.hidden);
 

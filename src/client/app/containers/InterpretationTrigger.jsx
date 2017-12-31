@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 
-import { toggleInterpreter } from 'actions/configuring';
-import { fetchTextCandidates, fetchShapeCandidates } from 'actions/handwritingRecognition';
-import InterpretationTrigger from 'components/dumb/InterpretationTrigger';
+import { toggleInterpreter } from 'src/client/app/actions/configuring';
+import { fetchTextCandidates, fetchShapeCandidates } from 'src/client/app/actions/handwritingRecognition';
+import InterpretationTrigger from 'src/client/app/components/dumb/InterpretationTrigger';
 
 const mapStateToProps = state => ({
 	showInterpreter: state.interpretation.showInterpreter,

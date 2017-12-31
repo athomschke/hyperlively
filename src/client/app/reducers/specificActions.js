@@ -1,9 +1,9 @@
 // @flow
 import { concat } from 'lodash';
 
-import { APPEND_SPECIFC_ACTION } from 'constants/actionTypes';
-import { type APPEND_SPECIFC_ACTION_ACTION } from 'actionTypeDefinitions';
-import { type ActionMapping } from 'typeDefinitions';
+import { APPEND_SPECIFC_ACTION } from 'src/client/app/constants/actionTypes';
+import { type APPEND_SPECIFC_ACTION_ACTION } from 'src/client/app/actionTypeDefinitions';
+import { type ActionMapping } from 'src/client/app/typeDefinitions';
 
 const deleteInside = {
 	actionName: 'deleteInside',

@@ -1,5 +1,5 @@
-import { threshold } from 'reducers/threshold';
-import { updateThreshold } from 'actions/configuring';
+import { threshold } from 'src/client/app/reducers/threshold';
+import { updateThreshold } from 'src/client/app/actions/configuring';
 
 describe('Threshold', () => {
 	it('initial threshold is 500 ms', () => {

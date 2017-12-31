@@ -1,5 +1,5 @@
-import { observeMutations } from 'reducers/observeMutations';
-import { setObserveMutations } from 'actions/configuring';
+import { observeMutations } from 'src/client/app/reducers/observeMutations';
+import { setObserveMutations } from 'src/client/app/actions/configuring';
 
 describe('Observe Mutations', () => {
 	it('defaults to true', () => {

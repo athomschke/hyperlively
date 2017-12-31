@@ -1,6 +1,6 @@
-import { strokes } from 'reducers/strokes';
-import { appendPoint, createStroke, finishStroke } from 'actions/drawing';
-import { updatePosition, hide, select, selectInside } from 'actions/manipulating';
+import { strokes } from 'src/client/app/reducers/strokes';
+import { appendPoint, createStroke, finishStroke } from 'src/client/app/actions/drawing';
+import { updatePosition, hide, select, selectInside } from 'src/client/app/actions/manipulating';
 import { point, event } from 'test/helpers';
 
 describe('strokes', () => {

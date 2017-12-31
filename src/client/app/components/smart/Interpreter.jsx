@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { map, flatten, filter, last, forEach } from 'lodash';
 
-import type { FunctionConfiguration, Sketch, RecognitionResult, Functions, Parameters, ActionMapping } from 'typeDefinitions';
+import type { FunctionConfiguration, Sketch, RecognitionResult, Functions, Parameters, ActionMapping } from 'src/client/app/typeDefinitions';
 
 import InterpretationChooser from './InterpretationChooser';
 

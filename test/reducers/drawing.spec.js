@@ -1,5 +1,5 @@
-import { drawing } from 'reducers/drawing';
-import { toggleDrawing } from 'actions/drawing';
+import { drawing } from 'src/client/app/reducers/drawing';
+import { toggleDrawing } from 'src/client/app/actions/drawing';
 
 describe('drawing', () => {
 	describe('initial state', () => {

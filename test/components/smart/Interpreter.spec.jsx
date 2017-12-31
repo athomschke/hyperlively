@@ -2,8 +2,8 @@ import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import { forEach } from 'lodash';
 
-import Interpreter from 'components/smart/Interpreter';
-import InterpretationChooser from 'components/smart/InterpretationChooser';
+import Interpreter from 'src/client/app/components/smart/Interpreter';
+import InterpretationChooser from 'src/client/app/components/smart/InterpretationChooser';
 
 const renderWithProps = props => TestUtils.renderIntoDocument(<Interpreter {...props} />);
 

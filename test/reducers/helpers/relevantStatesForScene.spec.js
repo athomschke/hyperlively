@@ -1,4 +1,4 @@
-import relevantStatesForScene from 'helpers/relevantStatesForScene';
+import relevantStatesForScene from 'src/client/app/helpers/relevantStatesForScene';
 import * as exampleStates from 'test/reducers/data/exampleStates';
 
 describe.skip('Calculating states relevant for a scene', () => {

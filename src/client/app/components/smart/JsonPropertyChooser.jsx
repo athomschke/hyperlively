@@ -3,8 +3,8 @@ import React, { PureComponent } from 'react';
 import { TreeMenu } from 'react-tree-menu';
 import { cloneDeep, map, reduce, keys } from 'lodash';
 
-import { getPathToProperty, findArraysIndex, formatObject } from 'helpers/choosingActions';
-import type { TreeParameter } from 'typeDefinitions';
+import { getPathToProperty, findArraysIndex, formatObject } from 'src/client/app/helpers/choosingActions';
+import type { TreeParameter } from 'src/client/app/typeDefinitions';
 
 type State = {
 	collapsedPaths: Array<Array<string>>,

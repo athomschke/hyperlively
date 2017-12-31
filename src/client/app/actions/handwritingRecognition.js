@@ -1,6 +1,6 @@
 // @flow
-import { RECEIVE_SHAPE_CANDIDATES, RECEIVE_TEXT_CANDIDATES, REQUEST_TEXT_CANDIDATES, REQUEST_SHAPE_CANDIDATES, TEXT_CANDIDATES_FETCH_REQUESTED, SHAPE_CANDIDATES_FETCH_REQUESTED } from 'constants/actionTypes';
-import { type Stroke, type TextCandidate, type ShapeCandidate } from 'typeDefinitions';
+import { RECEIVE_SHAPE_CANDIDATES, RECEIVE_TEXT_CANDIDATES, REQUEST_TEXT_CANDIDATES, REQUEST_SHAPE_CANDIDATES, TEXT_CANDIDATES_FETCH_REQUESTED, SHAPE_CANDIDATES_FETCH_REQUESTED } from 'src/client/app/constants/actionTypes';
+import { type Stroke, type TextCandidate, type ShapeCandidate } from 'src/client/app/typeDefinitions';
 
 export function receiveTextCandidates(candidates: Array<TextCandidate>) {
 	return { type: RECEIVE_TEXT_CANDIDATES, candidates };

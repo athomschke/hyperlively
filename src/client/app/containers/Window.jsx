@@ -1,10 +1,10 @@
 import { connect } from 'react-redux';
 
-import { appendPoint, createStroke, finishStroke, toggleDrawing } from 'actions/drawing';
-import Fullscreen from 'components/hoc/Fullscreen';
-import ModifierKey from 'components/hoc/ModifierKey';
-import DragHandler from 'components/hoc/DragHandler';
-import Window from 'components/dumb/Window';
+import { appendPoint, createStroke, finishStroke, toggleDrawing } from 'src/client/app/actions/drawing';
+import Fullscreen from 'src/client/app/components/hoc/Fullscreen';
+import ModifierKey from 'src/client/app/components/hoc/ModifierKey';
+import DragHandler from 'src/client/app/components/hoc/DragHandler';
+import Window from 'src/client/app/components/dumb/Window';
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
 	onDrag: (event) => {

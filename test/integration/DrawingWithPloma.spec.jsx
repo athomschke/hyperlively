@@ -2,7 +2,7 @@ import TestUtils from 'react-addons-test-utils';
 import React from 'react';
 import { sum } from 'lodash';
 
-import PlomaDrawer from 'components/smart/PlomaDrawer';
+import PlomaDrawer from 'src/client/app/components/smart/PlomaDrawer';
 
 const renderComponentWithProps = props => TestUtils.renderIntoDocument(<PlomaDrawer
 	bounds={{

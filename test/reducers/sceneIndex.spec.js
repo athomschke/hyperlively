@@ -1,6 +1,6 @@
-import { sceneIndex } from 'reducers/sceneIndex';
-import { setSceneIndex } from 'actions/configuring';
-import { previousScene } from 'actions/drawing';
+import { sceneIndex } from 'src/client/app/reducers/sceneIndex';
+import { setSceneIndex } from 'src/client/app/actions/configuring';
+import { previousScene } from 'src/client/app/actions/drawing';
 
 describe('Scene Index', () => {
 	describe('setting the index', () => {

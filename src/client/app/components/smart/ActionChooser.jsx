@@ -2,8 +2,8 @@
 import React, { PureComponent } from 'react';
 import { forEach, map, flatten } from 'lodash';
 
-import actions from 'actions/actions';
-import type { FunctionConfiguration, TreeParameter, ActionMapping } from 'typeDefinitions';
+import actions from 'src/client/app/actions/actions';
+import type { FunctionConfiguration, TreeParameter, ActionMapping } from 'src/client/app/typeDefinitions';
 
 import JsonPropertyChooser from './JsonPropertyChooser';
 

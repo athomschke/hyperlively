@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import { sum, map, remove } from 'lodash';
 import { mount } from 'enzyme';
 
-import PlainDrawer from 'components/smart/PlainDrawer';
+import PlainDrawer from 'src/client/app/components/smart/PlainDrawer';
 
 class WrappedPlainDrawer extends Component {
 

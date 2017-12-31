@@ -1,6 +1,6 @@
-import { scenes } from 'reducers/scenes';
-import { appendPoint, createStroke, addScene, addSceneAt } from 'actions/drawing';
-import { updatePosition, hide } from 'actions/manipulating';
+import { scenes } from 'src/client/app/reducers/scenes';
+import { appendPoint, createStroke, addScene, addSceneAt } from 'src/client/app/actions/drawing';
+import { updatePosition, hide } from 'src/client/app/actions/manipulating';
 import { point } from 'test/helpers';
 
 describe('scenes', () => {

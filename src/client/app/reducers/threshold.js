@@ -1,6 +1,6 @@
 // @flow
-import { UPDATE_THRESHOLD } from 'constants/actionTypes';
-import type { UPDATE_THRESHOLD_ACTION } from 'actionTypeDefinitions';
+import { UPDATE_THRESHOLD } from 'src/client/app/constants/actionTypes';
+import type { UPDATE_THRESHOLD_ACTION } from 'src/client/app/actionTypeDefinitions';
 
 import { defaultThreshold } from './defaultState';
 

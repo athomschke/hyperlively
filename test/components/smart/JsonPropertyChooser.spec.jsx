@@ -4,8 +4,8 @@ import { shallow } from 'enzyme';
 import { TreeMenu } from 'react-tree-menu';
 import { flatten, map, forEach, filter } from 'lodash';
 
-import JsonPropertyChooser from 'components/smart/JsonPropertyChooser';
-import { getPathToProperty, formatObject } from 'helpers/choosingActions';
+import JsonPropertyChooser from 'src/client/app/components/smart/JsonPropertyChooser';
+import { getPathToProperty, formatObject } from 'src/client/app/helpers/choosingActions';
 
 const renderWithProps = props => TestUtils.renderIntoDocument(<JsonPropertyChooser {...props} />);
 const shallowWithProps = props => shallow(<JsonPropertyChooser {...props} />);

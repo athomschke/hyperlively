@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import AppConfiguration from 'components/dumb/AppConfiguration';
+import AppConfiguration from 'src/client/app/components/dumb/AppConfiguration';
 
 const mapStateToProps = state => ({
 	active: !state.drawing,

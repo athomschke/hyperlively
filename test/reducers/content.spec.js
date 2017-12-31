@@ -1,6 +1,6 @@
-import { content } from 'reducers/content';
-import { setSceneIndex } from 'actions/configuring';
-import { addSceneAt, nextScene } from 'actions/drawing';
+import { content } from 'src/client/app/reducers/content';
+import { setSceneIndex } from 'src/client/app/actions/configuring';
+import { addSceneAt, nextScene } from 'src/client/app/actions/drawing';
 import { point } from 'test/helpers';
 
 describe('Content', () => {

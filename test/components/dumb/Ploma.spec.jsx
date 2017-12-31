@@ -1,4 +1,4 @@
-import Ploma from 'components/dumb/Ploma';
+import Ploma from 'src/client/app/components/dumb/Ploma';
 
 describe('Ploma Configuration', () => {
 	it('labels the button Ploma', () => {

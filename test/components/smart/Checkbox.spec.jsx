@@ -1,7 +1,7 @@
 import TestUtils from 'react-addons-test-utils';
 import React from 'react';
 
-import Checkbox from 'components/smart/Checkbox';
+import Checkbox from 'src/client/app/components/smart/Checkbox';
 
 describe('Checkbox', () => {
 	it('setting checkbox to checked changes nothing', () => {

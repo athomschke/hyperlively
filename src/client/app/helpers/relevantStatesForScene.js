@@ -1,7 +1,7 @@
 // @flow
 // import isEqual from 'lodash/isEqual';
 // import filter from 'lodash/filter';
-import { type Scene } from 'typeDefinitions';
+import { type Scene } from 'src/client/app/typeDefinitions';
 
 // export default function (states: Array<Scene>, sceneIndex: number) {
 export default function (states: Array<Scene>, _sceneIndex: number) {

@@ -1,7 +1,7 @@
 import TestUtils from 'react-addons-test-utils';
 import React from 'react';
 
-import ModuleChooser from 'components/hoc/ModuleChooser';
+import ModuleChooser from 'src/client/app/components/hoc/ModuleChooser';
 import { point } from 'test/helpers';
 
 const MockedSubComponent1 = () => <canvas />;

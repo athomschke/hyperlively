@@ -3,8 +3,8 @@ import React, { PureComponent } from 'react';
 import type { ClassComponent } from 'react-flow-types';
 import { cloneDeep } from 'lodash';
 
-import { offsetToOrigin, getOffsetForTime } from 'helpers/sketchFitting';
-import type { Bounds, Stroke } from 'typeDefinitions';
+import { offsetToOrigin, getOffsetForTime } from 'src/client/app/helpers/sketchFitting';
+import type { Bounds, Stroke } from 'src/client/app/typeDefinitions';
 
 type Props = {
 	index: number,

@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
-import actions from 'actions/actions';
-import Interpreter from 'components/smart/Interpreter';
+import actions from 'src/client/app/actions/actions';
+import Interpreter from 'src/client/app/components/smart/Interpreter';
 
 const mapStateToProps = (state) => {
 	const returnState = {};

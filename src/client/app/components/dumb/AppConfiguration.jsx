@@ -1,7 +1,7 @@
 // @flow
 import React, { PropTypes, PureComponent } from 'react';
 
-import { configuration } from 'stylesheets/components/dumb/AppConfiguration.scss';
+import { configuration } from 'src/client/app/stylesheets/components/dumb/AppConfiguration.scss';
 
 export default class AppConfiguration extends PureComponent {
 

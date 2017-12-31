@@ -1,6 +1,6 @@
-import { toggleInterpreter, togglePloma, updateThreshold, toggleHandwritingRecognition, setObserveMutations, setSceneIndex, jumpTo } from 'actions/configuring';
+import { toggleInterpreter, togglePloma, updateThreshold, toggleHandwritingRecognition, setObserveMutations, setSceneIndex, jumpTo } from 'src/client/app/actions/configuring';
 
-describe('actions', () => {
+describe('src/client/app/actions', () => {
 	it('should create an action to toggle ploma', () => {
 		const boolean = true;
 		const expectedAction = {

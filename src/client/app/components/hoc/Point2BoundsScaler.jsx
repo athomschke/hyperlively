@@ -2,8 +2,8 @@
 import React, { PureComponent } from 'react';
 import type { ClassComponent } from 'react-flow-types';
 
-import { getFittedWidth, scaleToTime } from 'helpers/scalingPointsToBounds';
-import type { Stroke } from 'typeDefinitions';
+import { getFittedWidth, scaleToTime } from 'src/client/app/helpers/scalingPointsToBounds';
+import type { Stroke } from 'src/client/app/typeDefinitions';
 
 type Props = {
 	strokes: Array<Stroke>,

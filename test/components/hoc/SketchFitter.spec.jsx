@@ -1,7 +1,7 @@
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 
-import SketchFitter from 'components/hoc/SketchFitter';
+import SketchFitter from 'src/client/app/components/hoc/SketchFitter';
 
 const WrappedWithSketchFitter = SketchFitter(() => <div />);
 

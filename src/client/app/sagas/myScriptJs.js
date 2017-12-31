@@ -1,8 +1,8 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
 
-import { requestTextCandidates, requestShapeCandidates } from 'helpers/handwritingRecognizer';
-import { receiveTextCandidates, receiveShapeCandidates } from 'actions/handwritingRecognition';
-import { TEXT_CANDIDATES_FETCH_REQUESTED, SHAPE_CANDIDATES_FETCH_REQUESTED } from 'constants/actionTypes';
+import { requestTextCandidates, requestShapeCandidates } from 'src/client/app/helpers/handwritingRecognizer';
+import { receiveTextCandidates, receiveShapeCandidates } from 'src/client/app/actions/handwritingRecognition';
+import { TEXT_CANDIDATES_FETCH_REQUESTED, SHAPE_CANDIDATES_FETCH_REQUESTED } from 'src/client/app/constants/actionTypes';
 
 export function* fetchTextCandidates(action) {
 	try {

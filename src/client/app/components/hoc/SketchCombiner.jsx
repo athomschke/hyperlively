@@ -3,8 +3,8 @@ import React, { PureComponent } from 'react';
 import type { ClassComponent } from 'react-flow-types';
 import { reduce, last, first, concat } from 'lodash';
 
-import { DEFAULT_THRESHOLD } from 'constants/drawing';
-import type { Scene/* , Sketch*/ } from 'typeDefinitions';
+import { DEFAULT_THRESHOLD } from 'src/client/app/constants/drawing';
+import type { Scene/* , Sketch*/ } from 'src/client/app/typeDefinitions';
 
 const strokeFollowedSuit = (collectedSketches, stroke, threshold) => {
 	const lastPoint = last(collectedSketches) &&

@@ -1,7 +1,7 @@
-import { requestShapeCandidates, requestTextCandidates } from 'helpers/handwritingRecognizer';
+import { requestShapeCandidates, requestTextCandidates } from 'src/client/app/helpers/handwritingRecognizer';
 import { shapeResponse, textResponse, strokesExample } from 'test/data';
 
-describe('Helpers for handwriting recognition', () => {
+describe('src/client/app/helpers for handwriting recognition', () => {
 	let xhr;
 	let requests = [];
 

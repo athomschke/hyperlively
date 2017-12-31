@@ -1,10 +1,10 @@
 // @flow
 import { concat, slice, isEqual, cloneDeep } from 'lodash';
 
-import { JUMP_TO } from 'constants/actionTypes';
-import relevantStatesForScene from 'helpers/relevantStatesForScene';
-import { type Reducer, type UndoableScenes, type SceneState } from 'typeDefinitions';
-import { type JUMP_TO_ACTION } from 'actionTypeDefinitions';
+import { JUMP_TO } from 'src/client/app/constants/actionTypes';
+import relevantStatesForScene from 'src/client/app/helpers/relevantStatesForScene';
+import { type Reducer, type UndoableScenes, type SceneState } from 'src/client/app/typeDefinitions';
+import { type JUMP_TO_ACTION } from 'src/client/app/actionTypeDefinitions';
 
 function undoable(reducer: Reducer) {
 	const initialState = {

@@ -2,7 +2,7 @@ import { findDOMNode } from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 import React from 'react';
 
-import AppConfiguration from 'components/dumb/AppConfiguration';
+import AppConfiguration from 'src/client/app/components/dumb/AppConfiguration';
 
 describe('App Configuration', () => {
 	it('renders all its children', () => {

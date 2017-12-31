@@ -1,6 +1,6 @@
 // @flow
-import { TOGGLE_HANDWRITING_RECOGNITION } from 'constants/actionTypes';
-import { type TOGGLE_HANDWRITING_RECOGNITION_ACTION } from 'actionTypeDefinitions';
+import { TOGGLE_HANDWRITING_RECOGNITION } from 'src/client/app/constants/actionTypes';
+import { type TOGGLE_HANDWRITING_RECOGNITION_ACTION } from 'src/client/app/actionTypeDefinitions';
 
 import { defaultHandwritingRecognition } from './defaultState';
 

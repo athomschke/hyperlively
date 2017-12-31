@@ -1,4 +1,4 @@
-import { DEFAULT_PEN_COLOR } from 'constants/drawing';
+import { DEFAULT_PEN_COLOR } from 'src/client/app/constants/drawing';
 
 export const shapeCandidate = {
 	type: 'recognizedShape',

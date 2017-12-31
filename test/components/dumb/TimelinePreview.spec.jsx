@@ -1,4 +1,4 @@
-import TimelinePreview from 'components/dumb/TimelinePreview';
+import TimelinePreview from 'src/client/app/components/dumb/TimelinePreview';
 import { point } from 'test/helpers';
 
 describe('TimelinePreview', () => {

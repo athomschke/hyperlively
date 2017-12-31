@@ -1,7 +1,7 @@
 // @flow
-import { TOGGLE_PLOMA } from 'constants/actionTypes';
-import { type PlomaState } from 'typeDefinitions';
-import { type TOGGLE_PLOMA_ACTION } from 'actionTypeDefinitions';
+import { TOGGLE_PLOMA } from 'src/client/app/constants/actionTypes';
+import { type PlomaState } from 'src/client/app/typeDefinitions';
+import { type TOGGLE_PLOMA_ACTION } from 'src/client/app/actionTypeDefinitions';
 
 import { defaultUsePloma } from './defaultState';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 
-import DragHandler from 'components/hoc/DragHandler';
+import DragHandler from 'src/client/app/components/hoc/DragHandler';
 
 const MockedSubComponent = () => <div />;
 

@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import TestUtils from 'react-addons-test-utils';
 
-import SketchCombiner from 'components/hoc/SketchCombiner';
+import SketchCombiner from 'src/client/app/components/hoc/SketchCombiner';
 import { point } from 'test/helpers';
 
 const expectOneStrokeInOneSketch = (combinedSketches, addedPoint) => {

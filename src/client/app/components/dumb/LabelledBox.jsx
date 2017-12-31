@@ -1,7 +1,7 @@
 // @flow
 import React, { PureComponent } from 'react';
 
-import Checkbox from 'components/smart/Checkbox';
+import Checkbox from 'src/client/app/components/smart/Checkbox';
 
 type Props = {
 		label: string;

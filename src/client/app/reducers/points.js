@@ -1,7 +1,7 @@
 // @flow
-import { APPEND_POINT } from 'constants/actionTypes';
-import { type Point } from 'typeDefinitions';
-import { type APPEND_POINT_ACTION } from 'actionTypeDefinitions';
+import { APPEND_POINT } from 'src/client/app/constants/actionTypes';
+import { type Point } from 'src/client/app/typeDefinitions';
+import { type APPEND_POINT_ACTION } from 'src/client/app/actionTypeDefinitions';
 
 function points(state: Array<Point> = [], action: APPEND_POINT_ACTION) {
 	switch (action.type) {

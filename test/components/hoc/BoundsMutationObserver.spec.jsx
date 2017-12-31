@@ -1,7 +1,7 @@
 import TestUtils from 'react-addons-test-utils';
 import React, { PropTypes } from 'react';
 
-import BoundsMutationObserver from 'components/hoc/BoundsMutationObserver';
+import BoundsMutationObserver from 'src/client/app/components/hoc/BoundsMutationObserver';
 
 class MockedSubComponent extends React.Component {
 

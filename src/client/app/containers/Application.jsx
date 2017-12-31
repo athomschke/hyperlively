@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
-import SketchCombiner from 'components/hoc/SketchCombiner';
-import { relativeDividerPosition } from 'reducers/defaultState';
+import SketchCombiner from 'src/client/app/components/hoc/SketchCombiner';
+import { relativeDividerPosition } from 'src/client/app/reducers/defaultState';
 
 import Page from './Page';
 

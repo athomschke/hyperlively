@@ -1,7 +1,7 @@
-import { updatePosition, hide, select, selectInside } from 'actions/manipulating';
+import { updatePosition, hide, select, selectInside } from 'src/client/app/actions/manipulating';
 import { strokesExample } from 'test/data';
 
-describe('actions to manipulate things on canvas', () => {
+describe('src/client/app/actions to manipulate things on canvas', () => {
 	it('should create an action move a set of strokes', () => {
 		const originX = 1;
 		const originY = 2;

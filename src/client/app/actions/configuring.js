@@ -1,5 +1,5 @@
 // @flow
-import { TOGGLE_PLOMA, UPDATE_THRESHOLD, TOGGLE_HANDWRITING_RECOGNITION, OBSERVE_MUTATIONS, SET_SCENE_INDEX, JUMP_TO, TOGGLE_INTERPRETER } from 'constants/actionTypes';
+import { TOGGLE_PLOMA, UPDATE_THRESHOLD, TOGGLE_HANDWRITING_RECOGNITION, OBSERVE_MUTATIONS, SET_SCENE_INDEX, JUMP_TO, TOGGLE_INTERPRETER } from 'src/client/app/constants/actionTypes';
 
 export function togglePloma(boolean: boolean) {
 	return { type: TOGGLE_PLOMA, boolean };

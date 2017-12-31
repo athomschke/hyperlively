@@ -1,5 +1,5 @@
-import { points } from 'reducers/points';
-import { appendPoint } from 'actions/drawing';
+import { points } from 'src/client/app/reducers/points';
+import { appendPoint } from 'src/client/app/actions/drawing';
 import { point, event } from 'test/helpers';
 
 describe('points', () => {

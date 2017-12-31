@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
 import { last, concat } from 'lodash';
 
-import UndoRedo from 'components/dumb/UndoRedo';
-import SketchCombiner from 'components/hoc/SketchCombiner';
-import { togglePloma, setObserveMutations, jumpTo } from 'actions/configuring';
-import UNDO_TIMEOUT from 'constants/canvas';
-import relevantStatesForScene from 'helpers/relevantStatesForScene';
+import UndoRedo from 'src/client/app/components/dumb/UndoRedo';
+import SketchCombiner from 'src/client/app/components/hoc/SketchCombiner';
+import { togglePloma, setObserveMutations, jumpTo } from 'src/client/app/actions/configuring';
+import UNDO_TIMEOUT from 'src/client/app/constants/canvas';
+import relevantStatesForScene from 'src/client/app/helpers/relevantStatesForScene';
 
 const mapStateToProps = (state, ownProps) => {
 	const returnProps = {};

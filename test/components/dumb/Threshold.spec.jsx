@@ -2,7 +2,7 @@ import TestUtils from 'react-addons-test-utils';
 import Slider from 'rc-slider';
 import React from 'react';
 
-import Threshold from 'components/dumb/Threshold';
+import Threshold from 'src/client/app/components/dumb/Threshold';
 
 describe('Threshold slider', () => {
 	it('displays threshold 10', () => {

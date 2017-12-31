@@ -3,9 +3,9 @@ import TestUtils from 'react-addons-test-utils';
 import { forEach } from 'lodash';
 import { shallow } from 'enzyme';
 
-import InterpretationChooser from 'components/smart/InterpretationChooser';
-import ActionChooser from 'components/smart/ActionChooser';
-import ParameterChooser from 'components/smart/ParameterChooser';
+import InterpretationChooser from 'src/client/app/components/smart/InterpretationChooser';
+import ActionChooser from 'src/client/app/components/smart/ActionChooser';
+import ParameterChooser from 'src/client/app/components/smart/ParameterChooser';
 
 const renderWithProps = props => TestUtils.renderIntoDocument(<InterpretationChooser {...props} />);
 const shallowWithProps = props => shallow(<InterpretationChooser {...props} />);

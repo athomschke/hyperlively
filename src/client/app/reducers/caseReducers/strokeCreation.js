@@ -1,10 +1,10 @@
 // @flow
 import { last } from 'lodash';
 
-import { appendPoint as appendPointAction } from 'actions/drawing';
-import { type Stroke } from 'typeDefinitions';
-import { type APPEND_STROKE_ACTION, type APPEND_POINT_ACTION, type FINISH_STROKE_ACTION } from 'actionTypeDefinitions';
-import { points } from 'reducers/points';
+import { appendPoint as appendPointAction } from 'src/client/app/actions/drawing';
+import { type Stroke } from 'src/client/app/typeDefinitions';
+import { type APPEND_STROKE_ACTION, type APPEND_POINT_ACTION, type FINISH_STROKE_ACTION } from 'src/client/app/actionTypeDefinitions';
+import { points } from 'src/client/app/reducers/points';
 
 export const appendStroke = (state: Array<Stroke>, action: APPEND_STROKE_ACTION) => {
 	const newState = state.slice(0);

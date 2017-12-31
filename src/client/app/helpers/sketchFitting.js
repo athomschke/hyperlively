@@ -1,7 +1,7 @@
 // @flow
 import { flatten, map, reduce } from 'lodash';
 
-import { type Stroke } from 'typeDefinitions';
+import { type Stroke } from 'src/client/app/typeDefinitions';
 
 export function offsetToOrigin(strokes: Array<Stroke>) {
 	const points = flatten(map(strokes, stroke => stroke.points));
