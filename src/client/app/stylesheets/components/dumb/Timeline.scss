@@ -8,6 +8,7 @@ $trackHeight: $sliderHeight - $trackOffset;
 	    width: 100%;
 	    height: $sliderHeight;
 	    border-width: 1px;
+			pointer-events: none;
 	}
 
 	.rc-slider-rail {
@@ -26,6 +27,7 @@ $trackHeight: $sliderHeight - $trackOffset;
 		border-style: solid;
 		width: 20px;
 		border-width: 1px;
+		pointer-events: auto;
 		margin-left: -10px;
 	    top: -($sliderHeight - ($trackOffset / 2) + 2);
 	    position: relative;
