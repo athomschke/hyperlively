@@ -103,10 +103,6 @@ describe('PlomaDrawer', () => {
 			expect(canvas.state.ballpointPen.clear.callCount).to.equal(1);
 		});
 
-		it('doesn\'t start a stroke', () => {
-			expect(canvas.state.ballpointPen.beginStroke.callCount).to.equal(0);
-		});
-
 		it('doesn\'t extend a stroke', () => {
 			expect(canvas.state.ballpointPen.extendStroke.callCount).to.equal(0);
 		});
@@ -219,6 +215,14 @@ describe('PlomaDrawer', () => {
 			const wrongFormats = filter(canvas.state.ballpointPen.setPenColor.args, arg =>
 					!(isNumber(arg[0].r) && isNumber(arg[0].g) && isNumber(arg[0].b)));
 			expect(wrongFormats).to.have.length(0);
+		});
+
+		it('is done when redrawing a single point stroke', () => {
+			canvas.resetCanvas();
+			canvas.componentDidUpdate();
+			canvas.props.strokes.push({ points: [{ x: 10, y: 10 }] });
+			canvas.componentDidUpdate();
+			expect(true).to.be.true();
 		});
 	});
 

@@ -18,30 +18,28 @@ type Props = {
 }
 
 export default class PlomaDrawer extends AbstractDrawer<Props, State> {
-	static defaultProps = {
-		...defaultProps,
+	static defaultProps = Object.assign({}, defaultProps, {
 		uniqueCanvasFactor: 1,
-	}
+	})
 
 	componentDidMount() {
-		super.componentDidMount();
 		const plomaConfig = {
 			uniqueCanvasFactor: this.props.uniqueCanvasFactor,
 			paperColor: 'rgba(0, 0, 0, 0)',
 		};
 		const ballpointPen = new BallpointPen(this.canvas, plomaConfig);
-		ballpointPen.setSample(1);
-		this.state = {
-			...this.state,
+		this.state = Object.assign({}, this.state, {
 			ballpointPen,
-		};
+		});
+		ballpointPen.setSample(1);
+		super.componentDidMount();
 	}
 
-	onStrokeStarted(strokes: Array<Stroke>) {
+	handleStrokeStarted(strokes: Array<Stroke>) {
 		this.startStrokeAt(lastPointInStrokes(strokes), first(strokes).color);
 	}
 
-	onStrokesExtended(strokes: Array<Stroke>) {
+	handleStrokesExtended(strokes: Array<Stroke>) {
 		this.extendStrokeAt(lastPointInStrokes(strokes));
 	}
 
@@ -85,6 +83,8 @@ export default class PlomaDrawer extends AbstractDrawer<Props, State> {
 			} else {
 				that.extendStrokeAt(last(points));
 			}
+		} else if (points.length > 0) {
+			that.startStrokeAt(head(points), stroke.selected ? SELECTED_PEN_COLOR : stroke.color);
 		}
 	}
 }

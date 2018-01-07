@@ -1,6 +1,6 @@
 // @flow
 import Color from 'color';
-import { without, last, head, tail, reduce, cloneDeep, first } from 'lodash';
+import { without, last, head, tail, reduce, cloneDeep, first, isEqual } from 'lodash';
 
 import lastPointInStrokes from 'src/client/app/helpers/lastPointInStrokes';
 import { DEFAULT_PEN_COLOR, SELECTED_PEN_COLOR } from 'src/client/app/constants/drawing';
@@ -42,7 +42,7 @@ export default class PlainDrawer extends AbstractDrawer<{}, {}> {
 		this.endStrokeAt(lastPointInStrokes(strokes), secondToLastPointInStrokes(strokes));
 	}
 
-	startStrokeAt(aPoint: Point, aColor: string) {
+	startStrokeAt(point: Point, aColor: string) {
 		const canvas = this.canvas;
 		if (canvas) {
 			canvas.getContext('2d').strokeStyle = `${(new Color(aColor || DEFAULT_PEN_COLOR)).hex()}`;
@@ -50,7 +50,7 @@ export default class PlainDrawer extends AbstractDrawer<{}, {}> {
 	}
 
 	extendStrokeAt(point: Point, optPointBefore: Point) {
-		if (this.canvas && optPointBefore && (point !== optPointBefore)) {
+		if (this.canvas && optPointBefore && point !== optPointBefore) {
 			const context = this.canvas.getContext('2d');
 			context.beginPath();
 			context.moveTo(optPointBefore.x, optPointBefore.y);
@@ -74,8 +74,10 @@ export default class PlainDrawer extends AbstractDrawer<{}, {}> {
 	redrawStroke(stroke: Stroke, shouldFinish: boolean) {
 		const that = this;
 		const points = stroke.points;
-		if (points.length > 1) {
+		if (points.length > 0 && !(points.length === 1 && stroke.finished)) {
 			that.startStrokeAt(head(points), stroke.selected ? SELECTED_PEN_COLOR : stroke.color);
+		}
+		if (points.length > 1) {
 			reduce(without(tail(points), last(points)), (pointBefore, point) => {
 				that.extendStrokeAt(point, pointBefore);
 				return point;

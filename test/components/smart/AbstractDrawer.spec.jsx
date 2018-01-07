@@ -4,7 +4,7 @@ import React, { PropTypes } from 'react';
 import AbstractDrawer from 'src/client/app/components/smart/AbstractDrawer';
 import { ERROR_CALL_SUPER_TO_ABSTRACT, ERROR_DIRECT_ABSTRACT_CALL } from 'src/client/app/constants/errors';
 
-class SpecificDrawer extends AbstractDrawer {
+class SpecificDrawer extends AbstractDrawer<{}, {}> {
 
 	static propTypes = {
 		overwriteFunctionCalled: PropTypes.func.isRequired,
@@ -49,7 +49,7 @@ describe('AbstractDrawer', () => {
 		});
 
 		it('cannot trigger an abstract method on Abstract Drawer implementation', () => {
-			expect(AbstractDrawer.prototype.handleAbstractMethodCalledWith.bind(AbstractDrawer, []))
+			expect(AbstractDrawer.prototype.handleAbstractMethodCalled.bind(AbstractDrawer, []))
 				.to.throw(ERROR_DIRECT_ABSTRACT_CALL);
 		});
 
