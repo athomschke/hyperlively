@@ -14,6 +14,7 @@ type Props = {
 
 type State = {
 	observer: MutationObserver;
+	observedNode: HTMLDivElement | null;
 }
 
 export default (Wrapped: ClassComponent<any, any>) => class extends PureComponent<Props, State> {
@@ -30,18 +31,24 @@ export default (Wrapped: ClassComponent<any, any>) => class extends PureComponen
 		strokes: [],
 	};
 
-	wrappedComponent: (React.Component<any, any> & {node: HTMLElement }) | null;
+	constructor(props: Props) {
+		super(props);
+		this.state = this.state || {};
+	}
 
 	observe() {
-		const wrappedComponent = this.wrappedComponent;
+		const wrappedComponent = this.state.observedNode;
 		if (wrappedComponent) {
 			const observer = new MutationObserver(this.onMutations.bind(this));
-			observer.observe(wrappedComponent.node, {
-				attributes: true,
-			});
-			this.setState({
-				observer,
-			});
+			const node = wrappedComponent;
+			if (node) {
+				observer.observe(node, {
+					attributes: true,
+				});
+				this.setState({
+					observer,
+				});
+			}
 		}
 	}
 
@@ -67,20 +74,20 @@ export default (Wrapped: ClassComponent<any, any>) => class extends PureComponen
 	}
 
 	onMutations(mutationRecords: Array<MutationRecord>) {
-		const wrappedComponent = this.wrappedComponent;
+		const wrappedComponent = this.state.observedNode;
 		if (this.props.observeMutations && wrappedComponent) {
 			forEach(mutationRecords, (mutationRecord) => {
 				if (mutationRecord.attributeName === 'style') {
 					const moveBy = {
-						x: parseInt(wrappedComponent.node.style.left, 10) - this.props.bounds.x,
-						y: parseInt(wrappedComponent.node.style.top, 10) - this.props.bounds.y,
+						x: parseInt(wrappedComponent.style.left, 10) - this.props.bounds.x,
+						y: parseInt(wrappedComponent.style.top, 10) - this.props.bounds.y,
 					};
 					if (moveBy.x !== 0 || moveBy.y !== 0) {
 						this.boundsUpdatedWith(
 								this.props.bounds.x,
 								this.props.bounds.y,
-								parseInt(wrappedComponent.node.style.left, 10),
-								parseInt(wrappedComponent.node.style.top, 10),
+								parseInt(wrappedComponent.style.left, 10),
+								parseInt(wrappedComponent.style.top, 10),
 						);
 					}
 				}
@@ -90,7 +97,9 @@ export default (Wrapped: ClassComponent<any, any>) => class extends PureComponen
 
 	render() {
 		return (<Wrapped
-			ref={(wrapped) => { this.wrappedComponent = wrapped; }}
+			onNodeChanged={(divNode) => {
+				this.state.observedNode = divNode;
+			}}
 			{...this.props}
 		/>);
 	}

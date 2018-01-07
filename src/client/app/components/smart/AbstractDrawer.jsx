@@ -26,6 +26,7 @@ export type AbstractDrawerProps<P> = P & {
 		width: number,
 		height: number
 	},
+	onNodeChanged?: (HTMLDivElement | null) => void,
 	active: boolean,
 	width: number,
 	height: number,
@@ -160,8 +161,6 @@ export default class AbstractDrawer<P, S> extends
 		};
 	}
 
-	node: HTMLDivElement | null;
-
 	canvas: HTMLCanvasElement | null;
 
 	/**
@@ -254,7 +253,11 @@ export default class AbstractDrawer<P, S> extends
 
 	render() {
 		return (<div
-			ref={(divNode) => { this.node = divNode; }}
+			ref={(divNode) => {
+				if (this.props.onNodeChanged) {
+					this.props.onNodeChanged(divNode);
+				}
+			}}
 			style={this.calculatePassepartoutStyle()}
 		>
 			<canvas
