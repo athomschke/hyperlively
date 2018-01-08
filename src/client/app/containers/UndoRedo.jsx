@@ -4,8 +4,10 @@ import { last, concat } from 'lodash';
 import UndoRedo from 'src/client/app/components/dumb/UndoRedo';
 import SketchCombiner from 'src/client/app/components/hoc/SketchCombiner';
 import { togglePloma, setObserveMutations, jumpTo } from 'src/client/app/actions/configuring';
+import { select } from 'src/client/app/actions/manipulating';
 import UNDO_TIMEOUT from 'src/client/app/constants/canvas';
 import relevantStatesForScene from 'src/client/app/helpers/relevantStatesForScene';
+import type { Stroke } from 'src/client/app/typeDefinitions';
 
 const mapStateToProps = (state, ownProps) => {
 	const returnProps = {};
@@ -36,6 +38,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 		dispatch(setObserveMutations(false));
 		dispatch(jumpTo(value, ownProps.sceneIndex));
 		dispatch(setObserveMutations(true));
+	},
+	onSelectStokes: (strokes: Array<Stroke>) => {
+		dispatch(select(strokes));
 	},
 	temporaryCallback: bool => dispatch(togglePloma(bool)),
 });

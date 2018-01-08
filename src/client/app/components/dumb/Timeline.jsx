@@ -4,7 +4,7 @@ import Slider from 'rc-slider';
 import { map, flatten } from 'lodash';
 
 import { rcSlider } from 'src/client/app/stylesheets/components/dumb/Timeline.scss';
-import type { Sketch } from 'src/client/app/typeDefinitions';
+import type { Sketch, Stroke } from 'src/client/app/typeDefinitions';
 
 import TimelinePreview from './TimelinePreview';
 
@@ -12,6 +12,7 @@ type Props = {
 	sliderHeight: number,
 	trackOffset: number,
 	sketches: Array<Sketch>,
+	onSelectStokes: (_strokes: Array<Stroke>) => void,
 };
 
 export default class Timeline extends PureComponent<Props> {
@@ -38,6 +39,7 @@ export default class Timeline extends PureComponent<Props> {
 				strokes={sketch.strokes}
 				fittedHeight={this.props.sliderHeight}
 				previewHeight={this.calculateTrackHeight()}
+				onSelect={() => this.props.onSelectStokes(sketch.strokes)}
 			/>);
 			const points = flatten(map(sketch.strokes, stroke => stroke.points));
 			offsetIndex += points.length;
