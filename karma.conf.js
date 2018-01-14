@@ -31,8 +31,9 @@ module.exports = function (config) {
 			'karma-webpack',
 			'karma-mocha-reporter',
 			'karma-sinon',
+			'karma-sinon-chai',
 		],
-		frameworks: ['chai', 'dirty-chai', 'mocha', 'sinon'],
+		frameworks: ['chai', 'dirty-chai', 'mocha', 'sinon', 'sinon-chai'],
 		preprocessors: {
 			'test/runner.js': ['webpack'],
 		},
