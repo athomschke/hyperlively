@@ -36,12 +36,12 @@ describe('PlomaDrawer', () => {
 			canvas.componentDidUpdate();
 			canvas.props.strokes[0].finished = true;
 			canvas.componentDidUpdate();
-			const sumBefore = sum(canvasImageData(canvas.canvas).data);
+			const sumBefore = sum(canvasImageData(canvas.state.canvas).data);
 			canvas.props.strokes.push({
 				points: [{ x: 40, y: 14 }],
 			});
 			canvas.componentDidUpdate();
-			const sumAfter = sum(canvasImageData(canvas.canvas).data);
+			const sumAfter = sum(canvasImageData(canvas.state.canvas).data);
 			expect(sumBefore).to.equal(sumAfter);
 		});
 
@@ -49,10 +49,10 @@ describe('PlomaDrawer', () => {
 			const canvas = renderComponentWithProps({
 				strokes: [],
 			});
-			const sumBefore = sum(canvasImageData(canvas.canvas).data);
+			const sumBefore = sum(canvasImageData(canvas.state.canvas).data);
 			canvas.props.strokes.push({ points: [] });
 			canvas.componentDidUpdate();
-			const sumAfter = sum(canvasImageData(canvas.canvas).data);
+			const sumAfter = sum(canvasImageData(canvas.state.canvas).data);
 			expect(sumBefore).to.equal(sumAfter);
 		});
 	});

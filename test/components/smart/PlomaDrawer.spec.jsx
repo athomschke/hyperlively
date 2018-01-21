@@ -95,7 +95,26 @@ describe('PlomaDrawer', () => {
 
 	describe('removing all but one point', () => {
 		beforeEach(() => {
+		});
+
+		it('keeps the canvas clean', () => {
 			canvas.props.strokes[0].points.splice(-3);
+			canvas.componentDidUpdate();
+			expect(canvas.state.ballpointPen.clear.callCount).to.equal(1);
+			expect(canvas.state.ballpointPen.extendStroke.callCount).to.equal(0);
+		});
+
+		it('keeps a stroke selected', () => {
+			canvas.props.strokes[0].selected = true;
+			canvas.props.strokes[0].points.splice(-3);
+			canvas.componentDidUpdate();
+			expect(canvas.state.ballpointPen.extendStroke.callCount).to.equal(0);
+		});
+	});
+
+	describe('removing all points in a stroke', () => {
+		beforeEach(() => {
+			canvas.props.strokes[0].points.splice(-4);
 			canvas.componentDidUpdate();
 		});
 

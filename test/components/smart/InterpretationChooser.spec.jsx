@@ -164,6 +164,29 @@ describe('Interpretation Chooser', () => {
 			expect(passedValues.length).to.equal(1);
 			expect(passedValues[0]).to.equal('e');
 		});
+
+		it('can choose a combined action', () => {
+			const onInterpretationChoose = sinon.stub();
+			const interpretationChooser = renderWithProps({
+				isOpen: true,
+				jsonTree: exampleTree,
+				selectedStrokes: exampleSelectedStrokes,
+				specificActions: [{
+					actionName: 'combinedAB',
+					actionNames: ['updateThreshold', 'updatePosition'],
+				}],
+				onInterpretationChoose,
+			});
+			interpretationChooser.setState({
+				parameters: ['a1', 'a2'],
+				functions: [{
+					name: 'combinedAB',
+					parameters: 2,
+				}],
+			});
+			interpretationChooser.onInterpretationChoose();
+			expect(onInterpretationChoose.lastCall.args[1]).to.eql(['a1', 'a2']);
+		});
 	});
 
 	describe('Choosing a parameter', () => {

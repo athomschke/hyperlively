@@ -37,7 +37,8 @@ export type AbstractDrawerProps<P> = P & {
 export type AbstractDrawerState<S> = S & {
 	strokes: Array<Stroke>,
 	width: number,
-	height: number
+	height: number,
+	canvas: HTMLCanvasElement | null,
 }
 
 export const defaultProps = {
@@ -55,20 +56,26 @@ export const defaultProps = {
 	finished: false,
 };
 
-const defaultState: AbstractDrawerState<any> = {
-	width: 0,
-	height: 0,
-	strokes: [],
-};
-
 export default class AbstractDrawer<P, S> extends
 		PureComponent<AbstractDrawerProps<P>, AbstractDrawerState<S>> {
 	static defaultProps = defaultProps;
+
+	constructor() {
+		super();
+		const defaultState: AbstractDrawerState<any> = {
+			width: 0,
+			height: 0,
+			canvas: null,
+			strokes: [],
+		};
+
+		this.state = this.state || defaultState;
+	}
+
 	state: AbstractDrawerState<S>;
 
 	componentDidMount() {
 		const isFinished = last(this.props.strokes) && last(this.props.strokes).finished;
-		this.state = this.state || defaultState;
 		this.state.width = this.props.width;
 		this.state.height = this.props.height;
 		this.state.strokes = cloneDeep(this.props.strokes);
@@ -80,12 +87,10 @@ export default class AbstractDrawer<P, S> extends
 			this.handleStrokesUpdated();
 		}
 		if (!isEqual(this.props.width, this.state.width)) {
-			this.state = this.state || defaultState;
 			this.state.width = this.props.width;
 			this.redrawEverything(false);
 		}
 		if (!isEqual(this.props.height, this.state.height)) {
-			this.state = this.state || defaultState;
 			this.state.height = this.props.height;
 			this.redrawEverything(false);
 		}
@@ -161,8 +166,6 @@ export default class AbstractDrawer<P, S> extends
 		};
 	}
 
-	canvas: HTMLCanvasElement | null;
-
 	/**
 	 * @overwrite
 	 * @param {array} strokes
@@ -205,7 +208,8 @@ export default class AbstractDrawer<P, S> extends
 	}
 
 	moveImageDataToNewPosition() {
-		const canvas = this.canvas;
+		const canvas = this.state.canvas;
+
 		if (canvas) {
 			const oldFirstPoint = allPoints(this.state.strokes)[0];
 			const newFirstPoint = allPoints(this.props.strokes)[0];
@@ -261,7 +265,9 @@ export default class AbstractDrawer<P, S> extends
 			style={this.calculatePassepartoutStyle()}
 		>
 			<canvas
-				ref={(canvas) => { this.canvas = canvas; }}
+				ref={(canvas) => {
+					this.state.canvas = canvas;
+				}}
 				width={this.props.width}
 				height={this.props.height}
 				style={this.calculateCanvasStyle()}

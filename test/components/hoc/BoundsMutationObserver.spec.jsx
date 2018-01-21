@@ -1,5 +1,6 @@
 import TestUtils from 'react-addons-test-utils';
 import React, { PropTypes } from 'react';
+import { shallow, mount } from 'enzyme';
 
 import BoundsMutationObserver from 'src/client/app/components/hoc/BoundsMutationObserver';
 
@@ -26,14 +27,13 @@ const MockedComponent = BoundsMutationObserver(MockedSubComponent);
 const renderComponentWithBoundsAndCallback = options =>
 	TestUtils.renderIntoDocument(<MockedComponent {...options} />);
 
+const shallowComponentsWithProps = props => shallow(<MockedComponent {...props} />);
+const mountComponentsWithProps = props => mount(<MockedComponent {...props} />);
+
 describe('Bounds mutation observer', () => {
-	let mockedComponent;
-
-	afterEach(() => {
-		mockedComponent.boundsUpdatedWith.restore();
-	});
-
 	describe('manipulating bounds of a wrapped component', () => {
+		let mockedComponent;
+
 		beforeEach(() => {
 			const options = {
 				bounds: { x: 1, y: 0 },
@@ -41,6 +41,10 @@ describe('Bounds mutation observer', () => {
 			};
 			mockedComponent = renderComponentWithBoundsAndCallback(options);
 			sinon.spy(mockedComponent, 'boundsUpdatedWith');
+		});
+
+		afterEach(() => {
+			mockedComponent.boundsUpdatedWith.restore();
 		});
 
 		it('recognizes nothing if bounds mutation observation is disabled', (done) => {
@@ -53,12 +57,18 @@ describe('Bounds mutation observer', () => {
 	});
 
 	describe('moving the wrapped component', () => {
+		let mockedComponent;
+
 		beforeEach(() => {
 			const options = {
 				bounds: { x: 1, y: 0 },
 			};
 			mockedComponent = renderComponentWithBoundsAndCallback(options);
 			sinon.spy(mockedComponent, 'boundsUpdatedWith');
+		});
+
+		afterEach(() => {
+			mockedComponent.boundsUpdatedWith.restore();
 		});
 
 		it('horizontally calls the callback with enough information with a position when one is given', (done) => {
@@ -123,12 +133,18 @@ describe('Bounds mutation observer', () => {
 	});
 
 	describe('setting width of a wrapped component', () => {
+		let mockedComponent;
+
 		beforeEach(() => {
 			const options = {
 				bounds: { x: 1, y: 0 },
 			};
 			mockedComponent = renderComponentWithBoundsAndCallback(options);
 			sinon.spy(mockedComponent, 'boundsUpdatedWith');
+		});
+
+		afterEach(() => {
+			mockedComponent.boundsUpdatedWith.restore();
 		});
 
 		it('triggers no callback', (done) => {
@@ -141,6 +157,8 @@ describe('Bounds mutation observer', () => {
 	});
 
 	describe('setting border style of wrapped component', () => {
+		let mockedComponent;
+
 		beforeEach(() => {
 			const options = {
 				bounds: { x: 1, y: 0 },
@@ -149,12 +167,30 @@ describe('Bounds mutation observer', () => {
 			sinon.spy(mockedComponent, 'boundsUpdatedWith');
 		});
 
+		afterEach(() => {
+			mockedComponent.boundsUpdatedWith.restore();
+		});
+
 		it('triggers no callback', (done) => {
 			mockedComponent.state.observedNode.style.setProperty('border-style', 'solid');
 			setTimeout(() => {
 				expect(mockedComponent.boundsUpdatedWith.callCount).to.equal(0);
 				done();
 			});
+		});
+	});
+
+	describe('trying to observe', () => {
+		it('does nothing until mounted', () => {
+			const onNodeChanged = sinon.stub();
+			shallowComponentsWithProps({ onNodeChanged });
+			expect(onNodeChanged).to.not.have.been.called();
+		});
+
+		it('does nothing until wrapped component is mounted', () => {
+			const onNodeChanged = sinon.stub();
+			const wrapper = mountComponentsWithProps({ onNodeChanged });
+			expect(wrapper.state.observer).to.not.exist();
 		});
 	});
 });

@@ -28,8 +28,8 @@ export default class extends PureComponent<Props> {
 		onInterpretationDone: () => {},
 	};
 
-	constructor(props: any) {
-		super(props);
+	constructor() {
+		super();
 		(this:any).deactivateInterpretation = this.deactivateInterpretation.bind(this);
 		(this:any).performAction = this.performAction.bind(this);
 		(this:any).tickActions = this.tickActions.bind(this);

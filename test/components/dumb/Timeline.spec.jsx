@@ -1,9 +1,11 @@
 import Slider from 'rc-slider';
 import TestUtils from 'react-addons-test-utils';
 import React from 'react';
+import { mount } from 'enzyme';
 
 import TimelineView from 'src/client/app/components/dumb/Timeline';
 import TimeoutBehavior from 'src/client/app/components/hoc/TimeoutBehavior';
+import TimelinePreview from 'src/client/app/components/dumb/TimelinePreview';
 import { point } from 'test/helpers';
 
 const Timeline = TimeoutBehavior(TimelineView);
@@ -20,6 +22,23 @@ const renderComponentWithSketches = sketches => TestUtils.renderIntoDocument(<Ti
 />);
 
 const renderComponentWithProps = props => TestUtils.renderIntoDocument(<Timeline {...props} />);
+
+const mockSketches = [{
+	strokes: [{
+		points: [point(12, 12), point(11, 11), point(10, 10)],
+		actionIndex: 0,
+	}],
+}, {
+	strokes: [{
+		points: [point(20, 20), point(21, 21), point(22, 22)],
+		actionIndex: 3,
+	}],
+}, {
+	strokes: [{
+		points: [point(30, 30), point(31, 31), point(32, 32)],
+		actionIndex: 6,
+	}],
+}]
 
 describe('Timeline', () => {
 	describe('rendering the slider', () => {
@@ -41,22 +60,7 @@ describe('Timeline', () => {
 		});
 
 		it('shows a preview canvas for every sketch handed to it', () => {
-			const temporaryCallbackSlider = renderComponentWithSketches([{
-				strokes: [{
-					points: [point(12, 12), point(11, 11), point(10, 10)],
-					actionIndex: 0,
-				}],
-			}, {
-				strokes: [{
-					points: [point(20, 20), point(21, 21), point(22, 22)],
-					actionIndex: 3,
-				}],
-			}, {
-				strokes: [{
-					points: [point(30, 30), point(31, 31), point(32, 32)],
-					actionIndex: 6,
-				}],
-			}]);
+			const temporaryCallbackSlider = renderComponentWithSketches(mockSketches);
 			const canvasses = TestUtils.scryRenderedDOMComponentsWithTag(temporaryCallbackSlider, 'canvas');
 			expect(canvasses).to.have.length(3);
 		});
@@ -137,6 +141,18 @@ describe('Timeline', () => {
 			const slider = TestUtils.scryRenderedComponentsWithType(temporaryCallbackSlider, Slider)[0];
 			slider.props.onChange(8);
 			expect(temporaryCallbackSlider.props.value).to.equal(9);
+		});
+	});
+
+	describe('Selecting a canvas in the TimelinePreview', () => {
+		it('calls onSelectStokes property on Timeline', () => {
+			const onSelectStokes = sinon.stub();
+			const wrapper = mount(<Timeline
+				onSelectStokes={onSelectStokes}
+				sketches={mockSketches}
+			/>);
+			wrapper.find(TimelinePreview).at(0).prop('onSelect')();
+			expect(onSelectStokes.callCount).to.equal(1);
 		});
 	});
 });

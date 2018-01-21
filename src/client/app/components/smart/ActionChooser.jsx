@@ -1,6 +1,6 @@
 // @flow
 import React, { PureComponent } from 'react';
-import { forEach, map, flatten } from 'lodash';
+import { forEach, map, flatten, filter } from 'lodash';
 
 import actions from 'src/client/app/actions/actions';
 import type { FunctionConfiguration, TreeParameter, ActionMapping } from 'src/client/app/typeDefinitions';
@@ -27,7 +27,7 @@ const allActions = (specificActions) => {
 	});
 
 	forEach(specificActions, (specificAction) => {
-		const parameters = flatten(map(specificAction.actionNames, (originalActionName) => {
+		const parameters = filter(flatten(map(specificAction.actionNames, (originalActionName) => {
 			let i = 0;
 			while (jsonObject[i]) {
 				if (jsonObject[i].split('(')[0] === originalActionName) {
@@ -36,7 +36,7 @@ const allActions = (specificActions) => {
 				i += 1;
 			}
 			return [];
-		}));
+		})), (action: any) => action);
 		jsonObject[actionsCount] = `${specificAction.actionName} (${parameters.join(', ')})`;
 		actionsCount += 1;
 	});

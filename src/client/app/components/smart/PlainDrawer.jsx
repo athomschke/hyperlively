@@ -1,6 +1,6 @@
 // @flow
 import Color from 'color';
-import { without, last, head, tail, reduce, cloneDeep, first, isEqual } from 'lodash';
+import { without, last, head, tail, reduce, cloneDeep, first } from 'lodash';
 
 import lastPointInStrokes from 'src/client/app/helpers/lastPointInStrokes';
 import { DEFAULT_PEN_COLOR, SELECTED_PEN_COLOR } from 'src/client/app/constants/drawing';
@@ -43,15 +43,17 @@ export default class PlainDrawer extends AbstractDrawer<{}, {}> {
 	}
 
 	startStrokeAt(point: Point, aColor: string) {
-		const canvas = this.canvas;
+		const canvas = this.state.canvas;
 		if (canvas) {
 			canvas.getContext('2d').strokeStyle = `${(new Color(aColor || DEFAULT_PEN_COLOR)).hex()}`;
 		}
 	}
 
 	extendStrokeAt(point: Point, optPointBefore: Point) {
-		if (this.canvas && optPointBefore && point !== optPointBefore) {
-			const context = this.canvas.getContext('2d');
+		const canvas = this.state.canvas;
+
+		if (canvas && optPointBefore && point !== optPointBefore) {
+			const context = canvas.getContext('2d');
 			context.beginPath();
 			context.moveTo(optPointBefore.x, optPointBefore.y);
 			context.lineTo(point.x, point.y);
@@ -65,7 +67,7 @@ export default class PlainDrawer extends AbstractDrawer<{}, {}> {
 	}
 
 	resetCanvas() {
-		const canvas = this.canvas;
+		const canvas = this.state.canvas;
 		if (canvas) {
 			canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
 		}

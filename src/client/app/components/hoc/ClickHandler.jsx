@@ -15,8 +15,8 @@ export default function (Wrapped: ClassComponent<any, any>) {
 		props: Props
 		state: State
 
-		constructor(props: any) {
-			super(props);
+		constructor() {
+			super();
 			this.state = {
 				mouseDown: false,
 			};

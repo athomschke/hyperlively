@@ -10,8 +10,8 @@ type State = {
 
 export default (Wrapped: ClassComponent<any, any>) => class extends PureComponent<any, State> {
 
-	constructor(props: Object) {
-		super(props);
+	constructor() {
+		super();
 		this.state = {
 			cmdPressed: false,
 			returnPressed: false,

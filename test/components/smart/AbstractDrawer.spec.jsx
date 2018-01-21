@@ -1,5 +1,7 @@
 import TestUtils from 'react-addons-test-utils';
 import React, { PropTypes } from 'react';
+import { last } from 'lodash';
+import { shallow, mount } from 'enzyme';
 
 import AbstractDrawer from 'src/client/app/components/smart/AbstractDrawer';
 import { ERROR_CALL_SUPER_TO_ABSTRACT, ERROR_DIRECT_ABSTRACT_CALL } from 'src/client/app/constants/errors';
@@ -7,7 +9,11 @@ import { ERROR_CALL_SUPER_TO_ABSTRACT, ERROR_DIRECT_ABSTRACT_CALL } from 'src/cl
 class SpecificDrawer extends AbstractDrawer<{}, {}> {
 
 	static propTypes = {
-		overwriteFunctionCalled: PropTypes.func.isRequired,
+		overwriteFunctionCalled: PropTypes.func,
+	}
+
+	static defaultProps = {
+		overwriteFunctionCalled: () => {},
 	}
 
 	handleStrokesExtended(...args) {
@@ -22,17 +28,19 @@ class SpecificDrawer extends AbstractDrawer<{}, {}> {
 }
 
 describe('AbstractDrawer', () => {
-	describe('calling an abstract function directly', () => {
-		it('throws an error for handleStrokeStarted when not implemented in subclass', () => {
-			expect(SpecificDrawer.prototype.handleStrokeStarted.bind(SpecificDrawer.prototype))
-				.to.throw(ERROR_CALL_SUPER_TO_ABSTRACT);
-		});
+	let specificDrawer;
 
-		it('throws an error for handleStrokesExtended when implemented in subclass but calling the superclass', () => {
-			const strokes = [{
+	let stub;
+
+	describe('calling an abstract function directly', () => {
+		let strokes;
+
+		beforeEach(() => {
+			strokes = [{
 				points: [{ x: 10, y: 10 }, { x: 10, y: 11 }, { x: 10, y: 12 }, { x: 10, y: 13 }],
 			}];
-			const specificDrawer = TestUtils.renderIntoDocument(<SpecificDrawer
+			stub = sinon.stub();
+			specificDrawer = TestUtils.renderIntoDocument(<SpecificDrawer
 				overwriteFunctionCalled={() => {}}
 				bounds={{
 					width: 1000,
@@ -41,9 +49,18 @@ describe('AbstractDrawer', () => {
 					y: 0,
 				}}
 				strokes={strokes}
+				onNodeChanged={stub}
 				active={false}
 				finished
 			/>);
+		});
+
+		it('throws an error for handleStrokeStarted when not implemented in subclass', () => {
+			expect(SpecificDrawer.prototype.handleStrokeStarted.bind(SpecificDrawer.prototype))
+				.to.throw(ERROR_CALL_SUPER_TO_ABSTRACT);
+		});
+
+		it('throws an error for handleStrokesExtended when implemented in subclass but calling the superclass', () => {
 			expect(specificDrawer.handleStrokesExtended.bind(specificDrawer))
 				.to.throw(ERROR_CALL_SUPER_TO_ABSTRACT);
 		});
@@ -96,7 +113,6 @@ describe('AbstractDrawer', () => {
 
 	describe('changing a strokes color', () => {
 		let strokes;
-		let specificDrawer;
 
 		const updatingColorShouldCallFunctionNTimes = (aFunction, n) => {
 			sinon.stub(specificDrawer, aFunction);
@@ -110,6 +126,7 @@ describe('AbstractDrawer', () => {
 			strokes = [{
 				points: [{ x: 10, y: 10 }, { x: 10, y: 11 }, { x: 10, y: 12 }, { x: 10, y: 13 }],
 			}];
+			stub = sinon.stub();
 			specificDrawer = TestUtils.renderIntoDocument(<SpecificDrawer
 				overwriteFunctionCalled={() => {}}
 				bounds={{
@@ -119,6 +136,7 @@ describe('AbstractDrawer', () => {
 					y: 0,
 				}}
 				strokes={strokes}
+				onNodeChanged={stub}
 				active={false}
 				finished
 			/>);
@@ -134,6 +152,46 @@ describe('AbstractDrawer', () => {
 
 		it('redraws everything', () => {
 			updatingColorShouldCallFunctionNTimes('redrawEverything', 1);
+		});
+	});
+
+	describe('Rendering the component anew', () => {
+		it('calls onNodeChanged with the new node', () => {
+			const oldCount = stub.callCount;
+			last(specificDrawer.props.strokes).points.splice(-1);
+			specificDrawer.componentDidUpdate();
+			expect(stub.callCount).to.be.above(oldCount);
+		});
+	});
+
+	describe('Moving strokes', () => {
+		let bounds;
+		let strokes;
+
+		beforeEach(() => {
+			strokes = [{
+				points: [{ x: 10, y: 10 }, { x: 10, y: 11 }, { x: 10, y: 12 }, { x: 10, y: 13 }],
+			}];
+			bounds = {
+				width: 1000,
+				height: 500,
+				x: 0,
+				y: 0,
+			};
+		});
+
+		it('works without causing errors in rendering when canvas is not completely rendered', () => {
+			const wrapper = mount(<SpecificDrawer bounds={bounds} strokes={strokes} />);
+			expect(wrapper.instance().state.canvas).to.exist();
+			expect(wrapper.state('canvas')).to.not.be.null();
+			sinon.stub(wrapper.state('canvas'), 'getContext', () => null);
+			expect(wrapper.instance().moveImageDataToNewPosition.bind(wrapper.instance())).not.to.throw();
+		});
+
+		it('works without causing errors in rendering when canvas is not in DOM', () => {
+			const wrapper = shallow(<SpecificDrawer bounds={bounds} strokes={strokes} />);
+			expect(wrapper.state('canvas')).to.be.null();
+			expect(wrapper.instance().moveImageDataToNewPosition.bind(wrapper.instance())).not.to.throw();
 		});
 	});
 });

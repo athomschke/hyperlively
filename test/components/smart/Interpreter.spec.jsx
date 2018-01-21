@@ -24,6 +24,16 @@ describe('Interpreter', () => {
 					list, InterpretationChooser)[0];
 			expect(interpretationChooser.props.isOpen).to.equal(true);
 		});
+
+		it('renders the candidates already received from hw recognition', () => {
+			const list = renderWithProps({
+				interpretations: { candidate: {} },
+				showInterpreter: true,
+			});
+			const interpretationChooser = TestUtils.scryRenderedComponentsWithType(
+					list, InterpretationChooser)[0];
+			expect(interpretationChooser.props.isOpen).to.equal(true);
+		});
 	});
 
 	describe('Choosing an action', () => {
@@ -140,7 +150,7 @@ describe('Interpreter', () => {
 			expect(interpreter.getSelectedStrokes()).to.have.length(0);
 		});
 
-		it('returns an empty array if none are selected', () => {
+		it('returns a non empty array if none are selected', () => {
 			interpreter.props.sketches[0].strokes[0].selected = true;
 			expect(interpreter.getSelectedStrokes()).to.have.length(1);
 		});

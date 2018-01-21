@@ -31,24 +31,22 @@ export default (Wrapped: ClassComponent<any, any>) => class extends PureComponen
 		strokes: [],
 	};
 
-	constructor(props: Props) {
-		super(props);
+	constructor() {
+		super();
 		this.state = this.state || {};
 	}
 
 	observe() {
-		const wrappedComponent = this.state.observedNode;
-		if (wrappedComponent) {
+		const { observedNode } = this.state;
+
+		if (observedNode) {
 			const observer = new MutationObserver(this.onMutations.bind(this));
-			const node = wrappedComponent;
-			if (node) {
-				observer.observe(node, {
-					attributes: true,
-				});
-				this.setState({
-					observer,
-				});
-			}
+			observer.observe(observedNode, {
+				attributes: true,
+			});
+			this.setState({
+				observer,
+			});
 		}
 	}
 

@@ -14,8 +14,8 @@ type State = {
 type Props = {}
 
 export default class UndoRedo extends PureComponent<Props, State> {
-	constructor(props: any) {
-		super(props);
+	constructor() {
+		super();
 		this.state = {
 			sliderWidth: 0,
 		};
@@ -24,9 +24,7 @@ export default class UndoRedo extends PureComponent<Props, State> {
 	state: State
 
 	componentDidMount() {
-		if (this.node) {
-			this.state.sliderWidth = this.node.getBoundingClientRect().width;
-		}
+		this.state.sliderWidth = ((this.node: any): HTMLDivElement).getBoundingClientRect().width;
 	}
 
 	props: Props
