@@ -39,7 +39,8 @@ type Props = {
 // 	[key: string]: any;
 // }
 
-export default (Wrapped: ClassComponent<any, any>) => class extends PureComponent<Props> {
+export default (Wrapped: ClassComponent<any, any>) =>
+class Sketch extends PureComponent<Props> {
 	props: Props;
 
 	static defaultProps = {
