@@ -1,4 +1,4 @@
-import { scenes } from 'src/client/app/reducers/scenes';
+import { scenes } from 'src/client/app/reducers/content/scenes';
 import { appendPoint, createStroke, addScene, addSceneAt } from 'src/client/app/actions/drawing';
 import { updatePosition, hide } from 'src/client/app/actions/manipulating';
 import { point } from 'test/helpers';

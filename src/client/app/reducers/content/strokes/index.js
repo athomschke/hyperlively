@@ -8,8 +8,8 @@ import type {
 	ROTATE_BY_ACTION,
 } from 'src/client/app/actionTypeDefinitions';
 
-import * as creationCases from './caseReducers/strokeCreation';
-import * as manipulationCases from './caseReducers/strokeManipulation';
+import * as creationCases from './strokeCreation';
+import * as manipulationCases from './strokeManipulation';
 
 function strokes(state: Array<Stroke> = [], action:
 		APPEND_STROKE_ACTION | APPEND_POINT_ACTION | FINISH_STROKE_ACTION |

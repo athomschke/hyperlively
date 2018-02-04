@@ -1,4 +1,4 @@
-import { sceneIndex } from 'src/client/app/reducers/sceneIndex';
+import { sceneIndex } from 'src/client/app/reducers/content/sceneIndex';
 import { setSceneIndex } from 'src/client/app/actions/configuring';
 import { previousScene } from 'src/client/app/actions/drawing';
 

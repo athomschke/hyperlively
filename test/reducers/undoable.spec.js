@@ -1,4 +1,4 @@
-import { undoable } from 'src/client/app/reducers/undoable';
+import { undoable } from 'src/client/app/reducers/content/undoable';
 import { jumpTo } from 'src/client/app/actions/configuring';
 
 import * as data from './data/undoableScenes';
