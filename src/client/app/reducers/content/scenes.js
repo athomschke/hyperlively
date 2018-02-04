@@ -20,7 +20,12 @@ function scenes(state: Array<Scene> = [defaultScene()], action:
 	switch (action.type) {
 	case APPEND_POINT:
 	case APPEND_STROKE:
-	case FINISH_STROKE: {
+	case FINISH_STROKE:
+	case HIDE:
+	case SELECT:
+	case SELECT_INSIDE:
+	case UPDATE_POSITION:
+	case ROTATE_BY: {
 		if (state.length > 0) {
 			const newScene = Object.assign({}, state[action.sceneIndex], {
 				strokes: strokes(state[action.sceneIndex].strokes, action),
@@ -34,21 +39,6 @@ function scenes(state: Array<Scene> = [defaultScene()], action:
 		}
 		const newState = [defaultScene()];
 		newState[0].strokes = strokes(newState[0].strokes, action);
-		return newState;
-	}
-	case HIDE:
-	case SELECT:
-	case SELECT_INSIDE:
-	case UPDATE_POSITION:
-	case ROTATE_BY: {
-		const newScene = Object.assign({}, state[action.sceneIndex], {
-			strokes: strokes(state[action.sceneIndex].strokes, action),
-		});
-		const newState = [].concat(
-			state.slice(action.sceneIndex - 1, action.sceneIndex),
-			[newScene],
-			state.slice(action.sceneIndex + 1),
-		);
 		return newState;
 	}
 	case ADD_SCENE:
