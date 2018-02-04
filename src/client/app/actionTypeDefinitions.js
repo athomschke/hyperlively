@@ -46,6 +46,14 @@ export type UPDATE_POSITION_ACTION = {
 	targetY: number;
 }
 
+export type ROTATE_BY_ACTION = {
+	type: 'ROTATE_BY',
+	strokes: Stroke[],
+	centerX: number,
+	centerY: number,
+	degrees: number,
+}
+
 export type HIDE_ACTION = {
 	type: 'HIDE';
 	strokes: Array<Stroke>;

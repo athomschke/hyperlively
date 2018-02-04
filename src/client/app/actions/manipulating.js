@@ -1,5 +1,5 @@
 // @flow
-import { UPDATE_POSITION, HIDE, SELECT, SELECT_INSIDE } from 'src/client/app/constants/actionTypes';
+import { UPDATE_POSITION, HIDE, SELECT, SELECT_INSIDE, ROTATE_BY } from 'src/client/app/constants/actionTypes';
 import type { Stroke } from 'src/client/app/typeDefinitions';
 
 export function updatePosition(
@@ -18,6 +18,16 @@ export function updatePosition(
 			x: targetX,
 			y: targetY,
 		},
+	};
+}
+
+export function rotateBy(strokes: Stroke[], centerX: number, centerY: number, degrees: number) {
+	return {
+		type: ROTATE_BY,
+		strokes,
+		centerX,
+		centerY,
+		degrees,
 	};
 }
 

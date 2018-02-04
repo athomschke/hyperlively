@@ -1,6 +1,7 @@
 import { strokes } from 'src/client/app/reducers/strokes';
 import { appendPoint, createStroke, finishStroke } from 'src/client/app/actions/drawing';
-import { updatePosition, hide, select, selectInside } from 'src/client/app/actions/manipulating';
+import { updatePosition, hide, select, selectInside, rotateBy } from 'src/client/app/actions/manipulating';
+import { rotatePoint } from 'src/client/app/reducers/caseReducers/strokeManipulation';
 import { point, event } from 'test/helpers';
 
 describe('strokes', () => {
@@ -141,6 +142,53 @@ describe('strokes', () => {
 				updatePosition(strokeToMove, bounds.x, bounds.y, 0),
 			);
 			expect(result[1].points[0].x).to.equal(20);
+		});
+	});
+
+	describe('rotating a stroke', () => {
+		const mockStrokesToRotate = () => [{ points: [{ x: 0, y: 0 }] }];
+		const radians = 1.5708;
+		const centerX = 10;
+		const centerY = 10;
+		const action = rotateBy(mockStrokesToRotate(), centerX, centerY, radians);
+
+		it('keeps the number of points the same', () => {
+			const nextState = strokes(mockStrokesToRotate(), action);
+
+			const oldCount = 1;
+			const newCount = nextState.reduce((pointCount, stroke) => stroke.points.length, 0);
+			expect(oldCount).to.equal(newCount);
+		});
+
+		it('rotates only the affected strokes', () => {
+			const unaffectedStroke = {
+				points: [{ x: 100, y: 150 }],
+			};
+			const state = [
+				...mockStrokesToRotate(),
+				unaffectedStroke,
+			];
+			const nextState = strokes(state, action);
+
+			const unaffectedPoint = nextState[1].points[0];
+			const affectedPoint = nextState[0].points[0];
+			expect(unaffectedPoint.x).to.equal(100);
+			expect(unaffectedPoint.y).to.equal(150);
+			expect(affectedPoint.x).to.not.equal(0);
+		});
+
+		it('rotates all its points around the chosen center', () => {
+			const nextState = strokes(mockStrokesToRotate(), action);
+
+			const nextPoint = nextState[0].points[0];
+			expect(Math.round(nextPoint.x)).to.eql(20);
+			expect(Math.round(nextPoint.y)).to.eql(0);
+		});
+
+		it('rotates a single point', () => {
+			const rotatedPoint = rotatePoint(0, 0, centerX, centerY, radians);
+			expect(Math.round(rotatedPoint.y)).to.equal(0);
+			expect(Math.round(rotatedPoint.x)).to.equal(20);
 		});
 	});
 

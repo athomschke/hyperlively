@@ -1,9 +1,9 @@
 // @flow
-import { find, map, isEqual, without, flatten, filter } from 'lodash';
+import { find, map, isEqual, without, flatten, filter, merge } from 'lodash';
 import Polygon from 'polygon';
 
 import type { Stroke } from 'src/client/app/typeDefinitions';
-import type { UPDATE_POSITION_ACTION, HIDE_ACTION, SELECT_ACTION, SELECT_INSIDE_ACTION } from 'src/client/app/actionTypeDefinitions';
+import type { UPDATE_POSITION_ACTION, HIDE_ACTION, SELECT_ACTION, SELECT_INSIDE_ACTION, ROTATE_BY_ACTION } from 'src/client/app/actionTypeDefinitions';
 
 export const updatePosition = (state: Array<Stroke>, action: UPDATE_POSITION_ACTION) => {
 	const moveByPoint = {
@@ -28,11 +28,50 @@ export const updatePosition = (state: Array<Stroke>, action: UPDATE_POSITION_ACT
 	});
 };
 
+export const rotatePoint = (
+	pointX: number, pointY: number,
+	originX: number, originY: number,
+	angle: number,
+) => {
+	// const radians = (angle * Math.PI) / 180.0;
+	const radians = angle;
+	const cos = Math.cos(radians);
+	const sin = Math.sin(radians);
+	const dX = pointX - originX;
+	const dY = pointY - originY;
+
+	return {
+		x: ((cos * dX) - (sin * dY)) + originX,
+		y: ((sin * dX) + (cos * dY)) + originY,
+	};
+};
+
 const doStrokesContainStroke = (strokes: Array<Stroke>, stroke: Stroke) => {
 	const matchingInStrokeProperties = filter(strokes, stateStroke =>
 		stateStroke.hidden === stroke.hidden);
 	return find(map(matchingInStrokeProperties, 'points'), points =>
 		isEqual(points, stroke.points));
+};
+
+export const rotateBy = (state: Stroke[], action: ROTATE_BY_ACTION) => {
+	const centerX = action.centerX;
+	const centerY = action.centerY;
+	const degrees = action.degrees;
+	return state.map((stroke) => {
+		if (!doStrokesContainStroke(action.strokes, stroke)) return stroke;
+
+		const newStroke = merge({}, stroke, {
+			points: stroke.points.map((point) => {
+				const rotatedPoint = rotatePoint(point.x, point.y, centerX, centerY, degrees);
+				return {
+					x: rotatedPoint.x,
+					y: rotatedPoint.y,
+					timeStamp: point.timeStamp,
+				};
+			}),
+		});
+		return newStroke;
+	});
 };
 
 export const hide = (state: Array<Stroke>, action: HIDE_ACTION) =>

@@ -1,7 +1,7 @@
-import { updatePosition, hide, select, selectInside } from 'src/client/app/actions/manipulating';
+import { updatePosition, hide, select, selectInside, rotateBy } from 'src/client/app/actions/manipulating';
 import { strokesExample } from 'test/data';
 
-describe('src/client/app/actions to manipulate things on canvas', () => {
+describe('actions to manipulate things on canvas', () => {
 	it('should create an action move a set of strokes', () => {
 		const originX = 1;
 		const originY = 2;
@@ -22,6 +22,21 @@ describe('src/client/app/actions to manipulate things on canvas', () => {
 		};
 		expect(updatePosition(strokesExample, originX, originY, targetX, targetY, sceneIndex))
 			.to.deep.equal(expectedAction);
+	});
+
+	it('creates an action to rotate a set of strokes', () => {
+		const strokes = [];
+		const centerX = 10;
+		const centerY = 10;
+		const degrees = 90;
+		const expectedAction = {
+			type: 'ROTATE_BY',
+			strokes,
+			centerX,
+			centerY,
+			degrees,
+		};
+		expect(rotateBy(strokes, centerX, centerY, degrees)).to.eql(expectedAction);
 	});
 
 	it('should create an action to hide a set of strokes', () => {

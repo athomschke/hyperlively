@@ -245,7 +245,7 @@ describe('PlomaDrawer', () => {
 		});
 	});
 
-	describe('changing the position of displayed points', () => {
+	describe.skip('changing the position of displayed points', () => {
 		beforeEach(() => {
 			const firstStroke = canvas.props.strokes[0];
 			firstStroke.points = map(firstStroke.points, point =>

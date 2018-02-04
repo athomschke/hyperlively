@@ -5,7 +5,7 @@ import type {
 	ADD_SCENE_AT_ACTION, NEXT_SCENE_ACTION, SET_SCENE_INDEX_ACTION,
 	APPEND_POINT_ACTION, APPEND_STROKE_ACTION, FINISH_STROKE_ACTION,
 	HIDE_ACTION, SELECT_ACTION, SELECT_INSIDE_ACTION, UPDATE_POSITION_ACTION,
-	ADD_SCENE_ACTION,
+	ADD_SCENE_ACTION, ROTATE_BY_ACTION,
 } from 'src/client/app/actionTypeDefinitions';
 
 import { undoable } from './undoable';
@@ -29,7 +29,7 @@ function content(state: Content = defaultState(), action:
 		ADD_SCENE_AT_ACTION | NEXT_SCENE_ACTION | SET_SCENE_INDEX_ACTION |
 		APPEND_POINT_ACTION | APPEND_STROKE_ACTION | FINISH_STROKE_ACTION |
 		HIDE_ACTION | SELECT_ACTION | SELECT_INSIDE_ACTION | UPDATE_POSITION_ACTION |
-		ADD_SCENE_ACTION) {
+		ADD_SCENE_ACTION | ROTATE_BY_ACTION) {
 	switch (action.type) {
 	case ADD_SCENE_AT:
 		if (action.number <= state.undoableScenes.present.length + 1 && action.number >= 0) {

@@ -133,10 +133,10 @@ export default class AbstractDrawer<P, S> extends
 	handleStrokesUpdated() {
 		if (pointCount(this.props.strokes) === (pointCount(this.state.strokes) + 1)) {
 			this.addPointPerformanceEnhanced();
-		} else if (this.props.strokes.length === (this.state.strokes.length) &&
-				(pointCount(this.props.strokes) === (pointCount(this.state.strokes))) &&
-				this.colorRemainedEqual()) {
-			this.moveImageDataToNewPosition();
+		// } else if (this.props.strokes.length === (this.state.strokes.length) &&
+		// 		(pointCount(this.props.strokes) === (pointCount(this.state.strokes))) &&
+		// 		this.colorRemainedEqual()) {
+		// 	this.moveImageDataToNewPosition();
 		} else {
 			this.redrawEverything(this.props.strokes[0] && this.props.strokes[0].finished);
 		}

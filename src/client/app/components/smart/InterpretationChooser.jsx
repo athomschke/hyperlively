@@ -68,6 +68,7 @@ export default class InterpretationChooser extends PureComponent<Props, State> {
 			}
 		});
 		this.props.onInterpretationChoose(functions, this.state.parameters);
+		this.onParameterChoose(this.state.parameters);
 	}
 
 	onInterpretationTick() {

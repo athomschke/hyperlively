@@ -1,10 +1,10 @@
 // @flow
-import { APPEND_POINT, APPEND_STROKE, FINISH_STROKE, UPDATE_POSITION, HIDE, ADD_SCENE, ADD_SCENE_AT, SELECT, SELECT_INSIDE } from 'src/client/app/constants/actionTypes';
+import { APPEND_POINT, APPEND_STROKE, FINISH_STROKE, UPDATE_POSITION, HIDE, ADD_SCENE, ADD_SCENE_AT, SELECT, SELECT_INSIDE, ROTATE_BY } from 'src/client/app/constants/actionTypes';
 import type { Scene } from 'src/client/app/typeDefinitions';
 import type {
 	APPEND_POINT_ACTION, APPEND_STROKE_ACTION, FINISH_STROKE_ACTION,
 	HIDE_ACTION, SELECT_ACTION, SELECT_INSIDE_ACTION, UPDATE_POSITION_ACTION,
-	ADD_SCENE_ACTION, ADD_SCENE_AT_ACTION,
+	ADD_SCENE_ACTION, ADD_SCENE_AT_ACTION, ROTATE_BY_ACTION,
 } from 'src/client/app/actionTypeDefinitions';
 
 import { strokes } from './strokes';
@@ -16,8 +16,7 @@ const defaultScene = () => ({
 function scenes(state: Array<Scene> = [defaultScene()], action:
 		APPEND_POINT_ACTION | APPEND_STROKE_ACTION | FINISH_STROKE_ACTION |
 		HIDE_ACTION | SELECT_ACTION | SELECT_INSIDE_ACTION | UPDATE_POSITION_ACTION |
-		ADD_SCENE_ACTION |
-		ADD_SCENE_AT_ACTION) {
+		ADD_SCENE_ACTION | ADD_SCENE_AT_ACTION | ROTATE_BY_ACTION) {
 	switch (action.type) {
 	case APPEND_POINT:
 	case APPEND_STROKE:
@@ -40,7 +39,8 @@ function scenes(state: Array<Scene> = [defaultScene()], action:
 	case HIDE:
 	case SELECT:
 	case SELECT_INSIDE:
-	case UPDATE_POSITION: {
+	case UPDATE_POSITION:
+	case ROTATE_BY: {
 		const newScene = Object.assign({}, state[action.sceneIndex], {
 			strokes: strokes(state[action.sceneIndex].strokes, action),
 		});

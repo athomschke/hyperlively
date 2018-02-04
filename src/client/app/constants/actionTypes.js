@@ -12,6 +12,8 @@ export const UPDATE_THRESHOLD = 'UPDATE_THRESHOLD';
 
 export const UPDATE_POSITION = 'UPDATE_POSITION';
 
+export const ROTATE_BY = 'ROTATE_BY';
+
 export const HIDE = 'HIDE';
 
 export const SELECT = 'SELECT';
