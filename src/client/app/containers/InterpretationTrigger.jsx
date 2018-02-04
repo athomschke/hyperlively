@@ -11,11 +11,12 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
 	onHandwritingRecognitionClick: () => {
+		const visibleStrokes = ownProps.scene.strokes.filter(stroke => !stroke.hidden);
 		if (!ownProps.interpretation.interpretations.shape) {
-			dispatch(fetchShapeCandidates(ownProps.scene.strokes));
+			dispatch(fetchShapeCandidates(visibleStrokes));
 		}
 		if (!ownProps.interpretation.interpretations.text) {
-			dispatch(fetchTextCandidates(ownProps.scene.strokes));
+			dispatch(fetchTextCandidates(visibleStrokes));
 		}
 		dispatch(toggleInterpreter(true));
 	},
