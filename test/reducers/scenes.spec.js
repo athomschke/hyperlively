@@ -8,9 +8,7 @@ describe('scenes', () => {
 		it('creates a scene without any strokes', () => {
 			expect(
 				scenes(undefined, {}),
-			).to.deep.equal([{
-				strokes: [],
-			}]);
+			).to.deep.equal([]);
 		});
 	});
 
