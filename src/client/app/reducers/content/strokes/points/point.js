@@ -1,12 +1,13 @@
 // @flow
 import { merge } from 'lodash';
 
-import { APPEND_POINT, APPEND_STROKE, FINISH_STROKE, UPDATE_POSITION, ROTATE_BY } from 'src/client/app/constants/actionTypes';
+import { UPDATE_POSITION, ROTATE_BY } from 'src/client/app/constants/actionTypes';
 import { type Point } from 'src/client/app/typeDefinitions';
-import type { APPEND_POINT_ACTION, APPEND_STROKE_ACTION, FINISH_STROKE_ACTION, UPDATE_POSITION_ACTION, ROTATE_BY_ACTION } from 'src/client/app/actionTypeDefinitions';
+import type { UPDATE_POSITION_ACTION, ROTATE_BY_ACTION } from 'src/client/app/actionTypeDefinitions';
 
-type PointsActionType = APPEND_POINT_ACTION | APPEND_STROKE_ACTION | FINISH_STROKE_ACTION |
-UPDATE_POSITION_ACTION | ROTATE_BY_ACTION
+export type PointActionType = UPDATE_POSITION_ACTION | ROTATE_BY_ACTION
+
+export const pointActionTypes = [UPDATE_POSITION, ROTATE_BY];
 
 const defaultPoint = () => ({
 	x: NaN,
@@ -14,16 +15,8 @@ const defaultPoint = () => ({
 	timeStamp: NaN,
 });
 
-function point(state: Point = defaultPoint(), action: PointsActionType) {
+function point(state: Point = defaultPoint(), action: PointActionType) {
 	switch (action.type) {
-	case APPEND_STROKE:
-	case FINISH_STROKE:
-	case APPEND_POINT:
-		return {
-			x: action.x,
-			y: action.y,
-			timeStamp: action.timeStamp,
-		};
 	case UPDATE_POSITION: {
 		const newCoordinates = {
 			x: state.x + (action.target.x - action.origin.x),

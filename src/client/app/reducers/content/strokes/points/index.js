@@ -1,12 +1,11 @@
 // @flow
-import { APPEND_POINT, APPEND_STROKE, FINISH_STROKE, UPDATE_POSITION, ROTATE_BY } from 'src/client/app/constants/actionTypes';
+import { APPEND_POINT, APPEND_STROKE, FINISH_STROKE } from 'src/client/app/constants/actionTypes';
 import { type Point } from 'src/client/app/typeDefinitions';
-import type { APPEND_POINT_ACTION, APPEND_STROKE_ACTION, FINISH_STROKE_ACTION, UPDATE_POSITION_ACTION, ROTATE_BY_ACTION } from 'src/client/app/actionTypeDefinitions';
 
-import { point } from './point';
+import { point, pointActionTypes, type PointActionType } from './point';
 
-type PointsActionType = APPEND_POINT_ACTION | APPEND_STROKE_ACTION | FINISH_STROKE_ACTION |
-UPDATE_POSITION_ACTION | ROTATE_BY_ACTION
+export type PointsActionType = PointActionType;
+export const pointsActionTypes = [...pointActionTypes, APPEND_STROKE, FINISH_STROKE, APPEND_POINT];
 
 function points(state: Array<Point> = [], action: PointsActionType) {
 	switch (action.type) {
@@ -15,13 +14,12 @@ function points(state: Array<Point> = [], action: PointsActionType) {
 	case APPEND_POINT:
 		return [
 			...state,
-			point(undefined, action),
+			{ x: action.x, y: action.y, timeStamp: action.timeStamp },
 		];
-	case UPDATE_POSITION:
-	case ROTATE_BY: {
-		return state.map(statePoint => point(statePoint, action));
-	}
 	default:
+		if (pointActionTypes.includes(action.type)) {
+			return state.map(statePoint => point(statePoint, action));
+		}
 		return state;
 	}
 }

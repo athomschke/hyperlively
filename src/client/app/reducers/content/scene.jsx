@@ -1,16 +1,16 @@
 import type { Scene } from 'src/client/app/typeDefinitions';
-import type {
-	APPEND_POINT_ACTION, APPEND_STROKE_ACTION, FINISH_STROKE_ACTION,
-	HIDE_ACTION, SELECT_ACTION, SELECT_INSIDE_ACTION, UPDATE_POSITION_ACTION, ROTATE_BY_ACTION,
-} from 'src/client/app/actionTypeDefinitions';
 
-import { strokes } from './strokes';
+import { strokes, strokesActionTypes, type StrokesActionType } from './strokes';
 
-export type SceneActionType = APPEND_POINT_ACTION | APPEND_STROKE_ACTION | FINISH_STROKE_ACTION |
-HIDE_ACTION | SELECT_ACTION | SELECT_INSIDE_ACTION | UPDATE_POSITION_ACTION | ROTATE_BY_ACTION
+export type SceneActionType = StrokesActionType
+
+export const sceneActionTypes = strokesActionTypes;
 
 function scene(state: Scene = { strokes: strokes(undefined, {}) }, action: SceneActionType) {
-	return { strokes: strokes(state.strokes, action) };
+	if (strokesActionTypes.includes(action.type)) {
+		return { strokes: strokes(state.strokes, action) };
+	}
+	return state;
 }
 
 export { scene };

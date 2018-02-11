@@ -11,12 +11,17 @@ import type {
 } from 'src/client/app/actionTypeDefinitions';
 import { select } from 'src/client/app/actions/manipulating';
 
-import { stroke } from './stroke';
+import { stroke, strokeActionTypes, type StrokeActionType } from './stroke';
 
-type StrokeAktionType = APPEND_STROKE_ACTION | APPEND_POINT_ACTION |
+export type StrokesActionType = StrokeActionType | APPEND_STROKE_ACTION | APPEND_POINT_ACTION |
 FINISH_STROKE_ACTION | SELECT_INSIDE_ACTION
 
-function strokes(state: Array<Stroke> = [], action: StrokeAktionType) {
+export const strokesActionTypes = [
+	...strokeActionTypes,
+	APPEND_STROKE, APPEND_POINT, FINISH_STROKE, SELECT_INSIDE,
+];
+
+function strokes(state: Array<Stroke> = [], action: StrokesActionType) {
 	switch (action.type) {
 	case APPEND_STROKE:
 		return [
@@ -42,7 +47,10 @@ function strokes(state: Array<Stroke> = [], action: StrokeAktionType) {
 		return map(state, stateStroke => stroke(stateStroke, select(innerStrokes)));
 	}
 	default:
-		return map(state, stateStroke => stroke(stateStroke, action));
+		if (strokeActionTypes.includes(action.type)) {
+			return map(state, stateStroke => stroke(stateStroke, action));
+		}
+		return state;
 	}
 }
 
