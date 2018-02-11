@@ -3,16 +3,15 @@ import { merge, isEqual, find } from 'lodash';
 
 import type { Stroke } from 'src/client/app/typeDefinitions';
 import { DEFAULT_PEN_COLOR } from 'src/client/app/constants/drawing';
-import { UPDATE_POSITION, ROTATE_BY, HIDE, SELECT, APPEND_STROKE, APPEND_POINT, FINISH_STROKE } from 'src/client/app/constants/actionTypes';
+import { UPDATE_POSITION, ROTATE_BY, HIDE, SELECT, FINISH_STROKE } from 'src/client/app/constants/actionTypes';
 import type {
-	APPEND_STROKE_ACTION, APPEND_POINT_ACTION, FINISH_STROKE_ACTION,
+	FINISH_STROKE_ACTION,
 	UPDATE_POSITION_ACTION, HIDE_ACTION, SELECT_ACTION, ROTATE_BY_ACTION,
 } from 'src/client/app/actionTypeDefinitions';
-import { appendPoint as appendPointAction } from 'src/client/app/actions/drawing';
 
 import { points } from './points';
 
-type StrokeAktionType = APPEND_STROKE_ACTION | APPEND_POINT_ACTION | FINISH_STROKE_ACTION |
+type StrokeAktionType = FINISH_STROKE_ACTION |
 	UPDATE_POSITION_ACTION | HIDE_ACTION | SELECT_ACTION | ROTATE_BY_ACTION
 
 const defaultStroke = () => ({
@@ -106,20 +105,11 @@ function stroke(state: Stroke = defaultStroke(), action: StrokeAktionType) {
 		return state;
 	case SELECT:
 		return selectStrokes(state, action.strokes);
-	case APPEND_STROKE:
-		return merge({}, state, {
-			points: points(state.points, appendPointAction(action.x, action.y, action.timeStamp)),
-		});
 	case FINISH_STROKE:
 		return merge({}, state, {
-			points: points(state.points, appendPointAction(action.x, action.y, action.timeStamp)),
+			points: points(state.points, action),
 			finished: true,
 		});
-	case APPEND_POINT: {
-		return {
-			points: points(state.points, action),
-		};
-	}
 	default:
 		return merge({}, state, { points: points(state.points, action) });
 	}
