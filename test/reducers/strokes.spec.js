@@ -1,7 +1,6 @@
 import { strokes } from 'src/client/app/reducers/content/strokes';
 import { appendPoint, createStroke, finishStroke } from 'src/client/app/actions/drawing';
 import { updatePosition, hide, select, selectInside, rotateBy } from 'src/client/app/actions/manipulating';
-import { rotatePoint } from 'src/client/app/reducers/content/strokes/stroke';
 import { point, event } from 'test/helpers';
 
 describe('strokes', () => {
@@ -183,12 +182,6 @@ describe('strokes', () => {
 			const nextPoint = nextState[0].points[0];
 			expect(Math.round(nextPoint.x)).to.eql(20);
 			expect(Math.round(nextPoint.y)).to.eql(0);
-		});
-
-		it('rotates a single point', () => {
-			const rotatedPoint = rotatePoint(0, 0, centerX, centerY, radians);
-			expect(Math.round(rotatedPoint.y)).to.equal(0);
-			expect(Math.round(rotatedPoint.x)).to.equal(20);
 		});
 	});
 
