@@ -9,7 +9,7 @@ import { strokes } from './strokes';
 export type SceneActionType = APPEND_POINT_ACTION | APPEND_STROKE_ACTION | FINISH_STROKE_ACTION |
 HIDE_ACTION | SELECT_ACTION | SELECT_INSIDE_ACTION | UPDATE_POSITION_ACTION | ROTATE_BY_ACTION
 
-function scene(state: Scene = { strokes: [] }, action: SceneActionType) {
+function scene(state: Scene = { strokes: strokes(undefined, {}) }, action: SceneActionType) {
 	return { strokes: strokes(state.strokes, action) };
 }
 
