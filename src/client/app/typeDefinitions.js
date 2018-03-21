@@ -18,7 +18,9 @@ export type Scene = {
 	strokes: Array<Stroke>,
 }
 
-export type Sketch = Array<Stroke>
+export type Sketch = {
+	strokes: Array<Stroke>;
+}
 
 export type SceneState = Array<Scene>
 
