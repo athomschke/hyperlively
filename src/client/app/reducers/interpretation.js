@@ -6,6 +6,8 @@ import { TOGGLE_INTERPRETER, APPEND_POINT, APPEND_STROKE, RECEIVE_TEXT_CANDIDATE
 import { type TOGGLE_INTERPRETER_ACTION, RECOGNIZE_HANDWRITING_ACTION, APPEND_POINT_ACTION, APPEND_STROKE_ACTION } from 'src/client/app/actionTypeDefinitions';
 import { type InterpretationState } from 'src/client/app/typeDefinitions';
 
+const CANDIDATES_TO_DISPLAY = 1;
+
 const initialState = () => ({
 	showInterpreter: false,
 	interpretations: {
@@ -26,11 +28,27 @@ produce(state, (draftState) => {
 		break;
 	}
 	case RECEIVE_TEXT_CANDIDATES: {
-		draftState.interpretations.text = action.candidates;
+		const candidates = action.candidates.slice(0, CANDIDATES_TO_DISPLAY);
+		if (draftState.interpretations.text) {
+			draftState.interpretations.text = [
+				...draftState.interpretations.text,
+				...candidates,
+			];
+		} else {
+			draftState.interpretations.text = candidates;
+		}
 		break;
 	}
 	case RECEIVE_SHAPE_CANDIDATES: {
-		draftState.interpretations.shape = action.candidates;
+		const candidates = action.candidates.slice(0, CANDIDATES_TO_DISPLAY);
+		if (draftState.interpretations.shape) {
+			draftState.interpretations.shape = [
+				...draftState.interpretations.shape,
+				...candidates,
+			];
+		} else {
+			draftState.interpretations.shape = candidates;
+		}
 		break;
 	}
 	case APPEND_POINT:

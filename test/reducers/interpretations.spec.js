@@ -98,7 +98,7 @@ describe('Interpretation reducer', () => {
 			expect(newState.interpretations.shape[0]).to.not.exist();
 		});
 
-		it('overwrites an old text results and leaves the existing shape result', () => {
+		it('appends to old existing results', () => {
 			const oldState = Object.assign({}, dummyState, {
 				showInterpreter: true,
 				interpretations: {
@@ -109,8 +109,8 @@ describe('Interpretation reducer', () => {
 				},
 			});
 			const newState = interpretation(oldState, receiveTextCandidates([letterCandidate]));
-			expect(newState.interpretations.text[0].label).to.equal('I');
-			expect(newState.interpretations.shape[0]).to.deep.equal(shapeCandidate);
+			expect(newState.interpretations.text[1].label).to.equal('I');
+			expect(newState.interpretations.text).to.have.length(2);
 		});
 	});
 
@@ -127,7 +127,7 @@ describe('Interpretation reducer', () => {
 			expect(newState.interpretations.shape[0].label).to.equal('line');
 			expect(newState.interpretations.text[0]).to.not.exist();
 		});
-		it('overwrites an old shape results and leaves the existing text result', () => {
+		it('appends new results to existing ones', () => {
 			const oldState = Object.assign({}, dummyState, {
 				showInterpreter: true,
 				interpretations: {
@@ -138,7 +138,8 @@ describe('Interpretation reducer', () => {
 				},
 			});
 			const newState = interpretation(oldState, receiveShapeCandidates([shapeCandidate]));
-			expect(newState.interpretations.shape[0].label).to.equal('line');
+			expect(newState.interpretations.shape).to.have.length(2);
+			expect(newState.interpretations.shape[1].label).to.equal('line');
 			expect(newState.interpretations.text[0]).to.deep.equal(letterCandidate);
 		});
 	});
