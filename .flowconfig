@@ -4,10 +4,6 @@
 
 [libs]
 
-[lints]
-
 [options]
 module.name_mapper='^\(.*\)$' -> '<PROJECT_ROOT>/\1'
 module.name_mapper='.*\(.scss\)' -> '<PROJECT_ROOT>/scss-module-stub.js'
-
-[strict]
