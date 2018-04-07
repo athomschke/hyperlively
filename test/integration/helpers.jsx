@@ -1,14 +1,14 @@
 // @flow
 import { map, forEach, tail, last, first } from 'lodash';
 import { render } from 'react-dom';
-import { createStore } from 'redux';
+import { createStore, type Store } from 'redux';
 import { Provider } from 'react-redux';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 
 import hyperlively from 'src/client/app/reducers/index';
 import Application from 'src/client/app/Application';
-import type { HyperlivelyState, Stroke } from 'src/client/app/typeDefinitions';
+import type { HyperlivelyState, Stroke, Action } from 'src/client/app/typeDefinitions';
 
 export function createAppStore(initialState: HyperlivelyState) {
 	return createStore(hyperlively, initialState);
@@ -66,7 +66,7 @@ export async function combineCanvasses(
 	return combinedCanvas;
 }
 
-export function renderApplicationWithStore(store: Provider) {
+export function renderApplicationWithStore(store: Store<HyperlivelyState, Action>) {
 	const root = document.getElementById('app');
 	if (root) {
 		const renderedApp = render(

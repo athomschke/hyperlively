@@ -43,7 +43,7 @@ export default (Wrapped: ClassComponent<any, any>) => class extends PureComponen
 		const that = this;
 		return map(this.props.sketches, (sketch, id) => {
 			const strokesToRender = visibleStrokesInSketch(sketch);
-			return strokesToRender.length > 0 && that.renderCanvas(strokesToRender, id, true);
+			return strokesToRender.length > 0 && that.renderCanvas(strokesToRender, `${id}`, true);
 		});
 	}
 

@@ -1,9 +1,7 @@
 // @flow
-import React, { PureComponent } from 'react';
-import { type SyntheticTouchEvent, type SyntheticMouseEvent } from 'flow-bin';
-import type { ClassComponent } from 'react-flow-types';
+import * as React from 'react';
 
-type SyntheticPointerEvent = SyntheticMouseEvent | SyntheticTouchEvent;
+type SyntheticPointerEvent = SyntheticMouseEvent<HTMLElement> | SyntheticTouchEvent<HTMLElement>;
 
 type Props = {
 	onDragStart: (_evt: SyntheticPointerEvent) => void;
@@ -16,7 +14,8 @@ type State = {
 	mousePressed: boolean;
 }
 
-export default (Wrapped: ClassComponent<any, any>) => class extends PureComponent<Props, State> {
+export default (Wrapped: React.ComponentType<any>) =>
+class extends React.PureComponent<Props, State> {
 	props: Props;
 	state: State;
 
@@ -43,29 +42,29 @@ export default (Wrapped: ClassComponent<any, any>) => class extends PureComponen
 		};
 	}
 
-	onTouchStart(evt: SyntheticTouchEvent) {
+	onTouchStart(evt: SyntheticTouchEvent<HTMLElement>) {
 		evt.persist();
 		return this.onPointerDown(evt.changedTouches[0]);
 	}
 
-	onTouchMove(evt: SyntheticTouchEvent) {
+	onTouchMove(evt: SyntheticTouchEvent<HTMLElement>) {
 		return this.onPointerMove(evt.changedTouches[0]);
 	}
 
-	onTouchEnd(evt: SyntheticTouchEvent) {
+	onTouchEnd(evt: SyntheticTouchEvent<HTMLElement>) {
 		return this.onPointerUp(evt.changedTouches[0]);
 	}
 
-	onMouseDown(evt: SyntheticMouseEvent) {
+	onMouseDown(evt: SyntheticMouseEvent<HTMLElement>) {
 		evt.persist();
 		this.onPointerDown(evt);
 	}
 
-	onMouseMove(evt: SyntheticMouseEvent) {
+	onMouseMove(evt: SyntheticMouseEvent<HTMLElement>) {
 		this.onPointerMove(evt);
 	}
 
-	onMouseUp(evt: SyntheticMouseEvent) {
+	onMouseUp(evt: SyntheticMouseEvent<HTMLElement>) {
 		this.onPointerUp(evt);
 	}
 

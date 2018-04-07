@@ -26,7 +26,7 @@ export type SceneState = Array<Scene>
 
 export type UndoableScenes = {
 	past: Array<SceneState>,
-	present: Array<Scene>,
+	present: SceneState,
 	future: Array<SceneState>,
 }
 

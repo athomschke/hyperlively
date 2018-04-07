@@ -12,7 +12,7 @@ const dummyStroke: Stroke = {
 	selected: false,
 };
 
-const createUndoableScenes = (numberOfStrokes: number, lengthOfStroke: number) => {
+const createUndoableScenes = (numberOfStrokes: number, lengthOfStroke: number): SceneState => {
 	const allScenes: Array<Scene> = [];
 	const sceneInProgress: Scene = {
 		strokes: [],
@@ -44,9 +44,11 @@ const sceneState: SceneState = createUndoableScenes(1, 3);
 
 const past: Array<SceneState> = [sceneState.slice(0, sceneState.length - 1)];
 
+const present: SceneState = [last(sceneState)];
+
 const undoableScenes: UndoableScenes = {
 	past,
-	present: last(sceneState),
+	present,
 	future: [],
 };
 

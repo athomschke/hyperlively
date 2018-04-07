@@ -6,13 +6,6 @@ import { interpretation } from 'src/client/app/reducers/interpretation';
 import { type InterpretationState } from 'src/client/app/typeDefinitions';
 import { shapeCandidate, letterCandidate } from 'test/data';
 
-declare var describe: any;
-declare var it: any;
-declare var beforeEach: any;
-declare var afterEach: any;
-declare var sinon: any;
-declare var expect: any;
-
 const dummyState: InterpretationState = {
 	showInterpreter: false,
 	interpretations: {
@@ -72,7 +65,7 @@ describe('Interpretation reducer', () => {
 					texts: [letterCandidate],
 				},
 			});
-			const newState = interpretation(oldState, requestTextCandidates());
+			const newState = interpretation(oldState, requestTextCandidates([]));
 			expect(newState.interpretations.texts).not.to.be.empty();
 			expect(newState.interpretations.shapes).not.to.be.empty();
 		});
@@ -87,7 +80,7 @@ describe('Interpretation reducer', () => {
 					texts: [letterCandidate],
 				},
 			});
-			const newState = interpretation(oldState, requestShapeCandidates());
+			const newState = interpretation(oldState, requestShapeCandidates([]));
 			expect(newState.interpretations.texts).not.to.be.empty();
 			expect(newState.interpretations.shapes).not.to.be.empty();
 		});

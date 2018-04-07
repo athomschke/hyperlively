@@ -3,7 +3,7 @@ import { concat, slice, isEqual, cloneDeep } from 'lodash';
 
 import { JUMP_TO } from 'src/client/app/constants/actionTypes';
 import relevantStatesForScene from 'src/client/app/helpers/relevantStatesForScene';
-import { type Reducer, type UndoableScenes, type SceneState } from 'src/client/app/typeDefinitions';
+import type { Reducer, UndoableScenes, SceneState } from 'src/client/app/typeDefinitions';
 import { type JUMP_TO_ACTION } from 'src/client/app/actionTypeDefinitions';
 
 function undoable(reducer: Reducer) {
@@ -19,7 +19,7 @@ function undoable(reducer: Reducer) {
 			present: SceneState,
 			future: Array<SceneState>,
 			sceneIndex: number) => {
-		const allStates = concat(past, [present], future);
+		const allStates: Array<SceneState> = concat(past, [present], future);
 		const relevantStates = relevantStatesForScene(allStates, sceneIndex);
 		const normalizedPointInTime = Math.min(relevantStates.length - 1, Math.max(0, pointInTime));
 		const globalPointInTime = allStates.indexOf(relevantStates[normalizedPointInTime]);

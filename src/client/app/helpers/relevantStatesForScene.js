@@ -1,10 +1,10 @@
 // @flow
 // import isEqual from 'lodash/isEqual';
 // import filter from 'lodash/filter';
-import { type Scene } from 'src/client/app/typeDefinitions';
+import { type SceneState } from 'src/client/app/typeDefinitions';
 
 // export default function (states: Array<Scene>, sceneIndex: number) {
-export default function (states: Array<Scene>, _sceneIndex: number) {
+export default function (states: Array<SceneState>, _sceneIndex: number) {
 	return states;
 	// return filter(states, (state, index) => {
 	// 	if (index === 0) {
