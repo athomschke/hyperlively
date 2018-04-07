@@ -8,6 +8,7 @@ module.exports = {
     "plugins": [
         "react",
         "jsx-a11y",
+        "flowtype",
         "import",
     ],
     "rules": {
@@ -34,7 +35,9 @@ module.exports = {
         "describe": true,
         "mocha": true,
         "__dirname": true,
-        "sinon": true
+        "sinon": true,
+        "SyntheticTouchEvent": true,
+        "SyntheticMouseEvent": true
     },
     "env": {
         "browser": true
