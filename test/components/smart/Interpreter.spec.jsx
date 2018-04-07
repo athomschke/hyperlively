@@ -160,9 +160,9 @@ describe('Interpreter', () => {
 		let interpreter;
 		let performedActionName;
 		let performedActionParameters;
-		let timeout;
-		let interval;
 		let clearedTimout;
+		let setIntervalStub;
+		let clearIntervalStub;
 
 		beforeEach(() => {
 			interpreter = renderWithProps({
@@ -171,8 +171,8 @@ describe('Interpreter', () => {
 					performedActionParameters = args.slice(1);
 				},
 			});
-			sinon.stub(window, 'setInterval', (aFunction, anInterval) => { timeout = aFunction; interval = anInterval; return aFunction; });
-			sinon.stub(window, 'clearInterval', (aTimeout) => { clearedTimout = aTimeout; });
+			setIntervalStub = sinon.stub(window, 'setInterval');
+			clearIntervalStub = sinon.stub(window, 'clearInterval');
 		});
 
 		afterEach(() => {
@@ -182,6 +182,9 @@ describe('Interpreter', () => {
 
 		it('lets them tick forever without a fourth parameter', () => {
 			interpreter.tickActions([{ name: 'action', parameters: 2 }], ['a', 'b'], 1000);
+			expect(setIntervalStub).to.have.been.calledOnce();
+			const timeout = setIntervalStub.getCall(0).args[0];
+			const interval = setIntervalStub.getCall(0).args[1];
 			expect(interval).to.equal(1000);
 			timeout();
 			expect(performedActionName).to.equal('action');
@@ -191,20 +194,26 @@ describe('Interpreter', () => {
 		});
 
 		it('stops after n ticks if given', () => {
+			const intervalId = 1234;
+			setIntervalStub.returns(intervalId);
 			interpreter.tickActions([{ name: 'action', parameters: 2 }], ['a', 'b'], 1000, 2);
+			expect(setIntervalStub).to.have.been.calledOnce();
+			const timeout = setIntervalStub.getCall(0).args[0];
+			const interval = setIntervalStub.getCall(0).args[1];
 			expect(interval).to.equal(1000);
 			timeout();
 			expect(performedActionName).to.equal('action');
 			expect(performedActionParameters[0]).to.equal('a');
 			expect(performedActionParameters[1]).to.equal('b');
-			expect(clearedTimout).to.be.undefined();
+			expect(clearIntervalStub).to.not.have.been.called();
 			performedActionName = undefined;
 			performedActionParameters = undefined;
 			timeout();
 			expect(performedActionName).to.equal('action');
 			expect(performedActionParameters[0]).to.equal('a');
 			expect(performedActionParameters[1]).to.equal('b');
-			expect(clearedTimout).to.equal(timeout);
+			expect(clearIntervalStub).to.have.been.calledOnce();
+			expect(clearIntervalStub).to.have.been.calledWith(intervalId);
 		});
 	});
 });

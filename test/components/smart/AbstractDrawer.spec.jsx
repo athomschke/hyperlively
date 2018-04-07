@@ -2,6 +2,7 @@ import TestUtils from 'react-addons-test-utils';
 import React, { PropTypes } from 'react';
 import { last } from 'lodash';
 import { shallow, mount } from 'enzyme';
+import { stub } from 'sinon';
 
 import AbstractDrawer from 'src/client/app/components/smart/AbstractDrawer';
 import { ERROR_CALL_SUPER_TO_ABSTRACT, ERROR_DIRECT_ABSTRACT_CALL } from 'src/client/app/constants/errors';
@@ -29,8 +30,7 @@ class SpecificDrawer extends AbstractDrawer<{}, {}> {
 
 describe('AbstractDrawer', () => {
 	let specificDrawer;
-
-	let stub;
+	let onNodeChangedStub;
 
 	describe('calling an abstract function directly', () => {
 		let strokes;
@@ -39,7 +39,7 @@ describe('AbstractDrawer', () => {
 			strokes = [{
 				points: [{ x: 10, y: 10 }, { x: 10, y: 11 }, { x: 10, y: 12 }, { x: 10, y: 13 }],
 			}];
-			stub = sinon.stub();
+			onNodeChangedStub = stub();
 			specificDrawer = TestUtils.renderIntoDocument(<SpecificDrawer
 				overwriteFunctionCalled={() => {}}
 				bounds={{
@@ -49,7 +49,7 @@ describe('AbstractDrawer', () => {
 					y: 0,
 				}}
 				strokes={strokes}
-				onNodeChanged={stub}
+				onNodeChanged={onNodeChangedStub}
 				active={false}
 				finished
 			/>);
@@ -115,7 +115,7 @@ describe('AbstractDrawer', () => {
 		let strokes;
 
 		const updatingColorShouldCallFunctionNTimes = (aFunction, n) => {
-			sinon.stub(specificDrawer, aFunction);
+			stub(specificDrawer, aFunction);
 			strokes[0].color = 'A new (invalid) Color';
 			specificDrawer.componentDidUpdate();
 			expect(specificDrawer[aFunction].callCount).to.equal(n);
@@ -126,7 +126,7 @@ describe('AbstractDrawer', () => {
 			strokes = [{
 				points: [{ x: 10, y: 10 }, { x: 10, y: 11 }, { x: 10, y: 12 }, { x: 10, y: 13 }],
 			}];
-			stub = sinon.stub();
+			onNodeChangedStub = stub();
 			specificDrawer = TestUtils.renderIntoDocument(<SpecificDrawer
 				overwriteFunctionCalled={() => {}}
 				bounds={{
@@ -136,7 +136,7 @@ describe('AbstractDrawer', () => {
 					y: 0,
 				}}
 				strokes={strokes}
-				onNodeChanged={stub}
+				onNodeChanged={onNodeChangedStub}
 				active={false}
 				finished
 			/>);
@@ -157,10 +157,10 @@ describe('AbstractDrawer', () => {
 
 	describe('Rendering the component anew', () => {
 		it('calls onNodeChanged with the new node', () => {
-			const oldCount = stub.callCount;
+			const oldCount = onNodeChangedStub.callCount;
 			last(specificDrawer.props.strokes).points.splice(-1);
 			specificDrawer.componentDidUpdate();
-			expect(stub.callCount).to.be.above(oldCount);
+			expect(onNodeChangedStub.callCount).to.be.above(oldCount);
 		});
 	});
 
@@ -184,7 +184,7 @@ describe('AbstractDrawer', () => {
 			const wrapper = mount(<SpecificDrawer bounds={bounds} strokes={strokes} />);
 			expect(wrapper.instance().state.canvas).to.exist();
 			expect(wrapper.state('canvas')).to.not.be.null();
-			sinon.stub(wrapper.state('canvas'), 'getContext', () => null);
+			stub(wrapper.state('canvas'), 'getContext');
 			expect(wrapper.instance().moveImageDataToNewPosition.bind(wrapper.instance())).not.to.throw();
 		});
 

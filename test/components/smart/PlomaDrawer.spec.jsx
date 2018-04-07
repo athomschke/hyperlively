@@ -23,21 +23,6 @@ const spyOnPen = (pen) => {
 	sinon.spy(pen, 'setPenColor');
 };
 
-const resetPenSpies = (pen) => {
-	pen.beginStroke.reset();
-	pen.extendStroke.reset();
-	pen.endStroke.reset();
-	pen.clear.reset();
-	pen.setPenColor.reset();
-};
-
-const restorePen = (pen) => {
-	pen.beginStroke.restore();
-	pen.extendStroke.restore();
-	pen.endStroke.restore();
-	pen.clear.restore();
-};
-
 describe('PlomaDrawer', () => {
 	let canvas;
 
@@ -48,15 +33,11 @@ describe('PlomaDrawer', () => {
 			}],
 		});
 		canvas.componentDidUpdate();
-		spyOnPen(canvas.state.ballpointPen);
-	});
-
-	afterEach(() => {
-		restorePen(canvas.state.ballpointPen);
 	});
 
 	describe('removing one point', () => {
 		beforeEach(() => {
+			spyOnPen(canvas.state.ballpointPen);
 			canvas.props.strokes[0].points.splice(-1);
 			canvas.componentDidUpdate();
 		});
@@ -76,6 +57,7 @@ describe('PlomaDrawer', () => {
 
 	describe('removing two points', () => {
 		beforeEach(() => {
+			spyOnPen(canvas.state.ballpointPen);
 			canvas.props.strokes[0].points.splice(-2);
 			canvas.componentDidUpdate();
 		});
@@ -95,6 +77,7 @@ describe('PlomaDrawer', () => {
 
 	describe('removing all but one point', () => {
 		beforeEach(() => {
+			spyOnPen(canvas.state.ballpointPen);
 		});
 
 		it('keeps the canvas clean', () => {
@@ -114,6 +97,7 @@ describe('PlomaDrawer', () => {
 
 	describe('removing all points in a stroke', () => {
 		beforeEach(() => {
+			spyOnPen(canvas.state.ballpointPen);
 			canvas.props.strokes[0].points.splice(-4);
 			canvas.componentDidUpdate();
 		});
@@ -132,7 +116,7 @@ describe('PlomaDrawer', () => {
 			canvas.props.strokes[0].finished = true;
 			canvas.props.strokes.push({ points: [{ x: 10, y: 15 }] });
 			canvas.componentDidUpdate();
-			resetPenSpies(canvas.state.ballpointPen);
+			spyOnPen(canvas.state.ballpointPen);
 			canvas.props.strokes.splice(-1);
 			canvas.componentDidUpdate();
 		});
@@ -156,6 +140,7 @@ describe('PlomaDrawer', () => {
 
 	describe('adding a point', () => {
 		beforeEach(() => {
+			spyOnPen(canvas.state.ballpointPen);
 			canvas.props.strokes[0].points.push({ x: 10, y: 15 });
 			canvas.componentDidUpdate();
 		});
@@ -171,6 +156,7 @@ describe('PlomaDrawer', () => {
 
 	describe('ending a stroke', () => {
 		beforeEach(() => {
+			spyOnPen(canvas.state.ballpointPen);
 			canvas.props.strokes[0].finished = true;
 			canvas.props.strokes[0].points.push({ x: 10, y: 14 });
 			canvas.componentDidUpdate();
@@ -191,6 +177,7 @@ describe('PlomaDrawer', () => {
 
 	describe('starting a new stroke', () => {
 		beforeEach(() => {
+			spyOnPen(canvas.state.ballpointPen);
 			canvas.props.strokes.push({ points: [{ x: 10, y: 15 }] });
 			canvas.componentDidUpdate();
 		});
@@ -208,7 +195,7 @@ describe('PlomaDrawer', () => {
 		beforeEach(() => {
 			remove(canvas.props.strokes, canvas.props.strokes[0]);
 			canvas.componentDidUpdate();
-			resetPenSpies(canvas.state.ballpointPen);
+			spyOnPen(canvas.state.ballpointPen);
 			canvas.props.strokes.push({
 				points: [{ x: 10, y: 10 }],
 			});
@@ -247,6 +234,7 @@ describe('PlomaDrawer', () => {
 
 	describe.skip('changing the position of displayed points', () => {
 		beforeEach(() => {
+			spyOnPen(canvas.state.ballpointPen);
 			const firstStroke = canvas.props.strokes[0];
 			firstStroke.points = map(firstStroke.points, point =>
 					Object.assign({}, point, { x: point.x + 10 }));
@@ -270,7 +258,7 @@ describe('PlomaDrawer', () => {
 			canvas.props.strokes.push({ points: [{ x: 30, y: 30 }, { x: 31, y: 31 }, { x: 32, y: 32 }] });
 			canvas.componentDidUpdate();
 			canvas.props.strokes[1].selected = true;
-			canvas.state.ballpointPen.setPenColor.reset();
+			spyOnPen(canvas.state.ballpointPen);
 			canvas.componentDidUpdate();
 			expect(canvas.state.ballpointPen.setPenColor.callCount).to.equal(2);
 			const firstCalledArg = canvas.state.ballpointPen.setPenColor.args[0][0];
