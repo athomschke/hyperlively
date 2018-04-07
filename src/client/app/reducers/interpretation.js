@@ -11,8 +11,8 @@ const CANDIDATES_TO_DISPLAY = 1;
 const initialState = () => ({
 	showInterpreter: false,
 	interpretations: {
-		shape: null,
 		text: null,
+		shapes: [],
 	},
 });
 
@@ -41,13 +41,13 @@ produce(state, (draftState) => {
 	}
 	case RECEIVE_SHAPE_CANDIDATES: {
 		const candidates = action.candidates.slice(0, CANDIDATES_TO_DISPLAY);
-		if (draftState.interpretations.shape) {
-			draftState.interpretations.shape = [
-				...draftState.interpretations.shape,
+		if (draftState.interpretations.shapes) {
+			draftState.interpretations.shapes = [
+				...draftState.interpretations.shapes,
 				...candidates,
 			];
 		} else {
-			draftState.interpretations.shape = candidates;
+			draftState.interpretations.shapes = candidates;
 		}
 		break;
 	}

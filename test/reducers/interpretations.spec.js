@@ -33,20 +33,20 @@ describe('Interpretation reducer', () => {
 			const oldState = Object.assign({}, dummyState, {
 				showInterpreter: false,
 				interpretations: {
-					shape: shapeCandidate,
 					text: null,
+					shapes: [shapeCandidate],
 				},
 			});
 			const newState = interpretation(oldState, createStroke(10, 10, 101));
-			expect(newState.interpretations.shape).to.be.null();
+			expect(newState.interpretations.shapes).to.be.empty();
 		});
 
 		it('Invalidates the last text interpretation', () => {
 			const oldState = Object.assign({}, dummyState, {
 				showInterpreter: false,
 				interpretations: {
-					shape: null,
 					text: letterCandidate,
+					shapes: [],
 				},
 			});
 			const newState = interpretation(oldState, createStroke(10, 10, 101));
@@ -59,13 +59,13 @@ describe('Interpretation reducer', () => {
 			const oldState = Object.assign({}, dummyState, {
 				showInterpreter: true,
 				interpretations: {
-					shape: shapeCandidate,
 					text: letterCandidate,
+					shapes: [shapeCandidate],
 				},
 			});
 			const newState = interpretation(oldState, requestTextCandidates());
 			expect(newState.interpretations.text).to.exist();
-			expect(newState.interpretations.shape).to.exist();
+			expect(newState.interpretations.shapes).not.to.be.empty();
 		});
 	});
 
@@ -74,13 +74,13 @@ describe('Interpretation reducer', () => {
 			const oldState = Object.assign({}, dummyState, {
 				showInterpreter: true,
 				interpretations: {
-					shape: shapeCandidate,
 					text: letterCandidate,
+					shapes: [shapeCandidate],
 				},
 			});
 			const newState = interpretation(oldState, requestShapeCandidates());
 			expect(newState.interpretations.text).to.exist();
-			expect(newState.interpretations.shape).to.exist();
+			expect(newState.interpretations.shapes).not.to.be.empty();
 		});
 	});
 
@@ -89,21 +89,21 @@ describe('Interpretation reducer', () => {
 			const oldState = Object.assign({}, dummyState, {
 				showInterpreter: true,
 				interpretations: {
-					shape: [],
 					text: [],
+					shapes: [],
 				},
 			});
 			const newState = interpretation(oldState, receiveTextCandidates([letterCandidate]));
 			expect(newState.interpretations.text[0].label).to.equal('I');
-			expect(newState.interpretations.shape[0]).to.not.exist();
+			expect(newState.interpretations.shapes).to.be.empty();
 		});
 
 		it('appends to old existing results', () => {
 			const oldState = Object.assign({}, dummyState, {
 				showInterpreter: true,
 				interpretations: {
-					shape: [shapeCandidate],
 					text: [Object.assign({}, letterCandidate, {
+					shapes: [shapeCandidate],
 						label: 'K',
 					})],
 				},
@@ -119,28 +119,28 @@ describe('Interpretation reducer', () => {
 			const oldState = Object.assign({}, dummyState, {
 				showInterpreter: true,
 				interpretations: {
-					shape: [],
 					text: [],
+					shapes: [],
 				},
 			});
 			const newState = interpretation(oldState, receiveShapeCandidates([shapeCandidate]));
-			expect(newState.interpretations.shape[0].label).to.equal('line');
 			expect(newState.interpretations.text[0]).to.not.exist();
+			expect(newState.interpretations.shapes[0].label).to.equal('line');
 		});
 		it('appends new results to existing ones', () => {
 			const oldState = Object.assign({}, dummyState, {
 				showInterpreter: true,
 				interpretations: {
-					shape: [Object.assign({}, shapeCandidate, {
+					shapes: [Object.assign({}, shapeCandidate, {
 						label: 'arrow',
 					})],
 					text: [letterCandidate],
 				},
 			});
 			const newState = interpretation(oldState, receiveShapeCandidates([shapeCandidate]));
-			expect(newState.interpretations.shape).to.have.length(2);
-			expect(newState.interpretations.shape[1].label).to.equal('line');
 			expect(newState.interpretations.text[0]).to.deep.equal(letterCandidate);
+			expect(newState.interpretations.shapes).to.have.length(2);
+			expect(newState.interpretations.shapes[1].label).to.equal('line');
 		});
 	});
 
@@ -165,13 +165,13 @@ describe('Interpretation reducer', () => {
 			const oldState = Object.assign({}, dummyState, {
 				showInterpreter: true,
 				interpretations: {
-					shape: [shapeCandidate],
 					text: [letterCandidate],
+					shapes: [shapeCandidate],
 				},
 			});
 			const newState = interpretation(oldState, toggleInterpreter(false));
 			expect(newState.interpretations.text[0]).to.exist();
-			expect(newState.interpretations.shape[0]).to.exist();
+			expect(newState.interpretations.shapes[0]).to.exist();
 		});
 	});
 });

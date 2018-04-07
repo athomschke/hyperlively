@@ -146,8 +146,8 @@ export type RecognizerShapeResult = {
 }
 
 export type RecognitionResult = {
-	shape: ?ShapeCandidate,
 	text: ?TextCandidate,
+	shapes: Array<ShapeCandidate>,
 }
 
 export type RecognizerComponent = {
