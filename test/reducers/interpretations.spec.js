@@ -1,14 +1,23 @@
+// @flow
 import { requestTextCandidates, requestShapeCandidates, receiveTextCandidates, receiveShapeCandidates } from 'src/client/app/actions/handwritingRecognition';
 import { toggleInterpreter } from 'src/client/app/actions/configuring';
 import { createStroke } from 'src/client/app/actions/drawing';
 import { interpretation } from 'src/client/app/reducers/interpretation';
+import { type InterpretationState } from 'src/client/app/typeDefinitions';
 import { shapeCandidate, letterCandidate } from 'test/data';
 
-const dummyState = {
+declare var describe: any;
+declare var it: any;
+declare var beforeEach: any;
+declare var afterEach: any;
+declare var sinon: any;
+declare var expect: any;
+
+const dummyState: InterpretationState = {
 	showInterpreter: false,
 	interpretations: {
-		shape: [],
-		text: [],
+		shapes: [],
+		texts: [],
 	},
 };
 
@@ -33,8 +42,8 @@ describe('Interpretation reducer', () => {
 			const oldState = Object.assign({}, dummyState, {
 				showInterpreter: false,
 				interpretations: {
-					text: null,
 					shapes: [shapeCandidate],
+					texts: [],
 				},
 			});
 			const newState = interpretation(oldState, createStroke(10, 10, 101));
@@ -45,12 +54,12 @@ describe('Interpretation reducer', () => {
 			const oldState = Object.assign({}, dummyState, {
 				showInterpreter: false,
 				interpretations: {
-					text: letterCandidate,
 					shapes: [],
+					texts: [letterCandidate],
 				},
 			});
 			const newState = interpretation(oldState, createStroke(10, 10, 101));
-			expect(newState.interpretations.text).to.be.null();
+			expect(newState.interpretations.texts).to.be.empty();
 		});
 	});
 
@@ -59,12 +68,12 @@ describe('Interpretation reducer', () => {
 			const oldState = Object.assign({}, dummyState, {
 				showInterpreter: true,
 				interpretations: {
-					text: letterCandidate,
 					shapes: [shapeCandidate],
+					texts: [letterCandidate],
 				},
 			});
 			const newState = interpretation(oldState, requestTextCandidates());
-			expect(newState.interpretations.text).to.exist();
+			expect(newState.interpretations.texts).not.to.be.empty();
 			expect(newState.interpretations.shapes).not.to.be.empty();
 		});
 	});
@@ -74,12 +83,12 @@ describe('Interpretation reducer', () => {
 			const oldState = Object.assign({}, dummyState, {
 				showInterpreter: true,
 				interpretations: {
-					text: letterCandidate,
 					shapes: [shapeCandidate],
+					texts: [letterCandidate],
 				},
 			});
 			const newState = interpretation(oldState, requestShapeCandidates());
-			expect(newState.interpretations.text).to.exist();
+			expect(newState.interpretations.texts).not.to.be.empty();
 			expect(newState.interpretations.shapes).not.to.be.empty();
 		});
 	});
@@ -89,12 +98,12 @@ describe('Interpretation reducer', () => {
 			const oldState = Object.assign({}, dummyState, {
 				showInterpreter: true,
 				interpretations: {
-					text: [],
 					shapes: [],
+					texts: [],
 				},
 			});
 			const newState = interpretation(oldState, receiveTextCandidates([letterCandidate]));
-			expect(newState.interpretations.text[0].label).to.equal('I');
+			expect(newState.interpretations.texts[0].label).to.equal('I');
 			expect(newState.interpretations.shapes).to.be.empty();
 		});
 
@@ -102,15 +111,17 @@ describe('Interpretation reducer', () => {
 			const oldState = Object.assign({}, dummyState, {
 				showInterpreter: true,
 				interpretations: {
-					text: [Object.assign({}, letterCandidate, {
 					shapes: [shapeCandidate],
+					texts: [Object.assign({}, letterCandidate, {
 						label: 'K',
+						normalizedScore: 0.9,
+						resemblanceScore: 0.95,
 					})],
 				},
 			});
 			const newState = interpretation(oldState, receiveTextCandidates([letterCandidate]));
-			expect(newState.interpretations.text[1].label).to.equal('I');
-			expect(newState.interpretations.text).to.have.length(2);
+			expect(newState.interpretations.texts[1].label).to.equal('I');
+			expect(newState.interpretations.texts).to.have.length(2);
 		});
 	});
 
@@ -119,13 +130,13 @@ describe('Interpretation reducer', () => {
 			const oldState = Object.assign({}, dummyState, {
 				showInterpreter: true,
 				interpretations: {
-					text: [],
 					shapes: [],
+					texts: [],
 				},
 			});
 			const newState = interpretation(oldState, receiveShapeCandidates([shapeCandidate]));
-			expect(newState.interpretations.text[0]).to.not.exist();
 			expect(newState.interpretations.shapes[0].label).to.equal('line');
+			expect(newState.interpretations.texts[0]).to.not.exist();
 		});
 		it('appends new results to existing ones', () => {
 			const oldState = Object.assign({}, dummyState, {
@@ -134,13 +145,13 @@ describe('Interpretation reducer', () => {
 					shapes: [Object.assign({}, shapeCandidate, {
 						label: 'arrow',
 					})],
-					text: [letterCandidate],
+					texts: [letterCandidate],
 				},
 			});
 			const newState = interpretation(oldState, receiveShapeCandidates([shapeCandidate]));
-			expect(newState.interpretations.text[0]).to.deep.equal(letterCandidate);
 			expect(newState.interpretations.shapes).to.have.length(2);
 			expect(newState.interpretations.shapes[1].label).to.equal('line');
+			expect(newState.interpretations.texts[0]).to.deep.equal(letterCandidate);
 		});
 	});
 
@@ -165,12 +176,12 @@ describe('Interpretation reducer', () => {
 			const oldState = Object.assign({}, dummyState, {
 				showInterpreter: true,
 				interpretations: {
-					text: [letterCandidate],
 					shapes: [shapeCandidate],
+					texts: [letterCandidate],
 				},
 			});
 			const newState = interpretation(oldState, toggleInterpreter(false));
-			expect(newState.interpretations.text[0]).to.exist();
+			expect(newState.interpretations.texts[0]).to.exist();
 			expect(newState.interpretations.shapes[0]).to.exist();
 		});
 	});

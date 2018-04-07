@@ -13,3 +13,5 @@ export const LANGUAGE = 'en_US';
 export const TEXT_INPUT_MODE = 'CURSIVE';
 
 export const TEXT_INPUT_TYPE = 'MULTI_LINE_TEXT';
+
+export const CANDIDATES_COUNT = 5;

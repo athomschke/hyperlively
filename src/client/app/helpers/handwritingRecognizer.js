@@ -2,7 +2,7 @@
 import { HmacSHA512, enc } from 'crypto-js';
 import { map, flatten } from 'lodash';
 
-import { APPLICATION_KEY, HMAC_KEY, TEXT_INPUT_TYPE, LANGUAGE, TEXT_INPUT_MODE, TEXT_RECOGNITION_URL, SHAPE_RECOGNITION_URL } from 'src/client/app/constants/handwriting';
+import { APPLICATION_KEY, CANDIDATES_COUNT, HMAC_KEY, TEXT_INPUT_TYPE, LANGUAGE, TEXT_INPUT_MODE, TEXT_RECOGNITION_URL, SHAPE_RECOGNITION_URL } from 'src/client/app/constants/handwriting';
 import type { Stroke, RecognizerComponent, TextCandidates } from 'src/client/app/typeDefinitions';
 
 const hmacData = stringInput =>
@@ -30,7 +30,9 @@ function strokesToComponents(strokes: Array<Stroke>) {
 function getStringInput(components: Array<RecognizerComponent>) {
 	return JSON.stringify({
 		textParameter: {
-			textProperties: {},
+			textProperties: {
+				textCandidateListSize: CANDIDATES_COUNT,
+			},
 			language: LANGUAGE,
 			textInputMode: TEXT_INPUT_MODE,
 		},
