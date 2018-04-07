@@ -1,4 +1,5 @@
 import { cloneDeep, find, map } from 'lodash';
+import { useFakeXMLHttpRequest } from 'sinon';
 import TestUtils from 'react-addons-test-utils';
 
 import { hashCode, renderApplicationWithState, mountApp, dismountApp, getCanvasNodes, getWindowNode, getCombinedCanvas } from './helpers';
@@ -19,7 +20,7 @@ describe('Integration', () => {
 	let xhr;
 
 	beforeEach(() => {
-		xhr = sinon.useFakeXMLHttpRequest();
+		xhr = useFakeXMLHttpRequest();
 		mountApp();
 	});
 

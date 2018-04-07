@@ -1,5 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import { spy } from 'sinon';
 
 import ParameterChooser from 'src/client/app/components/smart/ParameterChooser';
 import JsonPropertyChooser from 'src/client/app/components/smart/JsonPropertyChooser';
@@ -31,7 +32,7 @@ describe('Parameter Chooser Component', () => {
 
 	describe('Choosing a json property', () => {
 		it('is recognized in the parameter chooser', () => {
-			sinon.spy(ParameterChooser.prototype, 'handleParameterChoose');
+			spy(ParameterChooser.prototype, 'handleParameterChoose');
 			const parameterChooser = shallow(<ParameterChooser />);
 			const jsonPropertyChooser = parameterChooser.find(JsonPropertyChooser);
 			jsonPropertyChooser.props().onParameterChoose();

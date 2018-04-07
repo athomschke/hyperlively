@@ -1,3 +1,5 @@
+import { useFakeXMLHttpRequest } from 'sinon';
+
 import { requestShapeCandidates, requestTextCandidates } from 'src/client/app/helpers/handwritingRecognizer';
 import { shapeResponse, textResponse, strokesExample } from 'test/data';
 
@@ -6,7 +8,7 @@ describe('src/client/app/helpers for handwriting recognition', () => {
 	let requests = [];
 
 	beforeEach(() => {
-		xhr = sinon.useFakeXMLHttpRequest();
+		xhr = useFakeXMLHttpRequest();
 		xhr.onCreate = (req) => {
 			requests.push(req);
 		};

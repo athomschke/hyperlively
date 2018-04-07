@@ -1,6 +1,7 @@
 import TestUtils from 'react-addons-test-utils';
 import React from 'react';
 import { remove, filter, isNumber, map } from 'lodash';
+import { spy } from 'sinon';
 
 import PlomaDrawer from 'src/client/app/components/smart/PlomaDrawer';
 
@@ -16,11 +17,11 @@ const renderComponentWithProps = props => TestUtils.renderIntoDocument(<PlomaDra
 />);
 
 const spyOnPen = (pen) => {
-	sinon.spy(pen, 'beginStroke');
-	sinon.spy(pen, 'extendStroke');
-	sinon.spy(pen, 'endStroke');
-	sinon.spy(pen, 'clear');
-	sinon.spy(pen, 'setPenColor');
+	spy(pen, 'beginStroke');
+	spy(pen, 'extendStroke');
+	spy(pen, 'endStroke');
+	spy(pen, 'clear');
+	spy(pen, 'setPenColor');
 };
 
 describe('PlomaDrawer', () => {

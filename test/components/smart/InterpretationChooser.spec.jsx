@@ -2,6 +2,7 @@ import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import { forEach } from 'lodash';
 import { shallow } from 'enzyme';
+import { spy, stub } from 'sinon';
 
 import InterpretationChooser from 'src/client/app/components/smart/InterpretationChooser';
 import ActionChooser from 'src/client/app/components/smart/ActionChooser';
@@ -107,7 +108,7 @@ describe('Interpretation Chooser', () => {
 				},
 			});
 			interpretationChooser.instance().componentDidMount();
-			sinon.spy(interpretationChooser.instance(), 'onInterpretationChoose');
+			spy(interpretationChooser.instance(), 'onInterpretationChoose');
 			interpretationChooser.instance().onActionChoose([{
 				name: 'actionName',
 				parameters: 3,
@@ -166,7 +167,7 @@ describe('Interpretation Chooser', () => {
 		});
 
 		it('can choose a combined action', () => {
-			const onInterpretationChoose = sinon.stub();
+			const onInterpretationChoose = stub();
 			const interpretationChooser = renderWithProps({
 				isOpen: true,
 				jsonTree: exampleTree,

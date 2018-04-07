@@ -1,4 +1,6 @@
 // @flow
+import { useFakeXMLHttpRequest } from 'sinon';
+
 import { requestTextCandidates, requestShapeCandidates, receiveTextCandidates, receiveShapeCandidates } from 'src/client/app/actions/handwritingRecognition';
 import { toggleInterpreter } from 'src/client/app/actions/configuring';
 import { createStroke } from 'src/client/app/actions/drawing';
@@ -19,7 +21,7 @@ describe('Interpretation reducer', () => {
 	let requests = [];
 
 	beforeEach(() => {
-		xhr = sinon.useFakeXMLHttpRequest();
+		xhr = useFakeXMLHttpRequest();
 		xhr.onCreate = (req) => {
 			requests.push(req);
 		};

@@ -1,5 +1,6 @@
 import { shallow } from 'enzyme';
 import React from 'react';
+import { spy } from 'sinon';
 
 import InterpretationTrigger from 'src/client/app/components/dumb/InterpretationTrigger';
 
@@ -12,12 +13,12 @@ describe('InterpretationTrigger', () => {
 		});
 
 		it('triggers a callback given', () => {
-			const spy = sinon.spy();
+			const onHandwritingRecognitionClick = spy();
 			const trigger = shallow(<InterpretationTrigger
-				onHandwritingRecognitionClick={spy}
+				onHandwritingRecognitionClick={onHandwritingRecognitionClick}
 			/>);
 			trigger.find('button').simulate('click');
-			expect(spy.callCount).to.equal(1);
+			expect(onHandwritingRecognitionClick.callCount).to.equal(1);
 		});
 	});
 });

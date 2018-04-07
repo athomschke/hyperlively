@@ -1,5 +1,6 @@
 import { filter } from 'lodash';
 import { call } from 'redux-saga/effects';
+import { useFakeXMLHttpRequest } from 'sinon';
 
 import { myScriptJs, fetchTextCandidates, fetchShapeCandidates } from 'src/client/app/sagas/myScriptJs';
 import * as actions from 'src/client/app/actions/handwritingRecognition';
@@ -13,7 +14,7 @@ describe('MyScriptJS Sagas', () => {
 	let requests = [];
 
 	beforeEach(() => {
-		xhr = sinon.useFakeXMLHttpRequest();
+		xhr = useFakeXMLHttpRequest();
 		xhr.onCreate = (req) => {
 			requests.push(req);
 		};

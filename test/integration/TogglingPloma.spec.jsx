@@ -1,4 +1,5 @@
 import TestUtils from 'react-addons-test-utils';
+import { useFakeXMLHttpRequest } from 'sinon';
 
 import { hashCode, renderApplicationWithState, mountApp, dismountApp, getCombinedCanvas } from './helpers';
 import canvasWithIrregularStrokesWithPloma from './data/canvasWithIrregularStrokesWithPloma.json';
@@ -7,7 +8,7 @@ describe('Integration', () => {
 	let xhr;
 
 	beforeEach(() => {
-		xhr = sinon.useFakeXMLHttpRequest();
+		xhr = useFakeXMLHttpRequest();
 		mountApp();
 	});
 

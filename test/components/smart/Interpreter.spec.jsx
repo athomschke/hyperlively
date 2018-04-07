@@ -1,6 +1,7 @@
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import { forEach } from 'lodash';
+import { spy, stub } from 'sinon';
 
 import Interpreter from 'src/client/app/components/smart/Interpreter';
 import InterpretationChooser from 'src/client/app/components/smart/InterpretationChooser';
@@ -55,7 +56,7 @@ describe('Interpreter', () => {
 		});
 
 		it('removes the list', () => {
-			sinon.spy(list, 'deactivateInterpretation');
+			spy(list, 'deactivateInterpretation');
 			list.performAction({}, 'updatePosition');
 			expect(list.deactivateInterpretation.callCount).to.equal(1);
 			list.deactivateInterpretation.restore();
@@ -171,8 +172,8 @@ describe('Interpreter', () => {
 					performedActionParameters = args.slice(1);
 				},
 			});
-			setIntervalStub = sinon.stub(window, 'setInterval');
-			clearIntervalStub = sinon.stub(window, 'clearInterval');
+			setIntervalStub = stub(window, 'setInterval');
+			clearIntervalStub = stub(window, 'clearInterval');
 		});
 
 		afterEach(() => {

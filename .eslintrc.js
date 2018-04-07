@@ -35,7 +35,6 @@ module.exports = {
         "describe": true,
         "mocha": true,
         "__dirname": true,
-        "sinon": true,
         "SyntheticTouchEvent": true,
         "SyntheticMouseEvent": true
     },

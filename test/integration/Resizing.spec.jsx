@@ -1,3 +1,5 @@
+import { useFakeXMLHttpRequest } from 'sinon';
+
 import { relativeDividerPosition } from 'src/client/app/reducers/defaultState';
 
 import { mountApp, dismountApp, renderApplicationWithState } from './helpers';
@@ -7,7 +9,7 @@ describe('Integration', () => {
 	let xhr;
 
 	beforeEach(() => {
-		xhr = sinon.useFakeXMLHttpRequest();
+		xhr = useFakeXMLHttpRequest();
 		mountApp();
 	});
 

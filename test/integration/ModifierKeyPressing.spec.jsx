@@ -1,4 +1,5 @@
 import { forEach } from 'lodash';
+import { useFakeXMLHttpRequest } from 'sinon';
 
 import { mountApp, dismountApp, renderApplicationWithState, getCanvasNodes } from './helpers';
 import canvasWithTwoStrokes from './data/canvasWithTwoStrokes.json';
@@ -7,7 +8,7 @@ describe('Integration', () => {
 	let xhr;
 
 	beforeEach(() => {
-		xhr = sinon.useFakeXMLHttpRequest();
+		xhr = useFakeXMLHttpRequest();
 		mountApp();
 	});
 

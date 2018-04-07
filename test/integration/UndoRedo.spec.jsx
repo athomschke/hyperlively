@@ -1,5 +1,6 @@
 import { findDOMNode } from 'react-dom';
 import { cloneDeep } from 'lodash';
+import { useFakeXMLHttpRequest } from 'sinon';
 
 import { point } from 'test/helpers';
 
@@ -10,7 +11,7 @@ describe('Integration', () => {
 	let xhr;
 
 	beforeEach(() => {
-		xhr = sinon.useFakeXMLHttpRequest();
+		xhr = useFakeXMLHttpRequest();
 		mountApp();
 	});
 

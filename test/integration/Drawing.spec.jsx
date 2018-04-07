@@ -1,4 +1,5 @@
 import { cloneDeep } from 'lodash';
+import { useFakeXMLHttpRequest } from 'sinon';
 
 import { hashCode, renderApplicationWithState, mountApp, dismountApp, getWindowNode, getCombinedCanvas, manuallyDrawStrokes } from './helpers';
 import emptyCanvas from './data/emptyCanvas.json';
@@ -11,7 +12,7 @@ describe('Integration', () => {
 	let xhr;
 
 	beforeEach(() => {
-		xhr = sinon.useFakeXMLHttpRequest();
+		xhr = useFakeXMLHttpRequest();
 		mountApp();
 	});
 

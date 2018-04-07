@@ -1,4 +1,5 @@
 import { map, reduce, flatten } from 'lodash';
+import { useFakeXMLHttpRequest } from 'sinon';
 
 import { renderApplicationWithState, mountApp, dismountApp, manuallyDrawStrokes, getWindowNode } from 'test/integration/helpers';
 
@@ -20,7 +21,7 @@ describe('Performance', () => {
 	let xhr;
 
 	beforeEach(() => {
-		xhr = sinon.useFakeXMLHttpRequest();
+		xhr = useFakeXMLHttpRequest();
 	});
 
 	afterEach(() => {

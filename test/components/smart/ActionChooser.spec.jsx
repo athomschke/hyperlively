@@ -1,5 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import { spy } from 'sinon';
 
 import ActionChooser from 'src/client/app/components/smart/ActionChooser';
 import JsonPropertyChooser from 'src/client/app/components/smart/JsonPropertyChooser';
@@ -54,7 +55,7 @@ describe('Action Chooser', () => {
 	describe('Choosing an action', () => {
 		it('performs the action', () => {
 			const actionChooser = shallowWithProps({});
-			sinon.spy(actionChooser.instance(), 'onActionChoose');
+			spy(actionChooser.instance(), 'onActionChoose');
 			const list = actionChooser.find(JsonPropertyChooser);
 			list.props().onParameterChoose({}, 'updatePosition');
 			expect(actionChooser.instance().onActionChoose.callCount).to.equal(1);

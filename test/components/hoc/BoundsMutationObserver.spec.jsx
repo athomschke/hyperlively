@@ -1,6 +1,7 @@
 import TestUtils from 'react-addons-test-utils';
 import React, { PropTypes } from 'react';
 import { shallow, mount } from 'enzyme';
+import { spy, stub } from 'sinon';
 
 import BoundsMutationObserver from 'src/client/app/components/hoc/BoundsMutationObserver';
 
@@ -40,7 +41,7 @@ describe('Bounds mutation observer', () => {
 				observeMutations: false,
 			};
 			mockedComponent = renderComponentWithBoundsAndCallback(options);
-			sinon.spy(mockedComponent, 'boundsUpdatedWith');
+			spy(mockedComponent, 'boundsUpdatedWith');
 		});
 
 		afterEach(() => {
@@ -64,7 +65,7 @@ describe('Bounds mutation observer', () => {
 				bounds: { x: 1, y: 0 },
 			};
 			mockedComponent = renderComponentWithBoundsAndCallback(options);
-			sinon.spy(mockedComponent, 'boundsUpdatedWith');
+			spy(mockedComponent, 'boundsUpdatedWith');
 		});
 
 		afterEach(() => {
@@ -140,7 +141,7 @@ describe('Bounds mutation observer', () => {
 				bounds: { x: 1, y: 0 },
 			};
 			mockedComponent = renderComponentWithBoundsAndCallback(options);
-			sinon.spy(mockedComponent, 'boundsUpdatedWith');
+			spy(mockedComponent, 'boundsUpdatedWith');
 		});
 
 		afterEach(() => {
@@ -164,7 +165,7 @@ describe('Bounds mutation observer', () => {
 				bounds: { x: 1, y: 0 },
 			};
 			mockedComponent = renderComponentWithBoundsAndCallback(options);
-			sinon.spy(mockedComponent, 'boundsUpdatedWith');
+			spy(mockedComponent, 'boundsUpdatedWith');
 		});
 
 		afterEach(() => {
@@ -182,13 +183,13 @@ describe('Bounds mutation observer', () => {
 
 	describe('trying to observe', () => {
 		it('does nothing until mounted', () => {
-			const onNodeChanged = sinon.stub();
+			const onNodeChanged = stub();
 			shallowComponentsWithProps({ onNodeChanged });
 			expect(onNodeChanged).to.not.have.been.called();
 		});
 
 		it('does nothing until wrapped component is mounted', () => {
-			const onNodeChanged = sinon.stub();
+			const onNodeChanged = stub();
 			const wrapper = mountComponentsWithProps({ onNodeChanged });
 			expect(wrapper.state.observer).to.not.exist();
 		});

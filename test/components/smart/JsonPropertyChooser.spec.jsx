@@ -3,6 +3,7 @@ import TestUtils from 'react-addons-test-utils';
 import { shallow } from 'enzyme';
 import { TreeMenu } from 'react-tree-menu';
 import { flatten, map, forEach, filter } from 'lodash';
+import { spy } from 'sinon';
 
 import JsonPropertyChooser from 'src/client/app/components/smart/JsonPropertyChooser';
 import { getPathToProperty, formatObject } from 'src/client/app/helpers/choosingActions';
@@ -140,7 +141,7 @@ describe('JsonProperty Chooser', () => {
 		});
 
 		it('performs the callback', () => {
-			sinon.spy(parameterChooser, 'onTreeNodeCollapseChange');
+			spy(parameterChooser, 'onTreeNodeCollapseChange');
 			TestUtils.Simulate.click(collapseIcon);
 			expect(parameterChooser.onTreeNodeCollapseChange.callCount).to.equal(1);
 		});
@@ -164,7 +165,7 @@ describe('JsonProperty Chooser', () => {
 		});
 
 		it('performs the callback', () => {
-			sinon.spy(parameterChooser, 'onTreeNodeCollapseChange');
+			spy(parameterChooser, 'onTreeNodeCollapseChange');
 			TestUtils.Simulate.click(collapseIcon);
 			expect(parameterChooser.onTreeNodeCollapseChange.callCount).to.equal(1);
 		});
@@ -189,7 +190,7 @@ describe('JsonProperty Chooser', () => {
 		});
 
 		it('performs the callback', () => {
-			sinon.spy(parameterChooser, 'onTreeNodeCheckChange');
+			spy(parameterChooser, 'onTreeNodeCheckChange');
 			TestUtils.Simulate.click(checkbox);
 			expect(parameterChooser.onTreeNodeCheckChange.callCount).to.equal(1);
 		});

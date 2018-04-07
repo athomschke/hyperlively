@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { sum, map, remove } from 'lodash';
 import { mount, shallow } from 'enzyme';
+import { spy } from 'sinon';
 
 import PlainDrawer from 'src/client/app/components/smart/PlainDrawer';
 
@@ -211,7 +212,7 @@ describe('PlainDrawer', () => {
 					finished: true,
 				}],
 			});
-			sinon.spy(canvas.instance(), 'redrawEverything');
+			spy(canvas.instance(), 'redrawEverything');
 			const firstStroke = canvas.prop('strokes')[0];
 			firstStroke.points = map(firstStroke.points, point => Object.assign({}, point, {
 				x: point.x + 10,
@@ -319,7 +320,7 @@ describe('PlainDrawer', () => {
 					points: [{ x: 30, y: 30 }, { x: 31, y: 31 }, { x: 32, y: 32 }],
 				}],
 			});
-			sinon.spy(canvas.instance(), 'startStrokeAt');
+			spy(canvas.instance(), 'startStrokeAt');
 			canvas.prop('strokes')[1].selected = true;
 			canvas.instance().componentDidUpdate();
 			expect(canvas.instance().startStrokeAt.callCount).to.equal(2);

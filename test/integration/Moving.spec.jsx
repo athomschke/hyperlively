@@ -1,3 +1,5 @@
+import { useFakeXMLHttpRequest } from 'sinon';
+
 import { hashCode, mountApp, dismountApp, renderApplicationWithStore, createAppStore } from './helpers';
 import canvasWithTwoStrokes from './data/canvasWithTwoStrokes.json';
 
@@ -31,7 +33,7 @@ describe('Integration', () => {
 	let xhr;
 
 	beforeEach(() => {
-		xhr = sinon.useFakeXMLHttpRequest();
+		xhr = useFakeXMLHttpRequest();
 		mountApp();
 	});
 

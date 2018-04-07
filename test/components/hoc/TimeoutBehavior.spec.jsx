@@ -1,5 +1,6 @@
 import TestUtils from 'react-addons-test-utils';
 import React from 'react';
+import { spy } from 'sinon';
 
 import TimeoutBehavior from 'src/client/app/components/hoc/TimeoutBehavior';
 
@@ -62,7 +63,7 @@ describe('WrappedWithTimeoutBehavior', () => {
 				value={9}
 				callbackEnabled
 			/>);
-			sinon.spy(temporaryCallbackSlider, 'setState');
+			spy(temporaryCallbackSlider, 'setState');
 			temporaryCallbackSlider.resetState();
 			expect(temporaryCallbackSlider.setState.callCount).to.equal(1);
 			temporaryCallbackSlider.setState.restore();

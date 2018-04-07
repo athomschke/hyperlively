@@ -2,6 +2,7 @@ import Slider from 'rc-slider';
 import TestUtils from 'react-addons-test-utils';
 import React from 'react';
 import { mount } from 'enzyme';
+import { stub } from 'sinon';
 
 import TimelineView from 'src/client/app/components/dumb/Timeline';
 import TimeoutBehavior from 'src/client/app/components/hoc/TimeoutBehavior';
@@ -38,7 +39,7 @@ const mockSketches = [{
 		points: [point(30, 30), point(31, 31), point(32, 32)],
 		actionIndex: 6,
 	}],
-}]
+}];
 
 describe('Timeline', () => {
 	describe('rendering the slider', () => {
@@ -146,7 +147,7 @@ describe('Timeline', () => {
 
 	describe('Selecting a canvas in the TimelinePreview', () => {
 		it('calls onSelectStokes property on Timeline', () => {
-			const onSelectStokes = sinon.stub();
+			const onSelectStokes = stub();
 			const wrapper = mount(<Timeline
 				onSelectStokes={onSelectStokes}
 				sketches={mockSketches}
