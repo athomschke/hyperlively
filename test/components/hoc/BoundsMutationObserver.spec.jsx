@@ -1,12 +1,14 @@
+// @flow
+import { expect } from 'chai';
 import TestUtils from 'react-addons-test-utils';
 import React, { PropTypes } from 'react';
 import { shallow, mount } from 'enzyme';
 import { spy, stub } from 'sinon';
 
 import BoundsMutationObserver from 'src/client/app/components/hoc/BoundsMutationObserver';
+import { type Bounds } from 'src/client/app/typeDefinitions';
 
-class MockedSubComponent extends React.Component {
-
+class MockedSubComponent extends React.Component<{bounds: Bounds, onNodeChanged: () => void}> {
 	static propTypes = {
 		bounds: PropTypes.objectOf(PropTypes.number).isRequired,
 		onNodeChanged: PropTypes.func.isRequired,

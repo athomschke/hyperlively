@@ -1,3 +1,5 @@
+// @flow
+import { expect } from 'chai';
 import { cloneDeep } from 'lodash';
 import { useFakeXMLHttpRequest } from 'sinon';
 

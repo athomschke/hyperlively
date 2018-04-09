@@ -1,5 +1,8 @@
+import { expect } from 'chai';
+
 import relevantStatesForScene from 'src/client/app/helpers/relevantStatesForScene';
 import * as exampleStates from 'test/reducers/data/exampleStates';
+import type { SceneState } from 'src/client/app/typeDefinitions';
 
 describe.skip('Calculating states relevant for a scene', () => {
 	it('handles an empty state on first scene', () => {
@@ -11,7 +14,8 @@ describe.skip('Calculating states relevant for a scene', () => {
 	});
 
 	it('handles a strokeless state on first scene', () => {
-		expect(relevantStatesForScene([{ }], 1)).to.have.length(0);
+		const sceneState: SceneState = [{ strokes: [] }];
+		expect(relevantStatesForScene([sceneState], 1)).to.have.length(0);
 	});
 
 	it('returns nothing if there are no states for the second scene', () => {

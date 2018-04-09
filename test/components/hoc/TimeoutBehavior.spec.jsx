@@ -1,3 +1,5 @@
+// @flow
+import { expect } from 'chai';
 import TestUtils from 'react-addons-test-utils';
 import React from 'react';
 import { spy } from 'sinon';

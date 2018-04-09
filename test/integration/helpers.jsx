@@ -10,7 +10,7 @@ import hyperlively from 'src/client/app/reducers/index';
 import Application from 'src/client/app/Application';
 import type { HyperlivelyState, Stroke, Action } from 'src/client/app/typeDefinitions';
 
-export function createAppStore(initialState: HyperlivelyState) {
+export function createAppStore(initialState: HyperlivelyState): Store<HyperlivelyState, Action> {
 	return createStore(hyperlively, initialState);
 }
 
@@ -97,7 +97,7 @@ export function dismountApp() {
 	if (appNode && document.body) document.body.removeChild(appNode);
 }
 
-export function getCanvasNodes() {
+export function getCanvasNodes(): HTMLCollection<HTMLCanvasElement> {
 	const desk = document.getElementById('desk');
 	if (desk) {
 		return desk.getElementsByTagName('canvas');
@@ -110,7 +110,7 @@ export function getWindowNode() {
 	return document.getElementsByClassName('window')[0];
 }
 
-export function getCombinedCanvas(optWidth: number, optHeight: number) {
+export function getCombinedCanvas(optWidth?: number, optHeight?: number) {
 	const width = optWidth || 1000;
 	const height = optHeight || 500;
 	return combineCanvasses(getCanvasNodes(), width, height);

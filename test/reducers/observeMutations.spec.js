@@ -1,3 +1,6 @@
+// @flow
+import { expect } from 'chai';
+
 import { observeMutations } from 'src/client/app/reducers/observeMutations';
 import { setObserveMutations } from 'src/client/app/actions/configuring';
 

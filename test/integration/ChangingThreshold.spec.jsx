@@ -1,3 +1,5 @@
+// @flow
+import { expect } from 'chai';
 import { findDOMNode } from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 import { cloneDeep } from 'lodash';
@@ -26,6 +28,11 @@ describe('Integration', () => {
 			const renderedApp = renderApplicationWithState(canvasJson);
 			expect(getCanvasNodes().length).to.equal(2);
 			const domApp = findDOMNode(renderedApp);
+
+			if (!(domApp instanceof Element)) {
+				throw new Error('Need a complex node as app');
+			}
+
 			const thresholdSlider = domApp.getElementsByClassName('rc-slider-rail')[1];
 			TestUtils.Simulate.mouseDown(thresholdSlider, {
 				pageX: 1,
@@ -40,6 +47,11 @@ describe('Integration', () => {
 			const renderedApp = renderApplicationWithState(canvasJson);
 			expect(getCanvasNodes().length).to.equal(3);
 			const domApp = findDOMNode(renderedApp);
+
+			if (!(domApp instanceof Element)) {
+				throw new Error('Need a complex node as app');
+			}
+
 			const thresholdSlider = domApp.getElementsByClassName('rc-slider-rail')[1];
 			TestUtils.Simulate.mouseDown(thresholdSlider, {
 				pageX: thresholdSlider.offsetWidth / 2,

@@ -1,3 +1,5 @@
+// @flow
+import { expect } from 'chai';
 import React, { PropTypes } from 'react';
 import TestUtils from 'react-addons-test-utils';
 

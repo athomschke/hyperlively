@@ -1,5 +1,7 @@
 import { combineReducers } from 'redux';
 
+import type { HyperlivelyState, Action } from 'src/client/app/typeDefinitions';
+
 import { threshold } from './threshold';
 import { ploma } from './ploma';
 import { handwritingRecognition } from './handwritingRecognition';
@@ -9,7 +11,9 @@ import { drawing } from './drawing';
 import { content } from './content';
 import { specificActions } from './specificActions';
 
-export default combineReducers({
+type HyperlivelyReducer = (state: HyperlivelyState, action: Action) => HyperlivelyState;
+
+const hyperlively: HyperlivelyReducer = combineReducers({
 	interpretation,
 	ploma,
 	handwritingRecognition,
@@ -19,3 +23,5 @@ export default combineReducers({
 	content,
 	specificActions,
 });
+
+export default hyperlively;

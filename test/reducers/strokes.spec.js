@@ -1,7 +1,19 @@
+// @flow
+import { expect } from 'chai';
+
 import { strokes } from 'src/client/app/reducers/content/strokes';
 import { appendPoint, createStroke, finishStroke } from 'src/client/app/actions/drawing';
 import { updatePosition, hide, select, selectInside, rotateBy } from 'src/client/app/actions/manipulating';
 import { point, event } from 'test/helpers';
+import type { Point, Stroke } from 'src/client/app/typeDefinitions';
+
+const exampleStrokes = (points: Array<Point>) => ([{
+	points,
+	color: 'rgb(0,0,0)',
+	finished: true,
+	hidden: false,
+	selected: false,
+}]);
 
 describe('strokes', () => {
 	describe('handles', () => {
@@ -20,7 +32,7 @@ describe('strokes', () => {
 			const newPoint = point(10, 10, 100);
 			const result = strokes(
 				[],
-				createStroke(pointAddEvent.pageX, pointAddEvent.pageY, pointAddEvent.timeStamp, 0),
+				createStroke(pointAddEvent.pageX, pointAddEvent.pageY, pointAddEvent.timeStamp),
 			);
 			expect(result).to.have.length(1);
 			expect(result[0].points).to.have.length(1);
@@ -31,10 +43,8 @@ describe('strokes', () => {
 			const pointAddEvent = event(10, 10, 100);
 			const newPoint = point(10, 10, 100);
 			const result = strokes(
-				[{
-					points: [point(10, 10), point(10, 11), point(10, 12)],
-				}],
-				createStroke(pointAddEvent.pageX, pointAddEvent.pageY, pointAddEvent.timeStamp, 0),
+				exampleStrokes([point(10, 10), point(10, 11), point(10, 12)]),
+				createStroke(pointAddEvent.pageX, pointAddEvent.pageY, pointAddEvent.timeStamp),
 			);
 			expect(result).to.have.length(2);
 			expect(result[1].points).to.have.length(1);
@@ -59,7 +69,7 @@ describe('strokes', () => {
 			const pointAddEvent = event(10, 11, 100);
 			const newPoint = point(10, 11, 100);
 			const result = strokes(
-				[{ points: [point(10, 10)] }],
+				exampleStrokes([point(10, 10)]),
 				appendPoint(pointAddEvent.pageX, pointAddEvent.pageY, pointAddEvent.timeStamp),
 			);
 			expect(result).to.have.length(1);
@@ -71,7 +81,7 @@ describe('strokes', () => {
 			const pointAddEvent = event(10, 11, 100);
 			const newPoint = point(10, 11, 100);
 			const result = strokes(
-				[{ points: [] }, { points: [] }],
+				exampleStrokes([]).concat(exampleStrokes([])),
 				appendPoint(pointAddEvent.pageX, pointAddEvent.pageY, pointAddEvent.timeStamp),
 			);
 			expect(result).to.have.length(2);
@@ -85,7 +95,10 @@ describe('strokes', () => {
 			const pointAddEvent = event(10, 11, 100);
 			const newPoint = point(10, 11, 100);
 			const result = strokes(
-				[{ points: [] }, { points: [] }],
+				[
+					...exampleStrokes([]),
+					...exampleStrokes([]),
+				],
 				finishStroke(pointAddEvent.pageX, pointAddEvent.pageY, pointAddEvent.timeStamp),
 			);
 			expect(result).to.have.length(2);
@@ -97,12 +110,16 @@ describe('strokes', () => {
 
 	describe('moving a stroke', () => {
 		it('changes the coordinates of that strokes points', () => {
-			const strokeToMove = {
-				points: [point(10, 11, 100), point(10, 12, 100), point(10, 13, 100)],
-			};
-			const currentState = [{
-				points: [point(10, 11, 100), point(10, 12, 100), point(10, 13, 100)],
-			}];
+			const strokeToMove = exampleStrokes([
+				point(10, 11, 100),
+				point(10, 12, 100),
+				point(10, 13, 100),
+			])[0];
+			const currentState: Array<Stroke> = exampleStrokes([
+				point(10, 11, 100),
+				point(10, 12, 100),
+				point(10, 13, 100),
+			]);
 			const origin = {
 				x: 0,
 				y: 0,
@@ -113,7 +130,7 @@ describe('strokes', () => {
 			};
 			const result = strokes(
 				currentState,
-				updatePosition([strokeToMove], origin.x, origin.y, target.x, target.y, 0),
+				updatePosition([strokeToMove], origin.x, origin.y, target.x, target.y),
 			);
 			expect(result[0].points[0].x).to.equal(10);
 			expect(result[0].points[0].y).to.equal(12);
@@ -124,35 +141,34 @@ describe('strokes', () => {
 		});
 
 		it('does not change coordinates of other strokes', () => {
-			const strokeToMove = {
-				points: [point(10, 11, 100), point(10, 12, 100), point(10, 13, 100)],
-			};
-			const currentState = [{
-				points: [point(10, 11, 100), point(10, 12, 100), point(10, 13, 100)],
-			}, {
-				points: [point(20, 21, 100), point(20, 22, 100), point(20, 23, 100)],
-			}];
+			const strokeToMove = exampleStrokes([
+				point(10, 11, 100),
+				point(10, 12, 100),
+				point(10, 13, 100),
+			])[0];
+			const state = exampleStrokes([point(10, 11, 100), point(10, 12, 100), point(10, 13, 100)])
+				.concat(exampleStrokes([point(20, 21, 100), point(20, 22, 100), point(20, 23, 100)]));
 			const bounds = {
 				x: 1,
 				y: 0,
 			};
 			const result = strokes(
-				currentState,
-				updatePosition(strokeToMove, bounds.x, bounds.y, 0),
+				state,
+				updatePosition([strokeToMove], 0, 0, bounds.x, bounds.y),
 			);
 			expect(result[1].points[0].x).to.equal(20);
 		});
 	});
 
 	describe('rotating a stroke', () => {
-		const mockStrokesToRotate = () => [{ points: [{ x: 0, y: 0 }] }];
 		const radians = 1.5708;
 		const centerX = 10;
 		const centerY = 10;
-		const action = rotateBy(mockStrokesToRotate(), centerX, centerY, radians);
+		const action = rotateBy(exampleStrokes([point(0, 0, 12345)]), centerX, centerY, radians);
+		const strokesToRotate = () => exampleStrokes([point(0, 0, 12345)]);
 
 		it('keeps the number of points the same', () => {
-			const nextState = strokes(mockStrokesToRotate(), action);
+			const nextState = strokes((strokesToRotate()), action);
 
 			const oldCount = 1;
 			const newCount = nextState.reduce((pointCount, stroke) => stroke.points.length, 0);
@@ -160,11 +176,9 @@ describe('strokes', () => {
 		});
 
 		it('rotates only the affected strokes', () => {
-			const unaffectedStroke = {
-				points: [{ x: 100, y: 150 }],
-			};
+			const unaffectedStroke = exampleStrokes([point(100, 150)])[0];
 			const state = [
-				...mockStrokesToRotate(),
+				...strokesToRotate(),
 				unaffectedStroke,
 			];
 			const nextState = strokes(state, action);
@@ -177,35 +191,32 @@ describe('strokes', () => {
 		});
 
 		it('rotates all its points around the chosen center', () => {
-			const nextState = strokes(mockStrokesToRotate(), action);
+			const nextState = strokes(strokesToRotate(), action);
 
 			const nextPoint = nextState[0].points[0];
-			expect(Math.round(nextPoint.x)).to.eql(20);
-			expect(Math.round(nextPoint.y)).to.eql(0);
+			expect(Math.round(nextPoint.x)).to.equal(20);
+			expect(Math.round(nextPoint.y)).to.equal(0);
 		});
 	});
 
 	describe('hiding strokes', () => {
 		it('adds a hidden flag exactly to the strokes supposed to hide', () => {
-			const strokesToHide = [{
-				points: [point(10, 11, 100), point(10, 12, 100), point(10, 13, 100)],
-			}, {
-				points: [point(20, 21, 200), point(20, 22, 200), point(20, 23, 200)],
-			}];
-			const currentState = [{
-				points: [point(10, 11, 100), point(10, 12, 100), point(10, 13, 100)],
-			}, {
-				points: [point(20, 21, 200), point(20, 22, 200), point(20, 23, 200)],
-			}, {
-				points: [point(30, 31, 300), point(30, 32, 300), point(30, 33, 300)],
-			}];
+			const strokesToHide = [
+				...exampleStrokes([point(10, 11, 100), point(10, 12, 100), point(10, 13, 100)]),
+				...exampleStrokes([point(20, 21, 200), point(20, 22, 200), point(20, 23, 200)]),
+			];
+			const currentState = [
+				...exampleStrokes([point(10, 11, 100), point(10, 12, 100), point(10, 13, 100)]),
+				...exampleStrokes([point(20, 21, 200), point(20, 22, 200), point(20, 23, 200)]),
+				...exampleStrokes([point(30, 31, 300), point(30, 32, 300), point(30, 33, 300)]),
+			];
 			const result = strokes(
 				currentState,
 				hide(strokesToHide),
 			);
 			expect(result[0].hidden).to.be.true();
 			expect(result[1].hidden).to.be.true();
-			expect(result[2].hidden).to.be.undefined();
+			expect(result[2].hidden).to.be.false();
 		});
 	});
 
@@ -214,16 +225,16 @@ describe('strokes', () => {
 		let currentState;
 
 		beforeEach(() => {
-			strokeToSelect = {
-				points: [point(10, 11, 100), point(10, 12, 100), point(10, 13, 100)],
-			};
-			currentState = [{
-				points: [point(10, 11, 100), point(10, 12, 100), point(10, 13, 100)],
-			}, {
-				points: [point(20, 21, 200), point(20, 22, 200), point(20, 23, 200)],
-			}, {
-				points: [point(30, 31, 300), point(30, 32, 300), point(30, 33, 300)],
-			}];
+			strokeToSelect = exampleStrokes([
+				point(10, 11, 100),
+				point(10, 12, 100),
+				point(10, 13, 100),
+			])[0];
+			currentState = [
+				...exampleStrokes([point(10, 11, 100), point(10, 12, 100), point(10, 13, 100)]),
+				...exampleStrokes([point(20, 21, 200), point(20, 22, 200), point(20, 23, 200)]),
+				...exampleStrokes([point(30, 31, 300), point(30, 32, 300), point(30, 33, 300)]),
+			];
 		});
 
 		it('sets it to selected', () => {
@@ -249,24 +260,25 @@ describe('strokes', () => {
 				currentState,
 				select([strokeToSelect]),
 			);
-			expect(result[1].selected).to.be.undefined();
+			expect(result[0].selected).to.be.true();
+			expect(result[1].selected).to.be.false();
 		});
 	});
 
 	describe('selecting strokes within a stroke', () => {
 		it('sets one completely circled stroke to selected', () => {
-			const strokesToSelect = [{
-				points: [point(2, 2, 100), point(3, 3, 100), point(4, 4, 100)],
-			}];
-			const strokesAround = [{
-				points: [
-					point(0, 0, 100),
-					point(10, 0, 100),
-					point(10, 10, 100),
-					point(0, 10, 100),
-					point(0, 0, 100),
-				],
-			}];
+			const strokesToSelect = exampleStrokes([
+				point(2, 2, 100),
+				point(3, 3, 100),
+				point(4, 4, 100),
+			]);
+			const strokesAround = exampleStrokes([
+				point(0, 0, 100),
+				point(10, 0, 100),
+				point(10, 10, 100),
+				point(0, 10, 100),
+				point(0, 0, 100),
+			]);
 			const currentState = strokesAround.concat(strokesToSelect);
 			const result = strokes(
 				currentState,
@@ -276,20 +288,17 @@ describe('strokes', () => {
 		});
 
 		it('sets two completely circled strokes to selected', () => {
-			const strokesToSelect = [{
-				points: [point(2, 2, 100), point(3, 3, 100), point(4, 4, 100)],
-			}, {
-				points: [point(6, 6, 100), point(7, 7, 100), point(8, 8, 100)],
-			}];
-			const strokesAround = [{
-				points: [
-					point(0, 0, 100),
-					point(10, 0, 100),
-					point(10, 10, 100),
-					point(0, 10, 100),
-					point(0, 0, 100),
-				],
-			}];
+			const strokesToSelect = [
+				...exampleStrokes([point(2, 2, 100), point(3, 3, 100), point(4, 4, 100)]),
+				...exampleStrokes([point(6, 6, 100), point(7, 7, 100), point(8, 8, 100)]),
+			];
+			const strokesAround = exampleStrokes([
+				point(0, 0, 100),
+				point(10, 0, 100),
+				point(10, 10, 100),
+				point(0, 10, 100),
+				point(0, 0, 100),
+			]);
 			const currentState = strokesAround.concat(strokesToSelect);
 			const result = strokes(
 				currentState,
@@ -300,18 +309,17 @@ describe('strokes', () => {
 		});
 
 		it('sets a stroke surrounded by multiple strokes', () => {
-			const strokesToSelect = [{
-				points: [point(2, 2, 100), point(3, 3, 100), point(4, 4, 100)],
-			}];
-			const strokesAround = [{
-				points: [point(0, 0, 100), point(5, 0, 100), point(10, 0, 100)],
-			}, {
-				points: [point(10, 0, 100), point(10, 5, 100), point(10, 10, 100)],
-			}, {
-				points: [point(10, 10, 100), point(5, 10, 100), point(0, 10, 100)],
-			}, {
-				points: [point(0, 10, 100), point(0, 5, 100), point(0, 0, 100)],
-			}];
+			const strokesToSelect = exampleStrokes([
+				point(2, 2, 100),
+				point(3, 3, 100),
+				point(4, 4, 100),
+			]);
+			const strokesAround = [
+				...exampleStrokes([point(0, 0, 100), point(5, 0, 100), point(10, 0, 100)]),
+				...exampleStrokes([point(10, 0, 100), point(10, 5, 100), point(10, 10, 100)]),
+				...exampleStrokes([point(10, 10, 100), point(5, 10, 100), point(0, 10, 100)]),
+				...exampleStrokes([point(0, 10, 100), point(0, 5, 100), point(0, 0, 100)]),
+			];
 			const currentState = strokesAround.concat(strokesToSelect);
 			const result = strokes(
 				currentState,
@@ -321,27 +329,27 @@ describe('strokes', () => {
 		});
 
 		it('does not select hidden strokes', () => {
-			const strokesToSelect = [{
-				points: [point(2, 2, 100), point(3, 3, 100), point(4, 4, 100)],
-				hidden: true,
-			}, {
-				points: [point(2, 2, 100), point(3, 3, 100), point(4, 4, 100)],
-			}];
-			const strokesAround = [{
-				points: [
-					point(0, 0, 100),
-					point(10, 0, 100),
-					point(10, 10, 100),
-					point(0, 10, 100),
-					point(0, 0, 100),
-				],
-			}];
-			const currentState = strokesAround.concat(strokesToSelect);
+			const strokesToSelect = [
+				...exampleStrokes([point(2, 2, 100), point(3, 3, 100), point(4, 4, 100)]),
+				...exampleStrokes([point(2, 2, 100), point(3, 3, 100), point(4, 4, 100)]),
+			];
+			strokesToSelect[0].hidden = true;
+			const strokesAround = exampleStrokes([
+				point(0, 0, 100),
+				point(10, 0, 100),
+				point(10, 10, 100),
+				point(0, 10, 100),
+				point(0, 0, 100),
+			]);
+			const currentState = [
+				...strokesAround,
+				...strokesToSelect,
+			];
 			const result = strokes(
 				currentState,
 				selectInside(strokesAround),
 			);
-			expect(result[1].selected).to.be.undefined();
+			expect(result[1].selected).to.be.false();
 			expect(result[2].selected).to.be.true();
 		});
 	});

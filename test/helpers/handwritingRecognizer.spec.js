@@ -1,3 +1,5 @@
+// @flow
+import { expect } from 'chai';
 import { useFakeXMLHttpRequest } from 'sinon';
 
 import { requestShapeCandidates, requestTextCandidates } from 'src/client/app/helpers/handwritingRecognizer';

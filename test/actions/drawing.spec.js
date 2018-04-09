@@ -1,3 +1,6 @@
+// @flow
+import { expect } from 'chai';
+
 import * as actions from 'src/client/app/actions/drawing';
 
 describe('src/client/app/actions', () => {

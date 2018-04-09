@@ -33,7 +33,7 @@ module.exports = function (config) {
 			'karma-sinon',
 			'karma-sinon-chai',
 		],
-		frameworks: ['chai', 'dirty-chai', 'mocha', 'sinon', 'sinon-chai'],
+		frameworks: ['sinon-chai', 'mocha'],
 		preprocessors: {
 			'test/runner.js': ['webpack'],
 		},

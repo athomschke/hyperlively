@@ -1,3 +1,5 @@
+// @flow
+import { expect } from 'chai';
 import { forEach } from 'lodash';
 import { useFakeXMLHttpRequest } from 'sinon';
 
@@ -32,7 +34,13 @@ describe('Integration', () => {
 			};
 			renderApplicationWithState(canvasJson);
 			expect(getCanvasNodes()).to.have.length(3);
-			expect(getCanvasNodes()[0].parentNode.style.getPropertyValue('pointer-events')).to.equal('none');
+			const parentNode = getCanvasNodes()[0].parentNode;
+
+			if (!(parentNode instanceof HTMLElement)) {
+				throw new Error('Need a parent node to canvas');
+			}
+
+			expect(parentNode.style.getPropertyValue('pointer-events')).to.equal('none');
 			forEach(listeners, (listener) => {
 				if (listener.type === 'keydown') {
 					listener.callback({
@@ -42,7 +50,7 @@ describe('Integration', () => {
 				}
 			});
 			window.addEventListener = oldAddEventListener.bind(window);
-			expect(getCanvasNodes()[0].parentNode.style.getPropertyValue('pointer-events')).to.equal('auto');
+			expect(parentNode.style.getPropertyValue('pointer-events')).to.equal('auto');
 		});
 
 		it('disables events on window div', () => {

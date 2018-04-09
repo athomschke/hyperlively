@@ -1,3 +1,6 @@
+// @flow
+import { expect } from 'chai';
+
 import { specificActions } from 'src/client/app/reducers/specificActions';
 
 describe('Reducer specificActions', () => {

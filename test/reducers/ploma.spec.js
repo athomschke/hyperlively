@@ -1,3 +1,6 @@
+// @flow
+import { expect } from 'chai';
+
 import { ploma } from 'src/client/app/reducers/ploma';
 import { togglePloma } from 'src/client/app/actions/configuring';
 
@@ -21,6 +24,7 @@ describe('ploma', () => {
 			const action = togglePloma(true);
 			const oldState = {
 				usePloma: false,
+				uniqueCanvasFactor: 1,
 			};
 			expect(ploma(oldState, action).usePloma).to.be.true();
 		});
@@ -29,6 +33,7 @@ describe('ploma', () => {
 			const action = togglePloma(false);
 			const oldState = {
 				usePloma: true,
+				uniqueCanvasFactor: 1,
 			};
 			expect(ploma(oldState, action).usePloma).to.be.false();
 		});

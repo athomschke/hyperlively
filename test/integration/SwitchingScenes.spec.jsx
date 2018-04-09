@@ -1,3 +1,5 @@
+// @flow
+import { expect } from 'chai';
 import TestUtils from 'react-addons-test-utils';
 import { cloneDeep } from 'lodash';
 
@@ -6,7 +8,14 @@ import { nextScene } from 'src/client/app/actions/drawing';
 import { createAppStore, renderApplicationWithStore, mountApp, dismountApp } from './helpers';
 import canvasWithTwoScenes from './data/canvasWithTwoScenes.json';
 
-const getTimelineCanvasNodes = () => document.getElementById('configuration').getElementsByTagName('canvas');
+const getTimelineCanvasNodes = () => {
+	const configuration = document.getElementById('configuration');
+	if (!(configuration instanceof HTMLElement)) {
+		throw new Error('Need a configuration element');
+	}
+
+	return configuration.getElementsByTagName('canvas');
+};
 
 const createStoreAndRenderAppAtPage = (pageNumber) => {
 	const canvasJson = cloneDeep(canvasWithTwoScenes.json);

@@ -1,3 +1,5 @@
+// @flow
+import { expect } from 'chai';
 import React, { Component, PropTypes } from 'react';
 import { sum, map, remove } from 'lodash';
 import { mount, shallow } from 'enzyme';

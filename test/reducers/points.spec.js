@@ -1,3 +1,6 @@
+// @flow
+import { expect } from 'chai';
+
 import { points } from 'src/client/app/reducers/content/strokes/points';
 import { appendPoint } from 'src/client/app/actions/drawing';
 import { point, event } from 'test/helpers';

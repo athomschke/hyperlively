@@ -1,3 +1,6 @@
+// @flow
+import { expect } from 'chai';
+
 import Ploma from 'src/client/app/components/dumb/Ploma';
 
 describe('Ploma Configuration', () => {

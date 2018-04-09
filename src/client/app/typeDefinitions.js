@@ -1,4 +1,5 @@
 // @flow
+import * as ACTION from './actionTypeDefinitions';
 
 export type Point = {
 	x: number,
@@ -49,7 +50,7 @@ export type HyperlivelyState = {
 	content: Content,
 }
 
-export type Action = {}
+export type Action = ACTION;
 
 export type Reducer = (state: any, action: Action) => any;
 

@@ -1,3 +1,5 @@
+// @flow
+import { expect } from 'chai';
 import { useFakeXMLHttpRequest } from 'sinon';
 
 import { relativeDividerPosition } from 'src/client/app/reducers/defaultState';
@@ -20,6 +22,10 @@ describe('Integration', () => {
 
 	describe('resizing the window', () => {
 		beforeEach(() => {
+			if (!(document.body instanceof HTMLElement)) {
+				throw new Error('Need document body');
+			}
+
 			document.body.style.setProperty('margin', '0px');
 		});
 
@@ -36,7 +42,11 @@ describe('Integration', () => {
 		it('shows the canvas in 0.6 fullscreen width and full height per default', () => {
 			const canvasJson = emptyCanvas.json;
 			renderApplicationWithState(canvasJson);
-			const backgroundNode = document.getElementById('app').children[0].children[0].children[0];
+			const app = document.getElementById('app');
+			if (!(app instanceof HTMLElement)) {
+				throw new Error('Need an app');
+			}
+			const backgroundNode = app.children[0].children[0].children[0];
 			expect(Math.floor(backgroundNode.getBoundingClientRect().width))
 				.to.equal(Math.floor(window.innerWidth * relativeDividerPosition));
 			expect(Math.floor(backgroundNode.getBoundingClientRect().height))

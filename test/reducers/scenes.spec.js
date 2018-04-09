@@ -1,7 +1,18 @@
+// @flow
+import { expect } from 'chai';
+
 import { scenes } from 'src/client/app/reducers/content/scenes';
-import { appendPoint, createStroke, addScene, addSceneAt } from 'src/client/app/actions/drawing';
-import { updatePosition, hide } from 'src/client/app/actions/manipulating';
+import { addScene, addSceneAt } from 'src/client/app/actions/drawing';
 import { point } from 'test/helpers';
+import type { Scene, Stroke, Point } from 'src/client/app/typeDefinitions';
+
+const exampleStrokes = (points: Array<Point>) => ([{
+	points,
+	color: 'rgb(0,0,0)',
+	finished: true,
+	hidden: false,
+	selected: false,
+}]);
 
 describe('scenes', () => {
 	describe('initial state', () => {
@@ -13,9 +24,13 @@ describe('scenes', () => {
 	});
 
 	describe('creating a stroke on the first scene', () => {
-		const aPoint = point(10, 10);
-		const action = createStroke(aPoint.x, aPoint.y, aPoint.timeStamp);
-		action.sceneIndex = 0;
+		const action = {
+			type: 'APPEND_STROKE',
+			x: 10,
+			y: 10,
+			timeStamp: 123456,
+			sceneIndex: 0,
+		};
 
 		it('when no scene exists creates one', () => {
 			const result = scenes(
@@ -40,10 +55,14 @@ describe('scenes', () => {
 		let result;
 
 		beforeEach(() => {
-			const aPoint = point(10, 10);
-			const action = createStroke(aPoint.x, aPoint.y, aPoint.timeStamp);
-			action.sceneIndex = 1;
-			const existingScenes = [
+			const action = {
+				type: 'APPEND_STROKE',
+				x: 10,
+				y: 10,
+				timeStamp: 123456,
+				sceneIndex: 1,
+			};
+			const existingScenes: Array<Scene> = [
 				{ strokes: [] },
 				{ strokes: [] },
 			];
@@ -65,11 +84,18 @@ describe('scenes', () => {
 
 	describe('moving a stroke', () => {
 		it('does not change the number of scenes', () => {
-			const movableStrokes = [{
-				points: [point(10, 10), point(11, 11), point(12, 12)],
-			}];
-			const action = updatePosition(movableStrokes, 5, 15);
-			action.sceneIndex = 1;
+			const movableStrokes: Array<Stroke> = exampleStrokes([
+				point(10, 10),
+				point(11, 11),
+				point(12, 12),
+			]);
+			const action = {
+				type: 'UPDATE_POSITION',
+				strokes: movableStrokes,
+				origin: { x: 0, y: 0 },
+				target: { x: 5, y: 15 },
+				sceneIndex: 1,
+			};
 			const result = scenes(
 				[
 					{ strokes: [] },
@@ -83,11 +109,13 @@ describe('scenes', () => {
 
 	describe('hiding a stroke', () => {
 		it('does not change the number of scenes', () => {
-			const hidableStrokes = [{
-				points: [point(10, 10), point(11, 11), point(12, 12)],
-			}];
-			const action = hide(hidableStrokes);
-			action.sceneIndex = 1;
+			const hidableStrokes = exampleStrokes([point(10, 10), point(11, 11), point(12, 12)]);
+			const action = {
+				type: 'HIDE',
+				strokes: hidableStrokes,
+				sceneIndex: 1,
+			};
+
 			const result = scenes(
 				[
 					{ strokes: [] },
@@ -100,8 +128,13 @@ describe('scenes', () => {
 	});
 
 	describe('adding a point', () => {
-		const action = appendPoint(10, 10, undefined);
-		action.sceneIndex = 0;
+		const action = {
+			type: 'APPEND_POINT',
+			x: 10,
+			y: 10,
+			timeStamp: 123456,
+			sceneIndex: 0,
+		};
 
 		it('to no existing scene creates a scene', () => {
 			const result = scenes(
@@ -126,7 +159,7 @@ describe('scenes', () => {
 		it('increses the number of scenes by 1', () => {
 			const result = scenes(
 				[
-					{ strokes: [{ points: [point(10, 10)] }] },
+					{ strokes: exampleStrokes([point(10, 10)]) },
 				],
 				addScene(),
 			);
@@ -134,7 +167,7 @@ describe('scenes', () => {
 		});
 
 		it('pushes the scene to the end', () => {
-			const existingScene = { strokes: [{ points: [point(10, 10)] }] };
+			const existingScene = { strokes: exampleStrokes([point(10, 10)]) };
 			const result = scenes(
 				[
 					existingScene,
@@ -146,7 +179,7 @@ describe('scenes', () => {
 		});
 
 		it('initializes a scene with a strokes array', () => {
-			const existingScene = { strokes: [{ points: [point(10, 10)] }] };
+			const existingScene = { strokes: exampleStrokes([point(10, 10)]) };
 			const result = scenes(
 				[
 					existingScene,
@@ -162,7 +195,7 @@ describe('scenes', () => {
 		it('increses the number of scenes by 1', () => {
 			const result = scenes(
 				[
-					{ strokes: [{ points: [point(10, 10)] }] },
+					{ strokes: exampleStrokes([point(10, 10)]) },
 				],
 				addSceneAt(0),
 			);
@@ -170,7 +203,7 @@ describe('scenes', () => {
 		});
 
 		it('pushes the scene to the given index', () => {
-			const existingScene = { strokes: [{ points: [point(10, 10)] }] };
+			const existingScene = { strokes: exampleStrokes([point(10, 10)]) };
 			const result = scenes(
 				[
 					existingScene,

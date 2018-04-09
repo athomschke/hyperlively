@@ -1,3 +1,6 @@
+// @flow
+import { expect } from 'chai';
+
 import { updatePosition, hide, select, selectInside, rotateBy } from 'src/client/app/actions/manipulating';
 import { strokesExample } from 'test/data';
 
@@ -7,7 +10,6 @@ describe('actions to manipulate things on canvas', () => {
 		const originY = 2;
 		const targetX = 3;
 		const targetY = 4;
-		const sceneIndex = 0;
 		const expectedAction = {
 			type: 'UPDATE_POSITION',
 			strokes: strokesExample,
@@ -20,7 +22,7 @@ describe('actions to manipulate things on canvas', () => {
 				y: targetY,
 			},
 		};
-		expect(updatePosition(strokesExample, originX, originY, targetX, targetY, sceneIndex))
+		expect(updatePosition(strokesExample, originX, originY, targetX, targetY))
 			.to.deep.equal(expectedAction);
 	});
 
@@ -41,31 +43,28 @@ describe('actions to manipulate things on canvas', () => {
 
 	it('should create an action to hide a set of strokes', () => {
 		const strokes = [];
-		const sceneIndex = 0;
 		const expectedAction = {
 			type: 'HIDE',
 			strokes,
 		};
-		expect(hide(strokes, sceneIndex)).to.deep.equal(expectedAction);
+		expect(hide(strokes)).to.deep.equal(expectedAction);
 	});
 
 	it('should create an action to select a set of strokes', () => {
 		const strokes = [];
-		const sceneIndex = 0;
 		const expectedAction = {
 			type: 'SELECT',
 			strokes,
 		};
-		expect(select(strokes, sceneIndex)).to.deep.equal(expectedAction);
+		expect(select(strokes)).to.deep.equal(expectedAction);
 	});
 
 	it('should create an action to select strokes inside a set of strokes', () => {
 		const strokes = [];
-		const sceneIndex = 0;
 		const expectedAction = {
 			type: 'SELECT_INSIDE',
 			strokes,
 		};
-		expect(selectInside(strokes, sceneIndex)).to.deep.equal(expectedAction);
+		expect(selectInside(strokes)).to.deep.equal(expectedAction);
 	});
 });

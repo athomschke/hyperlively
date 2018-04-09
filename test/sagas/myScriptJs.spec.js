@@ -1,3 +1,5 @@
+// @flow
+import { expect } from 'chai';
 import { filter } from 'lodash';
 import { call } from 'redux-saga/effects';
 import { useFakeXMLHttpRequest } from 'sinon';

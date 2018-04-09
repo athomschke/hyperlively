@@ -1,3 +1,6 @@
+// @flow
+import { expect } from 'chai';
+
 import { handwritingRecognition } from 'src/client/app/reducers/handwritingRecognition';
 import { toggleHandwritingRecognition } from 'src/client/app/actions/configuring';
 

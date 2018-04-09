@@ -1,3 +1,6 @@
+// @flow
+import { expect } from 'chai';
+
 import { point } from 'src/client/app/reducers/content/strokes/points/point';
 
 describe('point reducer', () => {

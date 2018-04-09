@@ -1,3 +1,6 @@
+// @flow
+import { expect } from 'chai';
+
 import { threshold } from 'src/client/app/reducers/threshold';
 import { updateThreshold } from 'src/client/app/actions/configuring';
 

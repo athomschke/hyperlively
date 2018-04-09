@@ -20,7 +20,6 @@ export const threeInFirstThreeInSecond = [
 		{	strokes: [{ actionIndex: 0 }, { actionIndex: 1 }, { actionIndex: 2 }]	},
 		{	strokes: [{ actionIndex: 5 }, { actionIndex: 5 }, { actionIndex: 6 }]	},
 	],
-
 ];
 
 export const threeInSecondThreeInFirst = [
@@ -48,7 +47,6 @@ export const threeInSecondThreeInFirst = [
 		{	strokes: [{ actionIndex: 3 }, { actionIndex: 4 }, { actionIndex: 5 }]	},
 		{	strokes: [{ actionIndex: 0 }, { actionIndex: 1 }, { actionIndex: 2 }]	},
 	],
-
 ];
 
 export const threeInSecond = [
@@ -64,7 +62,6 @@ export const threeInSecond = [
 		{	strokes: []	},
 		{	strokes: [{ actionIndex: 0 }, { actionIndex: 1 }, { actionIndex: 2 }]	},
 	],
-
 ];
 
 export const threeInFirst = [
@@ -78,4 +75,3 @@ export const threeInFirst = [
 		{	strokes: [{ actionIndex: 0 }, { actionIndex: 1 }, { actionIndex: 2 }]	},
 	],
 ];
-

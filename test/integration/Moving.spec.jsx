@@ -1,3 +1,5 @@
+// @flow
+import { expect } from 'chai';
 import { useFakeXMLHttpRequest } from 'sinon';
 
 import { hashCode, mountApp, dismountApp, renderApplicationWithStore, createAppStore } from './helpers';
@@ -20,12 +22,25 @@ const renderTwoStrokeApplicationWithDispatchObject = (afterStoreDispatchCallback
 	return renderApplicationWithStore(store);
 };
 
-const getCanvasLeftValue = () => document.getElementsByTagName('canvas')[0].parentNode.style.getPropertyValue('left');
+const getCanvasLeftValue = () => {
+	const parentNode = document.getElementsByTagName('canvas')[0].parentNode;
+
+	if (!(parentNode instanceof HTMLElement)) {
+		throw new Error('Need complex parent Element');
+	}
+
+	return parentNode.style.getPropertyValue('left');
+};
 
 const getCanvasDataURL = () => document.getElementsByTagName('canvas')[0].toDataURL();
 
 const moveCanvasLeftBy = (moveBy) => {
 	const canvasNode = document.getElementsByTagName('canvas')[0].parentNode;
+
+	if (!(canvasNode instanceof HTMLElement)) {
+		throw new Error('Need complex parent Element');
+	}
+
 	canvasNode.style.setProperty('left', `${parseInt(getCanvasLeftValue(), 10) + moveBy}px`);
 };
 

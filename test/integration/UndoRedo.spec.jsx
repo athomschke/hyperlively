@@ -1,11 +1,22 @@
+// @flow
+import { expect } from 'chai';
 import { findDOMNode } from 'react-dom';
 import { cloneDeep } from 'lodash';
 import { useFakeXMLHttpRequest } from 'sinon';
 
 import { point } from 'test/helpers';
+import type { Point } from 'src/client/app/typeDefinitions';
 
 import { hashCode, mountApp, dismountApp, getCanvasNodes, getWindowNode, getCombinedCanvas, renderApplicationWithState, manuallyDrawStrokes, gotToHalfTimeInApp } from './helpers';
 import emptyCanvas from './data/emptyCanvas.json';
+
+const strokeFromPoints = (points: Array<Point>) => ({
+	points,
+	color: 'rgb(0,0,0)',
+	selected: false,
+	hidden: false,
+	finished: true,
+});
 
 describe('Integration', () => {
 	let xhr;
@@ -25,31 +36,41 @@ describe('Integration', () => {
 			const clonedEmptyCanvas = cloneDeep(emptyCanvas);
 			clonedEmptyCanvas.json.threshold = 10;
 			const renderedApp = renderApplicationWithState(clonedEmptyCanvas.json);
-			manuallyDrawStrokes(getWindowNode(), [{
-				points: [point(10, 10, 100), point(10, 30, 101), point(10, 60, 102)],
-			}, {
-				points: [point(20, 10, 130), point(20, 30, 131), point(20, 60, 132)],
-			}]);
+
+			manuallyDrawStrokes(getWindowNode(), [
+				strokeFromPoints([point(10, 10, 100), point(10, 30, 101), point(10, 60, 102)]),
+				strokeFromPoints([point(20, 10, 130), point(20, 30, 131), point(20, 60, 132)]),
+			]);
 			expect(getCanvasNodes()).to.have.length(3);
 			const domApp = findDOMNode(renderedApp);
-			expect(parseInt(getCanvasNodes()[0].parentNode.style.getPropertyValue('width'), 10)).to.equal(10);
-			expect(parseInt(getCanvasNodes()[0].parentNode.style.getPropertyValue('height'), 10)).to.equal(60);
+			if (!(domApp instanceof HTMLElement)) {
+				throw new Error('Need app to be in a complex element');
+			}
+			const parentNode = getCanvasNodes()[0].parentNode;
+			if (!(parentNode instanceof HTMLElement)) {
+				throw new Error('Need a parent Element');
+			}
+			expect(parseInt(parentNode.style.getPropertyValue('width'), 10)).to.equal(10);
+			expect(parseInt(parentNode.style.getPropertyValue('height'), 10)).to.equal(60);
 			gotToHalfTimeInApp(domApp);
-			expect(parseInt(getCanvasNodes()[0].parentNode.style.getPropertyValue('width'), 10)).to.equal(10);
-			expect(parseInt(getCanvasNodes()[0].parentNode.style.getPropertyValue('height'), 10)).to.equal(60);
+			expect(parseInt(parentNode.style.getPropertyValue('width'), 10)).to.equal(10);
+			expect(parseInt(parentNode.style.getPropertyValue('height'), 10)).to.equal(60);
 		});
 
 		it('affects the canvas', () => {
 			const clonedEmptyCanvas = cloneDeep(emptyCanvas);
 			const renderedApp = renderApplicationWithState(clonedEmptyCanvas.json);
-			manuallyDrawStrokes(getWindowNode(), [{
-				points: [point(10, 10), point(10, 30), point(10, 60)],
-			}, {
-				points: [point(20, 10), point(20, 30), point(20, 60)],
-			}]);
+			manuallyDrawStrokes(getWindowNode(), [
+				strokeFromPoints([point(10, 10), point(10, 30), point(10, 60)]),
+				strokeFromPoints([point(20, 10), point(20, 30), point(20, 60)]),
+			]);
 			const domApp = findDOMNode(renderedApp);
 			return getCombinedCanvas().then((oldCombinedCanvas) => {
 				const beforeUndoImageData = oldCombinedCanvas.toDataURL();
+				if (!(domApp instanceof HTMLElement)) {
+					throw new Error('Need app to be in a complex element');
+				}
+
 				gotToHalfTimeInApp(domApp);
 				return getCombinedCanvas().then((newCombinedCanvas) => {
 					const afterUndoImageData = newCombinedCanvas.toDataURL();

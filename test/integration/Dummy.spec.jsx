@@ -1,16 +1,25 @@
+// @flow
+import { expect } from 'chai';
 import { BallpointPen } from 'ploma';
 import { sum } from 'lodash';
 
 import { combineCanvasses } from './helpers';
 
+const asHTMLCollection = (elements: Array<HTMLCanvasElement>) => {
+	const parentElement = document.createElement('div');
+	elements.forEach(element => parentElement.appendChild(element));
+	const canvasses: HTMLCollection<HTMLCanvasElement> = parentElement.getElementsByTagName('canvas');
+	return canvasses;
+};
+
 describe('Integration', () => {
 	describe('dummy testing', () => {
 		it('combining two canvasses looks the same as writing their content on the same canvas', () => {
 			const bothDrawnOnOneCanvas = document.createElement('canvas');
-			bothDrawnOnOneCanvas.setAttribute('width', 100);
-			bothDrawnOnOneCanvas.setAttribute('height', 100);
-			bothDrawnOnOneCanvas.style.setProperty('top', 0);
-			bothDrawnOnOneCanvas.style.setProperty('left', 0);
+			bothDrawnOnOneCanvas.setAttribute('width', '100');
+			bothDrawnOnOneCanvas.setAttribute('height', '100');
+			bothDrawnOnOneCanvas.style.setProperty('top', '0');
+			bothDrawnOnOneCanvas.style.setProperty('left', '0');
 			const firstCanvas = bothDrawnOnOneCanvas.cloneNode();
 			const secondCanvas = bothDrawnOnOneCanvas.cloneNode();
 			// draw first stroke
@@ -39,7 +48,8 @@ describe('Integration', () => {
 			secondCanvas.getContext('2d').stroke();
 			secondCanvas.getContext('2d').closePath();
 			// get data
-			const combinedCanvasPromise = combineCanvasses([firstCanvas, secondCanvas], 100, 100);
+			const canvasses = asHTMLCollection([firstCanvas, secondCanvas]);
+			const combinedCanvasPromise = combineCanvasses(canvasses, 100, 100);
 			return combinedCanvasPromise.then((combinedCanvas) => {
 				expect(combinedCanvas.toDataURL()).to.equal(bothDrawnOnOneCanvas.toDataURL());
 			});
@@ -57,10 +67,10 @@ describe('Integration', () => {
 			const extent = 100;
 			const pressure = 0.95;
 			const canvasFactor = 0.35;
-			canvas.setAttribute('width', extent);
-			canvas.setAttribute('height', extent);
-			canvas.style.setProperty('top', position);
-			canvas.style.setProperty('left', position);
+			canvas.setAttribute('width', `${extent}`);
+			canvas.setAttribute('height', `${extent}`);
+			canvas.style.setProperty('top', `${position}`);
+			canvas.style.setProperty('left', `${position}`);
 			const plomaConfig = {
 				uniqueCanvasFactor: canvasFactor,
 				paperColor: 'rgba(0, 0, 0, 0)',
@@ -75,7 +85,7 @@ describe('Integration', () => {
 			ballpointPen.extendStroke(14, 14, pressure);
 			ballpointPen.endStroke(15, 15, pressure);
 			const newImageData = canvas.getContext('2d').getImageData(position, position, extent, extent);
-			expect(sum(oldImageData.data)).to.not.equal(sum(newImageData.data));
+			expect(sum(Array.from(oldImageData.data))).to.not.equal(sum(Array.from(newImageData.data)));
 		});
 	});
 });

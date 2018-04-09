@@ -1,6 +1,7 @@
+// @flow
+import { expect } from 'chai';
+
 import { sceneIndex } from 'src/client/app/reducers/content/sceneIndex';
-import { setSceneIndex } from 'src/client/app/actions/configuring';
-import { previousScene } from 'src/client/app/actions/drawing';
 
 describe('Scene Index', () => {
 	describe('setting the index', () => {
@@ -13,7 +14,11 @@ describe('Scene Index', () => {
 		});
 
 		it('sets the sceneIndex from 1 to 2', () => {
-			const action = setSceneIndex(2);
+			const action = {
+				type: 'SET_SCENE_INDEX',
+				number: 2,
+				max: 4,
+			};
 			action.max = 4;
 			const result = sceneIndex(
 				1,
@@ -25,8 +30,10 @@ describe('Scene Index', () => {
 
 	describe('decreasing the index', () => {
 		it('sets the sceneIndex from 2 to 1', () => {
-			const action = previousScene();
-			action.max = 4;
+			const action = {
+				type: 'PREVIOUS_SCENE',
+				max: 4,
+			};
 			const result = sceneIndex(
 				2,
 				action,
@@ -35,8 +42,10 @@ describe('Scene Index', () => {
 		});
 
 		it('keeps the index above or at 0', () => {
-			const action = previousScene();
-			action.max = 4;
+			const action = {
+				type: 'PREVIOUS_SCENE',
+				max: 4,
+			};
 			const result = sceneIndex(
 				0,
 				action,

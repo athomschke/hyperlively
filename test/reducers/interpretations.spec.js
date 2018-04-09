@@ -1,5 +1,6 @@
 // @flow
 import { useFakeXMLHttpRequest } from 'sinon';
+import { expect } from 'chai';
 
 import { requestTextCandidates, requestShapeCandidates, receiveTextCandidates, receiveShapeCandidates } from 'src/client/app/actions/handwritingRecognition';
 import { toggleInterpreter } from 'src/client/app/actions/configuring';

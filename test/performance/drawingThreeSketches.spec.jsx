@@ -1,3 +1,5 @@
+// @flow
+import { expect } from 'chai';
 import { map, reduce, flatten } from 'lodash';
 import { useFakeXMLHttpRequest } from 'sinon';
 

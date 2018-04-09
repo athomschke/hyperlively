@@ -1,3 +1,5 @@
+// @flow
+import { expect } from 'chai';
 import TestUtils from 'react-addons-test-utils';
 import Slider from 'rc-slider';
 import React from 'react';

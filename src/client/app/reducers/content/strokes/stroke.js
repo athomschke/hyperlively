@@ -51,8 +51,8 @@ function stroke(state: Stroke = defaultStroke(), action: StrokeActionType) {
 			});
 		}
 		if (state.selected) {
-			const newStroke = merge({}, state);
-			delete newStroke.selected;
+			const newStroke: Stroke = merge({}, state);
+			newStroke.selected = false;
 			return newStroke;
 		}
 		return state;

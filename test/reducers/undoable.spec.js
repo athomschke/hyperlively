@@ -1,3 +1,6 @@
+// @flow
+import { expect } from 'chai';
+
 import { undoable } from 'src/client/app/reducers/content/undoable';
 import { jumpTo } from 'src/client/app/actions/configuring';
 
@@ -48,10 +51,11 @@ describe('undoable', () => {
 		});
 
 		it('invokes the passed reducer when not jumping in time', () => {
+			const emptyScene = data.emptyState.present;
 			const actualState = undoable(() => 1)(data.emptyState, {
 				type: 'foobar',
 			});
-			expect(actualState.past).to.deep.equal([[[]]]);
+			expect(actualState.past).to.eql([emptyScene]);
 			expect(actualState.present).to.equal(1);
 		});
 

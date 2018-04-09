@@ -1,3 +1,5 @@
+// @flow
+import { expect } from 'chai';
 import { cloneDeep, find, map } from 'lodash';
 import { useFakeXMLHttpRequest } from 'sinon';
 import TestUtils from 'react-addons-test-utils';
@@ -8,6 +10,10 @@ import canvasWithTwoScenes from './data/canvasWithTwoScenes.json';
 import canvasWithTwoStrokes from './data/canvasWithTwoStrokes.json';
 
 const expectInputNodeWithLabelAndState = (label, initialState) => {
+	if (!(document.body instanceof HTMLElement)) {
+		throw new Error('Need document body');
+	}
+
 	const labelNode = find(document.body.getElementsByTagName('span'), (tag => tag.textContent === label));
 	expect(labelNode).to.exist();
 	const inputNode = labelNode.parentNode.children[0];

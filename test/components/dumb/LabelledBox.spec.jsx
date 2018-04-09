@@ -1,5 +1,7 @@
+// @flow
+import { expect } from 'chai';
 import TestUtils from 'react-addons-test-utils';
-import React from 'react';
+import * as React from 'react';
 
 import LabelledBox from 'src/client/app/components/dumb/LabelledBox';
 
@@ -7,7 +9,11 @@ describe('LabelledBox', () => {
 	it('toggling without a callback does not change the checked state', () => {
 		const ploma = TestUtils.renderIntoDocument(<LabelledBox />);
 		const previousValue = ploma.props.checked;
-		TestUtils.Simulate.click(TestUtils.findRenderedDOMComponentWithTag(ploma, 'input'));
+		const plomaInput = TestUtils.findRenderedDOMComponentWithTag(ploma, 'input');
+		if (!plomaInput) {
+			throw new Error('ploma needs to be rendered');
+		}
+		TestUtils.Simulate.click(plomaInput);
 		expect(ploma.props.checked).to.equal(previousValue);
 	});
 
@@ -19,7 +25,11 @@ describe('LabelledBox', () => {
 				value = bool;
 			}}
 		/>);
-		TestUtils.Simulate.click(TestUtils.findRenderedDOMComponentWithTag(ploma, 'input'));
+		const plomaInput = TestUtils.findRenderedDOMComponentWithTag(ploma, 'input');
+		if (!plomaInput) {
+			throw new Error('ploma needs to be rendered');
+		}
+		TestUtils.Simulate.click(plomaInput);
 		expect(value).to.be.true();
 	});
 

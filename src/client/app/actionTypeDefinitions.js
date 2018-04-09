@@ -1,4 +1,4 @@
-import { type Stroke, type TextCandidate, type ShapeCandidate } from './typeDefinitions';
+import type { Stroke, TextCandidate, ShapeCandidate } from './typeDefinitions';
 
 export type APPEND_POINT_ACTION = {
 	type: 'APPEND_POINT';
@@ -46,6 +46,10 @@ export type UPDATE_POSITION_ACTION = {
 	targetY: number;
 }
 
+export type ENHANCED_UPDATE_POSITION_ACTION = UPDATE_POSITION_ACTION & {
+	sceneIndex: number;
+}
+
 export type ROTATE_BY_ACTION = {
 	type: 'ROTATE_BY',
 	strokes: Stroke[],
@@ -87,6 +91,10 @@ export type TOGGLE_INTERPRETER_ACTION = {
 export type SET_SCENE_INDEX_ACTION = {
 	type: 'SET_SCENE_INDEX';
 	number: number;
+}
+
+export type ENHANCED_SET_SCENE_INDEX_ACTION = SET_SCENE_INDEX_ACTION & {
+	max: number;
 }
 
 export type ADD_SCENE_ACTION = {

@@ -1,3 +1,6 @@
+// @flow
+import { expect } from 'chai';
+
 import { appendSpecificAction } from 'src/client/app/actions/combining';
 
 describe('Combining actions', () => {
