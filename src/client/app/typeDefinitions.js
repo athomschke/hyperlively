@@ -12,7 +12,7 @@ export type Stroke = {
 	hidden: boolean,
 	selected: boolean,
 	finished: boolean,
-	color: string,
+	color?: string,
 }
 
 export type Scene = {

@@ -1,19 +1,28 @@
 // @flow
 import { expect } from 'chai';
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { sum, map, remove } from 'lodash';
 import { mount, shallow } from 'enzyme';
 import { spy } from 'sinon';
 
 import PlainDrawer from 'src/client/app/components/smart/PlainDrawer';
+import type { AbstractDrawerProps } from 'src/client/app/components/smart/AbstractDrawer';
+import type { Stroke } from 'src/client/app/typeDefinitions';
+import { point, exampleStrokes } from 'test/helpers';
 
-class WrappedPlainDrawer extends Component {
+type WrappedState = {
+	width: number,
+	height: number,
+}
 
-	static propTypes = {
-		width: PropTypes.number.isRequired,
-		height: PropTypes.number.isRequired,
-	}
+type WrappedProps = AbstractDrawerProps<{}>
+type PWrappedProps = {
+	strokes?: Array<Stroke>,
+	active?: boolean,
+	finished?: boolean,
+}
 
+class WrappedPlainDrawer extends Component<WrappedProps, WrappedState> {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -22,12 +31,15 @@ class WrappedPlainDrawer extends Component {
 		};
 	}
 
+	state: WrappedState;
+	props: WrappedProps;
+
 	render() {
 		return <PlainDrawer {...this.props} {...this.state} />;
 	}
 }
 
-const mountWrapperAroundComponentWithProps = props => mount(<WrappedPlainDrawer
+const mountWrapperAroundComponentWithProps = (props: PWrappedProps) => mount(<WrappedPlainDrawer
 	{...props}
 	bounds={{
 		width: 1000,
@@ -36,10 +48,14 @@ const mountWrapperAroundComponentWithProps = props => mount(<WrappedPlainDrawer
 		y: 0,
 	}}
 	strokes={props.strokes || []}
-	active={props.active}
+	active={props.active || false}
+	width={100}
+	height={100}
+	showBorder={false}
+	finished={false}
 />);
 
-const mountComponentWithProps = props => mount(<PlainDrawer
+const mountComponentWithProps = (props: PWrappedProps) => mount(<PlainDrawer
 	bounds={{
 		width: 1000,
 		height: 500,
@@ -47,8 +63,8 @@ const mountComponentWithProps = props => mount(<PlainDrawer
 		y: 0,
 	}}
 	strokes={props.strokes || []}
-	active={props.active}
-	finished={props.finished}
+	active={props.active || false}
+	finished={props.finished || false}
 />);
 
 const canvasImageData = canvas => canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height);
@@ -59,9 +75,7 @@ describe('PlainDrawer', () => {
 
 		beforeEach(() => {
 			canvas = mountComponentWithProps({
-				strokes: [{
-					points: [{ x: 10, y: 10 }, { x: 10, y: 11 }, { x: 10, y: 12 }, { x: 10, y: 13 }],
-				}],
+				strokes: exampleStrokes([point(10, 10), point(10, 11), point(10, 12), point(10, 13)]),
 			});
 		});
 
@@ -102,9 +116,7 @@ describe('PlainDrawer', () => {
 
 		beforeEach(() => {
 			canvas = mountComponentWithProps({
-				strokes: [{
-					points: [{ x: 10, y: 10 }, { x: 10, y: 11 }, { x: 10, y: 12 }, { x: 10, y: 13 }],
-				}],
+				strokes: exampleStrokes([point(10, 10), point(10, 11), point(10, 12), point(10, 13)]),
 			});
 		});
 
@@ -149,9 +161,7 @@ describe('PlainDrawer', () => {
 	describe('rendering an empty canvas', () => {
 		it('works for only one point on canvas', () => {
 			const canvas = mountComponentWithProps({
-				strokes: [{
-					points: [{ x: 10, y: 10 }],
-				}],
+				strokes: exampleStrokes([point(10, 10)]),
 			});
 			expect(canvas.instance()).to.exist();
 		});
@@ -161,9 +171,7 @@ describe('PlainDrawer', () => {
 		it('enables pointer events on its containing div when it is finished', () => {
 			const canvasWrapper = mountComponentWithProps({
 				active: true,
-				strokes: [{
-					points: [{ x: 10, y: 10 }, { x: 10, y: 11 }, { x: 10, y: 12 }, { x: 10, y: 13 }],
-				}],
+				strokes: exampleStrokes([point(10, 10), point(10, 11), point(10, 12), point(10, 13)]),
 				finished: true,
 			});
 
@@ -173,9 +181,7 @@ describe('PlainDrawer', () => {
 		it('does not enable pointer events on its containing div when its not finished', () => {
 			const canvasWrapper = mountComponentWithProps({
 				active: true,
-				strokes: [{
-					points: [{ x: 10, y: 10 }, { x: 10, y: 11 }, { x: 10, y: 12 }, { x: 10, y: 13 }],
-				}],
+				strokes: exampleStrokes([point(10, 10), point(10, 11), point(10, 12), point(10, 13)]),
 				finished: false,
 			});
 
@@ -188,9 +194,7 @@ describe('PlainDrawer', () => {
 
 		beforeEach(() => {
 			canvas = mountComponentWithProps({
-				strokes: [{
-					points: [{ x: 10, y: 10 }, { x: 10, y: 11 }, { x: 10, y: 12 }, { x: 10, y: 13 }],
-				}],
+				strokes: exampleStrokes([point(10, 10), point(10, 11), point(10, 12), point(10, 13)]),
 			});
 		});
 
@@ -209,16 +213,13 @@ describe('PlainDrawer', () => {
 
 		it('triggers a redraw everything', () => {
 			canvas = mountComponentWithProps({
-				strokes: [{
-					points: [{ x: 10, y: 10 }, { x: 10, y: 11 }, { x: 10, y: 12 }, { x: 10, y: 13 }],
-					finished: true,
-				}],
+				strokes: exampleStrokes([point(10, 10), point(10, 11), point(10, 12), point(10, 13)]),
 			});
 			spy(canvas.instance(), 'redrawEverything');
 			const firstStroke = canvas.prop('strokes')[0];
-			firstStroke.points = map(firstStroke.points, point => Object.assign({}, point, {
-				x: point.x + 10,
-				y: point.y + 10,
+			firstStroke.points = map(firstStroke.points, aPoint => Object.assign({}, aPoint, {
+				x: aPoint.x + 10,
+				y: aPoint.y + 10,
 			}));
 			canvas.instance().componentDidUpdate();
 			expect(canvas.instance().redrawEverything.callCount).to.equal(1);
@@ -231,13 +232,10 @@ describe('PlainDrawer', () => {
 
 		beforeEach(() => {
 			canvas = mountComponentWithProps({
-				strokes: [{
-					points: [{ x: 10, y: 10 }, { x: 10, y: 11 }, { x: 10, y: 12 }, { x: 10, y: 13 }],
-					finished: true,
-				}, {
-					points: [{ x: 10, y: 10 }, { x: 10, y: 11 }, { x: 10, y: 12 }, { x: 10, y: 13 }],
-					finished: true,
-				}],
+				strokes: [
+					...exampleStrokes([point(10, 10), point(10, 11), point(10, 12), point(10, 13)]),
+					...exampleStrokes([point(10, 10), point(10, 11), point(10, 12), point(10, 13)]),
+				],
 			});
 		});
 
@@ -254,18 +252,13 @@ describe('PlainDrawer', () => {
 		let canvas;
 		beforeEach(() => {
 			canvas = mountComponentWithProps({
-				strokes: [{
-					points: [{ x: 10, y: 10 }, { x: 10, y: 11 }, { x: 10, y: 12 }, { x: 10, y: 13 }],
-					finished: true,
-				}],
+				strokes: exampleStrokes([point(10, 10), point(10, 11), point(10, 12), point(10, 13)]),
 			});
 		});
 
 		it('does nothing, really', () => {
 			const sumBefore = sum(canvasImageData(canvas.state('canvas')).data);
-			canvas.prop('strokes').push({
-				points: [{ x: 20, y: 10 }],
-			});
+			canvas.prop('strokes').push(exampleStrokes([point(20, 10)])[0]);
 			canvas.instance().componentDidUpdate();
 			const sumAfter = sum(canvasImageData(canvas.state('canvas')).data);
 			expect(sumAfter).to.equal(sumBefore);
@@ -281,10 +274,7 @@ describe('PlainDrawer', () => {
 			const wrappedComponent = mountWrapperAroundComponentWithProps({
 				width: 100,
 				height: 200,
-				strokes: [{
-					points: [{ x: 10, y: 10 }, { x: 10, y: 11 }, { x: 10, y: 12 }, { x: 10, y: 13 }],
-					finished: true,
-				}],
+				strokes: exampleStrokes([point(10, 10), point(10, 11), point(10, 12), point(10, 13)]),
 			});
 			const canvas = wrappedComponent.find('canvas').at(0).node;
 			const sumBefore = sum(canvasImageData(canvas).data);
@@ -315,12 +305,10 @@ describe('PlainDrawer', () => {
 	describe('selecting strokes', () => {
 		it('Gives them a different color than normally', () => {
 			const canvas = mountComponentWithProps({
-				strokes: [{
-					points: [{ x: 10, y: 10 }, { x: 10, y: 11 }, { x: 10, y: 12 }, { x: 10, y: 13 }],
-					finished: true,
-				}, {
-					points: [{ x: 30, y: 30 }, { x: 31, y: 31 }, { x: 32, y: 32 }],
-				}],
+				strokes: [
+					...exampleStrokes([point(10, 10), point(10, 11), point(10, 12), point(10, 13)]),
+					...exampleStrokes([point(30, 30), point(31, 31), point(32, 32)], false),
+				],
 			});
 			spy(canvas.instance(), 'startStrokeAt');
 			canvas.prop('strokes')[1].selected = true;
@@ -341,7 +329,7 @@ describe('PlainDrawer', () => {
 
 	describe('redrawing a stroke', () => {
 		it('works when not rendered', () => {
-			const stroke = { points: [] };
+			const stroke = exampleStrokes([])[0];
 			const wrapper = shallow(<PlainDrawer strokes={[stroke]} />);
 			expect(wrapper.instance().redrawStroke.bind(wrapper.instance(), stroke)).not.to.throw();
 		});

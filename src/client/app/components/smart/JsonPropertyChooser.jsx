@@ -11,12 +11,12 @@ type State = {
 	checkedPaths: Array<Array<string>>,
 };
 
-type Props = {
+export type JsonPropertyChooserProps = {
 	jsonTree: Object,
 	onParameterChoose: (parameters: Array<TreeParameter>) => void,
 }
 
-export default class JsonPropertyChooser extends PureComponent<Props, State> {
+export default class JsonPropertyChooser extends PureComponent<JsonPropertyChooserProps, State> {
 
 	static defaultProps = {
 		jsonTree: {},
@@ -89,7 +89,7 @@ export default class JsonPropertyChooser extends PureComponent<Props, State> {
 			0);
 	}
 
-	props: Props
+	props: JsonPropertyChooserProps
 
 	render() {
 		return (<TreeMenu

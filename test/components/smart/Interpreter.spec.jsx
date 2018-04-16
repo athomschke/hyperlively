@@ -5,10 +5,31 @@ import TestUtils from 'react-addons-test-utils';
 import { forEach } from 'lodash';
 import { spy, stub } from 'sinon';
 
-import Interpreter from 'src/client/app/components/smart/Interpreter';
+import Interpreter, { type InterpreterProps } from 'src/client/app/components/smart/Interpreter';
 import InterpretationChooser from 'src/client/app/components/smart/InterpretationChooser';
+import type { Sketch, RecognitionResult, ActionMapping } from 'src/client/app/typeDefinitions';
+import { exampleStrokes, point } from 'test/helpers';
 
-const renderWithProps = props => TestUtils.renderIntoDocument(<Interpreter {...props} />);
+type PartialProps = {
+	performAction?: () => void,
+	sketches?: Array<Sketch>,
+	showInterpreter?: boolean,
+	interpretations?: RecognitionResult,
+	specificActions?: Array<ActionMapping>,
+	onInterpretationDone?: (boolean) => void,
+}
+
+const renderWithProps = (passedProps: PartialProps = {}) => {
+	const props: InterpreterProps = Object.assign({}, {
+		interpretations: passedProps.interpretations || { shapes: [], texts: [] },
+		onInterpretationDone: () => undefined,
+		showInterpreter: true,
+		sketches: passedProps.sketches || [],
+		specificActions: [],
+		performAction: () => undefined,
+	}, passedProps);
+	return TestUtils.renderIntoDocument(<Interpreter {...props} />);
+};
 
 describe('Interpreter', () => {
 	afterEach(() => {
@@ -20,8 +41,7 @@ describe('Interpreter', () => {
 	describe('allowing to choose', () => {
 		it('renders an action chooser', () => {
 			const list = renderWithProps({
-				interpretations: {},
-				showInterpreter: true,
+				interpretations: { shapes: [], texts: [] },
 			});
 			const interpretationChooser = TestUtils.scryRenderedComponentsWithType(
 					list, InterpretationChooser)[0];
@@ -30,8 +50,7 @@ describe('Interpreter', () => {
 
 		it('renders the candidates already received from hw recognition', () => {
 			const list = renderWithProps({
-				interpretations: { candidate: {} },
-				showInterpreter: true,
+				interpretations: { shapes: [], texts: [] },
 			});
 			const interpretationChooser = TestUtils.scryRenderedComponentsWithType(
 					list, InterpretationChooser)[0];
@@ -43,7 +62,9 @@ describe('Interpreter', () => {
 		let list;
 
 		beforeEach(() => {
-			list = renderWithProps({});
+			list = renderWithProps({
+				interpretations: { shapes: [], texts: [] },
+			});
 			list.setState({
 				interpretation: {},
 			});
@@ -72,6 +93,10 @@ describe('Interpreter', () => {
 				performAction: (actionName) => {
 					performedActionName = actionName;
 				},
+				interpretations: {
+					texts: [],
+					shapes: [],
+				},
 			});
 			interpreter.setState({
 				interpretation: {},
@@ -88,6 +113,10 @@ describe('Interpreter', () => {
 			const interpreter = renderWithProps({
 				performAction: (...args) => {
 					performedActions.push(args);
+				},
+				interpretations: {
+					texts: [],
+					shapes: [],
 				},
 			});
 			interpreter.performAction([{
@@ -107,17 +136,11 @@ describe('Interpreter', () => {
 		it('at first hides strokes even without callback', () => {
 			const interpreter = renderWithProps({
 				sketches: [{
-					strokes: [{
-						points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }],
-					}],
+					strokes: exampleStrokes([point(0, 5), point(5, 0), point(10, 5), point(5, 10)]),
 				}, {
-					strokes: [{
-						points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }],
-					}],
+					strokes: exampleStrokes([point(0, 5), point(5, 0), point(10, 5), point(5, 10)]),
 				}, {
-					strokes: [{
-						points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }],
-					}],
+					strokes: exampleStrokes([point(0, 5), point(5, 0), point(10, 5), point(5, 10)]),
 				}],
 			});
 			interpreter.setState({
@@ -134,17 +157,11 @@ describe('Interpreter', () => {
 		beforeEach(() => {
 			interpreter = renderWithProps({
 				sketches: [{
-					strokes: [{
-						points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }],
-					}],
+					strokes: exampleStrokes([point(0, 5), point(5, 0), point(10, 5), point(5, 10)]),
 				}, {
-					strokes: [{
-						points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }],
-					}],
+					strokes: exampleStrokes([point(0, 5), point(5, 0), point(10, 5), point(5, 10)]),
 				}, {
-					strokes: [{
-						points: [{ x: 0, y: 5 }, { x: 5, y: 0 }, { x: 10, y: 5 }, { x: 5, y: 10 }],
-					}],
+					strokes: exampleStrokes([point(0, 5), point(5, 0), point(10, 5), point(5, 10)]),
 				}],
 			});
 		});
@@ -161,18 +178,13 @@ describe('Interpreter', () => {
 
 	describe('Letting actions tick', () => {
 		let interpreter;
-		let performedActionName;
-		let performedActionParameters;
 		let clearedTimout;
 		let setIntervalStub;
 		let clearIntervalStub;
 
 		beforeEach(() => {
 			interpreter = renderWithProps({
-				performAction: (...args) => {
-					performedActionName = args[0];
-					performedActionParameters = args.slice(1);
-				},
+				performAction: spy(),
 			});
 			setIntervalStub = stub(window, 'setInterval');
 			clearIntervalStub = stub(window, 'clearInterval');
@@ -190,9 +202,7 @@ describe('Interpreter', () => {
 			const interval = setIntervalStub.getCall(0).args[1];
 			expect(interval).to.equal(1000);
 			timeout();
-			expect(performedActionName).to.equal('action');
-			expect(performedActionParameters[0]).to.equal('a');
-			expect(performedActionParameters[1]).to.equal('b');
+			expect(interpreter.props.performAction.args[0]).to.eql(['action', 'a', 'b']);
 			expect(clearedTimout).to.be.undefined();
 		});
 
@@ -205,16 +215,10 @@ describe('Interpreter', () => {
 			const interval = setIntervalStub.getCall(0).args[1];
 			expect(interval).to.equal(1000);
 			timeout();
-			expect(performedActionName).to.equal('action');
-			expect(performedActionParameters[0]).to.equal('a');
-			expect(performedActionParameters[1]).to.equal('b');
+			expect(interpreter.props.performAction.args[0]).to.eql(['action', 'a', 'b']);
 			expect(clearIntervalStub).to.not.have.been.called();
-			performedActionName = undefined;
-			performedActionParameters = undefined;
 			timeout();
-			expect(performedActionName).to.equal('action');
-			expect(performedActionParameters[0]).to.equal('a');
-			expect(performedActionParameters[1]).to.equal('b');
+			expect(interpreter.props.performAction.args[1]).to.eql(['action', 'a', 'b']);
 			expect(clearIntervalStub).to.have.been.calledOnce();
 			expect(clearIntervalStub).to.have.been.calledWith(intervalId);
 		});

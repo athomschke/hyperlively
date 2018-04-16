@@ -6,12 +6,27 @@ import { forEach } from 'lodash';
 import { shallow } from 'enzyme';
 import { spy, stub } from 'sinon';
 
-import InterpretationChooser from 'src/client/app/components/smart/InterpretationChooser';
+import InterpretationChooser, { type InterpretationChooserProps } from 'src/client/app/components/smart/InterpretationChooser';
 import ActionChooser from 'src/client/app/components/smart/ActionChooser';
 import ParameterChooser from 'src/client/app/components/smart/ParameterChooser';
 
-const renderWithProps = props => TestUtils.renderIntoDocument(<InterpretationChooser {...props} />);
-const shallowWithProps = props => shallow(<InterpretationChooser {...props} />);
+const renderWithProps = (props: InterpretationChooserProps) =>
+		TestUtils.renderIntoDocument(<InterpretationChooser {...props} />);
+const shallowWithProps = (props: InterpretationChooserProps) =>
+		shallow(<InterpretationChooser {...props} />);
+
+const defaultProps = () => ({
+	isOpen: true,
+	jsonTree: {},
+	onInterpretationChoose: () => undefined,
+	onInterpretationTick: () => undefined,
+	relativeDividerPosition: 0,
+	interpretations: {
+		texts: [],
+		shapes: [],
+	},
+	specificActions: [],
+});
 
 const exampleParameters = ['a2', 'b'];
 
@@ -55,7 +70,7 @@ describe('Interpretation Chooser', () => {
 
 		beforeEach(() => {
 			interpretationChooser = shallowWithProps({
-				isOpen: true,
+				...defaultProps(),
 				jsonTree: exampleTree,
 				lastStrokes: exampleLastStrokes,
 				selectedStrokes: exampleSelectedStrokes,
@@ -82,18 +97,14 @@ describe('Interpretation Chooser', () => {
 
 	describe('Choosing an action', () => {
 		it('stores the action', () => {
-			const interpretationChooser = shallowWithProps({
-				isOpen: true,
-			});
+			const interpretationChooser = shallowWithProps(defaultProps());
 			interpretationChooser.instance().componentDidMount();
 			interpretationChooser.instance().onActionChoose(['actionName']);
 			expect(interpretationChooser.instance().state.functions.length).to.equal(1);
 		});
 
 		it('Does nothing without a callback', () => {
-			const interpretationChooser = shallowWithProps({
-				isOpen: true,
-			});
+			const interpretationChooser = shallowWithProps(defaultProps());
 			interpretationChooser.instance().componentDidMount();
 			interpretationChooser.instance().onInterpretationChoose();
 			expect(interpretationChooser).to.exist();
@@ -103,7 +114,7 @@ describe('Interpretation Chooser', () => {
 			let functions;
 			let parameters;
 			const interpretationChooser = shallowWithProps({
-				isOpen: true,
+				...defaultProps(),
 				onInterpretationChoose: (passedFunctions, passedParameters) => {
 					functions = passedFunctions;
 					parameters = passedParameters;
@@ -132,6 +143,13 @@ describe('Interpretation Chooser', () => {
 				onInterpretationChoose: (name, values) => {
 					passedValues = values;
 				},
+				onInterpretationTick: () => undefined,
+				relativeDividerPosition: 0,
+				interpretations: {
+					texts: [],
+					shapes: [],
+				},
+				specificActions: [],
 			});
 			interpretationChooser.setState({
 				parameters: exampleParameters,
@@ -149,7 +167,7 @@ describe('Interpretation Chooser', () => {
 		it('can pass selected strokes', () => {
 			let passedValues;
 			const interpretationChooser = renderWithProps({
-				isOpen: true,
+				...defaultProps(),
 				jsonTree: exampleTree,
 				selectedStrokes: exampleSelectedStrokes,
 				onInterpretationChoose: (name, values) => {
@@ -171,7 +189,7 @@ describe('Interpretation Chooser', () => {
 		it('can choose a combined action', () => {
 			const onInterpretationChoose = stub();
 			const interpretationChooser = renderWithProps({
-				isOpen: true,
+				...defaultProps(),
 				jsonTree: exampleTree,
 				selectedStrokes: exampleSelectedStrokes,
 				specificActions: [{
@@ -195,7 +213,7 @@ describe('Interpretation Chooser', () => {
 	describe('Choosing a parameter', () => {
 		it('remembers them for later', () => {
 			const interpretationChooser = renderWithProps({
-				isOpen: true,
+				...defaultProps(),
 				jsonTree: exampleTree,
 			});
 			interpretationChooser.onParameterChoose([['a']]);
@@ -205,9 +223,7 @@ describe('Interpretation Chooser', () => {
 
 	describe('Ticking an action', () => {
 		it('Does nothing without a callback', () => {
-			const interpretationChooser = shallowWithProps({
-				isOpen: true,
-			});
+			const interpretationChooser = shallowWithProps(defaultProps());
 			interpretationChooser.instance().componentDidMount();
 			interpretationChooser.instance().onInterpretationTick();
 			expect(interpretationChooser).to.exist();
@@ -218,7 +234,7 @@ describe('Interpretation Chooser', () => {
 			let tickedActionParameters;
 			let tickedActionInterval;
 			const interpretationChooser = shallowWithProps({
-				isOpen: true,
+				...defaultProps(),
 				onInterpretationTick: (functions, parameters, interval) => {
 					tickedActionFunctions = functions;
 					tickedActionParameters = parameters;

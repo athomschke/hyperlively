@@ -13,7 +13,7 @@ type State = {
 	functions: Functions
 };
 
-type Props = {
+export type InterpretationChooserProps = {
 	onInterpretationChoose: (_functions: Functions, _parameters: Parameters) => void,
 	onInterpretationTick: (_functions: Functions, _parameters: Parameters, _interval: number) => void,
 	relativeDividerPosition: number,
@@ -21,11 +21,12 @@ type Props = {
 	interpretations: RecognitionResult,
 };
 
-export default class InterpretationChooser extends PureComponent<Props, State> {
+export default class InterpretationChooser
+extends PureComponent<InterpretationChooserProps, State> {
 
 	static defaultProps = {
-		onInterpretationChoose: () => {},
-		onInterpretationTick: () => {},
+		onInterpretationChoose: () => undefined,
+		onInterpretationTick: () => undefined,
 		relativeDividerPosition: 0,
 	}
 
@@ -75,7 +76,7 @@ export default class InterpretationChooser extends PureComponent<Props, State> {
 		this.props.onInterpretationTick(this.state.functions, this.state.parameters, 1000);
 	}
 
-	props: Props
+	props: InterpretationChooserProps
 
 	render() {
 		return (

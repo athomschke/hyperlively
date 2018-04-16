@@ -4,16 +4,8 @@ import { expect } from 'chai';
 import { strokes } from 'src/client/app/reducers/content/strokes';
 import { appendPoint, createStroke, finishStroke } from 'src/client/app/actions/drawing';
 import { updatePosition, hide, select, selectInside, rotateBy } from 'src/client/app/actions/manipulating';
-import { point, event } from 'test/helpers';
-import type { Point, Stroke } from 'src/client/app/typeDefinitions';
-
-const exampleStrokes = (points: Array<Point>) => ([{
-	points,
-	color: 'rgb(0,0,0)',
-	finished: true,
-	hidden: false,
-	selected: false,
-}]);
+import { point, event, exampleStrokes } from 'test/helpers';
+import type { Stroke } from 'src/client/app/typeDefinitions';
 
 describe('strokes', () => {
 	describe('handles', () => {

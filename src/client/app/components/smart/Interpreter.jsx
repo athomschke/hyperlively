@@ -6,26 +6,26 @@ import type { FunctionConfiguration, Sketch, RecognitionResult, Functions, Param
 
 import InterpretationChooser from './InterpretationChooser';
 
-type Props = {
-	performAction: () => {},
+export type InterpreterProps = {
+	performAction: () => void,
 	sketches: Array<Sketch>,
 	showInterpreter: boolean,
 	interpretations: RecognitionResult,
 	specificActions: Array<ActionMapping>,
-	onInterpretationDone: (boolean) => {},
+	onInterpretationDone: (boolean) => void,
 }
 
-export default class extends PureComponent<Props> {
+export default class extends PureComponent<InterpreterProps> {
 
 	static defaultProps = {
-		performAction: () => {},
+		performAction: () => undefined,
 		sketches: [],
 		showInterpreter: false,
 		interpretations: {
 			text: null,
 			shape: null,
 		},
-		onInterpretationDone: () => {},
+		onInterpretationDone: () => undefined,
 	};
 
 	constructor() {
@@ -65,7 +65,7 @@ export default class extends PureComponent<Props> {
 		this.deactivateInterpretation();
 	}
 
-	props: Props
+	props: InterpreterProps
 
 	render() {
 		const actionChooserProps = {

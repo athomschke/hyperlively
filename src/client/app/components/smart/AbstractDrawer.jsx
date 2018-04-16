@@ -1,6 +1,6 @@
 // @flow
 import React, { PureComponent } from 'react';
-import { flatten, last, isEqual, cloneDeep, forEach, map, find } from 'lodash';
+import { flatten, last, isEqual, cloneDeep, forEach, map } from 'lodash';
 
 import { ERROR_DIRECT_ABSTRACT_CALL, ERROR_CALL_SUPER_TO_ABSTRACT } from 'src/client/app/constants/errors';
 import { OFFSET } from 'src/client/app/constants/canvas';
@@ -10,13 +10,11 @@ const allPoints = strokes => flatten(map(strokes, stroke => stroke.points));
 
 const pointCount = strokes => allPoints(strokes).length;
 
-const strokeWhereColorChanged = (strokes1, strokes2) =>
-	find(strokes1, (stroke, index) =>
-		!isEqual(stroke.color, strokes2[index].color));
+const strokeWhereColorChanged = (strokes1: Array<Stroke>, strokes2: Array<Stroke>) =>
+	strokes1.find((stroke, index) => !stroke.color === strokes2[index].color);
 
 const strokeWhereSelectStatusChanged = (strokes1, strokes2) =>
-	find(strokes1, (stroke, index) =>
-		!isEqual(stroke.selected, strokes2[index].selected));
+	strokes1.find((stroke, index) => !stroke.selected === strokes2[index].selected);
 
 export type AbstractDrawerProps<P> = P & {
 	strokes: Array<Stroke>,

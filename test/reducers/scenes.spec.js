@@ -3,16 +3,8 @@ import { expect } from 'chai';
 
 import { scenes } from 'src/client/app/reducers/content/scenes';
 import { addScene, addSceneAt } from 'src/client/app/actions/drawing';
-import { point } from 'test/helpers';
-import type { Scene, Stroke, Point } from 'src/client/app/typeDefinitions';
-
-const exampleStrokes = (points: Array<Point>) => ([{
-	points,
-	color: 'rgb(0,0,0)',
-	finished: true,
-	hidden: false,
-	selected: false,
-}]);
+import { point, exampleStrokes } from 'test/helpers';
+import type { Scene, Stroke } from 'src/client/app/typeDefinitions';
 
 describe('scenes', () => {
 	describe('initial state', () => {

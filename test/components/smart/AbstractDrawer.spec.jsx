@@ -1,22 +1,34 @@
 // @flow
 import { expect } from 'chai';
 import TestUtils from 'react-addons-test-utils';
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { last } from 'lodash';
 import { shallow, mount } from 'enzyme';
 import { stub } from 'sinon';
 
-import AbstractDrawer from 'src/client/app/components/smart/AbstractDrawer';
+import AbstractDrawer, { type AbstractDrawerProps } from 'src/client/app/components/smart/AbstractDrawer';
 import { ERROR_CALL_SUPER_TO_ABSTRACT, ERROR_DIRECT_ABSTRACT_CALL } from 'src/client/app/constants/errors';
+import { point, exampleStrokes } from 'test/helpers';
 
-class SpecificDrawer extends AbstractDrawer<{}, {}> {
+type SpecificProps = {
+	overwriteFunctionCalled: () => void
+}
 
-	static propTypes = {
-		overwriteFunctionCalled: PropTypes.func,
-	}
-
+class SpecificDrawer extends AbstractDrawer<AbstractDrawerProps<SpecificProps>, {}> {
 	static defaultProps = {
-		overwriteFunctionCalled: () => {},
+		overwriteFunctionCalled: () => undefined,
+		strokes: [],
+		bounds: {
+			x: 0,
+			y: 0,
+			width: 2,
+			height: 2,
+		},
+		active: false,
+		width: window.innerWidth,
+		height: window.innerHeight,
+		showBorder: false,
+		finished: false,
 	}
 
 	handleStrokesExtended(...args) {
@@ -35,22 +47,17 @@ describe('AbstractDrawer', () => {
 	let onNodeChangedStub;
 
 	describe('calling an abstract function directly', () => {
-		let strokes;
-
 		beforeEach(() => {
-			strokes = [{
-				points: [{ x: 10, y: 10 }, { x: 10, y: 11 }, { x: 10, y: 12 }, { x: 10, y: 13 }],
-			}];
 			onNodeChangedStub = stub();
 			specificDrawer = TestUtils.renderIntoDocument(<SpecificDrawer
-				overwriteFunctionCalled={() => {}}
+				strokes={exampleStrokes([point(10, 10), point(10, 11), point(10, 12), point(10, 13)])}
+				overwriteFunctionCalled={() => undefined}
 				bounds={{
 					width: 1000,
 					height: 500,
 					x: 0,
 					y: 0,
 				}}
-				strokes={strokes}
 				onNodeChanged={onNodeChangedStub}
 				active={false}
 				finished
@@ -68,7 +75,7 @@ describe('AbstractDrawer', () => {
 		});
 
 		it('cannot trigger an abstract method on Abstract Drawer implementation', () => {
-			expect(AbstractDrawer.prototype.handleAbstractMethodCalled.bind(AbstractDrawer, []))
+			expect(AbstractDrawer.prototype.handleAbstractMethodCalled.bind(AbstractDrawer))
 				.to.throw(ERROR_DIRECT_ABSTRACT_CALL);
 		});
 
@@ -125,10 +132,8 @@ describe('AbstractDrawer', () => {
 		};
 
 		beforeEach(() => {
-			strokes = [{
-				points: [{ x: 10, y: 10 }, { x: 10, y: 11 }, { x: 10, y: 12 }, { x: 10, y: 13 }],
-			}];
 			onNodeChangedStub = stub();
+			strokes = exampleStrokes([point(10, 10), point(10, 11), point(10, 12), point(10, 13)]);
 			specificDrawer = TestUtils.renderIntoDocument(<SpecificDrawer
 				overwriteFunctionCalled={() => {}}
 				bounds={{
@@ -171,9 +176,7 @@ describe('AbstractDrawer', () => {
 		let strokes;
 
 		beforeEach(() => {
-			strokes = [{
-				points: [{ x: 10, y: 10 }, { x: 10, y: 11 }, { x: 10, y: 12 }, { x: 10, y: 13 }],
-			}];
+			strokes = exampleStrokes([point(10, 10), point(10, 11), point(10, 12), point(10, 13)]);
 			bounds = {
 				width: 1000,
 				height: 500,
@@ -183,7 +186,11 @@ describe('AbstractDrawer', () => {
 		});
 
 		it('works without causing errors in rendering when canvas is not completely rendered', () => {
-			const wrapper = mount(<SpecificDrawer bounds={bounds} strokes={strokes} />);
+			const wrapper = mount(<SpecificDrawer
+				bounds={bounds}
+				strokes={strokes}
+				overwriteFunctionCalled={() => undefined}
+			/>);
 			expect(wrapper.instance().state.canvas).to.exist();
 			expect(wrapper.state('canvas')).to.not.be.null();
 			stub(wrapper.state('canvas'), 'getContext');
@@ -191,7 +198,11 @@ describe('AbstractDrawer', () => {
 		});
 
 		it('works without causing errors in rendering when canvas is not in DOM', () => {
-			const wrapper = shallow(<SpecificDrawer bounds={bounds} strokes={strokes} />);
+			const wrapper = shallow(<SpecificDrawer
+				bounds={bounds}
+				strokes={strokes}
+				overwriteFunctionCalled={() => undefined}
+			/>);
 			expect(wrapper.state('canvas')).to.be.null();
 			expect(wrapper.instance().moveImageDataToNewPosition.bind(wrapper.instance())).not.to.throw();
 		});

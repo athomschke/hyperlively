@@ -9,7 +9,9 @@ describe('Checkbox', () => {
 	it('setting checkbox to checked changes nothing', () => {
 		const checkbox = TestUtils.renderIntoDocument(<Checkbox />);
 		expect(checkbox.props.checked).to.be.true();
-		TestUtils.Simulate.change(TestUtils.findRenderedDOMComponentWithTag(checkbox, 'input'));
+		const checkboxNode = TestUtils.findRenderedDOMComponentWithTag(checkbox, 'input');
+		if (!checkboxNode) throw new Error('Need a checkboxNode');
+		TestUtils.Simulate.change(checkboxNode);
 		expect(checkbox.props.checked).to.be.true();
 	});
 });

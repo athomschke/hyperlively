@@ -13,11 +13,11 @@ type State = {
 	ballpointPen: Object;
 }
 
-type Props = {
+export type PlomaDrawerProps = {
 	uniqueCanvasFactor: number;
 }
 
-export default class PlomaDrawer extends AbstractDrawer<Props, State> {
+export default class PlomaDrawer extends AbstractDrawer<PlomaDrawerProps, State> {
 	static defaultProps = Object.assign({}, defaultProps, {
 		uniqueCanvasFactor: 1,
 	})

@@ -7,10 +7,13 @@ import { TreeMenu } from 'react-tree-menu';
 import { flatten, map, forEach, filter } from 'lodash';
 import { spy } from 'sinon';
 
-import JsonPropertyChooser from 'src/client/app/components/smart/JsonPropertyChooser';
+import type { ReactTreeLeafFormat, ReactTreeNodeFormat } from 'src/client/app/typeDefinitions';
+import JsonPropertyChooser, { type JsonPropertyChooserProps } from 'src/client/app/components/smart/JsonPropertyChooser';
 import { getPathToProperty, formatObject } from 'src/client/app/helpers/choosingActions';
 
-const renderWithProps = props => TestUtils.renderIntoDocument(<JsonPropertyChooser {...props} />);
+const renderWithProps = (props: JsonPropertyChooserProps) =>
+TestUtils.renderIntoDocument(<JsonPropertyChooser {...props} />);
+
 const shallowWithProps = props => shallow(<JsonPropertyChooser {...props} />);
 
 const exampleChecks = [['a', 'a2'], ['b']];
@@ -118,7 +121,7 @@ describe('JsonProperty Chooser', () => {
 		});
 
 		it('checks the chosen checkmarks', () => {
-			const formattedTree = formatObject(
+			const formattedTree: Array<ReactTreeLeafFormat | ReactTreeNodeFormat> = formatObject(
 					exampleTree, exampleChecks, [], exampleChecks, 0);
 			expect(formattedTree[0].children[1].checked).to.be.true();
 		});
@@ -138,6 +141,7 @@ describe('JsonProperty Chooser', () => {
 		beforeEach(() => {
 			parameterChooser = renderWithProps({
 				jsonTree: exampleTree,
+				onParameterChoose: () => undefined,
 			});
 			collapseIcon = TestUtils.scryRenderedDOMComponentsWithClass(parameterChooser, 'collapse')[0];
 		});
@@ -162,6 +166,7 @@ describe('JsonProperty Chooser', () => {
 		beforeEach(() => {
 			parameterChooser = renderWithProps({
 				jsonTree: exampleTree,
+				onParameterChoose: () => undefined,
 			});
 			collapseIcon = TestUtils.scryRenderedDOMComponentsWithClass(parameterChooser, 'collapse')[0];
 		});
@@ -187,6 +192,7 @@ describe('JsonProperty Chooser', () => {
 		beforeEach(() => {
 			parameterChooser = renderWithProps({
 				jsonTree: exampleTree,
+				onParameterChoose: () => undefined,
 			});
 			checkbox = TestUtils.scryRenderedDOMComponentsWithClass(parameterChooser, 'tree-view-node-checkbox')[0];
 		});
@@ -219,19 +225,17 @@ describe('JsonProperty Chooser', () => {
 
 	describe('Checking a selected stroke', () => {
 		it('calls the callback with it', () => {
-			let parameters;
+			const onParameterChoose = spy();
 			const parameterChooser = renderWithProps({
 				jsonTree: Object.assign({}, exampleTree, {
 					selectedStrokes: exampleSelectedStrokes,
 				}),
-				onParameterChoose: (params) => {
-					parameters = params;
-				},
+				onParameterChoose,
 			});
 			const checkbox = TestUtils.scryRenderedDOMComponentsWithClass(parameterChooser, 'tree-view-node-checkbox')[6];
 			TestUtils.Simulate.click(checkbox);
 			expect(parameterChooser.state.checkedPaths[0][0]).to.equal('selectedStrokes');
-			expect(parameters[0]).to.deep.equal({ e: 'e' });
+			expect(onParameterChoose).to.have.been.calledWith([{ e: 'e' }]);
 		});
 	});
 });

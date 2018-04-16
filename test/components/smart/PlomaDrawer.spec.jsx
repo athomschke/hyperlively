@@ -5,9 +5,13 @@ import React from 'react';
 import { remove, filter, isNumber, map } from 'lodash';
 import { spy } from 'sinon';
 
-import PlomaDrawer from 'src/client/app/components/smart/PlomaDrawer';
+import PlomaDrawer, { type PlomaDrawerProps } from 'src/client/app/components/smart/PlomaDrawer';
+import { type AbstractDrawerProps } from 'src/client/app/components/smart/AbstractDrawer';
+import { point, exampleStrokes } from 'test/helpers';
 
-const renderComponentWithProps = props => TestUtils.renderIntoDocument(<PlomaDrawer
+type Props = AbstractDrawerProps<PlomaDrawerProps>
+
+const renderComponentWithProps = (props: Props) => TestUtils.renderIntoDocument(<PlomaDrawer
 	bounds={{
 		width: 1000,
 		height: 500,
@@ -30,11 +34,22 @@ describe('PlomaDrawer', () => {
 	let canvas;
 
 	beforeEach(() => {
-		canvas = renderComponentWithProps({
-			strokes: [{
-				points: [{ x: 10, y: 10 }, { x: 10, y: 11 }, { x: 10, y: 12 }, { x: 10, y: 13 }],
-			}],
-		});
+		const props = {
+			strokes: exampleStrokes([point(10, 10), point(10, 11), point(10, 12), point(10, 13)], false),
+			uniqueCanvasFactor: 1,
+			bounds: {
+				x: 0,
+				y: 0,
+				width: 100,
+				height: 100,
+			},
+			active: false,
+			width: 100,
+			height: 100,
+			showBorder: true,
+			finished: true,
+		};
+		canvas = renderComponentWithProps(props);
 		canvas.componentDidUpdate();
 	});
 
@@ -117,7 +132,7 @@ describe('PlomaDrawer', () => {
 	describe('removing the second stroke', () => {
 		beforeEach(() => {
 			canvas.props.strokes[0].finished = true;
-			canvas.props.strokes.push({ points: [{ x: 10, y: 15 }] });
+			canvas.props.strokes.push(exampleStrokes([point(10, 15)])[0]);
 			canvas.componentDidUpdate();
 			spyOnPen(canvas.state.ballpointPen);
 			canvas.props.strokes.splice(-1);
@@ -239,8 +254,8 @@ describe('PlomaDrawer', () => {
 		beforeEach(() => {
 			spyOnPen(canvas.state.ballpointPen);
 			const firstStroke = canvas.props.strokes[0];
-			firstStroke.points = map(firstStroke.points, point =>
-					Object.assign({}, point, { x: point.x + 10 }));
+			firstStroke.points = map(firstStroke.points, aPoint =>
+					Object.assign({}, aPoint, { x: aPoint.x + 10 }));
 			canvas.componentDidUpdate();
 		});
 
@@ -252,8 +267,8 @@ describe('PlomaDrawer', () => {
 	describe('selecting strokes', () => {
 		beforeEach(() => {
 			const firstStroke = canvas.props.strokes[0];
-			firstStroke.points = map(firstStroke.points, point =>
-					Object.assign({}, point, { x: point.x + 10 }));
+			firstStroke.points = map(firstStroke.points, aPoint =>
+					Object.assign({}, aPoint, { x: aPoint.x + 10 }));
 			canvas.componentDidUpdate();
 		});
 
