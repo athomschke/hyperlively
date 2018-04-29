@@ -1,7 +1,7 @@
 // @flow
 import React, { PureComponent } from 'react';
 import { TreeMenu } from 'react-tree-menu';
-import { cloneDeep, map, reduce, keys } from 'lodash';
+import { cloneDeep, map, keys } from 'lodash';
 
 import { getPathToProperty, findArraysIndex, formatObject } from 'src/client/app/helpers/choosingActions';
 import type { TreeParameter } from 'src/client/app/typeDefinitions';
@@ -11,14 +11,19 @@ type State = {
 	checkedPaths: Array<Array<string>>,
 };
 
+
+export type JSONObject = {
+	[key: string]: Array<JSONObject | string | number> | JSONObject | string | number
+}
+
 export type JsonPropertyChooserProps = {
-	jsonTree: Object,
+	jsonTree: JSONObject,
 	onParameterChoose: (parameters: Array<TreeParameter>) => void,
 }
 
 export default class JsonPropertyChooser extends PureComponent<JsonPropertyChooserProps, State> {
 
-	static defaultProps = {
+	static defaultProps: JsonPropertyChooserProps = {
 		jsonTree: {},
 		onParameterChoose: (_parameters: Array<TreeParameter>) => {},
 	}
@@ -51,10 +56,24 @@ export default class JsonPropertyChooser extends PureComponent<JsonPropertyChoos
 		} else {
 			checkedPaths = this.state.checkedPaths.concat([pathToProperty]);
 		}
-		const rawData = {};
-		Object.assign(rawData, this.props.jsonTree);
-		const values: Array<TreeParameter> = map(checkedPaths, (checkedPath: Array<string>) =>
-			reduce(checkedPath, (value: Object, key: string) => value[key], rawData));
+		const rawData: JSONObject = {
+			...this.props.jsonTree,
+		};
+		const mixedValues = checkedPaths
+			.map(checkedPath =>
+				checkedPath.reduce((value, key) => {
+					if (
+						(typeof key === 'number' && value instanceof Array) ||
+						(typeof key === 'string' && value instanceof Object)
+					) {
+						return value[key];
+					}
+					return null;
+				},
+				rawData,
+			));
+		// $FlowFixMe needs flow array type refinement, see https://github.com/facebook/flow/issues/1414
+		const values: Array<JSONObject | string | number> = mixedValues.filter(value => value !== null);
 		this.props.onParameterChoose(values);
 		this.setState({
 			checkedPaths,

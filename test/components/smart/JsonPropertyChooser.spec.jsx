@@ -12,9 +12,10 @@ import JsonPropertyChooser, { type JsonPropertyChooserProps } from 'src/client/a
 import { getPathToProperty, formatObject } from 'src/client/app/helpers/choosingActions';
 
 const renderWithProps = (props: JsonPropertyChooserProps) =>
-TestUtils.renderIntoDocument(<JsonPropertyChooser {...props} />);
+	TestUtils.renderIntoDocument(<JsonPropertyChooser {...props} />);
 
-const shallowWithProps = props => shallow(<JsonPropertyChooser {...props} />);
+const shallowWithProps = (props: JsonPropertyChooserProps) =>
+	shallow(<JsonPropertyChooser {...props} />);
 
 const exampleChecks = [['a', 'a2'], ['b']];
 
@@ -28,6 +29,11 @@ const exampleTree = {
 	b: 'b',
 	c: 'c',
 };
+
+const defaultProps = (): JsonPropertyChooserProps => ({
+	onParameterChoose: () => undefined,
+	jsonTree: {},
+});
 
 const exampleLastStrokes = [{
 	d: 'd',
@@ -90,6 +96,7 @@ describe('JsonProperty Chooser', () => {
 
 		beforeEach(() => {
 			parameterChooser = shallowWithProps({
+				...defaultProps(),
 				isOpen: true,
 				jsonTree: Object.assign({}, exampleTree, {
 					lastStrokes: exampleLastStrokes,
@@ -227,10 +234,11 @@ describe('JsonProperty Chooser', () => {
 		it('calls the callback with it', () => {
 			const onParameterChoose = spy();
 			const parameterChooser = renderWithProps({
-				jsonTree: Object.assign({}, exampleTree, {
-					selectedStrokes: exampleSelectedStrokes,
-				}),
 				onParameterChoose,
+				jsonTree: {
+					...exampleTree,
+					selectedStrokes: exampleSelectedStrokes,
+				},
 			});
 			const checkbox = TestUtils.scryRenderedDOMComponentsWithClass(parameterChooser, 'tree-view-node-checkbox')[6];
 			TestUtils.Simulate.click(checkbox);

@@ -1,43 +1,46 @@
 // @flow
 import { expect } from 'chai';
 import TestUtils from 'react-addons-test-utils';
-import React from 'react';
-import { spy } from 'sinon';
+import React, { type ComponentType } from 'react';
+import { spy, stub } from 'sinon';
 
-import TimeoutBehavior from 'src/client/app/components/hoc/TimeoutBehavior';
+import TimeoutBehavior, { type TimeoutBehaviorProps } from 'src/client/app/components/hoc/TimeoutBehavior';
 
-let calledWithProps;
-
-const Wrapped = (props) => {
-	calledWithProps = props;
-	return <div />;
-};
-
-const WrappedWithTimeoutBehavior = TimeoutBehavior(Wrapped);
+const defaultProps = (): TimeoutBehaviorProps => ({
+	max: 10,
+	value: 9,
+	callbackEnabled: true,
+	disabled: false,
+	onChange: () => undefined,
+	timeout: 1,
+	temporaryCallback: stub(),
+});
 
 describe('WrappedWithTimeoutBehavior', () => {
+	let Wrapped: Function;
+	let WrappedWithTimeoutBehavior: ComponentType<TimeoutBehaviorProps>;
+
 	beforeEach(() => {
-		calledWithProps = null;
+		Wrapped = stub();
+		Wrapped.returns(<div />);
+		WrappedWithTimeoutBehavior = TimeoutBehavior(Wrapped);
 	});
 
 	describe('moving the slider handle left', () => {
 		it('temporarily disables ploma when callback given', () => {
 			let argument = true;
 			TestUtils.renderIntoDocument(<WrappedWithTimeoutBehavior
-				max={10}
-				value={9}
-				callbackEnabled
+				{...defaultProps()}
 				temporaryCallback={(value) => { argument = value; }}
 			/>);
-			calledWithProps.onChange(4);
+			const wrappedProps = Wrapped.args[0][0];
+			wrappedProps.onChange(4);
 			expect(argument).to.equal(false);
 		});
 
 		it('Does nothing when initialized without a temporaryCallback callback', () => {
 			const temporaryCallbackSlider = TestUtils.renderIntoDocument(<WrappedWithTimeoutBehavior
-				max={10}
-				value={9}
-				callbackEnabled
+				{...defaultProps()}
 			/>);
 			temporaryCallbackSlider.beActive();
 			expect(temporaryCallbackSlider.props.value).to.equal(9);
@@ -46,9 +49,7 @@ describe('WrappedWithTimeoutBehavior', () => {
 		it('does nothing if not changing the value', () => {
 			let changed = false;
 			const temporaryCallbackSlider = TestUtils.renderIntoDocument(<WrappedWithTimeoutBehavior
-				max={10}
-				value={9}
-				callbackEnabled
+				{...defaultProps()}
 				onChange={() => {
 					changed = true;
 				}}
@@ -61,9 +62,7 @@ describe('WrappedWithTimeoutBehavior', () => {
 	describe('Resetting the state', () => {
 		it('works when no disable function is given', () => {
 			const temporaryCallbackSlider = TestUtils.renderIntoDocument(<WrappedWithTimeoutBehavior
-				max={10}
-				value={9}
-				callbackEnabled
+				{...defaultProps()}
 			/>);
 			spy(temporaryCallbackSlider, 'setState');
 			temporaryCallbackSlider.resetState();
@@ -77,10 +76,8 @@ describe('WrappedWithTimeoutBehavior', () => {
 			(new Promise(
 				(resolve) => {
 					const temporaryCallbackSlider = TestUtils.renderIntoDocument(<WrappedWithTimeoutBehavior
-						max={10}
+						{...defaultProps()}
 						value={5}
-						callbackEnabled
-						timeout={1}
 						temporaryCallback={() => { resolve(); }}
 					/>);
 					temporaryCallbackSlider.beActive();
@@ -98,21 +95,19 @@ describe('WrappedWithTimeoutBehavior', () => {
 		it('restores ploma', () => {
 			let argument = true;
 			TestUtils.renderIntoDocument(<WrappedWithTimeoutBehavior
-				max={10}
-				value={9}
-				callbackEnabled
+				{...defaultProps()}
 				temporaryCallback={(value) => { argument = value; }}
 			/>);
-			calledWithProps.onChange(4);
-			calledWithProps.afterChange();
+			const wrappedProps = Wrapped.args[0][0];
+			wrappedProps.onChange(4);
+			wrappedProps.afterChange();
 			expect(argument).to.equal(true);
 		});
 
 		it('does nothing if not grabbed before', () => {
 			let argument = true;
 			const temporaryCallbackSlider = TestUtils.renderIntoDocument(<WrappedWithTimeoutBehavior
-				max={10}
-				value={9}
+				{...defaultProps()}
 				temporaryCallback={(value) => { argument = value; }}
 			/>);
 			temporaryCallbackSlider.beNotActive(4);

@@ -28,7 +28,7 @@ const getLimitsForStrokes = (strokes) => {
 	return { left: 0, top: 0, right: 0, bottom: 0 };
 };
 
-type Props = {
+export type SketchTransformerProps = {
 	strokes: Array<Stroke>,
 	finished: bool,
 	offset: number,
@@ -40,8 +40,8 @@ type Props = {
 // }
 
 export default (Wrapped: ClassComponent<any, any>) =>
-class Sketch extends PureComponent<Props> {
-	props: Props;
+class Sketch extends PureComponent<SketchTransformerProps> {
+	props: SketchTransformerProps;
 
 	static defaultProps = {
 		strokes: [],

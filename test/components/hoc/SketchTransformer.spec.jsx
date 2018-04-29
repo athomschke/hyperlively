@@ -1,23 +1,31 @@
 // @flow
 import { expect } from 'chai';
-import React, { PropTypes } from 'react';
+import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 
-import SketchTransformer from 'src/client/app/components/hoc/SketchTransformer';
-import { point } from 'test/helpers';
+import SketchTransformer, { type SketchTransformerProps } from 'src/client/app/components/hoc/SketchTransformer';
+import { point, exampleStrokes } from 'test/helpers';
+
+const defaultProps = (): SketchTransformerProps => ({
+	selected: false,
+	hidden: false,
+	strokes: [],
+	offset: 0,
+	finished: true,
+});
 
 describe('Sketch transformer', () => {
 	let bounds;
 
-	class MockedSubComponent extends React.Component {
+	type MockedSubComponentProps = {
+		bounds: { [key: string]: number }
+	}
 
-		static propTypes = {
-			bounds: PropTypes.objectOf(PropTypes.number).isRequired,
-		};
-
+	class MockedSubComponent extends React.Component<MockedSubComponentProps> {
 		componentDidMount() {
 			bounds = this.props.bounds;
 		}
+		props: MockedSubComponentProps
 
 		render() {
 			return <div />;
@@ -26,11 +34,11 @@ describe('Sketch transformer', () => {
 
 	const MockedComponent = SketchTransformer(MockedSubComponent);
 
-	const renderComponentWithProps = props => TestUtils.renderIntoDocument(
+	const renderComponentWithProps = (props: SketchTransformerProps) => TestUtils.renderIntoDocument(
 		<MockedComponent {...props} />,
 		);
 
-	const renderComponent = () => renderComponentWithProps({});
+	const renderComponent = () => renderComponentWithProps(defaultProps());
 
 	describe('Rendering', () => {
 		it('with default properties works', () => {
@@ -40,6 +48,7 @@ describe('Sketch transformer', () => {
 
 		it('one finished but empty stroke', () => {
 			const component = renderComponentWithProps({
+				...defaultProps(),
 				finished: true,
 			});
 			expect(component).to.exist();
@@ -49,10 +58,8 @@ describe('Sketch transformer', () => {
 	describe('adding strokes', () => {
 		beforeEach(() => {
 			renderComponentWithProps({
-				strokes: [{
-					points: [point(7, 10), point(7, 15), point(15, 15), point(15, 10)],
-					finished: true,
-				}],
+				...defaultProps(),
+				strokes: exampleStrokes([point(7, 10), point(7, 15), point(15, 15), point(15, 10)]),
 				offset: 5,
 				finished: true,
 			});

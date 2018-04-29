@@ -1,10 +1,9 @@
 // @flow
-import React, { PureComponent } from 'react';
-import type { ClassComponent } from 'react-flow-types';
+import React, { PureComponent, type ComponentType } from 'react';
 
 let runningTimeout;
 
-type Props = {
+export type TimeoutBehaviorProps = {
 	temporaryCallback: (_togglePloma: bool) => void,
 	onChange: (_value: number) => void,
 	callbackEnabled: bool,
@@ -18,7 +17,8 @@ type State = {
 	disableFunction: ?(boolean) => void,
 }
 
-export default (Wrapped: ClassComponent<any, any>) => class extends PureComponent<Props, State> {
+export default (Wrapped: ComponentType<any>) =>
+class extends PureComponent<TimeoutBehaviorProps, State> {
 	static defaultProps = {
 		temporaryCallback: () => {},
 		onChange: () => {},
@@ -39,7 +39,7 @@ export default (Wrapped: ClassComponent<any, any>) => class extends PureComponen
 		disableFunction: ?(boolean) => void,
 	}
 
-	props: Props;
+	props: TimeoutBehaviorProps;
 
 	componentDidMount() {
 		this.state = {

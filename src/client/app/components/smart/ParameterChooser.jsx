@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 
 import type { Stroke, RecognitionResult, TreeParameter } from 'src/client/app/typeDefinitions';
 
-import JsonPropertyChooser from './JsonPropertyChooser';
+import JsonPropertyChooser, { type JSONObject } from './JsonPropertyChooser';
 
 type Props = {
 	onParameterChoose: (parameters: Array<TreeParameter>) => void,
@@ -44,10 +44,11 @@ export default class ParameterChooser extends PureComponent<Props> {
 	}
 
 	render() {
+		const jsonObject: JSONObject = this.parameterObject();
 		return (
 			<JsonPropertyChooser
 				{...this.props}
-				jsonTree={this.parameterObject()}
+				jsonTree={jsonObject}
 				onParameterChoose={this.handleParameterChoose}
 			/>);
 	}
