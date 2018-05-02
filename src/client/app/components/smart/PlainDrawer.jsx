@@ -1,19 +1,23 @@
 // @flow
 import Color from 'color';
-import { without, last, head, tail, reduce, cloneDeep, first } from 'lodash';
+import { without, last, head, tail, reduce, cloneDeep } from 'lodash';
 
 import lastPointInStrokes from 'src/client/app/helpers/lastPointInStrokes';
 import { DEFAULT_PEN_COLOR, SELECTED_PEN_COLOR } from 'src/client/app/constants/drawing';
 import type { Stroke, Point } from 'src/client/app/typeDefinitions';
 
-import AbstractDrawer from './AbstractDrawer';
+import AbstractDrawer, { type AbstractDrawerProps } from './AbstractDrawer';
 
 const secondToLastPointInStrokes = (strokes) => {
 	const points = last(strokes).points;
 	return points[points.length - 2];
 };
 
-export default class PlainDrawer extends AbstractDrawer<{}, {}> {
+type Props = {};
+
+export type PlainDrawerProps = AbstractDrawerProps<Props>;
+
+export default class PlainDrawer extends AbstractDrawer<Props, {}> {
 	wasFirstPointEdited() {
 		return this.props.strokes[0] && this.state.strokes[0] &&
 			(this.props.strokes[0].points[0].x !== this.state.strokes[0].points[0].x);
@@ -31,7 +35,7 @@ export default class PlainDrawer extends AbstractDrawer<{}, {}> {
 	}
 
 	handleStrokeStarted(strokes: Array<Stroke>) {
-		this.startStrokeAt(lastPointInStrokes(strokes), first(strokes).color);
+		this.startStrokeAt(lastPointInStrokes(strokes), strokes[0].color || DEFAULT_PEN_COLOR);
 	}
 
 	handleStrokesExtended(strokes: Array<Stroke>) {
@@ -77,7 +81,8 @@ export default class PlainDrawer extends AbstractDrawer<{}, {}> {
 		const that = this;
 		const points = stroke.points;
 		if (points.length > 0 && !(points.length === 1 && stroke.finished)) {
-			that.startStrokeAt(head(points), stroke.selected ? SELECTED_PEN_COLOR : stroke.color);
+			const strokeColor = stroke.color || DEFAULT_PEN_COLOR;
+			that.startStrokeAt(head(points), stroke.selected ? SELECTED_PEN_COLOR : strokeColor);
 		}
 		if (points.length > 1) {
 			reduce(without(tail(points), last(points)), (pointBefore, point) => {

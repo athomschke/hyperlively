@@ -1,6 +1,5 @@
 // @flow
-import React, { PureComponent } from 'react';
-import type { ClassComponent } from 'react-flow-types';
+import * as React from 'react';
 
 type State = {
 	cmdPressed: boolean;
@@ -8,8 +7,12 @@ type State = {
 	ctrlPressed: boolean;
 }
 
-export default (Wrapped: ClassComponent<any, any>) => class extends PureComponent<any, State> {
+export type ModifierKeyProps<P> = P;
 
+type WrappedProps<P> = ModifierKeyProps<P>;
+
+export default (Wrapped: React.ComponentType<WrappedProps<any>>) =>
+class extends React.PureComponent<ModifierKeyProps<any>, State> {
 	constructor() {
 		super();
 		this.state = {

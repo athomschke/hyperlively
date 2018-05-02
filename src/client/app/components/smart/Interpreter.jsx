@@ -80,8 +80,8 @@ export default class extends PureComponent<InterpreterProps> {
 			lastStrokesProps.lastStrokes = last(this.props.sketches).strokes;
 		}
 		const jsonTreeProps = {};
-		if (this.props.interpretations && this.props.interpretations.candidate) {
-			jsonTreeProps.jsonTree = this.props.interpretations.candidate;
+		if (this.props.interpretations) {
+			jsonTreeProps.jsonTree = this.props.interpretations;
 		}
 		return (<InterpretationChooser
 			specificActions={this.props.specificActions}

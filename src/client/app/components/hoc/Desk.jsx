@@ -1,7 +1,6 @@
 // @flow
-import React, { PureComponent } from 'react';
-import { map, last, filter } from 'lodash';
-import type { ClassComponent } from 'react-flow-types';
+import * as React from 'react';
+import { last, filter } from 'lodash';
 
 import { OFFSET } from 'src/client/app/constants/canvas';
 import { WHITE } from 'src/client/app/constants/drawing';
@@ -9,7 +8,7 @@ import type { Stroke, Sketch } from 'src/client/app/typeDefinitions';
 
 const visibleStrokesInSketch = sketch => filter(sketch.strokes || [], stroke => !stroke.hidden);
 
-type Props = {
+export type DeskProps<P> = P & {
 	sketches: Array<Sketch>,
 	cmdPressed: bool,
 	relativeDividerPosition: number,
@@ -17,8 +16,64 @@ type Props = {
 	paperColor: string,
 };
 
-export default (Wrapped: ClassComponent<any, any>) => class extends PureComponent<Props> {
-	props: Props;
+type WrappedProps<P> = P & {
+	active: boolean,
+	strokes: Array<Stroke>,
+	finished: boolean,
+	offset: number,
+}
+
+const getStyle = (relativeDividerPosition: number, paperColor: string, height: number) => ({
+	width: `${relativeDividerPosition * 100}%`,
+	height,
+	backgroundColor: paperColor,
+	display: 'inline-block',
+	verticalAlign: 'top',
+});
+
+const renderCanvas = (
+	Wrapped: React.ComponentType<WrappedProps<any>>,
+	strokes: Array<Stroke>,
+	id: string,
+	finished: boolean,
+	cmdPressed: boolean,
+	rest: WrappedProps<any>,
+) => (<Wrapped
+	{...rest}
+	active={cmdPressed}
+	strokes={strokes}
+	finished={finished}
+	offset={OFFSET}
+	key={id}
+/>);
+
+const renderSketchedCanvasses = (
+	Wrapped: React.ComponentType<WrappedProps<any>>,
+	sketches: Array<Sketch>,
+	cmdPressed: boolean,
+	rest: WrappedProps<any>,
+) => sketches.map((sketch, id) => {
+	const strokesToRender = visibleStrokesInSketch(sketch);
+	return strokesToRender.length > 0 && renderCanvas(Wrapped, strokesToRender, `${id}`, true, cmdPressed, rest);
+});
+
+const renderCanvasses = (
+	Wrapped: React.ComponentType<WrappedProps<any>>,
+	sketches: Array<Sketch>,
+	cmdPressed: boolean,
+	rest: WrappedProps<any>,
+) => {
+	const sketch = last(sketches);
+	const canvasses = renderSketchedCanvasses(Wrapped, sketches, cmdPressed, rest);
+	if ((!sketch || !sketch.strokes || sketch.finished)) {
+		canvasses.push(renderCanvas(Wrapped, [], `canvas_${sketches.length}`, false, cmdPressed, rest));
+	}
+	return canvasses;
+};
+
+export default (Wrapped: React.ComponentType<WrappedProps<any>>) =>
+class extends React.PureComponent<DeskProps<any>> {
+	props: DeskProps<any>;
 
 	static defaultProps = {
 		sketches: [],
@@ -28,50 +83,19 @@ export default (Wrapped: ClassComponent<any, any>) => class extends PureComponen
 		paperColor: WHITE,
 	}
 
-	renderCanvas(strokes: Array<Stroke>, id: string, finished: boolean) {
-		return (<Wrapped
-			{...this.props}
-			active={this.props.cmdPressed}
-			strokes={strokes}
-			finished={finished}
-			offset={OFFSET}
-			key={id}
-		/>);
-	}
-
-	renderSketchedCanvasses() {
-		const that = this;
-		return map(this.props.sketches, (sketch, id) => {
-			const strokesToRender = visibleStrokesInSketch(sketch);
-			return strokesToRender.length > 0 && that.renderCanvas(strokesToRender, `${id}`, true);
-		});
-	}
-
-	renderCanvasses() {
-		const sketch = last(this.props.sketches);
-		const canvasses = this.renderSketchedCanvasses();
-		if ((!sketch || !sketch.strokes || sketch.finished)) {
-			canvasses.push(this.renderCanvas([], `canvas_${this.props.sketches.length}`, false));
-		}
-		return canvasses;
-	}
-
-	getStyle() {
-		return {
-			width: `${this.props.relativeDividerPosition * 100}%`,
-			height: this.props.height,
-			backgroundColor: this.props.paperColor,
-			display: 'inline-block',
-			verticalAlign: 'top',
-		};
-	}
-
 	render() {
+		const {
+			relativeDividerPosition,
+			paperColor,
+			sketches,
+			cmdPressed,
+			...rest
+		} = this.props;
 		return (<div
 			id="desk"
-			style={this.getStyle()}
+			style={getStyle(relativeDividerPosition, paperColor, rest.height)}
 		>
-			{this.renderCanvasses()}
+			{renderCanvasses(Wrapped, sketches, cmdPressed, rest)}
 		</div>);
 	}
 

@@ -4,6 +4,7 @@ import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 
 import SketchFitter from 'src/client/app/components/hoc/SketchFitter';
+import { exampleStrokes, point } from 'test/helpers';
 
 const WrappedWithSketchFitter = SketchFitter(() => <div />);
 
@@ -19,12 +20,7 @@ describe('Sketch Fitter', () => {
 				}}
 				fittedWidth={100}
 				previewHeight={100}
-				strokes={[{
-					points: [{
-						x: 0,
-						y: 0,
-					}],
-				}]}
+				strokes={exampleStrokes([point(0, 0)])}
 			/>);
 			expect(component).to.exist();
 		});

@@ -90,7 +90,7 @@ export const formatObject = (
 		origCheckedArrays: Array<Array<string>>,
 		depth: number)
 		: Array<ReactTreeLeafFormat | ReactTreeNodeFormat> =>
-	map(keys(anObject), (key: string) => {
+	keys(anObject).map((key: string) => {
 		const checksContainingNode: Array<Array<string>> =
 			arraysWithStringAtIndex(checkedArrays, key, depth);
 		const collapsesContainingNode: Array<Array<string>> =

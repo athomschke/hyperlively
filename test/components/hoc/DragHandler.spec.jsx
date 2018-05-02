@@ -2,12 +2,20 @@
 import { expect } from 'chai';
 import React from 'react';
 import { mount } from 'enzyme';
+import { stub } from 'sinon';
 
-import DragHandler from 'src/client/app/components/hoc/DragHandler';
+import DragHandler, { type DragHandlerProps } from 'src/client/app/components/hoc/DragHandler';
 
 const MockedSubComponent = () => <div />;
 
 const MockedComponent = DragHandler(MockedSubComponent);
+
+const defaultProps = () => ({
+	onDragStart: stub(),
+	onDrag: stub(),
+	onDragEnd: stub(),
+	cmdPressed: false,
+});
 
 describe('Drag handler', () => {
 	const simulateMouseEventAtOn = (eventType, x, y, node) => {
@@ -26,7 +34,7 @@ describe('Drag handler', () => {
 		});
 	};
 
-	const renderComponentWithProps = props => mount(
+	const renderComponentWithProps = (props: DragHandlerProps) => mount(
 		<MockedComponent {...props}>
 			<div
 				width={400}
@@ -34,7 +42,7 @@ describe('Drag handler', () => {
 			/>
 		</MockedComponent>);
 
-	const renderComponent = () => renderComponentWithProps({});
+	const renderComponent = () => renderComponentWithProps(defaultProps());
 
 	describe('initializing', () => {
 		it('sets mousePressed state', () => {
@@ -45,6 +53,7 @@ describe('Drag handler', () => {
 		it('disabled handling when cmd is pressed', () => {
 			let dragStartCalled = false;
 			const dragHandler = renderComponentWithProps({
+				...defaultProps(),
 				onDragStart: () => { dragStartCalled = true; },
 				cmdPressed: true,
 			});
@@ -63,6 +72,7 @@ describe('Drag handler', () => {
 		it('calls the onDragStart callback', () => {
 			let dragStartCalled = false;
 			const dragHandler = renderComponentWithProps({
+				...defaultProps(),
 				onDragStart: () => { dragStartCalled = true; },
 			});
 			simulateMouseEventAtOn('mouseDown', 10, 10, dragHandler);
@@ -79,23 +89,25 @@ describe('Drag handler', () => {
 		});
 
 		it('calls the onDrag callback', () => {
-			let dragCalled = false;
+			const onDragStub = stub();
 			const dragHandler = renderComponentWithProps({
-				onDrag: () => { dragCalled = true; },
+				...defaultProps(),
+				onDrag: onDragStub,
 			});
 			simulateMouseEventAtOn('mouseDown', 10, 10, dragHandler);
 			simulateMouseEventAtOn('mouseMove', 10, 11, dragHandler);
-			expect(dragCalled).to.be.true();
+			expect(onDragStub).to.have.been.called();
 		});
 
 		it('with touch calls the onDrag callback', () => {
-			let dragCalled = false;
+			const onDragStub = stub();
 			const dragHandler = renderComponentWithProps({
-				onDrag: () => { dragCalled = true; },
+				...defaultProps(),
+				onDrag: onDragStub,
 			});
 			simulateTouchEventAtOn('touchStart', 10, 10, dragHandler);
 			simulateTouchEventAtOn('touchMove', 10, 11, dragHandler);
-			expect(dragCalled).to.be.true();
+			expect(onDragStub).to.have.been.called();
 		});
 	});
 
@@ -107,12 +119,13 @@ describe('Drag handler', () => {
 		});
 
 		it('does not call the onDrag callback', () => {
-			let dragCalled = false;
+			const onDragStub = stub();
 			const dragHandler = renderComponentWithProps({
-				onDrag: () => { dragCalled = true; },
+				...defaultProps(),
+				onDrag: onDragStub,
 			});
 			simulateMouseEventAtOn('mouseMove', 10, 11, dragHandler);
-			expect(dragCalled).to.be.false();
+			expect(onDragStub).to.not.have.been.called();
 		});
 	});
 
@@ -134,23 +147,25 @@ describe('Drag handler', () => {
 		});
 
 		it('calls the onDragEnd callback if mouse was pressed', () => {
-			let dragEndCalled = false;
+			const onDragEndStub = stub();
 			const dragHandler = renderComponentWithProps({
-				onDragEnd: () => { dragEndCalled = true; },
+				...defaultProps(),
+				onDragEnd: onDragEndStub,
 			});
 			simulateMouseEventAtOn('mouseDown', 10, 10, dragHandler);
 			simulateMouseEventAtOn('mouseMove', 10, 11, dragHandler);
 			simulateMouseEventAtOn('mouseUp', 10, 12, dragHandler);
-			expect(dragEndCalled).to.be.true();
+			expect(onDragEndStub).to.have.been.called();
 		});
 
 		it('does not call the onDragEnd callback if mouse was not pressed', () => {
-			let dragEndCalled = false;
+			const onDragEndStub = stub();
 			const dragHandler = renderComponentWithProps({
-				onDragEnd: () => { dragEndCalled = true; },
+				...defaultProps(),
+				onDragEnd: onDragEndStub,
 			});
 			simulateMouseEventAtOn('mouseUp', 10, 12, dragHandler);
-			expect(dragEndCalled).to.be.false();
+			expect(onDragEndStub).to.not.have.been.called();
 		});
 	});
 });

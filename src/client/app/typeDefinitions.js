@@ -20,6 +20,7 @@ export type Scene = {
 }
 
 export type Sketch = {
+	finished: boolean,
 	strokes: Array<Stroke>;
 }
 
@@ -178,3 +179,7 @@ export type Bounds = {
 	width: number,
 	height: number
 }
+
+export type OnNodeChangedFunction = (HTMLDivElement | null) => void;
+
+export type PerformActionFunction = (_name: string, ..._rest: any[]) => void;

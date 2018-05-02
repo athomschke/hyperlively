@@ -4,7 +4,7 @@ import { flatten, last, isEqual, cloneDeep, forEach, map } from 'lodash';
 
 import { ERROR_DIRECT_ABSTRACT_CALL, ERROR_CALL_SUPER_TO_ABSTRACT } from 'src/client/app/constants/errors';
 import { OFFSET } from 'src/client/app/constants/canvas';
-import type { Stroke, Point } from 'src/client/app/typeDefinitions';
+import type { Stroke, Point, OnNodeChangedFunction } from 'src/client/app/typeDefinitions';
 
 const allPoints = strokes => flatten(map(strokes, stroke => stroke.points));
 
@@ -24,12 +24,12 @@ export type AbstractDrawerProps<P> = P & {
 		width: number,
 		height: number
 	},
-	onNodeChanged?: (HTMLDivElement | null) => void,
-	active: boolean,
+	onNodeChanged?: OnNodeChangedFunction,
+	active?: boolean,
 	width: number,
 	height: number,
 	showBorder: boolean,
-	finished: boolean,
+	finished?: boolean,
 }
 
 export type AbstractDrawerState<S> = S & {
@@ -131,10 +131,6 @@ export default class AbstractDrawer<P, S> extends
 	handleStrokesUpdated() {
 		if (pointCount(this.props.strokes) === (pointCount(this.state.strokes) + 1)) {
 			this.addPointPerformanceEnhanced();
-		// } else if (this.props.strokes.length === (this.state.strokes.length) &&
-		// 		(pointCount(this.props.strokes) === (pointCount(this.state.strokes))) &&
-		// 		this.colorRemainedEqual()) {
-		// 	this.moveImageDataToNewPosition();
 		} else {
 			this.redrawEverything(this.props.strokes[0] && this.props.strokes[0].finished);
 		}

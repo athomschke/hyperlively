@@ -1,32 +1,37 @@
 // @flow
-import React, { PureComponent } from 'react';
-import type { ClassComponent } from 'react-flow-types';
+import * as React from 'react';
 import { cloneDeep } from 'lodash';
 
 import { offsetToOrigin, getOffsetForTime } from 'src/client/app/helpers/sketchFitting';
 import type { Bounds, Stroke } from 'src/client/app/typeDefinitions';
 
-type Props = {
-	index: number,
-	sliderWidth: number,
-	sliderHeight: number,
-	max: number,
-	offsetIndex: number,
+export type SketchFitterProps<P> = P & {
 	bounds: Bounds,
 	fittedWidth: number,
 	previewHeight: number,
+	sliderHeight: number,
+	sliderWidth: number,
+	max: number,
+	offsetIndex: number,
 	strokes: Array<Stroke>,
+	index: number,
 };
 
-// type WrappedProps = {
-// 	bounds: Bounds;
-// 	[key: string]: any;
-// }
+export type WrappedProps<P> = P & {
+	bounds: Bounds,
+}
 
-export default (Wrapped: ClassComponent<any, any>) => class extends PureComponent<Props> {
-	props: Props;
+export default (Wrapped: React.ComponentType<WrappedProps<any>>) =>
+class extends React.PureComponent<SketchFitterProps<any>> {
+	props: SketchFitterProps<any>;
 
 	static defaultProps = {
+		bounds: {
+			x: 0,
+			y: 0,
+			width: 0,
+			height: 0,
+		},
 		index: 0,
 		sliderWidth: 0,
 		sliderHeight: 0,
@@ -35,16 +40,27 @@ export default (Wrapped: ClassComponent<any, any>) => class extends PureComponen
 	};
 
 	render() {
+		const {
+			fittedWidth,
+			previewHeight,
+			sliderHeight,
+			sliderWidth,
+			max,
+			offsetIndex,
+			index,
+			...rest
+		} = this.props;
+
 		const clonedBounds = cloneDeep(this.props.bounds);
-		clonedBounds.width = this.props.fittedWidth;
-		clonedBounds.height = this.props.previewHeight;
+		clonedBounds.width = fittedWidth;
+		clonedBounds.height = previewHeight;
 		const moveBy = offsetToOrigin(this.props.strokes);
-		const top = -moveBy.y + ((this.props.sliderHeight - this.props.previewHeight) / 2);
+		const top = -moveBy.y + ((sliderHeight - previewHeight) / 2);
 		const left = -moveBy.x + getOffsetForTime(
-				this.props.strokes, this.props.sliderWidth, this.props.max, this.props.offsetIndex);
+				this.props.strokes, sliderWidth, max, offsetIndex);
 		return (
 			<div
-				key={this.props.index}
+				key={index}
 				style={{
 					position: 'absolute',
 					top,
@@ -52,7 +68,7 @@ export default (Wrapped: ClassComponent<any, any>) => class extends PureComponen
 				}}
 			>
 				<Wrapped
-					{...this.props}
+					{...rest}
 					bounds={clonedBounds}
 				/>
 			</div>);

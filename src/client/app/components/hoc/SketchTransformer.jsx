@@ -1,9 +1,8 @@
 // @flow
-import React, { PureComponent } from 'react';
-import type { ClassComponent } from 'react-flow-types';
+import * as React from 'react';
 import { find, reduce } from 'lodash';
 
-import type { Stroke } from 'src/client/app/typeDefinitions';
+import type { Stroke, Bounds } from 'src/client/app/typeDefinitions';
 
 const joinBounds = (bounds1, bounds2) => ({
 	left: Math.min(bounds1.left, bounds2.left),
@@ -28,20 +27,41 @@ const getLimitsForStrokes = (strokes) => {
 	return { left: 0, top: 0, right: 0, bottom: 0 };
 };
 
-export type SketchTransformerProps = {
+export type SketchTransformerProps<P> = P & {
 	strokes: Array<Stroke>,
 	finished: bool,
-	offset: number,
+	offset?: number,
 }
 
-// type WrappedProps = {
-// 	bounds: Bounds;
-// 	[key: string]: any;
-// }
+type WrappedProps<P> = P & {
+	bounds: Bounds
+}
 
-export default (Wrapped: ClassComponent<any, any>) =>
-class Sketch extends PureComponent<SketchTransformerProps> {
-	props: SketchTransformerProps;
+const getBoundsForLimits = (limits: {
+	left: number,
+	top: number,
+	bottom: number,
+	right: number
+}, offset: number) => ({
+	x: limits.left - offset,
+	y: limits.top - offset,
+	width: (limits.right - limits.left) + (2 * offset),
+	height: (limits.bottom - limits.top) + (2 * offset),
+});
+
+const getContentTransform = (strokes: Array<Stroke>, offset: number) =>
+getBoundsForLimits(getLimitsForStrokes(strokes), offset);
+
+const getCanvasTransform = (strokes: Array<Stroke>, finished: boolean, offset: number) => {
+	if (finished) {
+		return getContentTransform(strokes, offset);
+	}
+	return { x: 0, y: 0, width: window.innerWidth, height: window.innerHeight };
+};
+
+export default (Wrapped: React.ComponentType<WrappedProps<any>>) =>
+class Sketch extends React.PureComponent<SketchTransformerProps<any>> {
+	props: SketchTransformerProps<any>;
 
 	static defaultProps = {
 		strokes: [],
@@ -49,29 +69,11 @@ class Sketch extends PureComponent<SketchTransformerProps> {
 		offset: 0,
 	}
 
-	getBoundsForLimits(limits: { left: number, top: number, bottom: number, right: number }) {
-		return {
-			x: limits.left - this.props.offset,
-			y: limits.top - this.props.offset,
-			width: (limits.right - limits.left) + (2 * this.props.offset),
-			height: (limits.bottom - limits.top) + (2 * this.props.offset),
-		};
-	}
-
-	getContentTransform(strokes: Array<Stroke>) {
-		return this.getBoundsForLimits(getLimitsForStrokes(strokes));
-	}
-
-	getCanvasTransform(strokes: Array<Stroke>, finished: boolean) {
-		return finished ?
-			this.getContentTransform(strokes) :
-			{ x: 0, y: 0, width: window.innerWidth, height: window.innerHeight };
-	}
-
 	render() {
+		const { offset, ...rest } = this.props;
 		return (<Wrapped
-			{...this.props}
-			bounds={this.getCanvasTransform(this.props.strokes, this.props.finished)}
+			{...rest}
+			bounds={getCanvasTransform(this.props.strokes, this.props.finished, offset)}
 		/>);
 	}
 

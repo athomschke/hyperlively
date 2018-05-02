@@ -1,10 +1,10 @@
 // @flow
 import { expect } from 'chai';
-import React from 'react';
+import * as React from 'react';
 import TestUtils from 'react-addons-test-utils';
 
 import Desk from 'src/client/app/components/hoc/Desk';
-import { point } from 'test/helpers';
+import { point, exampleStrokes } from 'test/helpers';
 
 const MockedSubComponent = () => <canvas />;
 
@@ -26,10 +26,7 @@ describe('Desk', () => {
 	it('Renders two canvasses when one finished sketch is given', () => {
 		const desk = TestUtils.renderIntoDocument(<MockedComponent
 			sketches={[{
-				strokes: [{
-					points: [point(10, 10)],
-					finished: true,
-				}],
+				strokes: exampleStrokes([point(10, 10)]),
 				finished: true,
 			}]}
 		/>);
@@ -40,7 +37,10 @@ describe('Desk', () => {
 
 	it('Renders one canvas when one unfinished sketch without strokes is given', () => {
 		const desk = TestUtils.renderIntoDocument(<MockedComponent
-			sketches={[{}]}
+			sketches={[{
+				strokes: exampleStrokes([], false),
+				finished: false,
+			}]}
 		/>);
 		expect(desk).to.exist();
 		const nodes = TestUtils.scryRenderedDOMComponentsWithTag(desk, 'canvas');
@@ -48,12 +48,11 @@ describe('Desk', () => {
 	});
 
 	it('doesn\'t render a canvas when all its strokes are hidden', () => {
+		const exampleStroke = exampleStrokes([point(10, 10), point(11, 10), point(12, 10)])[0];
+		exampleStroke.hidden = true;
 		const desk = TestUtils.renderIntoDocument(<MockedComponent
 			sketches={[{
-				strokes: [{
-					points: [point(10, 10), point(11, 10), point(12, 10)],
-					hidden: true,
-				}],
+				strokes: [exampleStroke],
 				finished: true,
 			}]}
 		/>);
@@ -64,9 +63,8 @@ describe('Desk', () => {
 	it('Renders no placeholder canvas when the last stroke is unfinished', () => {
 		const desk = TestUtils.renderIntoDocument(<MockedComponent
 			sketches={[{
-				strokes: [{
-					points: [point(10, 10)],
-				}],
+				strokes: exampleStrokes([point(10, 10)]),
+				finished: false,
 			}]}
 		/>);
 		expect(desk).to.exist();
@@ -78,14 +76,14 @@ describe('Desk', () => {
 		const height = 200;
 		const desk = TestUtils.renderIntoDocument(<MockedComponent
 			sketches={[{
-				strokes: [{
-					points: [point(10, 10)],
-				}],
+				strokes: exampleStrokes([point(10, 10)]),
+				finished: false,
 			}]}
 			relativeDividerPosition={0.4}
 			height={height}
 		/>);
 		const nodes = TestUtils.scryRenderedDOMComponentsWithTag(desk, 'div');
+		const node = nodes[0]
 		expect(nodes[0].style.width).to.equal('40%');
 		expect(parseInt(nodes[0].style.height, 10)).to.equal(height);
 	});
@@ -93,9 +91,8 @@ describe('Desk', () => {
 	it('colors the background in paperColor', () => {
 		const desk = TestUtils.renderIntoDocument(<MockedComponent
 			sketches={[{
-				strokes: [{
-					points: [point(10, 10)],
-				}],
+				strokes: exampleStrokes([point(10, 10)]),
+				finished: false,
 			}]}
 			paperColor="rgb(240, 235, 219)"
 		/>);

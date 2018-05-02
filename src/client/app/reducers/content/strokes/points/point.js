@@ -15,14 +15,17 @@ const defaultPoint = () => ({
 	timeStamp: NaN,
 });
 
-function point(state: Point = defaultPoint(), action: PointActionType) {
+function point(state: Point = defaultPoint(), action: PointActionType): Point {
 	switch (action.type) {
 	case UPDATE_POSITION: {
 		const newCoordinates = {
 			x: state.x + (action.target.x - action.origin.x),
 			y: state.y + (action.target.y - action.origin.y),
 		};
-		return merge({}, state, newCoordinates);
+		return {
+			...state,
+			...newCoordinates,
+		};
 	}
 	case ROTATE_BY: {
 		const radians = action.degrees;

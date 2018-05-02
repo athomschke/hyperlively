@@ -11,8 +11,8 @@ const formattedSignatures = (
 		signatures: Array<TreeParameter>)
 		: Array<FunctionConfiguration> =>
 	map(signatures, signature => ({
-		name: signature.split('(')[0],
-		parameters: signature.split('(')[1].split(')')[0].split(',').length,
+		name: `${signature}`.split('(')[0],
+		parameters: `${signature}`.split('(')[1].split(')')[0].split(',').length,
 	}));
 
 const getSignatureFromFunction = aFunction =>

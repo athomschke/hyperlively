@@ -1,27 +1,26 @@
 // @flow
-import React, { PureComponent } from 'react';
-import type { ClassComponent } from 'react-flow-types';
+import * as React from 'react';
 
 import { getFittedWidth, scaleToTime } from 'src/client/app/helpers/scalingPointsToBounds';
 import type { Stroke } from 'src/client/app/typeDefinitions';
 
-type Props = {
+export type Point2BoundsScalerProps<P> = P & {
 	strokes: Array<Stroke>,
 	sliderWidth: number,
 	previewHeight: number,
 	max: number,
 };
 
-// type WrappedProps = {
-// 	strokes: Array<Stroke>;
-// 	fittedWidth: number;
-// 	finished: boolean;
-// 	showBorder: boolean;
-// 	[key: string]: any;
-// }
+export type WrappedProps<P> = P & {
+	strokes: Array<Stroke>,
+	fittedWidth: number,
+	finished: boolean,
+	showBorder: boolean,
+}
 
-export default (Wrapped: ClassComponent<any, any>) => class extends PureComponent<Props> {
-	props: Props;
+export default (Wrapped: React.ComponentType<WrappedProps<any>>) =>
+class extends React.PureComponent<Point2BoundsScalerProps<any>> {
+	props: Point2BoundsScalerProps<any>;
 
 	static defaultProps = {
 		strokes: [],

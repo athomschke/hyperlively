@@ -1,23 +1,25 @@
 // @flow
 import Color from 'color';
 import { BallpointPen } from 'ploma';
-import { last, forEach, head, tail, first } from 'lodash';
+import { last, forEach, head, tail } from 'lodash';
 
 import lastPointInStrokes from 'src/client/app/helpers/lastPointInStrokes';
 import { PRESSURE, DEFAULT_PEN_COLOR, SELECTED_PEN_COLOR } from 'src/client/app/constants/drawing';
 import type { Stroke, Point } from 'src/client/app/typeDefinitions';
 
-import AbstractDrawer, { defaultProps } from './AbstractDrawer';
+import AbstractDrawer, { defaultProps, type AbstractDrawerProps } from './AbstractDrawer';
 
 type State = {
 	ballpointPen: Object;
 }
 
-export type PlomaDrawerProps = {
+type Props = {
 	uniqueCanvasFactor: number;
 }
 
-export default class PlomaDrawer extends AbstractDrawer<PlomaDrawerProps, State> {
+export type PlomaDrawerProps = AbstractDrawerProps<Props>
+
+export default class PlomaDrawer extends AbstractDrawer<Props, State> {
 	static defaultProps = Object.assign({}, defaultProps, {
 		uniqueCanvasFactor: 1,
 	})
@@ -36,7 +38,7 @@ export default class PlomaDrawer extends AbstractDrawer<PlomaDrawerProps, State>
 	}
 
 	handleStrokeStarted(strokes: Array<Stroke>) {
-		this.startStrokeAt(lastPointInStrokes(strokes), first(strokes).color);
+		this.startStrokeAt(lastPointInStrokes(strokes), strokes[0].color || DEFAULT_PEN_COLOR);
 	}
 
 	handleStrokesExtended(strokes: Array<Stroke>) {
@@ -73,8 +75,9 @@ export default class PlomaDrawer extends AbstractDrawer<PlomaDrawerProps, State>
 	redrawStroke(stroke: Stroke, shouldFinish: boolean) {
 		const that = this;
 		const points = stroke.points;
+		const strokeColor = stroke.color || DEFAULT_PEN_COLOR;
 		if (points.length > 1) {
-			that.startStrokeAt(head(points), stroke.selected ? SELECTED_PEN_COLOR : stroke.color);
+			that.startStrokeAt(head(points), stroke.selected ? SELECTED_PEN_COLOR : strokeColor);
 			forEach(tail(points), (point) => {
 				that.extendStrokeAt(point);
 			});
@@ -84,7 +87,7 @@ export default class PlomaDrawer extends AbstractDrawer<PlomaDrawerProps, State>
 				that.extendStrokeAt(last(points));
 			}
 		} else if (points.length > 0) {
-			that.startStrokeAt(head(points), stroke.selected ? SELECTED_PEN_COLOR : stroke.color);
+			that.startStrokeAt(head(points), stroke.selected ? SELECTED_PEN_COLOR : strokeColor);
 		}
 	}
 }

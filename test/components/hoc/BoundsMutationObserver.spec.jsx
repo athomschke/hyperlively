@@ -1,37 +1,43 @@
 // @flow
 import { expect } from 'chai';
 import TestUtils from 'react-addons-test-utils';
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { shallow, mount } from 'enzyme';
 import { spy, stub } from 'sinon';
 
-import BoundsMutationObserver from 'src/client/app/components/hoc/BoundsMutationObserver';
-import { type Bounds } from 'src/client/app/typeDefinitions';
+import BoundsMutationObserver, { type WrappedProps, type BoundsMutationObserverProps } from 'src/client/app/components/hoc/BoundsMutationObserver';
 
-class MockedSubComponent extends React.Component<{bounds: Bounds, onNodeChanged: () => void}> {
-	static propTypes = {
-		bounds: PropTypes.objectOf(PropTypes.number).isRequired,
-		onNodeChanged: PropTypes.func.isRequired,
-	};
+const MockedSubComponent = (props: WrappedProps) => (<div
+	ref={(divNode) => { if (divNode) props.onNodeChanged(divNode); }}
+	style={{
+		top: props.bounds.y,
+		left: props.bounds.x,
+	}}
+/>);
 
-	render() {
-		return (<div
-			ref={(divNode) => { this.props.onNodeChanged(divNode); }}
-			style={{
-				top: this.props.bounds.y,
-				left: this.props.bounds.x,
-			}}
-		/>);
-	}
-}
+const defaultProps = (): BoundsMutationObserverProps => ({
+	bounds: {
+		x: 0,
+		y: 0,
+		width: 100,
+		height: 100,
+	},
+	width: 100,
+	height: 100,
+	strokes: [],
+	performAction: stub(),
+	observeMutations: stub(),
+});
 
 const MockedComponent = BoundsMutationObserver(MockedSubComponent);
 
-const renderComponentWithBoundsAndCallback = options =>
+const renderComponentWithBoundsAndCallback = (options: BoundsMutationObserverProps) =>
 	TestUtils.renderIntoDocument(<MockedComponent {...options} />);
 
-const shallowComponentsWithProps = props => shallow(<MockedComponent {...props} />);
-const mountComponentsWithProps = props => mount(<MockedComponent {...props} />);
+const shallowComponentsWithProps = (props: BoundsMutationObserverProps) =>
+shallow(<MockedComponent {...props} />);
+const mountComponentsWithProps = (props: BoundsMutationObserverProps) =>
+mount(<MockedComponent {...props} />);
 
 describe('Bounds mutation observer', () => {
 	describe('manipulating bounds of a wrapped component', () => {
@@ -39,7 +45,8 @@ describe('Bounds mutation observer', () => {
 
 		beforeEach(() => {
 			const options = {
-				bounds: { x: 1, y: 0 },
+				...defaultProps(),
+				bounds: { x: 1, y: 0, height: 100, width: 100 },
 				observeMutations: false,
 			};
 			mockedComponent = renderComponentWithBoundsAndCallback(options);
@@ -64,7 +71,8 @@ describe('Bounds mutation observer', () => {
 
 		beforeEach(() => {
 			const options = {
-				bounds: { x: 1, y: 0 },
+				...defaultProps(),
+				bounds: { x: 1, y: 0, height: 100, width: 100 },
 			};
 			mockedComponent = renderComponentWithBoundsAndCallback(options);
 			spy(mockedComponent, 'boundsUpdatedWith');
@@ -140,7 +148,8 @@ describe('Bounds mutation observer', () => {
 
 		beforeEach(() => {
 			const options = {
-				bounds: { x: 1, y: 0 },
+				...defaultProps(),
+				bounds: { x: 1, y: 0, width: 100, height: 100 },
 			};
 			mockedComponent = renderComponentWithBoundsAndCallback(options);
 			spy(mockedComponent, 'boundsUpdatedWith');
@@ -164,7 +173,8 @@ describe('Bounds mutation observer', () => {
 
 		beforeEach(() => {
 			const options = {
-				bounds: { x: 1, y: 0 },
+				...defaultProps(),
+				bounds: { x: 1, y: 0, width: 100, height: 100 },
 			};
 			mockedComponent = renderComponentWithBoundsAndCallback(options);
 			spy(mockedComponent, 'boundsUpdatedWith');
@@ -186,13 +196,13 @@ describe('Bounds mutation observer', () => {
 	describe('trying to observe', () => {
 		it('does nothing until mounted', () => {
 			const onNodeChanged = stub();
-			shallowComponentsWithProps({ onNodeChanged });
+			shallowComponentsWithProps({ ...defaultProps(), onNodeChanged });
 			expect(onNodeChanged).to.not.have.been.called();
 		});
 
 		it('does nothing until wrapped component is mounted', () => {
 			const onNodeChanged = stub();
-			const wrapper = mountComponentsWithProps({ onNodeChanged });
+			const wrapper = mountComponentsWithProps({ ...defaultProps(), onNodeChanged });
 			expect(wrapper.state.observer).to.not.exist();
 		});
 	});

@@ -1,13 +1,18 @@
 // @flow
-import React, { PureComponent } from 'react';
+import * as React from 'react';
 import { forEach } from 'lodash';
-import type { ClassComponent } from 'react-flow-types';
 
-import type { Stroke, Bounds } from 'src/client/app/typeDefinitions';
+import type { Stroke, Bounds, OnNodeChangedFunction, PerformActionFunction } from 'src/client/app/typeDefinitions';
 
-type Props = {
+export type BoundsMutationObserverProps<P> = P & {
 	observeMutations: boolean;
-	performAction: (_name: string, ..._rest: any[]) => void;
+	performAction: PerformActionFunction;
+	bounds: Bounds;
+	strokes: Array<Stroke>;
+};
+
+type WrappedProps<P> = P & {
+	onNodeChanged?: OnNodeChangedFunction,
 	bounds: Bounds;
 	strokes: Array<Stroke>;
 }
@@ -17,19 +22,10 @@ type State = {
 	observedNode: HTMLDivElement | null;
 }
 
-export default (Wrapped: ClassComponent<any, any>) => class extends PureComponent<Props, State> {
-	props: Props;
+export default (Wrapped: React.ComponentType<WrappedProps<any>>) =>
+class extends React.PureComponent<BoundsMutationObserverProps<any>, State> {
+	props: BoundsMutationObserverProps<any>;
 	state: State;
-
-	static defaultProps = {
-		observeMutations: true,
-		performAction: () => {},
-		bounds: {
-			x: 0,
-			y: 0,
-		},
-		strokes: [],
-	};
 
 	constructor() {
 		super();
@@ -98,7 +94,8 @@ export default (Wrapped: ClassComponent<any, any>) => class extends PureComponen
 			onNodeChanged={(divNode) => {
 				this.state.observedNode = divNode;
 			}}
-			{...this.props}
+			bounds={this.props.bounds}
+			strokes={this.props.strokes}
 		/>);
 	}
 };

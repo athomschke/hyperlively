@@ -7,6 +7,8 @@ type State = {
 	height: number;
 }
 
+export type FullscreenProps<P> = P;
+
 export default (Wrapped: ClassComponent<any, any>) => class extends PureComponent<any, State> {
 	constructor() {
 		super();

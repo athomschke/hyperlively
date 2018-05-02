@@ -1,3 +1,4 @@
+// @flow
 import { connect } from 'react-redux';
 
 import actions from 'src/client/app/actions/actions';
@@ -22,7 +23,7 @@ const mapStateToProps = (state, ownProps) => {
 	return returnState;
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
+const mapDispatchToProps = dispatch => ({
 	performAction: (actionName, ...args) => {
 		if (actions[actionName]) {
 			dispatch(actions.setObserveMutations(false));
@@ -31,7 +32,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 		}
 	},
 	onHide: (strokes) => {
-		dispatch(actions.hide(strokes, ownProps.sceneIndex));
+		dispatch(actions.hide(strokes));
 	},
 	onInterpretationDone: (bool) => {
 		dispatch(actions.toggleInterpreter(bool));
@@ -41,15 +42,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Fullscreen(
-	ModifierKey(
-		Desk(
-			SketchTransformer(
-				ModuleChooser([
-					BoundsMutationObserver(PlainDrawer),
-					BoundsMutationObserver(PlomaDrawer)]),
-				),
-			),
-		),
-	),
-);
+)(Fullscreen(ModifierKey(Desk(SketchTransformer(ModuleChooser([
+	BoundsMutationObserver(PlainDrawer),
+	BoundsMutationObserver(PlomaDrawer),
+]))))));

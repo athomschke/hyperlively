@@ -1,21 +1,25 @@
 // @flow
-import React, { PureComponent, PropTypes } from 'react';
-import type { ClassComponent } from 'react-flow-types';
+import * as React from 'react';
 
-export default (components: Array<ClassComponent<any, any>>) => class extends PureComponent<any> {
+export type ModuleChooserProps<P> = P & {
+	componentIndex: number
+};
 
-	static propTypes = {
-		componentIndex: PropTypes.number,
-	};
+export type WrappedProps<P> = P;
+
+export default (components: Array<React.ComponentType<WrappedProps<any>>>) =>
+class extends React.PureComponent<any> {
+	props: ModuleChooserProps<any>
 
 	static defaultProps = {
 		componentIndex: 0,
 	};
 
 	render() {
-		const ChosenMudule = components[this.props.componentIndex];
+		const { componentIndex, ...rest } = this.props;
+		const ChosenMudule = components[componentIndex];
 		if (ChosenMudule) {
-			return <ChosenMudule {...this.props} />;
+			return <ChosenMudule {...rest} />;
 		}
 		return <div />;
 	}

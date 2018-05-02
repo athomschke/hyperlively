@@ -29,19 +29,14 @@ const sketches = (strokes, threshold) => reduce(strokes, (collectedSketches, str
 	}]);
 }, []);
 
-type Props = {
+export type SketchCombinerProps = {
 	scene: Scene,
 	threshold: number,
 };
 
-// type WrappedProps = {
-// 	sketches: Array<Sketch>;
-// 	[key: string]: any;
-// }
-
-export default (Wrapped: ClassComponent<any, any>) => class extends PureComponent<Props> {
-
-	props: Props
+export default (Wrapped: ClassComponent<any, any>) =>
+class extends PureComponent<SketchCombinerProps> {
+	props: SketchCombinerProps
 
 	static defaultProps = {
 		scene: {
