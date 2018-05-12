@@ -6,7 +6,12 @@ import TestUtils from 'react-addons-test-utils';
 import SketchTransformer, { type SketchTransformerProps } from 'src/client/app/components/hoc/SketchTransformer';
 import { point, exampleStrokes } from 'test/helpers';
 
-const defaultProps = (): SketchTransformerProps => ({
+type MockedSubComponentProps = {
+	bounds: { [key: string]: number }
+}
+
+const defaultProps = (): SketchTransformerProps<MockedSubComponentProps> => ({
+	bounds: { x: 0, y: 0, width: 0, height: 0 },
 	selected: false,
 	hidden: false,
 	strokes: [],
@@ -16,10 +21,6 @@ const defaultProps = (): SketchTransformerProps => ({
 
 describe('Sketch transformer', () => {
 	let bounds;
-
-	type MockedSubComponentProps = {
-		bounds: { [key: string]: number }
-	}
 
 	class MockedSubComponent extends React.Component<MockedSubComponentProps> {
 		componentDidMount() {
@@ -34,9 +35,10 @@ describe('Sketch transformer', () => {
 
 	const MockedComponent = SketchTransformer(MockedSubComponent);
 
-	const renderComponentWithProps = (props: SketchTransformerProps) => TestUtils.renderIntoDocument(
+	const renderComponentWithProps = (props: SketchTransformerProps<MockedSubComponentProps>) =>
+	TestUtils.renderIntoDocument(
 		<MockedComponent {...props} />,
-		);
+	);
 
 	const renderComponent = () => renderComponentWithProps(defaultProps());
 

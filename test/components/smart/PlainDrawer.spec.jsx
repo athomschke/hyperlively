@@ -2,7 +2,7 @@
 import { expect } from 'chai';
 import React, { Component } from 'react';
 import { sum, map, remove } from 'lodash';
-import { mount, shallow } from 'enzyme';
+import { mount, shallow, type ReactWrapper } from 'enzyme';
 import { spy } from 'sinon';
 
 import PlainDrawer from 'src/client/app/components/smart/PlainDrawer';
@@ -175,7 +175,7 @@ describe('PlainDrawer', () => {
 				finished: true,
 			});
 
-			expect(canvasWrapper.find('div').node.style.getPropertyValue('pointer-events')).to.equal('auto');
+			expect(canvasWrapper.find('div').getNode().style.getPropertyValue('pointer-events')).to.equal('auto');
 		});
 
 		it('does not enable pointer events on its containing div when its not finished', () => {
@@ -185,7 +185,7 @@ describe('PlainDrawer', () => {
 				finished: false,
 			});
 
-			expect(canvasWrapper.find('div').node.style.getPropertyValue('pointer-events')).to.equal('none');
+			expect(canvasWrapper.find('div').getNode().style.getPropertyValue('pointer-events')).to.equal('none');
 		});
 	});
 
@@ -276,7 +276,7 @@ describe('PlainDrawer', () => {
 				height: 200,
 				strokes: exampleStrokes([point(10, 10), point(10, 11), point(10, 12), point(10, 13)]),
 			});
-			const canvas = wrappedComponent.find('canvas').at(0).node;
+			const canvas = wrappedComponent.find('canvas').at(0).getNode();
 			const sumBefore = sum(canvasImageData(canvas).data);
 			wrappedComponent.setState({
 				width: 150,

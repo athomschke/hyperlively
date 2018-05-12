@@ -1,9 +1,9 @@
 // @flow
 import { expect } from 'chai';
-import React from 'react';
+import React, { type Element as ReactElement } from 'react';
 import TestUtils from 'react-addons-test-utils';
 import { shallow } from 'enzyme';
-import { TreeMenu } from 'react-tree-menu';
+import { TreeMenu, TreeNode } from 'react-tree-menu';
 import { flatten, map, forEach, filter } from 'lodash';
 import { spy } from 'sinon';
 
@@ -194,19 +194,21 @@ describe('JsonProperty Chooser', () => {
 
 	describe('Checking a json property', () => {
 		let parameterChooser;
-		let checkbox;
+		let checkbox: ReactElement<'tree-view-node-checkbox'>;
+		let checkboxNode: Element;
 
 		beforeEach(() => {
 			parameterChooser = renderWithProps({
 				jsonTree: exampleTree,
 				onParameterChoose: () => undefined,
 			});
-			checkbox = TestUtils.scryRenderedDOMComponentsWithClass(parameterChooser, 'tree-view-node-checkbox')[0];
+			checkboxNode = TestUtils.scryRenderedDOMComponentsWithClass(parameterChooser, 'tree-view-node-checkbox')[0];
+			checkbox = TestUtils.scryRenderedComponentsWithType(parameterChooser, TreeNode)[0];
 		});
 
 		it('performs the callback', () => {
 			spy(parameterChooser, 'onTreeNodeCheckChange');
-			TestUtils.Simulate.click(checkbox);
+			TestUtils.Simulate.click(checkboxNode);
 			expect(parameterChooser.onTreeNodeCheckChange.callCount).to.equal(1);
 		});
 
@@ -217,15 +219,15 @@ describe('JsonProperty Chooser', () => {
 		});
 
 		it('shows the checkmark', () => {
-			TestUtils.Simulate.click(checkbox);
+			TestUtils.Simulate.click(checkboxNode);
 			parameterChooser.setState({});
-			expect(checkbox.checked).to.be.true();
+			expect(checkbox.props.checked).to.be.true();
 		});
 
 		it('deselects it if it was selected', () => {
-			TestUtils.Simulate.click(checkbox);
+			TestUtils.Simulate.click(checkboxNode);
 			expect(parameterChooser.state.checkedPaths).to.have.length(1);
-			TestUtils.Simulate.click(checkbox);
+			TestUtils.Simulate.click(checkboxNode);
 			expect(parameterChooser.state.checkedPaths).to.have.length(0);
 		});
 	});

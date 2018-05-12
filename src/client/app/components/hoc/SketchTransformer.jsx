@@ -29,7 +29,7 @@ const getLimitsForStrokes = (strokes) => {
 
 export type SketchTransformerProps<P> = P & {
 	strokes: Array<Stroke>,
-	finished: bool,
+	finished?: bool,
 	offset?: number,
 }
 

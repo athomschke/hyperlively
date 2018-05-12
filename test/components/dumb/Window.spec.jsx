@@ -11,7 +11,7 @@ describe('Window', () => {
 			relativeDividerPosition={0.4}
 			cmdPressed
 		/>);
-		expect(windowComponent.find('div').node.style.getPropertyValue('pointer-events')).to.equal('none');
+		expect(windowComponent.find('div').getNode().style.getPropertyValue('pointer-events')).to.equal('none');
 	});
 
 	it('setting cmdPressed to false enables events on window', () => {
@@ -19,20 +19,20 @@ describe('Window', () => {
 			relativeDividerPosition={0.4}
 			cmdPressed={false}
 		/>);
-		expect(windowComponent.find('div').node.style.getPropertyValue('pointer-events')).to.equal('auto');
+		expect(windowComponent.find('div').getNode().style.getPropertyValue('pointer-events')).to.equal('auto');
 	});
 
 	it('enables events per default', () => {
 		const windowComponent = mount(<Window
 			relativeDividerPosition={0.4}
 		/>);
-		expect(windowComponent.find('div').node.style.getPropertyValue('pointer-events')).to.equal('auto');
+		expect(windowComponent.find('div').getNode().style.getPropertyValue('pointer-events')).to.equal('auto');
 	});
 
 	it('has the given width', () => {
 		const windowComponent = mount(<Window
 			relativeDividerPosition={0.4}
 		/>);
-		expect(windowComponent.find('div').node.style.getPropertyValue('width')).to.equal('40%');
+		expect(windowComponent.find('div').getNode().style.getPropertyValue('width')).to.equal('40%');
 	});
 });

@@ -90,7 +90,11 @@ class extends React.PureComponent<BoundsMutationObserverProps<any>, State> {
 	}
 
 	render() {
+		// eslint-disable-next-line no-unused-vars
+		const { _observeMutations, _performAction, ...rest } = this.props;
+
 		return (<Wrapped
+			{...rest}
 			onNodeChanged={(divNode) => {
 				this.state.observedNode = divNode;
 			}}

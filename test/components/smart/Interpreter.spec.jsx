@@ -7,29 +7,19 @@ import { spy, stub } from 'sinon';
 
 import Interpreter, { type InterpreterProps } from 'src/client/app/components/smart/Interpreter';
 import InterpretationChooser from 'src/client/app/components/smart/InterpretationChooser';
-import type { Sketch, RecognitionResult, ActionMapping } from 'src/client/app/typeDefinitions';
 import { exampleStrokes, point } from 'test/helpers';
 
-type PartialProps = {
-	performAction?: () => void,
-	sketches?: Array<Sketch>,
-	showInterpreter?: boolean,
-	interpretations?: RecognitionResult,
-	specificActions?: Array<ActionMapping>,
-	onInterpretationDone?: (boolean) => void,
-}
+const defaultProps: () => InterpreterProps = () => ({
+	interpretations: { shapes: [], texts: [] },
+	onInterpretationDone: () => undefined,
+	showInterpreter: true,
+	sketches: [],
+	specificActions: [],
+	performAction: () => undefined,
+});
 
-const renderWithProps = (passedProps: PartialProps = {}) => {
-	const props: InterpreterProps = Object.assign({}, {
-		interpretations: passedProps.interpretations || { shapes: [], texts: [] },
-		onInterpretationDone: () => undefined,
-		showInterpreter: true,
-		sketches: passedProps.sketches || [],
-		specificActions: [],
-		performAction: () => undefined,
-	}, passedProps);
-	return TestUtils.renderIntoDocument(<Interpreter {...props} />);
-};
+const renderWithProps = (props: InterpreterProps) =>
+TestUtils.renderIntoDocument(<Interpreter {...props} />);
 
 describe('Interpreter', () => {
 	afterEach(() => {
@@ -41,6 +31,7 @@ describe('Interpreter', () => {
 	describe('allowing to choose', () => {
 		it('renders an action chooser', () => {
 			const list = renderWithProps({
+				...defaultProps(),
 				interpretations: { shapes: [], texts: [] },
 			});
 			const interpretationChooser = TestUtils.scryRenderedComponentsWithType(
@@ -50,6 +41,7 @@ describe('Interpreter', () => {
 
 		it('renders the candidates already received from hw recognition', () => {
 			const list = renderWithProps({
+				...defaultProps(),
 				interpretations: { shapes: [], texts: [] },
 			});
 			const interpretationChooser = TestUtils.scryRenderedComponentsWithType(
@@ -63,6 +55,7 @@ describe('Interpreter', () => {
 
 		beforeEach(() => {
 			list = renderWithProps({
+				...defaultProps(),
 				interpretations: { shapes: [], texts: [] },
 			});
 			list.setState({
@@ -90,6 +83,7 @@ describe('Interpreter', () => {
 		it('chooses a routine in the form of onDoSomething for type doSomething and runs it', () => {
 			let performedActionName;
 			const interpreter = renderWithProps({
+				...defaultProps(),
 				performAction: (actionName) => {
 					performedActionName = actionName;
 				},
@@ -102,6 +96,7 @@ describe('Interpreter', () => {
 				interpretation: {},
 			});
 			interpreter.performAction([{
+				...defaultProps(),
 				name: 'foobarRun',
 				parameters: 2,
 			}], []);
@@ -111,6 +106,7 @@ describe('Interpreter', () => {
 		it('can perform multiple actions', () => {
 			const performedActions = [];
 			const interpreter = renderWithProps({
+				...defaultProps(),
 				performAction: (...args) => {
 					performedActions.push(args);
 				},
@@ -135,11 +131,15 @@ describe('Interpreter', () => {
 
 		it('at first hides strokes even without callback', () => {
 			const interpreter = renderWithProps({
+				...defaultProps(),
 				sketches: [{
+					finished: true,
 					strokes: exampleStrokes([point(0, 5), point(5, 0), point(10, 5), point(5, 10)]),
 				}, {
+					finished: true,
 					strokes: exampleStrokes([point(0, 5), point(5, 0), point(10, 5), point(5, 10)]),
 				}, {
+					finished: true,
 					strokes: exampleStrokes([point(0, 5), point(5, 0), point(10, 5), point(5, 10)]),
 				}],
 			});
@@ -156,11 +156,15 @@ describe('Interpreter', () => {
 
 		beforeEach(() => {
 			interpreter = renderWithProps({
+				...defaultProps(),
 				sketches: [{
+					finished: true,
 					strokes: exampleStrokes([point(0, 5), point(5, 0), point(10, 5), point(5, 10)]),
 				}, {
+					finished: true,
 					strokes: exampleStrokes([point(0, 5), point(5, 0), point(10, 5), point(5, 10)]),
 				}, {
+					finished: true,
 					strokes: exampleStrokes([point(0, 5), point(5, 0), point(10, 5), point(5, 10)]),
 				}],
 			});
@@ -184,6 +188,7 @@ describe('Interpreter', () => {
 
 		beforeEach(() => {
 			interpreter = renderWithProps({
+				...defaultProps(),
 				performAction: spy(),
 			});
 			setIntervalStub = stub(window, 'setInterval');

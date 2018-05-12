@@ -1,18 +1,19 @@
+// @flow
 import * as React from 'react';
-import type { ClassComponent } from 'react-flow-types';
-import type { SyntheticMouseEvent } from 'flow-bin';
 
-type Props = {
-	onClick: (evt: SyntheticMouseEvent) => void;
+export type ClickHandlerProps<P> = P & {
+	onClick: (evt: SyntheticMouseEvent<HTMLElement>) => void;
 }
 
 type State = {
 	mouseDown: boolean;
 }
 
-export default function (Wrapped: ClassComponent<any, any>) {
-	return class ClickHandler extends React.Component {
-		props: Props
+type WrappedProps<P> = P
+
+export default function (Wrapped: React.ComponentType<WrappedProps<any>>) {
+	return class ClickHandler extends React.Component<ClickHandlerProps<any>, State> {
+		props: ClickHandlerProps<any>
 		state: State
 
 		constructor() {
@@ -20,15 +21,15 @@ export default function (Wrapped: ClassComponent<any, any>) {
 			this.state = {
 				mouseDown: false,
 			};
-			this.handleMouseDown = this.handleMouseDown.bind(this);
-			this.handleMouseUp = this.handleMouseUp.bind(this);
+			(this:any).handleMouseDown = this.handleMouseDown.bind(this);
+			(this:any).handleMouseUp = this.handleMouseUp.bind(this);
 		}
 
-		handleMouseDown() {
+		handleMouseDown(_evt: SyntheticMouseEvent<HTMLElement>) {
 			this.state.mouseDown = true;
 		}
 
-		handleMouseUp(evt: SyntheticMouseEvent) {
+		handleMouseUp(evt: SyntheticMouseEvent<HTMLElement>) {
 			if (this.state.mouseDown) {
 				evt.persist();
 				this.props.onClick(evt);
@@ -37,12 +38,14 @@ export default function (Wrapped: ClassComponent<any, any>) {
 		}
 
 		render() {
+			// eslint-disable-next-line no-unused-vars
+			const { _onClick, ...rest } = this.props;
 			return (
 				<div
 					onMouseDown={this.handleMouseDown}
 					onMouseUp={this.handleMouseUp}
 				>
-					<Wrapped {...this.props} />
+					<Wrapped {...rest} />
 				</div>
 			);
 		}

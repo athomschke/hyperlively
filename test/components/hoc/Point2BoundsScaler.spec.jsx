@@ -7,12 +7,12 @@ import TestUtils from 'react-addons-test-utils';
 import Point2BoundsScaler, { type Point2BoundsScalerProps, type WrappedProps } from 'src/client/app/components/hoc/Point2BoundsScaler';
 
 describe('Point2BoundsScaler', () => {
-	let Wrapped: (props: WrappedProps) => void;
+	let Wrapped: (props: WrappedProps<{}>) => void;
 
 	beforeEach(() => {
 		Wrapped = stub();
 		Wrapped.returns(<div />);
-		const WrappedWithPoint2BoundsScaler: React.ComponentType<Point2BoundsScalerProps> =
+		const WrappedWithPoint2BoundsScaler: React.ComponentType<Point2BoundsScalerProps<{}>> =
 		Point2BoundsScaler(Wrapped);
 		TestUtils.renderIntoDocument(<WrappedWithPoint2BoundsScaler
 			strokes={[]}
