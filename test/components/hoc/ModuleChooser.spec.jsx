@@ -3,13 +3,14 @@ import { expect } from 'chai';
 import TestUtils from 'react-addons-test-utils';
 import React from 'react';
 
-import ModuleChooser from 'src/client/app/components/hoc/ModuleChooser';
+import ModuleChooser, { type ModuleChooserProps } from 'src/client/app/components/hoc/ModuleChooser';
 import { point } from 'test/helpers';
 
 const MockedSubComponent1 = () => <canvas />;
 const MockedSubComponent2 = () => <span />;
 const MockedComponent = ModuleChooser([MockedSubComponent1, MockedSubComponent2]);
-const TestParentPrototype1 = class TestParentPrototype1 extends React.Component {
+
+class TestParentPrototype1 extends React.Component<ModuleChooserProps<{}>> {
 	render() {
 		return (<MockedComponent
 			componentIndex={this.state ? this.state.componentIndex : 0}
@@ -22,13 +23,15 @@ const TestParentPrototype1 = class TestParentPrototype1 extends React.Component 
 			strokes={[{ points: [point(10, 10), point(11, 11)] }]}
 		/>);
 	}
-};
+}
 
 describe('ModuleChooser', () => {
 	describe('enabling ploma', () => {
 		it('is possible when at the same time changing strokes', () => {
 			const TestParent = React.createFactory(TestParentPrototype1);
-			const parent = TestUtils.renderIntoDocument(TestParent());
+			const parent = TestUtils.renderIntoDocument(TestParent({
+				componentIndex: 0,
+			}));
 			expect(TestUtils.scryRenderedDOMComponentsWithTag(parent, 'canvas')).to.have.length(1);
 			parent.setState({
 				componentIndex: 1,
@@ -38,7 +41,9 @@ describe('ModuleChooser', () => {
 
 		it('Always returns some Component', () => {
 			const TestParent = React.createFactory(TestParentPrototype1);
-			const parent = TestUtils.renderIntoDocument(TestParent());
+			const parent = TestUtils.renderIntoDocument(TestParent({
+				componentIndex: 0,
+			}));
 			parent.setState({
 				componentIndex: 2,
 			});

@@ -130,14 +130,14 @@ describe('JsonProperty Chooser', () => {
 		it('checks the chosen checkmarks', () => {
 			const formattedTree: Array<ReactTreeLeafFormat | ReactTreeNodeFormat> = formatObject(
 					exampleTree, exampleChecks, [], exampleChecks, 0);
-			expect(formattedTree[0].children[1].checked).to.be.true();
+			expect((formattedTree[0]:any).children[1].checked).to.be.true();
 		});
 
 
 		it('collapses collapsed nodes', () => {
 			const formattedTree = formatObject(
 					exampleTree, exampleChecks, exampleCollapses, exampleChecks, 0);
-			expect(formattedTree[0].collapsed).to.be.true();
+			expect((formattedTree[0]:any).collapsed).to.be.true();
 		});
 	});
 

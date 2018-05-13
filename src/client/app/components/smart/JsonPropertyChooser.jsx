@@ -11,9 +11,8 @@ type State = {
 	checkedPaths: Array<Array<string>>,
 };
 
-
 export type JSONObject = {
-	[key: string]: Array<JSONObject | string | number> | JSONObject | string | number
+	[key: string]: any;
 }
 
 export type JsonPropertyChooserProps = {
@@ -73,7 +72,7 @@ export default class JsonPropertyChooser extends PureComponent<JsonPropertyChoos
 				rawData,
 			));
 		// $FlowFixMe needs flow array type refinement, see https://github.com/facebook/flow/issues/1414
-		const values: Array<JSONObject | string | number> = mixedValues.filter(value => value !== null);
+		const values: Array<JSONObject | any> = mixedValues.filter(value => value !== null);
 		this.props.onParameterChoose(values);
 		this.setState({
 			checkedPaths,

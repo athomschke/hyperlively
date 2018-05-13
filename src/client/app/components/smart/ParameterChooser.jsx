@@ -32,10 +32,13 @@ export default class ParameterChooser extends PureComponent<Props> {
 		this.props.onParameterChoose(parameters);
 	}
 
-	parameterObject() {
-		const rawData = Object.assign({}, this.props.interpretations);
-		if (this.props.lastStrokes.length > 0) {
-			rawData.lastStrokes = this.props.lastStrokes;
+	parameterObject(): JSONObject {
+		const rawData: JSONObject = {
+			...this.props.interpretations,
+		};
+		const lastStrokes = this.props.lastStrokes;
+		if (lastStrokes.length > 0) {
+			rawData.lastStrokes = lastStrokes;
 		}
 		if (this.props.selectedStrokes.length > 0) {
 			rawData.selectedStrokes = this.props.selectedStrokes;
@@ -44,7 +47,7 @@ export default class ParameterChooser extends PureComponent<Props> {
 	}
 
 	render() {
-		const jsonObject: JSONObject = this.parameterObject();
+		const jsonObject = (this.parameterObject():JSONObject);
 		return (
 			<JsonPropertyChooser
 				{...this.props}

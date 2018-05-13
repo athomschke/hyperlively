@@ -11,7 +11,7 @@ export type BoundsMutationObserverProps<P> = P & {
 	strokes: Array<Stroke>;
 };
 
-type WrappedProps<P> = P & {
+export type WrappedProps<P> = P & {
 	onNodeChanged?: OnNodeChangedFunction,
 	bounds: Bounds;
 	strokes: Array<Stroke>;

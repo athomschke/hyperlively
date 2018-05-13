@@ -70,7 +70,12 @@ export const getPathToProperty = (
 		children: arrayedJsonTree,
 	};
 	return map(nestedArrayPath, (index) => {
-		node = node.children[index];
+		const children: any = node.children;
+		if (children && children.length > 0) {
+			node = children[index];
+		} else {
+			throw new Error('cannot access json property');
+		}
 		return node.key;
 	});
 };

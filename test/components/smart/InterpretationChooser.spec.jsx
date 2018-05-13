@@ -4,7 +4,7 @@ import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import { forEach } from 'lodash';
 import { shallow } from 'enzyme';
-import { spy, stub } from 'sinon';
+import { stub } from 'sinon';
 
 import InterpretationChooser, { type InterpretationChooserProps } from 'src/client/app/components/smart/InterpretationChooser';
 import ActionChooser from 'src/client/app/components/smart/ActionChooser';
@@ -111,45 +111,31 @@ describe('Interpretation Chooser', () => {
 		});
 
 		it('dispatches it with the right parameters', () => {
-			let functions;
-			let parameters;
+			const onInterpretationChoose = stub();
 			const interpretationChooser = shallowWithProps({
 				...defaultProps(),
-				onInterpretationChoose: (passedFunctions, passedParameters) => {
-					functions = passedFunctions;
-					parameters = passedParameters;
-				},
+				onInterpretationChoose,
 			});
 			interpretationChooser.instance().componentDidMount();
-			spy(interpretationChooser.instance(), 'onInterpretationChoose');
 			interpretationChooser.instance().onActionChoose([{
 				name: 'actionName',
 				parameters: 3,
 			}]);
 			interpretationChooser.instance().onParameterChoose([['a']]);
 			interpretationChooser.instance().onInterpretationChoose();
-			expect(functions).to.deep.equal([{
+			expect(onInterpretationChoose.args[0][0]).to.deep.equal([{
 				name: 'actionName',
 				parameters: 3,
 			}]);
-			expect(parameters).to.deep.equal([['a']]);
+			expect(onInterpretationChoose.args[0][1]).to.deep.equal([['a']]);
 		});
 
 		it('selects checked values from json tree and passes them in an array', () => {
-			let passedValues;
+			const onInterpretationChoose = stub();
 			const interpretationChooser = renderWithProps({
-				isOpen: true,
+				...defaultProps(),
 				jsonTree: exampleTree,
-				onInterpretationChoose: (name, values) => {
-					passedValues = values;
-				},
-				onInterpretationTick: () => undefined,
-				relativeDividerPosition: 0,
-				interpretations: {
-					texts: [],
-					shapes: [],
-				},
-				specificActions: [],
+				onInterpretationChoose,
 			});
 			interpretationChooser.setState({
 				parameters: exampleParameters,
@@ -159,20 +145,19 @@ describe('Interpretation Chooser', () => {
 				}],
 			});
 			interpretationChooser.onInterpretationChoose();
-			expect(passedValues.length).to.equal(2);
-			expect(passedValues[0]).to.equal('a2');
-			expect(passedValues[1]).to.equal('b');
+			const values = onInterpretationChoose.args[0][1];
+			expect(values.length).to.equal(2);
+			expect(values[0]).to.equal('a2');
+			expect(values[1]).to.equal('b');
 		});
 
 		it('can pass selected strokes', () => {
-			let passedValues;
+			const onInterpretationChoose = stub();
 			const interpretationChooser = renderWithProps({
 				...defaultProps(),
 				jsonTree: exampleTree,
 				selectedStrokes: exampleSelectedStrokes,
-				onInterpretationChoose: (name, values) => {
-					passedValues = values;
-				},
+				onInterpretationChoose,
 			});
 			interpretationChooser.setState({
 				parameters: ['e'],
@@ -182,8 +167,9 @@ describe('Interpretation Chooser', () => {
 				}],
 			});
 			interpretationChooser.onInterpretationChoose();
-			expect(passedValues.length).to.equal(1);
-			expect(passedValues[0]).to.equal('e');
+			const values = onInterpretationChoose.args[0][1];
+			expect(values.length).to.equal(1);
+			expect(values[0]).to.equal('e');
 		});
 
 		it('can choose a combined action', () => {
@@ -230,16 +216,10 @@ describe('Interpretation Chooser', () => {
 		});
 
 		it('triggers the onInterpretationTick property callback', () => {
-			let tickedActionFunctions;
-			let tickedActionParameters;
-			let tickedActionInterval;
+			const onInterpretationTick = stub();
 			const interpretationChooser = shallowWithProps({
 				...defaultProps(),
-				onInterpretationTick: (functions, parameters, interval) => {
-					tickedActionFunctions = functions;
-					tickedActionParameters = parameters;
-					tickedActionInterval = interval;
-				},
+				onInterpretationTick,
 			});
 			interpretationChooser.instance().onParameterChoose([['a']]);
 			interpretationChooser.instance().onActionChoose([{
@@ -248,11 +228,12 @@ describe('Interpretation Chooser', () => {
 			}]);
 			const tickButton = findElementOfTypeWithTextContent(interpretationChooser, 'button', 'Tick');
 			tickButton.simulate('click');
-			expect(tickedActionFunctions).to.have.length(1);
-			expect(tickedActionFunctions[0].name).to.equal('actionName');
-			expect(tickedActionFunctions[0].parameter).to.equal(1);
-			expect(tickedActionParameters[0]).to.deep.equal(['a']);
-			expect(tickedActionInterval).to.equal(1000);
+			const [functions, parameters, interval] = onInterpretationTick.args[0];
+			expect(functions).to.have.length(1);
+			expect(functions[0].name).to.equal('actionName');
+			expect(functions[0].parameter).to.equal(1);
+			expect(parameters[0]).to.deep.equal(['a']);
+			expect(interval).to.equal(1000);
 		});
 	});
 });

@@ -7,15 +7,15 @@ import { spy, stub } from 'sinon';
 
 import BoundsMutationObserver, { type WrappedProps, type BoundsMutationObserverProps } from 'src/client/app/components/hoc/BoundsMutationObserver';
 
-const MockedSubComponent = (props: WrappedProps) => (<div
-	ref={(divNode) => { if (divNode) props.onNodeChanged(divNode); }}
+const MockedSubComponent = (props: WrappedProps<{}>) => (<div
+	ref={(divNode) => { if (divNode && props.onNodeChanged) props.onNodeChanged(divNode); }}
 	style={{
 		top: props.bounds.y,
 		left: props.bounds.x,
 	}}
 />);
 
-const defaultProps = (): BoundsMutationObserverProps => ({
+const defaultProps = (): BoundsMutationObserverProps<{}> => ({
 	bounds: {
 		x: 0,
 		y: 0,
@@ -31,12 +31,12 @@ const defaultProps = (): BoundsMutationObserverProps => ({
 
 const MockedComponent = BoundsMutationObserver(MockedSubComponent);
 
-const renderComponentWithBoundsAndCallback = (options: BoundsMutationObserverProps) =>
+const renderComponentWithBoundsAndCallback = (options: BoundsMutationObserverProps<{}>) =>
 	TestUtils.renderIntoDocument(<MockedComponent {...options} />);
 
-const shallowComponentsWithProps = (props: BoundsMutationObserverProps) =>
+const shallowComponentsWithProps = (props: BoundsMutationObserverProps<{}>) =>
 shallow(<MockedComponent {...props} />);
-const mountComponentsWithProps = (props: BoundsMutationObserverProps) =>
+const mountComponentsWithProps = (props: BoundsMutationObserverProps<{}>) =>
 mount(<MockedComponent {...props} />);
 
 describe('Bounds mutation observer', () => {

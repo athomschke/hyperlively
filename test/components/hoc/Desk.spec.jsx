@@ -83,9 +83,9 @@ describe('Desk', () => {
 			height={height}
 		/>);
 		const nodes = TestUtils.scryRenderedDOMComponentsWithTag(desk, 'div');
-		const node = nodes[0]
-		expect(nodes[0].style.width).to.equal('40%');
-		expect(parseInt(nodes[0].style.height, 10)).to.equal(height);
+		const node: HTMLDivElement = (nodes[0]:any);
+		expect(node.style.width).to.equal('40%');
+		expect(parseInt(node.style.height, 10)).to.equal(height);
 	});
 
 	it('colors the background in paperColor', () => {
@@ -97,6 +97,7 @@ describe('Desk', () => {
 			paperColor="rgb(240, 235, 219)"
 		/>);
 		const nodes = TestUtils.scryRenderedDOMComponentsWithTag(desk, 'div');
-		expect(nodes[0].style.getPropertyValue('background-color')).to.equal('rgb(240, 235, 219)');
+		const node: HTMLDivElement = (nodes[0]:any);
+		expect(node.style.getPropertyValue('background-color')).to.equal('rgb(240, 235, 219)');
 	});
 });
