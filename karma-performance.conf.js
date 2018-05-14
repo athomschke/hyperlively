@@ -1,3 +1,4 @@
+// @flow
 var configureDefaultKarma = require('./karma.conf');
 
 module.exports = function (config) {

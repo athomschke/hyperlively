@@ -1,3 +1,4 @@
+// @flow
 export const threeInFirstThreeInSecond = [
 	[
 		{	strokes: [{ actionIndex: 0 }]	},

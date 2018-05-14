@@ -1,3 +1,4 @@
+// @flow
 import { connect } from 'react-redux';
 
 import { togglePloma } from 'src/client/app/actions/configuring';

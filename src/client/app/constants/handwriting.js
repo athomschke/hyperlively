@@ -1,3 +1,4 @@
+// @flow
 import credentials from 'credentials/myscriptjs.json';
 
 export const APPLICATION_KEY = credentials.applicationKey;

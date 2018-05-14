@@ -1,3 +1,4 @@
+// @flow
 import { connect } from 'react-redux';
 
 import SketchCombiner from 'src/client/app/components/hoc/SketchCombiner';

@@ -1,3 +1,4 @@
+// @flow
 import { combineReducers } from 'redux';
 
 import type { HyperlivelyState, Action } from 'src/client/app/typeDefinitions';

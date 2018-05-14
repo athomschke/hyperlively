@@ -34,7 +34,7 @@ describe('Drag handler', () => {
 		});
 	};
 
-	const renderComponentWithProps = (props: DragHandlerProps) => mount(
+	const renderComponentWithProps = (props: DragHandlerProps<{}>) => mount(
 		<MockedComponent {...props}>
 			<div
 				width={400}

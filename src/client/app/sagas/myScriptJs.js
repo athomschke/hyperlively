@@ -1,3 +1,4 @@
+// @flow
 import { takeLatest, call, put } from 'redux-saga/effects';
 
 import { requestTextCandidates, requestShapeCandidates } from 'src/client/app/helpers/handwritingRecognizer';

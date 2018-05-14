@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import React, { PropTypes } from 'react';
 import TestUtils from 'react-addons-test-utils';
 
-import SketchCombiner, { type SketchCombinerProps } from 'src/client/app/components/hoc/SketchCombiner';
+import SketchCombiner, { type SketchCombinerProps, type WrappedProps } from 'src/client/app/components/hoc/SketchCombiner';
 import { type Sketch } from 'src/client/app/typeDefinitions';
 import { point, exampleStrokes } from 'test/helpers';
 
@@ -39,7 +39,7 @@ const expectTwoStrokesInOneSketch = (combinedSketches, addedPoint1) => {
 describe('Sketch combiner', () => {
 	let sketches: Array<Sketch>;
 
-	class MockedSubComponent extends React.Component<any> {
+	class MockedSubComponent extends React.Component<WrappedProps<{}>> {
 
 		static propTypes = {
 			sketches: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -63,7 +63,7 @@ describe('Sketch combiner', () => {
 
 	const MockedComponent = SketchCombiner(MockedSubComponent);
 
-	const renderComponentWithProps = (props: SketchCombinerProps) =>
+	const renderComponentWithProps = (props: SketchCombinerProps<{}>) =>
 		TestUtils.renderIntoDocument(<MockedComponent {...props} />);
 
 	const renderComponent = () => renderComponentWithProps(defaultProps());

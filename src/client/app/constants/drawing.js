@@ -1,3 +1,4 @@
+// @flow
 export const DEFAULT_THRESHOLD = 500;
 
 export const MAX_THRESHOLD = 5000;

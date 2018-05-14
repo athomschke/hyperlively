@@ -1,3 +1,4 @@
+// @flow
 import { DEFAULT_PEN_COLOR } from 'src/client/app/constants/drawing';
 
 export const shapeCandidate = {

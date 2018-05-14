@@ -1,10 +1,9 @@
 // @flow
-import React, { PureComponent } from 'react';
-import type { ClassComponent } from 'react-flow-types';
+import * as React from 'react';
 import { reduce, last, first, concat } from 'lodash';
 
 import { DEFAULT_THRESHOLD } from 'src/client/app/constants/drawing';
-import type { Scene/* , Sketch*/ } from 'src/client/app/typeDefinitions';
+import type { Scene, Sketch } from 'src/client/app/typeDefinitions';
 
 const strokeFollowedSuit = (collectedSketches, stroke, threshold) => {
 	const lastPoint = last(collectedSketches) &&
@@ -29,14 +28,18 @@ const sketches = (strokes, threshold) => reduce(strokes, (collectedSketches, str
 	}]);
 }, []);
 
-export type SketchCombinerProps = {
+export type SketchCombinerProps<P> = P & {
 	scene: Scene,
 	threshold: number,
 };
 
-export default (Wrapped: ClassComponent<any, any>) =>
-class extends PureComponent<SketchCombinerProps> {
-	props: SketchCombinerProps
+export type WrappedProps<P> = P & {
+	sketches: Array<Sketch>
+}
+
+export default (Wrapped: React.ComponentType<WrappedProps<any>>) =>
+class extends React.PureComponent<SketchCombinerProps<any>> {
+	props: SketchCombinerProps<any>
 
 	static defaultProps = {
 		scene: {

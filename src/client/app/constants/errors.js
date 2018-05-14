@@ -1,3 +1,4 @@
+// @flow
 export const ERROR_DIRECT_ABSTRACT_CALL = 'Can not call static abstract method directly.';
 
 export const ERROR_IMPLEMENT_IN_CHILD = 'Please implement static abstract method in subclass.';

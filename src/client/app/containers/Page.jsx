@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 
 import Scene from './Scene';
@@ -9,7 +10,11 @@ import Threshold from './Threshold';
 import Window from './Window';
 import AppConfiguration from './AppConfiguration';
 
-export default function Page(props) {
+type PageProps = {
+	
+}
+
+export default function Page(props: PageProps) {
 	return (<div>
 		<div>
 			<Scene {...props} />

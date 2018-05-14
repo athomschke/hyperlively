@@ -1,3 +1,4 @@
+// @flow
 export const APPEND_POINT = 'APPEND_POINT';
 
 export const APPEND_STROKE = 'APPEND_STROKE';

@@ -1,18 +1,18 @@
 // @flow
 import React, { PureComponent } from 'react';
 
-type Props = {
+type Props<P> = P & {
 	relativeDividerPosition: number;
 	cmdPressed: boolean;
 };
 
-const Window = class Window extends PureComponent<Props> {
+const Window = class Window extends PureComponent<Props<any>> {
 	static defaultProps = {
 		relativeDividerPosition: 0.6,
 		cmdPressed: false,
 	};
 
-	props: Props;
+	props: Props<any>;
 
 	render() {
 		return (<div

@@ -1,12 +1,13 @@
+// @flow
 var configureDefaultKarma = require('./karma.conf');
 
 module.exports = function (config) {
 	configureDefaultKarma(config);
-	
+
 	config.plugins.push('karma-coverage');
 	config.plugins.push('karma-phantomjs-launcher');
 	config.reporters.push('coverage');
-	
+
 	config.webpack.devtool = 'inline-source-map';
 	config.webpack.module.rules.push({
 		enforce: 'pre',
@@ -17,8 +18,8 @@ module.exports = function (config) {
 		query: {
 	        cacheDirectory: true
 	    }
-	});	
-	
+	});
+
 	config.set({
 		browsers: ['PhantomJS'],
 		phantomjsLauncher: {

@@ -1,6 +1,8 @@
 [ignore]
 
 [include]
+./src/**/*
+./test/**/*
 
 [libs]
 

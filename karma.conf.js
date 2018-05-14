@@ -1,3 +1,4 @@
+// @flow
 var webpackConfig = require('./webpack.config');
 
 module.exports = function (config) {

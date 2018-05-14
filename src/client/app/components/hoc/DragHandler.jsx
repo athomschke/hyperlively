@@ -3,7 +3,7 @@ import * as React from 'react';
 
 type SyntheticPointerEvent = SyntheticMouseEvent<HTMLElement> | SyntheticTouchEvent<HTMLElement>;
 
-export type DragHandlerProps = {
+export type DragHandlerProps<P> = P & {
 	onDragStart: (_evt: SyntheticPointerEvent) => void;
 	onDrag: (_evt: SyntheticPointerEvent) => {};
 	onDragEnd: (_evt: SyntheticPointerEvent) => {};
@@ -14,9 +14,9 @@ type State = {
 	mousePressed: boolean;
 }
 
-export default (Wrapped: React.ComponentType<DragHandlerProps>) =>
-class extends React.PureComponent<DragHandlerProps, State> {
-	props: DragHandlerProps;
+export default (Wrapped: React.ComponentType<DragHandlerProps<any>>) =>
+class extends React.PureComponent<DragHandlerProps<any>, State> {
+	props: DragHandlerProps<any>;
 	state: State;
 
 	static defaultProps = {

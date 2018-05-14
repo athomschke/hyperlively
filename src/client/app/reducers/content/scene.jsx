@@ -1,3 +1,4 @@
+// @flow
 import type { Scene } from 'src/client/app/typeDefinitions';
 
 import { strokes, strokesActionTypes, type StrokesActionType } from './strokes';

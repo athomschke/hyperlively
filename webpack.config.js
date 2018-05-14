@@ -1,3 +1,4 @@
+// @flow
 var path = require('path');
 
 var BUILD_DIR = path.resolve(__dirname, 'src/client/public');

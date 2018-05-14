@@ -1,3 +1,4 @@
+// @flow
 import type { Stroke, TextCandidate, ShapeCandidate } from './typeDefinitions';
 
 export type APPEND_POINT_ACTION = {
