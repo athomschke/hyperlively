@@ -6,6 +6,10 @@ import relevantStatesForScene from 'src/client/app/helpers/relevantStatesForScen
 import type { Reducer, UndoableScenes, SceneState } from 'src/client/app/typeDefinitions';
 import { type JUMP_TO_ACTION } from 'src/client/app/actionTypeDefinitions';
 
+export type UndoableActionType<T> = T | JUMP_TO_ACTION;
+
+export const undoableActionTypes = [JUMP_TO];
+
 function undoable(reducer: Reducer) {
 	const initialState = {
 		past: [],
@@ -45,7 +49,7 @@ function undoable(reducer: Reducer) {
 		};
 	};
 
-	return (state: UndoableScenes = initialState, action: JUMP_TO_ACTION) => {
+	return (state: UndoableScenes = initialState, action: UndoableActionType<any>) => {
 		const { past, present, future } = state;
 
 		switch (action.type) {

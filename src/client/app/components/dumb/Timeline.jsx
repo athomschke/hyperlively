@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import Slider from 'rc-slider';
 import { map, flatten } from 'lodash';
 
-import { rcSlider } from 'src/client/app/stylesheets/components/dumb/Timeline.scss';
+import style from 'src/client/app/stylesheets/components/dumb/Timeline.scss';
 import type { Sketch, Stroke } from 'src/client/app/typeDefinitions';
 
 import TimelinePreview from './TimelinePreview';
@@ -55,7 +55,7 @@ export default class Timeline extends PureComponent<Props> {
 			<Slider
 				{...this.props}
 				min={0}
-				className={rcSlider}
+				className={style.rcSlider}
 				tipFormatter={null}
 			/>
 		</div>);

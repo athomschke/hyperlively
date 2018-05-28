@@ -1,59 +1,78 @@
 // @flow
-import { ADD_SCENE, ADD_SCENE_AT, SET_SCENE_INDEX, NEXT_SCENE } from 'src/client/app/constants/actionTypes';
+import { addScene } from 'src/client/app/actions/drawing';
+import { ADD_SCENE_AT, SET_SCENE_INDEX, NEXT_SCENE } from 'src/client/app/constants/actionTypes';
+import { type SET_SCENE_INDEX_ACTION } from 'src/client/app/actionTypeDefinitions';
 import { type Content } from 'src/client/app/typeDefinitions';
-import type {
-	ADD_SCENE_AT_ACTION, NEXT_SCENE_ACTION, SET_SCENE_INDEX_ACTION,
-	APPEND_POINT_ACTION, APPEND_STROKE_ACTION, FINISH_STROKE_ACTION,
-	HIDE_ACTION, SELECT_ACTION, SELECT_INSIDE_ACTION, UPDATE_POSITION_ACTION,
-	ADD_SCENE_ACTION, ROTATE_BY_ACTION,
-} from 'src/client/app/actionTypeDefinitions';
 
-import { undoable } from './undoable';
-import { sceneIndex } from './sceneIndex';
-import { scenes } from './scenes';
+import { undoable, undoableActionTypes, type UndoableActionType } from './undoable';
+import { sceneIndex, sceneIndexActionTypes, type SetSceneActionType, type SafeSetSceneActionType } from './sceneIndex';
+import { scenes, scenesActionTypes, initialScenesState, type ScenesActionType } from './scenes';
 import { defaultSceneIndex } from './defaultState';
+
+type UndoableSceneActionType = UndoableActionType<ScenesActionType | SetSceneActionType>
 
 const undoableScenes = undoable(scenes);
 
-const defaultState = () => ({
+const undoableScenesActionTypes = [...undoableActionTypes, ...scenesActionTypes];
+
+const initialUndoableScenes = {
+	past: [],
+	present: initialScenesState,
+	future: [],
+};
+
+export const initialContentState = () => ({
 	sceneIndex: defaultSceneIndex,
-	undoableScenes: undoableScenes(undefined, { type: undefined }),
+	undoableScenes: initialUndoableScenes,
 });
 
-const combinedState = (state: Content = defaultState(), action) => ({
-	sceneIndex: sceneIndex(state.sceneIndex, action),
-	undoableScenes: undoableScenes(state.undoableScenes, action),
-});
-
-function content(state: Content = defaultState(), action:
-		ADD_SCENE_AT_ACTION | NEXT_SCENE_ACTION | SET_SCENE_INDEX_ACTION |
-		APPEND_POINT_ACTION | APPEND_STROKE_ACTION | FINISH_STROKE_ACTION |
-		HIDE_ACTION | SELECT_ACTION | SELECT_INSIDE_ACTION | UPDATE_POSITION_ACTION |
-		ADD_SCENE_ACTION | ROTATE_BY_ACTION) {
+function content(state: Content = initialContentState(), action: UndoableSceneActionType) {
 	switch (action.type) {
 	case ADD_SCENE_AT:
 		if (action.number <= state.undoableScenes.present.length + 1 && action.number >= 0) {
-			return combinedState(state, action);
+			return {
+				...state,
+				undoableScenes: undoableScenes(state.undoableScenes, action),
+			};
 		}
 		return state;
 	case NEXT_SCENE:
 		if (state.sceneIndex < state.undoableScenes.present.length - 1) {
-			return combinedState(state, action);
+			return {
+				sceneIndex: sceneIndex(state.sceneIndex, action),
+				undoableScenes: state.undoableScenes,
+			};
 		}
 		return {
 			sceneIndex: sceneIndex(state.sceneIndex, action),
-			undoableScenes: undoableScenes(state.undoableScenes, {
-				type: ADD_SCENE,
-			}),
+			undoableScenes: undoableScenes(state.undoableScenes, addScene()),
 		};
-	case SET_SCENE_INDEX:
-		return combinedState(state, Object.assign({}, action, {
+	case SET_SCENE_INDEX: {
+		const setSceneIndexAction: SET_SCENE_INDEX_ACTION = {
+			...action,
 			max: state.undoableScenes.present.length - 1,
-		}));
+			action,
+		};
+		return {
+			sceneIndex: sceneIndex(state.sceneIndex, setSceneIndexAction),
+			undoableScenes: state.undoableScenes,
+		};
+	}
 	default:
-		return combinedState(state, Object.assign({}, action, {
-			sceneIndex: state.sceneIndex,
-		}));
+		if (sceneIndexActionTypes.indexOf(action.type) >= 0) {
+			const sceneIndexAction: SafeSetSceneActionType = ((action:any): SafeSetSceneActionType);
+			return {
+				...state,
+				sceneIndex: sceneIndex(state.sceneIndex, sceneIndexAction),
+			};
+		} else if (undoableScenesActionTypes.indexOf(action.type) >= 0) {
+			const undoableScenesAction: UndoableSceneActionType = action;
+			return {
+				...state,
+				undoableScenes: undoableScenes(state.undoableScenes, undoableScenesAction),
+			};
+		}
+		return state;
 	}
 }
 

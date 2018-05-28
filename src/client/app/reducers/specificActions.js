@@ -5,13 +5,13 @@ import { APPEND_SPECIFC_ACTION } from 'src/client/app/constants/actionTypes';
 import { type APPEND_SPECIFC_ACTION_ACTION } from 'src/client/app/actionTypeDefinitions';
 import { type ActionMapping } from 'src/client/app/typeDefinitions';
 
-const deleteInside = {
+export const initialSpecificActionsState = () => [{
 	actionName: 'deleteInside',
 	actionNames: ['selectInside', 'hide'],
-};
+}];
 
 function specificActions(
-		state: Array<ActionMapping> = [deleteInside],
+		state: Array<ActionMapping> = initialSpecificActionsState(),
 		action: APPEND_SPECIFC_ACTION_ACTION,
 	) {
 	switch (action.type) {

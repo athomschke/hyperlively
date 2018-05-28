@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
 
-import { timelinePreview } from 'src/client/app/stylesheets/components/dumb/TimelinePreview.scss';
+import style from 'src/client/app/stylesheets/components/dumb/TimelinePreview.scss';
 
 import TimelineCanvas, { type TimelineCanvasProps } from './TimelineCanvas';
 
@@ -21,7 +21,7 @@ export default function TimelinePreview(props: TimelinePreviewProps<any>) {
 	};
 
 	return (
-		<div className={timelinePreview}>
+		<div className={style.timelinePreview}>
 			<TimelineCanvas {...timelineCanvasProps} />
 		</div>);
 }

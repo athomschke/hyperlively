@@ -1,7 +1,7 @@
 // @flow
 import React, { type ChildrenArray, PureComponent } from 'react';
 
-import { configuration } from 'src/client/app/stylesheets/components/dumb/AppConfiguration.scss';
+import style from 'src/client/app/stylesheets/components/dumb/AppConfiguration.scss';
 
 type AppConfigurationProps = {
 	active: boolean;
@@ -20,7 +20,7 @@ export default class AppConfiguration extends PureComponent<AppConfigurationProp
 		return (
 			<div
 				id="configuration"
-				className={configuration}
+				className={style.configuration}
 				style={{
 					pointerEvents: this.props.active ? 'auto' : 'none',
 				}}

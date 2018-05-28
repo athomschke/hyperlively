@@ -5,18 +5,22 @@ import { ADD_SCENE, ADD_SCENE_AT } from 'src/client/app/constants/actionTypes';
 import type { Scene } from 'src/client/app/typeDefinitions';
 import type { ADD_SCENE_AT_ACTION, ADD_SCENE_ACTION } from 'src/client/app/actionTypeDefinitions';
 
-import { scene, sceneActionTypes, type SceneActionType } from './scene';
+import { scene, sceneActionTypes, initialSceneState, type SceneActionType } from './scene';
 
-type ScenesActionType = SceneActionType | ADD_SCENE_AT_ACTION | ADD_SCENE_ACTION
+export type ScenesActionType = SceneActionType | ADD_SCENE_AT_ACTION | ADD_SCENE_ACTION
 
-const scenes = (state: Array<Scene> = [], action: ScenesActionType) =>
+export const scenesActionTypes = [...sceneActionTypes, ADD_SCENE, ADD_SCENE_AT];
+
+export const initialScenesState: Array<Scene> = [];
+
+const scenes = (state: Array<Scene> = initialScenesState, action: ScenesActionType) =>
 produce(state, (draftState) => {
 	switch (action.type) {
 	case ADD_SCENE:
-		draftState.push(scene(undefined, action));
+		draftState.push(initialSceneState);
 		break;
 	case ADD_SCENE_AT:
-		draftState.splice(action.number, 0, scene(undefined, action));
+		draftState.splice(action.number, 0, initialSceneState);
 		break;
 	default:
 		if (sceneActionTypes.includes(action.type)) {

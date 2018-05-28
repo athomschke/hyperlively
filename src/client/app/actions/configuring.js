@@ -18,7 +18,7 @@ export function setObserveMutations(boolean: boolean) {
 }
 
 export function setSceneIndex(number: number) {
-	return { type: SET_SCENE_INDEX, number };
+	return { type: SET_SCENE_INDEX, number, max: NaN };
 }
 
 export function jumpTo(pointInTime: number, sceneIndex: number) {
@@ -28,4 +28,3 @@ export function jumpTo(pointInTime: number, sceneIndex: number) {
 export function toggleInterpreter(boolean: boolean) {
 	return { type: TOGGLE_INTERPRETER, boolean };
 }
-

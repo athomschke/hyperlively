@@ -4,10 +4,10 @@ import produce from 'immer';
 
 import { TOGGLE_INTERPRETER, APPEND_POINT, APPEND_STROKE, RECEIVE_TEXT_CANDIDATES, RECEIVE_SHAPE_CANDIDATES } from 'src/client/app/constants/actionTypes';
 import { CANDIDATES_COUNT } from 'src/client/app/constants/handwriting';
-import { type TOGGLE_INTERPRETER_ACTION, RECOGNIZE_HANDWRITING_ACTION, APPEND_POINT_ACTION, APPEND_STROKE_ACTION } from 'src/client/app/actionTypeDefinitions';
+import type { TOGGLE_INTERPRETER_ACTION, RECEIVE_TEXT_CANDIDATES_ACTION, RECEIVE_SHAPE_CANDIDATES_ACTION, APPEND_POINT_ACTION, APPEND_STROKE_ACTION } from 'src/client/app/actionTypeDefinitions';
 import { type InterpretationState } from 'src/client/app/typeDefinitions';
 
-const initialState = () => ({
+export const initialInterpretationState = () => ({
 	showInterpreter: false,
 	interpretations: {
 		shapes: [],
@@ -15,11 +15,11 @@ const initialState = () => ({
 	},
 });
 
-type Action = TOGGLE_INTERPRETER_ACTION | RECOGNIZE_HANDWRITING_ACTION |
-	APPEND_POINT_ACTION | APPEND_STROKE_ACTION
+type Action = TOGGLE_INTERPRETER_ACTION | RECEIVE_TEXT_CANDIDATES_ACTION |
+	APPEND_POINT_ACTION | APPEND_STROKE_ACTION | RECEIVE_SHAPE_CANDIDATES_ACTION
 
 const interpretation =
-(state: InterpretationState = initialState(), action: Action) =>
+(state: InterpretationState = initialInterpretationState(), action: Action) =>
 produce(state, (draftState) => {
 	switch (action.type) {
 	case TOGGLE_INTERPRETER: {
@@ -52,7 +52,7 @@ produce(state, (draftState) => {
 	}
 	case APPEND_POINT:
 	case APPEND_STROKE: {
-		draftState.interpretations = initialState().interpretations;
+		draftState.interpretations = initialInterpretationState().interpretations;
 		break;
 	}
 	}

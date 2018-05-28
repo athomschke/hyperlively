@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { forEach, find, map, concat } from 'lodash';
 
-import { actionChooser } from 'src/client/app/stylesheets/components/smart/actionChooser.scss';
+import style from 'src/client/app/stylesheets/components/smart/actionChooser.scss';
 import type { FunctionConfiguration, TreeParameter, ActionMapping, RecognitionResult, Parameters, Functions } from 'src/client/app/typeDefinitions';
 
 import ActionChooser from './ActionChooser';
@@ -81,7 +81,7 @@ extends PureComponent<InterpretationChooserProps, State> {
 	render() {
 		return (
 			<div
-				className={actionChooser}
+				className={style.actionChooser}
 				style={{ width: `${(1 - this.props.relativeDividerPosition) * 100}%` }}
 			>
 				<button

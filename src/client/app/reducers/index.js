@@ -3,16 +3,27 @@ import { combineReducers } from 'redux';
 
 import type { HyperlivelyState, Action } from 'src/client/app/typeDefinitions';
 
-import { threshold } from './threshold';
-import { ploma } from './ploma';
-import { handwritingRecognition } from './handwritingRecognition';
-import { observeMutations } from './observeMutations';
-import { interpretation } from './interpretation';
-import { drawing } from './drawing';
-import { content } from './content';
-import { specificActions } from './specificActions';
+import { threshold, initialThresholdState } from './threshold';
+import { ploma, initialPlomaState } from './ploma';
+import { handwritingRecognition, initialHandwritingRecognitionState } from './handwritingRecognition';
+import { observeMutations, initialObserveMutationsState } from './observeMutations';
+import { interpretation, initialInterpretationState } from './interpretation';
+import { drawing, initialDrawingState } from './drawing';
+import { content, initialContentState } from './content';
+import { specificActions, initialSpecificActionsState } from './specificActions';
 
 type HyperlivelyReducer = (state: HyperlivelyState, action: Action) => HyperlivelyState;
+
+export const initialHyperlivelyState: HyperlivelyState = {
+	interpretation: initialInterpretationState(),
+	ploma: initialPlomaState(),
+	handwritingRecognition: initialHandwritingRecognitionState(),
+	observeMutations: initialObserveMutationsState(),
+	threshold: initialThresholdState(),
+	drawing: initialDrawingState(),
+	content: initialContentState(),
+	specificActions: initialSpecificActionsState(),
+};
 
 const hyperlively: HyperlivelyReducer = combineReducers({
 	interpretation,

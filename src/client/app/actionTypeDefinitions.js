@@ -1,21 +1,25 @@
 // @flow
 import type { Stroke, TextCandidate, ShapeCandidate } from './typeDefinitions';
 
-export type APPEND_POINT_ACTION = {
+type SCENE_MANIPULATION = {
+	sceneIndex: number;
+}
+
+export type APPEND_POINT_ACTION = SCENE_MANIPULATION & {
 	type: 'APPEND_POINT';
 	x: number;
 	y: number;
 	timeStamp: number
 }
 
-export type APPEND_STROKE_ACTION = {
+export type APPEND_STROKE_ACTION = SCENE_MANIPULATION & {
 	type: 'APPEND_STROKE';
 	x: number;
 	y: number;
 	timeStamp: number
 }
 
-export type FINISH_STROKE_ACTION = {
+export type FINISH_STROKE_ACTION = SCENE_MANIPULATION & {
 	type: 'FINISH_STROKE';
 	x: number;
 	y: number;
@@ -38,7 +42,7 @@ export type UPDATE_THRESHOLD_ACTION = {
 	number: number;
 }
 
-export type UPDATE_POSITION_ACTION = {
+export type UPDATE_POSITION_ACTION = SCENE_MANIPULATION & {
 	type: 'UPDATE_POSITION';
 	strokes: Stroke[];
 	origin: {
@@ -55,7 +59,7 @@ export type ENHANCED_UPDATE_POSITION_ACTION = UPDATE_POSITION_ACTION & {
 	sceneIndex: number;
 }
 
-export type ROTATE_BY_ACTION = {
+export type ROTATE_BY_ACTION = SCENE_MANIPULATION & {
 	type: 'ROTATE_BY',
 	strokes: Stroke[],
 	centerX: number,
@@ -63,12 +67,12 @@ export type ROTATE_BY_ACTION = {
 	degrees: number,
 }
 
-export type HIDE_ACTION = {
+export type HIDE_ACTION = SCENE_MANIPULATION & {
 	type: 'HIDE';
 	strokes: Array<Stroke>;
 }
 
-export type SELECT_ACTION = {
+export type SELECT_ACTION = SCENE_MANIPULATION & {
 	type: 'SELECT';
 	strokes: Array<Stroke>;
 }
@@ -95,18 +99,15 @@ export type TOGGLE_INTERPRETER_ACTION = {
 
 export type SET_SCENE_INDEX_ACTION = {
 	type: 'SET_SCENE_INDEX';
+	max: number;
 	number: number;
 }
 
-export type ENHANCED_SET_SCENE_INDEX_ACTION = SET_SCENE_INDEX_ACTION & {
-	max: number;
-}
-
-export type ADD_SCENE_ACTION = {
+export type ADD_SCENE_ACTION = SCENE_MANIPULATION & {
 	type: 'ADD_SCENE';
 }
 
-export type ADD_SCENE_AT_ACTION = {
+export type ADD_SCENE_AT_ACTION = SCENE_MANIPULATION & {
 	type: 'ADD_SCENE_AT';
 	number: number;
 }
@@ -122,22 +123,31 @@ export type PREVIOUS_SCENE_ACTION = {
 export type SELECT_INSIDE_ACTION = {
 	type: 'SELECT_INSIDE';
 	strokes: Array<Stroke>;
+	sceneIndex: number;
 }
 
 export type REQUEST_SHAPE_CANDIDATES_ACTION = {
 	type: 'REQUEST_SHAPE_CANDIDATES_ACTION';
+	strokes: Array<Stroke>;
 }
 
 export type RECEIVE_SHAPE_CANDIDATES_ACTION = {
-	type: 'RECEIVE_SHAPE_CANDIDATES_ACTION';
-	candidates: Array<ShapeCandidate>
+	type: 'RECEIVE_SHAPE_CANDIDATES';
+	candidates: Array<ShapeCandidate>;
 }
 
 export type REQUEST_TEXT_CANDIDATES_ACTION = {
-	type: 'REQUEST_TEXT_CANDIDATES_ACTION';
+	type: 'REQUEST_TEXT_CANDIDATES_ACTION',
+	strokes: Array<Stroke>;
 }
 
 export type RECEIVE_TEXT_CANDIDATES_ACTION = {
-	type: 'RECEIVE_TEXT_CANDIDATES_ACTION';
+	type: 'RECEIVE_TEXT_CANDIDATES';
 	candidates: Array<TextCandidate>
+}
+
+export type APPEND_SPECIFC_ACTION_ACTION = {
+	type: 'APPEND_SPECIFC_ACTION',
+	actionName: string,
+	actionNames: Array<string>,
 }

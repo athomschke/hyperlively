@@ -5,12 +5,12 @@ import { type TOGGLE_PLOMA_ACTION } from 'src/client/app/actionTypeDefinitions';
 
 import { defaultUsePloma } from './defaultState';
 
-const initialState = () => ({
+export const initialPlomaState = () => ({
 	usePloma: defaultUsePloma,
 	uniqueCanvasFactor: Math.random(),
 });
 
-function ploma(state: PlomaState = initialState(), action: TOGGLE_PLOMA_ACTION) {
+function ploma(state: PlomaState = initialPlomaState(), action: TOGGLE_PLOMA_ACTION) {
 	switch (action.type) {
 	case TOGGLE_PLOMA:
 		return {

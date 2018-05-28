@@ -8,18 +8,18 @@ import type {
 	FINISH_STROKE_ACTION, UPDATE_POSITION_ACTION, HIDE_ACTION, SELECT_ACTION, ROTATE_BY_ACTION,
 } from 'src/client/app/actionTypeDefinitions';
 
-import { points, pointsActionTypes, type PointsActionType } from './points';
+import { points, pointsActionTypes, initialPointsState, type PointsActionType } from './points';
 
 export type StrokeActionType = PointsActionType |
 FINISH_STROKE_ACTION | UPDATE_POSITION_ACTION | HIDE_ACTION | SELECT_ACTION | ROTATE_BY_ACTION
 
 export const strokeActionTypes = [
 	...pointsActionTypes,
-	UPDATE_POSITION, ROTATE_BY, HIDE, SELECT, FINISH_STROKE,
+	HIDE, SELECT, FINISH_STROKE,
 ];
 
 const defaultStroke = () => ({
-	points: points(undefined, {}),
+	points: initialPointsState,
 	hidden: false,
 	selected: false,
 	finished: false,

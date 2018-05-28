@@ -1,50 +1,54 @@
 // @flow
 import { UPDATE_POSITION, HIDE, SELECT, SELECT_INSIDE, ROTATE_BY } from 'src/client/app/constants/actionTypes';
+import type { SELECT_ACTION, UPDATE_POSITION_ACTION, ROTATE_BY_ACTION, HIDE_ACTION, SELECT_INSIDE_ACTION } from 'src/client/app/actionTypeDefinitions';
 import type { Stroke } from 'src/client/app/typeDefinitions';
 
-export function updatePosition(
-		strokes: Stroke[],
-		originX: number,
-		originY: number,
-		targetX: number,
-		targetY: number) {
-	return { type: UPDATE_POSITION,
-		strokes,
-		origin: {
-			x: originX,
-			y: originY,
-		},
-		target: {
-			x: targetX,
-			y: targetY,
-		},
-	};
-}
+export const updatePosition = (
+strokes: Stroke[],
+originX: number,
+originY: number,
+targetX: number,
+targetY: number): UPDATE_POSITION_ACTION => ({
+	type: UPDATE_POSITION,
+	strokes,
+	origin: {
+		x: originX,
+		y: originY,
+	},
+	target: {
+		x: targetX,
+		y: targetY,
+	},
+	sceneIndex: NaN,
+});
 
-export function rotateBy(strokes: Stroke[], centerX: number, centerY: number, degrees: number) {
-	return {
-		type: ROTATE_BY,
-		strokes,
-		centerX,
-		centerY,
-		degrees,
-	};
-}
+export const rotateBy = (
+strokes: Stroke[],
+centerX: number,
+centerY: number,
+degrees: number): ROTATE_BY_ACTION => ({
+	type: ROTATE_BY,
+	strokes,
+	centerX,
+	centerY,
+	degrees,
+	sceneIndex: NaN,
+});
 
-export function hide(strokes: Array<Stroke>) {
-	return { type: HIDE,
-		strokes,
-	};
-}
+export const hide = (strokes: Array<Stroke>): HIDE_ACTION => ({
+	type: HIDE,
+	strokes,
+	sceneIndex: NaN,
+});
 
-export function select(strokes: Array<Stroke>) {
-	return { type: SELECT,
-		strokes,
-	};
-}
+export const select = (strokes: Array<Stroke>): SELECT_ACTION => ({
+	type: SELECT,
+	strokes,
+	sceneIndex: NaN,
+});
 
-export function selectInside(strokes: Array<Stroke>) {
-	return { type: SELECT_INSIDE,
-		strokes,
-	};
-}
+export const selectInside = (strokes: Array<Stroke>): SELECT_INSIDE_ACTION => ({
+	type: SELECT_INSIDE,
+	strokes,
+	sceneIndex: NaN,
+});

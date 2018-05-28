@@ -2,7 +2,7 @@
 import Slider from 'rc-slider';
 import React, { PureComponent } from 'react';
 
-import { rcSlider } from 'src/client/app/stylesheets/components/dumb/Threshold.scss';
+import style from 'src/client/app/stylesheets/components/dumb/Threshold.scss';
 import { MIN_THRESHOLD, MAX_THRESHOLD } from 'src/client/app/constants/drawing';
 
 type Props = {
@@ -20,7 +20,7 @@ export default class Threshold extends PureComponent<Props> {
 
 	render() {
 		return (<Slider
-			className={rcSlider}
+			className={style.rcSlider}
 			value={Math.min(MAX_THRESHOLD, Math.max(MIN_THRESHOLD, this.props.threshold))}
 			max={MAX_THRESHOLD}
 			min={MIN_THRESHOLD}
