@@ -7,7 +7,7 @@ import type { TextCandidate } from 'src/client/app/typeDefinitions';
 
 describe('src/client/app/actions', () => {
 	it('Should create an action to request a text candidate', () => {
-		const strokes = strokesExample;
+		const strokes = strokesExample();
 		const expectedAction = {
 			type: 'REQUEST_TEXT_CANDIDATES',
 			strokes,
@@ -16,7 +16,7 @@ describe('src/client/app/actions', () => {
 	});
 
 	it('Should create an action to request a shape candidate', () => {
-		const strokes = strokesExample;
+		const strokes = strokesExample();
 		const expectedAction = {
 			type: 'REQUEST_SHAPE_CANDIDATES',
 			strokes,

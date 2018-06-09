@@ -12,7 +12,7 @@ describe('actions to manipulate things on canvas', () => {
 		const targetY = 4;
 		const expectedAction = {
 			type: 'UPDATE_POSITION',
-			strokes: strokesExample,
+			strokes: strokesExample(),
 			origin: {
 				x: originX,
 				y: originY,
@@ -22,7 +22,7 @@ describe('actions to manipulate things on canvas', () => {
 				y: targetY,
 			},
 		};
-		expect(updatePosition(strokesExample, originX, originY, targetX, targetY))
+		expect(updatePosition(strokesExample(), originX, originY, targetX, targetY))
 			.to.deep.equal(expectedAction);
 	});
 

@@ -23,19 +23,19 @@ describe('src/client/app/helpers for handwriting recognition', () => {
 
 	describe('recognizing shapes in handwriting', () => {
 		it('finds a single shape in the response when in shape domain', (done) => {
-			requestShapeCandidates(strokesExample).then((shapeCandidates) => {
+			requestShapeCandidates(strokesExample()).then((shapeCandidates) => {
 				expect(shapeCandidates).to.have.length(1);
 				done();
 			});
 			requests[0].respond(
 				200,
 				{ 'Content-Type': 'application/json' },
-				shapeResponse,
+				shapeResponse(),
 			);
 		});
 
 		it('handles no shape result when in shape domain', (done) => {
-			requestShapeCandidates(strokesExample).then((shapeCandidates) => {
+			requestShapeCandidates(strokesExample()).then((shapeCandidates) => {
 				expect(shapeCandidates).to.have.length(0);
 				done();
 			});
@@ -49,7 +49,7 @@ describe('src/client/app/helpers for handwriting recognition', () => {
 
 	describe('recognizing text in handwriting', () => {
 		it('handles result when in text domain', (done) => {
-			requestTextCandidates(strokesExample).then((textCandidates) => {
+			requestTextCandidates(strokesExample()).then((textCandidates) => {
 				expect(textCandidates).to.have.length(0);
 				done();
 			});
@@ -61,7 +61,7 @@ describe('src/client/app/helpers for handwriting recognition', () => {
 		});
 
 		it('handles no text result when in text domain', (done) => {
-			requestTextCandidates(strokesExample).then((textCandidates) => {
+			requestTextCandidates(strokesExample()).then((textCandidates) => {
 				expect(textCandidates).to.have.length(0);
 				done();
 			});
@@ -73,14 +73,14 @@ describe('src/client/app/helpers for handwriting recognition', () => {
 		});
 
 		it('finds a single text in the response when in text domain', (done) => {
-			requestTextCandidates(strokesExample).then((textCandidates) => {
+			requestTextCandidates(strokesExample()).then((textCandidates) => {
 				expect(textCandidates).to.have.length(1);
 				done();
 			});
 			requests[0].respond(
 				200,
 				{ 'Content-Type': 'application/json' },
-				textResponse,
+				textResponse(),
 			);
 		});
 	});

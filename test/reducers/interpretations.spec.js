@@ -35,15 +35,15 @@ describe('Interpretation reducer', () => {
 
 	describe('Drawing', () => {
 		it('Invalidates the last shape interpretation', () => {
-			const oldState = Object.assign({}, dummyState, {
+			const oldState = {
+				...dummyState,
 				showInterpreter: false,
 				interpretations: {
-					shapes: [shapeCandidate],
+					shapes: [shapeCandidate()],
 					texts: [],
 				},
-			});
-			let newState = interpretation(oldState, createStroke(10, 10, 101));
-			newState = interpretation(oldState, createStroke(10, 10, 101));
+			};
+			const newState = interpretation(oldState, createStroke(10, 10, 101));
 			expect(newState.interpretations.shapes).to.be.empty();
 		});
 
@@ -52,7 +52,7 @@ describe('Interpretation reducer', () => {
 				showInterpreter: false,
 				interpretations: {
 					shapes: [],
-					texts: [letterCandidate],
+					texts: [letterCandidate()],
 				},
 			});
 			const newState = interpretation(oldState, createStroke(10, 10, 101));
@@ -65,8 +65,8 @@ describe('Interpretation reducer', () => {
 			const oldState = Object.assign({}, dummyState, {
 				showInterpreter: true,
 				interpretations: {
-					shapes: [shapeCandidate],
-					texts: [letterCandidate],
+					shapes: [shapeCandidate()],
+					texts: [letterCandidate()],
 				},
 			});
 			const newState = interpretation(oldState, requestTextCandidates([]));
@@ -80,8 +80,8 @@ describe('Interpretation reducer', () => {
 			const oldState = Object.assign({}, dummyState, {
 				showInterpreter: true,
 				interpretations: {
-					shapes: [shapeCandidate],
-					texts: [letterCandidate],
+					shapes: [shapeCandidate()],
+					texts: [letterCandidate()],
 				},
 			});
 			const newState = interpretation(oldState, requestShapeCandidates([]));
@@ -99,7 +99,7 @@ describe('Interpretation reducer', () => {
 					texts: [],
 				},
 			});
-			const newState = interpretation(oldState, receiveTextCandidates([letterCandidate]));
+			const newState = interpretation(oldState, receiveTextCandidates([letterCandidate()]));
 			expect(newState.interpretations.texts[0].label).to.equal('I');
 			expect(newState.interpretations.shapes).to.be.empty();
 		});
@@ -108,15 +108,15 @@ describe('Interpretation reducer', () => {
 			const oldState = Object.assign({}, dummyState, {
 				showInterpreter: true,
 				interpretations: {
-					shapes: [shapeCandidate],
-					texts: [Object.assign({}, letterCandidate, {
+					shapes: [shapeCandidate()],
+					texts: [Object.assign({}, letterCandidate(), {
 						label: 'K',
 						normalizedScore: 0.9,
 						resemblanceScore: 0.95,
 					})],
 				},
 			});
-			const newState = interpretation(oldState, receiveTextCandidates([letterCandidate]));
+			const newState = interpretation(oldState, receiveTextCandidates([letterCandidate()]));
 			expect(newState.interpretations.texts[1].label).to.equal('I');
 			expect(newState.interpretations.texts).to.have.length(2);
 		});
@@ -131,7 +131,7 @@ describe('Interpretation reducer', () => {
 					texts: [],
 				},
 			});
-			const newState = interpretation(oldState, receiveShapeCandidates([shapeCandidate]));
+			const newState = interpretation(oldState, receiveShapeCandidates([shapeCandidate()]));
 			expect(newState.interpretations.shapes[0].label).to.equal('line');
 			expect(newState.interpretations.texts[0]).to.not.exist();
 		});
@@ -139,16 +139,16 @@ describe('Interpretation reducer', () => {
 			const oldState = Object.assign({}, dummyState, {
 				showInterpreter: true,
 				interpretations: {
-					shapes: [Object.assign({}, shapeCandidate, {
+					shapes: [Object.assign({}, shapeCandidate(), {
 						label: 'arrow',
 					})],
-					texts: [letterCandidate],
+					texts: [letterCandidate()],
 				},
 			});
-			const newState = interpretation(oldState, receiveShapeCandidates([shapeCandidate]));
+			const newState = interpretation(oldState, receiveShapeCandidates([shapeCandidate()]));
 			expect(newState.interpretations.shapes).to.have.length(2);
 			expect(newState.interpretations.shapes[1].label).to.equal('line');
-			expect(newState.interpretations.texts[0]).to.deep.equal(letterCandidate);
+			expect(newState.interpretations.texts[0]).to.deep.equal(letterCandidate());
 		});
 	});
 
@@ -173,8 +173,8 @@ describe('Interpretation reducer', () => {
 			const oldState = Object.assign({}, dummyState, {
 				showInterpreter: true,
 				interpretations: {
-					shapes: [shapeCandidate],
-					texts: [letterCandidate],
+					shapes: [shapeCandidate()],
+					texts: [letterCandidate()],
 				},
 			});
 			const newState = interpretation(oldState, toggleInterpreter(false));

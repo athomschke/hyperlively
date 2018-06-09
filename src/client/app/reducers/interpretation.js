@@ -24,7 +24,7 @@ const interpretationActions = [
 ];
 
 type Action = TOGGLE_INTERPRETER_ACTION | RECEIVE_TEXT_CANDIDATES_ACTION |
-	APPEND_POINT_ACTION | APPEND_STROKE_ACTION | RECEIVE_SHAPE_CANDIDATES_ACTION
+APPEND_POINT_ACTION | APPEND_STROKE_ACTION | RECEIVE_SHAPE_CANDIDATES_ACTION
 
 const unscopedInterpretations =
 (state: InterpretationState = initialInterpretationState(), action: Action) =>
