@@ -8,9 +8,15 @@ import configureStore from './configureStore';
 
 const store = configureStore();
 
-render(
-	<Provider store={store}>
-		<Application />
-	</Provider>,
-	document.getElementById('app'),
-);
+const appNode = document.getElementById('app');
+
+if (appNode) {
+	render(
+		<Provider store={store}>
+			<Application />
+		</Provider>,
+		appNode,
+	);
+} else {
+	throw new Error('Cannot find a node with id "app"');
+}

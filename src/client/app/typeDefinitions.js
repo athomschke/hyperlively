@@ -1,6 +1,4 @@
 // @flow
-import * as ACTION from './actionTypeDefinitions';
-
 export type Point = {
 	x: number,
 	y: number,
@@ -51,9 +49,12 @@ export type HyperlivelyState = {
 	content: Content,
 }
 
-export type Action = ACTION;
+export type CommonAction = {
+	type: string;
+	[key: string]: any
+}
 
-export type Reducer = (state: any, action: Action) => any;
+export type Reducer = (state: any, action: CommonAction) => any;
 
 export type TreeParameter = string | number;
 

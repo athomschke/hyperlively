@@ -9,13 +9,13 @@ export type PointActionType = UPDATE_POSITION_ACTION | ROTATE_BY_ACTION
 
 export const pointActionTypes = [UPDATE_POSITION, ROTATE_BY];
 
-const defaultPoint = () => ({
+export const initialPointsState = () => ({
 	x: NaN,
 	y: NaN,
 	timeStamp: NaN,
 });
 
-function point(state: Point = defaultPoint(), action: PointActionType): Point {
+function point(state: Point = initialPointsState(), action: PointActionType): Point {
 	switch (action.type) {
 	case UPDATE_POSITION: {
 		const newCoordinates = {

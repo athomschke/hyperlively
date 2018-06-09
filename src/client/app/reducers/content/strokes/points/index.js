@@ -9,9 +9,12 @@ export type PointsActionType = PointActionType |
 		APPEND_STROKE_ACTION | FINISH_STROKE_ACTION | APPEND_POINT_ACTION;
 export const pointsActionTypes = [...pointActionTypes, APPEND_STROKE, FINISH_STROKE, APPEND_POINT];
 
-export const initialPointsState: Array<Point> = [];
+export const initialPointsState = (): Array<Point> => [];
 
-function points(state: Array<Point> = initialPointsState, action: PointsActionType): Array<Point> {
+function points(
+		state: Array<Point> = initialPointsState(),
+		action: PointsActionType,
+	): Array<Point> {
 	switch (action.type) {
 	case APPEND_STROKE:
 	case FINISH_STROKE:

@@ -7,7 +7,7 @@ export type SceneActionType = StrokesActionType
 
 export const sceneActionTypes = strokesActionTypes;
 
-export const initialSceneState: Scene = { strokes: initialStrokesState };
+export const initialSceneState: Scene = { strokes: initialStrokesState() };
 
 function scene(state: Scene = initialSceneState, action: SceneActionType) {
 	if (strokesActionTypes.includes(action.type)) {

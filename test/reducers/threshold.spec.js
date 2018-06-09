@@ -8,7 +8,7 @@ describe('Threshold', () => {
 	it('initial threshold is 500 ms', () => {
 		const result = threshold(
 			undefined,
-			{},
+			{ type: 'intial_state' },
 		);
 		expect(result).to.deep.equal(500);
 	});

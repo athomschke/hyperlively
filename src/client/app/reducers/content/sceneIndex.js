@@ -8,7 +8,9 @@ export type SetSceneActionType = SafeSetSceneActionType | SET_SCENE_INDEX_ACTION
 
 export const sceneIndexActionTypes = [SET_SCENE_INDEX, NEXT_SCENE, PREVIOUS_SCENE];
 
-function sceneIndex(state: number = 0, action: SetSceneActionType) {
+export const initialSceneIndexState = () => 0;
+
+function sceneIndex(state: number = initialSceneIndexState(), action: SetSceneActionType) {
 	switch (action.type) {
 	case SET_SCENE_INDEX:
 		return Math.max(Math.min(action.number, action.max), 0);

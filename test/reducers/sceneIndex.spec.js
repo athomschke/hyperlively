@@ -1,15 +1,12 @@
 // @flow
 import { expect } from 'chai';
 
-import { sceneIndex } from 'src/client/app/reducers/content/sceneIndex';
+import { sceneIndex, initialSceneIndexState } from 'src/client/app/reducers/content/sceneIndex';
 
 describe('Scene Index', () => {
 	describe('setting the index', () => {
 		it('initial sceneIndex is 0', () => {
-			const result = sceneIndex(
-				undefined,
-				{},
-			);
+			const result = initialSceneIndexState();
 			expect(result).to.deep.equal(0);
 		});
 

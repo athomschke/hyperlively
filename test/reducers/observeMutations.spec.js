@@ -8,7 +8,7 @@ describe('Observe Mutations', () => {
 	it('defaults to true', () => {
 		const result = observeMutations(
 			undefined,
-			{},
+			{ type: 'initial_state' },
 		);
 		expect(result).to.deep.equal(true);
 	});

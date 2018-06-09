@@ -2,6 +2,10 @@
 /* eslint-disable no-param-reassign, consistent-return, default-case */
 import produce from 'immer';
 
+import scopeToActions from 'src/client/app/reducers/scopeToActions';
+import { toggleInterpreter } from 'src/client/app/actions/configuring';
+import { appendPoint, createStroke } from 'src/client/app/actions/drawing';
+import { receiveTextCandidates, receiveShapeCandidates } from 'src/client/app/actions/handwritingRecognition';
 import { TOGGLE_INTERPRETER, APPEND_POINT, APPEND_STROKE, RECEIVE_TEXT_CANDIDATES, RECEIVE_SHAPE_CANDIDATES } from 'src/client/app/constants/actionTypes';
 import { CANDIDATES_COUNT } from 'src/client/app/constants/handwriting';
 import type { TOGGLE_INTERPRETER_ACTION, RECEIVE_TEXT_CANDIDATES_ACTION, RECEIVE_SHAPE_CANDIDATES_ACTION, APPEND_POINT_ACTION, APPEND_STROKE_ACTION } from 'src/client/app/actionTypeDefinitions';
@@ -15,10 +19,14 @@ export const initialInterpretationState = () => ({
 	},
 });
 
+const interpretationActions = [
+	toggleInterpreter, receiveTextCandidates, receiveShapeCandidates, appendPoint, createStroke,
+];
+
 type Action = TOGGLE_INTERPRETER_ACTION | RECEIVE_TEXT_CANDIDATES_ACTION |
 	APPEND_POINT_ACTION | APPEND_STROKE_ACTION | RECEIVE_SHAPE_CANDIDATES_ACTION
 
-const interpretation =
+const unscopedInterpretations =
 (state: InterpretationState = initialInterpretationState(), action: Action) =>
 produce(state, (draftState) => {
 	switch (action.type) {
@@ -58,4 +66,6 @@ produce(state, (draftState) => {
 	}
 });
 
-export { interpretation };
+const interpretation = scopeToActions(unscopedInterpretations, interpretationActions);
+
+export { interpretation, unscopedInterpretations };

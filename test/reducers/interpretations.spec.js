@@ -42,7 +42,8 @@ describe('Interpretation reducer', () => {
 					texts: [],
 				},
 			});
-			const newState = interpretation(oldState, createStroke(10, 10, 101));
+			let newState = interpretation(oldState, createStroke(10, 10, 101));
+			newState = interpretation(oldState, createStroke(10, 10, 101));
 			expect(newState.interpretations.shapes).to.be.empty();
 		});
 

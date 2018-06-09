@@ -1,8 +1,9 @@
 // @flow
+import scopeToActions from 'src/client/app/reducers/scopeToActions';
 import { addScene } from 'src/client/app/actions/drawing';
 import { ADD_SCENE_AT, SET_SCENE_INDEX, NEXT_SCENE } from 'src/client/app/constants/actionTypes';
 import { type SET_SCENE_INDEX_ACTION } from 'src/client/app/actionTypeDefinitions';
-import { type Content } from 'src/client/app/typeDefinitions';
+import { type Content, type UndoableScenes } from 'src/client/app/typeDefinitions';
 
 import { undoable, undoableActionTypes, type UndoableActionType } from './undoable';
 import { sceneIndex, sceneIndexActionTypes, type SetSceneActionType, type SafeSetSceneActionType } from './sceneIndex';
@@ -15,18 +16,18 @@ const undoableScenes = undoable(scenes);
 
 const undoableScenesActionTypes = [...undoableActionTypes, ...scenesActionTypes];
 
-const initialUndoableScenes = {
+const initialUndoableScenes = (): UndoableScenes => ({
 	past: [],
-	present: initialScenesState,
+	present: initialScenesState(),
 	future: [],
-};
-
-export const initialContentState = () => ({
-	sceneIndex: defaultSceneIndex,
-	undoableScenes: initialUndoableScenes,
 });
 
-function content(state: Content = initialContentState(), action: UndoableSceneActionType) {
+export const initialContentState = (): Content => ({
+	sceneIndex: defaultSceneIndex,
+	undoableScenes: initialUndoableScenes(),
+});
+
+function scopedContent(state: Content = initialContentState(), action: UndoableSceneActionType) {
 	switch (action.type) {
 	case ADD_SCENE_AT:
 		if (action.number <= state.undoableScenes.present.length + 1 && action.number >= 0) {
@@ -75,5 +76,7 @@ function content(state: Content = initialContentState(), action: UndoableSceneAc
 		return state;
 	}
 }
+
+const content = scopeToActions(scopedContent, undoableActionTypes);
 
 export { content };

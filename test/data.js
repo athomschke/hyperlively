@@ -1,24 +1,27 @@
 // @flow
 import { DEFAULT_PEN_COLOR } from 'src/client/app/constants/drawing';
+import type { ShapeCandidate, LinePrimitive } from 'src/client/app/typeDefinitions';
 
-export const shapeCandidate = {
+const primitive: LinePrimitive = {
+	type: 'line',
+	firstPoint: {
+		x: 100,
+		y: 100,
+	},
+	lastPoint: {
+		x: 100,
+		y: 120,
+	},
+	beginDecoration: 'none',
+	endDecoration: 'none',
+	beginTangentAngle: NaN,
+	endTangentAngle: NaN,
+};
+
+export const shapeCandidate: ShapeCandidate = {
 	type: 'recognizedShape',
 	label: 'line',
-	primitives: {
-		type: 'line',
-		firstPoint: {
-			x: 100,
-			y: 100,
-		},
-		lastPoint: {
-			x: 100,
-			y: 120,
-		},
-		beginDecoration: 'none',
-		endDecoration: 'none',
-		beginTangentAngle: 'none',
-		endTangentAngle: 'none',
-	},
+	primitives: [primitive],
 	normalizedRecognitionScore: 0.9,
 	resemblanceScore: 0.8,
 };

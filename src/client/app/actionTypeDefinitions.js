@@ -1,29 +1,29 @@
 // @flow
 import type { Stroke, TextCandidate, ShapeCandidate } from './typeDefinitions';
+import { APPEND_POINT, APPEND_STROKE } from './constants/actionTypes';
 
-type SCENE_MANIPULATION = {
+export type APPEND_POINT_ACTION = {
+	type: typeof APPEND_POINT;
+	x: number;
+	y: number;
+	timeStamp: number;
 	sceneIndex: number;
 }
 
-export type APPEND_POINT_ACTION = SCENE_MANIPULATION & {
-	type: 'APPEND_POINT';
+export type APPEND_STROKE_ACTION = {
+	type: typeof APPEND_STROKE;
 	x: number;
 	y: number;
-	timeStamp: number
+	timeStamp: number;
+	sceneIndex: number;
 }
 
-export type APPEND_STROKE_ACTION = SCENE_MANIPULATION & {
-	type: 'APPEND_STROKE';
-	x: number;
-	y: number;
-	timeStamp: number
-}
-
-export type FINISH_STROKE_ACTION = SCENE_MANIPULATION & {
+export type FINISH_STROKE_ACTION = {
 	type: 'FINISH_STROKE';
 	x: number;
 	y: number;
-	timeStamp: number
+	timeStamp: number;
+	sceneIndex: number;
 }
 
 export type TOGGLE_PLOMA_ACTION = {
@@ -42,9 +42,9 @@ export type UPDATE_THRESHOLD_ACTION = {
 	number: number;
 }
 
-export type UPDATE_POSITION_ACTION = SCENE_MANIPULATION & {
-	type: 'UPDATE_POSITION';
-	strokes: Stroke[];
+export type UPDATE_POSITION_ACTION = {
+	type: 'UPDATE_POSITION',
+	strokes: Stroke[],
 	origin: {
 		x: number;
 		y: number;
@@ -52,29 +52,33 @@ export type UPDATE_POSITION_ACTION = SCENE_MANIPULATION & {
 	target: {
 		x: number;
 		y: number;
-	}
+	},
+	sceneIndex: number
 }
 
 export type ENHANCED_UPDATE_POSITION_ACTION = UPDATE_POSITION_ACTION & {
 	sceneIndex: number;
 }
 
-export type ROTATE_BY_ACTION = SCENE_MANIPULATION & {
+export type ROTATE_BY_ACTION = {
 	type: 'ROTATE_BY',
 	strokes: Stroke[],
 	centerX: number,
 	centerY: number,
 	degrees: number,
+	sceneIndex: number,
 }
 
-export type HIDE_ACTION = SCENE_MANIPULATION & {
+export type HIDE_ACTION = {
 	type: 'HIDE';
 	strokes: Array<Stroke>;
+	sceneIndex: number;
 }
 
-export type SELECT_ACTION = SCENE_MANIPULATION & {
+export type SELECT_ACTION = {
 	type: 'SELECT';
 	strokes: Array<Stroke>;
+	sceneIndex: number;
 }
 
 export type TOGGLE_HANDWRITING_RECOGNITION_ACTION = {
@@ -103,13 +107,15 @@ export type SET_SCENE_INDEX_ACTION = {
 	number: number;
 }
 
-export type ADD_SCENE_ACTION = SCENE_MANIPULATION & {
+export type ADD_SCENE_ACTION = {
 	type: 'ADD_SCENE';
+	sceneIndex: number;
 }
 
-export type ADD_SCENE_AT_ACTION = SCENE_MANIPULATION & {
+export type ADD_SCENE_AT_ACTION = {
 	type: 'ADD_SCENE_AT';
 	number: number;
+	sceneIndex: number;
 }
 
 export type NEXT_SCENE_ACTION = {

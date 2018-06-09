@@ -3,17 +3,20 @@ import { concat, slice, isEqual, cloneDeep } from 'lodash';
 
 import { JUMP_TO } from 'src/client/app/constants/actionTypes';
 import relevantStatesForScene from 'src/client/app/helpers/relevantStatesForScene';
-import type { Reducer, UndoableScenes, SceneState } from 'src/client/app/typeDefinitions';
+import type { UndoableScenes, SceneState } from 'src/client/app/typeDefinitions';
 import { type JUMP_TO_ACTION } from 'src/client/app/actionTypeDefinitions';
 
 export type UndoableActionType<T> = T | JUMP_TO_ACTION;
 
 export const undoableActionTypes = [JUMP_TO];
 
+type Reducer = (state: any, action: { type: string, [key: string]: any }) => any
+
 function undoable(reducer: Reducer) {
+	const myPresent: SceneState = reducer(undefined, { type: 'initial_state' });
 	const initialState = {
 		past: [],
-		present: reducer(undefined, {}),
+		present: myPresent,
 		future: [],
 	};
 

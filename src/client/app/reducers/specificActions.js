@@ -1,6 +1,8 @@
 // @flow
 import { concat } from 'lodash';
 
+import scopeToActions from 'src/client/app/reducers/scopeToActions';
+import { appendSpecificAction } from 'src/client/app/actions/combining';
 import { APPEND_SPECIFC_ACTION } from 'src/client/app/constants/actionTypes';
 import { type APPEND_SPECIFC_ACTION_ACTION } from 'src/client/app/actionTypeDefinitions';
 import { type ActionMapping } from 'src/client/app/typeDefinitions';
@@ -10,10 +12,12 @@ export const initialSpecificActionsState = () => [{
 	actionNames: ['selectInside', 'hide'],
 }];
 
-function specificActions(
+const specificActionsActions = [appendSpecificAction];
+
+const specificActions = scopeToActions((
 		state: Array<ActionMapping> = initialSpecificActionsState(),
 		action: APPEND_SPECIFC_ACTION_ACTION,
-	) {
+	) => {
 	switch (action.type) {
 	case APPEND_SPECIFC_ACTION: {
 		const { actionName, actionNames } = action;
@@ -22,6 +26,6 @@ function specificActions(
 	default:
 		return state;
 	}
-}
+}, specificActionsActions);
 
 export { specificActions };

@@ -1,8 +1,6 @@
 // @flow
-type CommonAction = {
-	type: string;
-	[key: string]: any
-}
+import { type CommonAction } from 'src/client/app/typeDefinitions';
+
 type CommonReducer<S, A> = (state: S, action: A) => S
 const scopeToActions = (reducer: CommonReducer<any, *>, actions: *) =>
 	(state: any, action: CommonAction) => {

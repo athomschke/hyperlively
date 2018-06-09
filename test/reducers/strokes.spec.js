@@ -1,19 +1,16 @@
 // @flow
 import { expect } from 'chai';
 
-import { strokes } from 'src/client/app/reducers/content/strokes';
 import { appendPoint, createStroke, finishStroke } from 'src/client/app/actions/drawing';
 import { updatePosition, hide, select, selectInside, rotateBy } from 'src/client/app/actions/manipulating';
 import { point, event, exampleStrokes } from 'test/helpers';
+import { strokes, initialStrokesState } from 'src/client/app/reducers/content/strokes';
 import type { Stroke } from 'src/client/app/typeDefinitions';
 
 describe('strokes', () => {
 	describe('handles', () => {
 		it('initial state', () => {
-			const result = strokes(
-				undefined,
-				{},
-			);
+			const result = initialStrokesState();
 			expect(result).to.deep.equal([]);
 		});
 	});
@@ -86,12 +83,14 @@ describe('strokes', () => {
 		it('appends a point to the last stroke', () => {
 			const pointAddEvent = event(10, 11, 100);
 			const newPoint = point(10, 11, 100);
+			const finishStrokeAction =
+				finishStroke(pointAddEvent.pageX, pointAddEvent.pageY, pointAddEvent.timeStamp);
 			const result = strokes(
 				[
 					...exampleStrokes([]),
 					...exampleStrokes([]),
 				],
-				finishStroke(pointAddEvent.pageX, pointAddEvent.pageY, pointAddEvent.timeStamp),
+				finishStrokeAction,
 			);
 			expect(result).to.have.length(2);
 			expect(result[1].points).to.have.length(1);

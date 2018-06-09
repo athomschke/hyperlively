@@ -11,9 +11,9 @@ export type ScenesActionType = SceneActionType | ADD_SCENE_AT_ACTION | ADD_SCENE
 
 export const scenesActionTypes = [...sceneActionTypes, ADD_SCENE, ADD_SCENE_AT];
 
-export const initialScenesState: Array<Scene> = [];
+export const initialScenesState = (): Array<Scene> => [];
 
-const scenes = (state: Array<Scene> = initialScenesState, action: ScenesActionType) =>
+const scenes = (state: Array<Scene> = initialScenesState(), action: ScenesActionType) =>
 produce(state, (draftState) => {
 	switch (action.type) {
 	case ADD_SCENE:

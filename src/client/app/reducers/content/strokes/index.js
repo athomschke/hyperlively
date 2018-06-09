@@ -7,7 +7,8 @@ import {
 	APPEND_STROKE, APPEND_POINT, FINISH_STROKE, SELECT_INSIDE,
 } from 'src/client/app/constants/actionTypes';
 import type {
-	APPEND_STROKE_ACTION, APPEND_POINT_ACTION, FINISH_STROKE_ACTION, SELECT_INSIDE_ACTION, SELECT_ACTION,
+	APPEND_STROKE_ACTION, APPEND_POINT_ACTION, FINISH_STROKE_ACTION,
+	SELECT_INSIDE_ACTION, SELECT_ACTION,
 } from 'src/client/app/actionTypeDefinitions';
 import { select } from 'src/client/app/actions/manipulating';
 
@@ -16,14 +17,14 @@ import { stroke, strokeActionTypes, type StrokeActionType } from './stroke';
 export type StrokesActionType = StrokeActionType | APPEND_STROKE_ACTION | APPEND_POINT_ACTION |
 FINISH_STROKE_ACTION | SELECT_INSIDE_ACTION
 
-export const initialStrokesState: Array<Stroke> = [];
+export const initialStrokesState = (): Array<Stroke> => [];
 
 export const strokesActionTypes = [
 	...strokeActionTypes,
 	APPEND_STROKE, APPEND_POINT, SELECT_INSIDE,
 ];
 
-function strokes(state: Array<Stroke> = initialStrokesState, action: StrokesActionType) {
+function strokes(state: Array<Stroke> = initialStrokesState(), action: StrokesActionType) {
 	switch (action.type) {
 	case APPEND_STROKE:
 		return [

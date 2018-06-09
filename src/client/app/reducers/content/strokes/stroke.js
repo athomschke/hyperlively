@@ -18,8 +18,8 @@ export const strokeActionTypes = [
 	HIDE, SELECT, FINISH_STROKE,
 ];
 
-const defaultStroke = () => ({
-	points: initialPointsState,
+const defaultStroke = (): Stroke => ({
+	points: initialPointsState(),
 	hidden: false,
 	selected: false,
 	finished: false,

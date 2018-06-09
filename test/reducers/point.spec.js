@@ -2,6 +2,7 @@
 import { expect } from 'chai';
 
 import { point } from 'src/client/app/reducers/content/strokes/points/point';
+import { type ROTATE_BY_ACTION } from 'src/client/app/actionTypeDefinitions';
 
 describe('point reducer', () => {
 	describe('rotating a point', () => {
@@ -11,8 +12,10 @@ describe('point reducer', () => {
 				y: 0,
 				timeStamp: 1,
 			};
-			const action = {
+			const action: ROTATE_BY_ACTION = {
 				type: 'ROTATE_BY',
+				strokes: [],
+				sceneIndex: 0,
 				degrees: 1.5708,
 				centerX: 10,
 				centerY: 10,
