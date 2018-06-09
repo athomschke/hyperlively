@@ -5,11 +5,9 @@ import { call } from 'redux-saga/effects';
 import { useFakeXMLHttpRequest } from 'sinon';
 
 import { myScriptJs, fetchTextCandidates, fetchShapeCandidates } from 'src/client/app/sagas/myScriptJs';
-import * as actions from 'src/client/app/actions/handwritingRecognition';
-import { TEXT_CANDIDATES_FETCH_REQUESTED, SHAPE_CANDIDATES_FETCH_REQUESTED } from 'src/client/app/constants/actionTypes';
+import { requestTextCandidates, requestShapeCandidates } from 'src/client/app/actions/handwritingRecognition';
+import { REQUEST_TEXT_CANDIDATES, REQUEST_SHAPE_CANDIDATES } from 'src/client/app/constants/actionTypes';
 import initialState from 'test/integration/data/canvasWithIrregularStrokesWithPloma.json';
-
-const getInitialState = () => initialState.json;
 
 describe('MyScriptJS Sagas', () => {
 	let xhr;
@@ -29,7 +27,7 @@ describe('MyScriptJS Sagas', () => {
 
 	describe('Main saga', () => {
 		it('forks sagas to fetch shape and text recognition', () => {
-			const generator = myScriptJs(getInitialState);
+			const generator = myScriptJs();
 			const items = [];
 			let next = generator.next();
 			while (next.value) {
@@ -37,9 +35,9 @@ describe('MyScriptJS Sagas', () => {
 				next = generator.next();
 			}
 			const text = filter(items,
-				item => item.value.FORK.args[0] === TEXT_CANDIDATES_FETCH_REQUESTED);
+				item => item.value.FORK.args[0] === REQUEST_TEXT_CANDIDATES);
 			const shape = filter(items,
-				item => item.value.FORK.args[0] === SHAPE_CANDIDATES_FETCH_REQUESTED);
+				item => item.value.FORK.args[0] === REQUEST_SHAPE_CANDIDATES);
 			expect(text).to.exist();
 			expect(shape).to.exist();
 		});
@@ -48,22 +46,30 @@ describe('MyScriptJS Sagas', () => {
 	describe('Text recognition saga', () => {
 		it('yields a requestTextCandidates action', () => {
 			const strokes = initialState.json.content.undoableScenes.present[0].strokes;
-			const fetchAction = actions.fetchTextCandidates(strokes);
+			const fetchAction = requestTextCandidates(strokes);
 			const generator = fetchTextCandidates(fetchAction);
-			const next = generator.next();
-			const desiredCall = call(actions.requestTextCandidates, strokes);
-			expect(next.value.CALL.fn.name).to.deep.equal(desiredCall.CALL.fn.name);
+			const nextValue = generator.next().value;
+			const desiredCall = call(requestTextCandidates, strokes);
+			if (nextValue) {
+				expect(nextValue.CALL.fn.name).to.deep.equal(desiredCall.CALL.fn.name);
+			} else {
+				throw new Error('Generator should never end generating');
+			}
 		});
 	});
 
 	describe('Shape recognition saga', () => {
 		it('yields a requestShapeCandidates action', () => {
 			const strokes = initialState.json.content.undoableScenes.present[0].strokes;
-			const fetchAction = actions.fetchShapeCandidates(strokes);
+			const fetchAction = requestShapeCandidates(strokes);
 			const generator = fetchShapeCandidates(fetchAction);
-			const next = generator.next();
-			const desiredCall = call(actions.requestShapeCandidates, strokes);
-			expect(next.value.CALL.fn.name).to.deep.equal(desiredCall.CALL.fn.name);
+			const nextValue = generator.next().value;
+			const desiredCall = call(requestShapeCandidates, strokes);
+			if (nextValue) {
+				expect(nextValue.CALL.fn.name).to.deep.equal(desiredCall.CALL.fn.name);
+			} else {
+				throw new Error('Generator should never end generating');
+			}
 		});
 	});
 });

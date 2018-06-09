@@ -37,7 +37,9 @@ module.exports = {
         "mocha": true,
         "__dirname": true,
         "SyntheticTouchEvent": true,
-        "SyntheticMouseEvent": true
+        "SyntheticMouseEvent": true,
+        Iterable: true,
+        Generator: true,
     },
     "env": {
         "browser": true

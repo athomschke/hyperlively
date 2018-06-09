@@ -7,7 +7,7 @@ import { toggleDrawing } from 'src/client/app/actions/drawing';
 describe('drawing', () => {
 	describe('initial state', () => {
 		it('disables drawing mode', () => {
-			expect(drawing(undefined, {})).to.be.false();
+			expect(drawing(undefined, { type: 'initial_action' })).to.be.false();
 		});
 	});
 

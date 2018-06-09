@@ -133,7 +133,7 @@ export type SELECT_INSIDE_ACTION = {
 }
 
 export type REQUEST_SHAPE_CANDIDATES_ACTION = {
-	type: 'REQUEST_SHAPE_CANDIDATES_ACTION';
+	type: 'REQUEST_SHAPE_CANDIDATES';
 	strokes: Array<Stroke>;
 }
 
@@ -143,7 +143,7 @@ export type RECEIVE_SHAPE_CANDIDATES_ACTION = {
 }
 
 export type REQUEST_TEXT_CANDIDATES_ACTION = {
-	type: 'REQUEST_TEXT_CANDIDATES_ACTION',
+	type: 'REQUEST_TEXT_CANDIDATES',
 	strokes: Array<Stroke>;
 }
 

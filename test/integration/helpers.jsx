@@ -8,9 +8,10 @@ import TestUtils from 'react-addons-test-utils';
 
 import hyperlively from 'src/client/app/reducers/index';
 import Application from 'src/client/app/Application';
-import type { HyperlivelyState, Stroke, Action } from 'src/client/app/typeDefinitions';
+import type { HyperlivelyState, Stroke, CommonAction } from 'src/client/app/typeDefinitions';
 
-export function createAppStore(initialState: HyperlivelyState): Store<HyperlivelyState, Action> {
+export function createAppStore(initialState: HyperlivelyState):
+Store<HyperlivelyState, CommonAction> {
 	return createStore(hyperlively, initialState);
 }
 
@@ -66,7 +67,7 @@ export async function combineCanvasses(
 	return combinedCanvas;
 }
 
-export function renderApplicationWithStore(store: Store<HyperlivelyState, Action>) {
+export function renderApplicationWithStore(store: Store<HyperlivelyState, CommonAction>) {
 	const root = document.getElementById('app');
 	if (root) {
 		const renderedApp = render(
