@@ -40,13 +40,9 @@ export type PlomaState = {
 	uniqueCanvasFactor: number
 }
 
-export type HyperlivelyState = {
-	ploma: PlomaState,
-	handwritingRecognition: boolean,
-	observeMutations: boolean,
-	threshold: number,
-	drawing: boolean,
-	content: Content,
+export type ActionMapping = {
+	actionName: string,
+	actionNames: Array<string>
 }
 
 export type CommonAction = {
@@ -169,11 +165,6 @@ export type InterpretationState = {
 	interpretations: RecognitionResult,
 }
 
-export type ActionMapping = {
-	actionName: string,
-	actionNames: Array<string>
-}
-
 export type Bounds = {
 	x: number,
 	y: number,
@@ -184,3 +175,14 @@ export type Bounds = {
 export type OnNodeChangedFunction = (HTMLDivElement | null) => void;
 
 export type PerformActionFunction = (_name: string, ..._rest: any[]) => void;
+
+export type HyperlivelyState = {
+	interpretation: InterpretationState,
+	ploma: PlomaState,
+	handwritingRecognition: boolean,
+	observeMutations: boolean,
+	threshold: number,
+	drawing: boolean,
+	content: Content,
+	specificActions: Array<ActionMapping>,
+}

@@ -12,16 +12,13 @@ type Return_<R, Fn: () => R> = R;
 type Return<T> = Return_<*, T>;
 
 const scopeToActions: ScopeToActions<*, *> = (reducer, scopedActions, initialState) =>
-(state, action) => {
+(state? = initialState, action) => {
 	if (scopedActions[action.type]) {
 		const specificActionCreator = scopedActions[action.type];
 
 		const specificAction: Return<typeof specificActionCreator> = action;
 
 		return reducer(state, specificAction);
-	}
-	if (typeof state === 'undefined') {
-		return initialState;
 	}
 	return state;
 };

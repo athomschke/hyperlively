@@ -17,6 +17,14 @@ const hyperlively: HyperlivelyState = {
 		uniqueCanvasFactor: 35,
 		usePloma: true,
 	},
+	specificActions: [],
+	interpretation: {
+		showInterpreter: false,
+		interpretations: {
+			shapes: [],
+			texts: [],
+		},
+	},
 	handwritingRecognition: false,
 	observeMutations: false,
 	threshold: 50,
