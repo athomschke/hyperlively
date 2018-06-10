@@ -46,7 +46,7 @@ export type ActionMapping = {
 }
 
 export type CommonAction = {
-	+type: string;
+	type: $Subtype<string>;
 	[key: string]: any
 }
 

@@ -40,6 +40,7 @@ module.exports = {
         "SyntheticMouseEvent": true,
         Iterable: true,
         Generator: true,
+        $Subtype: true,
     },
     "env": {
         "browser": true
