@@ -6,7 +6,9 @@ import { type TOGGLE_DRAWING_ACTION } from 'src/client/app/actionTypeDefinitions
 
 export const initialDrawingState = () => false;
 
-const drawingActions = [toggleDrawing];
+export const drawingActions = {
+	TOGGLE_DRAWING: toggleDrawing,
+};
 
 const drawing = scopeToActions(
 (state: boolean = initialDrawingState(), action: TOGGLE_DRAWING_ACTION) => {
@@ -16,6 +18,6 @@ const drawing = scopeToActions(
 	default:
 		return state;
 	}
-}, drawingActions);
+}, drawingActions, initialDrawingState());
 
 export { drawing };

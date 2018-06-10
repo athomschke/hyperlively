@@ -12,7 +12,9 @@ export const initialPlomaState = () => ({
 	uniqueCanvasFactor: Math.random(),
 });
 
-const plomaActions = [togglePloma];
+const plomaActions = {
+	TOGGLE_PLOMA: togglePloma,
+};
 
 const ploma = scopeToActions(
 (state: PlomaState = initialPlomaState(), action: TOGGLE_PLOMA_ACTION) => {
@@ -25,6 +27,6 @@ const ploma = scopeToActions(
 	default:
 		return state;
 	}
-}, plomaActions);
+}, plomaActions, initialPlomaState());
 
 export { ploma };

@@ -5,9 +5,9 @@ import { ADD_SCENE_AT, SET_SCENE_INDEX, NEXT_SCENE } from 'src/client/app/consta
 import { type SET_SCENE_INDEX_ACTION } from 'src/client/app/actionTypeDefinitions';
 import { type Content, type UndoableScenes } from 'src/client/app/typeDefinitions';
 
-import { undoable, undoableActionTypes, type UndoableActionType } from './undoable';
-import { sceneIndex, sceneIndexActionTypes, type SetSceneActionType, type SafeSetSceneActionType } from './sceneIndex';
-import { scenes, scenesActionTypes, initialScenesState, type ScenesActionType } from './scenes';
+import { undoable, undoableActionTypes, undoableActions, type UndoableActionType } from './undoable';
+import { sceneIndex, sceneIndexActionTypes, setSceneIndexActions, type SetSceneActionType, type SafeSetSceneActionType } from './sceneIndex';
+import { scenes, scenesActionTypes, initialScenesState, scenesActions, type ScenesActionType } from './scenes';
 import { defaultSceneIndex } from './defaultState';
 
 type UndoableSceneActionType = UndoableActionType<ScenesActionType | SetSceneActionType>
@@ -15,6 +15,12 @@ type UndoableSceneActionType = UndoableActionType<ScenesActionType | SetSceneAct
 const undoableScenes = undoable(scenes);
 
 const undoableScenesActionTypes = [...undoableActionTypes, ...scenesActionTypes];
+
+export const undoableScenesActions = {
+	...setSceneIndexActions,
+	...undoableActions,
+	...scenesActions,
+};
 
 const initialUndoableScenes = (): UndoableScenes => ({
 	past: [],
@@ -77,6 +83,6 @@ function scopedContent(state: Content = initialContentState(), action: UndoableS
 	}
 }
 
-const content = scopeToActions(scopedContent, undoableActionTypes);
+const content = scopeToActions(scopedContent, undoableScenesActions, initialContentState());
 
 export { content };

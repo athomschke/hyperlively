@@ -50,7 +50,7 @@ export type HyperlivelyState = {
 }
 
 export type CommonAction = {
-	type: string;
+	+type: string;
 	[key: string]: any
 }
 

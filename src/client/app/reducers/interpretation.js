@@ -19,9 +19,13 @@ export const initialInterpretationState = () => ({
 	},
 });
 
-const interpretationActions = [
-	toggleInterpreter, receiveTextCandidates, receiveShapeCandidates, appendPoint, createStroke,
-];
+const interpretationActions = {
+	TOGGLE_INTERPRETER: toggleInterpreter,
+	RECEIVE_TEXT_CANDIDATES: receiveTextCandidates,
+	RECEIVE_SHAPE_CANDIDATES: receiveShapeCandidates,
+	APPEND_POINT: appendPoint,
+	APPEND_STROKE: createStroke,
+};
 
 type Action = TOGGLE_INTERPRETER_ACTION | RECEIVE_TEXT_CANDIDATES_ACTION |
 APPEND_POINT_ACTION | APPEND_STROKE_ACTION | RECEIVE_SHAPE_CANDIDATES_ACTION
@@ -66,6 +70,7 @@ produce(state, (draftState) => {
 	}
 });
 
-const interpretation = scopeToActions(unscopedInterpretations, interpretationActions);
+const interpretation = scopeToActions(unscopedInterpretations,
+	interpretationActions, initialInterpretationState());
 
 export { interpretation, unscopedInterpretations };

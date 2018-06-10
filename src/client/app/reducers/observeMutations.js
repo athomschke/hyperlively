@@ -6,7 +6,9 @@ import { type OBSERVE_MUTATIONS_ACTION } from 'src/client/app/actionTypeDefiniti
 
 export const initialObserveMutationsState = () => true;
 
-const observeMutationsActions = [setObserveMutations];
+const observeMutationsActions = {
+	OBSERVE_MUTATIONS: setObserveMutations,
+};
 
 const observeMutations = scopeToActions((
 state: boolean = initialObserveMutationsState(),
@@ -18,6 +20,6 @@ action: OBSERVE_MUTATIONS_ACTION,
 	default:
 		return state;
 	}
-}, observeMutationsActions);
+}, observeMutationsActions, initialObserveMutationsState());
 
 export { observeMutations };

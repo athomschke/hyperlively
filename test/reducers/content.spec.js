@@ -22,7 +22,7 @@ describe('Content', () => {
 		it('creates a scene index', () => {
 			const result = content(
 				undefined,
-				{ type: 'initial_state' },
+				{ type: '' },
 			);
 			expect(result.sceneIndex).to.exist();
 		});
@@ -30,7 +30,7 @@ describe('Content', () => {
 		it('contains undoable scenes', () => {
 			const result = content(
 				undefined,
-				{ type: 'initial_state' },
+				{ type: '' },
 			);
 			expect(result.undoableScenes).to.exist();
 		});

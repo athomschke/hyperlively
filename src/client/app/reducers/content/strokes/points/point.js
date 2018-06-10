@@ -2,10 +2,17 @@
 import { merge } from 'lodash';
 
 import { UPDATE_POSITION, ROTATE_BY } from 'src/client/app/constants/actionTypes';
+import { updatePosition, rotateBy } from 'src/client/app/actions/manipulating';
 import { type Point } from 'src/client/app/typeDefinitions';
+import scopeToActions from 'src/client/app/reducers/scopeToActions';
 import type { UPDATE_POSITION_ACTION, ROTATE_BY_ACTION } from 'src/client/app/actionTypeDefinitions';
 
 export type PointActionType = UPDATE_POSITION_ACTION | ROTATE_BY_ACTION
+
+export const pointActions = {
+	UPDATE_POSITION: updatePosition,
+	ROTATE_BY: rotateBy,
+};
 
 export const pointActionTypes = [UPDATE_POSITION, ROTATE_BY];
 
@@ -15,7 +22,8 @@ export const initialPointsState = () => ({
 	timeStamp: NaN,
 });
 
-function point(state: Point = initialPointsState(), action: PointActionType): Point {
+const point = scopeToActions(
+(state: Point = initialPointsState(), action: PointActionType): Point => {
 	switch (action.type) {
 	case UPDATE_POSITION: {
 		const newCoordinates = {
@@ -41,6 +49,6 @@ function point(state: Point = initialPointsState(), action: PointActionType): Po
 	default:
 		return state;
 	}
-}
+}, pointActions, initialPointsState());
 
 export { point };

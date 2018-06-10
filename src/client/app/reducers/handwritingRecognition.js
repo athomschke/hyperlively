@@ -6,7 +6,9 @@ import { type TOGGLE_HANDWRITING_RECOGNITION_ACTION } from 'src/client/app/actio
 
 export const initialHandwritingRecognitionState = () => true;
 
-const handwritingRecognitionAction = [toggleHandwritingRecognition];
+export const handwritingRecognitionActions = {
+	TOGGLE_HANDWRITING_RECOGNITION: toggleHandwritingRecognition,
+};
 
 const handwritingRecognition = scopeToActions(
 (state: boolean = initialHandwritingRecognitionState(),
@@ -17,6 +19,6 @@ const handwritingRecognition = scopeToActions(
 	default:
 		return state;
 	}
-}, handwritingRecognitionAction);
+}, handwritingRecognitionActions, initialHandwritingRecognitionState());
 
 export { handwritingRecognition };

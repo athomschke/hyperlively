@@ -2,6 +2,7 @@
 import { map, last, without, flatten } from 'lodash';
 import Polygon from 'polygon';
 
+import scopeToActions from 'src/client/app/reducers/scopeToActions';
 import type { Stroke } from 'src/client/app/typeDefinitions';
 import {
 	APPEND_STROKE, APPEND_POINT, FINISH_STROKE, SELECT_INSIDE,
@@ -10,9 +11,10 @@ import type {
 	APPEND_STROKE_ACTION, APPEND_POINT_ACTION, FINISH_STROKE_ACTION,
 	SELECT_INSIDE_ACTION, SELECT_ACTION,
 } from 'src/client/app/actionTypeDefinitions';
-import { select } from 'src/client/app/actions/manipulating';
+import { select, selectInside } from 'src/client/app/actions/manipulating';
+import { createStroke, appendPoint } from 'src/client/app/actions/drawing';
 
-import { stroke, strokeActionTypes, type StrokeActionType } from './stroke';
+import { stroke, strokeActionTypes, strokeActions, type StrokeActionType } from './stroke';
 
 export type StrokesActionType = StrokeActionType | APPEND_STROKE_ACTION | APPEND_POINT_ACTION |
 FINISH_STROKE_ACTION | SELECT_INSIDE_ACTION
@@ -24,7 +26,15 @@ export const strokesActionTypes = [
 	APPEND_STROKE, APPEND_POINT, SELECT_INSIDE,
 ];
 
-function strokes(state: Array<Stroke> = initialStrokesState(), action: StrokesActionType) {
+export const strokesActions = {
+	...strokeActions,
+	APPEND_STROKE: createStroke,
+	APPEND_POINT: appendPoint,
+	SELECT_INSIDE: selectInside,
+};
+
+const strokes =
+scopeToActions((state: Array<Stroke> = initialStrokesState(), action: StrokesActionType) => {
 	switch (action.type) {
 	case APPEND_STROKE:
 		return [
@@ -55,6 +65,6 @@ function strokes(state: Array<Stroke> = initialStrokesState(), action: StrokesAc
 		return map(state, stateStroke => stroke(stateStroke, strokeAction));
 	}
 	}
-}
+}, strokeActions, initialStrokesState());
 
 export { strokes };

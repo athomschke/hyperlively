@@ -1,13 +1,29 @@
 // @flow
+/* eslint-disable */
 import { type CommonAction } from 'src/client/app/typeDefinitions';
 
 type CommonReducer<S, A> = (state: S, action: A) => S
-const scopeToActions = (reducer: CommonReducer<any, *>, actions: *) =>
-	(state: any, action: CommonAction) => {
-		if (actions.indexOf(action.type) >= 0) {
-			return reducer(state, ((action:any):(typeof actions)));
-		}
-		return state;
-	};
+
+type ScopeToActions<S, A> =
+(reducer: CommonReducer<S, A>, scopedActions: { [key: string]: A }, initialState: S) =>
+CommonReducer<S, CommonAction>
+
+type Return_<R, Fn: () => R> = R;
+type Return<T> = Return_<*, T>;
+
+const scopeToActions: ScopeToActions<*, *> = (reducer, scopedActions, initialState) =>
+(state, action) => {
+	if (scopedActions[action.type]) {
+		const specificActionCreator = scopedActions[action.type];
+
+		const specificAction: Return<typeof specificActionCreator> = action;
+
+		return reducer(state, specificAction);
+	}
+	if (typeof state === 'undefined') {
+		return initialState;
+	}
+	return state;
+};
 
 export default scopeToActions;

@@ -9,17 +9,17 @@ import * as data from './data/undoableScenes';
 describe('undoable', () => {
 	describe('initial state', () => {
 		it('creates the default present', () => {
-			const actualState = undoable((state = []) => state)(undefined, {});
+			const actualState = undoable((state = []) => state)(undefined, { type: '' });
 			expect(actualState.present).to.deep.equal([]);
 		});
 
 		it('creates an empty past', () => {
-			const actualState = undoable((state = []) => state)(undefined, {});
+			const actualState = undoable((state = []) => state)(undefined, { type: '' });
 			expect(actualState.past).to.deep.equal([]);
 		});
 
 		it('creates an empty future', () => {
-			const actualState = undoable((state = []) => state)(undefined, {});
+			const actualState = undoable((state = []) => state)(undefined, { type: '' });
 			expect(actualState.future).to.deep.equal([]);
 		});
 	});

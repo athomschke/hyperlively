@@ -12,7 +12,9 @@ export const initialSpecificActionsState = () => [{
 	actionNames: ['selectInside', 'hide'],
 }];
 
-const specificActionsActions = [appendSpecificAction];
+const specificActionsActions = {
+	APPEND_SPECIFC_ACTION: appendSpecificAction,
+};
 
 const specificActions = scopeToActions((
 		state: Array<ActionMapping> = initialSpecificActionsState(),
@@ -26,6 +28,6 @@ const specificActions = scopeToActions((
 	default:
 		return state;
 	}
-}, specificActionsActions);
+}, specificActionsActions, initialSpecificActionsState());
 
 export { specificActions };

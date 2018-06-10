@@ -3,12 +3,15 @@ import { merge, isEqual, find } from 'lodash';
 
 import type { Stroke } from 'src/client/app/typeDefinitions';
 import { DEFAULT_PEN_COLOR } from 'src/client/app/constants/drawing';
+import { finishStroke } from 'src/client/app/actions/drawing';
+import { hide, select } from 'src/client/app/actions/manipulating';
+import scopeToActions from 'src/client/app/reducers/scopeToActions';
 import { UPDATE_POSITION, ROTATE_BY, HIDE, SELECT, FINISH_STROKE } from 'src/client/app/constants/actionTypes';
 import type {
 	FINISH_STROKE_ACTION, UPDATE_POSITION_ACTION, HIDE_ACTION, SELECT_ACTION, ROTATE_BY_ACTION,
 } from 'src/client/app/actionTypeDefinitions';
 
-import { points, pointsActionTypes, initialPointsState, type PointsActionType } from './points';
+import { points, pointsActionTypes, initialPointsState, type PointsActionType, pointsActions } from './points';
 
 export type StrokeActionType = PointsActionType |
 FINISH_STROKE_ACTION | UPDATE_POSITION_ACTION | HIDE_ACTION | SELECT_ACTION | ROTATE_BY_ACTION
@@ -17,6 +20,13 @@ export const strokeActionTypes = [
 	...pointsActionTypes,
 	HIDE, SELECT, FINISH_STROKE,
 ];
+
+export const strokeActions = {
+	...pointsActions,
+	HIDE: hide,
+	SELECT: select,
+	FINISH_STROKE: finishStroke,
+};
 
 const defaultStroke = (): Stroke => ({
 	points: initialPointsState(),
@@ -30,7 +40,7 @@ const doStrokesContainStroke = (strokes: Array<Stroke>, aStroke: Stroke) =>
 	find(strokes, stateStroke =>
 		stateStroke.hidden === aStroke.hidden && isEqual(stateStroke.points, aStroke.points));
 
-function stroke(state: Stroke = defaultStroke(), action: StrokeActionType) {
+const stroke = scopeToActions((state: Stroke = defaultStroke(), action: StrokeActionType) => {
 	switch (action.type) {
 	case UPDATE_POSITION:
 	case ROTATE_BY: {
@@ -67,6 +77,6 @@ function stroke(state: Stroke = defaultStroke(), action: StrokeActionType) {
 		}
 		return state;
 	}
-}
+}, strokeActions, defaultStroke());
 
 export { stroke };

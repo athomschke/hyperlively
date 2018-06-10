@@ -6,7 +6,9 @@ import type { UPDATE_THRESHOLD_ACTION } from 'src/client/app/actionTypeDefinitio
 
 export const initialThresholdState = () => 500;
 
-const thresholdActions = [updateThreshold];
+const thresholdActions = {
+	UPDATE_THRESHOLD: updateThreshold,
+};
 
 const threshold = scopeToActions(
 (state: number = initialThresholdState(), action: UPDATE_THRESHOLD_ACTION) => {
@@ -16,6 +18,6 @@ const threshold = scopeToActions(
 	default:
 		return state;
 	}
-}, thresholdActions);
+}, thresholdActions, initialThresholdState());
 
 export { threshold };

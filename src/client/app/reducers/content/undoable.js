@@ -1,7 +1,9 @@
 // @flow
 import { concat, slice, isEqual, cloneDeep } from 'lodash';
 
+import scopeToActions from 'src/client/app/reducers/scopeToActions';
 import { JUMP_TO } from 'src/client/app/constants/actionTypes';
+import { jumpTo } from 'src/client/app/actions/configuring';
 import relevantStatesForScene from 'src/client/app/helpers/relevantStatesForScene';
 import type { UndoableScenes, SceneState } from 'src/client/app/typeDefinitions';
 import { type JUMP_TO_ACTION } from 'src/client/app/actionTypeDefinitions';
@@ -10,15 +12,19 @@ export type UndoableActionType<T> = T | JUMP_TO_ACTION;
 
 export const undoableActionTypes = [JUMP_TO];
 
+export const undoableActions = {
+	JUMP_TO: jumpTo,
+};
+
 type Reducer = (state: any, action: { type: string, [key: string]: any }) => any
 
-function undoable(reducer: Reducer) {
-	const myPresent: SceneState = reducer(undefined, { type: 'initial_state' });
-	const initialState = {
+const undoable = (reducer: Reducer) => {
+	const myPresent: SceneState = reducer(undefined, { type: '' });
+	const initialState = () => ({
 		past: [],
 		present: myPresent,
 		future: [],
-	};
+	});
 
 	const nextState = (
 			pointInTime: number,
@@ -52,17 +58,18 @@ function undoable(reducer: Reducer) {
 		};
 	};
 
-	return (state: UndoableScenes = initialState, action: UndoableActionType<any>) => {
-		const { past, present, future } = state;
+	return scopeToActions(
+		(state: UndoableScenes = initialState(), action: UndoableActionType<any>) => {
+			const { past, present, future } = state;
 
-		switch (action.type) {
-		case JUMP_TO: {
-			return nextState(action.pointInTime, past, present, future, action.sceneIndex);
-		}
-		default:
-			return defaultNextState(state, action);
-		}
-	};
-}
+			switch (action.type) {
+			case JUMP_TO: {
+				return nextState(action.pointInTime, past, present, future, action.sceneIndex);
+			}
+			default:
+				return defaultNextState(state, action);
+			}
+		}, undoableActions, initialState());
+};
 
 export { undoable };

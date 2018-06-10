@@ -7,7 +7,7 @@ import { toggleHandwritingRecognition } from 'src/client/app/actions/configuring
 describe('handwriting recognition', () => {
 	describe('initial state', () => {
 		it('does use handwriting recognition', () => {
-			expect(handwritingRecognition(undefined, { type: 'initial_state' })).to.be.true();
+			expect(handwritingRecognition(undefined, { type: '' })).to.be.true();
 		});
 	});
 
