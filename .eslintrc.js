@@ -11,8 +11,10 @@ module.exports = {
         "jsx-a11y",
         "flowtype",
         "import",
+        "no-only-tests",
     ],
     "rules": {
+      "no-only-tests/no-only-tests": 2,
       "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
     	"indent": [2, "tab"],
     	"no-tabs": 0,

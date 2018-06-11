@@ -71,6 +71,6 @@ produce(state, (draftState) => {
 });
 
 const interpretation = scopeToActions(unscopedInterpretations,
-	interpretationActions, initialInterpretationState());
+	interpretationActions, initialInterpretationState);
 
 export { interpretation, unscopedInterpretations };

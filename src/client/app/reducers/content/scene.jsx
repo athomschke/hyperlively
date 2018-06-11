@@ -17,6 +17,6 @@ const scene = scopeToActions((state: Scene = initialSceneState(), action: SceneA
 		return { strokes: strokes(state.strokes, action) };
 	}
 	return state;
-}, sceneActions, initialSceneState());
+}, sceneActions, initialSceneState);
 
 export { scene };

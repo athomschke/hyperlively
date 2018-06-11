@@ -77,6 +77,6 @@ const stroke = scopeToActions((state: Stroke = defaultStroke(), action: StrokeAc
 		}
 		return state;
 	}
-}, strokeActions, defaultStroke());
+}, strokeActions, defaultStroke);
 
 export { stroke };

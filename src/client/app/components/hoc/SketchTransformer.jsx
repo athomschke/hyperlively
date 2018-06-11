@@ -21,8 +21,10 @@ const extendBoundsToPoint = (bounds, point) => ({
 const getLimitsForStrokes = (strokes) => {
 	if (strokes.length && find(strokes, stroke => (stroke.points.length > 0))) {
 		const infiniteBounds = { left: Infinity, top: Infinity, right: -Infinity, bottom: -Infinity };
-		return reduce(strokes, (bounds, stroke) =>
-			joinBounds(bounds, reduce(stroke.points, extendBoundsToPoint, bounds)), infiniteBounds);
+		return reduce(strokes, (bounds, stroke) => {
+			const reduced = reduce(stroke.points, extendBoundsToPoint, bounds);
+			return joinBounds(bounds, reduced);
+		}, infiniteBounds);
 	}
 	return { left: 0, top: 0, right: 0, bottom: 0 };
 };
@@ -49,8 +51,11 @@ const getBoundsForLimits = (limits: {
 	height: (limits.bottom - limits.top) + (2 * offset),
 });
 
-const getContentTransform = (strokes: Array<Stroke>, offset: number) =>
-getBoundsForLimits(getLimitsForStrokes(strokes), offset);
+const getContentTransform = (strokes: Array<Stroke>, offset: number) => {
+	const strokeLimits = getLimitsForStrokes(strokes);
+	const bounds = getBoundsForLimits(strokeLimits, offset);
+	return bounds;
+};
 
 const getCanvasTransform = (strokes: Array<Stroke>, finished: boolean, offset: number) => {
 	if (finished) {

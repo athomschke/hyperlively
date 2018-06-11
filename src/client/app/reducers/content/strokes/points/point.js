@@ -49,6 +49,6 @@ const point = scopeToActions(
 	default:
 		return state;
 	}
-}, pointActions, initialPointsState());
+}, pointActions, initialPointsState);
 
 export { point };

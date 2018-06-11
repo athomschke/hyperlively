@@ -18,6 +18,6 @@ const drawing = scopeToActions(
 	default:
 		return state;
 	}
-}, drawingActions, initialDrawingState());
+}, drawingActions, initialDrawingState);
 
 export { drawing };

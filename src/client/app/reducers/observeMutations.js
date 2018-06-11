@@ -20,6 +20,6 @@ action: OBSERVE_MUTATIONS_ACTION,
 	default:
 		return state;
 	}
-}, observeMutationsActions, initialObserveMutationsState());
+}, observeMutationsActions, initialObserveMutationsState);
 
 export { observeMutations };

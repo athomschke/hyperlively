@@ -36,6 +36,6 @@ produce(state, (draftState) => {
 			draftState.splice(action.sceneIndex, 1, scene(state[action.sceneIndex], action));
 		}
 	}
-}), scenesActions, initialSceneState());
+}), scenesActions, initialSceneState);
 
 export { scenes };

@@ -13,6 +13,7 @@ describe('src/client/app/actions', () => {
 			x,
 			y,
 			timeStamp,
+			sceneIndex: NaN,
 		};
 		expect(actions.appendPoint(x, y, timeStamp)).to.deep.equal(expectedAction);
 	});
@@ -26,6 +27,7 @@ describe('src/client/app/actions', () => {
 			x,
 			y,
 			timeStamp,
+			sceneIndex: NaN,
 		};
 		expect(actions.createStroke(x, y, timeStamp)).to.deep.equal(expectedAction);
 	});
@@ -39,6 +41,7 @@ describe('src/client/app/actions', () => {
 			x,
 			y,
 			timeStamp,
+			sceneIndex: NaN,
 		};
 		expect(actions.finishStroke(x, y, timeStamp)).to.deep.equal(expectedAction);
 	});
@@ -57,6 +60,7 @@ describe('src/client/app/actions', () => {
 		const expectedAction = {
 			type: 'ADD_SCENE_AT',
 			number,
+			sceneIndex: NaN,
 		};
 		expect(actions.addSceneAt(number)).to.deep.equal(expectedAction);
 	});
@@ -64,6 +68,7 @@ describe('src/client/app/actions', () => {
 	it('should create an action to add a scene to the end', () => {
 		const expectedAction = {
 			type: 'ADD_SCENE',
+			sceneIndex: NaN,
 		};
 		expect(actions.addScene()).to.deep.equal(expectedAction);
 	});

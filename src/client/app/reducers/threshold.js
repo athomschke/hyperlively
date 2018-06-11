@@ -18,6 +18,6 @@ const threshold = scopeToActions(
 	default:
 		return state;
 	}
-}, thresholdActions, initialThresholdState());
+}, thresholdActions, initialThresholdState);
 
 export { threshold };

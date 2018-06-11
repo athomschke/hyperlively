@@ -105,6 +105,7 @@ export type SET_SCENE_INDEX_ACTION = {
 	type: 'SET_SCENE_INDEX';
 	max: number;
 	number: number;
+	sceneIndex: number;
 }
 
 export type ADD_SCENE_ACTION = {
@@ -120,10 +121,12 @@ export type ADD_SCENE_AT_ACTION = {
 
 export type NEXT_SCENE_ACTION = {
 	type: 'NEXT_SCENE';
+	sceneIndex: number;
 }
 
 export type PREVIOUS_SCENE_ACTION = {
 	type: 'PREVIOUS_SCENE';
+	sceneIndex: number;
 }
 
 export type SELECT_INSIDE_ACTION = {

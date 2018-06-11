@@ -74,6 +74,7 @@ function scopedContent(state: Content = initialContentState(), action: UndoableS
 			};
 		} else if (undoableScenesActionTypes.indexOf(action.type) >= 0) {
 			const undoableScenesAction: UndoableSceneActionType = action;
+			undoableScenesAction.sceneIndex = state.sceneIndex;
 			return {
 				...state,
 				undoableScenes: undoableScenes(state.undoableScenes, undoableScenesAction),
@@ -83,6 +84,6 @@ function scopedContent(state: Content = initialContentState(), action: UndoableS
 	}
 }
 
-const content = scopeToActions(scopedContent, undoableScenesActions, initialContentState());
+const content = scopeToActions(scopedContent, undoableScenesActions, initialContentState);
 
 export { content };

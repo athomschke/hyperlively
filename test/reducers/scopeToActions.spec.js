@@ -8,12 +8,12 @@ describe('allowAllActions Wrapper', () => {
 		type: 'SPECIFIC_ACTION';
 		name: string;
 	}
-	const initialState = '';
+	const initialState = () => '';
 	const specificAction = (name: string) => ({
 		type: 'SPECIFIC_ACTION',
 		name,
 	});
-	const specificReducer = (state = initialState, action: SpecificAction) =>
+	const specificReducer = (state = initialState(), action: SpecificAction) =>
 		(action.type === 'SPECIFIC_ACTION' ? action.name : state);
 	const scopedReducer = scopeToActions(specificReducer, {
 		SPECIFIC_ACTION: specificAction,

@@ -65,6 +65,6 @@ scopeToActions((state: Array<Stroke> = initialStrokesState(), action: StrokesAct
 		return map(state, stateStroke => stroke(stateStroke, strokeAction));
 	}
 	}
-}, strokeActions, initialStrokesState());
+}, strokesActions, initialStrokesState);
 
 export { strokes };

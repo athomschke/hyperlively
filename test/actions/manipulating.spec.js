@@ -21,6 +21,7 @@ describe('actions to manipulate things on canvas', () => {
 				x: targetX,
 				y: targetY,
 			},
+			sceneIndex: NaN,
 		};
 		expect(updatePosition(strokesExample(), originX, originY, targetX, targetY))
 			.to.deep.equal(expectedAction);
@@ -37,6 +38,7 @@ describe('actions to manipulate things on canvas', () => {
 			centerX,
 			centerY,
 			degrees,
+			sceneIndex: NaN,
 		};
 		expect(rotateBy(strokes, centerX, centerY, degrees)).to.eql(expectedAction);
 	});
@@ -46,6 +48,7 @@ describe('actions to manipulate things on canvas', () => {
 		const expectedAction = {
 			type: 'HIDE',
 			strokes,
+			sceneIndex: NaN,
 		};
 		expect(hide(strokes)).to.deep.equal(expectedAction);
 	});
@@ -55,6 +58,7 @@ describe('actions to manipulate things on canvas', () => {
 		const expectedAction = {
 			type: 'SELECT',
 			strokes,
+			sceneIndex: NaN,
 		};
 		expect(select(strokes)).to.deep.equal(expectedAction);
 	});
@@ -64,6 +68,7 @@ describe('actions to manipulate things on canvas', () => {
 		const expectedAction = {
 			type: 'SELECT_INSIDE',
 			strokes,
+			sceneIndex: NaN,
 		};
 		expect(selectInside(strokes)).to.deep.equal(expectedAction);
 	});

@@ -31,6 +31,6 @@ scopeToActions((state: number = initialSceneIndexState(), action: SetSceneAction
 	default:
 		return state;
 	}
-}, setSceneIndexActions, initialSceneIndexState());
+}, setSceneIndexActions, initialSceneIndexState);
 
 export { sceneIndex };

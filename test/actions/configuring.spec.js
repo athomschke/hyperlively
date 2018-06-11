@@ -45,6 +45,7 @@ describe('src/client/app/actions', () => {
 		const expectedAction = {
 			type: 'SET_SCENE_INDEX',
 			number,
+			max: NaN
 		};
 		expect(setSceneIndex(number)).to.deep.equal(expectedAction);
 	});

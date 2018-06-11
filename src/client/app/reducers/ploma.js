@@ -27,6 +27,6 @@ const ploma = scopeToActions(
 	default:
 		return state;
 	}
-}, plomaActions, initialPlomaState());
+}, plomaActions, initialPlomaState);
 
 export { ploma };

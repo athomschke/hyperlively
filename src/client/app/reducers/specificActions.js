@@ -28,6 +28,6 @@ const specificActions = scopeToActions((
 	default:
 		return state;
 	}
-}, specificActionsActions, initialSpecificActionsState());
+}, specificActionsActions, initialSpecificActionsState);
 
 export { specificActions };

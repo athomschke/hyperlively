@@ -36,6 +36,6 @@ const points = scopeToActions((
 		return state.map((statePoint: Point) => point(statePoint, action));
 	}
 	}
-}, pointsActions, initialPointsState());
+}, pointsActions, initialPointsState);
 
 export { points };
