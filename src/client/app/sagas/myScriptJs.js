@@ -1,5 +1,5 @@
 // @flow
-import { takeLatest, call, put, type TakeHelper, type PutEffect } from 'redux-saga/effects';
+import { takeEvery, call, put, type TakeHelper, type PutEffect } from 'redux-saga/effects';
 
 import { requestTextCandidates, requestShapeCandidates } from 'src/client/app/helpers/handwritingRecognizer';
 import { REQUEST_TEXT_CANDIDATES, REQUEST_SHAPE_CANDIDATES } from 'src/client/app/constants/actionTypes';
@@ -37,6 +37,6 @@ Generator<PutEffect<RECEIVE_SHAPE_CANDIDATES_ACTION>, void, void> {
 
 export function* myScriptJs():
 Generator<TakeHelper<RECEIVE_SHAPE_CANDIDATES_ACTION|RECEIVE_TEXT_CANDIDATES_ACTION>, void, void> {
-	yield takeLatest(REQUEST_TEXT_CANDIDATES, fetchTextCandidates);
-	yield takeLatest(REQUEST_SHAPE_CANDIDATES, fetchShapeCandidates);
+	yield takeEvery(REQUEST_TEXT_CANDIDATES, fetchTextCandidates);
+	yield takeEvery(REQUEST_SHAPE_CANDIDATES, fetchShapeCandidates);
 }

@@ -19,12 +19,12 @@ type IInterpretationTriggerProps = {
 
 const mapDispatchToProps = (dispatch, ownProps: IInterpretationTriggerProps) => ({
 	onHandwritingRecognitionClick: () => {
-		if (!ownProps.interpretation.interpretations.shapes) {
+		if (ownProps.interpretation.interpretations.shapes.length <= 0) {
 			ownProps.sketches.forEach((sketch) => {
 				dispatch(requestShapeCandidates(sketch.strokes.filter(stroke => !stroke.hidden)));
 			});
 		}
-		if (!ownProps.interpretation.interpretations.texts) {
+		if (ownProps.interpretation.interpretations.texts.length <= 0) {
 			ownProps.sketches.forEach((sketch) => {
 				dispatch(requestTextCandidates(sketch.strokes.filter(stroke => !stroke.hidden)));
 			});
