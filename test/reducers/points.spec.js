@@ -1,13 +1,13 @@
 // @flow
 import { expect } from 'chai';
 
-import { points, initialPointsState } from 'src/client/app/reducers/content/strokes/points';
+import { points } from 'src/client/app/reducers/content/strokes/points';
 import { appendPoint } from 'src/client/app/actionCreators';
 import { point, event } from 'test/helpers';
 
 describe('points', () => {
 	it('handles initial state', () => {
-		expect(initialPointsState()).to.deep.equal([]);
+		expect(points(undefined, { type: '' })).to.deep.equal([]);
 	});
 
 	it('appends first point', () => {

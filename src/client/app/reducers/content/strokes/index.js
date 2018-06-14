@@ -11,20 +11,14 @@ import type {
 	APPEND_STROKE_ACTION, APPEND_POINT_ACTION, FINISH_STROKE_ACTION,
 	SELECT_INSIDE_ACTION, SELECT_ACTION,
 } from 'src/client/app/actionTypeDefinitions';
-import { select, selectInside } from 'src/client/app/actionCreators';
-import { createStroke, appendPoint } from 'src/client/app/actionCreators';
+import { select, selectInside, createStroke, appendPoint } from 'src/client/app/actionCreators';
 
-import { stroke, strokeActionTypes, strokeActions, type StrokeActionType } from './stroke';
+import { stroke, strokeActions, type StrokeActionType } from './stroke';
 
 export type StrokesActionType = StrokeActionType | APPEND_STROKE_ACTION | APPEND_POINT_ACTION |
 FINISH_STROKE_ACTION | SELECT_INSIDE_ACTION
 
-export const initialStrokesState = (): Array<Stroke> => [];
-
-export const strokesActionTypes = [
-	...strokeActionTypes,
-	APPEND_STROKE, APPEND_POINT, SELECT_INSIDE,
-];
+const initialStrokesState = (): Array<Stroke> => [];
 
 export const strokesActions = {
 	...strokeActions,
@@ -33,8 +27,7 @@ export const strokesActions = {
 	SELECT_INSIDE: selectInside,
 };
 
-const strokes =
-scopeToActions((state: Array<Stroke> = initialStrokesState(), action: StrokesActionType) => {
+const strokes = scopeToActions((state: Array<Stroke>, action: StrokesActionType) => {
 	switch (action.type) {
 	case APPEND_STROKE:
 		return [

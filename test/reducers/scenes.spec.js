@@ -1,7 +1,7 @@
 // @flow
 import { expect } from 'chai';
 
-import { scenes, initialScenesState } from 'src/client/app/reducers/content/scenes';
+import { scenes } from 'src/client/app/reducers/content/scenes';
 import { addScene, addSceneAt } from 'src/client/app/actionCreators';
 import { point, exampleStrokes } from 'test/helpers';
 import type { Scene, Stroke } from 'src/client/app/typeDefinitions';
@@ -9,7 +9,7 @@ import type { Scene, Stroke } from 'src/client/app/typeDefinitions';
 describe('scenes', () => {
 	describe('initial state', () => {
 		it('creates a scene without any strokes', () => {
-			expect(initialScenesState()).to.deep.equal([]);
+			expect(scenes(undefined, { type: '' })).to.deep.equal([]);
 		});
 	});
 

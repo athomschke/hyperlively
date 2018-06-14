@@ -7,11 +7,9 @@ import scopeToActions from 'src/client/app/reducers/scopeToActions';
 import type { Scene } from 'src/client/app/typeDefinitions';
 import type { ADD_SCENE_AT_ACTION, ADD_SCENE_ACTION } from 'src/client/app/actionTypeDefinitions';
 
-import { scene, sceneActionTypes, initialSceneState, sceneActions, type SceneActionType } from './scene';
+import { scene, sceneActions, type SceneActionType } from './scene';
 
 export type ScenesActionType = SceneActionType | ADD_SCENE_AT_ACTION | ADD_SCENE_ACTION
-
-export const scenesActionTypes = [...sceneActionTypes, ADD_SCENE, ADD_SCENE_AT];
 
 export const scenesActions = {
 	...sceneActions,
@@ -19,23 +17,23 @@ export const scenesActions = {
 	ADD_SCENE_AT: select,
 };
 
-export const initialScenesState = (): Array<Scene> => [];
+const initialScenesState = (): Array<Scene> => [];
 
 const scenes =
-scopeToActions((state: Array<Scene> = initialScenesState(), action: ScenesActionType) =>
+scopeToActions((state: Array<Scene>, action: ScenesActionType) =>
 produce(state, (draftState) => {
 	switch (action.type) {
 	case ADD_SCENE:
-		draftState.push(initialSceneState());
+		draftState.push(scene(undefined, { type: '' }));
 		break;
 	case ADD_SCENE_AT:
-		draftState.splice(action.number, 0, initialSceneState());
+		draftState.splice(action.number, 0, scene(undefined, { type: '' }));
 		break;
 	default:
-		if (sceneActionTypes.includes(action.type)) {
+		if (Object.keys(sceneActions).includes(action.type)) {
 			draftState.splice(action.sceneIndex, 1, scene(state[action.sceneIndex], action));
 		}
 	}
-}), scenesActions, initialSceneState);
+}), scenesActions, initialScenesState);
 
 export { scenes };

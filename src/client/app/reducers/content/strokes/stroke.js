@@ -3,23 +3,19 @@ import { merge, isEqual, find } from 'lodash';
 
 import type { Stroke } from 'src/client/app/typeDefinitions';
 import { DEFAULT_PEN_COLOR } from 'src/client/app/constants/drawing';
-import { finishStroke } from 'src/client/app/actionCreators';
-import { hide, select } from 'src/client/app/actionCreators';
+import { finishStroke, hide, select } from 'src/client/app/actionCreators';
 import scopeToActions from 'src/client/app/reducers/scopeToActions';
 import { UPDATE_POSITION, ROTATE_BY, HIDE, SELECT, FINISH_STROKE } from 'src/client/app/constants/actionTypes';
 import type {
 	FINISH_STROKE_ACTION, UPDATE_POSITION_ACTION, HIDE_ACTION, SELECT_ACTION, ROTATE_BY_ACTION,
 } from 'src/client/app/actionTypeDefinitions';
 
-import { points, pointsActionTypes, initialPointsState, type PointsActionType, pointsActions } from './points';
+import { points, type PointsActionType, pointsActions } from './points';
 
 export type StrokeActionType = PointsActionType |
 FINISH_STROKE_ACTION | UPDATE_POSITION_ACTION | HIDE_ACTION | SELECT_ACTION | ROTATE_BY_ACTION
 
-export const strokeActionTypes = [
-	...pointsActionTypes,
-	HIDE, SELECT, FINISH_STROKE,
-];
+const pointsActionTypes = Object.keys(pointsActions);
 
 export const strokeActions = {
 	...pointsActions,
@@ -28,8 +24,8 @@ export const strokeActions = {
 	FINISH_STROKE: finishStroke,
 };
 
-const defaultStroke = (): Stroke => ({
-	points: initialPointsState(),
+const initialStrokeState = (): Stroke => ({
+	points: points(undefined, { type: '' }),
 	hidden: false,
 	selected: false,
 	finished: false,
@@ -40,7 +36,7 @@ const doStrokesContainStroke = (strokes: Array<Stroke>, aStroke: Stroke) =>
 	find(strokes, stateStroke =>
 		stateStroke.hidden === aStroke.hidden && isEqual(stateStroke.points, aStroke.points));
 
-const stroke = scopeToActions((state: Stroke = defaultStroke(), action: StrokeActionType) => {
+const stroke = scopeToActions((state: Stroke, action: StrokeActionType) => {
 	switch (action.type) {
 	case UPDATE_POSITION:
 	case ROTATE_BY: {
@@ -77,6 +73,6 @@ const stroke = scopeToActions((state: Stroke = defaultStroke(), action: StrokeAc
 		}
 		return state;
 	}
-}, strokeActions, defaultStroke);
+}, strokeActions, initialStrokeState);
 
 export { stroke };

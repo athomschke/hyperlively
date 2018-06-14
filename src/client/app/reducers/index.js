@@ -12,7 +12,7 @@ import { specificActions } from './specificActions';
 
 type HyperlivelyReducer = (state?: HyperlivelyState, action: CommonAction) => HyperlivelyState;
 
-export const initialHyperlivelyState = (): HyperlivelyState => ({
+const initialHyperlivelyState = (): HyperlivelyState => ({
 	interpretation: interpretation(undefined, { type: '' }),
 	ploma: ploma(undefined, { type: '' }),
 	handwritingRecognition: handwritingRecognition(undefined, { type: '' }),

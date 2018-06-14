@@ -1,7 +1,6 @@
 // @flow
 import { SET_SCENE_INDEX, NEXT_SCENE, PREVIOUS_SCENE } from 'src/client/app/constants/actionTypes';
-import { setSceneIndex } from 'src/client/app/actionCreators';
-import { nextScene, previousScene } from 'src/client/app/actionCreators';
+import { setSceneIndex, nextScene, previousScene } from 'src/client/app/actionCreators';
 import type { SET_SCENE_INDEX_ACTION, NEXT_SCENE_ACTION, PREVIOUS_SCENE_ACTION } from 'src/client/app/actionTypeDefinitions';
 import scopeToActions from 'src/client/app/reducers/scopeToActions';
 
@@ -9,18 +8,15 @@ export type SafeSetSceneActionType = NEXT_SCENE_ACTION | PREVIOUS_SCENE_ACTION;
 
 export type SetSceneActionType = SafeSetSceneActionType | SET_SCENE_INDEX_ACTION;
 
-export const sceneIndexActionTypes = [SET_SCENE_INDEX, NEXT_SCENE, PREVIOUS_SCENE];
-
 export const setSceneIndexActions = {
 	SET_SCENE_INDEX: setSceneIndex,
 	NEXT_SCENE: nextScene,
 	PREVIOUS_SCENE: previousScene,
 };
 
-export const initialSceneIndexState = () => 0;
+const initialSceneIndexState = () => 0;
 
-const sceneIndex =
-scopeToActions((state: number = initialSceneIndexState(), action: SetSceneActionType) => {
+const sceneIndex = scopeToActions((state: number, action: SetSceneActionType) => {
 	switch (action.type) {
 	case SET_SCENE_INDEX:
 		return Math.max(Math.min(action.number, action.max), 0);

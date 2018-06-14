@@ -1,16 +1,15 @@
 // @flow
 import { expect } from 'chai';
 
-import { appendPoint, createStroke, finishStroke } from 'src/client/app/actionCreators';
-import { updatePosition, hide, select, selectInside, rotateBy } from 'src/client/app/actionCreators';
+import { appendPoint, createStroke, finishStroke, updatePosition, hide, select, selectInside, rotateBy } from 'src/client/app/actionCreators';
 import { point, event, exampleStrokes } from 'test/helpers';
-import { strokes, initialStrokesState } from 'src/client/app/reducers/content/strokes';
+import { strokes } from 'src/client/app/reducers/content/strokes';
 import type { Stroke } from 'src/client/app/typeDefinitions';
 
 describe('strokes', () => {
 	describe('handles', () => {
 		it('initial state', () => {
-			const result = initialStrokesState();
+			const result = strokes(undefined, { type: '' });
 			expect(result).to.deep.equal([]);
 		});
 	});

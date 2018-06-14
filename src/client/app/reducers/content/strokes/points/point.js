@@ -14,16 +14,13 @@ export const pointActions = {
 	ROTATE_BY: rotateBy,
 };
 
-export const pointActionTypes = [UPDATE_POSITION, ROTATE_BY];
-
-export const initialPointsState = () => ({
+const initialPointState = () => ({
 	x: NaN,
 	y: NaN,
 	timeStamp: NaN,
 });
 
-const point = scopeToActions(
-(state: Point = initialPointsState(), action: PointActionType): Point => {
+const point = scopeToActions((state: Point, action: PointActionType): Point => {
 	switch (action.type) {
 	case UPDATE_POSITION: {
 		const newCoordinates = {
@@ -49,6 +46,6 @@ const point = scopeToActions(
 	default:
 		return state;
 	}
-}, pointActions, initialPointsState);
+}, pointActions, initialPointState);
 
 export { point };

@@ -2,18 +2,16 @@
 import type { Scene } from 'src/client/app/typeDefinitions';
 import scopeToActions from 'src/client/app/reducers/scopeToActions';
 
-import { strokes, strokesActionTypes, initialStrokesState, strokesActions, type StrokesActionType } from './strokes';
+import { strokes, strokesActions, type StrokesActionType } from './strokes';
 
 export type SceneActionType = StrokesActionType
 
-export const sceneActionTypes = strokesActionTypes;
-
 export const sceneActions = strokesActions;
 
-export const initialSceneState = (): Scene => ({ strokes: initialStrokesState() });
+const initialSceneState = (): Scene => ({ strokes: strokes(undefined, { type: '' }) });
 
-const scene = scopeToActions((state: Scene = initialSceneState(), action: SceneActionType) => {
-	if (strokesActionTypes.includes(action.type)) {
+const scene = scopeToActions((state: Scene, action: SceneActionType) => {
+	if (Object.keys(strokesActions).includes(action.type)) {
 		return { strokes: strokes(state.strokes, action) };
 	}
 	return state;

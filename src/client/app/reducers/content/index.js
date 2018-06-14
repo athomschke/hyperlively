@@ -5,15 +5,13 @@ import { ADD_SCENE_AT, SET_SCENE_INDEX, NEXT_SCENE } from 'src/client/app/consta
 import { type SET_SCENE_INDEX_ACTION } from 'src/client/app/actionTypeDefinitions';
 import { type Content, type UndoableScenes } from 'src/client/app/typeDefinitions';
 
-import { undoable, undoableActionTypes, undoableActions, type UndoableActionType } from './undoable';
-import { sceneIndex, sceneIndexActionTypes, setSceneIndexActions, type SetSceneActionType, type SafeSetSceneActionType } from './sceneIndex';
-import { scenes, scenesActionTypes, initialScenesState, scenesActions, type ScenesActionType } from './scenes';
+import { undoable, undoableActions, type UndoableActionType } from './undoable';
+import { sceneIndex, setSceneIndexActions, type SetSceneActionType, type SafeSetSceneActionType } from './sceneIndex';
+import { scenes, scenesActions, type ScenesActionType } from './scenes';
 
 type UndoableSceneActionType = UndoableActionType<ScenesActionType | SetSceneActionType>
 
 const undoableScenes = undoable(scenes);
-
-const undoableScenesActionTypes = [...undoableActionTypes, ...scenesActionTypes];
 
 export const undoableScenesActions = {
 	...setSceneIndexActions,
@@ -23,16 +21,16 @@ export const undoableScenesActions = {
 
 const initialUndoableScenes = (): UndoableScenes => ({
 	past: [],
-	present: initialScenesState(),
+	present: scenes(undefined, { type: '' }),
 	future: [],
 });
 
-export const initialContentState = (): Content => ({
+const initialContentState = (): Content => ({
 	sceneIndex: 0,
 	undoableScenes: initialUndoableScenes(),
 });
 
-function scopedContent(state: Content = initialContentState(), action: UndoableSceneActionType) {
+function scopedContent(state: Content, action: UndoableSceneActionType) {
 	switch (action.type) {
 	case ADD_SCENE_AT:
 		if (action.number <= state.undoableScenes.present.length + 1 && action.number >= 0) {
@@ -65,13 +63,16 @@ function scopedContent(state: Content = initialContentState(), action: UndoableS
 		};
 	}
 	default:
-		if (sceneIndexActionTypes.indexOf(action.type) >= 0) {
+		if (Object.keys(setSceneIndexActions).indexOf(action.type) >= 0) {
 			const sceneIndexAction: SafeSetSceneActionType = ((action:any): SafeSetSceneActionType);
 			return {
 				...state,
 				sceneIndex: sceneIndex(state.sceneIndex, sceneIndexAction),
 			};
-		} else if (undoableScenesActionTypes.indexOf(action.type) >= 0) {
+		} else if (
+				Object.keys(undoableActions).indexOf(action.type) >= 0 ||
+				Object.keys(scenesActions).indexOf(action.type) >= 0
+		) {
 			const undoableScenesAction: UndoableSceneActionType = action;
 			undoableScenesAction.sceneIndex = state.sceneIndex;
 			return {

@@ -3,15 +3,13 @@
 import produce from 'immer';
 
 import scopeToActions from 'src/client/app/reducers/scopeToActions';
-import { toggleInterpreter } from 'src/client/app/actionCreators';
-import { appendPoint, createStroke } from 'src/client/app/actionCreators';
-import { receiveTextCandidates, receiveShapeCandidates } from 'src/client/app/actionCreators';
+import { toggleInterpreter, appendPoint, createStroke, receiveTextCandidates, receiveShapeCandidates } from 'src/client/app/actionCreators';
 import { TOGGLE_INTERPRETER, APPEND_POINT, APPEND_STROKE, RECEIVE_TEXT_CANDIDATES, RECEIVE_SHAPE_CANDIDATES } from 'src/client/app/constants/actionTypes';
 import { CANDIDATES_COUNT } from 'src/client/app/constants/handwriting';
 import type { TOGGLE_INTERPRETER_ACTION, RECEIVE_TEXT_CANDIDATES_ACTION, RECEIVE_SHAPE_CANDIDATES_ACTION, APPEND_POINT_ACTION, APPEND_STROKE_ACTION } from 'src/client/app/actionTypeDefinitions';
 import { type InterpretationState } from 'src/client/app/typeDefinitions';
 
-export const initialInterpretationState = () => ({
+const initialInterpretationState = () => ({
 	showInterpreter: false,
 	interpretations: {
 		shapes: [],
@@ -30,8 +28,7 @@ const interpretationActions = {
 type Action = TOGGLE_INTERPRETER_ACTION | RECEIVE_TEXT_CANDIDATES_ACTION |
 APPEND_POINT_ACTION | APPEND_STROKE_ACTION | RECEIVE_SHAPE_CANDIDATES_ACTION
 
-const unscopedInterpretations =
-(state: InterpretationState = initialInterpretationState(), action: Action) =>
+const interpretation = scopeToActions((state: InterpretationState, action: Action) =>
 produce(state, (draftState) => {
 	switch (action.type) {
 	case TOGGLE_INTERPRETER: {
@@ -68,9 +65,6 @@ produce(state, (draftState) => {
 		break;
 	}
 	}
-});
+}), interpretationActions, initialInterpretationState);
 
-const interpretation = scopeToActions(unscopedInterpretations,
-	interpretationActions, initialInterpretationState);
-
-export { interpretation, unscopedInterpretations };
+export { interpretation };
