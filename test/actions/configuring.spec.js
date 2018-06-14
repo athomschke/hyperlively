@@ -1,7 +1,7 @@
 // @flow
 import { expect } from 'chai';
 
-import { toggleInterpreter, togglePloma, updateThreshold, toggleHandwritingRecognition, setObserveMutations, setSceneIndex, jumpTo } from 'src/client/app/actions/configuring';
+import { toggleInterpreter, togglePloma, updateThreshold, toggleHandwritingRecognition, setObserveMutations, setSceneIndex, jumpTo } from 'src/client/app/actions';
 
 describe('src/client/app/actions', () => {
 	it('should create an action to toggle ploma', () => {

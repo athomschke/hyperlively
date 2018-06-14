@@ -1,7 +1,7 @@
 // @flow
 import { expect } from 'chai';
 
-import * as actions from 'src/client/app/actions/drawing';
+import * as actions from 'src/client/app/actions';
 
 describe('src/client/app/actions', () => {
 	it('should create an action to add a point from an event', () => {

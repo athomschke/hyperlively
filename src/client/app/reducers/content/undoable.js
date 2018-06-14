@@ -2,7 +2,7 @@
 import { concat, slice, isEqual, cloneDeep } from 'lodash';
 
 import { JUMP_TO } from 'src/client/app/constants/actionTypes';
-import { jumpTo } from 'src/client/app/actions/configuring';
+import { jumpTo } from 'src/client/app/actions';
 import relevantStatesForScene from 'src/client/app/helpers/relevantStatesForScene';
 import type { UndoableScenes, SceneState } from 'src/client/app/typeDefinitions';
 import { scenesActions } from 'src/client/app/reducers/content/scenes';

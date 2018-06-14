@@ -1,7 +1,7 @@
 // @flow
 import { expect } from 'chai';
 
-import { updatePosition, hide, select, selectInside, rotateBy } from 'src/client/app/actions/manipulating';
+import { updatePosition, hide, select, selectInside, rotateBy } from 'src/client/app/actions';
 import { strokesExample } from 'test/data';
 
 describe('actions to manipulate things on canvas', () => {

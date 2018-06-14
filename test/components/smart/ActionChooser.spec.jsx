@@ -6,7 +6,7 @@ import { spy } from 'sinon';
 
 import ActionChooser from 'src/client/app/components/smart/ActionChooser';
 import JsonPropertyChooser from 'src/client/app/components/smart/JsonPropertyChooser';
-import actions from 'src/client/app/actions/actions';
+import * as actions from 'src/client/app/actions';
 
 const shallowWithProps = props => shallow(<ActionChooser {...props} />);
 

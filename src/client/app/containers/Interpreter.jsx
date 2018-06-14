@@ -1,7 +1,7 @@
 // @flow
 import { connect } from 'react-redux';
 
-import actions from 'src/client/app/actions/actions';
+import * as actions from 'src/client/app/actions';
 import Interpreter from 'src/client/app/components/smart/Interpreter';
 
 const mapStateToProps = (state) => {

@@ -1,7 +1,7 @@
 // @flow
 import { connect } from 'react-redux';
 
-import actions from 'src/client/app/actions/actions';
+import * as actions from 'src/client/app/actions';
 import { PAPER_COLOR, WHITE } from 'src/client/app/constants/drawing';
 import Desk from 'src/client/app/components/hoc/Desk';
 import ModuleChooser from 'src/client/app/components/hoc/ModuleChooser';

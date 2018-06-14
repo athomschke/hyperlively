@@ -1,6 +1,6 @@
 // @flow
 import scopeToActions from 'src/client/app/reducers/scopeToActions';
-import { addScene } from 'src/client/app/actions/drawing';
+import { addScene } from 'src/client/app/actions';
 import { ADD_SCENE_AT, SET_SCENE_INDEX, NEXT_SCENE } from 'src/client/app/constants/actionTypes';
 import { type SET_SCENE_INDEX_ACTION } from 'src/client/app/actionTypeDefinitions';
 import { type Content, type UndoableScenes } from 'src/client/app/typeDefinitions';

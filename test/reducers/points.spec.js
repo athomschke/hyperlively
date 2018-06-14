@@ -2,7 +2,7 @@
 import { expect } from 'chai';
 
 import { points, initialPointsState } from 'src/client/app/reducers/content/strokes/points';
-import { appendPoint } from 'src/client/app/actions/drawing';
+import { appendPoint } from 'src/client/app/actions';
 import { point, event } from 'test/helpers';
 
 describe('points', () => {

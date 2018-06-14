@@ -2,7 +2,7 @@
 import { expect } from 'chai';
 
 import { ploma } from 'src/client/app/reducers/ploma';
-import { togglePloma } from 'src/client/app/actions/configuring';
+import { togglePloma } from 'src/client/app/actions';
 
 describe('ploma', () => {
 	describe('initial state', () => {

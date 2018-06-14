@@ -1,7 +1,7 @@
 // @flow
 import { SET_SCENE_INDEX, NEXT_SCENE, PREVIOUS_SCENE } from 'src/client/app/constants/actionTypes';
-import { setSceneIndex } from 'src/client/app/actions/configuring';
-import { nextScene, previousScene } from 'src/client/app/actions/drawing';
+import { setSceneIndex } from 'src/client/app/actions';
+import { nextScene, previousScene } from 'src/client/app/actions';
 import type { SET_SCENE_INDEX_ACTION, NEXT_SCENE_ACTION, PREVIOUS_SCENE_ACTION } from 'src/client/app/actionTypeDefinitions';
 import scopeToActions from 'src/client/app/reducers/scopeToActions';
 

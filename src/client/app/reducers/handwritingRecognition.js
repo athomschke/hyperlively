@@ -1,6 +1,6 @@
 // @flow
 import scopeToActions from 'src/client/app/reducers/scopeToActions';
-import { toggleHandwritingRecognition } from 'src/client/app/actions/configuring';
+import { toggleHandwritingRecognition } from 'src/client/app/actions';
 import { TOGGLE_HANDWRITING_RECOGNITION } from 'src/client/app/constants/actionTypes';
 import { type TOGGLE_HANDWRITING_RECOGNITION_ACTION } from 'src/client/app/actionTypeDefinitions';
 

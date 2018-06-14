@@ -2,9 +2,9 @@
 import { useFakeXMLHttpRequest } from 'sinon';
 import { expect } from 'chai';
 
-import { requestTextCandidates, requestShapeCandidates, receiveTextCandidates, receiveShapeCandidates } from 'src/client/app/actions/handwritingRecognition';
-import { toggleInterpreter } from 'src/client/app/actions/configuring';
-import { createStroke } from 'src/client/app/actions/drawing';
+import { requestTextCandidates, requestShapeCandidates, receiveTextCandidates, receiveShapeCandidates } from 'src/client/app/actions';
+import { toggleInterpreter } from 'src/client/app/actions';
+import { createStroke } from 'src/client/app/actions';
 import { interpretation } from 'src/client/app/reducers/interpretation';
 import { type InterpretationState } from 'src/client/app/typeDefinitions';
 import { shapeCandidate, letterCandidate } from 'test/data';

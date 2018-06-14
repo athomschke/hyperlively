@@ -2,7 +2,7 @@
 import { expect } from 'chai';
 
 import { handwritingRecognition } from 'src/client/app/reducers/handwritingRecognition';
-import { toggleHandwritingRecognition } from 'src/client/app/actions/configuring';
+import { toggleHandwritingRecognition } from 'src/client/app/actions';
 
 describe('handwriting recognition', () => {
 	describe('initial state', () => {

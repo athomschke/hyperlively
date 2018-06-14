@@ -2,7 +2,7 @@
 import { expect } from 'chai';
 
 import { undoable } from 'src/client/app/reducers/content/undoable';
-import { jumpTo } from 'src/client/app/actions/configuring';
+import { jumpTo } from 'src/client/app/actions';
 
 import * as data from './data/undoableScenes';
 

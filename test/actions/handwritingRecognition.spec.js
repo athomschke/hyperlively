@@ -1,7 +1,7 @@
 // @flow
 import { expect } from 'chai';
 
-import { requestTextCandidates, requestShapeCandidates, receiveTextCandidates, receiveShapeCandidates } from 'src/client/app/actions/handwritingRecognition';
+import { requestTextCandidates, requestShapeCandidates, receiveTextCandidates, receiveShapeCandidates } from 'src/client/app/actions';
 import { strokesExample } from 'test/data';
 import type { TextCandidate } from 'src/client/app/typeDefinitions';
 

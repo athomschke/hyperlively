@@ -1,6 +1,6 @@
 // @flow
 import scopeToActions from 'src/client/app/reducers/scopeToActions';
-import { updateThreshold } from 'src/client/app/actions/configuring';
+import { updateThreshold } from 'src/client/app/actions';
 import { UPDATE_THRESHOLD } from 'src/client/app/constants/actionTypes';
 import type { UPDATE_THRESHOLD_ACTION } from 'src/client/app/actionTypeDefinitions';
 

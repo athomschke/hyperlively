@@ -2,8 +2,8 @@
 import { expect } from 'chai';
 
 import { content } from 'src/client/app/reducers/content';
-import { setSceneIndex } from 'src/client/app/actions/configuring';
-import { addSceneAt, nextScene } from 'src/client/app/actions/drawing';
+import { setSceneIndex } from 'src/client/app/actions';
+import { addSceneAt, nextScene } from 'src/client/app/actions';
 import { point } from 'test/helpers';
 import type { Scene, Content } from 'src/client/app/typeDefinitions';
 

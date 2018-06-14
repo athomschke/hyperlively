@@ -1,8 +1,8 @@
 // @flow
 import { expect } from 'chai';
 
-import { appendPoint, createStroke, finishStroke } from 'src/client/app/actions/drawing';
-import { updatePosition, hide, select, selectInside, rotateBy } from 'src/client/app/actions/manipulating';
+import { appendPoint, createStroke, finishStroke } from 'src/client/app/actions';
+import { updatePosition, hide, select, selectInside, rotateBy } from 'src/client/app/actions';
 import { point, event, exampleStrokes } from 'test/helpers';
 import { strokes, initialStrokesState } from 'src/client/app/reducers/content/strokes';
 import type { Stroke } from 'src/client/app/typeDefinitions';
