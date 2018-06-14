@@ -1,6 +1,6 @@
 // @flow
 import scopeToActions from 'src/client/app/reducers/scopeToActions';
-import { toggleDrawing } from 'src/client/app/actions';
+import { toggleDrawing } from 'src/client/app/actionCreators';
 import { TOGGLE_DRAWING } from 'src/client/app/constants/actionTypes';
 import { type TOGGLE_DRAWING_ACTION } from 'src/client/app/actionTypeDefinitions';
 

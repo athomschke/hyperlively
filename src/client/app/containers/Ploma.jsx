@@ -1,7 +1,7 @@
 // @flow
 import { connect } from 'react-redux';
 
-import { togglePloma } from 'src/client/app/actions';
+import { togglePloma } from 'src/client/app/actionCreators';
 import Ploma from 'src/client/app/components/dumb/Ploma';
 
 const mapStateToProps = state => ({

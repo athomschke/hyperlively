@@ -1,7 +1,7 @@
 // @flow
 import { connect } from 'react-redux';
 
-import { appendPoint, createStroke, finishStroke, toggleDrawing } from 'src/client/app/actions';
+import { appendPoint, createStroke, finishStroke, toggleDrawing } from 'src/client/app/actionCreators';
 import ModifierKey from 'src/client/app/components/hoc/ModifierKey';
 import Fullscreen from 'src/client/app/components/hoc/Fullscreen';
 import DragHandler from 'src/client/app/components/hoc/DragHandler';

@@ -1,8 +1,8 @@
 // @flow
 import { connect } from 'react-redux';
 
-import { toggleInterpreter } from 'src/client/app/actions';
-import { requestTextCandidates, requestShapeCandidates } from 'src/client/app/actions';
+import { toggleInterpreter } from 'src/client/app/actionCreators';
+import { requestTextCandidates, requestShapeCandidates } from 'src/client/app/actionCreators';
 import type { Scene, InterpretationState, Sketch } from 'src/client/app/typeDefinitions';
 import InterpretationTrigger from 'src/client/app/components/dumb/InterpretationTrigger';
 

@@ -1,11 +1,11 @@
 // @flow
 import { expect } from 'chai';
 
-import { requestTextCandidates, requestShapeCandidates, receiveTextCandidates, receiveShapeCandidates } from 'src/client/app/actions';
+import { requestTextCandidates, requestShapeCandidates, receiveTextCandidates, receiveShapeCandidates } from 'src/client/app/actionCreators';
 import { strokesExample } from 'test/data';
 import type { TextCandidate } from 'src/client/app/typeDefinitions';
 
-describe('src/client/app/actions', () => {
+describe('src/client/app/actionCreators', () => {
 	it('Should create an action to request a text candidate', () => {
 		const strokes = strokesExample();
 		const expectedAction = {

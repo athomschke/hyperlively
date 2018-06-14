@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import TestUtils from 'react-addons-test-utils';
 import { cloneDeep } from 'lodash';
 
-import { nextScene } from 'src/client/app/actions';
+import { nextScene } from 'src/client/app/actionCreators';
 
 import { createAppStore, renderApplicationWithStore, mountApp, dismountApp } from './helpers';
 import canvasWithTwoScenes from './data/canvasWithTwoScenes';

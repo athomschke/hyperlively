@@ -1,7 +1,7 @@
 // @flow
 import { connect } from 'react-redux';
 
-import * as actions from 'src/client/app/actions';
+import * as actionCreators from 'src/client/app/actionCreators';
 import { PAPER_COLOR, WHITE } from 'src/client/app/constants/drawing';
 import Desk from 'src/client/app/components/hoc/Desk';
 import ModuleChooser from 'src/client/app/components/hoc/ModuleChooser';
@@ -25,17 +25,17 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => ({
 	performAction: (actionName, ...args) => {
-		if (actions[actionName]) {
-			dispatch(actions.setObserveMutations(false));
-			dispatch(actions[actionName](...args));
-			dispatch(actions.setObserveMutations(true));
+		if (actionCreators[actionName]) {
+			dispatch(actionCreators.setObserveMutations(false));
+			dispatch(actionCreators[actionName](...args));
+			dispatch(actionCreators.setObserveMutations(true));
 		}
 	},
 	onHide: (strokes) => {
-		dispatch(actions.hide(strokes));
+		dispatch(actionCreators.hide(strokes));
 	},
 	onInterpretationDone: (bool) => {
-		dispatch(actions.toggleInterpreter(bool));
+		dispatch(actionCreators.toggleInterpreter(bool));
 	},
 });
 

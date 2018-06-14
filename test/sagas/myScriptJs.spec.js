@@ -5,7 +5,7 @@ import { call } from 'redux-saga/effects';
 import { useFakeXMLHttpRequest } from 'sinon';
 
 import { myScriptJs, fetchTextCandidates, fetchShapeCandidates } from 'src/client/app/sagas/myScriptJs';
-import { requestTextCandidates, requestShapeCandidates } from 'src/client/app/actions';
+import { requestTextCandidates, requestShapeCandidates } from 'src/client/app/actionCreators';
 import { REQUEST_TEXT_CANDIDATES, REQUEST_SHAPE_CANDIDATES } from 'src/client/app/constants/actionTypes';
 import canvasWithIrregularStrokesWithPloma from 'test/integration/data/canvasWithIrregularStrokesWithPloma';
 

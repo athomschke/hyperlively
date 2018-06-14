@@ -2,7 +2,7 @@
 import { expect } from 'chai';
 
 import { observeMutations } from 'src/client/app/reducers/observeMutations';
-import { setObserveMutations } from 'src/client/app/actions';
+import { setObserveMutations } from 'src/client/app/actionCreators';
 
 describe('Observe Mutations', () => {
 	it('defaults to true', () => {

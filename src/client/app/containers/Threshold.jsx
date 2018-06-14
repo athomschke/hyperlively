@@ -1,7 +1,7 @@
 // @flow
 import { connect } from 'react-redux';
 
-import { updateThreshold } from 'src/client/app/actions';
+import { updateThreshold } from 'src/client/app/actionCreators';
 import Threshold from 'src/client/app/components/dumb/Threshold';
 
 const mapStateToProps = state => ({

@@ -4,8 +4,8 @@ import { last, concat } from 'lodash';
 
 import UndoRedo from 'src/client/app/components/dumb/UndoRedo';
 import SketchCombiner from 'src/client/app/components/hoc/SketchCombiner';
-import { togglePloma, setObserveMutations, jumpTo } from 'src/client/app/actions';
-import { select } from 'src/client/app/actions';
+import { togglePloma, setObserveMutations, jumpTo } from 'src/client/app/actionCreators';
+import { select } from 'src/client/app/actionCreators';
 import { UNDO_TIMEOUT } from 'src/client/app/constants/canvas';
 import relevantStatesForScene from 'src/client/app/helpers/relevantStatesForScene';
 import type { Stroke } from 'src/client/app/typeDefinitions';

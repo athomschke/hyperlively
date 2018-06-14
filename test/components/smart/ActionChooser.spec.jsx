@@ -6,7 +6,7 @@ import { spy } from 'sinon';
 
 import ActionChooser from 'src/client/app/components/smart/ActionChooser';
 import JsonPropertyChooser from 'src/client/app/components/smart/JsonPropertyChooser';
-import * as actions from 'src/client/app/actions';
+import * as actionCreators from 'src/client/app/actionCreators';
 
 const shallowWithProps = props => shallow(<ActionChooser {...props} />);
 
@@ -22,7 +22,7 @@ describe('Action Chooser', () => {
 			const actionChooser = shallowWithProps({});
 			const list = actionChooser.find(JsonPropertyChooser);
 			const items = Object.keys(list.props().jsonTree);
-			expect(items).to.have.length(Object.keys(actions).length);
+			expect(items).to.have.length(Object.keys(actionCreators).length);
 		});
 
 		it('renders an item for each specific action defined as combination', () => {
@@ -33,7 +33,7 @@ describe('Action Chooser', () => {
 				}],
 			});
 			const list = actionChooser.find(JsonPropertyChooser);
-			const hardcodedActionsLength = Object.keys(actions).length;
+			const hardcodedActionsLength = Object.keys(actionCreators).length;
 			const allItems = list.props().jsonTree;
 			expect(Object.keys(allItems)).to.have.length(hardcodedActionsLength + 1);
 			expect(allItems[hardcodedActionsLength]).to.equal('addSceneAtThenNext (number)');
@@ -47,7 +47,7 @@ describe('Action Chooser', () => {
 				}],
 			});
 			const list = actionChooser.find(JsonPropertyChooser);
-			const hardcodedActionsLength = Object.keys(actions).length;
+			const hardcodedActionsLength = Object.keys(actionCreators).length;
 			const allItems = list.props().jsonTree;
 			expect(Object.keys(allItems)).to.have.length(hardcodedActionsLength + 1);
 			expect(allItems[hardcodedActionsLength]).to.equal('firstAThenB ()');

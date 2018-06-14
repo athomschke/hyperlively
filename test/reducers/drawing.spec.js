@@ -2,7 +2,7 @@
 import { expect } from 'chai';
 
 import { drawing } from 'src/client/app/reducers/drawing';
-import { toggleDrawing } from 'src/client/app/actions';
+import { toggleDrawing } from 'src/client/app/actionCreators';
 
 describe('drawing', () => {
 	describe('initial state', () => {

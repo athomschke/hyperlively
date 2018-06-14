@@ -1,6 +1,6 @@
 // @flow
 import scopeToActions from 'src/client/app/reducers/scopeToActions';
-import { setObserveMutations } from 'src/client/app/actions';
+import { setObserveMutations } from 'src/client/app/actionCreators';
 import { OBSERVE_MUTATIONS } from 'src/client/app/constants/actionTypes';
 import { type OBSERVE_MUTATIONS_ACTION } from 'src/client/app/actionTypeDefinitions';
 

@@ -3,8 +3,8 @@ import { merge, isEqual, find } from 'lodash';
 
 import type { Stroke } from 'src/client/app/typeDefinitions';
 import { DEFAULT_PEN_COLOR } from 'src/client/app/constants/drawing';
-import { finishStroke } from 'src/client/app/actions';
-import { hide, select } from 'src/client/app/actions';
+import { finishStroke } from 'src/client/app/actionCreators';
+import { hide, select } from 'src/client/app/actionCreators';
 import scopeToActions from 'src/client/app/reducers/scopeToActions';
 import { UPDATE_POSITION, ROTATE_BY, HIDE, SELECT, FINISH_STROKE } from 'src/client/app/constants/actionTypes';
 import type {

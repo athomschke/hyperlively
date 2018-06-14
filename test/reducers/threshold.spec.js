@@ -2,7 +2,7 @@
 import { expect } from 'chai';
 
 import { threshold } from 'src/client/app/reducers/threshold';
-import { updateThreshold } from 'src/client/app/actions';
+import { updateThreshold } from 'src/client/app/actionCreators';
 
 describe('Threshold', () => {
 	it('initial threshold is 500 ms', () => {

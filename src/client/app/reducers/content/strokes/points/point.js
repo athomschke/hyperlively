@@ -2,7 +2,7 @@
 import { merge } from 'lodash';
 
 import { UPDATE_POSITION, ROTATE_BY } from 'src/client/app/constants/actionTypes';
-import { updatePosition, rotateBy } from 'src/client/app/actions';
+import { updatePosition, rotateBy } from 'src/client/app/actionCreators';
 import { type Point } from 'src/client/app/typeDefinitions';
 import scopeToActions from 'src/client/app/reducers/scopeToActions';
 import type { UPDATE_POSITION_ACTION, ROTATE_BY_ACTION } from 'src/client/app/actionTypeDefinitions';

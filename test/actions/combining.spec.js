@@ -1,7 +1,7 @@
 // @flow
 import { expect } from 'chai';
 
-import { appendSpecificAction } from 'src/client/app/actions';
+import { appendSpecificAction } from 'src/client/app/actionCreators';
 
 describe('Combining actions', () => {
 	const action = appendSpecificAction('firstAThenB', 'A', 'B');

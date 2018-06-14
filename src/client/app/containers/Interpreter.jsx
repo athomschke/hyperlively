@@ -1,7 +1,7 @@
 // @flow
 import { connect } from 'react-redux';
 
-import * as actions from 'src/client/app/actions';
+import * as actionCreators from 'src/client/app/actionCreators';
 import Interpreter from 'src/client/app/components/smart/Interpreter';
 
 const mapStateToProps = (state) => {
@@ -14,14 +14,14 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => ({
 	performAction: (actionName, ...args) => {
-		if (actions[actionName]) {
-			dispatch(actions.setObserveMutations(false));
-			dispatch(actions[actionName](...args));
-			dispatch(actions.setObserveMutations(true));
+		if (actionCreators[actionName]) {
+			dispatch(actionCreators.setObserveMutations(false));
+			dispatch(actionCreators[actionName](...args));
+			dispatch(actionCreators.setObserveMutations(true));
 		}
 	},
 	onInterpretationDone: (bool) => {
-		dispatch(actions.toggleInterpreter(bool));
+		dispatch(actionCreators.toggleInterpreter(bool));
 	},
 });
 

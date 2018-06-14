@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { forEach, map, flatten, filter } from 'lodash';
 
-import * as actions from 'src/client/app/actions';
+import * as actionCreators from 'src/client/app/actionCreators';
 import type { FunctionConfiguration, TreeParameter, ActionMapping } from 'src/client/app/typeDefinitions';
 
 import JsonPropertyChooser from './JsonPropertyChooser';
@@ -21,8 +21,8 @@ const getSignatureFromFunction = aFunction =>
 const allActions = (specificActions) => {
 	const jsonObject = {};
 	let actionsCount = 0;
-	forEach(Object.keys(actions), (actionName) => {
-		jsonObject[actionsCount] = getSignatureFromFunction(actions[actionName]);
+	forEach(Object.keys(actionCreators), (actionName) => {
+		jsonObject[actionsCount] = getSignatureFromFunction(actionCreators[actionName]);
 		actionsCount += 1;
 	});
 

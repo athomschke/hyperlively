@@ -2,9 +2,9 @@
 import { useFakeXMLHttpRequest } from 'sinon';
 import { expect } from 'chai';
 
-import { requestTextCandidates, requestShapeCandidates, receiveTextCandidates, receiveShapeCandidates } from 'src/client/app/actions';
-import { toggleInterpreter } from 'src/client/app/actions';
-import { createStroke } from 'src/client/app/actions';
+import { requestTextCandidates, requestShapeCandidates, receiveTextCandidates, receiveShapeCandidates } from 'src/client/app/actionCreators';
+import { toggleInterpreter } from 'src/client/app/actionCreators';
+import { createStroke } from 'src/client/app/actionCreators';
 import { interpretation } from 'src/client/app/reducers/interpretation';
 import { type InterpretationState } from 'src/client/app/typeDefinitions';
 import { shapeCandidate, letterCandidate } from 'test/data';

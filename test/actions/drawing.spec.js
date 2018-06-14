@@ -1,9 +1,9 @@
 // @flow
 import { expect } from 'chai';
 
-import * as actions from 'src/client/app/actions';
+import * as actionCreators from 'src/client/app/actionCreators';
 
-describe('src/client/app/actions', () => {
+describe('src/client/app/actionCreators', () => {
 	it('should create an action to add a point from an event', () => {
 		const x = 10;
 		const y = 10;
@@ -15,7 +15,7 @@ describe('src/client/app/actions', () => {
 			timeStamp,
 			sceneIndex: NaN,
 		};
-		expect(actions.appendPoint(x, y, timeStamp)).to.deep.equal(expectedAction);
+		expect(actionCreators.appendPoint(x, y, timeStamp)).to.deep.equal(expectedAction);
 	});
 
 	it('should create an action to create a stroke from an event', () => {
@@ -29,7 +29,7 @@ describe('src/client/app/actions', () => {
 			timeStamp,
 			sceneIndex: NaN,
 		};
-		expect(actions.createStroke(x, y, timeStamp)).to.deep.equal(expectedAction);
+		expect(actionCreators.createStroke(x, y, timeStamp)).to.deep.equal(expectedAction);
 	});
 
 	it('should create an action to finish a stroke from an event', () => {
@@ -43,7 +43,7 @@ describe('src/client/app/actions', () => {
 			timeStamp,
 			sceneIndex: NaN,
 		};
-		expect(actions.finishStroke(x, y, timeStamp)).to.deep.equal(expectedAction);
+		expect(actionCreators.finishStroke(x, y, timeStamp)).to.deep.equal(expectedAction);
 	});
 
 	it('should create an action to toggle drawing mode', () => {
@@ -52,7 +52,7 @@ describe('src/client/app/actions', () => {
 			type: 'TOGGLE_DRAWING',
 			boolean,
 		};
-		expect(actions.toggleDrawing(boolean)).to.deep.equal(expectedAction);
+		expect(actionCreators.toggleDrawing(boolean)).to.deep.equal(expectedAction);
 	});
 
 	it('should create an action to add a scene at an index', () => {
@@ -62,7 +62,7 @@ describe('src/client/app/actions', () => {
 			number,
 			sceneIndex: NaN,
 		};
-		expect(actions.addSceneAt(number)).to.deep.equal(expectedAction);
+		expect(actionCreators.addSceneAt(number)).to.deep.equal(expectedAction);
 	});
 
 	it('should create an action to add a scene to the end', () => {
@@ -70,13 +70,13 @@ describe('src/client/app/actions', () => {
 			type: 'ADD_SCENE',
 			sceneIndex: NaN,
 		};
-		expect(actions.addScene()).to.deep.equal(expectedAction);
+		expect(actionCreators.addScene()).to.deep.equal(expectedAction);
 	});
 
 	it('should create an action to go to the next scene', () => {
 		const expectedAction = {
 			type: 'NEXT_SCENE',
 		};
-		expect(actions.nextScene()).to.deep.equal(expectedAction);
+		expect(actionCreators.nextScene()).to.deep.equal(expectedAction);
 	});
 });

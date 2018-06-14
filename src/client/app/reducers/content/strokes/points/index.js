@@ -1,6 +1,6 @@
 // @flow
 import { APPEND_POINT, APPEND_STROKE, FINISH_STROKE } from 'src/client/app/constants/actionTypes';
-import { createStroke, finishStroke, appendPoint } from 'src/client/app/actions';
+import { createStroke, finishStroke, appendPoint } from 'src/client/app/actionCreators';
 import type { APPEND_STROKE_ACTION, FINISH_STROKE_ACTION, APPEND_POINT_ACTION } from 'src/client/app/actionTypeDefinitions';
 import scopeToActions from 'src/client/app/reducers/scopeToActions';
 import { type Point } from 'src/client/app/typeDefinitions';

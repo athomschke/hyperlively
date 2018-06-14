@@ -2,7 +2,7 @@
 import { expect } from 'chai';
 
 import { scenes, initialScenesState } from 'src/client/app/reducers/content/scenes';
-import { addScene, addSceneAt } from 'src/client/app/actions';
+import { addScene, addSceneAt } from 'src/client/app/actionCreators';
 import { point, exampleStrokes } from 'test/helpers';
 import type { Scene, Stroke } from 'src/client/app/typeDefinitions';
 

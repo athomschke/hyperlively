@@ -11,8 +11,8 @@ import type {
 	APPEND_STROKE_ACTION, APPEND_POINT_ACTION, FINISH_STROKE_ACTION,
 	SELECT_INSIDE_ACTION, SELECT_ACTION,
 } from 'src/client/app/actionTypeDefinitions';
-import { select, selectInside } from 'src/client/app/actions';
-import { createStroke, appendPoint } from 'src/client/app/actions';
+import { select, selectInside } from 'src/client/app/actionCreators';
+import { createStroke, appendPoint } from 'src/client/app/actionCreators';
 
 import { stroke, strokeActionTypes, strokeActions, type StrokeActionType } from './stroke';
 
