@@ -19,7 +19,7 @@ export type WrappedProps<P> = P & {
 }
 
 export default (Wrapped: React.ComponentType<WrappedProps<any>>) =>
-class extends React.PureComponent<Point2BoundsScalerProps<any>> {
+	class extends React.PureComponent<Point2BoundsScalerProps<any>> {
 	props: Point2BoundsScalerProps<any>;
 
 	static defaultProps = {
@@ -40,5 +40,4 @@ class extends React.PureComponent<Point2BoundsScalerProps<any>> {
 			showBorder
 		/>);
 	}
-
-};
+	};

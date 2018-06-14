@@ -8,15 +8,15 @@ import type { FunctionConfiguration, TreeParameter, ActionMapping } from 'src/cl
 import JsonPropertyChooser from './JsonPropertyChooser';
 
 const formattedSignatures = (
-		signatures: Array<TreeParameter>)
-		: Array<FunctionConfiguration> =>
+	signatures: Array<TreeParameter>)
+	: Array<FunctionConfiguration> =>
 	map(signatures, signature => ({
 		name: `${signature}`.split('(')[0],
 		parameters: `${signature}`.split('(')[1].split(')')[0].split(',').length,
 	}));
 
 const getSignatureFromFunction = aFunction =>
-		aFunction.toString().split(' {')[0].split('function ')[1];
+	aFunction.toString().split(' {')[0].split('function ')[1];
 
 const allActions = (specificActions) => {
 	const jsonObject = {};

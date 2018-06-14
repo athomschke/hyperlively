@@ -10,9 +10,7 @@ import Threshold from './Threshold';
 import Window from './Window';
 import AppConfiguration from './AppConfiguration';
 
-type PageProps = {
-	
-}
+type PageProps = {}
 
 export default function Page(props: PageProps) {
 	return (<div>

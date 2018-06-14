@@ -16,7 +16,6 @@ export type InterpreterProps = {
 }
 
 export default class extends PureComponent<InterpreterProps> {
-
 	static defaultProps = {
 		performAction: () => undefined,
 		sketches: [],

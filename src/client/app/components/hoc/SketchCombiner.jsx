@@ -38,7 +38,7 @@ export type WrappedProps<P> = P & {
 }
 
 export default (Wrapped: React.ComponentType<WrappedProps<any>>) =>
-class extends React.PureComponent<SketchCombinerProps<any>> {
+	class extends React.PureComponent<SketchCombinerProps<any>> {
 	props: SketchCombinerProps<any>
 
 	static defaultProps = {
@@ -55,4 +55,4 @@ class extends React.PureComponent<SketchCombinerProps<any>> {
 			sketches={sketches(strokes, this.props.threshold)}
 		/>);
 	}
-};
+	};

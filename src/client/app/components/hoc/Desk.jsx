@@ -72,7 +72,7 @@ const renderCanvasses = (
 };
 
 export default (Wrapped: React.ComponentType<WrappedProps<any>>) =>
-class extends React.PureComponent<DeskProps<any>> {
+	class extends React.PureComponent<DeskProps<any>> {
 	props: DeskProps<any>;
 
 	static defaultProps = {
@@ -96,5 +96,4 @@ class extends React.PureComponent<DeskProps<any>> {
 			{renderCanvasses(Wrapped, sketches, cmdPressed, rest)}
 		</div>);
 	}
-
-};
+	};

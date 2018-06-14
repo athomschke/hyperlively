@@ -45,7 +45,7 @@ describe('src/client/app/actionCreators', () => {
 		const expectedAction = {
 			type: 'SET_SCENE_INDEX',
 			number,
-			max: NaN
+			max: NaN,
 		};
 		expect(setSceneIndex(number)).to.deep.equal(expectedAction);
 	});

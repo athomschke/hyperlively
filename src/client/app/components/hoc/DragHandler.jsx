@@ -15,7 +15,7 @@ type State = {
 }
 
 export default (Wrapped: React.ComponentType<DragHandlerProps<any>>) =>
-class extends React.PureComponent<DragHandlerProps<any>, State> {
+	class extends React.PureComponent<DragHandlerProps<any>, State> {
 	props: DragHandlerProps<any>;
 	state: State;
 
@@ -103,4 +103,4 @@ class extends React.PureComponent<DragHandlerProps<any>, State> {
 				<Wrapped {...this.props} />
 			</div>);
 	}
-};
+	};

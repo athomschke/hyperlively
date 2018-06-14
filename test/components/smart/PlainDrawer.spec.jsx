@@ -2,7 +2,7 @@
 import { expect } from 'chai';
 import React, { Component } from 'react';
 import { sum, map, remove } from 'lodash';
-import { mount, shallow, type ReactWrapper } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import { spy } from 'sinon';
 
 import PlainDrawer from 'src/client/app/components/smart/PlainDrawer';

@@ -11,9 +11,9 @@ import ActionChooser from 'src/client/app/components/smart/ActionChooser';
 import ParameterChooser from 'src/client/app/components/smart/ParameterChooser';
 
 const renderWithProps = (props: InterpretationChooserProps) =>
-		TestUtils.renderIntoDocument(<InterpretationChooser {...props} />);
+	TestUtils.renderIntoDocument(<InterpretationChooser {...props} />);
 const shallowWithProps = (props: InterpretationChooserProps) =>
-		shallow(<InterpretationChooser {...props} />);
+	shallow(<InterpretationChooser {...props} />);
 
 const defaultProps = () => ({
 	isOpen: true,

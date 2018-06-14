@@ -21,7 +21,6 @@ export type JsonPropertyChooserProps = {
 }
 
 export default class JsonPropertyChooser extends PureComponent<JsonPropertyChooserProps, State> {
-
 	static defaultProps: JsonPropertyChooserProps = {
 		jsonTree: {},
 		onParameterChoose: (_parameters: Array<TreeParameter>) => {},
@@ -70,7 +69,7 @@ export default class JsonPropertyChooser extends PureComponent<JsonPropertyChoos
 					return null;
 				},
 				rawData,
-			));
+				));
 		// $FlowFixMe needs flow array type refinement, see https://github.com/facebook/flow/issues/1414
 		const values: Array<JSONObject | any> = mixedValues.filter(value => value !== null);
 		this.props.onParameterChoose(values);
@@ -123,5 +122,4 @@ export default class JsonPropertyChooser extends PureComponent<JsonPropertyChoos
 			}}
 		/>);
 	}
-
 }

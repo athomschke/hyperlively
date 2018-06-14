@@ -40,7 +40,6 @@ describe('Sketch combiner', () => {
 	let sketches: Array<Sketch>;
 
 	class MockedSubComponent extends React.Component<WrappedProps<{}>> {
-
 		static propTypes = {
 			sketches: PropTypes.arrayOf(PropTypes.object).isRequired,
 		};

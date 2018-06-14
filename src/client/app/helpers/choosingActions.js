@@ -4,27 +4,27 @@ import { last, keys, map, filter, isEqual, findIndex } from 'lodash';
 import { type ReactTreeNodeFormat, type ReactTreeLeafFormat } from 'src/client/app/typeDefinitions';
 
 export const findArraysIndex = (
-		containingArray: Array<Array<any>>,
-		containedArray: Array<any>)
-		: number =>
+	containingArray: Array<Array<any>>,
+	containedArray: Array<any>,
+): number =>
 	findIndex(containingArray, possibleMatch =>
 		isEqual(possibleMatch, containedArray));
 
 export const findArraysEndingOnItem = (
-		arrays: Array<Array<string>>,
-		item: string)
-		: Array<Array<string>> =>
+	arrays: Array<Array<string>>,
+	item: string,
+): Array<Array<string>> =>
 	filter(arrays, matchingCheck =>
 		last(matchingCheck) === item);
 
 const formatTreeNode = (
-		object: Object,
-		key: string,
-		keyChecks: Array<Array<string>>,
-		allChecks: Array<Array<string>>,
-		children: Array<ReactTreeLeafFormat | ReactTreeNodeFormat>,
-		keyCollapses: Array<Array<string>>)
-		: ReactTreeNodeFormat => {
+	object: Object,
+	key: string,
+	keyChecks: Array<Array<string>>,
+	allChecks: Array<Array<string>>,
+	children: Array<ReactTreeLeafFormat | ReactTreeNodeFormat>,
+	keyCollapses: Array<Array<string>>,
+): ReactTreeNodeFormat => {
 	const matchingChecks: Array<Array<string>> =
 		findArraysEndingOnItem(keyChecks, key);
 	const parameterIndex: number =
@@ -43,11 +43,11 @@ const formatTreeNode = (
 };
 
 export const formatTreeLeaf = (
-		object: Object,
-		key: string,
-		keyChecks: Array<Array<string>>,
-		allChecks: Array<Array<string>>)
-		: ReactTreeLeafFormat => {
+	object: Object,
+	key: string,
+	keyChecks: Array<Array<string>>,
+	allChecks: Array<Array<string>>,
+): ReactTreeLeafFormat => {
 	const matchingChecks: Array<Array<string>> =
 		findArraysEndingOnItem(keyChecks, key);
 	const parameterIndex: number =
@@ -63,9 +63,9 @@ export const formatTreeLeaf = (
 };
 
 export const getPathToProperty = (
-		nestedArrayPath: Array<number>,
-		arrayedJsonTree: Array<ReactTreeNodeFormat | ReactTreeLeafFormat>)
-		: Array<string> => {
+	nestedArrayPath: Array<number>,
+	arrayedJsonTree: Array<ReactTreeNodeFormat | ReactTreeLeafFormat>,
+): Array<string> => {
 	let node = {
 		children: arrayedJsonTree,
 	};
@@ -81,20 +81,20 @@ export const getPathToProperty = (
 };
 
 export const arraysWithStringAtIndex = (
-		arrays: Array<Array<string>>,
-		string: string,
-		index: number)
-		: Array<Array<string>> =>
+	arrays: Array<Array<string>>,
+	string: string,
+	index: number,
+): Array<Array<string>> =>
 	filter(arrays, (array: Array<string>) =>
-			array[index] === string);
+		array[index] === string);
 
 export const formatObject = (
-		anObject: Object,
-		checkedArrays: Array<Array<string>>,
-		collapsedArrays: Array<Array<string>>,
-		origCheckedArrays: Array<Array<string>>,
-		depth: number)
-		: Array<ReactTreeLeafFormat | ReactTreeNodeFormat> =>
+	anObject: Object,
+	checkedArrays: Array<Array<string>>,
+	collapsedArrays: Array<Array<string>>,
+	origCheckedArrays: Array<Array<string>>,
+	depth: number,
+): Array<ReactTreeLeafFormat | ReactTreeNodeFormat> =>
 	keys(anObject).map((key: string) => {
 		const checksContainingNode: Array<Array<string>> =
 			arraysWithStringAtIndex(checkedArrays, key, depth);

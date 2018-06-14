@@ -13,7 +13,6 @@ type Props = {
 }
 
 export default class ParameterChooser extends PureComponent<Props> {
-
 	static defaultProps = {
 		onParameterChoose: () => {},
 		lastStrokes: [],
@@ -55,5 +54,4 @@ export default class ParameterChooser extends PureComponent<Props> {
 				onParameterChoose={this.handleParameterChoose}
 			/>);
 	}
-
 }

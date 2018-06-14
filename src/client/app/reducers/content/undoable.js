@@ -3,38 +3,37 @@ import { concat, slice, isEqual, cloneDeep } from 'lodash';
 
 import { JUMP_TO } from 'src/client/app/constants/actionTypes';
 import { jumpTo } from 'src/client/app/actionCreators';
-import relevantStatesForScene from 'src/client/app/helpers/relevantStatesForScene';
-import type { UndoableScenes, SceneState } from 'src/client/app/typeDefinitions';
-import { scenesActions } from 'src/client/app/reducers/content/scenes';
+import type { Reducer } from 'src/client/app/typeDefinitions';
 import { type JUMP_TO_ACTION } from 'src/client/app/actionTypeDefinitions';
 
 export type UndoableActionType<T> = T | JUMP_TO_ACTION;
 
-export const undoableActions = {
-	...scenesActions,
+export const undoableActions = (undoableContentActions: *) => ({
+	...undoableContentActions,
 	JUMP_TO: jumpTo,
-};
+});
 
-type Reducer = (state: any, action: { type: string, [key: string]: any }) => any
+type UndoableState<T> = {
+	past: Array<T>,
+	present: T,
+	future: Array<T>,
+}
 
-const undoable = (reducer: Reducer) => {
-	const myPresent: SceneState = reducer(undefined, { type: '' });
+type UndoableReducer<T> = (state: T, action: UndoableActionType<T>) => UndoableState<T>
+
+type Undoable<T> = (reducer: Reducer) => UndoableReducer<T>
+
+const undoable: Undoable<any> = (reducer) => {
 	const initialState = () => ({
 		past: [],
-		present: myPresent,
+		present: reducer(undefined, { type: '' }),
 		future: [],
 	});
 
-	const nextState = (
-			pointInTime: number,
-			past: Array<SceneState>,
-			present: SceneState,
-			future: Array<SceneState>,
-			sceneIndex: number) => {
-		const allStates: Array<SceneState> = concat(past, [present], future);
-		const relevantStates = relevantStatesForScene(allStates, sceneIndex);
-		const normalizedPointInTime = Math.min(relevantStates.length - 1, Math.max(0, pointInTime));
-		const globalPointInTime = allStates.indexOf(relevantStates[normalizedPointInTime]);
+	const nextState = (pointInTime, past, present, future) => {
+		const allStates = concat(past, [present], future);
+		const normalizedPointInTime = Math.min(allStates.length - 1, Math.max(0, pointInTime));
+		const globalPointInTime = allStates.indexOf(allStates[normalizedPointInTime]);
 		return {
 			past: slice(allStates, 0, globalPointInTime),
 			present: slice(allStates, globalPointInTime, globalPointInTime + 1)[0],
@@ -42,7 +41,7 @@ const undoable = (reducer: Reducer) => {
 		};
 	};
 
-	const defaultNextState = (state: UndoableScenes, action) => {
+	const defaultNextState = (state, action) => {
 		const passedAction = Object.assign({}, action, {
 			index: state.past.length,
 		});
@@ -57,12 +56,12 @@ const undoable = (reducer: Reducer) => {
 		};
 	};
 
-	return (state: UndoableScenes = initialState(), action: UndoableActionType<any>) => {
+	return (state = initialState(), action) => {
 		const { past, present, future } = state;
 
 		switch (action.type) {
 		case JUMP_TO: {
-			return nextState(action.pointInTime, past, present, future, action.sceneIndex);
+			return nextState(action.pointInTime, past, present, future);
 		}
 		default:
 			return defaultNextState(state, action);

@@ -19,7 +19,7 @@ const defaultProps: () => InterpreterProps = () => ({
 });
 
 const renderWithProps = (props: InterpreterProps) =>
-TestUtils.renderIntoDocument(<Interpreter {...props} />);
+	TestUtils.renderIntoDocument(<Interpreter {...props} />);
 
 describe('Interpreter', () => {
 	afterEach(() => {
@@ -35,7 +35,7 @@ describe('Interpreter', () => {
 				interpretations: { shapes: [], texts: [] },
 			});
 			const interpretationChooser = TestUtils.scryRenderedComponentsWithType(
-					list, InterpretationChooser)[0];
+				list, InterpretationChooser)[0];
 			expect(interpretationChooser.props.isOpen).to.equal(true);
 		});
 
@@ -45,7 +45,7 @@ describe('Interpreter', () => {
 				interpretations: { shapes: [], texts: [] },
 			});
 			const interpretationChooser = TestUtils.scryRenderedComponentsWithType(
-					list, InterpretationChooser)[0];
+				list, InterpretationChooser)[0];
 			expect(interpretationChooser.props.isOpen).to.equal(true);
 		});
 	});

@@ -11,13 +11,13 @@ export const handwritingRecognitionActions = {
 };
 
 const handwritingRecognition = scopeToActions(
-(state: boolean, action: TOGGLE_HANDWRITING_RECOGNITION_ACTION) => {
-	switch (action.type) {
-	case TOGGLE_HANDWRITING_RECOGNITION:
-		return action.boolean;
-	default:
-		return state;
-	}
-}, handwritingRecognitionActions, initialHandwritingRecognitionState);
+	(state: boolean, action: TOGGLE_HANDWRITING_RECOGNITION_ACTION) => {
+		switch (action.type) {
+		case TOGGLE_HANDWRITING_RECOGNITION:
+			return action.boolean;
+		default:
+			return state;
+		}
+	}, handwritingRecognitionActions, initialHandwritingRecognitionState);
 
 export { handwritingRecognition };

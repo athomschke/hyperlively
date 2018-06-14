@@ -69,12 +69,10 @@ describe('Integration', () => {
 					oldLeftValue = getCanvasLeftValue();
 					moveCanvasLeftBy(moveByX);
 				},
-			))
-			.then(() => {
+			)).then(() => {
 				expect(hashCode(getCanvasDataURL())).to.not.equal(hashCode(dataURL));
 				expect(getCanvasLeftValue()).to.equal(`${parseInt(oldLeftValue, 10) + moveByX}px`);
-			})
-			.then(done, done);
+			}).then(done, done);
 		});
 
 		it('and moving it back again doesn\'t change the image data', (done) => {
@@ -90,16 +88,13 @@ describe('Integration', () => {
 					dataURL = getCanvasDataURL();
 					moveCanvasLeftBy(moveByX);
 				},
-			))
-			.then((resolve) => {
+			)).then((resolve) => {
 				expect(hashCode(getCanvasDataURL())).to.not.equal(hashCode(dataURL));
 				resolveObject.statement = resolve;
 				moveCanvasLeftBy(-moveByX);
-			})
-			.then(() => {
+			}).then(() => {
 				expect(hashCode(getCanvasDataURL())).to.equal(hashCode(dataURL));
-			})
-			.then(done, done);
+			}).then(done, done);
 		});
 	});
 });

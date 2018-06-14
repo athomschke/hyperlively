@@ -18,7 +18,7 @@ type State = {
 }
 
 export default (Wrapped: ComponentType<any>) =>
-class extends PureComponent<TimeoutBehaviorProps, State> {
+	class extends PureComponent<TimeoutBehaviorProps, State> {
 	static defaultProps = {
 		temporaryCallback: () => {},
 		onChange: () => {},
@@ -69,8 +69,8 @@ class extends PureComponent<TimeoutBehaviorProps, State> {
 			}
 			if (disableFunction) {
 				runningTimeout = setTimeout(
-						this.resetState.bind(this, disableFunction),
-						this.props.timeout);
+					this.resetState.bind(this, disableFunction),
+					this.props.timeout);
 			}
 			this.props.onChange(Math.min(this.props.max, Math.max(0, newValue)));
 			this.setState({ disableFunction });
@@ -91,5 +91,4 @@ class extends PureComponent<TimeoutBehaviorProps, State> {
 			afterChange={this.beNotActive}
 		/>);
 	}
-
-};
+	};

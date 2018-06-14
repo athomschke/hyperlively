@@ -24,5 +24,4 @@ export default class LabelledBox extends PureComponent<Props> {
 			</div>
 		);
 	}
-
 }

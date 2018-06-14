@@ -82,9 +82,7 @@ describe('WrappedWithTimeoutBehavior', () => {
 					/>);
 					temporaryCallbackSlider.beActive();
 				},
-			))
-			.then(done)
-			.catch((error) => {
+			)).then(done).catch((error) => {
 				expect(false).to.be.true();
 				throw (error);
 			});

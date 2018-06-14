@@ -36,9 +36,9 @@ describe('Sketch transformer', () => {
 	const MockedComponent = SketchTransformer(MockedSubComponent);
 
 	const renderComponentWithProps = (props: SketchTransformerProps<MockedSubComponentProps>) =>
-	TestUtils.renderIntoDocument(
-		<MockedComponent {...props} />,
-	);
+		TestUtils.renderIntoDocument(
+			<MockedComponent {...props} />,
+		);
 
 	const renderComponent = () => renderComponentWithProps(defaultProps());
 

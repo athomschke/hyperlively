@@ -27,7 +27,6 @@ const Window = class Window extends PureComponent<Props<any>> {
 			}}
 		/>);
 	}
-
 };
 
 export default Window;

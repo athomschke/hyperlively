@@ -60,5 +60,4 @@ export default class Timeline extends PureComponent<Props> {
 			/>
 		</div>);
 	}
-
 }

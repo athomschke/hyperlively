@@ -28,5 +28,4 @@ export default class Threshold extends PureComponent<Props> {
 			tipFormatter={null}
 		/>);
 	}
-
 }

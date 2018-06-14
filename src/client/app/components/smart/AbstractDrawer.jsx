@@ -55,7 +55,7 @@ export const defaultProps = {
 };
 
 export default class AbstractDrawer<P, S> extends
-		PureComponent<AbstractDrawerProps<P>, AbstractDrawerState<S>> {
+	PureComponent<AbstractDrawerProps<P>, AbstractDrawerState<S>> {
 	static defaultProps = defaultProps;
 
 	constructor() {

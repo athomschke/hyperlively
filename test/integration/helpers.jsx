@@ -6,13 +6,13 @@ import { Provider } from 'react-redux';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 
-import hyperlively from 'src/client/app/reducers/index';
+import reducers from 'src/client/app/reducers';
 import Application from 'src/client/app/Application';
 import type { HyperlivelyState, Stroke, CommonAction } from 'src/client/app/typeDefinitions';
 
 export function createAppStore(initialState: HyperlivelyState):
 Store<HyperlivelyState, CommonAction> {
-	return createStore(hyperlively, initialState);
+	return createStore(reducers, initialState);
 }
 
 export function hashCode(aString: string) {
@@ -47,8 +47,9 @@ export function manuallyDrawStrokes(windowNode: HTMLElement, strokes: Array<Stro
 }
 
 export async function combineCanvasses(
-		canvasses: HTMLCollection<HTMLCanvasElement>,
-		width: number, height: number) {
+	canvasses: HTMLCollection<HTMLCanvasElement>,
+	width: number, height: number,
+) {
 	const combinedCanvas = document.createElement('canvas');
 	combinedCanvas.setAttribute('width', `${width}px`);
 	combinedCanvas.setAttribute('height', `${height}px`);

@@ -122,21 +122,21 @@ describe('JsonProperty Chooser', () => {
 
 		it('formats the json tree for the tree view menu', () => {
 			const gottenArray = formatObject(
-					exampleTree, exampleChecks, [], exampleChecks, 0);
+				exampleTree, exampleChecks, [], exampleChecks, 0);
 			const wantedArray = exampleArray;
 			expect(gottenArray).to.deep.equal(wantedArray);
 		});
 
 		it('checks the chosen checkmarks', () => {
 			const formattedTree: Array<ReactTreeLeafFormat | ReactTreeNodeFormat> = formatObject(
-					exampleTree, exampleChecks, [], exampleChecks, 0);
+				exampleTree, exampleChecks, [], exampleChecks, 0);
 			expect((formattedTree[0]:any).children[1].checked).to.be.true();
 		});
 
 
 		it('collapses collapsed nodes', () => {
 			const formattedTree = formatObject(
-					exampleTree, exampleChecks, exampleCollapses, exampleChecks, 0);
+				exampleTree, exampleChecks, exampleCollapses, exampleChecks, 0);
 			expect((formattedTree[0]:any).collapsed).to.be.true();
 		});
 	});

@@ -85,11 +85,12 @@ export function requestShapeCandidates(strokes: Array<Stroke>) {
 }
 
 export const updatePosition = (
-strokes: Stroke[],
-originX: number,
-originY: number,
-targetX: number,
-targetY: number) => ({
+	strokes: Stroke[],
+	originX: number,
+	originY: number,
+	targetX: number,
+	targetY: number,
+) => ({
 	type: ActionTypes.UPDATE_POSITION,
 	strokes,
 	origin: {
@@ -104,10 +105,11 @@ targetY: number) => ({
 });
 
 export const rotateBy = (
-strokes: Stroke[],
-centerX: number,
-centerY: number,
-degrees: number) => ({
+	strokes: Stroke[],
+	centerX: number,
+	centerY: number,
+	degrees: number,
+) => ({
 	type: ActionTypes.ROTATE_BY,
 	strokes,
 	centerX,

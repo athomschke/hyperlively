@@ -29,42 +29,42 @@ type Action = TOGGLE_INTERPRETER_ACTION | RECEIVE_TEXT_CANDIDATES_ACTION |
 APPEND_POINT_ACTION | APPEND_STROKE_ACTION | RECEIVE_SHAPE_CANDIDATES_ACTION
 
 const interpretation = scopeToActions((state: InterpretationState, action: Action) =>
-produce(state, (draftState) => {
-	switch (action.type) {
-	case TOGGLE_INTERPRETER: {
-		draftState.showInterpreter = action.boolean;
-		break;
-	}
-	case RECEIVE_TEXT_CANDIDATES: {
-		const candidates = action.candidates.slice(0, CANDIDATES_COUNT);
-		if (draftState.interpretations.texts) {
-			draftState.interpretations.texts = [
-				...draftState.interpretations.texts,
-				...candidates,
-			];
-		} else {
-			draftState.interpretations.texts = candidates;
+	produce(state, (draftState) => {
+		switch (action.type) {
+		case TOGGLE_INTERPRETER: {
+			draftState.showInterpreter = action.boolean;
+			break;
 		}
-		break;
-	}
-	case RECEIVE_SHAPE_CANDIDATES: {
-		const candidates = action.candidates.slice(0, CANDIDATES_COUNT);
-		if (draftState.interpretations.shapes) {
-			draftState.interpretations.shapes = [
-				...draftState.interpretations.shapes,
-				...candidates,
-			];
-		} else {
-			draftState.interpretations.shapes = candidates;
+		case RECEIVE_TEXT_CANDIDATES: {
+			const candidates = action.candidates.slice(0, CANDIDATES_COUNT);
+			if (draftState.interpretations.texts) {
+				draftState.interpretations.texts = [
+					...draftState.interpretations.texts,
+					...candidates,
+				];
+			} else {
+				draftState.interpretations.texts = candidates;
+			}
+			break;
 		}
-		break;
-	}
-	case APPEND_POINT:
-	case APPEND_STROKE: {
-		draftState.interpretations = initialInterpretationState().interpretations;
-		break;
-	}
-	}
-}), interpretationActions, initialInterpretationState);
+		case RECEIVE_SHAPE_CANDIDATES: {
+			const candidates = action.candidates.slice(0, CANDIDATES_COUNT);
+			if (draftState.interpretations.shapes) {
+				draftState.interpretations.shapes = [
+					...draftState.interpretations.shapes,
+					...candidates,
+				];
+			} else {
+				draftState.interpretations.shapes = candidates;
+			}
+			break;
+		}
+		case APPEND_POINT:
+		case APPEND_STROKE: {
+			draftState.interpretations = initialInterpretationState().interpretations;
+			break;
+		}
+		}
+	}), interpretationActions, initialInterpretationState);
 
 export { interpretation };

@@ -28,7 +28,7 @@ const dummyProps = {
 	lastStrokes: [],
 	selectedStrokes: [],
 	interpretations: { shapes: [], texts: [] },
-}
+};
 
 describe('Parameter Chooser Component', () => {
 	describe('Rendering', () => {

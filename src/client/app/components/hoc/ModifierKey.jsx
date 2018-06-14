@@ -12,15 +12,15 @@ export type ModifierKeyProps<P> = P;
 type WrappedProps<P> = ModifierKeyProps<P>;
 
 export default (Wrapped: React.ComponentType<WrappedProps<any>>) =>
-class extends React.PureComponent<ModifierKeyProps<any>, State> {
-	constructor() {
-		super();
-		this.state = {
-			cmdPressed: false,
-			returnPressed: false,
-			ctrlPressed: false,
-		};
-	}
+	class extends React.PureComponent<ModifierKeyProps<any>, State> {
+		constructor() {
+			super();
+			this.state = {
+				cmdPressed: false,
+				returnPressed: false,
+				ctrlPressed: false,
+			};
+		}
 
 	state: State;
 
@@ -61,4 +61,4 @@ class extends React.PureComponent<ModifierKeyProps<any>, State> {
 	render() {
 		return (<Wrapped {...this.props} {...this.state} />);
 	}
-};
+	};

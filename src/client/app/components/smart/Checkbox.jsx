@@ -33,5 +33,4 @@ export default class Checkbox extends PureComponent<Props> {
 			/>
 		);
 	}
-
 }

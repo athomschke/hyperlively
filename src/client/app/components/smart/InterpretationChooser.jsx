@@ -22,8 +22,7 @@ export type InterpretationChooserProps = {
 };
 
 export default class InterpretationChooser
-extends PureComponent<InterpretationChooserProps, State> {
-
+	extends PureComponent<InterpretationChooserProps, State> {
 	static defaultProps = {
 		onInterpretationChoose: () => undefined,
 		onInterpretationTick: () => undefined,
@@ -102,5 +101,4 @@ extends PureComponent<InterpretationChooserProps, State> {
 				</div>
 			</div>);
 	}
-
 }

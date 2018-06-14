@@ -17,15 +17,15 @@ const specificActionsActions = {
 };
 
 const specificActions = scopeToActions(
-(state: Array<ActionMapping>, action: APPEND_SPECIFC_ACTION_ACTION) => {
-	switch (action.type) {
-	case APPEND_SPECIFC_ACTION: {
-		const { actionName, actionNames } = action;
-		return concat(state, [{ actionName, actionNames }]);
-	}
-	default:
-		return state;
-	}
-}, specificActionsActions, initialSpecificActionsState);
+	(state: Array<ActionMapping>, action: APPEND_SPECIFC_ACTION_ACTION) => {
+		switch (action.type) {
+		case APPEND_SPECIFC_ACTION: {
+			const { actionName, actionNames } = action;
+			return concat(state, [{ actionName, actionNames }]);
+		}
+		default:
+			return state;
+		}
+	}, specificActionsActions, initialSpecificActionsState);
 
 export { specificActions };

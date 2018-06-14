@@ -15,7 +15,7 @@ const undoableScenes = undoable(scenes);
 
 export const undoableScenesActions = {
 	...setSceneIndexActions,
-	...undoableActions,
+	...undoableActions(scenesActions),
 	...scenesActions,
 };
 
@@ -70,8 +70,8 @@ function scopedContent(state: Content, action: UndoableSceneActionType) {
 				sceneIndex: sceneIndex(state.sceneIndex, sceneIndexAction),
 			};
 		} else if (
-				Object.keys(undoableActions).indexOf(action.type) >= 0 ||
-				Object.keys(scenesActions).indexOf(action.type) >= 0
+			Object.keys(undoableActions).indexOf(action.type) >= 0 ||
+			Object.keys(scenesActions).indexOf(action.type) >= 0
 		) {
 			const undoableScenesAction: UndoableSceneActionType = action;
 			undoableScenesAction.sceneIndex = state.sceneIndex;

@@ -237,7 +237,7 @@ describe('PlomaDrawer', () => {
 		it('with a colored pen needs to choose the right color format', () => {
 			canvas.startStrokeAt({ x: 10, y: 10 }, { r: 45, g: 56, b: 67 });
 			const wrongFormats = filter(canvas.state.ballpointPen.setPenColor.args, arg =>
-					!(isNumber(arg[0].r) && isNumber(arg[0].g) && isNumber(arg[0].b)));
+				!(isNumber(arg[0].r) && isNumber(arg[0].g) && isNumber(arg[0].b)));
 			expect(wrongFormats).to.have.length(0);
 		});
 
@@ -255,7 +255,7 @@ describe('PlomaDrawer', () => {
 			spyOnPen(canvas.state.ballpointPen);
 			const firstStroke = canvas.props.strokes[0];
 			firstStroke.points = map(firstStroke.points, aPoint =>
-					Object.assign({}, aPoint, { x: aPoint.x + 10 }));
+				Object.assign({}, aPoint, { x: aPoint.x + 10 }));
 			canvas.componentDidUpdate();
 		});
 
@@ -268,7 +268,7 @@ describe('PlomaDrawer', () => {
 		beforeEach(() => {
 			const firstStroke = canvas.props.strokes[0];
 			firstStroke.points = map(firstStroke.points, aPoint =>
-					Object.assign({}, aPoint, { x: aPoint.x + 10 }));
+				Object.assign({}, aPoint, { x: aPoint.x + 10 }));
 			canvas.componentDidUpdate();
 		});
 

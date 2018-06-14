@@ -23,7 +23,7 @@ type State = {
 }
 
 export default (Wrapped: React.ComponentType<WrappedProps<any>>) =>
-class extends React.PureComponent<BoundsMutationObserverProps<any>, State> {
+	class extends React.PureComponent<BoundsMutationObserverProps<any>, State> {
 	props: BoundsMutationObserverProps<any>;
 	state: State;
 
@@ -78,10 +78,10 @@ class extends React.PureComponent<BoundsMutationObserverProps<any>, State> {
 					};
 					if (moveBy.x !== 0 || moveBy.y !== 0) {
 						this.boundsUpdatedWith(
-								this.props.bounds.x,
-								this.props.bounds.y,
-								parseInt(wrappedComponent.style.left, 10),
-								parseInt(wrappedComponent.style.top, 10),
+							this.props.bounds.x,
+							this.props.bounds.y,
+							parseInt(wrappedComponent.style.left, 10),
+							parseInt(wrappedComponent.style.top, 10),
 						);
 					}
 				}
@@ -102,4 +102,4 @@ class extends React.PureComponent<BoundsMutationObserverProps<any>, State> {
 			strokes={this.props.strokes}
 		/>);
 	}
-};
+	};

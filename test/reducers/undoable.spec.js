@@ -60,8 +60,8 @@ describe('undoable', () => {
 		});
 
 		it('only cares for the chosen scene when going to second to last state', () => {
-			const actualState = undoable((state = []) =>
-					state)(data.dummyEightsStateWithTwoScenes, jumpTo(5, 1));
+			const reducer = (state = []) => state;
+			const actualState = undoable(reducer)(data.dummyEightsStateWithTwoScenes, jumpTo(5, 1));
 			expect(actualState).to.deep.equal(data.dummySixthStateWithTwoScenes);
 		});
 	});

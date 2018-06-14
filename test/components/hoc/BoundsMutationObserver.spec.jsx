@@ -35,9 +35,9 @@ const renderComponentWithBoundsAndCallback = (options: BoundsMutationObserverPro
 	TestUtils.renderIntoDocument(<MockedComponent {...options} />);
 
 const shallowComponentsWithProps = (props: BoundsMutationObserverProps<{}>) =>
-shallow(<MockedComponent {...props} />);
+	shallow(<MockedComponent {...props} />);
 const mountComponentsWithProps = (props: BoundsMutationObserverProps<{}>) =>
-mount(<MockedComponent {...props} />);
+	mount(<MockedComponent {...props} />);
 
 describe('Bounds mutation observer', () => {
 	describe('manipulating bounds of a wrapped component', () => {

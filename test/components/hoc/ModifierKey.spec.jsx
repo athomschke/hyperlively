@@ -7,7 +7,6 @@ import { forEach } from 'lodash';
 import ModifierKey from 'src/client/app/components/hoc/ModifierKey';
 
 class MockedSubComponent extends React.Component<{cmdPressed: boolean}> {
-
 	static propTypes = {
 		cmdPressed: React.PropTypes.bool.isRequired,
 	};
