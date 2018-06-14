@@ -16,7 +16,9 @@ export const setSceneIndexActions = {
 
 const initialSceneIndexState = () => 0;
 
-const sceneIndex = scopeToActions((state: number, action: SetSceneActionType) => {
+type SceneIndexReducer = (state: number, action: SetSceneActionType) => number
+
+const scopedSceneIndexReducer: SceneIndexReducer = (state, action) => {
 	switch (action.type) {
 	case SET_SCENE_INDEX:
 		return Math.max(Math.min(action.number, action.max), 0);
@@ -27,6 +29,9 @@ const sceneIndex = scopeToActions((state: number, action: SetSceneActionType) =>
 	default:
 		return state;
 	}
-}, setSceneIndexActions, initialSceneIndexState);
+};
+
+const sceneIndex =
+scopeToActions(scopedSceneIndexReducer, setSceneIndexActions, initialSceneIndexState);
 
 export { sceneIndex };

@@ -19,21 +19,24 @@ export const scenesActions = {
 
 const initialScenesState = (): Array<Scene> => [];
 
-const scenes =
-scopeToActions((state: Array<Scene>, action: ScenesActionType) =>
-	produce(state, (draftState) => {
-		switch (action.type) {
-		case ADD_SCENE:
-			draftState.push(scene(undefined, { type: '' }));
-			break;
-		case ADD_SCENE_AT:
-			draftState.splice(action.number, 0, scene(undefined, { type: '' }));
-			break;
-		default:
-			if (Object.keys(sceneActions).includes(action.type)) {
-				draftState.splice(action.sceneIndex, 1, scene(state[action.sceneIndex], action));
-			}
+type ScopedScenesReducer = (state: Array<Scene>, action: ScenesActionType) => Array<Scene>
+
+const scopedScenesReducer: ScopedScenesReducer = (state, action) => produce(state, (draftState) => {
+	switch (action.type) {
+	case ADD_SCENE:
+		draftState.push(scene(undefined, { type: '' }));
+		break;
+	case ADD_SCENE_AT:
+		draftState.splice(action.number, 0, scene(undefined, { type: '' }));
+		break;
+	default:
+		if (Object.keys(sceneActions).includes(action.type)) {
+			draftState.splice(action.sceneIndex, 1, scene(state[action.sceneIndex], action));
 		}
-	}), scenesActions, initialScenesState);
+	}
+});
+
+const scenes =
+scopeToActions(scopedScenesReducer, scenesActions, initialScenesState);
 
 export { scenes };

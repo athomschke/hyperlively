@@ -9,7 +9,7 @@ import {
 } from 'src/client/app/constants/actionTypes';
 import type {
 	APPEND_STROKE_ACTION, APPEND_POINT_ACTION, FINISH_STROKE_ACTION,
-	SELECT_INSIDE_ACTION, SELECT_ACTION,
+	SELECT_INSIDE_ACTION,
 } from 'src/client/app/actionTypeDefinitions';
 import { select, selectInside, createStroke, appendPoint } from 'src/client/app/actionCreators';
 
@@ -27,7 +27,9 @@ export const strokesActions = {
 	SELECT_INSIDE: selectInside,
 };
 
-const strokes = scopeToActions((state: Array<Stroke>, action: StrokesActionType) => {
+type StrokesReducer = (state: Array<Stroke>, action: StrokesActionType) => Array<Stroke>;
+
+const scopedStrokesReducer: StrokesReducer = (state, action) => {
 	switch (action.type) {
 	case APPEND_STROKE:
 		return [
@@ -50,14 +52,15 @@ const strokes = scopeToActions((state: Array<Stroke>, action: StrokesActionType)
 			const innerPolygon = new Polygon(innerStroke.points);
 			return outerPolygon.containsPolygon(innerPolygon);
 		});
-		const strokeAction: SELECT_ACTION = select(innerStrokes);
+		const strokeAction = select(innerStrokes);
 		return map(state, stateStroke => stroke(stateStroke, strokeAction));
 	}
 	default: {
-		const strokeAction: StrokeActionType = action;
-		return map(state, stateStroke => stroke(stateStroke, strokeAction));
+		return map(state, stateStroke => stroke(stateStroke, action));
 	}
 	}
-}, strokesActions, initialStrokesState);
+};
+
+const strokes = scopeToActions(scopedStrokesReducer, strokesActions, initialStrokesState);
 
 export { strokes };

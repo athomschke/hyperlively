@@ -20,7 +20,9 @@ const initialPointState = () => ({
 	timeStamp: NaN,
 });
 
-const point = scopeToActions((state: Point, action: PointActionType): Point => {
+type PointReducer = (state: Point, action: PointActionType) => Point
+
+const scopedPointReducer: PointReducer = (state, action) => {
 	switch (action.type) {
 	case UPDATE_POSITION: {
 		const newCoordinates = {
@@ -46,6 +48,8 @@ const point = scopeToActions((state: Point, action: PointActionType): Point => {
 	default:
 		return state;
 	}
-}, pointActions, initialPointState);
+};
+
+const point = scopeToActions(scopedPointReducer, pointActions, initialPointState);
 
 export { point };

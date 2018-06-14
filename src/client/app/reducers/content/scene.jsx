@@ -10,11 +10,15 @@ export const sceneActions = strokesActions;
 
 const initialSceneState = (): Scene => ({ strokes: strokes(undefined, { type: '' }) });
 
-const scene = scopeToActions((state: Scene, action: SceneActionType) => {
+type SceneReducer = (state: Scene, action: SceneActionType) => Scene
+
+const scopedSceneReducer: SceneReducer = (state, action) => {
 	if (Object.keys(strokesActions).includes(action.type)) {
 		return { strokes: strokes(state.strokes, action) };
 	}
 	return state;
-}, sceneActions, initialSceneState);
+};
+
+const scene = scopeToActions(scopedSceneReducer, sceneActions, initialSceneState);
 
 export { scene };

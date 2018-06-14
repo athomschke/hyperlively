@@ -19,7 +19,9 @@ export const pointsActions = {
 
 const initialPointsState = (): Array<Point> => [];
 
-const points = scopeToActions((state: Array<Point>, action: PointsActionType): Array<Point> => {
+type PointsReducer = (state: Array<Point>, action: PointsActionType) => Array<Point>;
+
+const scopedPoints: PointsReducer = (state, action) => {
 	switch (action.type) {
 	case APPEND_STROKE:
 	case FINISH_STROKE:
@@ -32,6 +34,8 @@ const points = scopeToActions((state: Array<Point>, action: PointsActionType): A
 		return state.map((statePoint: Point) => point(statePoint, action));
 	}
 	}
-}, pointsActions, initialPointsState);
+};
+
+const points = scopeToActions(scopedPoints, pointsActions, initialPointsState);
 
 export { points };

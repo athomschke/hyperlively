@@ -2,11 +2,10 @@
 import scopeToActions from 'src/client/app/reducers/scopeToActions';
 import { addScene } from 'src/client/app/actionCreators';
 import { ADD_SCENE_AT, SET_SCENE_INDEX, NEXT_SCENE } from 'src/client/app/constants/actionTypes';
-import { type SET_SCENE_INDEX_ACTION } from 'src/client/app/actionTypeDefinitions';
 import { type Content, type UndoableScenes } from 'src/client/app/typeDefinitions';
 
 import { undoable, undoableActions, type UndoableActionType } from './undoable';
-import { sceneIndex, setSceneIndexActions, type SetSceneActionType, type SafeSetSceneActionType } from './sceneIndex';
+import { sceneIndex, setSceneIndexActions, type SetSceneActionType } from './sceneIndex';
 import { scenes, scenesActions, type ScenesActionType } from './scenes';
 
 type UndoableSceneActionType = UndoableActionType<ScenesActionType | SetSceneActionType>
@@ -30,7 +29,9 @@ const initialContentState = (): Content => ({
 	undoableScenes: initialUndoableScenes(),
 });
 
-function scopedContent(state: Content, action: UndoableSceneActionType) {
+type ContentReducer = (state: Content, action: UndoableSceneActionType) => Content
+
+const scopedContent: ContentReducer = (state, action) => {
 	switch (action.type) {
 	case ADD_SCENE_AT:
 		if (action.number <= state.undoableScenes.present.length + 1 && action.number >= 0) {
@@ -52,7 +53,7 @@ function scopedContent(state: Content, action: UndoableSceneActionType) {
 			undoableScenes: undoableScenes(state.undoableScenes, addScene()),
 		};
 	case SET_SCENE_INDEX: {
-		const setSceneIndexAction: SET_SCENE_INDEX_ACTION = {
+		const setSceneIndexAction = {
 			...action,
 			max: state.undoableScenes.present.length - 1,
 			action,
@@ -64,10 +65,9 @@ function scopedContent(state: Content, action: UndoableSceneActionType) {
 	}
 	default:
 		if (Object.keys(setSceneIndexActions).indexOf(action.type) >= 0) {
-			const sceneIndexAction: SafeSetSceneActionType = ((action:any): SafeSetSceneActionType);
 			return {
 				...state,
-				sceneIndex: sceneIndex(state.sceneIndex, sceneIndexAction),
+				sceneIndex: sceneIndex(state.sceneIndex, action),
 			};
 		} else if (
 			Object.keys(undoableActions).indexOf(action.type) >= 0 ||
@@ -82,7 +82,7 @@ function scopedContent(state: Content, action: UndoableSceneActionType) {
 		}
 		return state;
 	}
-}
+};
 
 const content = scopeToActions(scopedContent, undoableScenesActions, initialContentState);
 

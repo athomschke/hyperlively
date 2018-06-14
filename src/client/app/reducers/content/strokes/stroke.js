@@ -15,8 +15,6 @@ import { points, type PointsActionType, pointsActions } from './points';
 export type StrokeActionType = PointsActionType |
 FINISH_STROKE_ACTION | UPDATE_POSITION_ACTION | HIDE_ACTION | SELECT_ACTION | ROTATE_BY_ACTION
 
-const pointsActionTypes = Object.keys(pointsActions);
-
 export const strokeActions = {
 	...pointsActions,
 	HIDE: hide,
@@ -36,7 +34,9 @@ const doStrokesContainStroke = (strokes: Array<Stroke>, aStroke: Stroke) =>
 	find(strokes, stateStroke =>
 		stateStroke.hidden === aStroke.hidden && isEqual(stateStroke.points, aStroke.points));
 
-const stroke = scopeToActions((state: Stroke, action: StrokeActionType) => {
+type StrokeReducer = (state: Stroke, action: StrokeActionType) => Stroke
+
+const scopedStrokeReducer: StrokeReducer = (state, action) => {
 	switch (action.type) {
 	case UPDATE_POSITION:
 	case ROTATE_BY: {
@@ -68,11 +68,13 @@ const stroke = scopeToActions((state: Stroke, action: StrokeActionType) => {
 			finished: true,
 		});
 	default:
-		if (pointsActionTypes.includes(action.type)) {
+		if (Object.keys(pointsActions).includes(action.type)) {
 			return merge({}, state, { points: points(state.points, action) });
 		}
 		return state;
 	}
-}, strokeActions, initialStrokeState);
+};
+
+const stroke = scopeToActions(scopedStrokeReducer, strokeActions, initialStrokeState);
 
 export { stroke };
