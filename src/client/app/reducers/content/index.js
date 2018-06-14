@@ -8,7 +8,6 @@ import { type Content, type UndoableScenes } from 'src/client/app/typeDefinition
 import { undoable, undoableActionTypes, undoableActions, type UndoableActionType } from './undoable';
 import { sceneIndex, sceneIndexActionTypes, setSceneIndexActions, type SetSceneActionType, type SafeSetSceneActionType } from './sceneIndex';
 import { scenes, scenesActionTypes, initialScenesState, scenesActions, type ScenesActionType } from './scenes';
-import { defaultSceneIndex } from './defaultState';
 
 type UndoableSceneActionType = UndoableActionType<ScenesActionType | SetSceneActionType>
 
@@ -29,7 +28,7 @@ const initialUndoableScenes = (): UndoableScenes => ({
 });
 
 export const initialContentState = (): Content => ({
-	sceneIndex: defaultSceneIndex,
+	sceneIndex: 0,
 	undoableScenes: initialUndoableScenes(),
 });
 
