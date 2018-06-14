@@ -4,7 +4,7 @@ import TestUtils from 'react-addons-test-utils';
 import { useFakeXMLHttpRequest } from 'sinon';
 
 import { hashCode, renderApplicationWithState, mountApp, dismountApp, getCombinedCanvas } from './helpers';
-import canvasWithIrregularStrokesWithPloma from './data/canvasWithIrregularStrokesWithPloma.json';
+import canvasWithIrregularStrokesWithPloma from './data/canvasWithIrregularStrokesWithPloma';
 
 describe('Integration', () => {
 	let xhr;
@@ -21,7 +21,7 @@ describe('Integration', () => {
 
 	describe('activating ploma', () => {
 		it('switches to Ploma when it was deactivated', () => {
-			renderApplicationWithState(canvasWithIrregularStrokesWithPloma.json);
+			renderApplicationWithState(canvasWithIrregularStrokesWithPloma());
 			return getCombinedCanvas().then((oldCombinedCanvas) => {
 				const nonPlomaImageData = oldCombinedCanvas.toDataURL();
 				const configuration = document.getElementById('configuration');
@@ -38,7 +38,7 @@ describe('Integration', () => {
 		});
 
 		it('changes background color to more of a paper type', () => {
-			renderApplicationWithState(canvasWithIrregularStrokesWithPloma.json);
+			renderApplicationWithState(canvasWithIrregularStrokesWithPloma());
 			const app = document.getElementById('app');
 			if (!(app instanceof HTMLElement)) {
 				throw new Error('Need an app element');

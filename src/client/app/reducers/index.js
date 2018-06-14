@@ -23,7 +23,7 @@ export const initialHyperlivelyState = (): HyperlivelyState => ({
 	specificActions: specificActions(undefined, { type: '' }),
 });
 
-const hyperlively: HyperlivelyReducer =
+export const hyperlively: HyperlivelyReducer =
 (state?: HyperlivelyState = initialHyperlivelyState(), action: CommonAction) => ({
 	interpretation: interpretation(state.interpretation, action),
 	ploma: ploma(state.ploma, action),

@@ -3,12 +3,12 @@ import { expect } from 'chai';
 import { useFakeXMLHttpRequest } from 'sinon';
 
 import { hashCode, mountApp, dismountApp, renderApplicationWithStore, createAppStore } from './helpers';
-import canvasWithTwoStrokes from './data/canvasWithTwoStrokes.json';
+import canvasWithTwoStrokes from './data/canvasWithTwoStrokes';
 
 let storeDispatch;
 
 const renderTwoStrokeApplicationWithDispatchObject = (afterStoreDispatchCallbackObject) => {
-	const canvasJson = canvasWithTwoStrokes.json;
+	const canvasJson = canvasWithTwoStrokes();
 	const store = createAppStore(canvasJson);
 	const oldStoreDispatch = store.dispatch.bind(store);
 	storeDispatch = (...args) => {

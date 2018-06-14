@@ -6,7 +6,7 @@ import { cloneDeep } from 'lodash';
 import { useFakeXMLHttpRequest } from 'sinon';
 
 import { renderApplicationWithState, mountApp, dismountApp, getCanvasNodes } from './helpers';
-import canvasWithTwoStrokes from './data/canvasWithTwoStrokes.json';
+import canvasWithTwoStrokes from './data/canvasWithTwoStrokes';
 
 describe('Integration', () => {
 	let xhr;
@@ -23,7 +23,7 @@ describe('Integration', () => {
 
 	describe('changing the threshold', () => {
 		it('can split sketch with two strokes into two sketches', () => {
-			const canvasJson = cloneDeep(canvasWithTwoStrokes.json);
+			const canvasJson = cloneDeep(canvasWithTwoStrokes());
 			canvasJson.threshold = 2000;
 			const renderedApp = renderApplicationWithState(canvasJson);
 			expect(getCanvasNodes().length).to.equal(2);
@@ -42,7 +42,7 @@ describe('Integration', () => {
 		});
 
 		it('can join sketches with one stroke each to one sketch', () => {
-			const canvasJson = cloneDeep(canvasWithTwoStrokes.json);
+			const canvasJson = cloneDeep(canvasWithTwoStrokes());
 			canvasJson.threshold = 100;
 			const renderedApp = renderApplicationWithState(canvasJson);
 			expect(getCanvasNodes().length).to.equal(3);

@@ -1,14 +1,13 @@
 // @flow
 import { expect } from 'chai';
 import { findDOMNode } from 'react-dom';
-import { cloneDeep } from 'lodash';
 import { useFakeXMLHttpRequest } from 'sinon';
 
 import { point } from 'test/helpers';
 import type { Point } from 'src/client/app/typeDefinitions';
+import emptyCanvas from 'test/integration/data/emptyCanvas';
 
 import { hashCode, mountApp, dismountApp, getCanvasNodes, getWindowNode, getCombinedCanvas, renderApplicationWithState, manuallyDrawStrokes, gotToHalfTimeInApp } from './helpers';
-import emptyCanvas from './data/emptyCanvas.json';
 
 const strokeFromPoints = (points: Array<Point>) => ({
 	points,
@@ -33,9 +32,9 @@ describe('Integration', () => {
 
 	describe('undoing', () => {
 		it('keeps the canvas at content size', () => {
-			const clonedEmptyCanvas = cloneDeep(emptyCanvas);
-			clonedEmptyCanvas.json.threshold = 10;
-			const renderedApp = renderApplicationWithState(clonedEmptyCanvas.json);
+			const emptyCanvasState = emptyCanvas();
+			emptyCanvasState.threshold = 10;
+			const renderedApp = renderApplicationWithState(emptyCanvasState);
 
 			manuallyDrawStrokes(getWindowNode(), [
 				strokeFromPoints([point(10, 10, 100), point(10, 30, 101), point(10, 60, 102)]),
@@ -58,8 +57,8 @@ describe('Integration', () => {
 		});
 
 		it('affects the canvas', () => {
-			const clonedEmptyCanvas = cloneDeep(emptyCanvas);
-			const renderedApp = renderApplicationWithState(clonedEmptyCanvas.json);
+			const clonedEmptyCanvas = emptyCanvas();
+			const renderedApp = renderApplicationWithState(clonedEmptyCanvas);
 			manuallyDrawStrokes(getWindowNode(), [
 				strokeFromPoints([point(10, 10), point(10, 30), point(10, 60)]),
 				strokeFromPoints([point(20, 10), point(20, 30), point(20, 60)]),

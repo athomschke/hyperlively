@@ -7,7 +7,7 @@ import { useFakeXMLHttpRequest } from 'sinon';
 import { myScriptJs, fetchTextCandidates, fetchShapeCandidates } from 'src/client/app/sagas/myScriptJs';
 import { requestTextCandidates, requestShapeCandidates } from 'src/client/app/actions/handwritingRecognition';
 import { REQUEST_TEXT_CANDIDATES, REQUEST_SHAPE_CANDIDATES } from 'src/client/app/constants/actionTypes';
-import initialState from 'test/integration/data/canvasWithIrregularStrokesWithPloma.json';
+import canvasWithIrregularStrokesWithPloma from 'test/integration/data/canvasWithIrregularStrokesWithPloma';
 
 describe('MyScriptJS Sagas', () => {
 	let xhr;
@@ -45,7 +45,8 @@ describe('MyScriptJS Sagas', () => {
 
 	describe('Text recognition saga', () => {
 		it('yields a requestTextCandidates action', () => {
-			const strokes = initialState.json.content.undoableScenes.present[0].strokes;
+			const strokes = canvasWithIrregularStrokesWithPloma()
+				.content.undoableScenes.present[0].strokes;
 			const fetchAction = requestTextCandidates(strokes);
 			const generator = fetchTextCandidates(fetchAction);
 			const nextValue = generator.next().value;
@@ -60,7 +61,8 @@ describe('MyScriptJS Sagas', () => {
 
 	describe('Shape recognition saga', () => {
 		it('yields a requestShapeCandidates action', () => {
-			const strokes = initialState.json.content.undoableScenes.present[0].strokes;
+			const strokes = canvasWithIrregularStrokesWithPloma()
+				.content.undoableScenes.present[0].strokes;
 			const fetchAction = requestShapeCandidates(strokes);
 			const generator = fetchShapeCandidates(fetchAction);
 			const nextValue = generator.next().value;

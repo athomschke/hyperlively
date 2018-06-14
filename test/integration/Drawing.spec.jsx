@@ -1,12 +1,12 @@
 // @flow
 import { expect } from 'chai';
-import { cloneDeep } from 'lodash';
 import { useFakeXMLHttpRequest } from 'sinon';
 
 import { hashCode, renderApplicationWithState, mountApp, dismountApp, getWindowNode, getCombinedCanvas, manuallyDrawStrokes } from './helpers';
-import emptyCanvas from './data/emptyCanvas.json';
-import canvasWithIrregularStrokesWithPloma from './data/canvasWithIrregularStrokesWithPloma.json';
-import canvasWithTwoStrokes from './data/canvasWithTwoStrokes.json';
+import canvasWithIrregularStrokesWithPloma from './data/canvasWithIrregularStrokesWithPloma';
+import canvasWithTwoStrokes from './data/canvasWithTwoStrokes';
+import emptyCanvas from './data/emptyCanvas';
+
 
 const getPointsFromJSON = json => json.content.undoableScenes.present[0].strokes;
 
@@ -25,13 +25,13 @@ describe('Integration', () => {
 
 	describe('drawing', () => {
 		it('two strokes looks the same as adding two strokes point by point when ploma is disabled', () => {
-			const canvasJson = canvasWithTwoStrokes.json;
+			const canvasJson = canvasWithTwoStrokes();
 			renderApplicationWithState(canvasJson);
 			return getCombinedCanvas(100, 100).then((atOnceCombinedCanvas) => {
 				const atOnceDataUrl = atOnceCombinedCanvas.toDataURL();
 				dismountApp();
 				mountApp();
-				renderApplicationWithState(emptyCanvas.json);
+				renderApplicationWithState(emptyCanvas());
 				const strokes = getPointsFromJSON(canvasJson);
 				manuallyDrawStrokes(getWindowNode(), strokes);
 				return getCombinedCanvas(100, 100).then((stepwiseCombinedCanvas) => {
@@ -42,8 +42,8 @@ describe('Integration', () => {
 		});
 
 		it('two strokes looks the same as adding two strokes point by point when ploma is enabled', () => {
-			const canvasJsonConfig = canvasWithIrregularStrokesWithPloma.json;
-			const emptyCanvasConfig = cloneDeep(emptyCanvas).json;
+			const canvasJsonConfig = canvasWithIrregularStrokesWithPloma();
+			const emptyCanvasConfig = emptyCanvas();
 			emptyCanvasConfig.ploma.uniqueCanvasFactor = canvasJsonConfig.ploma.uniqueCanvasFactor;
 			emptyCanvasConfig.ploma.usePloma = true;
 			emptyCanvasConfig.threshold = 1;

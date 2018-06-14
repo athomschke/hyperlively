@@ -4,7 +4,7 @@ import { forEach } from 'lodash';
 import { useFakeXMLHttpRequest } from 'sinon';
 
 import { mountApp, dismountApp, renderApplicationWithState, getCanvasNodes } from './helpers';
-import canvasWithTwoStrokes from './data/canvasWithTwoStrokes.json';
+import canvasWithTwoStrokes from './data/canvasWithTwoStrokes';
 
 describe('Integration', () => {
 	let xhr;
@@ -22,7 +22,7 @@ describe('Integration', () => {
 	describe('Pressing the cmd key', () => {
 		it('enables events on canvasses', () => {
 			const that = window;
-			const canvasJson = canvasWithTwoStrokes.json;
+			const canvasJson = canvasWithTwoStrokes();
 			const oldAddEventListener = window.addEventListener;
 			const listeners = [];
 			window.addEventListener = function addEventListener(type, listener, ...args) {
@@ -54,7 +54,7 @@ describe('Integration', () => {
 		});
 
 		it('disables events on window div', () => {
-			const canvasJson = canvasWithTwoStrokes.json;
+			const canvasJson = canvasWithTwoStrokes();
 			const oldAddEventListener = window.addEventListener;
 			const that = window;
 			const listeners = [];

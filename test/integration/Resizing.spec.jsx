@@ -3,9 +3,9 @@ import { expect } from 'chai';
 import { useFakeXMLHttpRequest } from 'sinon';
 
 import { relativeDividerPosition } from 'src/client/app/reducers/defaultState';
+import emptyCanvas from 'test/integration/data/emptyCanvas';
 
 import { mountApp, dismountApp, renderApplicationWithState } from './helpers';
-import emptyCanvas from './data/emptyCanvas.json';
 
 describe('Integration', () => {
 	let xhr;
@@ -30,7 +30,7 @@ describe('Integration', () => {
 		});
 
 		it('shows the input window in 0.6 fullscreen width and full height per default', () => {
-			const canvasJson = emptyCanvas.json;
+			const canvasJson = emptyCanvas();
 			renderApplicationWithState(canvasJson);
 			const windowNode = document.getElementsByClassName('window')[0];
 			expect(Math.floor(windowNode.getBoundingClientRect().width))
@@ -40,7 +40,7 @@ describe('Integration', () => {
 		});
 
 		it('shows the canvas in 0.6 fullscreen width and full height per default', () => {
-			const canvasJson = emptyCanvas.json;
+			const canvasJson = emptyCanvas();
 			renderApplicationWithState(canvasJson);
 			const app = document.getElementById('app');
 			if (!(app instanceof HTMLElement)) {
