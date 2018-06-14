@@ -69,10 +69,7 @@ const scopedContent: ContentReducer = (state, action) => {
 				...state,
 				sceneIndex: sceneIndex(state.sceneIndex, action),
 			};
-		} else if (
-			Object.keys(undoableActions).indexOf(action.type) >= 0 ||
-			Object.keys(scenesActions).indexOf(action.type) >= 0
-		) {
+		} else if (Object.keys(undoableActions(scenesActions)).indexOf(action.type) >= 0) {
 			const undoableScenesAction: UndoableSceneActionType = action;
 			undoableScenesAction.sceneIndex = state.sceneIndex;
 			return {
