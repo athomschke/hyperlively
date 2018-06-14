@@ -1,14 +1,14 @@
 // @flow
 import React, { PureComponent } from 'react';
 
+import { relativeDividerPosition } from 'src/client/app/constants/configuration';
+
 type Props<P> = P & {
-	relativeDividerPosition: number;
 	cmdPressed: boolean;
 };
 
 const Window = class Window extends PureComponent<Props<any>> {
 	static defaultProps = {
-		relativeDividerPosition: 0.6,
 		cmdPressed: false,
 	};
 
@@ -19,7 +19,7 @@ const Window = class Window extends PureComponent<Props<any>> {
 			className="window"
 			style={{
 				position: 'absolute',
-				width: `${this.props.relativeDividerPosition * 100}%`,
+				width: `${relativeDividerPosition * 100}%`,
 				height: '100%',
 				top: 0,
 				left: 0,

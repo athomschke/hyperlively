@@ -2,7 +2,6 @@
 import { connect } from 'react-redux';
 
 import SketchCombiner from 'src/client/app/components/hoc/SketchCombiner';
-import { relativeDividerPosition } from 'src/client/app/reducers/defaultState';
 
 import Page from './Page';
 
@@ -15,7 +14,6 @@ const mapStateToProps = (state) => {
 	returnState.sceneIndex = state.content.sceneIndex;
 	returnState.scene = state.content.undoableScenes.present[state.content.sceneIndex];
 	returnState.interpretation = state.interpretation;
-	returnState.relativeDividerPosition = relativeDividerPosition;
 	returnState.specificActions = state.specificActions;
 	return returnState;
 };

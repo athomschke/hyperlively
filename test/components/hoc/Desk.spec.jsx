@@ -79,12 +79,11 @@ describe('Desk', () => {
 				strokes: exampleStrokes([point(10, 10)]),
 				finished: false,
 			}]}
-			relativeDividerPosition={0.4}
 			height={height}
 		/>);
 		const nodes = TestUtils.scryRenderedDOMComponentsWithTag(desk, 'div');
 		const node: HTMLDivElement = (nodes[0]:any);
-		expect(node.style.width).to.equal('40%');
+		expect(node.style.width).to.equal('60%');
 		expect(parseInt(node.style.height, 10)).to.equal(height);
 	});
 

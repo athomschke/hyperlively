@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 import { forEach, find, map, concat } from 'lodash';
 
 import style from 'src/client/app/stylesheets/components/smart/actionChooser.scss';
+import { relativeDividerPosition } from 'src/client/app/constants/configuration';
 import type { FunctionConfiguration, TreeParameter, ActionMapping, RecognitionResult, Parameters, Functions } from 'src/client/app/typeDefinitions';
 
 import ActionChooser from './ActionChooser';
@@ -16,7 +17,6 @@ type State = {
 export type InterpretationChooserProps = {
 	onInterpretationChoose: (_functions: Functions, _parameters: Parameters) => void,
 	onInterpretationTick: (_functions: Functions, _parameters: Parameters, _interval: number) => void,
-	relativeDividerPosition: number,
 	specificActions: Array<ActionMapping>,
 	interpretations: RecognitionResult,
 };
@@ -27,7 +27,6 @@ extends PureComponent<InterpretationChooserProps, State> {
 	static defaultProps = {
 		onInterpretationChoose: () => undefined,
 		onInterpretationTick: () => undefined,
-		relativeDividerPosition: 0,
 	}
 
 	constructor() {
@@ -82,7 +81,7 @@ extends PureComponent<InterpretationChooserProps, State> {
 		return (
 			<div
 				className={style.actionChooser}
-				style={{ width: `${(1 - this.props.relativeDividerPosition) * 100}%` }}
+				style={{ width: `${(1 - relativeDividerPosition) * 100}%` }}
 			>
 				<button
 					onClick={this.onInterpretationChoose}

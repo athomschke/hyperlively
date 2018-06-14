@@ -8,7 +8,6 @@ import Window from 'src/client/app/components/dumb/Window';
 describe('Window', () => {
 	it('setting cmdPressed to true disables events on window', () => {
 		const windowComponent = mount(<Window
-			relativeDividerPosition={0.4}
 			cmdPressed
 		/>);
 		expect(windowComponent.find('div').getNode().style.getPropertyValue('pointer-events')).to.equal('none');
@@ -16,23 +15,18 @@ describe('Window', () => {
 
 	it('setting cmdPressed to false enables events on window', () => {
 		const windowComponent = mount(<Window
-			relativeDividerPosition={0.4}
 			cmdPressed={false}
 		/>);
 		expect(windowComponent.find('div').getNode().style.getPropertyValue('pointer-events')).to.equal('auto');
 	});
 
 	it('enables events per default', () => {
-		const windowComponent = mount(<Window
-			relativeDividerPosition={0.4}
-		/>);
+		const windowComponent = mount(<Window />);
 		expect(windowComponent.find('div').getNode().style.getPropertyValue('pointer-events')).to.equal('auto');
 	});
 
-	it('has the given width', () => {
-		const windowComponent = mount(<Window
-			relativeDividerPosition={0.4}
-		/>);
-		expect(windowComponent.find('div').getNode().style.getPropertyValue('width')).to.equal('40%');
+	it('has the default width', () => {
+		const windowComponent = mount(<Window />);
+		expect(windowComponent.find('div').getNode().style.getPropertyValue('width')).to.equal('60%');
 	});
 });

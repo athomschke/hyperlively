@@ -20,7 +20,6 @@ const defaultProps = () => ({
 	jsonTree: {},
 	onInterpretationChoose: () => undefined,
 	onInterpretationTick: () => undefined,
-	relativeDividerPosition: 0,
 	interpretations: {
 		texts: [],
 		shapes: [],

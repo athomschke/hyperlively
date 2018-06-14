@@ -4,6 +4,7 @@ import { last, filter } from 'lodash';
 
 import { OFFSET } from 'src/client/app/constants/canvas';
 import { WHITE } from 'src/client/app/constants/drawing';
+import { relativeDividerPosition } from 'src/client/app/constants/configuration';
 import type { Stroke, Sketch } from 'src/client/app/typeDefinitions';
 
 const visibleStrokesInSketch = sketch => filter(sketch.strokes || [], stroke => !stroke.hidden);
@@ -11,7 +12,6 @@ const visibleStrokesInSketch = sketch => filter(sketch.strokes || [], stroke => 
 export type DeskProps<P> = P & {
 	sketches: Array<Sketch>,
 	cmdPressed: bool,
-	relativeDividerPosition: number,
 	height: number,
 	paperColor: string,
 };
@@ -23,7 +23,7 @@ type WrappedProps<P> = P & {
 	offset: number,
 }
 
-const getStyle = (relativeDividerPosition: number, paperColor: string, height: number) => ({
+const getStyle = (paperColor: string, height: number) => ({
 	width: `${relativeDividerPosition * 100}%`,
 	height,
 	backgroundColor: paperColor,
@@ -78,14 +78,12 @@ class extends React.PureComponent<DeskProps<any>> {
 	static defaultProps = {
 		sketches: [],
 		cmdPressed: false,
-		relativeDividerPosition: 0.6,
 		height: 0,
 		paperColor: WHITE,
 	}
 
 	render() {
 		const {
-			relativeDividerPosition,
 			paperColor,
 			sketches,
 			cmdPressed,
@@ -93,7 +91,7 @@ class extends React.PureComponent<DeskProps<any>> {
 		} = this.props;
 		return (<div
 			id="desk"
-			style={getStyle(relativeDividerPosition, paperColor, rest.height)}
+			style={getStyle(paperColor, rest.height)}
 		>
 			{renderCanvasses(Wrapped, sketches, cmdPressed, rest)}
 		</div>);
