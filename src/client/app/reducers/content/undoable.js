@@ -1,5 +1,5 @@
 // @flow
-import { concat, slice, isEqual, cloneDeep } from 'lodash';
+import { concat, slice } from 'lodash';
 
 import { JUMP_TO } from 'src/client/app/constants/actionTypes';
 import { jumpTo } from 'src/client/app/actionCreators';
@@ -45,10 +45,7 @@ const undoable: Undoable<any> = (reducer) => {
 		const passedAction = Object.assign({}, action, {
 			index: state.past.length,
 		});
-		const newPresent = reducer(cloneDeep(state.present), passedAction);
-		if (isEqual(state.present, newPresent)) {
-			return state;
-		}
+		const newPresent = reducer(state.present, passedAction);
 		return {
 			past: concat(state.past, [state.present]),
 			present: newPresent,

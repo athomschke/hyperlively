@@ -35,7 +35,7 @@ const scopedPointReducer: PointReducer = (state, action) => {
 		};
 	}
 	case ROTATE_BY: {
-		const radians = action.degrees;
+		const radians = action.degrees * (Math.PI / 180);
 		const cos = Math.cos(radians);
 		const sin = Math.sin(radians);
 		const dX = state.x - action.centerX;
