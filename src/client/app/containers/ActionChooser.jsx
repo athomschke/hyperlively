@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import ActionChooser from 'src/client/app/components/smart/ActionChooser';
 import type { HyperlivelyState } from 'src/client/app/typeDefinitions';
-import { collapseActionsPath, checkActionsPath } from 'src/client/app/actionCreators';
+import { collapseActionsPath, checkActionsPath, chooseFunctions } from 'src/client/app/actionCreators';
 
 const mapStateToProps = (state: HyperlivelyState) => ({
 	collapsedPaths: state.ui.actions.collapsedPath,
@@ -13,6 +13,7 @@ const mapStateToProps = (state: HyperlivelyState) => ({
 const mapDispatchToProps = dispatch => ({
 	onCollapsedPathsChange: collapsedPath => dispatch(collapseActionsPath(collapsedPath)),
 	onCheckedPathsChange: checkedPath => dispatch(checkActionsPath(checkedPath)),
+	onFunctionsChoose: functions => dispatch(chooseFunctions(functions)),
 });
 
 export default connect(

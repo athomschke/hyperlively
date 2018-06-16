@@ -25,6 +25,8 @@ const defaultProps = () => ({
 		shapes: [],
 	},
 	specificActions: [],
+	parameters: [],
+	functions: [],
 });
 
 const exampleParameters = ['a2', 'b'];

@@ -48,17 +48,17 @@ const allActions = (specificActions) => {
 };
 
 type Props = {
-	onActionChoose: (Array<FunctionConfiguration>) => void,
+	onFunctionsChoose: (Array<FunctionConfiguration>) => void,
 	specificActions: Array<ActionMapping>,
 }
 
 export default class ActionChooser extends PureComponent<Props> {
 	static defaultProps = {
-		onActionChoose: (_actionSignatures: Array<FunctionConfiguration>) => {},
+		onFunctionsChoose: (_actionSignatures: Array<FunctionConfiguration>) => {},
 	}
 
-	onActionChoose(signatures: Array<TreeParameter>) {
-		this.props.onActionChoose(formattedSignatures(signatures.map(ea => `${ea}`)));
+	onFunctionsChoose(signatures: Array<TreeParameter>) {
+		this.props.onFunctionsChoose(formattedSignatures(signatures.map(ea => `${ea}`)));
 	}
 
 	props: Props
@@ -68,7 +68,7 @@ export default class ActionChooser extends PureComponent<Props> {
 			<JsonPropertyChooser
 				{...this.props}
 				onParameterChoose={(parameters: Array<TreeParameter>) => {
-					this.onActionChoose(parameters);
+					this.onFunctionsChoose(parameters);
 				}}
 				jsonTree={allActions(this.props.specificActions)}
 			/>);

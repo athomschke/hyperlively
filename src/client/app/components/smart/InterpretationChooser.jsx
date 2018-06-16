@@ -4,15 +4,13 @@ import { forEach, find, map, concat } from 'lodash';
 
 import style from 'src/client/app/stylesheets/components/smart/actionChooser.scss';
 import { relativeDividerPosition } from 'src/client/app/constants/configuration';
-import type { FunctionConfiguration, TreeParameter, ActionMapping, RecognitionResult, Parameters, Functions } from 'src/client/app/typeDefinitions';
+import type { ActionMapping, RecognitionResult, Parameters, Functions } from 'src/client/app/typeDefinitions';
 import ActionChooser from 'src/client/app/containers/ActionChooser';
 import ParameterChooser from 'src/client/app/containers/ParameterChooser';
 
 export type InterpretationChooserProps = {
 	onInterpretationChoose: (_functions: Functions, _parameters: Parameters) => void,
 	onInterpretationTick: (_functions: Functions, _parameters: Parameters, _interval: number) => void,
-	onFunctionsChoose: (functions: Functions) => void,
-	onParametersChoose: (parameters: Parameters) => void,
 	specificActions: Array<ActionMapping>,
 	interpretations: RecognitionResult,
 	parameters: Parameters,
@@ -24,24 +22,12 @@ export default class InterpretationChooser
 	static defaultProps = {
 		onInterpretationChoose: () => undefined,
 		onInterpretationTick: () => undefined,
-		onParametersChoose: () => undefined,
-		onActionsChoose: () => undefined,
 	}
 
 	constructor() {
 		super();
-		(this:any).onActionChoose = this.onActionChoose.bind(this);
-		(this:any).onParameterChoose = this.onParameterChoose.bind(this);
 		(this:any).onInterpretationChoose = this.onInterpretationChoose.bind(this);
 		(this:any).onInterpretationTick = this.onInterpretationTick.bind(this);
-	}
-
-	onActionChoose(functions: Array<FunctionConfiguration>) {
-		this.props.onFunctionsChoose(functions);
-	}
-
-	onParameterChoose(parameters: Array<TreeParameter>) {
-		this.props.onParametersChoose(parameters);
 	}
 
 	onInterpretationChoose() {
@@ -58,7 +44,6 @@ export default class InterpretationChooser
 			}
 		});
 		this.props.onInterpretationChoose(functions, this.props.parameters);
-		this.onParameterChoose(this.props.parameters);
 	}
 
 	onInterpretationTick() {
@@ -81,13 +66,11 @@ export default class InterpretationChooser
 				>{'Tick'}</button>
 				<div>
 					<ActionChooser
-						onActionChoose={this.onActionChoose}
 						specificActions={this.props.specificActions}
 					/>
 					<ParameterChooser
 						{...this.props}
 						interpretations={this.props.interpretations}
-						onParameterChoose={this.onParameterChoose}
 					/>
 				</div>
 			</div>);
