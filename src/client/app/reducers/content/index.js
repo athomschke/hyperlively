@@ -10,7 +10,7 @@ import { scenes, scenesActions, type ScenesActionType } from './scenes';
 
 type UndoableSceneActionType = UndoableActionType<ScenesActionType | SetSceneActionType>
 
-const undoableScenes = undoable(scenes);
+const undoableScenes = undoable(scenes, scenesActions);
 
 export const undoableScenesActions = {
 	...setSceneIndexActions,

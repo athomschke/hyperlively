@@ -151,10 +151,10 @@ describe('strokes', () => {
 	});
 
 	describe('rotating a stroke', () => {
-		const radians = 1.5708;
+		const degrees = 1.5708 * (180 / Math.PI);
 		const centerX = 10;
 		const centerY = 10;
-		const action = rotateBy(exampleStrokes([point(0, 0, 12345)]), centerX, centerY, radians);
+		const action = rotateBy(exampleStrokes([point(0, 0, 12345)]), centerX, centerY, degrees);
 		const strokesToRotate = () => exampleStrokes([point(0, 0, 12345)]);
 
 		it('keeps the number of points the same', () => {

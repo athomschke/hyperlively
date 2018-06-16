@@ -16,7 +16,7 @@ describe('point reducer', () => {
 				type: 'ROTATE_BY',
 				strokes: [],
 				sceneIndex: 0,
-				degrees: 1.5708,
+				degrees: 1.5708 * (180 / Math.PI),
 				centerX: 10,
 				centerY: 10,
 			};

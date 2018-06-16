@@ -3,6 +3,7 @@ import { concat, slice } from 'lodash';
 
 import { JUMP_TO } from 'src/client/app/constants/actionTypes';
 import { jumpTo } from 'src/client/app/actionCreators';
+import scopeToActions from 'src/client/app/reducers/scopeToActions';
 import type { Reducer } from 'src/client/app/typeDefinitions';
 import { type JUMP_TO_ACTION } from 'src/client/app/actionTypeDefinitions';
 
@@ -21,9 +22,9 @@ type UndoableState<T> = {
 
 type UndoableReducer<T> = (state: T, action: UndoableActionType<T>) => UndoableState<T>
 
-type Undoable<T> = (reducer: Reducer) => UndoableReducer<T>
+type Undoable<T> = (reducer: Reducer, wrappedActions: { [key: string]: any }) => UndoableReducer<T>
 
-const undoable: Undoable<any> = (reducer) => {
+const undoable: Undoable<any> = (reducer, wrappedActions) => {
 	const initialState = () => ({
 		past: [],
 		present: reducer(undefined, { type: '' }),
@@ -53,7 +54,7 @@ const undoable: Undoable<any> = (reducer) => {
 		};
 	};
 
-	return (state = initialState(), action) => {
+	return scopeToActions((state, action) => {
 		const { past, present, future } = state;
 
 		switch (action.type) {
@@ -63,7 +64,7 @@ const undoable: Undoable<any> = (reducer) => {
 		default:
 			return defaultNextState(state, action);
 		}
-	};
+	}, undoableActions(wrappedActions), initialState);
 };
 
 export { undoable };

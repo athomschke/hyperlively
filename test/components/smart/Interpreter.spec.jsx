@@ -1,12 +1,12 @@
 // @flow
 import { expect } from 'chai';
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
 import { forEach } from 'lodash';
+import { shallow } from 'enzyme';
 import { spy, stub } from 'sinon';
 
 import Interpreter, { type InterpreterProps } from 'src/client/app/components/smart/Interpreter';
-import InterpretationChooser from 'src/client/app/components/smart/InterpretationChooser';
+import InterpretationChooser from 'src/client/app/containers/InterpretationChooser';
 import { exampleStrokes, point } from 'test/helpers';
 
 const defaultProps: () => InterpreterProps = () => ({
@@ -16,10 +16,12 @@ const defaultProps: () => InterpreterProps = () => ({
 	sketches: [],
 	specificActions: [],
 	performAction: () => undefined,
+	setInterval: () => 1,
+	clearInterval: () => undefined,
 });
 
 const renderWithProps = (props: InterpreterProps) =>
-	TestUtils.renderIntoDocument(<Interpreter {...props} />);
+	shallow(<Interpreter {...props} />);
 
 describe('Interpreter', () => {
 	afterEach(() => {
@@ -34,9 +36,7 @@ describe('Interpreter', () => {
 				...defaultProps(),
 				interpretations: { shapes: [], texts: [] },
 			});
-			const interpretationChooser = TestUtils.scryRenderedComponentsWithType(
-				list, InterpretationChooser)[0];
-			expect(interpretationChooser.props.isOpen).to.equal(true);
+			expect(list.find(InterpretationChooser).prop('isOpen')).to.equal(true);
 		});
 
 		it('renders the candidates already received from hw recognition', () => {
@@ -44,9 +44,7 @@ describe('Interpreter', () => {
 				...defaultProps(),
 				interpretations: { shapes: [], texts: [] },
 			});
-			const interpretationChooser = TestUtils.scryRenderedComponentsWithType(
-				list, InterpretationChooser)[0];
-			expect(interpretationChooser.props.isOpen).to.equal(true);
+			expect(list.find(InterpretationChooser).prop('isOpen')).to.equal(true);
 		});
 	});
 
@@ -64,7 +62,7 @@ describe('Interpreter', () => {
 		});
 
 		it('Does nothing without a callback', () => {
-			list.performAction([{
+			list.instance().performAction([{
 				name: 'foobar',
 				parameters: 0,
 			}], []);
@@ -72,10 +70,10 @@ describe('Interpreter', () => {
 		});
 
 		it('removes the list', () => {
-			spy(list, 'deactivateInterpretation');
-			list.performAction({}, 'updatePosition');
-			expect(list.deactivateInterpretation.callCount).to.equal(1);
-			list.deactivateInterpretation.restore();
+			spy(list.instance(), 'deactivateInterpretation');
+			list.instance().performAction({}, 'updatePosition');
+			expect(list.instance().deactivateInterpretation.callCount).to.equal(1);
+			list.instance().deactivateInterpretation.restore();
 		});
 	});
 
@@ -95,7 +93,7 @@ describe('Interpreter', () => {
 			interpreter.setState({
 				interpretation: {},
 			});
-			interpreter.performAction([{
+			interpreter.instance().performAction([{
 				...defaultProps(),
 				name: 'foobarRun',
 				parameters: 2,
@@ -115,7 +113,7 @@ describe('Interpreter', () => {
 					shapes: [],
 				},
 			});
-			interpreter.performAction([{
+			interpreter.instance().performAction([{
 				name: 'runWithTwoParameters',
 				parameters: 2,
 			}, {
@@ -146,7 +144,7 @@ describe('Interpreter', () => {
 			interpreter.setState({
 				interpretation: {},
 			});
-			interpreter.performAction({}, 'foobarRun');
+			interpreter.instance().performAction({}, 'foobarRun');
 			expect(interpreter).to.exist();
 		});
 	});
@@ -171,61 +169,54 @@ describe('Interpreter', () => {
 		});
 
 		it('returns an empty array if none are selected', () => {
-			expect(interpreter.getSelectedStrokes()).to.have.length(0);
+			expect(interpreter.instance().getSelectedStrokes()).to.have.length(0);
 		});
 
 		it('returns a non empty array if none are selected', () => {
-			interpreter.props.sketches[0].strokes[0].selected = true;
-			expect(interpreter.getSelectedStrokes()).to.have.length(1);
+			interpreter.prop('sketches')[0].strokes[0].selected = true;
+			expect(interpreter.instance().getSelectedStrokes()).to.have.length(1);
 		});
 	});
 
 	describe('Letting actions tick', () => {
 		let interpreter;
 		let clearedTimout;
-		let setIntervalStub;
-		let clearIntervalStub;
 
 		beforeEach(() => {
 			interpreter = renderWithProps({
 				...defaultProps(),
 				performAction: spy(),
+				setInterval: stub(),
+				clearInterval: stub(),
 			});
-			setIntervalStub = stub(window, 'setInterval');
-			clearIntervalStub = stub(window, 'clearInterval');
-		});
-
-		afterEach(() => {
-			window.setInterval.restore();
-			window.clearInterval.restore();
 		});
 
 		it('lets them tick forever without a fourth parameter', () => {
-			interpreter.tickActions([{ name: 'action', parameters: 2 }], ['a', 'b'], 1000);
-			expect(setIntervalStub).to.have.been.calledOnce();
-			const timeout = setIntervalStub.getCall(0).args[0];
-			const interval = setIntervalStub.getCall(0).args[1];
+			interpreter.instance().tickActions([{ name: 'action', parameters: 2 }], ['a', 'b'], 1000);
+			expect(interpreter.prop('setInterval')).to.have.been.calledOnce();
+			const timeout = interpreter.prop('setInterval').getCall(0).args[0];
+			const interval = interpreter.prop('setInterval').getCall(0).args[1];
 			expect(interval).to.equal(1000);
 			timeout();
-			expect(interpreter.props.performAction.args[0]).to.eql(['action', 'a', 'b']);
+			expect(interpreter.prop('performAction').args[0]).to.eql(['action', 'a', 'b']);
 			expect(clearedTimout).to.be.undefined();
 		});
 
 		it('stops after n ticks if given', () => {
 			const intervalId = 1234;
-			setIntervalStub.returns(intervalId);
-			interpreter.tickActions([{ name: 'action', parameters: 2 }], ['a', 'b'], 1000, 2);
-			expect(setIntervalStub).to.have.been.calledOnce();
-			const timeout = setIntervalStub.getCall(0).args[0];
-			const interval = setIntervalStub.getCall(0).args[1];
+			interpreter.prop('setInterval').returns(intervalId);
+			interpreter.instance().tickActions([{ name: 'action', parameters: 2 }], ['a', 'b'], 1000, 2);
+			expect(interpreter.prop('setInterval')).to.have.been.calledOnce();
+			const timeout = interpreter.prop('setInterval').getCall(0).args[0];
+			const interval = interpreter.prop('setInterval').getCall(0).args[1];
 			expect(interval).to.equal(1000);
 			timeout();
-			expect(interpreter.props.performAction.args[0]).to.eql(['action', 'a', 'b']);
-			expect(clearIntervalStub).to.not.have.been.called();
+			expect(interpreter.prop('performAction').args[0]).to.eql(['action', 'a', 'b']);
+			expect(interpreter.prop('clearInterval')).to.not.have.been.called();
 			timeout();
-			expect(interpreter.props.performAction.args[1]).to.eql(['action', 'a', 'b']);
-			expect(clearIntervalStub).to.have.been.calledOnce();
-			expect(clearIntervalStub).to.have.been.calledWith(intervalId);
+			expect(interpreter.prop('performAction').args[1]).to.eql(['action', 'a', 'b']);
+			expect(interpreter.prop('clearInterval')).to.have.been.calledOnce();
+			expect(interpreter.prop('clearInterval')).to.have.been.calledWith(intervalId);
 		});
 	});
 });

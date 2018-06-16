@@ -11,6 +11,8 @@ export type InterpreterProps = {
 	showInterpreter: boolean,
 	interpretations: RecognitionResult,
 	specificActions: Array<ActionMapping>,
+	setInterval: (() => void, number) => number,
+	clearInterval: (interval: number) => void,
 	onInterpretationDone: (boolean) => void,
 }
 
@@ -43,11 +45,11 @@ export default class extends PureComponent<InterpreterProps> {
 
 	tickActions(items: Functions, values: Parameters, interval: number, endAfter?: number) {
 		let counter = endAfter || 0;
-		const tickInterval = setInterval(() => {
+		const tickInterval = this.props.setInterval(() => {
 			this.performAction(items, values);
 			counter -= 1;
 			if (counter === 0) {
-				clearInterval(tickInterval);
+				this.props.clearInterval(tickInterval);
 			}
 		}, interval);
 	}

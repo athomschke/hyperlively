@@ -57,10 +57,10 @@ describe('Action Chooser', () => {
 	describe('Choosing an action', () => {
 		it('performs the action', () => {
 			const actionChooser = shallowWithProps({});
-			spy(actionChooser.instance(), 'onActionChoose');
+			spy(actionChooser.instance(), 'onFunctionsChoose');
 			const list = actionChooser.find(JsonPropertyChooser);
-			list.props().onParameterChoose({}, 'updatePosition');
-			expect(actionChooser.instance().onActionChoose.callCount).to.equal(1);
+			list.props().onParameterChoose(['hide (strokes)']);
+			expect(actionChooser.instance().onFunctionsChoose.callCount).to.equal(1);
 		});
 	});
 });
