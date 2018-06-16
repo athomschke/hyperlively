@@ -1,5 +1,5 @@
 // @flow
-import type { Stroke, TextCandidate, ShapeCandidate, JSONPath } from './typeDefinitions';
+import type { Stroke, TextCandidate, ShapeCandidate, JSONPath, Functions, Parameters } from './typeDefinitions';
 import { APPEND_POINT, APPEND_STROKE } from './constants/actionTypes';
 
 export type APPEND_POINT_ACTION = {
@@ -179,4 +179,14 @@ export type CHECK_PARAMETERS_PATH_ACTION = {
 export type COLLAPSE_PARAMETERS_PATH_ACTION = {
 	type: 'COLLAPSE_PARAMETERS_PATH',
 	path: JSONPath,
+}
+
+export type CHOOSE_FUNCTIONS_ACTION = {
+	type: 'CHOOSE_FUNCTIONS',
+	functions: Functions,
+}
+
+export type CHOOSE_PARAMETERS_ACTION = {
+	type: 'CHOOSE_PARAMETERS',
+	parameters: Parameters,
 }

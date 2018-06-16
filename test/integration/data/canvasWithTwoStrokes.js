@@ -54,6 +54,10 @@ const canvasWithTwoStrokes = (): HyperlivelyState => ({
 			checkedPath: [],
 			collapsedPath: [],
 		},
+		interpretations: {
+			functions: [],
+			parameters: [],
+		},
 	},
 });
 

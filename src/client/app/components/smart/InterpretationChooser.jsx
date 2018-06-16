@@ -8,23 +8,24 @@ import type { FunctionConfiguration, TreeParameter, ActionMapping, RecognitionRe
 import ActionChooser from 'src/client/app/containers/ActionChooser';
 import ParameterChooser from 'src/client/app/containers/ParameterChooser';
 
-type State = {
+export type InterpretationChooserProps = {
+	onInterpretationChoose: (_functions: Functions, _parameters: Parameters) => void,
+	onInterpretationTick: (_functions: Functions, _parameters: Parameters, _interval: number) => void,
+	onFunctionsChoose: (functions: Functions) => void,
+	onParametersChoose: (parameters: Parameters) => void,
+	specificActions: Array<ActionMapping>,
+	interpretations: RecognitionResult,
 	parameters: Parameters,
 	functions: Functions
 };
 
-export type InterpretationChooserProps = {
-	onInterpretationChoose: (_functions: Functions, _parameters: Parameters) => void,
-	onInterpretationTick: (_functions: Functions, _parameters: Parameters, _interval: number) => void,
-	specificActions: Array<ActionMapping>,
-	interpretations: RecognitionResult,
-};
-
 export default class InterpretationChooser
-	extends PureComponent<InterpretationChooserProps, State> {
+	extends PureComponent<InterpretationChooserProps> {
 	static defaultProps = {
 		onInterpretationChoose: () => undefined,
 		onInterpretationTick: () => undefined,
+		onParametersChoose: () => undefined,
+		onActionsChoose: () => undefined,
 	}
 
 	constructor() {
@@ -35,26 +36,17 @@ export default class InterpretationChooser
 		(this:any).onInterpretationTick = this.onInterpretationTick.bind(this);
 	}
 
-	state: State;
-
-	componentDidMount() {
-		this.state = {
-			parameters: [],
-			functions: [],
-		};
-	}
-
 	onActionChoose(functions: Array<FunctionConfiguration>) {
-		this.setState({ functions });
+		this.props.onFunctionsChoose(functions);
 	}
 
 	onParameterChoose(parameters: Array<TreeParameter>) {
-		this.setState({ parameters });
+		this.props.onParametersChoose(parameters);
 	}
 
 	onInterpretationChoose() {
 		let functions = [];
-		forEach(this.state.functions, (aFunction) => {
+		forEach(this.props.functions, (aFunction) => {
 			const specificAction = find(this.props.specificActions,
 				action => action.actionName === aFunction.name);
 			if (specificAction) {
@@ -65,12 +57,12 @@ export default class InterpretationChooser
 				functions.push(aFunction);
 			}
 		});
-		this.props.onInterpretationChoose(functions, this.state.parameters);
-		this.onParameterChoose(this.state.parameters);
+		this.props.onInterpretationChoose(functions, this.props.parameters);
+		this.onParameterChoose(this.props.parameters);
 	}
 
 	onInterpretationTick() {
-		this.props.onInterpretationTick(this.state.functions, this.state.parameters, 1000);
+		this.props.onInterpretationTick(this.props.functions, this.props.parameters, 1000);
 	}
 
 	props: InterpretationChooserProps

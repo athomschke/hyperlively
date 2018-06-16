@@ -1,6 +1,6 @@
 // @flow
 import * as ActionTypes from 'src/client/app/constants/actionTypes';
-import type { JSONPath, TextCandidate, ShapeCandidate, Stroke } from 'src/client/app/typeDefinitions';
+import type { JSONPath, TextCandidate, ShapeCandidate, Stroke, Functions, Parameters } from 'src/client/app/typeDefinitions';
 
 export function appendSpecificAction(actionName: string, ...actionNames: Array<string>) {
 	return { type: ActionTypes.APPEND_SPECIFC_ACTION, actionName, actionNames };
@@ -154,4 +154,14 @@ export const checkParametersPath = (path: JSONPath) => ({
 export const collapseParametersPath = (path: JSONPath) => ({
 	type: ActionTypes.COLLAPSE_PARAMETERS_PATH,
 	path,
+});
+
+export const chooseFunctions = (functions: Functions) => ({
+	type: ActionTypes.CHOOSE_FUNCTIONS,
+	functions,
+});
+
+export const chooseParameters = (parameters: Parameters) => ({
+	type: ActionTypes.CHOOSE_PARAMETERS,
+	parameters,
 });

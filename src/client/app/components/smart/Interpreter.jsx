@@ -3,8 +3,7 @@ import React, { PureComponent } from 'react';
 import { map, flatten, filter, last, forEach } from 'lodash';
 
 import type { FunctionConfiguration, Sketch, RecognitionResult, Functions, Parameters, ActionMapping } from 'src/client/app/typeDefinitions';
-
-import InterpretationChooser from './InterpretationChooser';
+import InterpretationChooser from 'src/client/app/containers/InterpretationChooser';
 
 export type InterpreterProps = {
 	performAction: () => void,

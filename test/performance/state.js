@@ -84,6 +84,10 @@ const hyperlivelyState: HyperlivelyState = {
 			checkedPath: [],
 			collapsedPath: [],
 		},
+		interpretations: {
+			functions: [],
+			parameters: [],
+		},
 	},
 };
 

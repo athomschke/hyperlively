@@ -192,6 +192,10 @@ const canvasWithTwoScenes = (): HyperlivelyState => ({
 			checkedPath: [],
 			collapsedPath: [],
 		},
+		interpretations: {
+			functions: [],
+			parameters: [],
+		},
 	},
 });
 

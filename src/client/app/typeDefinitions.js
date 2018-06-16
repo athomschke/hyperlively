@@ -183,9 +183,15 @@ export type JSONChooserState = {
 	checkedPath: JSONPath,
 }
 
+export type InterpretationsState = {
+	functions: Functions,
+	parameters: Parameters,
+}
+
 export type UiState = {
 	actions: JSONChooserState,
 	parameters: JSONChooserState,
+	interpretations: InterpretationsState
 }
 
 export type HyperlivelyState = {

@@ -62,6 +62,10 @@ const canvasWithIrregularStrokesWithPloma = (): HyperlivelyState => ({
 			checkedPath: [],
 			collapsedPath: [],
 		},
+		interpretations: {
+			functions: [],
+			parameters: [],
+		},
 	},
 });
 

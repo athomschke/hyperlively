@@ -36,6 +36,10 @@ const emptyCanvas = (): HyperlivelyState => ({
 			checkedPath: [],
 			collapsedPath: [],
 		},
+		interpretations: {
+			functions: [],
+			parameters: [],
+		},
 	},
 });
 
