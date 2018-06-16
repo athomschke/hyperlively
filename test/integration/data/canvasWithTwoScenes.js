@@ -183,6 +183,16 @@ const canvasWithTwoScenes = (): HyperlivelyState => ({
 			}],
 		},
 	},
+	ui: {
+		actions: {
+			checkedPath: [],
+			collapsedPath: [],
+		},
+		parameters: {
+			checkedPath: [],
+			collapsedPath: [],
+		},
+	},
 });
 
 export default canvasWithTwoScenes;

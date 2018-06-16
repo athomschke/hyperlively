@@ -30,6 +30,16 @@ const hyperlively: HyperlivelyState = {
 	threshold: 50,
 	drawing: false,
 	content,
+	ui: {
+		actions: {
+			checkedPath: [],
+			collapsedPath: [],
+		},
+		parameters: {
+			checkedPath: [],
+			collapsedPath: [],
+		},
+	},
 };
 
 export default hyperlively;

@@ -5,9 +5,8 @@ import { forEach, find, map, concat } from 'lodash';
 import style from 'src/client/app/stylesheets/components/smart/actionChooser.scss';
 import { relativeDividerPosition } from 'src/client/app/constants/configuration';
 import type { FunctionConfiguration, TreeParameter, ActionMapping, RecognitionResult, Parameters, Functions } from 'src/client/app/typeDefinitions';
-
-import ActionChooser from './ActionChooser';
-import ParameterChooser from './ParameterChooser';
+import ActionChooser from 'src/client/app/containers/ActionChooser';
+import ParameterChooser from 'src/client/app/containers/ParameterChooser';
 
 type State = {
 	parameters: Parameters,

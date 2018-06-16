@@ -9,6 +9,7 @@ import { interpretation } from './interpretation';
 import { drawing } from './drawing';
 import { content } from './content';
 import { specificActions } from './specificActions';
+import { ui } from './ui';
 
 type HyperlivelyReducer = (state?: HyperlivelyState, action: CommonAction) => HyperlivelyState;
 
@@ -21,6 +22,7 @@ const initialHyperlivelyState = (): HyperlivelyState => ({
 	drawing: drawing(undefined, { type: '' }),
 	content: content(undefined, { type: '' }),
 	specificActions: specificActions(undefined, { type: '' }),
+	ui: ui(undefined, { type: '' }),
 });
 
 export const hyperlively: HyperlivelyReducer = (state = initialHyperlivelyState(), action) => ({
@@ -32,6 +34,7 @@ export const hyperlively: HyperlivelyReducer = (state = initialHyperlivelyState(
 	drawing: drawing(state.drawing, action),
 	content: content(state.content, action),
 	specificActions: specificActions(state.specificActions, action),
+	ui: ui(state.ui, action),
 });
 
 export default hyperlively;

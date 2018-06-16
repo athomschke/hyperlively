@@ -32,6 +32,10 @@ const exampleTree = {
 
 const defaultProps = (): JsonPropertyChooserProps => ({
 	onParameterChoose: () => undefined,
+	onCheckedPathsChange: () => undefined,
+	onCollapsedPathsChange: () => undefined,
+	checkedPaths: [],
+	collapsedPaths: [],
 	jsonTree: {},
 });
 
@@ -148,7 +152,11 @@ describe('JsonProperty Chooser', () => {
 		beforeEach(() => {
 			parameterChooser = renderWithProps({
 				jsonTree: exampleTree,
+				checkedPaths: [],
+				collapsedPaths: [],
 				onParameterChoose: () => undefined,
+				onCheckedPathsChange: () => undefined,
+				onCollapsedPathsChange: () => undefined,
 			});
 			collapseIcon = TestUtils.scryRenderedDOMComponentsWithClass(parameterChooser, 'collapse')[0];
 		});
@@ -173,7 +181,11 @@ describe('JsonProperty Chooser', () => {
 		beforeEach(() => {
 			parameterChooser = renderWithProps({
 				jsonTree: exampleTree,
+				checkedPaths: [],
+				collapsedPaths: [],
 				onParameterChoose: () => undefined,
+				onCheckedPathsChange: () => undefined,
+				onCollapsedPathsChange: () => undefined,
 			});
 			collapseIcon = TestUtils.scryRenderedDOMComponentsWithClass(parameterChooser, 'collapse')[0];
 		});
@@ -196,11 +208,18 @@ describe('JsonProperty Chooser', () => {
 		let parameterChooser;
 		let checkbox: ReactElement<'tree-view-node-checkbox'>;
 		let checkboxNode: Element;
+		const onParameterChoose = spy();
+		const onCollapsedPathsChange = spy();
+		const onCheckedPathsChange = spy();
 
 		beforeEach(() => {
 			parameterChooser = renderWithProps({
 				jsonTree: exampleTree,
-				onParameterChoose: () => undefined,
+				onCollapsedPathsChange,
+				onCheckedPathsChange,
+				checkedPaths: [],
+				collapsedPaths: [],
+				onParameterChoose,
 			});
 			checkboxNode = TestUtils.scryRenderedDOMComponentsWithClass(parameterChooser, 'tree-view-node-checkbox')[0];
 			checkbox = TestUtils.scryRenderedComponentsWithType(parameterChooser, TreeNode)[0];
@@ -226,16 +245,24 @@ describe('JsonProperty Chooser', () => {
 
 		it('deselects it if it was selected', () => {
 			TestUtils.Simulate.click(checkboxNode);
-			expect(parameterChooser.state.checkedPaths).to.have.length(1);
+			expect(onParameterChoose).to.have.been.called.Once();
+			expect(onParameterChoose.calls[0].args[0]).to.have.length(1);
 			TestUtils.Simulate.click(checkboxNode);
-			expect(parameterChooser.state.checkedPaths).to.have.length(0);
+			expect(onParameterChoose).to.have.been.called.Twice();
+			expect(onParameterChoose.calls[1].args[0]).to.have.length(0);
 		});
 	});
 
 	describe('Checking a selected stroke', () => {
+		const onCheckedPathsChange = spy();
+
 		it('calls the callback with it', () => {
 			const onParameterChoose = spy();
 			const parameterChooser = renderWithProps({
+				onCheckedPathsChange,
+				onCollapsedPathsChange: () => undefined,
+				checkedPaths: [],
+				collapsedPaths: [],
 				onParameterChoose,
 				jsonTree: {
 					...exampleTree,
@@ -244,7 +271,7 @@ describe('JsonProperty Chooser', () => {
 			});
 			const checkbox = TestUtils.scryRenderedDOMComponentsWithClass(parameterChooser, 'tree-view-node-checkbox')[6];
 			TestUtils.Simulate.click(checkbox);
-			expect(parameterChooser.state.checkedPaths[0][0]).to.equal('selectedStrokes');
+			expect(onCheckedPathsChange.calls[0].args[0][0]).to.equal('selectedStrokes');
 			expect(onParameterChoose).to.have.been.calledWith([{ e: 'e' }]);
 		});
 	});

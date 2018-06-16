@@ -4,12 +4,7 @@ import { TreeMenu } from 'react-tree-menu';
 import { cloneDeep, map, keys } from 'lodash';
 
 import { getPathToProperty, findArraysIndex, formatObject } from 'src/client/app/helpers/choosingActions';
-import type { TreeParameter } from 'src/client/app/typeDefinitions';
-
-type State = {
-	collapsedPaths: Array<Array<string>>,
-	checkedPaths: Array<Array<string>>,
-};
+import type { TreeParameter, JSONPath } from 'src/client/app/typeDefinitions';
 
 export type JSONObject = {
 	[key: string]: any;
@@ -17,22 +12,21 @@ export type JSONObject = {
 
 export type JsonPropertyChooserProps = {
 	jsonTree: JSONObject,
+	checkedPaths: JSONPath,
+	collapsedPaths: JSONPath,
 	onParameterChoose: (parameters: Array<TreeParameter>) => void,
+	onCheckedPathsChange: (checkedPaths: Array<Array<string>>) => void,
+	onCollapsedPathsChange: (collapsedPaths: Array<Array<string>>) => void,
 }
 
-export default class JsonPropertyChooser extends PureComponent<JsonPropertyChooserProps, State> {
+export default class JsonPropertyChooser extends PureComponent<JsonPropertyChooserProps> {
 	static defaultProps: JsonPropertyChooserProps = {
 		jsonTree: {},
-		onParameterChoose: (_parameters: Array<TreeParameter>) => {},
-	}
-
-	state: State;
-
-	componentDidMount() {
-		this.state = {
-			collapsedPaths: [],
-			checkedPaths: [],
-		};
+		checkedPaths: [],
+		collapsedPaths: [],
+		onParameterChoose: _parameters => undefined,
+		onCheckedPathsChange: _parameters => undefined,
+		onCollapsedPathsChange: _parameters => undefined,
 	}
 
 	componentWillReceiveProps(props: any) {
@@ -45,14 +39,14 @@ export default class JsonPropertyChooser extends PureComponent<JsonPropertyChoos
 		const pathToProperty: Array<string> =
 			getPathToProperty(path, this.getFormattedData());
 		const checkedIndex: number =
-			findArraysIndex(this.state.checkedPaths, pathToProperty);
+			findArraysIndex(this.props.checkedPaths, pathToProperty);
 		let checkedPaths: Array<Array<string>>;
 		if (checkedIndex >= 0) {
-			checkedPaths = this.state.checkedPaths
+			checkedPaths = this.props.checkedPaths
 				.slice(0, checkedIndex)
-				.concat(this.state.checkedPaths.slice(checkedIndex + 1));
+				.concat(this.props.checkedPaths.slice(checkedIndex + 1));
 		} else {
-			checkedPaths = this.state.checkedPaths.concat([pathToProperty]);
+			checkedPaths = this.props.checkedPaths.concat([pathToProperty]);
 		}
 		const rawData: JSONObject = {
 			...this.props.jsonTree,
@@ -73,26 +67,20 @@ export default class JsonPropertyChooser extends PureComponent<JsonPropertyChoos
 		// $FlowFixMe needs flow array type refinement, see https://github.com/facebook/flow/issues/1414
 		const values: Array<JSONObject | any> = mixedValues.filter(value => value !== null);
 		this.props.onParameterChoose(values);
-		this.setState({
-			checkedPaths,
-		});
+		this.props.onCheckedPathsChange(checkedPaths);
 	}
 
 	onTreeNodeCollapseChange(path: Array<number>) {
 		const pathToProperty: Array<string> =
 			getPathToProperty(path, this.getFormattedData());
 		const collapsedIndex: number =
-			findArraysIndex(this.state.collapsedPaths, pathToProperty);
+			findArraysIndex(this.props.collapsedPaths, pathToProperty);
 		if (collapsedIndex >= 0) {
-			this.setState({
-				collapsedPaths: this.state.collapsedPaths
-					.slice(0, collapsedIndex)
-					.concat(this.state.collapsedPaths.slice(collapsedIndex + 1)),
-			});
+			this.props.onCollapsedPathsChange(this.props.collapsedPaths
+				.slice(0, collapsedIndex)
+				.concat(this.props.collapsedPaths.slice(collapsedIndex + 1)));
 		} else {
-			this.setState({
-				collapsedPaths: this.state.collapsedPaths.concat([pathToProperty]),
-			});
+			this.props.onCollapsedPathsChange(this.props.collapsedPaths.concat([pathToProperty]));
 		}
 	}
 
@@ -100,9 +88,9 @@ export default class JsonPropertyChooser extends PureComponent<JsonPropertyChoos
 		const rawData: Object = cloneDeep(this.props.jsonTree);
 		return formatObject(
 			rawData,
-			this.state && this.state.checkedPaths,
-			this.state && this.state.collapsedPaths,
-			this.state && this.state.checkedPaths,
+			this.props.checkedPaths,
+			this.props.collapsedPaths,
+			this.props.checkedPaths,
 			0);
 	}
 

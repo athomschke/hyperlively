@@ -1,6 +1,6 @@
 // @flow
 import * as ActionTypes from 'src/client/app/constants/actionTypes';
-import type { TextCandidate, ShapeCandidate, Stroke } from 'src/client/app/typeDefinitions';
+import type { JSONPath, TextCandidate, ShapeCandidate, Stroke } from 'src/client/app/typeDefinitions';
 
 export function appendSpecificAction(actionName: string, ...actionNames: Array<string>) {
 	return { type: ActionTypes.APPEND_SPECIFC_ACTION, actionName, actionNames };
@@ -134,4 +134,24 @@ export const selectInside = (strokes: Array<Stroke>) => ({
 	type: ActionTypes.SELECT_INSIDE,
 	strokes,
 	sceneIndex: NaN,
+});
+
+export const checkActionsPath = (path: JSONPath) => ({
+	type: ActionTypes.CHECK_ACTIONS_PATH,
+	path,
+});
+
+export const collapseActionsPath = (path: JSONPath) => ({
+	type: ActionTypes.COLLAPSE_ACTIONS_PATH,
+	path,
+});
+
+export const checkParametersPath = (path: JSONPath) => ({
+	type: ActionTypes.CHECK_PARAMETERS_PATH,
+	path,
+});
+
+export const collapseParametersPath = (path: JSONPath) => ({
+	type: ActionTypes.COLLAPSE_PARAMETERS_PATH,
+	path,
 });

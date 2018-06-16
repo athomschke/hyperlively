@@ -1,5 +1,5 @@
 // @flow
-import type { Stroke, TextCandidate, ShapeCandidate } from './typeDefinitions';
+import type { Stroke, TextCandidate, ShapeCandidate, JSONPath } from './typeDefinitions';
 import { APPEND_POINT, APPEND_STROKE } from './constants/actionTypes';
 
 export type APPEND_POINT_ACTION = {
@@ -159,4 +159,24 @@ export type APPEND_SPECIFC_ACTION_ACTION = {
 	type: 'APPEND_SPECIFC_ACTION',
 	actionName: string,
 	actionNames: Array<string>,
+}
+
+export type CHECK_ACTIONS_PATH_ACTION = {
+	type: 'CHECK_ACTIONS_PATH',
+	path: JSONPath,
+}
+
+export type COLLAPSE_ACTIONS_PATH_ACTION = {
+	type: 'COLLAPSE_ACTIONS_PATH',
+	path: JSONPath,
+}
+
+export type CHECK_PARAMETERS_PATH_ACTION = {
+	type: 'CHECK_PARAMETERS_PATH',
+	path: JSONPath,
+}
+
+export type COLLAPSE_PARAMETERS_PATH_ACTION = {
+	type: 'COLLAPSE_PARAMETERS_PATH',
+	path: JSONPath,
 }

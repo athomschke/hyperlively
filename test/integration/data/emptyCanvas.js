@@ -27,6 +27,16 @@ const emptyCanvas = (): HyperlivelyState => ({
 			future: [],
 		},
 	},
+	ui: {
+		actions: {
+			checkedPath: [],
+			collapsedPath: [],
+		},
+		parameters: {
+			checkedPath: [],
+			collapsedPath: [],
+		},
+	},
 });
 
 export default emptyCanvas;

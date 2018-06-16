@@ -1,32 +1,34 @@
 // @flow
 import { last, keys, map, filter, isEqual, findIndex } from 'lodash';
 
-import { type ReactTreeNodeFormat, type ReactTreeLeafFormat } from 'src/client/app/typeDefinitions';
+import type { ReactTreeNodeFormat, ReactTreeLeafFormat, JSONPath } from 'src/client/app/typeDefinitions';
 
 export const findArraysIndex = (
-	containingArray: Array<Array<any>>,
+	containingArray: JSONPath,
 	containedArray: Array<any>,
 ): number =>
 	findIndex(containingArray, possibleMatch =>
 		isEqual(possibleMatch, containedArray));
 
 export const findArraysEndingOnItem = (
-	arrays: Array<Array<string>>,
+	arrays: JSONPath,
 	item: string,
-): Array<Array<string>> =>
+	depth: number,
+): JSONPath =>
 	filter(arrays, matchingCheck =>
-		last(matchingCheck) === item);
+		(last(matchingCheck) === item) && matchingCheck.length === depth + 1);
 
 const formatTreeNode = (
 	object: Object,
 	key: string,
-	keyChecks: Array<Array<string>>,
-	allChecks: Array<Array<string>>,
+	keyChecks: JSONPath,
+	allChecks: JSONPath,
 	children: Array<ReactTreeLeafFormat | ReactTreeNodeFormat>,
-	keyCollapses: Array<Array<string>>,
+	keyCollapses: JSONPath,
+	depth: number,
 ): ReactTreeNodeFormat => {
-	const matchingChecks: Array<Array<string>> =
-		findArraysEndingOnItem(keyChecks, key);
+	const matchingChecks: JSONPath =
+		findArraysEndingOnItem(keyChecks, key, depth);
 	const parameterIndex: number =
 		findArraysIndex(allChecks, matchingChecks[0]);
 	const parameterIndicator: string =
@@ -37,7 +39,7 @@ const formatTreeNode = (
 		key,
 		label: `${key}${parameterIndicator}`,
 		children,
-		collapsed: findArraysEndingOnItem(keyCollapses, key).length > 0,
+		collapsed: findArraysEndingOnItem(keyCollapses, key, depth).length > 0,
 		collapsible: true,
 	};
 };
@@ -45,11 +47,12 @@ const formatTreeNode = (
 export const formatTreeLeaf = (
 	object: Object,
 	key: string,
-	keyChecks: Array<Array<string>>,
-	allChecks: Array<Array<string>>,
+	keyChecks: JSONPath,
+	allChecks: JSONPath,
+	depth: number,
 ): ReactTreeLeafFormat => {
-	const matchingChecks: Array<Array<string>> =
-		findArraysEndingOnItem(keyChecks, key);
+	const matchingChecks: JSONPath =
+		findArraysEndingOnItem(keyChecks, key, depth);
 	const parameterIndex: number =
 		findArraysIndex(allChecks, matchingChecks[0]);
 	const parameterIndicator: string =
@@ -90,15 +93,15 @@ export const arraysWithStringAtIndex = (
 
 export const formatObject = (
 	anObject: Object,
-	checkedArrays: Array<Array<string>>,
-	collapsedArrays: Array<Array<string>>,
-	origCheckedArrays: Array<Array<string>>,
+	checkedArrays: JSONPath,
+	collapsedArrays: JSONPath,
+	origCheckedArrays: JSONPath,
 	depth: number,
 ): Array<ReactTreeLeafFormat | ReactTreeNodeFormat> =>
 	keys(anObject).map((key: string) => {
-		const checksContainingNode: Array<Array<string>> =
+		const checksContainingNode: JSONPath =
 			arraysWithStringAtIndex(checkedArrays, key, depth);
-		const collapsesContainingNode: Array<Array<string>> =
+		const collapsesContainingNode: JSONPath =
 			arraysWithStringAtIndex(collapsedArrays, key, depth);
 		let children: Array<ReactTreeLeafFormat | ReactTreeNodeFormat> = [];
 		if (anObject[key] instanceof Object) {
@@ -116,12 +119,14 @@ export const formatObject = (
 				checksContainingNode,
 				origCheckedArrays,
 				children,
-				collapsesContainingNode);
+				collapsesContainingNode,
+				depth);
 		}
 		return formatTreeLeaf(
 			anObject,
 			key,
 			checksContainingNode,
 			origCheckedArrays,
+			depth,
 		);
 	}, this);

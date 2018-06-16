@@ -176,6 +176,18 @@ export type OnNodeChangedFunction = (HTMLDivElement | null) => void;
 
 export type PerformActionFunction = (_name: string, ..._rest: any[]) => void;
 
+export type JSONPath = Array<Array<string>>;
+
+export type JSONChooserState = {
+	collapsedPath: JSONPath,
+	checkedPath: JSONPath,
+}
+
+export type UiState = {
+	actions: JSONChooserState,
+	parameters: JSONChooserState,
+}
+
 export type HyperlivelyState = {
 	interpretation: InterpretationState,
 	ploma: PlomaState,
@@ -185,4 +197,5 @@ export type HyperlivelyState = {
 	drawing: boolean,
 	content: Content,
 	specificActions: Array<ActionMapping>,
+	ui: UiState,
 }
