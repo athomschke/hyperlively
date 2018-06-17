@@ -1,5 +1,5 @@
 // @flow
-import { merge, isEqual, find } from 'lodash';
+import { merge, find } from 'lodash';
 
 import type { Stroke } from 'src/client/app/typeDefinitions';
 import { DEFAULT_PEN_COLOR } from 'src/client/app/constants/drawing';
@@ -32,7 +32,10 @@ const initialStrokeState = (): Stroke => ({
 
 const doStrokesContainStroke = (strokes: Array<Stroke>, aStroke: Stroke) =>
 	find(strokes, stateStroke =>
-		stateStroke.hidden === aStroke.hidden && isEqual(stateStroke.points, aStroke.points));
+		stateStroke.hidden === aStroke.hidden &&
+		stateStroke.points.length === aStroke.points.length &&
+		stateStroke.points[0].timeStamp === aStroke.points[0].timeStamp,
+	);
 
 type StrokeReducer = (state: Stroke, action: StrokeActionType) => Stroke
 

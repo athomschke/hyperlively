@@ -9,8 +9,8 @@ const mapStateToProps = (state) => {
 	returnState.handwritingRecognitionEnabled = state.handwritingRecognition;
 	returnState.showInterpreter = state.interpretation.showInterpreter;
 	returnState.interpretations = state.interpretation.interpretations;
-	returnState.setInterval = setInterval;
-	returnState.clearInterval = clearInterval;
+	returnState.setInterval = setInterval.bind(window);
+	returnState.clearInterval = clearInterval.bind(window);
 	return returnState;
 };
 
