@@ -11,14 +11,14 @@ const WindowContainer = ModifierKey(Fullscreen(DragHandler(Window)));
 
 const mapDispatchToProps = dispatch => ({
 	onDrag: (event) => {
-		dispatch(appendPoint(event.pageX, event.pageY, event.timeStamp));
+		dispatch(appendPoint(event.pageX, event.pageY, Date.now()));
 	},
 	onDragStart: (event) => {
-		dispatch(createStroke(event.pageX, event.pageY, event.timeStamp));
+		dispatch(createStroke(event.pageX, event.pageY, Date.now()));
 		dispatch(toggleDrawing(true));
 	},
 	onDragEnd: (event) => {
-		dispatch(finishStroke(event.pageX, event.pageY, event.timeStamp));
+		dispatch(finishStroke(event.pageX, event.pageY, Date.now()));
 		dispatch(toggleDrawing(false));
 	},
 });

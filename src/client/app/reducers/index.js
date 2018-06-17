@@ -13,7 +13,7 @@ import { ui } from './ui';
 
 type HyperlivelyReducer = (state?: HyperlivelyState, action: CommonAction) => HyperlivelyState;
 
-const initialHyperlivelyState = (): HyperlivelyState => ({
+export const initialHyperlivelyState = (): HyperlivelyState => ({
 	interpretation: interpretation(undefined, { type: '' }),
 	ploma: ploma(undefined, { type: '' }),
 	handwritingRecognition: handwritingRecognition(undefined, { type: '' }),

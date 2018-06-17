@@ -1,12 +1,14 @@
+// @flow
 import { createStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 
 import { type HyperlivelyState } from 'src/client/app/typeDefinitions';
+import { storeState, load } from 'src/client/app/Storage';
 
 import reducers, { initialHyperlivelyState } from './reducers';
 import { myScriptJs } from './sagas/myScriptJs';
 
-export default function configureStore(initialState: HyperlivelyState = initialHyperlivelyState) {
+export default function configureStore(initialState: HyperlivelyState = initialHyperlivelyState()) {
 	const sagaMiddleware = createSagaMiddleware();
 
 	// eslint-disable-next-line no-underscore-dangle
@@ -17,9 +19,20 @@ export default function configureStore(initialState: HyperlivelyState = initialH
 
 	const enhancer = composeEnhancers(applyMiddleware(sagaMiddleware));
 
+	const manipulator = (state: HyperlivelyState) => ({
+		...state,
+		content: {
+			...state.content,
+			undoableScenes: {
+				...state.content.undoableScenes,
+				future: [],
+			},
+		},
+	});
+
 	const store = createStore(
-		reducers,
-		initialState,
+		storeState('hyperlively', reducers, window.localStorage, manipulator),
+		load(window.localStorage, 'hyperlively') || initialState,
 		enhancer,
 	);
 	sagaMiddleware.run(myScriptJs);

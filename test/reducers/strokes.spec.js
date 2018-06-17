@@ -6,6 +6,8 @@ import { point, event, exampleStrokes } from 'test/helpers';
 import { strokes } from 'src/client/app/reducers/content/strokes';
 import type { Stroke } from 'src/client/app/typeDefinitions';
 
+const TIME_STAMP = 23675194;
+
 describe('strokes', () => {
 	describe('handles', () => {
 		it('initial state', () => {
@@ -17,10 +19,10 @@ describe('strokes', () => {
 	describe('creating a stroke', () => {
 		it('adds the first stroke containing a single point', () => {
 			const pointAddEvent = event(10, 10, 100);
-			const newPoint = point(10, 10, 100);
+			const newPoint = point(10, 10, TIME_STAMP);
 			const result = strokes(
 				[],
-				createStroke(pointAddEvent.pageX, pointAddEvent.pageY, pointAddEvent.timeStamp),
+				createStroke(pointAddEvent.pageX, pointAddEvent.pageY, TIME_STAMP),
 			);
 			expect(result).to.have.length(1);
 			expect(result[0].points).to.have.length(1);
@@ -29,10 +31,10 @@ describe('strokes', () => {
 
 		it('adds a stroke to an array of strokes', () => {
 			const pointAddEvent = event(10, 10, 100);
-			const newPoint = point(10, 10, 100);
+			const newPoint = point(10, 10, TIME_STAMP);
 			const result = strokes(
 				exampleStrokes([point(10, 10), point(10, 11), point(10, 12)]),
-				createStroke(pointAddEvent.pageX, pointAddEvent.pageY, pointAddEvent.timeStamp),
+				createStroke(pointAddEvent.pageX, pointAddEvent.pageY, TIME_STAMP),
 			);
 			expect(result).to.have.length(2);
 			expect(result[1].points).to.have.length(1);
@@ -43,10 +45,10 @@ describe('strokes', () => {
 	describe('appending a point', () => {
 		it('creates a stroke containing it if none exists yet', () => {
 			const pointAddEvent = event(10, 10, 100);
-			const newPoint = point(10, 10, 100);
+			const newPoint = point(10, 10, TIME_STAMP);
 			const result = strokes(
 				[],
-				appendPoint(pointAddEvent.pageX, pointAddEvent.pageY, pointAddEvent.timeStamp),
+				appendPoint(pointAddEvent.pageX, pointAddEvent.pageY, TIME_STAMP),
 			);
 			expect(result).to.have.length(1);
 			expect(result[0].points).to.have.length(1);
@@ -55,10 +57,10 @@ describe('strokes', () => {
 
 		it('appends a point to the only stroke', () => {
 			const pointAddEvent = event(10, 11, 100);
-			const newPoint = point(10, 11, 100);
+			const newPoint = point(10, 11, TIME_STAMP);
 			const result = strokes(
 				exampleStrokes([point(10, 10)]),
-				appendPoint(pointAddEvent.pageX, pointAddEvent.pageY, pointAddEvent.timeStamp),
+				appendPoint(pointAddEvent.pageX, pointAddEvent.pageY, TIME_STAMP),
 			);
 			expect(result).to.have.length(1);
 			expect(result[0].points).to.have.length(2);
@@ -67,10 +69,10 @@ describe('strokes', () => {
 
 		it('does not increase the number of strokes if multiple exist already', () => {
 			const pointAddEvent = event(10, 11, 100);
-			const newPoint = point(10, 11, 100);
+			const newPoint = point(10, 11, TIME_STAMP);
 			const result = strokes(
 				exampleStrokes([]).concat(exampleStrokes([])),
-				appendPoint(pointAddEvent.pageX, pointAddEvent.pageY, pointAddEvent.timeStamp),
+				appendPoint(pointAddEvent.pageX, pointAddEvent.pageY, TIME_STAMP),
 			);
 			expect(result).to.have.length(2);
 			expect(result[1].points).to.have.length(1);
@@ -81,9 +83,9 @@ describe('strokes', () => {
 	describe('finishing a stroke', () => {
 		it('appends a point to the last stroke', () => {
 			const pointAddEvent = event(10, 11, 100);
-			const newPoint = point(10, 11, 100);
+			const newPoint = point(10, 11, TIME_STAMP);
 			const finishStrokeAction =
-				finishStroke(pointAddEvent.pageX, pointAddEvent.pageY, pointAddEvent.timeStamp);
+				finishStroke(pointAddEvent.pageX, pointAddEvent.pageY, TIME_STAMP);
 			const result = strokes(
 				[
 					...exampleStrokes([]),

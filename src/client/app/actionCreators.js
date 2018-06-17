@@ -34,7 +34,6 @@ export function toggleInterpreter(boolean: boolean) {
 	return { type: ActionTypes.TOGGLE_INTERPRETER, boolean };
 }
 
-
 export function appendPoint(x: number, y: number, timeStamp: number) {
 	return { type: ActionTypes.APPEND_POINT, x, y, timeStamp, sceneIndex: NaN };
 }

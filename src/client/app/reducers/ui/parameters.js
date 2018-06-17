@@ -1,6 +1,7 @@
 // @flow
 import { COLLAPSE_PARAMETERS_PATH, CHECK_PARAMETERS_PATH } from 'src/client/app/constants/actionTypes';
 import type { COLLAPSE_PARAMETERS_PATH_ACTION, CHECK_PARAMETERS_PATH_ACTION } from 'src/client/app/actionTypeDefinitions';
+import { type StrokeActionType, strokeActions } from 'src/client/app/reducers/content/strokes/stroke';
 import { collapseParametersPath, checkParametersPath } from 'src/client/app/actionCreators';
 import type { JSONChooserState } from 'src/client/app/typeDefinitions';
 import scopeToActions from 'src/client/app/reducers/scopeToActions';
@@ -17,17 +18,23 @@ const collapsedPath = scopeToActions((state, action: COLLAPSE_PARAMETERS_PATH_AC
 }, collapsedPathActions, () => []);
 
 const checkedPathActions = {
+	...strokeActions,
 	CHECK_PARAMETERS_PATH: checkParametersPath,
 };
 
-const checkedPath = scopeToActions((state, action: CHECK_PARAMETERS_PATH_ACTION) => {
+type CHECKED_PATH_ACTIONS = CHECK_PARAMETERS_PATH_ACTION | StrokeActionType;
+
+const checkedPath = scopeToActions((state, action: CHECKED_PATH_ACTIONS) => {
+	if (Object.keys(strokeActions).includes(action.type)) {
+		return [];
+	}
 	if (action.type === CHECK_PARAMETERS_PATH) {
 		return action.path;
 	}
 	return state;
 }, checkedPathActions, () => []);
 
-export type PARAMETERS_ACTION = COLLAPSE_PARAMETERS_PATH_ACTION | CHECK_PARAMETERS_PATH_ACTION;
+export type PARAMETERS_ACTION = COLLAPSE_PARAMETERS_PATH_ACTION | CHECKED_PATH_ACTIONS;
 
 export const parametersActions = {
 	...collapsedPathActions,

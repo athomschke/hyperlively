@@ -205,3 +205,5 @@ export type HyperlivelyState = {
 	specificActions: Array<ActionMapping>,
 	ui: UiState,
 }
+
+export type Manipulator<A> = (state: A) => A;
