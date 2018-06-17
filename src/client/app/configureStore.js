@@ -19,13 +19,20 @@ export default function configureStore(initialState: HyperlivelyState = initialH
 
 	const enhancer = composeEnhancers(applyMiddleware(sagaMiddleware));
 
-	const manipulator = (state: HyperlivelyState) => ({
+	const manipulator = (state: HyperlivelyState): HyperlivelyState => ({
 		...state,
 		content: {
 			...state.content,
 			undoableScenes: {
 				...state.content.undoableScenes,
 				future: [],
+			},
+		},
+		interpretation: {
+			...state.interpretation,
+			interpretations: {
+				shapes: [],
+				texts: [],
 			},
 		},
 	});
