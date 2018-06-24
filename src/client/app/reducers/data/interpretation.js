@@ -9,7 +9,7 @@ import { CANDIDATES_COUNT } from 'src/client/app/constants/handwriting';
 import type { TOGGLE_INTERPRETER_ACTION, RECEIVE_TEXT_CANDIDATES_ACTION, RECEIVE_SHAPE_CANDIDATES_ACTION, APPEND_POINT_ACTION, APPEND_STROKE_ACTION } from 'src/client/app/actionTypeDefinitions';
 import { type InterpretationState } from 'src/client/app/typeDefinitions';
 
-const initialInterpretationState = () => ({
+const initialInterpretationState = (): InterpretationState => ({
 	showInterpreter: false,
 	interpretations: {
 		shapes: [],
@@ -17,7 +17,7 @@ const initialInterpretationState = () => ({
 	},
 });
 
-const interpretationActions = {
+export const interpretationActions = {
 	TOGGLE_INTERPRETER: toggleInterpreter,
 	RECEIVE_TEXT_CANDIDATES: receiveTextCandidates,
 	RECEIVE_SHAPE_CANDIDATES: receiveShapeCandidates,
@@ -25,11 +25,11 @@ const interpretationActions = {
 	APPEND_STROKE: createStroke,
 };
 
-type Action = TOGGLE_INTERPRETER_ACTION | RECEIVE_TEXT_CANDIDATES_ACTION |
+export type INTERPRETATION_ACTION = TOGGLE_INTERPRETER_ACTION | RECEIVE_TEXT_CANDIDATES_ACTION |
 APPEND_POINT_ACTION | APPEND_STROKE_ACTION | RECEIVE_SHAPE_CANDIDATES_ACTION
 
-const interpretation = scopeToActions((state: InterpretationState, action: Action) =>
-	produce(state, (draftState) => {
+const interpretation = scopeToActions((state: InterpretationState, action: INTERPRETATION_ACTION) =>
+	produce(state, (draftState: InterpretationState) => {
 		switch (action.type) {
 		case TOGGLE_INTERPRETER: {
 			draftState.showInterpreter = action.boolean;

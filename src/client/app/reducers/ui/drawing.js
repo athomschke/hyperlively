@@ -6,11 +6,13 @@ import { type TOGGLE_DRAWING_ACTION } from 'src/client/app/actionTypeDefinitions
 
 const initialDrawingState = () => false;
 
+export type DRAWING_ACTION = TOGGLE_DRAWING_ACTION;
+
 export const drawingActions = {
 	TOGGLE_DRAWING: toggleDrawing,
 };
 
-const drawing = scopeToActions((state: boolean, action: TOGGLE_DRAWING_ACTION) => {
+const drawing = scopeToActions((state: boolean, action: DRAWING_ACTION) => {
 	switch (action.type) {
 	case TOGGLE_DRAWING:
 		return action.boolean;

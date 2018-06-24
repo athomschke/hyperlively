@@ -4,15 +4,20 @@ import scopeToActions from 'src/client/app/reducers/scopeToActions';
 import { actionsActions, actions, type ACTIONS_ACTION } from 'src/client/app/reducers/ui/actions';
 import { parametersActions, parameters, type PARAMETERS_ACTION } from 'src/client/app/reducers/ui/parameters';
 import { interpretationsActions, interpretations, type INTERPRETATIONS_ACTION } from 'src/client/app/reducers/ui/interpretations';
-import { drawing } from 'src/client/app/reducers/ui/drawing';
-import { handwritingRecognition } from 'src/client/app/reducers/ui/handwritingRecognition';
-import { observeMutations } from 'src/client/app/reducers/ui/observeMutations';
+import { drawing, drawingActions, type DRAWING_ACTION } from 'src/client/app/reducers/ui/drawing';
+import { handwritingRecognition, handwritingRecognitionActions, type HANDWRITING_RECOGNITION_ACTION } from 'src/client/app/reducers/ui/handwritingRecognition';
+import { observeMutations, observeMutationsActions } from 'src/client/app/reducers/ui/observeMutations';
+import { type OBSERVE_MUTATIONS_ACTION } from 'src/client/app/actionTypeDefinitions';
 import { ploma, plomaActions, type PLOMA_ACTION } from 'src/client/app/reducers/ui/ploma';
 
-type UI_ACIONS = PARAMETERS_ACTION | ACTIONS_ACTION | INTERPRETATIONS_ACTION | PLOMA_ACTION;
+type UI_ACIONS = PARAMETERS_ACTION | ACTIONS_ACTION | INTERPRETATIONS_ACTION |
+	PLOMA_ACTION | DRAWING_ACTION | HANDWRITING_RECOGNITION_ACTION | OBSERVE_MUTATIONS_ACTION;
 
 const uiActions = {
 	...plomaActions,
+	...observeMutationsActions,
+	...drawingActions,
+	...handwritingRecognitionActions,
 	...parametersActions,
 	...actionsActions,
 	...interpretationsActions,

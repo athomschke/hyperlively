@@ -1,6 +1,7 @@
 // @flow
 import { createStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
+import { cloneDeep } from 'lodash';
 
 import { type HyperlivelyState } from 'src/client/app/typeDefinitions';
 import { storeState, load } from 'src/client/app/Storage';
@@ -19,23 +20,15 @@ export default function configureStore(initialState: HyperlivelyState = initialH
 
 	const enhancer = composeEnhancers(applyMiddleware(sagaMiddleware));
 
-	const manipulator = (state: HyperlivelyState): HyperlivelyState => ({
-		...state,
-		data: {
-			...state.data,
-			undoableScenes: {
-				...state.data.undoableScenes,
-				future: [],
-			},
-		},
-		interpretation: {
-			...state.data.interpretation,
-			interpretations: {
-				shapes: [],
-				texts: [],
-			},
-		},
-	});
+	const manipulator = (state: HyperlivelyState): HyperlivelyState => {
+		const stateToStore: HyperlivelyState = cloneDeep(state);
+		stateToStore.data.undoableScenes.future = [];
+		stateToStore.data.interpretation.interpretations = {
+			shapes: [],
+			texts: [],
+		};
+		return stateToStore;
+	};
 
 	const store = createStore(
 		storeState('hyperlively', reducers, window.localStorage, manipulator),

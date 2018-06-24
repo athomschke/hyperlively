@@ -6,7 +6,7 @@ import { type OBSERVE_MUTATIONS_ACTION } from 'src/client/app/actionTypeDefiniti
 
 const initialObserveMutationsState = () => true;
 
-const observeMutationsActions = {
+export const observeMutationsActions = {
 	OBSERVE_MUTATIONS: setObserveMutations,
 };
 

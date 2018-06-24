@@ -7,14 +7,17 @@ import { type Data, type UndoableScenes } from 'src/client/app/typeDefinitions';
 import { undoable, undoableActions, type UndoableActionType } from './undoable';
 import { sceneIndex, setSceneIndexActions, type SetSceneActionType } from './sceneIndex';
 import { scenes, scenesActions, type ScenesActionType } from './scenes';
-import { interpretation } from './interpretation';
+import { interpretation, interpretationActions, type INTERPRETATION_ACTION } from './interpretation';
 
 type UndoableSceneActionType = UndoableActionType<ScenesActionType | SetSceneActionType>
 
+type DataActionType = UndoableSceneActionType | INTERPRETATION_ACTION
+
 const undoableScenes = undoable(scenes, scenesActions);
 
-export const undoableScenesActions = {
+export const dataActions = {
 	...setSceneIndexActions,
+	...interpretationActions,
 	...undoableActions(scenesActions),
 	...scenesActions,
 };
@@ -31,7 +34,7 @@ const initialDataState = (): Data => ({
 	undoableScenes: initialUndoableScenes(),
 });
 
-type DataReducer = (state: Data, action: UndoableSceneActionType) => Data
+type DataReducer = (state: Data, action: DataActionType) => Data
 
 const scopedData: DataReducer = (state, action) => {
 	switch (action.type) {
@@ -46,14 +49,14 @@ const scopedData: DataReducer = (state, action) => {
 	case NEXT_SCENE:
 		if (state.sceneIndex < state.undoableScenes.present.length - 1) {
 			return {
+				...state,
 				sceneIndex: sceneIndex(state.sceneIndex, action),
-				interpretation: interpretation(state.interpretation, action),
 				undoableScenes: state.undoableScenes,
 			};
 		}
 		return {
+			...state,
 			sceneIndex: sceneIndex(state.sceneIndex, action),
-			interpretation: interpretation(state.interpretation, action),
 			undoableScenes: undoableScenes(state.undoableScenes, addScene()),
 		};
 	case SET_SCENE_INDEX: {
@@ -63,8 +66,8 @@ const scopedData: DataReducer = (state, action) => {
 			action,
 		};
 		return {
+			...state,
 			sceneIndex: sceneIndex(state.sceneIndex, setSceneIndexAction),
-			interpretation: interpretation(state.interpretation, action),
 			undoableScenes: state.undoableScenes,
 		};
 	}
@@ -75,17 +78,22 @@ const scopedData: DataReducer = (state, action) => {
 				sceneIndex: sceneIndex(state.sceneIndex, action),
 			};
 		} else if (Object.keys(undoableActions(scenesActions)).indexOf(action.type) >= 0) {
-			const undoableScenesAction: UndoableSceneActionType = action;
+			const undoableScenesAction: UndoableSceneActionType = (action: any);
 			undoableScenesAction.sceneIndex = state.sceneIndex;
 			return {
 				...state,
 				undoableScenes: undoableScenes(state.undoableScenes, undoableScenesAction),
+			};
+		} else if (Object.keys(dataActions).indexOf(action.type) >= 0) {
+			return {
+				...state,
+				interpretation: interpretation(state.interpretation, action),
 			};
 		}
 		return state;
 	}
 };
 
-const data = scopeToActions(scopedData, undoableScenesActions, initialDataState);
+const data = scopeToActions(scopedData, dataActions, initialDataState);
 
 export { data };
