@@ -15,6 +15,10 @@ const strokeFromPoints = (points: Array<Point>) => ({
 	selected: false,
 	hidden: false,
 	finished: true,
+	position: {
+		x: 0,
+		y: 0,
+	},
 });
 
 describe('Integration', () => {

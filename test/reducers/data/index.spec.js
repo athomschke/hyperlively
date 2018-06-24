@@ -13,6 +13,10 @@ const existingScene: () => Scene = () => ({
 		hidden: false,
 		selected: false,
 		points: [point(10, 10)],
+		position: {
+			x: 0,
+			y: 0,
+		},
 	}],
 });
 

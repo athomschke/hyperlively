@@ -21,6 +21,10 @@ const dummyStrokes = [{
 	selected: true,
 	finished: true,
 	color: 'red',
+	position: {
+		x: 0,
+		y: 0,
+	},
 }];
 
 const dummyProps = {

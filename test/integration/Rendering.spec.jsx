@@ -88,6 +88,10 @@ describe('Integration', () => {
 						{ x: 20, y: 20, timeStamp: 102 },
 						{ x: 20, y: 40, timeStamp: 103 },
 					],
+					position: {
+						x: 0,
+						y: 0,
+					},
 				};
 				canvasJson.data.undoableScenes.present[0].strokes.push(newStroke);
 				renderApplicationWithState(canvasJson);

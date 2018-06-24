@@ -61,6 +61,10 @@ export const strokesExample = () => [{
 		y: 120,
 		timeStamp: 52,
 	}],
+	position: {
+		x: 0,
+		y: 0,
+	},
 	hidden: false,
 	selected: false,
 	finished: true,

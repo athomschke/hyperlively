@@ -10,6 +10,10 @@ const dummyStroke: Stroke = {
 	color: DEFAULT_PEN_COLOR,
 	hidden: false,
 	selected: false,
+	position: {
+		x: 0,
+		y: 0,
+	},
 };
 
 const createUndoableScenes = (numberOfStrokes: number, lengthOfStroke: number): SceneState => {

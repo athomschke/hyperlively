@@ -1,12 +1,16 @@
 // @flow
-export type Point = {
+export type Coordinate = {
 	x: number,
 	y: number,
+}
+
+export type Point = Coordinate & {
 	timeStamp: number,
 }
 
 export type Stroke = {
 	points: Array<Point>,
+	position: Coordinate,
 	hidden: boolean,
 	selected: boolean,
 	finished: boolean,

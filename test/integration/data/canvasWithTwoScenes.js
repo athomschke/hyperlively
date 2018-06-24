@@ -23,6 +23,10 @@ const canvasWithTwoScenes = (): HyperlivelyState => ({
 						points: [
 							{ x: 10, y: 10, timeStamp: 100 },
 						],
+						position: {
+							x: 0,
+							y: 0,
+						},
 					}],
 				}],
 				[{
@@ -34,6 +38,10 @@ const canvasWithTwoScenes = (): HyperlivelyState => ({
 							{ x: 10, y: 10, timeStamp: 100 },
 							{ x: 10, y: 30, timeStamp: 101 },
 						],
+						position: {
+							x: 0,
+							y: 0,
+						},
 					}],
 				}],
 				[{
@@ -45,6 +53,10 @@ const canvasWithTwoScenes = (): HyperlivelyState => ({
 							{ x: 10, y: 10, timeStamp: 100 },
 							{ x: 10, y: 30, timeStamp: 101 },
 						],
+						position: {
+							x: 0,
+							y: 0,
+						},
 					}],
 				}, {
 					strokes: [{
@@ -54,6 +66,10 @@ const canvasWithTwoScenes = (): HyperlivelyState => ({
 						points: [
 							{ x: 20, y: 10, timeStamp: 1100 },
 						],
+						position: {
+							x: 0,
+							y: 0,
+						},
 					}],
 				}],
 				[{
@@ -65,6 +81,10 @@ const canvasWithTwoScenes = (): HyperlivelyState => ({
 							{ x: 10, y: 10, timeStamp: 100 },
 							{ x: 10, y: 30, timeStamp: 101 },
 						],
+						position: {
+							x: 0,
+							y: 0,
+						},
 					}],
 				}, {
 					strokes: [{
@@ -75,6 +95,10 @@ const canvasWithTwoScenes = (): HyperlivelyState => ({
 							{ x: 20, y: 10, timeStamp: 1100 },
 							{ x: 20, y: 30, timeStamp: 1101 },
 						],
+						position: {
+							x: 0,
+							y: 0,
+						},
 					}],
 				}],
 				[{
@@ -86,6 +110,10 @@ const canvasWithTwoScenes = (): HyperlivelyState => ({
 							{ x: 10, y: 10, timeStamp: 100 },
 							{ x: 10, y: 30, timeStamp: 101 },
 						],
+						position: {
+							x: 0,
+							y: 0,
+						},
 					}],
 				}, {
 					strokes: [{
@@ -97,6 +125,10 @@ const canvasWithTwoScenes = (): HyperlivelyState => ({
 							{ x: 20, y: 30, timeStamp: 1101 },
 							{ x: 20, y: 50, timeStamp: 1102 },
 						],
+						position: {
+							x: 0,
+							y: 0,
+						},
 					}],
 				}],
 				[{
@@ -108,6 +140,10 @@ const canvasWithTwoScenes = (): HyperlivelyState => ({
 							{ x: 10, y: 10, timeStamp: 100 },
 							{ x: 10, y: 30, timeStamp: 101 },
 						],
+						position: {
+							x: 0,
+							y: 0,
+						},
 					}],
 				}, {
 					strokes: [{
@@ -120,6 +156,10 @@ const canvasWithTwoScenes = (): HyperlivelyState => ({
 							{ x: 20, y: 50, timeStamp: 1102 },
 							{ x: 20, y: 70, timeStamp: 1103 },
 						],
+						position: {
+							x: 0,
+							y: 0,
+						},
 					}],
 				}],
 				[{
@@ -131,6 +171,10 @@ const canvasWithTwoScenes = (): HyperlivelyState => ({
 							{ x: 10, y: 10, timeStamp: 100 },
 							{ x: 10, y: 30, timeStamp: 101 },
 						],
+						position: {
+							x: 0,
+							y: 0,
+						},
 					}],
 				}, {
 					strokes: [{
@@ -144,6 +188,10 @@ const canvasWithTwoScenes = (): HyperlivelyState => ({
 							{ x: 20, y: 70, timeStamp: 1103 },
 							{ x: 20, y: 90, timeStamp: 1104 },
 						],
+						position: {
+							x: 0,
+							y: 0,
+						},
 					}],
 				}],
 			],
@@ -157,6 +205,10 @@ const canvasWithTwoScenes = (): HyperlivelyState => ({
 						{ x: 10, y: 10, timeStamp: 100 },
 						{ x: 10, y: 30, timeStamp: 101 },
 					],
+					position: {
+						x: 0,
+						y: 0,
+					},
 				}],
 			}, {
 				strokes: [{
@@ -171,6 +223,10 @@ const canvasWithTwoScenes = (): HyperlivelyState => ({
 						{ x: 20, y: 90, timeStamp: 1104 },
 						{ x: 20, y: 110, timeStamp: 1105 },
 					],
+					position: {
+						x: 0,
+						y: 0,
+					},
 				}],
 			}],
 		},

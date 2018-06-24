@@ -23,5 +23,9 @@ export function exampleStrokes(points: Array<Point>, finished: boolean = true): 
 		finished,
 		hidden: false,
 		selected: false,
+		position: {
+			x: 0,
+			y: 0,
+		},
 	}];
 }

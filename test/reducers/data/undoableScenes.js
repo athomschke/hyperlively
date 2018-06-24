@@ -7,6 +7,10 @@ const stroke = (points: Array<number>): Stroke => ({
 	selected: false,
 	finished: true,
 	color: 'rgb(0,0,0)',
+	position: {
+		x: 0,
+		y: 0,
+	},
 });
 
 const scene1State1: Scene = { strokes: [stroke([])] };

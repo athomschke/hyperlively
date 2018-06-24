@@ -28,6 +28,10 @@ const initialStrokeState = (): Stroke => ({
 	selected: false,
 	finished: false,
 	color: DEFAULT_PEN_COLOR,
+	position: {
+		x: 0,
+		y: 0,
+	},
 });
 
 const doStrokesContainStroke = (strokes: Array<Stroke>, aStroke: Stroke) =>
