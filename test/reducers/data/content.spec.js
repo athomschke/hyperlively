@@ -38,6 +38,13 @@ describe('Data', () => {
 	describe('setting scene index', () => {
 		const existingData: Data = {
 			sceneIndex: 0,
+			interpretation: {
+				showInterpreter: true,
+				interpretations: {
+					shapes: [],
+					texts: [],
+				},
+			},
 			undoableScenes: {
 				past: [],
 				future: [],
@@ -67,6 +74,13 @@ describe('Data', () => {
 	describe('adding a scene at a specific index', () => {
 		const existingData: Data = {
 			sceneIndex: 0,
+			interpretation: {
+				showInterpreter: true,
+				interpretations: {
+					shapes: [],
+					texts: [],
+				},
+			},
 			undoableScenes: {
 				past: [],
 				future: [],
@@ -97,6 +111,13 @@ describe('Data', () => {
 	describe('going to the next scene', () => {
 		const existingData: Data = {
 			sceneIndex: 0,
+			interpretation: {
+				showInterpreter: true,
+				interpretations: {
+					shapes: [],
+					texts: [],
+				},
+			},
 			undoableScenes: {
 				past: [],
 				future: [],

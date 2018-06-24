@@ -9,16 +9,16 @@ const canvasWithTwoStrokes = (): HyperlivelyState => ({
 	},
 	specificActions: [],
 	threshold: 500,
-	interpretation: {
-		showInterpreter: true,
-		interpretations: {
-			texts: [],
-			shapes: [],
-		},
-	},
 	observeMutations: true,
 	data: {
 		sceneIndex: 0,
+		interpretation: {
+			showInterpreter: true,
+			interpretations: {
+				shapes: [],
+				texts: [],
+			},
+		},
 		undoableScenes: {
 			past: [],
 			present: [{

@@ -8,17 +8,17 @@ const canvasWithTwoScenes = (): HyperlivelyState => ({
 		uniqueCanvasFactor: NaN,
 	},
 	threshold: 500,
-	interpretation: {
-		showInterpreter: true,
-		interpretations: {
-			texts: [],
-			shapes: [],
-		},
-	},
 	observeMutations: true,
 	specificActions: [],
 	data: {
 		sceneIndex: 1,
+		interpretation: {
+			showInterpreter: true,
+			interpretations: {
+				texts: [],
+				shapes: [],
+			},
+		},
 		undoableScenes: {
 			past: [
 				[{

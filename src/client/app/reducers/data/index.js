@@ -7,6 +7,7 @@ import { type Data, type UndoableScenes } from 'src/client/app/typeDefinitions';
 import { undoable, undoableActions, type UndoableActionType } from './undoable';
 import { sceneIndex, setSceneIndexActions, type SetSceneActionType } from './sceneIndex';
 import { scenes, scenesActions, type ScenesActionType } from './scenes';
+import { interpretation } from './interpretation';
 
 type UndoableSceneActionType = UndoableActionType<ScenesActionType | SetSceneActionType>
 
@@ -26,6 +27,7 @@ const initialUndoableScenes = (): UndoableScenes => ({
 
 const initialDataState = (): Data => ({
 	sceneIndex: 0,
+	interpretation: interpretation(undefined, { type: '' }),
 	undoableScenes: initialUndoableScenes(),
 });
 
@@ -45,11 +47,13 @@ const scopedData: DataReducer = (state, action) => {
 		if (state.sceneIndex < state.undoableScenes.present.length - 1) {
 			return {
 				sceneIndex: sceneIndex(state.sceneIndex, action),
+				interpretation: interpretation(state.interpretation, action),
 				undoableScenes: state.undoableScenes,
 			};
 		}
 		return {
 			sceneIndex: sceneIndex(state.sceneIndex, action),
+			interpretation: interpretation(state.interpretation, action),
 			undoableScenes: undoableScenes(state.undoableScenes, addScene()),
 		};
 	case SET_SCENE_INDEX: {
@@ -60,6 +64,7 @@ const scopedData: DataReducer = (state, action) => {
 		};
 		return {
 			sceneIndex: sceneIndex(state.sceneIndex, setSceneIndexAction),
+			interpretation: interpretation(state.interpretation, action),
 			undoableScenes: state.undoableScenes,
 		};
 	}

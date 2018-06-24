@@ -14,7 +14,7 @@ const mapStateToProps = (state: HyperlivelyState) => {
 	returnState.drawing = state.ui.drawing;
 	returnState.sceneIndex = state.data.sceneIndex;
 	returnState.scene = state.data.undoableScenes.present[state.data.sceneIndex];
-	returnState.interpretation = state.interpretation;
+	returnState.interpretation = state.data.interpretation;
 	returnState.specificActions = state.specificActions;
 	return returnState;
 };

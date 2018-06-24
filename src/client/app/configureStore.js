@@ -29,7 +29,7 @@ export default function configureStore(initialState: HyperlivelyState = initialH
 			},
 		},
 		interpretation: {
-			...state.interpretation,
+			...state.data.interpretation,
 			interpretations: {
 				shapes: [],
 				texts: [],

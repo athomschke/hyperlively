@@ -30,11 +30,6 @@ export type UndoableScenes = {
 	future: Array<SceneState>,
 }
 
-export type Data = {
-	sceneIndex: number,
-	undoableScenes: UndoableScenes,
-}
-
 export type PlomaState = {
 	usePloma: boolean,
 	uniqueCanvasFactor: number
@@ -196,8 +191,13 @@ export type UiState = {
 	interpretations: InterpretationsState
 }
 
-export type HyperlivelyState = {
+export type Data = {
+	sceneIndex: number,
 	interpretation: InterpretationState,
+	undoableScenes: UndoableScenes,
+}
+
+export type HyperlivelyState = {
 	ploma: PlomaState,
 	observeMutations: boolean,
 	threshold: number,

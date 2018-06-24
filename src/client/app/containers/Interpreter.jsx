@@ -8,8 +8,8 @@ import Interpreter from 'src/client/app/components/smart/Interpreter';
 const mapStateToProps = (state: HyperlivelyState) => {
 	const returnState = {};
 	returnState.handwritingRecognitionEnabled = state.ui.handwritingRecognition;
-	returnState.showInterpreter = state.interpretation.showInterpreter;
-	returnState.interpretations = state.interpretation.interpretations;
+	returnState.showInterpreter = state.data.interpretation.showInterpreter;
+	returnState.interpretations = state.data.interpretation.interpretations;
 	returnState.setInterval = setInterval.bind(window);
 	returnState.clearInterval = clearInterval.bind(window);
 	return returnState;

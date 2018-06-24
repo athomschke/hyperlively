@@ -6,8 +6,8 @@ import type { Scene, InterpretationState, Sketch, HyperlivelyState } from 'src/c
 import InterpretationTrigger from 'src/client/app/components/dumb/InterpretationTrigger';
 
 const mapStateToProps = (state: HyperlivelyState) => ({
-	showInterpreter: state.interpretation.showInterpreter,
-	interpretations: state.interpretation.interpretations,
+	showInterpreter: state.data.interpretation.showInterpreter,
+	interpretations: state.data.interpretation.interpretations,
 });
 
 type IInterpretationTriggerProps = {

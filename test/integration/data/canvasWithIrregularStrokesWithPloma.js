@@ -3,13 +3,6 @@
 import type { HyperlivelyState } from 'src/client/app/typeDefinitions';
 
 const canvasWithIrregularStrokesWithPloma = (): HyperlivelyState => ({
-	interpretation: {
-		showInterpreter: true,
-		interpretations: {
-			texts: [],
-			shapes: [],
-		},
-	},
 	observeMutations: true,
 	specificActions: [],
 	ploma: {
@@ -19,6 +12,13 @@ const canvasWithIrregularStrokesWithPloma = (): HyperlivelyState => ({
 	threshold: 500,
 	data: {
 		sceneIndex: 0,
+		interpretation: {
+			showInterpreter: true,
+			interpretations: {
+				texts: [],
+				shapes: [],
+			},
+		},
 		undoableScenes: {
 			past: [],
 			future: [],

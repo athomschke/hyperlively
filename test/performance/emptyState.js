@@ -9,6 +9,13 @@ const undoableScenes: UndoableScenes = {
 
 const data: Data = {
 	sceneIndex: 0,
+	interpretation: {
+		showInterpreter: true,
+		interpretations: {
+			shapes: [],
+			texts: [],
+		},
+	},
 	undoableScenes,
 };
 
