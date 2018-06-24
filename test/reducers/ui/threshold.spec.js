@@ -1,7 +1,7 @@
 // @flow
 import { expect } from 'chai';
 
-import { threshold } from 'src/client/app/reducers/threshold';
+import { threshold } from 'src/client/app/reducers/ui/threshold';
 import { updateThreshold } from 'src/client/app/actionCreators';
 
 describe('Threshold', () => {

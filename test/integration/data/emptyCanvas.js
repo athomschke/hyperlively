@@ -4,7 +4,6 @@ import type { HyperlivelyState } from 'src/client/app/typeDefinitions';
 
 const emptyCanvas = (): HyperlivelyState => ({
 	specificActions: [],
-	threshold: 500,
 	data: {
 		sceneIndex: 0,
 		interpretation: {
@@ -21,6 +20,7 @@ const emptyCanvas = (): HyperlivelyState => ({
 		},
 	},
 	ui: {
+		threshold: 500,
 		ploma: {
 			usePloma: false,
 			uniqueCanvasFactor: NaN,

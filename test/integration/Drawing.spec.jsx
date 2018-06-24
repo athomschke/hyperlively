@@ -46,7 +46,7 @@ describe('Integration', () => {
 			const emptyCanvasConfig = emptyCanvas();
 			emptyCanvasConfig.ui.ploma.uniqueCanvasFactor = canvasJsonConfig.ui.ploma.uniqueCanvasFactor;
 			emptyCanvasConfig.ui.ploma.usePloma = true;
-			emptyCanvasConfig.threshold = 1;
+			emptyCanvasConfig.ui.threshold = 1;
 			renderApplicationWithState(emptyCanvasConfig);
 			const strokes = getPointsFromJSON(canvasJsonConfig);
 			return getCombinedCanvas(100, 100).then(() => {

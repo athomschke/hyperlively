@@ -3,7 +3,6 @@
 import type { HyperlivelyState } from 'src/client/app/typeDefinitions';
 
 const canvasWithTwoScenes = (): HyperlivelyState => ({
-	threshold: 500,
 	specificActions: [],
 	data: {
 		sceneIndex: 1,
@@ -177,6 +176,7 @@ const canvasWithTwoScenes = (): HyperlivelyState => ({
 		},
 	},
 	ui: {
+		threshold: 500,
 		ploma: {
 			usePloma: false,
 			uniqueCanvasFactor: NaN,

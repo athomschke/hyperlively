@@ -33,7 +33,7 @@ describe('Integration', () => {
 	describe('undoing', () => {
 		it('keeps the canvas at content size', () => {
 			const emptyCanvasState = emptyCanvas();
-			emptyCanvasState.threshold = 10;
+			emptyCanvasState.ui.threshold = 10;
 			const renderedApp = renderApplicationWithState(emptyCanvasState);
 
 			manuallyDrawStrokes(getWindowNode(), [

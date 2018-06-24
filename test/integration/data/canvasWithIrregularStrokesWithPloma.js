@@ -4,7 +4,6 @@ import type { HyperlivelyState } from 'src/client/app/typeDefinitions';
 
 const canvasWithIrregularStrokesWithPloma = (): HyperlivelyState => ({
 	specificActions: [],
-	threshold: 500,
 	data: {
 		sceneIndex: 0,
 		interpretation: {
@@ -47,6 +46,7 @@ const canvasWithIrregularStrokesWithPloma = (): HyperlivelyState => ({
 		},
 	},
 	ui: {
+		threshold: 500,
 		ploma: {
 			usePloma: true,
 			uniqueCanvasFactor: 0.315,

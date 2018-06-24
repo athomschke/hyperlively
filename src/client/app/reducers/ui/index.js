@@ -9,11 +9,14 @@ import { handwritingRecognition, handwritingRecognitionActions, type HANDWRITING
 import { observeMutations, observeMutationsActions } from 'src/client/app/reducers/ui/observeMutations';
 import { type OBSERVE_MUTATIONS_ACTION } from 'src/client/app/actionTypeDefinitions';
 import { ploma, plomaActions, type PLOMA_ACTION } from 'src/client/app/reducers/ui/ploma';
+import { threshold, thresholdActions, type THRESHOLD_ACTION } from 'src/client/app/reducers/ui/threshold';
 
 type UI_ACIONS = PARAMETERS_ACTION | ACTIONS_ACTION | INTERPRETATIONS_ACTION |
-	PLOMA_ACTION | DRAWING_ACTION | HANDWRITING_RECOGNITION_ACTION | OBSERVE_MUTATIONS_ACTION;
+	PLOMA_ACTION | DRAWING_ACTION | HANDWRITING_RECOGNITION_ACTION | OBSERVE_MUTATIONS_ACTION |
+	THRESHOLD_ACTION;
 
 const uiActions = {
+	...thresholdActions,
 	...plomaActions,
 	...observeMutationsActions,
 	...drawingActions,
@@ -24,6 +27,7 @@ const uiActions = {
 };
 
 const initialUiState = () => ({
+	threshold: threshold(undefined, { type: '' }),
 	ploma: ploma(undefined, { type: '' }),
 	actions: actions(undefined, { type: '' }),
 	parameters: parameters(undefined, { type: '' }),
@@ -34,6 +38,7 @@ const initialUiState = () => ({
 });
 
 const ui = scopeToActions((state: UiState, action: UI_ACIONS) => ({
+	threshold: threshold(state.threshold, action),
 	ploma: ploma(state.ploma, action),
 	actions: actions(state.actions, action),
 	parameters: parameters(state.parameters, action),

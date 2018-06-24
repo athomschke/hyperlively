@@ -10,7 +10,7 @@ const SketchCombinedPage = SketchCombiner(Page);
 
 const mapStateToProps = (state: HyperlivelyState) => {
 	const returnState = {};
-	returnState.threshold = state.threshold;
+	returnState.threshold = state.ui.threshold;
 	returnState.drawing = state.ui.drawing;
 	returnState.sceneIndex = state.data.sceneIndex;
 	returnState.scene = state.data.undoableScenes.present[state.data.sceneIndex];

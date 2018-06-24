@@ -6,7 +6,7 @@ import type { HyperlivelyState } from 'src/client/app/typeDefinitions';
 import Threshold from 'src/client/app/components/dumb/Threshold';
 
 const mapStateToProps = (state: HyperlivelyState) => ({
-	threshold: state.threshold,
+	threshold: state.ui.threshold,
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -28,9 +28,9 @@ const hyperlively: HyperlivelyState = {
 			texts: [],
 		},
 	},
-	threshold: 50,
 	data,
 	ui: {
+		threshold: 50,
 		ploma: {
 			uniqueCanvasFactor: 35,
 			usePloma: true,
