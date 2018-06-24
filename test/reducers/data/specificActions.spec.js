@@ -1,7 +1,7 @@
 // @flow
 import { expect } from 'chai';
 
-import { specificActions } from 'src/client/app/reducers/specificActions';
+import { specificActions } from 'src/client/app/reducers/data/specificActions';
 
 describe('Reducer specificActions', () => {
 	it('appends specific actions to state', () => {

@@ -12,12 +12,14 @@ const initialSpecificActionsState = () => [{
 	actionNames: ['selectInside', 'hide'],
 }];
 
-const specificActionsActions = {
+export type SPECIFIG_ACTIONS_ACTION = APPEND_SPECIFC_ACTION_ACTION;
+
+export const specificActionsActions = {
 	APPEND_SPECIFC_ACTION: appendSpecificAction,
 };
 
 const specificActions = scopeToActions(
-	(state: Array<ActionMapping>, action: APPEND_SPECIFC_ACTION_ACTION) => {
+	(state: Array<ActionMapping>, action: SPECIFIG_ACTIONS_ACTION) => {
 		switch (action.type) {
 		case APPEND_SPECIFC_ACTION: {
 			const { actionName, actionNames } = action;

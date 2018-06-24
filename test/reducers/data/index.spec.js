@@ -37,6 +37,7 @@ describe('Data', () => {
 
 	describe('setting scene index', () => {
 		const existingData: Data = {
+			specificActions: [],
 			sceneIndex: 0,
 			interpretation: {
 				showInterpreter: true,
@@ -73,6 +74,7 @@ describe('Data', () => {
 
 	describe('adding a scene at a specific index', () => {
 		const existingData: Data = {
+			specificActions: [],
 			sceneIndex: 0,
 			interpretation: {
 				showInterpreter: true,
@@ -110,6 +112,7 @@ describe('Data', () => {
 
 	describe('going to the next scene', () => {
 		const existingData: Data = {
+			specificActions: [],
 			sceneIndex: 0,
 			interpretation: {
 				showInterpreter: true,

@@ -53,6 +53,7 @@ const undoableScenes: UndoableScenes = {
 };
 
 const data: Data = {
+	specificActions: [],
 	sceneIndex: 0,
 	interpretation: {
 		showInterpreter: true,
@@ -65,7 +66,6 @@ const data: Data = {
 };
 
 const hyperlivelyState: HyperlivelyState = {
-	specificActions: [],
 	interpretation: {
 		showInterpreter: false,
 		interpretations: {

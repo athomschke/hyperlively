@@ -3,8 +3,8 @@
 import type { HyperlivelyState } from 'src/client/app/typeDefinitions';
 
 const emptyCanvas = (): HyperlivelyState => ({
-	specificActions: [],
 	data: {
+		specificActions: [],
 		sceneIndex: 0,
 		interpretation: {
 			showInterpreter: true,

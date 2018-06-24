@@ -3,8 +3,8 @@
 import type { HyperlivelyState } from 'src/client/app/typeDefinitions';
 
 const canvasWithTwoScenes = (): HyperlivelyState => ({
-	specificActions: [],
 	data: {
+		specificActions: [],
 		sceneIndex: 1,
 		interpretation: {
 			showInterpreter: true,

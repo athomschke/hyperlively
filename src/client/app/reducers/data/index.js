@@ -8,14 +8,16 @@ import { undoable, undoableActions, type UndoableActionType } from './undoable';
 import { sceneIndex, setSceneIndexActions, type SetSceneActionType } from './sceneIndex';
 import { scenes, scenesActions, type ScenesActionType } from './scenes';
 import { interpretation, interpretationActions, type INTERPRETATION_ACTION } from './interpretation';
+import { specificActions, specificActionsActions, type SPECIFIG_ACTIONS_ACTION } from './specificActions';
 
 type UndoableSceneActionType = UndoableActionType<ScenesActionType | SetSceneActionType>
 
-type DataActionType = UndoableSceneActionType | INTERPRETATION_ACTION
+type DataActionType = UndoableSceneActionType | INTERPRETATION_ACTION | SPECIFIG_ACTIONS_ACTION
 
 const undoableScenes = undoable(scenes, scenesActions);
 
 export const dataActions = {
+	...specificActionsActions,
 	...setSceneIndexActions,
 	...interpretationActions,
 	...undoableActions(scenesActions),
@@ -31,6 +33,7 @@ const initialUndoableScenes = (): UndoableScenes => ({
 const initialDataState = (): Data => ({
 	sceneIndex: 0,
 	interpretation: interpretation(undefined, { type: '' }),
+	specificActions: specificActions(undefined, { type: '' }),
 	undoableScenes: initialUndoableScenes(),
 });
 
@@ -88,6 +91,7 @@ const scopedData: DataReducer = (state, action) => {
 			return {
 				...state,
 				interpretation: interpretation(state.interpretation, action),
+				specificActions: specificActions(state.specificActions, action),
 			};
 		}
 		return state;

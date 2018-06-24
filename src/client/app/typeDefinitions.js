@@ -197,12 +197,12 @@ export type UiState = {
 export type Data = {
 	sceneIndex: number,
 	interpretation: InterpretationState,
+	specificActions: Array<ActionMapping>,
 	undoableScenes: UndoableScenes,
 }
 
 export type HyperlivelyState = {
 	data: Data,
-	specificActions: Array<ActionMapping>,
 	ui: UiState,
 }
 
