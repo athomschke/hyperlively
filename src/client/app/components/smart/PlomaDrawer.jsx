@@ -7,7 +7,7 @@ import lastPointInStrokes from 'src/client/app/helpers/lastPointInStrokes';
 import { PRESSURE, DEFAULT_PEN_COLOR, SELECTED_PEN_COLOR } from 'src/client/app/constants/drawing';
 import type { Stroke, Point } from 'src/client/app/typeDefinitions';
 
-import AbstractDrawer, { defaultProps, type AbstractDrawerProps } from './AbstractDrawer';
+import AbstractDrawer, { defaultProps, type AbstractDrawerProps, transformPoint } from './AbstractDrawer';
 
 type State = {
 	ballpointPen: Object;
@@ -78,40 +78,26 @@ export default class PlomaDrawer extends AbstractDrawer<Props, State> {
 		const strokeColor = stroke.color || DEFAULT_PEN_COLOR;
 		if (points.length > 1) {
 			const point = head(points);
-			that.startStrokeAt({
-				...point,
-				x: point.x + stroke.position.x,
-				y: point.y + stroke.position.y,
-			}, stroke.selected ? SELECTED_PEN_COLOR : strokeColor);
+			that.startStrokeAt(
+				transformPoint(point, stroke.position, stroke.center, stroke.angle),
+				stroke.selected ? SELECTED_PEN_COLOR : strokeColor,
+			);
 			forEach(tail(points), (aPoint) => {
-				that.extendStrokeAt({
-					...aPoint,
-					x: aPoint.x + stroke.position.x,
-					y: aPoint.y + stroke.position.y,
-				});
+				that.extendStrokeAt(transformPoint(aPoint, stroke.position, stroke.center, stroke.angle));
 			});
 			if (shouldFinish) {
 				const aPoint = last(points);
-				that.endStrokeAt({
-					...aPoint,
-					x: aPoint.x + stroke.position.x,
-					y: aPoint.y + stroke.position.y,
-				});
+				that.endStrokeAt(transformPoint(aPoint, stroke.position, stroke.center, stroke.angle));
 			} else {
 				const aPoint = last(points);
-				that.extendStrokeAt({
-					...aPoint,
-					x: aPoint.x + stroke.position.x,
-					y: aPoint.y + stroke.position.y,
-				});
+				that.extendStrokeAt(transformPoint(aPoint, stroke.position, stroke.center, stroke.angle));
 			}
 		} else if (points.length > 0) {
 			const aPoint = head(points);
-			that.startStrokeAt({
-				...aPoint,
-				x: aPoint.x + stroke.position.x,
-				y: aPoint.y + stroke.position.y,
-			}, stroke.selected ? SELECTED_PEN_COLOR : strokeColor);
+			that.startStrokeAt(
+				transformPoint(aPoint, stroke.position, stroke.center, stroke.angle),
+				stroke.selected ? SELECTED_PEN_COLOR : strokeColor,
+			);
 		}
 	}
 }

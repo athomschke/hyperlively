@@ -26,6 +26,11 @@ export function scaleToTime(strokes: Array<Stroke>, width: number, height: numbe
 				x: 0,
 				y: 0,
 			},
+			angle: 0,
+			center: {
+				x: 0,
+				y: 0,
+			},
 			points: map(stroke.points, point => ({
 				...point,
 				x: point.x * scale,
@@ -33,5 +38,16 @@ export function scaleToTime(strokes: Array<Stroke>, width: number, height: numbe
 			})),
 		}));
 	}
-	return strokes;
+	return strokes.map(stroke => ({
+		...stroke,
+		angle: 0,
+		position: {
+			x: 0,
+			y: 0,
+		},
+		center: {
+			x: 0,
+			y: 0,
+		},
+	}));
 }

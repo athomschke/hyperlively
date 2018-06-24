@@ -3,7 +3,7 @@ import { merge, find } from 'lodash';
 
 import type { Stroke } from 'src/client/app/typeDefinitions';
 import { DEFAULT_PEN_COLOR } from 'src/client/app/constants/drawing';
-import { finishStroke, hide, select, updatePosition } from 'src/client/app/actionCreators';
+import { finishStroke, hide, select, updatePosition, rotateBy } from 'src/client/app/actionCreators';
 import scopeToActions from 'src/client/app/reducers/scopeToActions';
 import { UPDATE_POSITION, ROTATE_BY, HIDE, SELECT, FINISH_STROKE } from 'src/client/app/constants/actionTypes';
 import type {
@@ -18,6 +18,7 @@ FINISH_STROKE_ACTION | UPDATE_POSITION_ACTION | HIDE_ACTION | SELECT_ACTION | RO
 export const strokeActions = {
 	...pointsActions,
 	UPDATE_POSITION: updatePosition,
+	ROTATE_BY: rotateBy,
 	HIDE: hide,
 	SELECT: select,
 	FINISH_STROKE: finishStroke,
@@ -66,9 +67,14 @@ const scopedStrokeReducer: StrokeReducer = (state, action) => {
 	}
 	case ROTATE_BY: {
 		if (doStrokesContainStroke(action.strokes, state)) {
-			return merge({}, state, {
-				points: points(state.points, action),
-			});
+			return {
+				...state,
+				angle: (state.angle + action.degrees) % 360,
+				center: {
+					x: action.centerX,
+					y: action.centerY,
+				},
+			};
 		}
 		return state;
 	}

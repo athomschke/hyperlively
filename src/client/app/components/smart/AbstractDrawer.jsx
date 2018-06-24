@@ -4,7 +4,7 @@ import { flatten, last, isEqual, cloneDeep, forEach, map } from 'lodash';
 
 import { ERROR_DIRECT_ABSTRACT_CALL, ERROR_CALL_SUPER_TO_ABSTRACT } from 'src/client/app/constants/errors';
 import { OFFSET } from 'src/client/app/constants/canvas';
-import type { Stroke, Point, OnNodeChangedFunction } from 'src/client/app/typeDefinitions';
+import type { Stroke, Point, OnNodeChangedFunction, Coordinate } from 'src/client/app/typeDefinitions';
 
 const allPoints = strokes => flatten(map(strokes, stroke => stroke.points));
 
@@ -15,6 +15,24 @@ const strokeWhereColorChanged = (strokes1: Array<Stroke>, strokes2: Array<Stroke
 
 const strokeWhereSelectStatusChanged = (strokes1, strokes2) =>
 	strokes1.find((stroke, index) => !stroke.selected === strokes2[index].selected);
+
+export const transformPoint = (
+	point: Point,
+	offset: Coordinate,
+	center: Coordinate,
+	angle: number,
+) => {
+	const radians = angle * (Math.PI / 180);
+	const cos = Math.cos(radians);
+	const sin = Math.sin(radians);
+	const dX = point.x - center.x;
+	const dY = point.y - center.y;
+	return {
+		...point,
+		x: ((cos * dX) - (sin * dY)) + center.x + offset.x,
+		y: ((sin * dX) + (cos * dY)) + center.y + offset.y,
+	};
+};
 
 export type AbstractDrawerProps<P> = P & {
 	strokes: Array<Stroke>,

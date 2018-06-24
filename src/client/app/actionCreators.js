@@ -111,9 +111,9 @@ export const rotateBy = (
 ) => ({
 	type: ActionTypes.ROTATE_BY,
 	strokes,
-	centerX,
-	centerY,
-	degrees,
+	centerX: parseInt(centerX, 10),
+	centerY: parseInt(centerY, 10),
+	degrees: parseInt(degrees, 10),
 	sceneIndex: NaN,
 });
 

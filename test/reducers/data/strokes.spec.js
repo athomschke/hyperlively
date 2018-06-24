@@ -154,7 +154,7 @@ describe('strokes', () => {
 	});
 
 	describe('rotating a stroke', () => {
-		const degrees = 1.5708 * (180 / Math.PI);
+		const degrees = 90;
 		const centerX = 10;
 		const centerY = 10;
 		const action = rotateBy(exampleStrokes([point(0, 0, 12345)]), centerX, centerY, degrees);
@@ -169,26 +169,20 @@ describe('strokes', () => {
 		});
 
 		it('rotates only the affected strokes', () => {
-			const unaffectedStroke = exampleStrokes([point(100, 150)])[0];
+			const unaffectedStroke = exampleStrokes([point(100, 150, 12345)])[0];
+			const affectedStroke = strokesToRotate()[0];
 			const state = [
-				...strokesToRotate(),
+				affectedStroke,
 				unaffectedStroke,
 			];
 			const nextState = strokes(state, action);
 
-			const unaffectedPoint = nextState[1].points[0];
-			const affectedPoint = nextState[0].points[0];
-			expect(unaffectedPoint.x).to.equal(100);
-			expect(unaffectedPoint.y).to.equal(150);
-			expect(affectedPoint.x).to.not.equal(0);
-		});
-
-		it('rotates all its points around the chosen center', () => {
-			const nextState = strokes(strokesToRotate(), action);
-
-			const nextPoint = nextState[0].points[0];
-			expect(Math.round(nextPoint.x)).to.equal(20);
-			expect(Math.round(nextPoint.y)).to.equal(0);
+			expect(nextState[0].center.x).to.not.equal(0);
+			expect(nextState[0].center.y).to.not.equal(0);
+			expect(nextState[0].angle).to.not.equal(0);
+			expect(nextState[1].center.x).to.equal(10);
+			expect(nextState[1].center.y).to.equal(10);
+			expect(nextState[1].angle).to.equal(90);
 		});
 	});
 
