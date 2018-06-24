@@ -1,7 +1,7 @@
 // @flow
 import { COLLAPSE_PARAMETERS_PATH, CHECK_PARAMETERS_PATH } from 'src/client/app/constants/actionTypes';
 import type { COLLAPSE_PARAMETERS_PATH_ACTION, CHECK_PARAMETERS_PATH_ACTION } from 'src/client/app/actionTypeDefinitions';
-import { type StrokeActionType, strokeActions } from 'src/client/app/reducers/content/strokes/stroke';
+import { type StrokeActionType, strokeActions } from 'src/client/app/reducers/data/strokes/stroke';
 import { collapseParametersPath, checkParametersPath } from 'src/client/app/actionCreators';
 import type { JSONChooserState } from 'src/client/app/typeDefinitions';
 import scopeToActions from 'src/client/app/reducers/scopeToActions';

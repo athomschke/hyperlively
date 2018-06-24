@@ -21,10 +21,10 @@ export default function configureStore(initialState: HyperlivelyState = initialH
 
 	const manipulator = (state: HyperlivelyState): HyperlivelyState => ({
 		...state,
-		content: {
-			...state.content,
+		data: {
+			...state.data,
 			undoableScenes: {
-				...state.content.undoableScenes,
+				...state.data.undoableScenes,
 				future: [],
 			},
 		},

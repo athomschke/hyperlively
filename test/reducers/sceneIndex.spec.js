@@ -1,7 +1,7 @@
 // @flow
 import { expect } from 'chai';
 
-import { sceneIndex } from 'src/client/app/reducers/content/sceneIndex';
+import { sceneIndex } from 'src/client/app/reducers/data/sceneIndex';
 
 describe('Scene Index', () => {
 	describe('setting the index', () => {

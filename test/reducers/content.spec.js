@@ -1,10 +1,10 @@
 // @flow
 import { expect } from 'chai';
 
-import { content } from 'src/client/app/reducers/content';
+import { data } from 'src/client/app/reducers/data';
 import { setSceneIndex, addSceneAt, nextScene } from 'src/client/app/actionCreators';
 import { point } from 'test/helpers';
-import type { Scene, Content } from 'src/client/app/typeDefinitions';
+import type { Scene, Data } from 'src/client/app/typeDefinitions';
 
 const existingScene: () => Scene = () => ({
 	strokes: [{
@@ -16,10 +16,10 @@ const existingScene: () => Scene = () => ({
 	}],
 });
 
-describe('Content', () => {
+describe('Data', () => {
 	describe('initial state', () => {
 		it('creates a scene index', () => {
-			const result = content(
+			const result = data(
 				undefined,
 				{ type: '' },
 			);
@@ -27,7 +27,7 @@ describe('Content', () => {
 		});
 
 		it('contains undoable scenes', () => {
-			const result = content(
+			const result = data(
 				undefined,
 				{ type: '' },
 			);
@@ -36,7 +36,7 @@ describe('Content', () => {
 	});
 
 	describe('setting scene index', () => {
-		const existingContent: Content = {
+		const existingData: Data = {
 			sceneIndex: 0,
 			undoableScenes: {
 				past: [],
@@ -48,24 +48,24 @@ describe('Content', () => {
 		};
 
 		it('cannot show scene at too high index', () => {
-			const result = content(
-				existingContent,
+			const result = data(
+				existingData,
 				setSceneIndex(1),
 			);
-			expect(result).to.deep.equal(existingContent);
+			expect(result).to.deep.equal(existingData);
 		});
 
 		it('cannot show scene at too low index', () => {
-			const result = content(
-				existingContent,
+			const result = data(
+				existingData,
 				setSceneIndex(-1),
 			);
-			expect(result).to.deep.equal(existingContent);
+			expect(result).to.deep.equal(existingData);
 		});
 	});
 
 	describe('adding a scene at a specific index', () => {
-		const existingContent: Content = {
+		const existingData: Data = {
 			sceneIndex: 0,
 			undoableScenes: {
 				past: [],
@@ -77,16 +77,16 @@ describe('Content', () => {
 		};
 
 		it('does not work if index is too high', () => {
-			const result = content(
-				existingContent,
+			const result = data(
+				existingData,
 				addSceneAt(4),
 			);
-			expect(result).to.deep.equal(existingContent);
+			expect(result).to.deep.equal(existingData);
 		});
 
 		it('keeps the scene index', () => {
-			const result = content(
-				existingContent,
+			const result = data(
+				existingData,
 				addSceneAt(1),
 			);
 			expect(result.undoableScenes.present[1].strokes).to.exist();
@@ -95,7 +95,7 @@ describe('Content', () => {
 	});
 
 	describe('going to the next scene', () => {
-		const existingContent: Content = {
+		const existingData: Data = {
 			sceneIndex: 0,
 			undoableScenes: {
 				past: [],
@@ -110,18 +110,18 @@ describe('Content', () => {
 		};
 
 		it('shows scene 2 out of 4', () => {
-			existingContent.sceneIndex = 1;
-			const result = content(
-				existingContent,
+			existingData.sceneIndex = 1;
+			const result = data(
+				existingData,
 				nextScene(),
 			);
 			expect(result.sceneIndex).to.equal(2);
 		});
 
 		it('shows scene 5 after adding it', () => {
-			existingContent.sceneIndex = 3;
-			const result = content(
-				existingContent,
+			existingData.sceneIndex = 3;
+			const result = data(
+				existingData,
 				nextScene(),
 			);
 			expect(result.sceneIndex).to.equal(4);

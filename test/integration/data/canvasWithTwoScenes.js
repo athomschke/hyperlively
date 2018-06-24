@@ -19,7 +19,7 @@ const canvasWithTwoScenes = (): HyperlivelyState => ({
 	observeMutations: true,
 	drawing: false,
 	specificActions: [],
-	content: {
+	data: {
 		sceneIndex: 1,
 		undoableScenes: {
 			past: [

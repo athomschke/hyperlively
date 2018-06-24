@@ -19,7 +19,7 @@ const canvasWithIrregularStrokesWithPloma = (): HyperlivelyState => ({
 	},
 	handwritingRecognition: false,
 	threshold: 500,
-	content: {
+	data: {
 		sceneIndex: 0,
 		undoableScenes: {
 			past: [],

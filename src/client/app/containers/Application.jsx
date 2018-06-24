@@ -11,8 +11,8 @@ const mapStateToProps = (state) => {
 	const returnState = {};
 	returnState.threshold = state.threshold;
 	returnState.drawing = state.drawing;
-	returnState.sceneIndex = state.content.sceneIndex;
-	returnState.scene = state.content.undoableScenes.present[state.content.sceneIndex];
+	returnState.sceneIndex = state.data.sceneIndex;
+	returnState.scene = state.data.undoableScenes.present[state.data.sceneIndex];
 	returnState.interpretation = state.interpretation;
 	returnState.specificActions = state.specificActions;
 	return returnState;

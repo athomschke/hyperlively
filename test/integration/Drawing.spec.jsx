@@ -8,7 +8,7 @@ import canvasWithTwoStrokes from './data/canvasWithTwoStrokes';
 import emptyCanvas from './data/emptyCanvas';
 
 
-const getPointsFromJSON = json => json.content.undoableScenes.present[0].strokes;
+const getPointsFromJSON = json => json.data.undoableScenes.present[0].strokes;
 
 describe('Integration', () => {
 	let xhr;

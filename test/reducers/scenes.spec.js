@@ -1,7 +1,7 @@
 // @flow
 import { expect } from 'chai';
 
-import { scenes } from 'src/client/app/reducers/content/scenes';
+import { scenes } from 'src/client/app/reducers/data/scenes';
 import { addScene, addSceneAt } from 'src/client/app/actionCreators';
 import { point, exampleStrokes } from 'test/helpers';
 import type { Scene, Stroke } from 'src/client/app/typeDefinitions';

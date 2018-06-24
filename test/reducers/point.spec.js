@@ -1,7 +1,7 @@
 // @flow
 import { expect } from 'chai';
 
-import { point } from 'src/client/app/reducers/content/strokes/points/point';
+import { point } from 'src/client/app/reducers/data/strokes/points/point';
 import { type ROTATE_BY_ACTION } from 'src/client/app/actionTypeDefinitions';
 
 describe('point reducer', () => {

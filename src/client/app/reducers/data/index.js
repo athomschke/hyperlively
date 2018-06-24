@@ -2,7 +2,7 @@
 import scopeToActions from 'src/client/app/reducers/scopeToActions';
 import { addScene } from 'src/client/app/actionCreators';
 import { ADD_SCENE_AT, SET_SCENE_INDEX, NEXT_SCENE } from 'src/client/app/constants/actionTypes';
-import { type Content, type UndoableScenes } from 'src/client/app/typeDefinitions';
+import { type Data, type UndoableScenes } from 'src/client/app/typeDefinitions';
 
 import { undoable, undoableActions, type UndoableActionType } from './undoable';
 import { sceneIndex, setSceneIndexActions, type SetSceneActionType } from './sceneIndex';
@@ -24,14 +24,14 @@ const initialUndoableScenes = (): UndoableScenes => ({
 	future: [],
 });
 
-const initialContentState = (): Content => ({
+const initialDataState = (): Data => ({
 	sceneIndex: 0,
 	undoableScenes: initialUndoableScenes(),
 });
 
-type ContentReducer = (state: Content, action: UndoableSceneActionType) => Content
+type DataReducer = (state: Data, action: UndoableSceneActionType) => Data
 
-const scopedContent: ContentReducer = (state, action) => {
+const scopedData: DataReducer = (state, action) => {
 	switch (action.type) {
 	case ADD_SCENE_AT:
 		if (action.number <= state.undoableScenes.present.length + 1 && action.number >= 0) {
@@ -81,6 +81,6 @@ const scopedContent: ContentReducer = (state, action) => {
 	}
 };
 
-const content = scopeToActions(scopedContent, undoableScenesActions, initialContentState);
+const data = scopeToActions(scopedData, undoableScenesActions, initialDataState);
 
-export { content };
+export { data };

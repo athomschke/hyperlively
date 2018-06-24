@@ -60,7 +60,7 @@ describe('Integration', () => {
 
 		it('shows the first scene', () => {
 			const twoScenesJson = cloneDeep(canvasWithTwoScenes());
-			twoScenesJson.content.sceneIndex = 0;
+			twoScenesJson.data.sceneIndex = 0;
 			renderApplicationWithState(twoScenesJson);
 			expect(getCanvasNodes()).to.have.length(2);
 		});
@@ -89,7 +89,7 @@ describe('Integration', () => {
 						{ x: 20, y: 40, timeStamp: 103 },
 					],
 				};
-				canvasJson.content.undoableScenes.present[0].strokes.push(newStroke);
+				canvasJson.data.undoableScenes.present[0].strokes.push(newStroke);
 				renderApplicationWithState(canvasJson);
 				return getCombinedCanvas().then((newCombinedCanvas) => {
 					expect(hashCode(newCombinedCanvas.toDataURL())).to.equal(hashCode(renderedStrokesData));
@@ -101,7 +101,7 @@ describe('Integration', () => {
 			const canvasJson = cloneDeep(canvasWithTwoStrokes());
 			canvasJson.threshold = 1500;
 			canvasJson.handwritingRecognition = true;
-			const presentScene = canvasJson.content.undoableScenes.present[0];
+			const presentScene = canvasJson.data.undoableScenes.present[0];
 			presentScene.strokes = map(presentScene.strokes, stroke => Object.assign({}, stroke, {
 				hidden: true,
 			}));

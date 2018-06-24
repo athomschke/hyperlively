@@ -9,8 +9,8 @@ import { type JUMP_TO_ACTION } from 'src/client/app/actionTypeDefinitions';
 
 export type UndoableActionType<T> = T | JUMP_TO_ACTION;
 
-export const undoableActions = (undoableContentActions: *) => ({
-	...undoableContentActions,
+export const undoableActions = (undoableDataActions: *) => ({
+	...undoableDataActions,
 	JUMP_TO: jumpTo,
 });
 

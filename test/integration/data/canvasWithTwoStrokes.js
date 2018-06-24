@@ -19,7 +19,7 @@ const canvasWithTwoStrokes = (): HyperlivelyState => ({
 		},
 	},
 	observeMutations: true,
-	content: {
+	data: {
 		sceneIndex: 0,
 		undoableScenes: {
 			past: [],

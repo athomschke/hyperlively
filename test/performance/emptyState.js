@@ -1,5 +1,5 @@
 // @flow
-import type { Content, HyperlivelyState, UndoableScenes } from 'src/client/app/typeDefinitions';
+import type { Data, HyperlivelyState, UndoableScenes } from 'src/client/app/typeDefinitions';
 
 const undoableScenes: UndoableScenes = {
 	past: [],
@@ -7,7 +7,7 @@ const undoableScenes: UndoableScenes = {
 	future: [],
 };
 
-const content: Content = {
+const data: Data = {
 	sceneIndex: 0,
 	undoableScenes,
 };
@@ -29,7 +29,7 @@ const hyperlively: HyperlivelyState = {
 	observeMutations: false,
 	threshold: 50,
 	drawing: false,
-	content,
+	data,
 	ui: {
 		actions: {
 			checkedPath: [],

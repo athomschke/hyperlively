@@ -30,7 +30,7 @@ export type UndoableScenes = {
 	future: Array<SceneState>,
 }
 
-export type Content = {
+export type Data = {
 	sceneIndex: number,
 	undoableScenes: UndoableScenes,
 }
@@ -201,7 +201,7 @@ export type HyperlivelyState = {
 	observeMutations: boolean,
 	threshold: number,
 	drawing: boolean,
-	content: Content,
+	data: Data,
 	specificActions: Array<ActionMapping>,
 	ui: UiState,
 }

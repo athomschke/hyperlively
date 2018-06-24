@@ -12,17 +12,17 @@ import type { Stroke } from 'src/client/app/typeDefinitions';
 const mapStateToProps = (state, ownProps) => {
 	const returnProps = {};
 	const pastStatesInScene = relevantStatesForScene(
-		state.content.undoableScenes.past,
-		state.content.sceneIndex,
+		state.data.undoableScenes.past,
+		state.data.sceneIndex,
 	);
 	const futureStatesInScene = relevantStatesForScene(
-		state.content.undoableScenes.future,
-		state.content.sceneIndex,
+		state.data.undoableScenes.future,
+		state.data.sceneIndex,
 	);
 	const max = pastStatesInScene.length + futureStatesInScene.length;
 	const allStatesInScene = concat(
 		pastStatesInScene,
-		[state.content.undoableScenes.present],
+		[state.data.undoableScenes.present],
 		futureStatesInScene,
 	);
 	Object.assign(returnProps, ownProps, {
@@ -31,7 +31,7 @@ const mapStateToProps = (state, ownProps) => {
 		value: pastStatesInScene.length,
 		callbackEnabled: state.ploma.usePloma,
 		timeout: UNDO_TIMEOUT,
-		scene: last(allStatesInScene)[state.content.sceneIndex],
+		scene: last(allStatesInScene)[state.data.sceneIndex],
 	});
 	return returnProps;
 };

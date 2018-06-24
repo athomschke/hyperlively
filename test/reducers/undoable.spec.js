@@ -1,7 +1,7 @@
 // @flow
 import { expect } from 'chai';
 
-import { undoable } from 'src/client/app/reducers/content/undoable';
+import { undoable } from 'src/client/app/reducers/data/undoable';
 import { jumpTo } from 'src/client/app/actionCreators';
 
 import * as data from './data/undoableScenes';

@@ -19,7 +19,7 @@ const getTimelineCanvasNodes = () => {
 
 const createStoreAndRenderAppAtPage = (pageNumber) => {
 	const canvasJson = cloneDeep(canvasWithTwoScenes());
-	canvasJson.content.sceneIndex = pageNumber;
+	canvasJson.data.sceneIndex = pageNumber;
 	const store = createAppStore(canvasJson);
 	renderApplicationWithStore(store);
 	return store;

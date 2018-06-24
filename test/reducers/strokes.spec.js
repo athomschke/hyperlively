@@ -3,7 +3,7 @@ import { expect } from 'chai';
 
 import { appendPoint, createStroke, finishStroke, updatePosition, hide, select, selectInside, rotateBy } from 'src/client/app/actionCreators';
 import { point, event, exampleStrokes } from 'test/helpers';
-import { strokes } from 'src/client/app/reducers/content/strokes';
+import { strokes } from 'src/client/app/reducers/data/strokes';
 import type { Stroke } from 'src/client/app/typeDefinitions';
 
 const TIME_STAMP = 23675194;
