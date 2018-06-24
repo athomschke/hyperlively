@@ -17,7 +17,6 @@ const canvasWithTwoScenes = (): HyperlivelyState => ({
 		},
 	},
 	observeMutations: true,
-	drawing: false,
 	specificActions: [],
 	data: {
 		sceneIndex: 1,
@@ -184,6 +183,7 @@ const canvasWithTwoScenes = (): HyperlivelyState => ({
 		},
 	},
 	ui: {
+		drawing: false,
 		actions: {
 			checkedPath: [],
 			collapsedPath: [],

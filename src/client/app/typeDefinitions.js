@@ -191,6 +191,7 @@ export type InterpretationsState = {
 export type UiState = {
 	actions: JSONChooserState,
 	parameters: JSONChooserState,
+	drawing: boolean,
 	interpretations: InterpretationsState
 }
 
@@ -200,7 +201,6 @@ export type HyperlivelyState = {
 	handwritingRecognition: boolean,
 	observeMutations: boolean,
 	threshold: number,
-	drawing: boolean,
 	data: Data,
 	specificActions: Array<ActionMapping>,
 	ui: UiState,

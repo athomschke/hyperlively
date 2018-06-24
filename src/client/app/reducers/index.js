@@ -6,7 +6,6 @@ import { ploma } from './ploma';
 import { handwritingRecognition } from './handwritingRecognition';
 import { observeMutations } from './observeMutations';
 import { interpretation } from './interpretation';
-import { drawing } from './drawing';
 import { data } from './data';
 import { specificActions } from './specificActions';
 import { ui } from './ui';
@@ -19,7 +18,6 @@ export const initialHyperlivelyState = (): HyperlivelyState => ({
 	handwritingRecognition: handwritingRecognition(undefined, { type: '' }),
 	observeMutations: observeMutations(undefined, { type: '' }),
 	threshold: threshold(undefined, { type: '' }),
-	drawing: drawing(undefined, { type: '' }),
 	data: data(undefined, { type: '' }),
 	specificActions: specificActions(undefined, { type: '' }),
 	ui: ui(undefined, { type: '' }),
@@ -31,7 +29,6 @@ export const hyperlively: HyperlivelyReducer = (state = initialHyperlivelyState(
 	handwritingRecognition: handwritingRecognition(state.handwritingRecognition, action),
 	observeMutations: observeMutations(state.observeMutations, action),
 	threshold: threshold(state.threshold, action),
-	drawing: drawing(state.drawing, action),
 	data: data(state.data, action),
 	specificActions: specificActions(state.specificActions, action),
 	ui: ui(state.ui, action),

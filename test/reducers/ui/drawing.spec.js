@@ -1,7 +1,7 @@
 // @flow
 import { expect } from 'chai';
 
-import { drawing } from 'src/client/app/reducers/drawing';
+import { drawing } from 'src/client/app/reducers/ui/drawing';
 import { toggleDrawing } from 'src/client/app/actionCreators';
 
 describe('drawing', () => {

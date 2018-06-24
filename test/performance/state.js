@@ -73,9 +73,9 @@ const hyperlivelyState: HyperlivelyState = {
 	handwritingRecognition: false,
 	observeMutations: false,
 	threshold: 50,
-	drawing: false,
 	data,
 	ui: {
+		drawing: false,
 		actions: {
 			checkedPath: [],
 			collapsedPath: [],

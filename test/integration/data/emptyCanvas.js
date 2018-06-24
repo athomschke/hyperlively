@@ -3,7 +3,6 @@
 import type { HyperlivelyState } from 'src/client/app/typeDefinitions';
 
 const emptyCanvas = (): HyperlivelyState => ({
-	drawing: false,
 	ploma: {
 		usePloma: false,
 		uniqueCanvasFactor: NaN,
@@ -28,6 +27,7 @@ const emptyCanvas = (): HyperlivelyState => ({
 		},
 	},
 	ui: {
+		drawing: false,
 		actions: {
 			checkedPath: [],
 			collapsedPath: [],
