@@ -15,6 +15,10 @@ const strokeFromPoints = (points: Array<Point>): Stroke => ({
 	selected: false,
 	hidden: false,
 	angle: 0,
+	center: {
+		x: 0,
+		y: 0,
+	},
 	finished: true,
 	position: {
 		x: 0,

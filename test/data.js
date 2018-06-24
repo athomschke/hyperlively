@@ -67,6 +67,10 @@ export const strokesExample = (): Array<Stroke> => [{
 	},
 	hidden: false,
 	angle: 0,
+	center: {
+		x: 0,
+		y: 0,
+	},
 	selected: false,
 	finished: true,
 	color: DEFAULT_PEN_COLOR,

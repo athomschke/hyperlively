@@ -11,6 +11,10 @@ const dummyStroke: Stroke = {
 	hidden: false,
 	selected: false,
 	angle: 0,
+	center: {
+		x: 0,
+		y: 0,
+	},
 	position: {
 		x: 0,
 		y: 0,

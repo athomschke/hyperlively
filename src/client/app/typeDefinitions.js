@@ -12,6 +12,7 @@ export type Stroke = {
 	points: Array<Point>,
 	position: Coordinate,
 	angle: number,
+	center: Coordinate,
 	hidden: boolean,
 	selected: boolean,
 	finished: boolean,

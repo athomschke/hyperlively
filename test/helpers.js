@@ -23,6 +23,10 @@ export function exampleStrokes(points: Array<Point>, finished: boolean = true): 
 		finished,
 		hidden: false,
 		angle: 0,
+		center: {
+			x: 0,
+			y: 0,
+		},
 		selected: false,
 		position: {
 			x: 0,

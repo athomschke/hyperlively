@@ -21,6 +21,10 @@ const dummyStrokes: Array<Stroke> = [{
 	hidden: false,
 	selected: true,
 	angle: 0,
+	center: {
+		x: 0,
+		y: 0,
+	},
 	finished: true,
 	color: 'red',
 	position: {

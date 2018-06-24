@@ -21,6 +21,10 @@ const canvasWithTwoStrokes = (): HyperlivelyState => ({
 					hidden: false,
 					selected: false,
 					angle: 0,
+					center: {
+						x: 0,
+						y: 0,
+					},
 					points: [
 						{ x: 10, y: 10, timeStamp: 100 },
 						{ x: 10, y: 30, timeStamp: 101 },
@@ -34,6 +38,10 @@ const canvasWithTwoStrokes = (): HyperlivelyState => ({
 					hidden: false,
 					selected: false,
 					angle: 0,
+					center: {
+						x: 0,
+						y: 0,
+					},
 					points: [
 						{ x: 20, y: 10, timeStamp: 1100 },
 						{ x: 20, y: 30, timeStamp: 1101 },

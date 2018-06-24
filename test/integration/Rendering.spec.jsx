@@ -85,6 +85,10 @@ describe('Integration', () => {
 					hidden: true,
 					selected: false,
 					angle: 0,
+					center: {
+						x: 0,
+						y: 0,
+					},
 					points: [
 						{ x: 20, y: 20, timeStamp: 102 },
 						{ x: 20, y: 40, timeStamp: 103 },

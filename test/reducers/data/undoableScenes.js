@@ -6,6 +6,10 @@ const stroke = (points: Array<number>): Stroke => ({
 	hidden: false,
 	selected: false,
 	finished: true,
+	center: {
+		x: 0,
+		y: 0,
+	},
 	angle: 0,
 	color: 'rgb(0,0,0)',
 	position: {
