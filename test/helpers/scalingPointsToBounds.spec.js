@@ -3,14 +3,15 @@ import { expect } from 'chai';
 
 import { scaleToTime, getFittedWidth } from 'src/client/app/helpers/scalingPointsToBounds';
 import { point } from 'test/helpers';
-import type { Point } from 'src/client/app/typeDefinitions';
+import type { Point, Stroke } from 'src/client/app/typeDefinitions';
 
-const strokeFromPoints = (points: Array<Point>) => ({
+const strokeFromPoints = (points: Array<Point>): Stroke => ({
 	points,
 	color: 'rgb(0,0,0)',
 	selected: false,
 	hidden: false,
 	finished: true,
+	angle: 0,
 	position: {
 		x: 0,
 		y: 0,

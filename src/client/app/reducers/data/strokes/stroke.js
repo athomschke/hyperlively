@@ -29,6 +29,7 @@ const initialStrokeState = (): Stroke => ({
 	selected: false,
 	finished: false,
 	color: DEFAULT_PEN_COLOR,
+	angle: 0,
 	position: {
 		x: 0,
 		y: 0,

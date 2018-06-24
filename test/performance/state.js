@@ -10,6 +10,7 @@ const dummyStroke: Stroke = {
 	color: DEFAULT_PEN_COLOR,
 	hidden: false,
 	selected: false,
+	angle: 0,
 	position: {
 		x: 0,
 		y: 0,

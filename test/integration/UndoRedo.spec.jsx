@@ -4,16 +4,17 @@ import { findDOMNode } from 'react-dom';
 import { useFakeXMLHttpRequest } from 'sinon';
 
 import { point } from 'test/helpers';
-import type { Point } from 'src/client/app/typeDefinitions';
+import type { Point, Stroke } from 'src/client/app/typeDefinitions';
 import emptyCanvas from 'test/integration/data/emptyCanvas';
 
 import { hashCode, mountApp, dismountApp, getCanvasNodes, getWindowNode, getCombinedCanvas, renderApplicationWithState, manuallyDrawStrokes, gotToHalfTimeInApp } from './helpers';
 
-const strokeFromPoints = (points: Array<Point>) => ({
+const strokeFromPoints = (points: Array<Point>): Stroke => ({
 	points,
 	color: 'rgb(0,0,0)',
 	selected: false,
 	hidden: false,
+	angle: 0,
 	finished: true,
 	position: {
 		x: 0,

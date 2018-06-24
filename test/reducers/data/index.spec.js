@@ -11,6 +11,7 @@ const existingScene: () => Scene = () => ({
 		color: 'rgb(0,0,0)',
 		finished: true,
 		hidden: false,
+		angle: 0,
 		selected: false,
 		points: [point(10, 10)],
 		position: {

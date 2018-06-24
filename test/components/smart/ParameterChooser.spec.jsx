@@ -6,8 +6,9 @@ import { spy } from 'sinon';
 
 import ParameterChooser from 'src/client/app/components/smart/ParameterChooser';
 import JsonPropertyChooser from 'src/client/app/components/smart/JsonPropertyChooser';
+import type { Stroke } from 'src/client/app/typeDefinitions';
 
-const dummyStrokes = [{
+const dummyStrokes: Array<Stroke> = [{
 	points: [{
 		x: 0,
 		y: 0,
@@ -19,6 +20,7 @@ const dummyStrokes = [{
 	}],
 	hidden: false,
 	selected: true,
+	angle: 0,
 	finished: true,
 	color: 'red',
 	position: {

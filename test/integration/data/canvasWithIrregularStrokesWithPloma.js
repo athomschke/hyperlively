@@ -21,6 +21,7 @@ const canvasWithIrregularStrokesWithPloma = (): HyperlivelyState => ({
 					hidden: false,
 					selected: false,
 					finished: true,
+					angle: 0,
 					points: [
 						{ x: 10, y: 10, timeStamp: 100 },
 						{ x: 11, y: 15, timeStamp: 101 },
@@ -37,6 +38,7 @@ const canvasWithIrregularStrokesWithPloma = (): HyperlivelyState => ({
 					hidden: false,
 					selected: false,
 					finished: true,
+					angle: 0,
 					points: [
 						{ x: 30, y: 10, timeStamp: 1106 },
 						{ x: 31, y: 15, timeStamp: 1107 },

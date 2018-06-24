@@ -1,6 +1,6 @@
 // @flow
 import { DEFAULT_PEN_COLOR } from 'src/client/app/constants/drawing';
-import type { ShapeCandidate, LinePrimitive } from 'src/client/app/typeDefinitions';
+import type { ShapeCandidate, LinePrimitive, Stroke } from 'src/client/app/typeDefinitions';
 
 const primitive = (): LinePrimitive => ({
 	type: 'line',
@@ -51,7 +51,7 @@ export const textResponse = () => JSON.stringify({
 	},
 });
 
-export const strokesExample = () => [{
+export const strokesExample = (): Array<Stroke> => [{
 	points: [{
 		x: 100,
 		y: 100,
@@ -66,6 +66,7 @@ export const strokesExample = () => [{
 		y: 0,
 	},
 	hidden: false,
+	angle: 0,
 	selected: false,
 	finished: true,
 	color: DEFAULT_PEN_COLOR,
