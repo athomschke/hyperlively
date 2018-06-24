@@ -124,12 +124,8 @@ describe('strokes', () => {
 				currentState,
 				updatePosition([strokeToMove], origin.x, origin.y, target.x, target.y),
 			);
-			expect(result[0].points[0].x).to.equal(10);
-			expect(result[0].points[0].y).to.equal(12);
-			expect(result[0].points[1].x).to.equal(10);
-			expect(result[0].points[1].y).to.equal(13);
-			expect(result[0].points[2].x).to.equal(10);
-			expect(result[0].points[2].y).to.equal(14);
+			expect(result[0].position.x).to.equal(0);
+			expect(result[0].position.y).to.equal(1);
 		});
 
 		it('does not change coordinates of other strokes', () => {

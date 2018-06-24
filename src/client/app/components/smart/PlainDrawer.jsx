@@ -82,17 +82,50 @@ export default class PlainDrawer extends AbstractDrawer<Props, {}> {
 		const points = stroke.points;
 		if (points.length > 0 && !(points.length === 1 && stroke.finished)) {
 			const strokeColor = stroke.color || DEFAULT_PEN_COLOR;
-			that.startStrokeAt(head(points), stroke.selected ? SELECTED_PEN_COLOR : strokeColor);
+			const point = head(points);
+			that.startStrokeAt({
+				...point,
+				x: point.x + stroke.position.x,
+				y: point.y + stroke.position.y,
+			}, stroke.selected ? SELECTED_PEN_COLOR : strokeColor);
 		}
 		if (points.length > 1) {
 			reduce(without(tail(points), last(points)), (pointBefore, point) => {
-				that.extendStrokeAt(point, pointBefore);
+				that.extendStrokeAt({
+					...point,
+					x: point.x + stroke.position.x,
+					y: point.y + stroke.position.y,
+				}, {
+					...pointBefore,
+					x: pointBefore.x + stroke.position.x,
+					y: pointBefore.y + stroke.position.y,
+				});
 				return point;
 			}, tail(points)[0]);
 			if (shouldFinish) {
-				that.endStrokeAt(last(points), points[points.length - 2]);
+				const pointA = last(points);
+				const pointB = points[points.length - 2];
+				that.endStrokeAt({
+					...pointA,
+					x: pointA.x + stroke.position.x,
+					y: pointA.y + stroke.position.y,
+				}, {
+					...pointB,
+					x: pointB.x + stroke.position.x,
+					y: pointB.y + stroke.position.y,
+				});
 			} else {
-				that.extendStrokeAt(last(points), points[points.length - 2]);
+				const pointA = last(points);
+				const pointB = points[points.length - 2];
+				that.extendStrokeAt({
+					...pointA,
+					x: pointA.x + stroke.position.x,
+					y: pointA.y + stroke.position.y,
+				}, {
+					...pointB,
+					x: pointB.x + stroke.position.x,
+					y: pointB.y + stroke.position.y,
+				});
 			}
 		}
 	}

@@ -11,18 +11,22 @@ const joinBounds = (bounds1, bounds2) => ({
 	bottom: Math.max(bounds1.bottom, bounds2.bottom),
 });
 
-const extendBoundsToPoint = (bounds, point) => ({
-	left: Math.min(bounds.left, point.x),
-	top: Math.min(bounds.top, point.y),
-	right: Math.max(bounds.right, point.x),
-	bottom: Math.max(bounds.bottom, point.y),
+const extendBoundsToPoint = (bounds, point, position) => ({
+	left: Math.min(bounds.left, point.x + position.x),
+	top: Math.min(bounds.top, point.y + position.y),
+	right: Math.max(bounds.right, point.x + position.x),
+	bottom: Math.max(bounds.bottom, point.y + position.y),
 });
 
 const getLimitsForStrokes = (strokes) => {
 	if (strokes.length && find(strokes, stroke => (stroke.points.length > 0))) {
 		const infiniteBounds = { left: Infinity, top: Infinity, right: -Infinity, bottom: -Infinity };
 		return reduce(strokes, (bounds, stroke) => {
-			const reduced = reduce(stroke.points, extendBoundsToPoint, bounds);
+			const reduced = reduce(
+				stroke.points,
+				(curBounds, point) => extendBoundsToPoint(curBounds, point, stroke.position),
+				bounds,
+			);
 			return joinBounds(bounds, reduced);
 		}, infiniteBounds);
 	}

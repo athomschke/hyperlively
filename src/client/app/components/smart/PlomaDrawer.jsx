@@ -77,17 +77,41 @@ export default class PlomaDrawer extends AbstractDrawer<Props, State> {
 		const points = stroke.points;
 		const strokeColor = stroke.color || DEFAULT_PEN_COLOR;
 		if (points.length > 1) {
-			that.startStrokeAt(head(points), stroke.selected ? SELECTED_PEN_COLOR : strokeColor);
-			forEach(tail(points), (point) => {
-				that.extendStrokeAt(point);
+			const point = head(points);
+			that.startStrokeAt({
+				...point,
+				x: point.x + stroke.position.x,
+				y: point.y + stroke.position.y,
+			}, stroke.selected ? SELECTED_PEN_COLOR : strokeColor);
+			forEach(tail(points), (aPoint) => {
+				that.extendStrokeAt({
+					...aPoint,
+					x: aPoint.x + stroke.position.x,
+					y: aPoint.y + stroke.position.y,
+				});
 			});
 			if (shouldFinish) {
-				that.endStrokeAt(last(points));
+				const aPoint = last(points);
+				that.endStrokeAt({
+					...aPoint,
+					x: aPoint.x + stroke.position.x,
+					y: aPoint.y + stroke.position.y,
+				});
 			} else {
-				that.extendStrokeAt(last(points));
+				const aPoint = last(points);
+				that.extendStrokeAt({
+					...aPoint,
+					x: aPoint.x + stroke.position.x,
+					y: aPoint.y + stroke.position.y,
+				});
 			}
 		} else if (points.length > 0) {
-			that.startStrokeAt(head(points), stroke.selected ? SELECTED_PEN_COLOR : strokeColor);
+			const aPoint = head(points);
+			that.startStrokeAt({
+				...aPoint,
+				x: aPoint.x + stroke.position.x,
+				y: aPoint.y + stroke.position.y,
+			}, stroke.selected ? SELECTED_PEN_COLOR : strokeColor);
 		}
 	}
 }

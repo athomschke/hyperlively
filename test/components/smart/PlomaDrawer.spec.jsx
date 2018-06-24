@@ -273,7 +273,8 @@ describe('PlomaDrawer', () => {
 		});
 
 		it('Gives them a different color than normally', () => {
-			canvas.props.strokes.push({ points: [{ x: 30, y: 30 }, { x: 31, y: 31 }, { x: 32, y: 32 }] });
+			const aStroke = exampleStrokes([point(30, 30), point(31, 31), point(32, 32)])[0];
+			canvas.props.strokes.push(aStroke);
 			canvas.componentDidUpdate();
 			canvas.props.strokes[1].selected = true;
 			spyOnPen(canvas.state.ballpointPen);

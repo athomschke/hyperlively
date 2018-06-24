@@ -20,15 +20,18 @@ export function scaleToTime(strokes: Array<Stroke>, width: number, height: numbe
 	scale = Math.min(scale, width / (maxX - minX));
 	scale = Math.min(scale, height / (maxY - minY));
 	if (scale < 1) {
-		return map(strokes, stroke =>
-			Object.assign({}, stroke, {
-				points: map(stroke.points, point =>
-					Object.assign({}, point, {
-						x: point.x * scale,
-						y: point.y * scale,
-					}),
-				),
-			}));
+		return map(strokes, stroke => ({
+			...stroke,
+			position: {
+				x: 0,
+				y: 0,
+			},
+			points: map(stroke.points, point => ({
+				...point,
+				x: point.x * scale,
+				y: point.y * scale,
+			})),
+		}));
 	}
 	return strokes;
 }
