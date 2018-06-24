@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import * as actionCreators from 'src/client/app/actionCreators';
 import { PAPER_COLOR, WHITE } from 'src/client/app/constants/drawing';
+import type { HyperlivelyState } from 'src/client/app/typeDefinitions';
 import Desk from 'src/client/app/components/hoc/Desk';
 import ModuleChooser from 'src/client/app/components/hoc/ModuleChooser';
 import SketchTransformer from 'src/client/app/components/hoc/SketchTransformer';
@@ -12,10 +13,10 @@ import BoundsMutationObserver from 'src/client/app/components/hoc/BoundsMutation
 import ModifierKey from 'src/client/app/components/hoc/ModifierKey';
 import Fullscreen from 'src/client/app/components/hoc/Fullscreen';
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state: HyperlivelyState, ownProps) => {
 	const returnState = {};
 	Object.assign(returnState, state.ploma, ownProps);
-	returnState.handwritingRecognitionEnabled = state.handwritingRecognition;
+	returnState.handwritingRecognitionEnabled = state.ui.handwritingRecognition;
 	returnState.componentIndex = state.ploma.usePloma ? 1 : 0;
 	returnState.components = returnState.scene && returnState.scene.strokes;
 	returnState.paperColor = returnState.usePloma ? PAPER_COLOR : WHITE;

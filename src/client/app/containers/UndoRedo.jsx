@@ -7,9 +7,9 @@ import SketchCombiner from 'src/client/app/components/hoc/SketchCombiner';
 import { togglePloma, setObserveMutations, jumpTo, select } from 'src/client/app/actionCreators';
 import { UNDO_TIMEOUT } from 'src/client/app/constants/canvas';
 import relevantStatesForScene from 'src/client/app/helpers/relevantStatesForScene';
-import type { Stroke } from 'src/client/app/typeDefinitions';
+import type { Stroke, HyperlivelyState } from 'src/client/app/typeDefinitions';
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state: HyperlivelyState, ownProps) => {
 	const returnProps = {};
 	const pastStatesInScene = relevantStatesForScene(
 		state.data.undoableScenes.past,

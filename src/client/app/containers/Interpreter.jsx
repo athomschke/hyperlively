@@ -2,11 +2,12 @@
 import { connect } from 'react-redux';
 
 import * as actionCreators from 'src/client/app/actionCreators';
+import type { HyperlivelyState } from 'src/client/app/typeDefinitions';
 import Interpreter from 'src/client/app/components/smart/Interpreter';
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: HyperlivelyState) => {
 	const returnState = {};
-	returnState.handwritingRecognitionEnabled = state.handwritingRecognition;
+	returnState.handwritingRecognitionEnabled = state.ui.handwritingRecognition;
 	returnState.showInterpreter = state.interpretation.showInterpreter;
 	returnState.interpretations = state.interpretation.interpretations;
 	returnState.setInterval = setInterval.bind(window);

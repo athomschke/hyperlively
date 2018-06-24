@@ -192,13 +192,13 @@ export type UiState = {
 	actions: JSONChooserState,
 	parameters: JSONChooserState,
 	drawing: boolean,
+	handwritingRecognition: boolean,
 	interpretations: InterpretationsState
 }
 
 export type HyperlivelyState = {
 	interpretation: InterpretationState,
 	ploma: PlomaState,
-	handwritingRecognition: boolean,
 	observeMutations: boolean,
 	threshold: number,
 	data: Data,

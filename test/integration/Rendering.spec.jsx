@@ -100,7 +100,7 @@ describe('Integration', () => {
 		it('removes them from scene', () => {
 			const canvasJson = cloneDeep(canvasWithTwoStrokes());
 			canvasJson.threshold = 1500;
-			canvasJson.handwritingRecognition = true;
+			canvasJson.ui.handwritingRecognition = true;
 			const presentScene = canvasJson.data.undoableScenes.present[0];
 			presentScene.strokes = map(presentScene.strokes, stroke => Object.assign({}, stroke, {
 				hidden: true,

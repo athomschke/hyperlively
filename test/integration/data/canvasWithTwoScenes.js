@@ -8,7 +8,6 @@ const canvasWithTwoScenes = (): HyperlivelyState => ({
 		uniqueCanvasFactor: NaN,
 	},
 	threshold: 500,
-	handwritingRecognition: false,
 	interpretation: {
 		showInterpreter: true,
 		interpretations: {
@@ -183,6 +182,7 @@ const canvasWithTwoScenes = (): HyperlivelyState => ({
 		},
 	},
 	ui: {
+		handwritingRecognition: false,
 		drawing: false,
 		actions: {
 			checkedPath: [],

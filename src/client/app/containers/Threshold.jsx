@@ -2,9 +2,10 @@
 import { connect } from 'react-redux';
 
 import { updateThreshold } from 'src/client/app/actionCreators';
+import type { HyperlivelyState } from 'src/client/app/typeDefinitions';
 import Threshold from 'src/client/app/components/dumb/Threshold';
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: HyperlivelyState) => ({
 	threshold: state.threshold,
 });
 

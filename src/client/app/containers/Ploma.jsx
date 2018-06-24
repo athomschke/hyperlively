@@ -2,9 +2,10 @@
 import { connect } from 'react-redux';
 
 import { togglePloma } from 'src/client/app/actionCreators';
+import type { HyperlivelyState } from 'src/client/app/typeDefinitions';
 import Ploma from 'src/client/app/components/dumb/Ploma';
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: HyperlivelyState) => ({
 	checked: state.ploma.usePloma,
 });
 

@@ -25,11 +25,11 @@ const hyperlively: HyperlivelyState = {
 			texts: [],
 		},
 	},
-	handwritingRecognition: false,
 	observeMutations: false,
 	threshold: 50,
 	data,
 	ui: {
+		handwritingRecognition: false,
 		drawing: false,
 		actions: {
 			checkedPath: [],
