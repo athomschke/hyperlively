@@ -133,13 +133,18 @@ describe('strokes', () => {
 		});
 
 		it('does not change coordinates of other strokes', () => {
-			const strokeToMove = exampleStrokes([
+			const strokesToMove = exampleStrokes([
 				point(10, 11, 100),
-				point(10, 12, 100),
-				point(10, 13, 100),
-			])[0];
-			const state = exampleStrokes([point(10, 11, 100), point(10, 12, 100), point(10, 13, 100)])
-				.concat(exampleStrokes([point(20, 21, 100), point(20, 22, 100), point(20, 23, 100)]));
+				point(10, 12, 101),
+				point(10, 13, 102),
+			]);
+			const strokeToMove = strokesToMove[0];
+			const strokeToStay = exampleStrokes([
+				point(20, 21, 200),
+				point(20, 22, 201),
+				point(20, 23, 202),
+			]);
+			const state = strokesToMove.concat(strokeToStay);
 			const bounds = {
 				x: 1,
 				y: 0,
