@@ -6,7 +6,7 @@ import type { HyperlivelyState } from 'src/client/app/typeDefinitions';
 import Ploma from 'src/client/app/components/dumb/Ploma';
 
 const mapStateToProps = (state: HyperlivelyState) => ({
-	checked: state.ploma.usePloma,
+	checked: state.ui.ploma.usePloma,
 });
 
 const mapDispatchToProps = dispatch => ({

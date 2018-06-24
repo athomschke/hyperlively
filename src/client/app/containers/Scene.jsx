@@ -15,9 +15,9 @@ import Fullscreen from 'src/client/app/components/hoc/Fullscreen';
 
 const mapStateToProps = (state: HyperlivelyState, ownProps) => {
 	const returnState = {};
-	Object.assign(returnState, state.ploma, ownProps);
+	Object.assign(returnState, state.ui.ploma, ownProps);
 	returnState.handwritingRecognitionEnabled = state.ui.handwritingRecognition;
-	returnState.componentIndex = state.ploma.usePloma ? 1 : 0;
+	returnState.componentIndex = state.ui.ploma.usePloma ? 1 : 0;
 	returnState.components = returnState.scene && returnState.scene.strokes;
 	returnState.paperColor = returnState.usePloma ? PAPER_COLOR : WHITE;
 	returnState.observeMutations = state.ui.observeMutations;

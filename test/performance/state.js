@@ -65,10 +65,6 @@ const data: Data = {
 };
 
 const hyperlivelyState: HyperlivelyState = {
-	ploma: {
-		uniqueCanvasFactor: 35,
-		usePloma: true,
-	},
 	specificActions: [],
 	interpretation: {
 		showInterpreter: false,
@@ -80,6 +76,10 @@ const hyperlivelyState: HyperlivelyState = {
 	threshold: 50,
 	data,
 	ui: {
+		ploma: {
+			uniqueCanvasFactor: 35,
+			usePloma: true,
+		},
 		observeMutations: false,
 		handwritingRecognition: false,
 		drawing: false,

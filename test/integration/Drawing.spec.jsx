@@ -44,8 +44,8 @@ describe('Integration', () => {
 		it('two strokes looks the same as adding two strokes point by point when ploma is enabled', () => {
 			const canvasJsonConfig = canvasWithIrregularStrokesWithPloma();
 			const emptyCanvasConfig = emptyCanvas();
-			emptyCanvasConfig.ploma.uniqueCanvasFactor = canvasJsonConfig.ploma.uniqueCanvasFactor;
-			emptyCanvasConfig.ploma.usePloma = true;
+			emptyCanvasConfig.ui.ploma.uniqueCanvasFactor = canvasJsonConfig.ui.ploma.uniqueCanvasFactor;
+			emptyCanvasConfig.ui.ploma.usePloma = true;
 			emptyCanvasConfig.threshold = 1;
 			renderApplicationWithState(emptyCanvasConfig);
 			const strokes = getPointsFromJSON(canvasJsonConfig);

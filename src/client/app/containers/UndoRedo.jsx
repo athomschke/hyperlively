@@ -29,7 +29,7 @@ const mapStateToProps = (state: HyperlivelyState, ownProps) => {
 		max,
 		disabled: max <= 0,
 		value: pastStatesInScene.length,
-		callbackEnabled: state.ploma.usePloma,
+		callbackEnabled: state.ui.ploma.usePloma,
 		timeout: UNDO_TIMEOUT,
 		scene: last(allStatesInScene)[state.data.sceneIndex],
 	});

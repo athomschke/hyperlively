@@ -2,7 +2,6 @@
 import type { HyperlivelyState, CommonAction } from 'src/client/app/typeDefinitions';
 
 import { threshold } from './threshold';
-import { ploma } from './ploma';
 import { data } from './data';
 import { specificActions } from './specificActions';
 import { ui } from './ui';
@@ -10,7 +9,6 @@ import { ui } from './ui';
 type HyperlivelyReducer = (state?: HyperlivelyState, action: CommonAction) => HyperlivelyState;
 
 export const initialHyperlivelyState = (): HyperlivelyState => ({
-	ploma: ploma(undefined, { type: '' }),
 	threshold: threshold(undefined, { type: '' }),
 	data: data(undefined, { type: '' }),
 	specificActions: specificActions(undefined, { type: '' }),
@@ -18,7 +16,6 @@ export const initialHyperlivelyState = (): HyperlivelyState => ({
 });
 
 export const hyperlively: HyperlivelyReducer = (state = initialHyperlivelyState(), action) => ({
-	ploma: ploma(state.ploma, action),
 	threshold: threshold(state.threshold, action),
 	data: data(state.data, action),
 	specificActions: specificActions(state.specificActions, action),

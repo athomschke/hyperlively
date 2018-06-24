@@ -10,11 +10,13 @@ const initialPlomaState = () => ({
 	uniqueCanvasFactor: Math.random(),
 });
 
-const plomaActions = {
+export type PLOMA_ACTION = TOGGLE_PLOMA_ACTION;
+
+export const plomaActions = {
 	TOGGLE_PLOMA: togglePloma,
 };
 
-const ploma = scopeToActions((state: PlomaState, action: TOGGLE_PLOMA_ACTION) => {
+const ploma = scopeToActions((state: PlomaState, action: PLOMA_ACTION) => {
 	switch (action.type) {
 	case TOGGLE_PLOMA:
 		return {

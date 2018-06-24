@@ -1,7 +1,7 @@
 // @flow
 import { expect } from 'chai';
 
-import { ploma } from 'src/client/app/reducers/ploma';
+import { ploma } from 'src/client/app/reducers/ui/ploma';
 import { togglePloma } from 'src/client/app/actionCreators';
 
 describe('ploma', () => {

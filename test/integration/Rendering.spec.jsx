@@ -46,7 +46,7 @@ describe('Integration', () => {
 
 		it('renders the empty application with ploma', () => {
 			const emptyCanvasJson = cloneDeep(emptyCanvas());
-			emptyCanvasJson.ploma.usePloma = true;
+			emptyCanvasJson.ui.ploma.usePloma = true;
 			renderApplicationWithState(emptyCanvasJson);
 			expect(getWindowNode()).to.exist();
 			expect(getCanvasNodes()).to.have.length(1);

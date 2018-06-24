@@ -3,10 +3,6 @@
 import type { HyperlivelyState } from 'src/client/app/typeDefinitions';
 
 const canvasWithTwoScenes = (): HyperlivelyState => ({
-	ploma: {
-		usePloma: false,
-		uniqueCanvasFactor: NaN,
-	},
 	threshold: 500,
 	specificActions: [],
 	data: {
@@ -181,6 +177,10 @@ const canvasWithTwoScenes = (): HyperlivelyState => ({
 		},
 	},
 	ui: {
+		ploma: {
+			usePloma: false,
+			uniqueCanvasFactor: NaN,
+		},
 		observeMutations: true,
 		handwritingRecognition: false,
 		drawing: false,
