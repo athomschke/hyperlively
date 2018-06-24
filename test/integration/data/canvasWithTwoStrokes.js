@@ -9,7 +9,6 @@ const canvasWithTwoStrokes = (): HyperlivelyState => ({
 	},
 	specificActions: [],
 	threshold: 500,
-	observeMutations: true,
 	data: {
 		sceneIndex: 0,
 		interpretation: {
@@ -44,6 +43,7 @@ const canvasWithTwoStrokes = (): HyperlivelyState => ({
 		},
 	},
 	ui: {
+		observeMutations: true,
 		handwritingRecognition:	false,
 		drawing: false,
 		actions: {

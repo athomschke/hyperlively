@@ -185,6 +185,7 @@ export type InterpretationsState = {
 
 export type UiState = {
 	actions: JSONChooserState,
+	observeMutations: boolean,
 	parameters: JSONChooserState,
 	drawing: boolean,
 	handwritingRecognition: boolean,
@@ -199,7 +200,6 @@ export type Data = {
 
 export type HyperlivelyState = {
 	ploma: PlomaState,
-	observeMutations: boolean,
 	threshold: number,
 	data: Data,
 	specificActions: Array<ActionMapping>,

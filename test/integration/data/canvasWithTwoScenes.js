@@ -8,7 +8,6 @@ const canvasWithTwoScenes = (): HyperlivelyState => ({
 		uniqueCanvasFactor: NaN,
 	},
 	threshold: 500,
-	observeMutations: true,
 	specificActions: [],
 	data: {
 		sceneIndex: 1,
@@ -182,6 +181,7 @@ const canvasWithTwoScenes = (): HyperlivelyState => ({
 		},
 	},
 	ui: {
+		observeMutations: true,
 		handwritingRecognition: false,
 		drawing: false,
 		actions: {

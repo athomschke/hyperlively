@@ -9,7 +9,6 @@ const emptyCanvas = (): HyperlivelyState => ({
 	},
 	specificActions: [],
 	threshold: 500,
-	observeMutations: true,
 	data: {
 		sceneIndex: 0,
 		interpretation: {
@@ -26,6 +25,7 @@ const emptyCanvas = (): HyperlivelyState => ({
 		},
 	},
 	ui: {
+		observeMutations: true,
 		handwritingRecognition:	false,
 		drawing: false,
 		actions: {

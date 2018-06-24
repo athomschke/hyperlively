@@ -1,7 +1,7 @@
 // @flow
 import { expect } from 'chai';
 
-import { observeMutations } from 'src/client/app/reducers/observeMutations';
+import { observeMutations } from 'src/client/app/reducers/ui/observeMutations';
 import { setObserveMutations } from 'src/client/app/actionCreators';
 
 describe('Observe Mutations', () => {

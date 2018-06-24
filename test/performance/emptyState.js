@@ -32,10 +32,10 @@ const hyperlively: HyperlivelyState = {
 			texts: [],
 		},
 	},
-	observeMutations: false,
 	threshold: 50,
 	data,
 	ui: {
+		observeMutations: false,
 		handwritingRecognition: false,
 		drawing: false,
 		actions: {

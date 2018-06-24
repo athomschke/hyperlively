@@ -20,7 +20,7 @@ const mapStateToProps = (state: HyperlivelyState, ownProps) => {
 	returnState.componentIndex = state.ploma.usePloma ? 1 : 0;
 	returnState.components = returnState.scene && returnState.scene.strokes;
 	returnState.paperColor = returnState.usePloma ? PAPER_COLOR : WHITE;
-	returnState.observeMutations = state.observeMutations;
+	returnState.observeMutations = state.ui.observeMutations;
 	return returnState;
 };
 

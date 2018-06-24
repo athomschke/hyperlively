@@ -6,6 +6,7 @@ import { parametersActions, parameters, type PARAMETERS_ACTION } from 'src/clien
 import { interpretationsActions, interpretations, type INTERPRETATIONS_ACTION } from 'src/client/app/reducers/ui/interpretations';
 import { drawing } from 'src/client/app/reducers/ui/drawing';
 import { handwritingRecognition } from 'src/client/app/reducers/ui/handwritingRecognition';
+import { observeMutations } from 'src/client/app/reducers/ui/observeMutations';
 
 type UI_ACIONS = PARAMETERS_ACTION | ACTIONS_ACTION | INTERPRETATIONS_ACTION;
 
@@ -19,6 +20,7 @@ const initialUiState = () => ({
 	actions: actions(undefined, { type: '' }),
 	parameters: parameters(undefined, { type: '' }),
 	drawing: drawing(undefined, { type: '' }),
+	observeMutations: observeMutations(undefined, { type: '' }),
 	handwritingRecognition: handwritingRecognition(undefined, { type: '' }),
 	interpretations: interpretations(undefined, { type: '' }),
 });
@@ -26,6 +28,7 @@ const initialUiState = () => ({
 const ui = scopeToActions((state: UiState, action: UI_ACIONS) => ({
 	actions: actions(state.actions, action),
 	parameters: parameters(state.parameters, action),
+	observeMutations: observeMutations(state.observeMutations, action),
 	drawing: drawing(state.drawing, action),
 	handwritingRecognition: handwritingRecognition(state.handwritingRecognition, action),
 	interpretations: interpretations(state.interpretations, action),
