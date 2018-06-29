@@ -1,5 +1,6 @@
 // @flow
-import { createStore, applyMiddleware, compose } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import createSagaMiddleware from 'redux-saga';
 import { cloneDeep } from 'lodash';
 
@@ -9,16 +10,8 @@ import { storeState, load } from 'src/client/app/Storage';
 import reducers, { initialHyperlivelyState } from './reducers';
 import { myScriptJs } from './sagas/myScriptJs';
 
-export default function configureStore(initialState: HyperlivelyState = initialHyperlivelyState()) {
+export default function configureStore(emptyState: HyperlivelyState = initialHyperlivelyState()) {
 	const sagaMiddleware = createSagaMiddleware();
-
-	// eslint-disable-next-line no-underscore-dangle
-	const composeEnhancers = typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
-		// eslint-disable-next-line no-underscore-dangle
-		window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({}) :
-		compose;
-
-	const enhancer = composeEnhancers(applyMiddleware(sagaMiddleware));
 
 	const manipulator = (state: HyperlivelyState): HyperlivelyState => {
 		const stateToStore: HyperlivelyState = cloneDeep(state);
@@ -30,11 +23,13 @@ export default function configureStore(initialState: HyperlivelyState = initialH
 		return stateToStore;
 	};
 
-	const store = createStore(
-		storeState('hyperlively', reducers, window.localStorage, manipulator),
-		load(window.localStorage, 'hyperlively') || initialState,
-		enhancer,
-	);
+	const composeEnhancers = composeWithDevTools({});
+
+	const reducer = storeState('hyperlively', reducers, window.localStorage, manipulator);
+	const initialState = load(window.localStorage, 'hyperlively') || emptyState;
+	const enhancer = composeEnhancers(applyMiddleware(sagaMiddleware));
+
+	const store = createStore(reducer, initialState, enhancer);
 	sagaMiddleware.run(myScriptJs);
 	return store;
 }
