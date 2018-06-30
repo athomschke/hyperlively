@@ -4,7 +4,7 @@ import TestUtils from 'react-addons-test-utils';
 import React, { type ComponentType } from 'react';
 import { spy, stub } from 'sinon';
 
-import TimeoutBehavior, { type TimeoutBehaviorProps } from 'src/client/app/components/hoc/TimeoutBehavior';
+import TimeoutBehavior, { type TimeoutBehaviorProps } from 'src/client/app/containers/UndoRedo/TimeoutBehavior';
 
 const defaultProps = (): TimeoutBehaviorProps => ({
 	max: 10,

@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { mount } from 'enzyme';
 import React from 'react';
 
-import UndoRedo from 'src/client/app/components/dumb/UndoRedo';
+import UndoRedo from 'src/client/app/containers/UndoRedo/UndoRedo';
 
 describe('Undo Redo', () => {
 	it('is smaller than the window size', () => {

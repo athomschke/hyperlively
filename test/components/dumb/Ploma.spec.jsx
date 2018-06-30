@@ -1,7 +1,7 @@
 // @flow
 import { expect } from 'chai';
 
-import Ploma from 'src/client/app/components/dumb/Ploma';
+import Ploma from 'src/client/app/containers/Ploma/Ploma';
 
 describe('Ploma Configuration', () => {
 	it('labels the button Ploma', () => {

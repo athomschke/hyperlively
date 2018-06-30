@@ -6,9 +6,9 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { stub } from 'sinon';
 
-import TimelineView from 'src/client/app/components/dumb/Timeline';
-import TimeoutBehavior from 'src/client/app/components/hoc/TimeoutBehavior';
-import TimelinePreview from 'src/client/app/components/dumb/TimelinePreview';
+import TimelineView from 'src/client/app/containers/UndoRedo/Timeline';
+import TimeoutBehavior from 'src/client/app/containers/UndoRedo/TimeoutBehavior';
+import TimelinePreview from 'src/client/app/containers/UndoRedo/TimelinePreview';
 import { point } from 'test/helpers';
 
 const Timeline = TimeoutBehavior(TimelineView);

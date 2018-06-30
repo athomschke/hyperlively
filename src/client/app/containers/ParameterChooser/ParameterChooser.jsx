@@ -2,8 +2,7 @@
 import React, { PureComponent } from 'react';
 
 import type { Stroke, RecognitionResult, TreeParameter } from 'src/client/app/typeDefinitions';
-
-import JsonPropertyChooser, { type JSONObject } from './JsonPropertyChooser';
+import JsonPropertyChooser, { type JSONObject } from 'src/client/app/components/smart/JsonPropertyChooser';
 
 type Props = {
 	onParameterChoose: (parameters: Array<TreeParameter>) => void,

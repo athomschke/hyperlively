@@ -3,8 +3,8 @@ import { expect } from 'chai';
 import * as React from 'react';
 import { shallow } from 'enzyme';
 
-import TimelineCanvas from 'src/client/app/components/dumb/TimelineCanvas';
-import TimelinePreview from 'src/client/app/components/dumb/TimelinePreview';
+import TimelineCanvas from 'src/client/app/containers/UndoRedo/TimelineCanvas';
+import TimelinePreview from 'src/client/app/containers/UndoRedo/TimelinePreview';
 import { point } from 'test/helpers';
 
 describe('TimelinePreview', () => {

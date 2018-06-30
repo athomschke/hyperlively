@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 
 import SketchCombiner from 'src/client/app/components/hoc/SketchCombiner';
 import type { HyperlivelyState } from 'src/client/app/typeDefinitions';
-
-import Page from './Page';
+import Page from 'src/client/app/containers/Page';
 
 const SketchCombinedPage = SketchCombiner(Page);
 

@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 
 import { toggleInterpreter, requestTextCandidates, requestShapeCandidates } from 'src/client/app/actionCreators';
 import type { Scene, InterpretationState, Sketch, HyperlivelyState } from 'src/client/app/typeDefinitions';
-import InterpretationTrigger from 'src/client/app/components/dumb/InterpretationTrigger';
+
+import InterpretationTrigger from './InterpretationTrigger';
 
 const mapStateToProps = (state: HyperlivelyState) => ({
 	interpretation: state.data.interpretation,

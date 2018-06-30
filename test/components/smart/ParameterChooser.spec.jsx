@@ -4,7 +4,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { spy } from 'sinon';
 
-import ParameterChooser from 'src/client/app/components/smart/ParameterChooser';
+import ParameterChooser from 'src/client/app/containers/ParameterChooser/ParameterChooser';
 import JsonPropertyChooser from 'src/client/app/components/smart/JsonPropertyChooser';
 import type { Stroke } from 'src/client/app/typeDefinitions';
 

@@ -1,9 +1,10 @@
 // @flow
 import { connect } from 'react-redux';
 
-import ParameterChooser from 'src/client/app/components/smart/ParameterChooser';
 import type { HyperlivelyState } from 'src/client/app/typeDefinitions';
 import { collapseParametersPath, checkParametersPath, chooseParameters } from 'src/client/app/actionCreators';
+
+import ParameterChooser from './ParameterChooser';
 
 const mapStateToProps = (state: HyperlivelyState) => ({
 	collapsedPaths: state.ui.parameters.collapsedPath,

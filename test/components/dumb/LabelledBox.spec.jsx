@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import TestUtils from 'react-addons-test-utils';
 import * as React from 'react';
 
-import LabelledBox from 'src/client/app/components/dumb/LabelledBox';
+import LabelledBox from 'src/client/app/containers/Ploma/LabelledBox';
 
 describe('LabelledBox', () => {
 	it('toggling without a callback does not change the checked state', () => {

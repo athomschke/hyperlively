@@ -1,21 +1,22 @@
 // @flow
 import { connect } from 'react-redux';
 
-import { togglePloma } from 'src/client/app/actionCreators';
+import { updateThreshold } from 'src/client/app/actionCreators';
 import type { HyperlivelyState } from 'src/client/app/typeDefinitions';
-import Ploma from 'src/client/app/components/dumb/Ploma';
+
+import Threshold from './Threshold';
 
 const mapStateToProps = (state: HyperlivelyState) => ({
-	checked: state.ui.ploma.usePloma,
+	threshold: state.ui.threshold,
 });
 
 const mapDispatchToProps = dispatch => ({
-	onChange: (bool) => {
-		dispatch(togglePloma(bool));
+	onChange: (newThreshold) => {
+		dispatch(updateThreshold(newThreshold));
 	},
 });
 
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps,
-)(Ploma);
+)(Threshold);

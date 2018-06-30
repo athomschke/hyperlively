@@ -5,7 +5,7 @@ import { forEach } from 'lodash';
 import { shallow } from 'enzyme';
 import { spy, stub } from 'sinon';
 
-import Interpreter, { type InterpreterProps } from 'src/client/app/components/smart/Interpreter';
+import Interpreter, { type InterpreterProps } from 'src/client/app/containers/Interpreter/Interpreter';
 import InterpretationChooser from 'src/client/app/containers/InterpretationChooser';
 import { exampleStrokes, point } from 'test/helpers';
 

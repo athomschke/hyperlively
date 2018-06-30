@@ -4,7 +4,7 @@ import { shallow } from 'enzyme';
 import React from 'react';
 import { spy } from 'sinon';
 
-import InterpretationTrigger from 'src/client/app/components/dumb/InterpretationTrigger';
+import InterpretationTrigger from 'src/client/app/containers/InterpretationTrigger/InterpretationTrigger';
 
 describe('InterpretationTrigger', () => {
 	describe('Clicking', () => {

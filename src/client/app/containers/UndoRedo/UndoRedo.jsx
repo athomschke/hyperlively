@@ -1,8 +1,7 @@
 // @flow
 import React, { PureComponent } from 'react';
 
-import TimeoutBehavior from 'src/client/app/components/hoc/TimeoutBehavior';
-
+import TimeoutBehavior from './TimeoutBehavior';
 import TimelineView from './Timeline';
 
 const Timeline = TimeoutBehavior(TimelineView);

@@ -4,7 +4,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { spy } from 'sinon';
 
-import ActionChooser from 'src/client/app/components/smart/ActionChooser';
+import ActionChooser from 'src/client/app/containers/ActionChooser/ActionChooser';
 import JsonPropertyChooser from 'src/client/app/components/smart/JsonPropertyChooser';
 import * as actionCreators from 'src/client/app/actionCreators';
 

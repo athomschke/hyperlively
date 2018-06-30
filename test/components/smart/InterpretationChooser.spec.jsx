@@ -6,8 +6,8 @@ import { shallow } from 'enzyme';
 import { stub } from 'sinon';
 
 import InterpretationChooser, { type InterpretationChooserProps } from 'src/client/app/components/smart/InterpretationChooser';
-import ActionChooser from 'src/client/app/components/smart/ActionChooser';
-import ParameterChooser from 'src/client/app/components/smart/ParameterChooser';
+import ActionChooser from 'src/client/app/containers/ActionChooser/ActionChooser';
+import ParameterChooser from 'src/client/app/containers/ParameterChooser/ParameterChooser';
 
 // const renderWithProps = (props: InterpretationChooserProps) =>
 // 	TestUtils.renderIntoDocument(<InterpretationChooser {...props} />);
