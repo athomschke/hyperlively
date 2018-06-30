@@ -57,7 +57,7 @@ export default (Wrapped: React.ComponentType<WrappedProps<any>>) =>
 		const moveBy = offsetToOrigin(this.props.strokes);
 		const top = -moveBy.y + ((sliderHeight - previewHeight) / 2);
 		const left = -moveBy.x + getOffsetForTime(
-			this.props.strokes, htmlWidth, this.props.pointsCount, offsetIndex);
+			this.props.strokes, htmlWidth, this.props.max, offsetIndex);
 		return (
 			<div
 				key={index}
