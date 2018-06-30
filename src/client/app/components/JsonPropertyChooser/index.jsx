@@ -3,8 +3,9 @@ import React, { PureComponent } from 'react';
 import { TreeMenu } from 'react-tree-menu';
 import { cloneDeep, map, keys } from 'lodash';
 
-import { getPathToProperty, findArraysIndex, formatObject } from 'src/client/app/helpers/choosingActions';
 import type { TreeParameter, JSONPath } from 'src/client/app/typeDefinitions';
+
+import { getPathToProperty, findArraysIndex, formatObject } from './choosingActions';
 
 export type JSONObject = {
 	[key: string]: any;

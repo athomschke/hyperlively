@@ -1,13 +1,14 @@
 // @flow
 import { takeEvery, call, put, type TakeHelper, type PutEffect } from 'redux-saga/effects';
 
-import { requestTextCandidates, requestShapeCandidates } from 'src/client/app/helpers/handwritingRecognizer';
 import { REQUEST_TEXT_CANDIDATES, REQUEST_SHAPE_CANDIDATES } from 'src/client/app/constants/actionTypes';
 import { receiveTextCandidates, receiveShapeCandidates } from 'src/client/app/actionCreators';
 import type {
 	REQUEST_TEXT_CANDIDATES_ACTION, REQUEST_SHAPE_CANDIDATES_ACTION,
 	RECEIVE_TEXT_CANDIDATES_ACTION, RECEIVE_SHAPE_CANDIDATES_ACTION,
 } from 'src/client/app/actionTypeDefinitions';
+
+import { requestTextCandidates, requestShapeCandidates } from './handwritingRecognizer';
 
 export function* fetchTextCandidates(action: REQUEST_TEXT_CANDIDATES_ACTION):
 Generator<PutEffect<RECEIVE_TEXT_CANDIDATES_ACTION>, void, void> {

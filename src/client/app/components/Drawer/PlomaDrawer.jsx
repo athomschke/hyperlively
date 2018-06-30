@@ -3,10 +3,10 @@ import Color from 'color';
 import { BallpointPen } from 'ploma';
 import { last, forEach, head, tail } from 'lodash';
 
-import lastPointInStrokes from 'src/client/app/helpers/lastPointInStrokes';
 import { PRESSURE, DEFAULT_PEN_COLOR, SELECTED_PEN_COLOR } from 'src/client/app/constants/drawing';
 import type { Stroke, Point } from 'src/client/app/typeDefinitions';
 
+import lastPointInStrokes from './lastPointInStrokes';
 import AbstractDrawer, { defaultProps, type AbstractDrawerProps, transformPoint } from './AbstractDrawer';
 
 type State = {

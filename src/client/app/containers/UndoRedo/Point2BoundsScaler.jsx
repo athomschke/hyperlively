@@ -1,8 +1,9 @@
 // @flow
 import * as React from 'react';
 
-import { getFittedWidth, scaleToTime } from 'src/client/app/helpers/scalingPointsToBounds';
 import type { Stroke } from 'src/client/app/typeDefinitions';
+
+import { getFittedWidth, scaleToTime } from './scalingPointsToBounds';
 
 export type Point2BoundsScalerProps<P> = P & {
 	strokes: Array<Stroke>,
