@@ -2,11 +2,12 @@
 import React, { PureComponent } from 'react';
 import { forEach, find, map, concat } from 'lodash';
 
-import style from 'src/client/app/stylesheets/components/smart/actionChooser.scss';
 import { relativeDividerPosition } from 'src/client/app/constants/configuration';
 import type { ActionMapping, RecognitionResult, Parameters, Functions } from 'src/client/app/typeDefinitions';
 import ActionChooser from 'src/client/app/containers/ActionChooser';
 import ParameterChooser from 'src/client/app/containers/ParameterChooser';
+
+import style from './InterpretationChooser.scss';
 
 export type InterpretationChooserProps = {
 	onInterpretationChoose: (_functions: Functions, _parameters: Parameters) => void,
@@ -55,7 +56,7 @@ export default class InterpretationChooser
 	render() {
 		return (
 			<div
-				className={style.actionChooser}
+				className={style.interpretationChooser}
 				style={{ width: `${(1 - relativeDividerPosition) * 100}%` }}
 			>
 				<button

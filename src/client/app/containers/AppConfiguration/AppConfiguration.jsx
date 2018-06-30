@@ -1,7 +1,7 @@
 // @flow
 import React, { type ChildrenArray, PureComponent } from 'react';
 
-import style from 'src/client/app/stylesheets/components/dumb/AppConfiguration.scss';
+import style from './AppConfiguration.scss';
 
 type AppConfigurationProps = {
 	active: boolean;

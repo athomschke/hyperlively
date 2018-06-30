@@ -1,8 +1,8 @@
 // @flow
 import * as React from 'react';
 
-import style from 'src/client/app/stylesheets/components/dumb/TimelinePreview.scss';
 
+import style from './TimelinePreview.scss';
 import TimelineCanvas, { type TimelineCanvasProps } from './TimelineCanvas';
 
 type TimelinePreviewProps<P> = P & {
