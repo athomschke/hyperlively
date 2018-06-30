@@ -20,7 +20,7 @@ export function getOffsetForTime(
 	offsetIndex: number,
 ) {
 	if (max > 0 && offsetIndex) {
-		return (sliderWidth * offsetIndex) / max;
+		return sliderWidth * (offsetIndex / max);
 	}
 	return 0;
 }

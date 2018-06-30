@@ -25,8 +25,21 @@ const mapStateToProps = (state: HyperlivelyState, ownProps) => {
 		[state.data.undoableScenes.present],
 		futureStatesInScene,
 	);
+	const strokesCount = state.data.undoableScenes.present.reduce(
+		(sceneStrokesCount, scene) => sceneStrokesCount + scene.strokes.length,
+		0,
+	);
+	const pointsCount = state.data.undoableScenes.present.reduce(
+		(scenesPointCount, scene) => scenesPointCount + scene.strokes.reduce(
+			(strokesPointCount, stroke) => strokesPointCount + stroke.points.length,
+			0,
+		),
+		0,
+	);
 	Object.assign(returnProps, ownProps, {
 		max,
+		pointsCount,
+		strokesCount,
 		disabled: max <= 0,
 		value: pastStatesInScene.length,
 		callbackEnabled: state.ui.ploma.usePloma,
