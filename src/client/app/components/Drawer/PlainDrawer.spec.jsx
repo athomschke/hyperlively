@@ -6,7 +6,7 @@ import { mount, shallow } from 'enzyme';
 import { spy } from 'sinon';
 
 import type { Stroke } from 'src/client/app/typeDefinitions';
-import { point, exampleStrokes } from 'src/client/app/helpers.spec';;
+import { point, exampleStrokes } from 'src/client/app/helpers.spec';
 
 import PlainDrawer from './PlainDrawer';
 import type { AbstractDrawerProps } from './AbstractDrawer';

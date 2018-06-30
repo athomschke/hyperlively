@@ -6,7 +6,7 @@ import { shallow } from 'enzyme';
 import { spy, stub } from 'sinon';
 
 import InterpretationChooser from 'src/client/app/containers/InterpretationChooser';
-import { exampleStrokes, point } from 'src/client/app/helpers.spec';;
+import { exampleStrokes, point } from 'src/client/app/helpers.spec';
 
 import Interpreter, { type InterpreterProps } from './Interpreter';
 

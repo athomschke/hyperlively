@@ -7,7 +7,7 @@ import { shallow, mount } from 'enzyme';
 import { stub } from 'sinon';
 
 import { ERROR_CALL_SUPER_TO_ABSTRACT, ERROR_DIRECT_ABSTRACT_CALL } from 'src/client/app/constants/errors';
-import { point, exampleStrokes } from 'src/client/app/helpers.spec';;
+import { point, exampleStrokes } from 'src/client/app/helpers.spec';
 
 import AbstractDrawer, { type AbstractDrawerProps } from './AbstractDrawer';
 

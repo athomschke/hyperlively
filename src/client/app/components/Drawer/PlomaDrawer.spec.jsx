@@ -5,7 +5,7 @@ import React from 'react';
 import { remove, filter, isNumber, map } from 'lodash';
 import { spy } from 'sinon';
 
-import { point, exampleStrokes } from 'src/client/app/helpers.spec';;
+import { point, exampleStrokes } from 'src/client/app/helpers.spec';
 
 import PlomaDrawer, { type PlomaDrawerProps } from './PlomaDrawer';
 import { type AbstractDrawerProps } from './AbstractDrawer';

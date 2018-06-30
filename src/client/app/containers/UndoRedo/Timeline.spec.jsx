@@ -9,7 +9,7 @@ import { stub } from 'sinon';
 import TimelineView from 'src/client/app/containers/UndoRedo/Timeline';
 import TimeoutBehavior from 'src/client/app/containers/UndoRedo/TimeoutBehavior';
 import TimelinePreview from 'src/client/app/containers/UndoRedo/TimelinePreview';
-import { point } from 'src/client/app/helpers.spec';;
+import { point } from 'src/client/app/helpers.spec';
 
 const Timeline = TimeoutBehavior(TimelineView);
 
