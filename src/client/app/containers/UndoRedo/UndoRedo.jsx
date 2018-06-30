@@ -1,47 +1,27 @@
 // @flow
 import React, { PureComponent } from 'react';
+import Slider from 'rc-slider';
 
-import TimelineView from 'src/client/app/containers/Timeline';
-import TimeoutBehavior from 'src/client/app/containers/Timeline/TimeoutBehavior';
+import TimeoutBehavior from 'src/client/app/components/TimeoutBehavior';
+import HTMLWidth from 'src/client/app/components/HTMLWidth';
 
-const Timeline = TimeoutBehavior(TimelineView);
+import style from './UndoRedo.scss';
 
-type State = {
-	sliderWidth: number,
-}
+const UndoRedoSlider = HTMLWidth(TimeoutBehavior(Slider));
 
 type Props<P> = P
 
-export default class UndoRedo extends PureComponent<Props<any>, State> {
-	constructor() {
-		super();
-		this.state = {
-			sliderWidth: 0,
-		};
-	}
-
-	state: State
-
-	componentDidMount() {
-		this.state.sliderWidth = ((this.node: any): HTMLDivElement).getBoundingClientRect().width;
-	}
-
+export default class UndoRedo extends PureComponent<Props<any>> {
 	props: Props<any>
 
 	node: HTMLDivElement | null
 
 	render() {
-		return (<div
-			ref={(node) => { this.node = node; }}
-			style={{
-				width: '100%',
-			}}
-		>
-			<Timeline
-				{...this.props}
-				{...this.state}
-				sliderHeight={80}
-			/>
-		</div>);
+		return (<UndoRedoSlider
+			{...this.props}
+			min={0}
+			className={style.rcSlider}
+			tipFormatter={null}
+		/>);
 	}
 }

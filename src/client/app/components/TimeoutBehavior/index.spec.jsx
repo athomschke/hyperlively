@@ -4,7 +4,7 @@ import TestUtils from 'react-addons-test-utils';
 import React, { type ComponentType } from 'react';
 import { spy, stub } from 'sinon';
 
-import TimeoutBehavior, { type TimeoutBehaviorProps } from './TimeoutBehavior';
+import TimeoutBehavior, { type TimeoutBehaviorProps } from '.';
 
 const defaultProps = (): TimeoutBehaviorProps => ({
 	max: 10,

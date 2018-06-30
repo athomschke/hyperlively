@@ -6,6 +6,8 @@ import { ERROR_DIRECT_ABSTRACT_CALL, ERROR_CALL_SUPER_TO_ABSTRACT } from 'src/cl
 import { OFFSET } from 'src/client/app/constants/canvas';
 import type { Stroke, Point, OnNodeChangedFunction, Coordinate } from 'src/client/app/types';
 
+import Passpartout from './Passpartout';
+
 const allPoints = strokes => flatten(map(strokes, stroke => stroke.points));
 
 const pointCount = strokes => allPoints(strokes).length;
@@ -157,18 +159,6 @@ export default class AbstractDrawer<P, S> extends
 		});
 	}
 
-	calculatePassepartoutStyle() {
-		return {
-			position: 'absolute',
-			top: this.props.bounds.y,
-			left: this.props.bounds.x,
-			pointerEvents: this.props.active && this.props.finished ? 'auto' : 'none',
-			width: this.props.bounds.width,
-			height: this.props.bounds.height,
-			borderLeft: `${this.props.showBorder ? '1' : '0'}px solid black`,
-		};
-	}
-
 	calculateCanvasStyle() {
 		return {
 			position: 'absolute',
@@ -268,13 +258,16 @@ export default class AbstractDrawer<P, S> extends
 	}
 
 	render() {
-		return (<div
-			ref={(divNode) => {
-				if (this.props.onNodeChanged) {
-					this.props.onNodeChanged(divNode);
-				}
-			}}
-			style={this.calculatePassepartoutStyle()}
+		const { active, finished, bounds, showBorder } = this.props;
+
+		const onNodeChanged = this.props.onNodeChanged || (() => undefined);
+
+		return (<Passpartout
+			onNodeChanged={onNodeChanged}
+			active={active}
+			finished={finished}
+			bounds={bounds}
+			showBorder={showBorder}
 		>
 			<canvas
 				ref={(canvas) => {
@@ -284,6 +277,6 @@ export default class AbstractDrawer<P, S> extends
 				height={this.props.height}
 				style={this.calculateCanvasStyle()}
 			/>
-		</div>);
+		</Passpartout>);
 	}
 }

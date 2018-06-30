@@ -11,7 +11,7 @@ export type SketchFitterProps<P> = P & {
 	fittedWidth: number,
 	previewHeight: number,
 	sliderHeight: number,
-	sliderWidth: number,
+	htmlWidth: number,
 	max: number,
 	offsetIndex: number,
 	strokes: Array<Stroke>,
@@ -34,7 +34,7 @@ export default (Wrapped: React.ComponentType<WrappedProps<any>>) =>
 			height: 0,
 		},
 		index: 0,
-		sliderWidth: 0,
+		htmlWidth: 0,
 		sliderHeight: 0,
 		max: 0,
 		offsetIndex: 0,
@@ -45,7 +45,7 @@ export default (Wrapped: React.ComponentType<WrappedProps<any>>) =>
 			fittedWidth,
 			previewHeight,
 			sliderHeight,
-			sliderWidth,
+			htmlWidth,
 			offsetIndex,
 			index,
 			...rest
@@ -57,7 +57,7 @@ export default (Wrapped: React.ComponentType<WrappedProps<any>>) =>
 		const moveBy = offsetToOrigin(this.props.strokes);
 		const top = -moveBy.y + ((sliderHeight - previewHeight) / 2);
 		const left = -moveBy.x + getOffsetForTime(
-			this.props.strokes, sliderWidth, this.props.pointsCount, offsetIndex);
+			this.props.strokes, htmlWidth, this.props.pointsCount, offsetIndex);
 		return (
 			<div
 				key={index}

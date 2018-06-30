@@ -1,11 +1,9 @@
 // @flow
 import React, { PureComponent } from 'react';
-import Slider from 'rc-slider';
 import { map, flatten } from 'lodash';
 
 import type { Sketch, Stroke } from 'src/client/app/types';
 
-import style from './index.scss';
 import TimelinePreview from './TimelinePreview';
 
 type Props = {
@@ -23,6 +21,8 @@ export default class Timeline extends PureComponent<Props> {
 	};
 
 	props: Props;
+
+	node: HTMLDivElement | null
 
 	calculateTrackHeight() {
 		return this.props.sliderHeight - this.props.trackOffset;
@@ -48,16 +48,6 @@ export default class Timeline extends PureComponent<Props> {
 	}
 
 	render() {
-		return (<div>
-			<div>
-				{this.renderPreview()}
-			</div>
-			<Slider
-				{...this.props}
-				min={0}
-				className={style.rcSlider}
-				tipFormatter={null}
-			/>
-		</div>);
+		return <div>{this.renderPreview()}</div>;
 	}
 }

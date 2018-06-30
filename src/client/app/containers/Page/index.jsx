@@ -5,6 +5,7 @@ import InterpretationTrigger from 'src/client/app/containers/InterpretationTrigg
 import Interpreter from 'src/client/app/containers/Interpreter';
 import Scene from 'src/client/app/containers/Scene';
 import UndoRedo from 'src/client/app/containers/UndoRedo';
+import Timeline from 'src/client/app/containers/Timeline';
 import Ploma from 'src/client/app/containers/Ploma';
 import Threshold from 'src/client/app/containers/Threshold';
 import Window from 'src/client/app/containers/Window';
@@ -21,6 +22,7 @@ export default function Page(props: PageProps) {
 		<Window {...props} />
 		<AppConfiguration>
 			<UndoRedo {...props} />
+			<Timeline />
 			<Threshold />
 			<Ploma />
 			<InterpretationTrigger {...props} />

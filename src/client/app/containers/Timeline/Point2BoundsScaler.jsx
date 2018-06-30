@@ -7,7 +7,7 @@ import { getFittedWidth, scaleToTime } from './scalingPointsToBounds';
 
 export type Point2BoundsScalerProps<P> = P & {
 	strokes: Array<Stroke>,
-	sliderWidth: number,
+	htmlWidth: number,
 	previewHeight: number,
 	max: number,
 };
@@ -25,13 +25,13 @@ export default (Wrapped: React.ComponentType<WrappedProps<any>>) =>
 
 	static defaultProps = {
 		strokes: [],
-		sliderWidth: 0,
+		htmlWidth: 0,
 		previewHeight: 0,
 		max: 0,
 	};
 
 	render() {
-		const fittedWidth = getFittedWidth(this.props.strokes, this.props.sliderWidth, this.props.max);
+		const fittedWidth = getFittedWidth(this.props.strokes, this.props.htmlWidth, this.props.max);
 		const strokes = scaleToTime(this.props.strokes, fittedWidth, this.props.previewHeight);
 		return (<Wrapped
 			{...this.props}

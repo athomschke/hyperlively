@@ -62,8 +62,8 @@ describe('Scaling points to bounds', () => {
 				point(30, 30),
 			])];
 			const maxWidth = 0;
-			const sliderWidth = 100;
-			const fittedWidth = getFittedWidth(strokes, sliderWidth, maxWidth);
+			const htmlWidth = 100;
+			const fittedWidth = getFittedWidth(strokes, htmlWidth, maxWidth);
 			expect(fittedWidth).to.equal(0);
 		});
 
@@ -75,8 +75,8 @@ describe('Scaling points to bounds', () => {
 				point(30, 30),
 			])];
 			const maxWidth = 8;
-			const sliderWidth = 100;
-			const fittedWidth = getFittedWidth(strokes, sliderWidth, maxWidth);
+			const htmlWidth = 100;
+			const fittedWidth = getFittedWidth(strokes, htmlWidth, maxWidth);
 			expect(fittedWidth).to.equal(50);
 		});
 
@@ -88,8 +88,8 @@ describe('Scaling points to bounds', () => {
 				point(30, 30),
 			])];
 			const maxWidth = 0;
-			const sliderWidth = 100;
-			const fittedWidth = getFittedWidth(strokes, sliderWidth, maxWidth);
+			const htmlWidth = 100;
+			const fittedWidth = getFittedWidth(strokes, htmlWidth, maxWidth);
 			expect(fittedWidth).to.equal(0);
 		});
 
@@ -101,8 +101,8 @@ describe('Scaling points to bounds', () => {
 				point(30, 30),
 			])];
 			const maxWidth = 8;
-			const sliderWidth = 100;
-			const fittedWidth = getFittedWidth(strokes, sliderWidth, maxWidth);
+			const htmlWidth = 100;
+			const fittedWidth = getFittedWidth(strokes, htmlWidth, maxWidth);
 			expect(fittedWidth).to.equal(50);
 		});
 	});

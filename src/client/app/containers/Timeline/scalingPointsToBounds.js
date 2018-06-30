@@ -3,9 +3,9 @@ import { map, flatten } from 'lodash';
 
 import { type Stroke } from 'src/client/app/types';
 
-export function getFittedWidth(strokes: Array<Stroke>, sliderWidth: number, max: number) {
+export function getFittedWidth(strokes: Array<Stroke>, htmlWidth: number, max: number) {
 	if (max > 0) {
-		return (sliderWidth * flatten(map(strokes, 'points')).length) / max;
+		return (htmlWidth * flatten(map(strokes, 'points')).length) / max;
 	}
 	return 0;
 }

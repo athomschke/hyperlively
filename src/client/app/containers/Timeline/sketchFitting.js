@@ -15,12 +15,12 @@ export function offsetToOrigin(strokes: Array<Stroke>) {
 
 export function getOffsetForTime(
 	strokes: Array<Stroke>,
-	sliderWidth: number,
+	htmlWidth: number,
 	max: number,
 	offsetIndex: number,
 ) {
 	if (max > 0 && offsetIndex) {
-		return sliderWidth * (offsetIndex / max);
+		return htmlWidth * (offsetIndex / max);
 	}
 	return 0;
 }

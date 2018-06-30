@@ -16,7 +16,7 @@ describe('Point2BoundsScaler', () => {
 		Point2BoundsScaler(Wrapped);
 		TestUtils.renderIntoDocument(<WrappedWithPoint2BoundsScaler
 			strokes={[]}
-			sliderWidth={100}
+			htmlWidth={100}
 			previewHeight={150}
 			max={2}
 		/>);
