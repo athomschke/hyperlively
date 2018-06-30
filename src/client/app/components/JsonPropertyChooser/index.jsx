@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { TreeMenu } from 'react-tree-menu';
 import { cloneDeep, map, keys } from 'lodash';
 
-import type { TreeParameter, JSONPath } from 'src/client/app/typeDefinitions';
+import type { TreeParameter, JSONPath } from 'src/client/app/types';
 
 import { getPathToProperty, findArraysIndex, formatObject } from './choosingActions';
 

@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import Slider from 'rc-slider';
 import { map, flatten } from 'lodash';
 
-import type { Sketch, Stroke } from 'src/client/app/typeDefinitions';
+import type { Sketch, Stroke } from 'src/client/app/types';
 
 import style from './Timeline.scss';
 import TimelinePreview from './TimelinePreview';

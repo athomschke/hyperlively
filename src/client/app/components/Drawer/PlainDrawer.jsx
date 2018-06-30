@@ -3,7 +3,7 @@ import Color from 'color';
 import { without, last, head, tail, reduce, cloneDeep } from 'lodash';
 
 import { DEFAULT_PEN_COLOR, SELECTED_PEN_COLOR } from 'src/client/app/constants/drawing';
-import type { Stroke, Point } from 'src/client/app/typeDefinitions';
+import type { Stroke, Point } from 'src/client/app/types';
 
 import lastPointInStrokes from './lastPointInStrokes';
 import AbstractDrawer, { type AbstractDrawerProps, transformPoint } from './AbstractDrawer';

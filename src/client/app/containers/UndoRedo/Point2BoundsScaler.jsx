@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
 
-import type { Stroke } from 'src/client/app/typeDefinitions';
+import type { Stroke } from 'src/client/app/types';
 
 import { getFittedWidth, scaleToTime } from './scalingPointsToBounds';
 

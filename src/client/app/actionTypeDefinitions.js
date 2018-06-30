@@ -1,5 +1,6 @@
 // @flow
-import type { Stroke, TextCandidate, ShapeCandidate, JSONPath, Functions, Parameters } from './typeDefinitions';
+import type { Stroke, TextCandidate, ShapeCandidate, JSONPath, Functions, Parameters } from 'src/client/app/types';
+
 import { APPEND_POINT, APPEND_STROKE } from './constants/actionTypes';
 
 export type APPEND_POINT_ACTION = {

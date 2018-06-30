@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 
 import * as actionCreators from 'src/client/app/actionCreators';
-import type { HyperlivelyState } from 'src/client/app/typeDefinitions';
+import type { HyperlivelyState } from 'src/client/app/types';
 
 import Interpreter from './Interpreter';
 

@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { cloneDeep } from 'lodash';
 
-import type { Bounds, Stroke } from 'src/client/app/typeDefinitions';
+import type { Bounds, Stroke } from 'src/client/app/types';
 
 import { offsetToOrigin, getOffsetForTime } from './sketchFitting';
 

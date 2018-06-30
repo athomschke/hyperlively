@@ -4,7 +4,7 @@ import { findDOMNode } from 'react-dom';
 import { useFakeXMLHttpRequest } from 'sinon';
 
 import { point } from 'src/client/app/helpers.spec';
-import type { Point, Stroke } from 'src/client/app/typeDefinitions';
+import type { Point, Stroke } from 'src/client/app/types';
 import emptyCanvas from 'test/integration/data/emptyCanvas';
 
 import { hashCode, mountApp, dismountApp, getCanvasNodes, getWindowNode, getCombinedCanvas, renderApplicationWithState, manuallyDrawStrokes, gotToHalfTimeInApp } from './helpers';

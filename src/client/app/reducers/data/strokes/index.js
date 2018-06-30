@@ -3,7 +3,7 @@ import { map, last, without, flatten } from 'lodash';
 import Polygon from 'polygon';
 
 import scopeToActions from 'src/client/app/reducers/scopeToActions';
-import type { Stroke } from 'src/client/app/typeDefinitions';
+import type { Stroke } from 'src/client/app/types';
 import {
 	APPEND_STROKE, APPEND_POINT, FINISH_STROKE, SELECT_INSIDE,
 } from 'src/client/app/constants/actionTypes';

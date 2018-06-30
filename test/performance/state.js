@@ -2,7 +2,7 @@
 import { last, cloneDeep } from 'lodash';
 
 import { DEFAULT_PEN_COLOR } from 'src/client/app/constants/drawing';
-import type { Scene, SceneState, Stroke, Data, UndoableScenes, HyperlivelyState } from 'src/client/app/typeDefinitions';
+import type { Scene, SceneState, Stroke, Data, UndoableScenes, HyperlivelyState } from 'src/client/app/types';
 
 const dummyStroke: Stroke = {
 	points: [],

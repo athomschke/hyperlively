@@ -4,7 +4,7 @@ import { flatten, last, isEqual, cloneDeep, forEach, map } from 'lodash';
 
 import { ERROR_DIRECT_ABSTRACT_CALL, ERROR_CALL_SUPER_TO_ABSTRACT } from 'src/client/app/constants/errors';
 import { OFFSET } from 'src/client/app/constants/canvas';
-import type { Stroke, Point, OnNodeChangedFunction, Coordinate } from 'src/client/app/typeDefinitions';
+import type { Stroke, Point, OnNodeChangedFunction, Coordinate } from 'src/client/app/types';
 
 const allPoints = strokes => flatten(map(strokes, stroke => stroke.points));
 

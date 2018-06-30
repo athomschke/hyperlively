@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 
 import { toggleInterpreter, requestTextCandidates, requestShapeCandidates } from 'src/client/app/actionCreators';
-import type { Scene, InterpretationState, Sketch, HyperlivelyState } from 'src/client/app/typeDefinitions';
+import type { Scene, InterpretationState, Sketch, HyperlivelyState } from 'src/client/app/types';
 
 import InterpretationTrigger from './InterpretationTrigger';
 

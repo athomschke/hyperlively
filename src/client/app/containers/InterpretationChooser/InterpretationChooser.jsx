@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { forEach, find, map, concat } from 'lodash';
 
 import { relativeDividerPosition } from 'src/client/app/constants/configuration';
-import type { ActionMapping, RecognitionResult, Parameters, Functions } from 'src/client/app/typeDefinitions';
+import type { ActionMapping, RecognitionResult, Parameters, Functions } from 'src/client/app/types';
 import ActionChooser from 'src/client/app/containers/ActionChooser';
 import ParameterChooser from 'src/client/app/containers/ParameterChooser';
 

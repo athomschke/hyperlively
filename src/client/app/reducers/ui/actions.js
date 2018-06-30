@@ -2,7 +2,7 @@
 import { COLLAPSE_ACTIONS_PATH, CHECK_ACTIONS_PATH } from 'src/client/app/constants/actionTypes';
 import type { COLLAPSE_ACTIONS_PATH_ACTION, CHECK_ACTIONS_PATH_ACTION } from 'src/client/app/actionTypeDefinitions';
 import { collapseActionsPath, checkActionsPath } from 'src/client/app/actionCreators';
-import type { JSONChooserState } from 'src/client/app/typeDefinitions';
+import type { JSONChooserState } from 'src/client/app/types';
 import scopeToActions from 'src/client/app/reducers/scopeToActions';
 
 const collapsedPathActions = {

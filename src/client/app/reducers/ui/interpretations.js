@@ -2,7 +2,7 @@
 import { CHOOSE_FUNCTIONS, CHOOSE_PARAMETERS } from 'src/client/app/constants/actionTypes';
 import type { CHOOSE_FUNCTIONS_ACTION, CHOOSE_PARAMETERS_ACTION } from 'src/client/app/actionTypeDefinitions';
 import { chooseFunctions, chooseParameters } from 'src/client/app/actionCreators';
-import type { InterpretationsState } from 'src/client/app/typeDefinitions';
+import type { InterpretationsState } from 'src/client/app/types';
 import scopeToActions from 'src/client/app/reducers/scopeToActions';
 
 const chooseFunctionsActions = {

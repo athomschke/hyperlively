@@ -1,5 +1,5 @@
 // @flow
-import type { Point, Stroke } from 'src/client/app/typeDefinitions';
+import type { Point, Stroke } from 'src/client/app/types';
 
 export function point(x: number, y: number, optTimestamp?: number) {
 	return {

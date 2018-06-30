@@ -4,7 +4,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import createSagaMiddleware from 'redux-saga';
 import { cloneDeep } from 'lodash';
 
-import { type HyperlivelyState } from 'src/client/app/typeDefinitions';
+import { type HyperlivelyState } from 'src/client/app/types';
 import { storeState, load } from 'src/client/app/Storage';
 
 import reducers, { initialHyperlivelyState } from './reducers';

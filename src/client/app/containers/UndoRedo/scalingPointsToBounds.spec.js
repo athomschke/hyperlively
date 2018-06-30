@@ -2,7 +2,7 @@
 import { expect } from 'chai';
 
 import { point } from 'src/client/app/helpers.spec';
-import type { Point, Stroke } from 'src/client/app/typeDefinitions';
+import type { Point, Stroke } from 'src/client/app/types';
 
 import { scaleToTime, getFittedWidth } from './scalingPointsToBounds';
 

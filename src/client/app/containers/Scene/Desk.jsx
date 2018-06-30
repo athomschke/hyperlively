@@ -5,7 +5,7 @@ import { last, filter } from 'lodash';
 import { OFFSET } from 'src/client/app/constants/canvas';
 import { WHITE } from 'src/client/app/constants/drawing';
 import { relativeDividerPosition } from 'src/client/app/constants/configuration';
-import type { Stroke, Sketch } from 'src/client/app/typeDefinitions';
+import type { Stroke, Sketch } from 'src/client/app/types';
 
 const visibleStrokesInSketch = sketch => filter(sketch.strokes || [], stroke => !stroke.hidden);
 

@@ -3,7 +3,7 @@ import { expect } from 'chai';
 
 import { setSceneIndex, addSceneAt, nextScene } from 'src/client/app/actionCreators';
 import { point } from 'src/client/app/helpers.spec';
-import type { Scene, Data } from 'src/client/app/typeDefinitions';
+import type { Scene, Data } from 'src/client/app/types';
 
 import { data } from '.';
 

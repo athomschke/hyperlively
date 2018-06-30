@@ -5,7 +5,7 @@ import { shallow } from 'enzyme';
 import { spy } from 'sinon';
 
 import JsonPropertyChooser from 'src/client/app/components/JsonPropertyChooser';
-import type { Stroke } from 'src/client/app/typeDefinitions';
+import type { Stroke } from 'src/client/app/types';
 
 import ParameterChooser from './ParameterChooser';
 

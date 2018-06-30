@@ -1,5 +1,5 @@
 // @flow
-import type { UiState } from 'src/client/app/typeDefinitions';
+import type { UiState } from 'src/client/app/types';
 import scopeToActions from 'src/client/app/reducers/scopeToActions';
 import { actionsActions, actions, type ACTIONS_ACTION } from 'src/client/app/reducers/ui/actions';
 import { parametersActions, parameters, type PARAMETERS_ACTION } from 'src/client/app/reducers/ui/parameters';

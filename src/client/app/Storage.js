@@ -1,5 +1,5 @@
 // @flow
-import type { Reducer, Manipulator } from 'src/client/app/typeDefinitions';
+import type { Reducer, Manipulator } from 'src/client/app/types';
 
 export const storeState = (
 	name: string,

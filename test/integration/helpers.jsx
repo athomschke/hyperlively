@@ -8,7 +8,7 @@ import TestUtils from 'react-addons-test-utils';
 
 import reducers from 'src/client/app/reducers';
 import Application from 'src/client/app/Application';
-import type { HyperlivelyState, Stroke, CommonAction } from 'src/client/app/typeDefinitions';
+import type { HyperlivelyState, Stroke, CommonAction } from 'src/client/app/types';
 
 export function createAppStore(initialState: HyperlivelyState):
 Store<HyperlivelyState, CommonAction> {

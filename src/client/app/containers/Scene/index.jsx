@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import * as actionCreators from 'src/client/app/actionCreators';
 import { PAPER_COLOR, WHITE } from 'src/client/app/constants/drawing';
-import type { HyperlivelyState } from 'src/client/app/typeDefinitions';
+import type { HyperlivelyState } from 'src/client/app/types';
 import Desk from 'src/client/app/containers/Scene/Desk';
 import ModuleChooser from 'src/client/app/containers/Scene/ModuleChooser';
 import SketchTransformer from 'src/client/app/components/SketchTransformer';

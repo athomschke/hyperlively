@@ -3,7 +3,7 @@ import * as React from 'react';
 import { reduce, last, first, concat } from 'lodash';
 
 import { DEFAULT_THRESHOLD } from 'src/client/app/constants/drawing';
-import type { Scene, Sketch } from 'src/client/app/typeDefinitions';
+import type { Scene, Sketch } from 'src/client/app/types';
 
 const strokeFollowedSuit = (collectedSketches, stroke, threshold) => {
 	const lastPoint = last(collectedSketches) &&

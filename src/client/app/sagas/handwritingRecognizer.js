@@ -3,7 +3,7 @@ import { HmacSHA512, enc } from 'crypto-js';
 import { map, flatten } from 'lodash';
 
 import { APPLICATION_KEY, CANDIDATES_COUNT, HMAC_KEY, TEXT_INPUT_TYPE, LANGUAGE, TEXT_INPUT_MODE, TEXT_RECOGNITION_URL, SHAPE_RECOGNITION_URL } from 'src/client/app/constants/handwriting';
-import type { Stroke, RecognizerComponent, TextCandidates } from 'src/client/app/typeDefinitions';
+import type { Stroke, RecognizerComponent, TextCandidates } from 'src/client/app/types';
 
 const hmacData = stringInput =>
 	encodeURIComponent(HmacSHA512(stringInput, APPLICATION_KEY + HMAC_KEY)

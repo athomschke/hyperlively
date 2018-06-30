@@ -5,7 +5,7 @@ import { last, concat } from 'lodash';
 import SketchCombiner from 'src/client/app/components/SketchCombiner';
 import { togglePloma, setObserveMutations, jumpTo, select } from 'src/client/app/actionCreators';
 import { UNDO_TIMEOUT } from 'src/client/app/constants/canvas';
-import type { Stroke, HyperlivelyState } from 'src/client/app/typeDefinitions';
+import type { Stroke, HyperlivelyState } from 'src/client/app/types';
 
 import UndoRedo from './UndoRedo';
 

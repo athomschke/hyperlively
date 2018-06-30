@@ -1,5 +1,5 @@
 // @flow
-import type { Scene } from 'src/client/app/typeDefinitions';
+import type { Scene } from 'src/client/app/types';
 import scopeToActions from 'src/client/app/reducers/scopeToActions';
 
 import { strokes, strokesActions, type StrokesActionType } from './strokes';

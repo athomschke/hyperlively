@@ -1,6 +1,6 @@
 // @flow
 /* eslint-disable */
-import { type CommonAction } from 'src/client/app/typeDefinitions';
+import { type CommonAction } from 'src/client/app/types';
 
 type CommonReducer<S, A> = (state: S, action: A) => S
 

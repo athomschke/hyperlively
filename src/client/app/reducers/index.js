@@ -1,5 +1,5 @@
 // @flow
-import type { HyperlivelyState, CommonAction } from 'src/client/app/typeDefinitions';
+import type { HyperlivelyState, CommonAction } from 'src/client/app/types';
 
 import { data } from './data';
 import { ui } from './ui';

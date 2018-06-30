@@ -5,7 +5,7 @@ import { sum, map, remove } from 'lodash';
 import { mount, shallow } from 'enzyme';
 import { spy } from 'sinon';
 
-import type { Stroke } from 'src/client/app/typeDefinitions';
+import type { Stroke } from 'src/client/app/types';
 import { point, exampleStrokes } from 'src/client/app/helpers.spec';
 
 import PlainDrawer from './PlainDrawer';

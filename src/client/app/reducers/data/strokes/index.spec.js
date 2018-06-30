@@ -3,7 +3,7 @@ import { expect } from 'chai';
 
 import { appendPoint, createStroke, finishStroke, updatePosition, hide, select, selectInside, rotateBy } from 'src/client/app/actionCreators';
 import { point, event, exampleStrokes } from 'src/client/app/helpers.spec';
-import type { Stroke } from 'src/client/app/typeDefinitions';
+import type { Stroke } from 'src/client/app/types';
 
 import { strokes } from '.';
 

@@ -1,7 +1,7 @@
 // @flow
 import { last, keys, map, filter, isEqual, findIndex } from 'lodash';
 
-import type { ReactTreeNodeFormat, ReactTreeLeafFormat, JSONPath } from 'src/client/app/typeDefinitions';
+import type { ReactTreeNodeFormat, ReactTreeLeafFormat, JSONPath } from 'src/client/app/types';
 
 export const findArraysIndex = (
 	containingArray: JSONPath,

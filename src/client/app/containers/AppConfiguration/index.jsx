@@ -1,7 +1,7 @@
 // @flow
 import { connect } from 'react-redux';
 
-import type { HyperlivelyState } from 'src/client/app/typeDefinitions';
+import type { HyperlivelyState } from 'src/client/app/types';
 
 import AppConfiguration from './AppConfiguration';
 

@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { forEach } from 'lodash';
 
-import type { Stroke, Bounds, OnNodeChangedFunction, PerformActionFunction } from 'src/client/app/typeDefinitions';
+import type { Stroke, Bounds, OnNodeChangedFunction, PerformActionFunction } from 'src/client/app/types';
 
 export type BoundsMutationObserverProps<P> = P & {
 	observeMutations: boolean;

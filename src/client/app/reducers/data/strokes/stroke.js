@@ -1,7 +1,7 @@
 // @flow
 import { merge, find } from 'lodash';
 
-import type { Stroke } from 'src/client/app/typeDefinitions';
+import type { Stroke } from 'src/client/app/types';
 import { DEFAULT_PEN_COLOR } from 'src/client/app/constants/drawing';
 import { finishStroke, hide, select, updatePosition, rotateBy } from 'src/client/app/actionCreators';
 import scopeToActions from 'src/client/app/reducers/scopeToActions';

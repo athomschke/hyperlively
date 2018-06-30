@@ -5,7 +5,7 @@ import scopeToActions from 'src/client/app/reducers/scopeToActions';
 import { appendSpecificAction } from 'src/client/app/actionCreators';
 import { APPEND_SPECIFC_ACTION } from 'src/client/app/constants/actionTypes';
 import { type APPEND_SPECIFC_ACTION_ACTION } from 'src/client/app/actionTypeDefinitions';
-import { type ActionMapping } from 'src/client/app/typeDefinitions';
+import { type ActionMapping } from 'src/client/app/types';
 
 const initialSpecificActionsState = () => [{
 	actionName: 'deleteInside',

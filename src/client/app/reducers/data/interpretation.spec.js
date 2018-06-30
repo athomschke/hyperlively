@@ -3,7 +3,7 @@ import { useFakeXMLHttpRequest } from 'sinon';
 import { expect } from 'chai';
 
 import { requestTextCandidates, requestShapeCandidates, receiveTextCandidates, receiveShapeCandidates, toggleInterpreter, createStroke } from 'src/client/app/actionCreators';
-import { type InterpretationState } from 'src/client/app/typeDefinitions';
+import { type InterpretationState } from 'src/client/app/types';
 import { shapeCandidate, letterCandidate } from 'src/client/app/data.spec';
 
 import { interpretation } from './interpretation';

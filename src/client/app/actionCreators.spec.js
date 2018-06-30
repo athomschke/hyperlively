@@ -2,7 +2,7 @@
 import { expect } from 'chai';
 
 import { strokesExample } from 'src/client/app/data.spec';
-import type { TextCandidate } from 'src/client/app/typeDefinitions';
+import type { TextCandidate } from 'src/client/app/types';
 import * as actionCreators from 'src/client/app/actionCreators';
 
 describe('Action Creators', () => {

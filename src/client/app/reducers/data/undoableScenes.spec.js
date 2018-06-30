@@ -1,5 +1,5 @@
 // @flow
-import type { UndoableScenes, Scene, Stroke } from 'src/client/app/typeDefinitions';
+import type { UndoableScenes, Scene, Stroke } from 'src/client/app/types';
 
 const stroke = (points: Array<number>): Stroke => ({
 	points: points.map(c => ({ x: c, y: c, timeStamp: c })),

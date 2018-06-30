@@ -6,7 +6,7 @@ import { TreeMenu } from 'react-tree-menu';
 import { flatten, map, forEach, filter } from 'lodash';
 import { spy } from 'sinon';
 
-import type { ReactTreeLeafFormat, ReactTreeNodeFormat } from 'src/client/app/typeDefinitions';
+import type { ReactTreeLeafFormat, ReactTreeNodeFormat } from 'src/client/app/types';
 
 import { formatObject } from './choosingActions';
 

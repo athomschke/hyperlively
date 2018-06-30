@@ -4,7 +4,7 @@ import React, { PropTypes } from 'react';
 import TestUtils from 'react-addons-test-utils';
 
 import SketchCombiner, { type SketchCombinerProps, type WrappedProps } from 'src/client/app/components/SketchCombiner';
-import { type Sketch } from 'src/client/app/typeDefinitions';
+import { type Sketch } from 'src/client/app/types';
 import { point, exampleStrokes } from 'src/client/app/helpers.spec';
 
 const expectOneStrokeInOneSketch = (combinedSketches, addedPoint) => {

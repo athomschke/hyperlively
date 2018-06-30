@@ -1,6 +1,6 @@
 // @flow
 import * as ActionTypes from 'src/client/app/constants/actionTypes';
-import type { JSONPath, TextCandidate, ShapeCandidate, Stroke, Functions, Parameters } from 'src/client/app/typeDefinitions';
+import type { JSONPath, TextCandidate, ShapeCandidate, Stroke, Functions, Parameters } from 'src/client/app/types';
 
 export function appendSpecificAction(actionName: string, ...actionNames: Array<string>) {
 	return { type: ActionTypes.APPEND_SPECIFC_ACTION, actionName, actionNames };

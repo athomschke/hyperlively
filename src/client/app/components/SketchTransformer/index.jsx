@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { find, reduce } from 'lodash';
 
-import type { Stroke, Bounds } from 'src/client/app/typeDefinitions';
+import type { Stroke, Bounds } from 'src/client/app/types';
 
 const joinBounds = (bounds1, bounds2) => ({
 	left: Math.min(bounds1.left, bounds2.left),

@@ -5,7 +5,7 @@ import { JUMP_TO } from 'src/client/app/constants/actionTypes';
 import { MAX_AGE } from 'src/client/app/constants/configuration';
 import { jumpTo } from 'src/client/app/actionCreators';
 import scopeToActions from 'src/client/app/reducers/scopeToActions';
-import type { Reducer } from 'src/client/app/typeDefinitions';
+import type { Reducer } from 'src/client/app/types';
 import { type JUMP_TO_ACTION } from 'src/client/app/actionTypeDefinitions';
 
 export type UndoableActionType<T> = T | JUMP_TO_ACTION;

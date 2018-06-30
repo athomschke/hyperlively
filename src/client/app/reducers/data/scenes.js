@@ -4,7 +4,7 @@ import produce from 'immer';
 import { ADD_SCENE, ADD_SCENE_AT } from 'src/client/app/constants/actionTypes';
 import { hide, select } from 'src/client/app/actionCreators';
 import scopeToActions from 'src/client/app/reducers/scopeToActions';
-import type { Scene } from 'src/client/app/typeDefinitions';
+import type { Scene } from 'src/client/app/types';
 import type { ADD_SCENE_AT_ACTION, ADD_SCENE_ACTION } from 'src/client/app/actionTypeDefinitions';
 
 import { scene, sceneActions, type SceneActionType } from './scene';

@@ -1,5 +1,5 @@
 // @flow
-import type { Data, HyperlivelyState, UndoableScenes } from 'src/client/app/typeDefinitions';
+import type { Data, HyperlivelyState, UndoableScenes } from 'src/client/app/types';
 
 const undoableScenes: UndoableScenes = {
 	past: [],
