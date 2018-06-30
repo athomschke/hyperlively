@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import * as React from 'react';
 import TestUtils from 'react-addons-test-utils';
 
-import Desk from 'src/client/app/components/hoc/Desk';
+import Desk from 'src/client/app/containers/Scene/Desk';
 import { point, exampleStrokes } from 'test/helpers';
 
 const MockedSubComponent = () => <canvas />;

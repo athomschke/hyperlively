@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 
-import Fullscreen from 'src/client/app/components/hoc/Fullscreen';
+import Fullscreen from 'src/client/app/components/Fullscreen';
 
 class MockedSubComponent extends React.Component<{width: number, height: number}> {
 	static propTypes = {

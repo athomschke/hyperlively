@@ -7,7 +7,7 @@ import { flatten, map, forEach, filter } from 'lodash';
 import { spy } from 'sinon';
 
 import type { ReactTreeLeafFormat, ReactTreeNodeFormat } from 'src/client/app/typeDefinitions';
-import JsonPropertyChooser, { type JsonPropertyChooserProps } from 'src/client/app/components/smart/JsonPropertyChooser';
+import JsonPropertyChooser, { type JsonPropertyChooserProps } from 'src/client/app/components/JsonPropertyChooser';
 import { formatObject } from 'src/client/app/helpers/choosingActions';
 
 const renderWithProps = (props: JsonPropertyChooserProps) =>

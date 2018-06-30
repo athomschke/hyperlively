@@ -4,14 +4,15 @@ import { connect } from 'react-redux';
 import * as actionCreators from 'src/client/app/actionCreators';
 import { PAPER_COLOR, WHITE } from 'src/client/app/constants/drawing';
 import type { HyperlivelyState } from 'src/client/app/typeDefinitions';
-import Desk from 'src/client/app/components/hoc/Desk';
-import ModuleChooser from 'src/client/app/components/hoc/ModuleChooser';
-import SketchTransformer from 'src/client/app/components/hoc/SketchTransformer';
-import PlomaDrawer from 'src/client/app/components/smart/PlomaDrawer';
-import PlainDrawer from 'src/client/app/components/smart/PlainDrawer';
-import BoundsMutationObserver from 'src/client/app/components/hoc/BoundsMutationObserver';
-import ModifierKey from 'src/client/app/components/hoc/ModifierKey';
-import Fullscreen from 'src/client/app/components/hoc/Fullscreen';
+import Desk from 'src/client/app/containers/Scene/Desk';
+import ModuleChooser from 'src/client/app/containers/Scene/ModuleChooser';
+import SketchTransformer from 'src/client/app/components/SketchTransformer';
+import PlomaDrawer from 'src/client/app/components/Drawer/PlomaDrawer';
+import PlainDrawer from 'src/client/app/components/Drawer/PlainDrawer';
+import ModifierKey from 'src/client/app/components/ModifierKey';
+import Fullscreen from 'src/client/app/components/Fullscreen';
+
+import BoundsMutationObserver from './BoundsMutationObserver';
 
 const mapStateToProps = (state: HyperlivelyState, ownProps) => {
 	const returnState = {};

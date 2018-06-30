@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import React from 'react';
 import { mount } from 'enzyme';
 
-import Window from 'src/client/app/components/dumb/Window';
+import Window from 'src/client/app/containers/Window/Window';
 
 describe('Window', () => {
 	it('setting cmdPressed to true disables events on window', () => {

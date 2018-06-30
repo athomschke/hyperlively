@@ -5,7 +5,7 @@ import { shallow } from 'enzyme';
 import { spy } from 'sinon';
 
 import ActionChooser from 'src/client/app/containers/ActionChooser/ActionChooser';
-import JsonPropertyChooser from 'src/client/app/components/smart/JsonPropertyChooser';
+import JsonPropertyChooser from 'src/client/app/components/JsonPropertyChooser';
 import * as actionCreators from 'src/client/app/actionCreators';
 
 const shallowWithProps = props => shallow(<ActionChooser {...props} />);

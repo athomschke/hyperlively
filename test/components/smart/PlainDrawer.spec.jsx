@@ -5,8 +5,8 @@ import { sum, map, remove } from 'lodash';
 import { mount, shallow } from 'enzyme';
 import { spy } from 'sinon';
 
-import PlainDrawer from 'src/client/app/components/smart/PlainDrawer';
-import type { AbstractDrawerProps } from 'src/client/app/components/smart/AbstractDrawer';
+import PlainDrawer from 'src/client/app/components/Drawer/PlainDrawer';
+import type { AbstractDrawerProps } from 'src/client/app/components/Drawer/AbstractDrawer';
 import type { Stroke } from 'src/client/app/typeDefinitions';
 import { point, exampleStrokes } from 'test/helpers';
 

@@ -4,7 +4,7 @@ import { stub } from 'sinon';
 import * as React from 'react';
 import TestUtils from 'react-addons-test-utils';
 
-import Point2BoundsScaler, { type Point2BoundsScalerProps, type WrappedProps } from 'src/client/app/components/hoc/Point2BoundsScaler';
+import Point2BoundsScaler, { type Point2BoundsScalerProps, type WrappedProps } from 'src/client/app/containers/UndoRedo/Point2BoundsScaler';
 
 describe('Point2BoundsScaler', () => {
 	let Wrapped: (props: WrappedProps<{}>) => void;

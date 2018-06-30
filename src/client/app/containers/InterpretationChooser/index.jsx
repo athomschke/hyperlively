@@ -1,7 +1,7 @@
 // @flow
 import { connect } from 'react-redux';
 
-import InterpretationChooser from 'src/client/app/components/smart/InterpretationChooser';
+import InterpretationChooser from 'src/client/app/containers/InterpretationChooser/InterpretationChooser';
 import type { HyperlivelyState } from 'src/client/app/typeDefinitions';
 
 const mapStateToProps = (state: HyperlivelyState) => ({

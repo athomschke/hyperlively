@@ -5,7 +5,7 @@ import { shallow } from 'enzyme';
 import { spy } from 'sinon';
 
 import ParameterChooser from 'src/client/app/containers/ParameterChooser/ParameterChooser';
-import JsonPropertyChooser from 'src/client/app/components/smart/JsonPropertyChooser';
+import JsonPropertyChooser from 'src/client/app/components/JsonPropertyChooser';
 import type { Stroke } from 'src/client/app/typeDefinitions';
 
 const dummyStrokes: Array<Stroke> = [{

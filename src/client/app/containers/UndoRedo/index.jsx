@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 import { last, concat } from 'lodash';
 
-import SketchCombiner from 'src/client/app/components/hoc/SketchCombiner';
+import SketchCombiner from 'src/client/app/components/SketchCombiner';
 import { togglePloma, setObserveMutations, jumpTo, select } from 'src/client/app/actionCreators';
 import { UNDO_TIMEOUT } from 'src/client/app/constants/canvas';
 import relevantStatesForScene from 'src/client/app/helpers/relevantStatesForScene';

@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 
-import SketchTransformer, { type SketchTransformerProps } from 'src/client/app/components/hoc/SketchTransformer';
+import SketchTransformer, { type SketchTransformerProps } from 'src/client/app/components/SketchTransformer';
 import { point, exampleStrokes } from 'test/helpers';
 
 type MockedSubComponentProps = {

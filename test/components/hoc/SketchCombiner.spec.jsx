@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import React, { PropTypes } from 'react';
 import TestUtils from 'react-addons-test-utils';
 
-import SketchCombiner, { type SketchCombinerProps, type WrappedProps } from 'src/client/app/components/hoc/SketchCombiner';
+import SketchCombiner, { type SketchCombinerProps, type WrappedProps } from 'src/client/app/components/SketchCombiner';
 import { type Sketch } from 'src/client/app/typeDefinitions';
 import { point, exampleStrokes } from 'test/helpers';
 

@@ -5,7 +5,7 @@ import { forEach } from 'lodash';
 import { shallow } from 'enzyme';
 import { stub } from 'sinon';
 
-import InterpretationChooser, { type InterpretationChooserProps } from 'src/client/app/components/smart/InterpretationChooser';
+import InterpretationChooser, { type InterpretationChooserProps } from 'src/client/app/containers/InterpretationChooser/InterpretationChooser';
 import ActionChooser from 'src/client/app/containers/ActionChooser/ActionChooser';
 import ParameterChooser from 'src/client/app/containers/ParameterChooser/ParameterChooser';
 

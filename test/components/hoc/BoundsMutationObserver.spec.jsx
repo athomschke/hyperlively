@@ -5,7 +5,7 @@ import React from 'react';
 import { shallow, mount } from 'enzyme';
 import { spy, stub } from 'sinon';
 
-import BoundsMutationObserver, { type WrappedProps, type BoundsMutationObserverProps } from 'src/client/app/components/hoc/BoundsMutationObserver';
+import BoundsMutationObserver, { type WrappedProps, type BoundsMutationObserverProps } from 'src/client/app/containers/Scene/BoundsMutationObserver';
 
 const MockedSubComponent = (props: WrappedProps<{}>) => (<div
 	ref={(divNode) => { if (divNode && props.onNodeChanged) props.onNodeChanged(divNode); }}

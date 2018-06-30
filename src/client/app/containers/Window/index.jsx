@@ -2,10 +2,11 @@
 import { connect } from 'react-redux';
 
 import { appendPoint, createStroke, finishStroke, toggleDrawing } from 'src/client/app/actionCreators';
-import ModifierKey from 'src/client/app/components/hoc/ModifierKey';
-import Fullscreen from 'src/client/app/components/hoc/Fullscreen';
-import DragHandler from 'src/client/app/components/hoc/DragHandler';
-import Window from 'src/client/app/components/dumb/Window';
+import ModifierKey from 'src/client/app/components/ModifierKey';
+import Fullscreen from 'src/client/app/components/Fullscreen';
+import DragHandler from 'src/client/app/containers/Window/DragHandler';
+
+import Window from './Window';
 
 const WindowContainer = ModifierKey(Fullscreen(DragHandler(Window)));
 

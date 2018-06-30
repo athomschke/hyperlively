@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import TestUtils from 'react-addons-test-utils';
 import React from 'react';
 
-import ModuleChooser, { type ModuleChooserProps } from 'src/client/app/components/hoc/ModuleChooser';
+import ModuleChooser, { type ModuleChooserProps } from 'src/client/app/containers/Scene/ModuleChooser';
 import { point } from 'test/helpers';
 
 const MockedSubComponent1 = () => <canvas />;

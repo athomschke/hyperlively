@@ -5,8 +5,8 @@ import React from 'react';
 import { remove, filter, isNumber, map } from 'lodash';
 import { spy } from 'sinon';
 
-import PlomaDrawer, { type PlomaDrawerProps } from 'src/client/app/components/smart/PlomaDrawer';
-import { type AbstractDrawerProps } from 'src/client/app/components/smart/AbstractDrawer';
+import PlomaDrawer, { type PlomaDrawerProps } from 'src/client/app/components/Drawer/PlomaDrawer';
+import { type AbstractDrawerProps } from 'src/client/app/components/Drawer/AbstractDrawer';
 import { point, exampleStrokes } from 'test/helpers';
 
 type Props = AbstractDrawerProps<PlomaDrawerProps>

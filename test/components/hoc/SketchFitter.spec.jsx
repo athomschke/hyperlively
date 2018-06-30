@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 
-import SketchFitter from 'src/client/app/components/hoc/SketchFitter';
+import SketchFitter from 'src/client/app/containers/UndoRedo/SketchFitter';
 import { exampleStrokes, point } from 'test/helpers';
 
 const WrappedWithSketchFitter = SketchFitter(() => <div />);

@@ -4,7 +4,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { stub } from 'sinon';
 
-import DragHandler, { type DragHandlerProps } from 'src/client/app/components/hoc/DragHandler';
+import DragHandler, { type DragHandlerProps } from 'src/client/app/containers/Window/DragHandler';
 
 const MockedSubComponent = () => <div />;
 

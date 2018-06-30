@@ -4,7 +4,7 @@ import * as React from 'react';
 import { shallow } from 'enzyme';
 import { stub } from 'sinon';
 
-import ClickHandler from 'src/client/app/components/hoc/ClickHandler';
+import ClickHandler from 'src/client/app/containers/UndoRedo/ClickHandler';
 
 const SimpleComponent = () => <div />;
 

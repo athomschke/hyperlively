@@ -4,7 +4,7 @@ import { forEach, map, flatten, filter, last } from 'lodash';
 
 import * as actionCreators from 'src/client/app/actionCreators';
 import type { FunctionConfiguration, TreeParameter, ActionMapping } from 'src/client/app/typeDefinitions';
-import JsonPropertyChooser from 'src/client/app/components/smart/JsonPropertyChooser';
+import JsonPropertyChooser from 'src/client/app/components/JsonPropertyChooser';
 
 const getArgs = functionString => functionString.split('(')[1].split(')')[0].split(',');
 
