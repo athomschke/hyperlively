@@ -5,7 +5,7 @@ import { map, flatten } from 'lodash';
 
 import type { Sketch, Stroke } from 'src/client/app/types';
 
-import style from './Timeline.scss';
+import style from './index.scss';
 import TimelinePreview from './TimelinePreview';
 
 type Props = {

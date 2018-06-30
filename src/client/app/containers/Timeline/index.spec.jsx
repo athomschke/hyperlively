@@ -6,10 +6,12 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { stub } from 'sinon';
 
-import TimelineView from 'src/client/app/containers/UndoRedo/Timeline';
-import TimeoutBehavior from 'src/client/app/containers/UndoRedo/TimeoutBehavior';
-import TimelinePreview from 'src/client/app/containers/UndoRedo/TimelinePreview';
 import { point } from 'src/client/app/helpers.spec';
+
+import TimeoutBehavior from './TimeoutBehavior';
+import TimelinePreview from './TimelinePreview';
+
+import TimelineView from '.';
 
 const Timeline = TimeoutBehavior(TimelineView);
 
