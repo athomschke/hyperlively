@@ -6,7 +6,7 @@ import { sum } from 'lodash';
 
 import PlomaDrawer, { type PlomaDrawerProps } from 'src/client/app/components/Drawer/PlomaDrawer';
 import { type AbstractDrawerProps } from 'src/client/app/components/Drawer/AbstractDrawer';
-import { exampleStrokes } from 'test/helpers';
+import { exampleStrokes } from 'src/client/app/helpers.spec';
 
 type Props = AbstractDrawerProps<PlomaDrawerProps>
 

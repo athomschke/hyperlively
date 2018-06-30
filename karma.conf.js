@@ -20,7 +20,7 @@ module.exports = function (config) {
 			},
 		},
 		files: [
-			'test/runner.js',
+			'runner.js',
 		],
 		plugins: [
 			'karma-chrome-launcher',
@@ -35,7 +35,7 @@ module.exports = function (config) {
 		],
 		frameworks: ['sinon-chai', 'mocha'],
 		preprocessors: {
-			'test/runner.js': ['webpack'],
+			'runner.js': ['webpack'],
 		},
 		reporters: ['progress'],
 		singleRun: false,

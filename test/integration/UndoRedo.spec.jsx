@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { findDOMNode } from 'react-dom';
 import { useFakeXMLHttpRequest } from 'sinon';
 
-import { point } from 'test/helpers';
+import { point } from 'src/client/app/helpers.spec';
 import type { Point, Stroke } from 'src/client/app/typeDefinitions';
 import emptyCanvas from 'test/integration/data/emptyCanvas';
 
