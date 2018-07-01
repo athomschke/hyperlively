@@ -28,12 +28,12 @@ export type Sketch = {
 	strokes: Array<Stroke>;
 }
 
-export type SceneState = Array<Scene>
+export type Scenes = Array<Scene>
 
 export type UndoableScenes = {
-	past: Array<SceneState>,
-	present: SceneState,
-	future: Array<SceneState>,
+	past: Array<Scenes>,
+	present: Scenes,
+	future: Array<Scenes>,
 }
 
 export type PlomaState = {
