@@ -1,5 +1,5 @@
 // @flow
-import type { UndoableScenes, Scene, Stroke } from 'src/client/app/types';
+import type { Undoable, Scenes, Scene, Stroke } from 'src/client/app/types';
 
 const stroke = (points: Array<number>): Stroke => ({
 	points: points.map(c => ({ x: c, y: c, timeStamp: c })),
@@ -36,7 +36,7 @@ const scene2State6: Scene = { strokes: [stroke([10, 20, 30, 40, 50])] };
 const scene2State7: Scene = { strokes: [stroke([10, 20, 30, 40, 50, 60])] };
 const scene2State8: Scene = { strokes: [stroke([10, 20, 30, 40, 50, 60, 70])] };
 
-export const emptyState: UndoableScenes = {
+export const emptyState: Undoable<Scenes> = {
 	past: [
 
 	],
@@ -128,7 +128,7 @@ export const dummySixthState = {
 	],
 };
 
-export const dummyEightsState: UndoableScenes = {
+export const dummyEightsState: Undoable<Scenes> = {
 	past: [
 		[scene1State1],
 		[scene1State2],
@@ -161,7 +161,7 @@ export const dummySixthStateWithTwoScenes = {
 	],
 };
 
-export const dummyEightsStateWithTwoScenes: UndoableScenes = {
+export const dummyEightsStateWithTwoScenes: Undoable<Scenes> = {
 	past: [
 		[scene1State1, scene2State1],
 		[scene1State1, scene2State2],

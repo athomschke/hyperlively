@@ -1,7 +1,7 @@
 // @flow
-import type { Data, HyperlivelyState, UndoableScenes } from 'src/client/app/types';
+import type { Data, HyperlivelyState, Undoable, Scenes } from 'src/client/app/types';
 
-const scenes: UndoableScenes = {
+const scenes: Undoable<Scenes> = {
 	past: [],
 	present: [],
 	future: [],

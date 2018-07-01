@@ -2,7 +2,7 @@
 import scopeToActions from 'src/client/app/reducers/scopeToActions';
 import { addScene } from 'src/client/app/actionCreators';
 import { ADD_SCENE_AT, SET_SCENE_INDEX, NEXT_SCENE } from 'src/client/app/constants/actionTypes';
-import { type Data, type UndoableScenes } from 'src/client/app/types';
+import type { Data, Undoable, Scenes } from 'src/client/app/types';
 
 import { undoable, undoableActions, type UndoableActionType } from './undoable';
 import { sceneIndex, setSceneIndexActions, type SetSceneActionType } from './sceneIndex';
@@ -24,7 +24,7 @@ export const dataActions = {
 	...scenesActions,
 };
 
-const initialUndoableScenes = (): UndoableScenes => ({
+const initialUndoableScenes = (): Undoable<Scenes> => ({
 	past: [],
 	present: scenes(undefined, { type: '' }),
 	future: [],

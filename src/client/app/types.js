@@ -30,10 +30,10 @@ export type Sketch = {
 
 export type Scenes = Array<Scene>
 
-export type UndoableScenes = {
-	past: Array<Scenes>,
-	present: Scenes,
-	future: Array<Scenes>,
+export type Undoable<P> = {
+	past: Array<P>,
+	present: P,
+	future: Array<P>,
 }
 
 export type PlomaState = {
@@ -204,7 +204,7 @@ export type Data = {
 	sceneIndex: number,
 	interpretation: InterpretationState,
 	specificActions: Array<ActionMapping>,
-	scenes: UndoableScenes,
+	scenes: Undoable<Scenes>,
 }
 
 export type HyperlivelyState = {
