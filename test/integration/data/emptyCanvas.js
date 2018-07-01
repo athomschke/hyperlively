@@ -13,7 +13,7 @@ const emptyCanvas = (): HyperlivelyState => ({
 				texts: [],
 			},
 		},
-		undoableScenes: {
+		scenes: {
 			past: [],
 			present: [],
 			future: [],

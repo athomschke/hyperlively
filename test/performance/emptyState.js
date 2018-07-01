@@ -1,7 +1,7 @@
 // @flow
 import type { Data, HyperlivelyState, UndoableScenes } from 'src/client/app/types';
 
-const undoableScenes: UndoableScenes = {
+const scenes: UndoableScenes = {
 	past: [],
 	present: [],
 	future: [],
@@ -17,7 +17,7 @@ const data: Data = {
 			texts: [],
 		},
 	},
-	undoableScenes,
+	scenes,
 };
 
 const hyperlively: HyperlivelyState = {

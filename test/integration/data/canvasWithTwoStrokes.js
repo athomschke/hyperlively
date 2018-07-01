@@ -13,7 +13,7 @@ const canvasWithTwoStrokes = (): HyperlivelyState => ({
 				texts: [],
 			},
 		},
-		undoableScenes: {
+		scenes: {
 			past: [],
 			present: [{
 				strokes: [{

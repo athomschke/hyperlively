@@ -204,7 +204,7 @@ export type Data = {
 	sceneIndex: number,
 	interpretation: InterpretationState,
 	specificActions: Array<ActionMapping>,
-	undoableScenes: UndoableScenes,
+	scenes: UndoableScenes,
 }
 
 export type HyperlivelyState = {

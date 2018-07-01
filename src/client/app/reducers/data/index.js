@@ -34,7 +34,7 @@ const initialDataState = (): Data => ({
 	sceneIndex: 0,
 	interpretation: interpretation(undefined, { type: '' }),
 	specificActions: specificActions(undefined, { type: '' }),
-	undoableScenes: initialUndoableScenes(),
+	scenes: initialUndoableScenes(),
 });
 
 type DataReducer = (state: Data, action: DataActionType) => Data
@@ -42,36 +42,36 @@ type DataReducer = (state: Data, action: DataActionType) => Data
 const scopedData: DataReducer = (state, action) => {
 	switch (action.type) {
 	case ADD_SCENE_AT:
-		if (action.number <= state.undoableScenes.present.length + 1 && action.number >= 0) {
+		if (action.number <= state.scenes.present.length + 1 && action.number >= 0) {
 			return {
 				...state,
-				undoableScenes: undoableScenes(state.undoableScenes, action),
+				scenes: undoableScenes(state.scenes, action),
 			};
 		}
 		return state;
 	case NEXT_SCENE:
-		if (state.sceneIndex < state.undoableScenes.present.length - 1) {
+		if (state.sceneIndex < state.scenes.present.length - 1) {
 			return {
 				...state,
 				sceneIndex: sceneIndex(state.sceneIndex, action),
-				undoableScenes: state.undoableScenes,
+				scenes: state.scenes,
 			};
 		}
 		return {
 			...state,
 			sceneIndex: sceneIndex(state.sceneIndex, action),
-			undoableScenes: undoableScenes(state.undoableScenes, addScene()),
+			scenes: undoableScenes(state.scenes, addScene()),
 		};
 	case SET_SCENE_INDEX: {
 		const setSceneIndexAction = {
 			...action,
-			max: state.undoableScenes.present.length - 1,
+			max: state.scenes.present.length - 1,
 			action,
 		};
 		return {
 			...state,
 			sceneIndex: sceneIndex(state.sceneIndex, setSceneIndexAction),
-			undoableScenes: state.undoableScenes,
+			scenes: state.scenes,
 		};
 	}
 	default:
@@ -85,7 +85,7 @@ const scopedData: DataReducer = (state, action) => {
 			undoableScenesAction.sceneIndex = state.sceneIndex;
 			return {
 				...state,
-				undoableScenes: undoableScenes(state.undoableScenes, undoableScenesAction),
+				scenes: undoableScenes(state.scenes, undoableScenesAction),
 			};
 		} else if (Object.keys(dataActions).indexOf(action.type) >= 0) {
 			return {

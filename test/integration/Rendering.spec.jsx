@@ -98,7 +98,7 @@ describe('Integration', () => {
 						y: 0,
 					},
 				};
-				canvasJson.data.undoableScenes.present[0].strokes.push(newStroke);
+				canvasJson.data.scenes.present[0].strokes.push(newStroke);
 				renderApplicationWithState(canvasJson);
 				return getCombinedCanvas().then((newCombinedCanvas) => {
 					expect(hashCode(newCombinedCanvas.toDataURL())).to.equal(hashCode(renderedStrokesData));
@@ -110,7 +110,7 @@ describe('Integration', () => {
 			const canvasJson = cloneDeep(canvasWithTwoStrokes());
 			canvasJson.ui.threshold = 1500;
 			canvasJson.ui.handwritingRecognition = true;
-			const presentScene = canvasJson.data.undoableScenes.present[0];
+			const presentScene = canvasJson.data.scenes.present[0];
 			presentScene.strokes = map(presentScene.strokes, stroke => Object.assign({}, stroke, {
 				hidden: true,
 			}));

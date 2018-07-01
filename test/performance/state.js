@@ -55,7 +55,7 @@ const past: Array<Scenes> = [sceneState.slice(0, sceneState.length - 1)];
 
 const present: Scenes = [last(sceneState)];
 
-const undoableScenes: UndoableScenes = {
+const scenes: UndoableScenes = {
 	past,
 	present,
 	future: [],
@@ -71,7 +71,7 @@ const data: Data = {
 			texts: [],
 		},
 	},
-	undoableScenes,
+	scenes,
 };
 
 const hyperlivelyState: HyperlivelyState = {

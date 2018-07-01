@@ -11,14 +11,14 @@ import Timeline from './Timeline';
 const HyperlivelyTimeline = HTMLWidth(TimeoutBehavior(SketchCombiner(Timeline)));
 
 const mapStateToProps = (state: HyperlivelyState) => ({
-	max: state.data.undoableScenes.present.reduce(
+	max: state.data.scenes.present.reduce(
 		(scenesPointCount, scene) => scenesPointCount + scene.strokes.reduce(
 			(strokesPointCount, stroke) => strokesPointCount + stroke.points.length,
 			0,
 		),
 		0,
 	),
-	scene: state.data.undoableScenes.present[state.data.sceneIndex],
+	scene: state.data.scenes.present[state.data.sceneIndex],
 	threshold: state.ui.threshold,
 	sliderHeight: 80,
 });

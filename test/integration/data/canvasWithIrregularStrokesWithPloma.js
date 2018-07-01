@@ -13,7 +13,7 @@ const canvasWithIrregularStrokesWithPloma = (): HyperlivelyState => ({
 				shapes: [],
 			},
 		},
-		undoableScenes: {
+		scenes: {
 			past: [],
 			future: [],
 			present: [{

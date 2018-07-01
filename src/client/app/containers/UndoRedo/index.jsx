@@ -9,10 +9,10 @@ import type { HyperlivelyState } from 'src/client/app/types';
 import UndoRedo from './UndoRedo';
 
 const mapStateToProps = (state: HyperlivelyState) => ({
-	disabled: (state.data.undoableScenes.past.length + state.data.undoableScenes.future.length)
+	disabled: (state.data.scenes.past.length + state.data.scenes.future.length)
 		<= 0,
-	max: state.data.undoableScenes.past.length + state.data.undoableScenes.future.length,
-	value: state.data.undoableScenes.past.length,
+	max: state.data.scenes.past.length + state.data.scenes.future.length,
+	value: state.data.scenes.past.length,
 	callbackEnabled: state.ui.ploma.usePloma,
 	timeout: UNDO_TIMEOUT,
 });

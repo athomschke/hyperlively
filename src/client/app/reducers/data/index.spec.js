@@ -41,7 +41,7 @@ describe('Data', () => {
 				undefined,
 				{ type: '' },
 			);
-			expect(result.undoableScenes).to.exist();
+			expect(result.scenes).to.exist();
 		});
 	});
 
@@ -56,7 +56,7 @@ describe('Data', () => {
 					texts: [],
 				},
 			},
-			undoableScenes: {
+			scenes: {
 				past: [],
 				future: [],
 				present: [{
@@ -93,7 +93,7 @@ describe('Data', () => {
 					texts: [],
 				},
 			},
-			undoableScenes: {
+			scenes: {
 				past: [],
 				future: [],
 				present: [
@@ -115,7 +115,7 @@ describe('Data', () => {
 				existingData,
 				addSceneAt(1),
 			);
-			expect(result.undoableScenes.present[1].strokes).to.exist();
+			expect(result.scenes.present[1].strokes).to.exist();
 			expect(result.sceneIndex).to.equal(0);
 		});
 	});
@@ -131,7 +131,7 @@ describe('Data', () => {
 					texts: [],
 				},
 			},
-			undoableScenes: {
+			scenes: {
 				past: [],
 				future: [],
 				present: [
@@ -159,7 +159,7 @@ describe('Data', () => {
 				nextScene(),
 			);
 			expect(result.sceneIndex).to.equal(4);
-			expect(result.undoableScenes.present.length).to.equal(5);
+			expect(result.scenes.present.length).to.equal(5);
 		});
 	});
 });
