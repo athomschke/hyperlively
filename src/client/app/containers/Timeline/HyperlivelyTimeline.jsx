@@ -7,17 +7,17 @@ import { TRACK_OFFSET, SLIDER_HEIGHT } from 'src/client/app/constants/configurat
 
 import TimelinePreview from './TimelinePreview';
 
-type Props = {
+export type HyperlivelyTimelineProps = {
 	sketches: Array<Sketch>,
 	onSelectStokes: (_strokes: Array<Stroke>) => void,
 };
 
-export default class Timeline extends PureComponent<Props> {
+export default class Timeline extends PureComponent<HyperlivelyTimelineProps> {
 	static defaultProps = {
 		sketches: [],
 	};
 
-	props: Props;
+	props: HyperlivelyTimelineProps;
 
 	node: HTMLDivElement | null
 

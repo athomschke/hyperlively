@@ -3,6 +3,7 @@ import * as React from 'react';
 import { cloneDeep } from 'lodash';
 
 import type { Bounds, Stroke } from 'src/client/app/types';
+import { SLIDER_HEIGHT } from 'src/client/app/constants/configuration';
 
 import { offsetToOrigin, getOffsetForTime } from './sketchFitting';
 
@@ -10,7 +11,6 @@ export type SketchFitterProps<P> = P & {
 	bounds: Bounds,
 	fittedWidth: number,
 	previewHeight: number,
-	sliderHeight: number,
 	htmlWidth: number,
 	max: number,
 	offsetIndex: number,
@@ -35,7 +35,6 @@ export default (Wrapped: React.ComponentType<WrappedProps<any>>) =>
 		},
 		index: 0,
 		htmlWidth: 0,
-		sliderHeight: 0,
 		max: 0,
 		offsetIndex: 0,
 	};
@@ -44,7 +43,6 @@ export default (Wrapped: React.ComponentType<WrappedProps<any>>) =>
 		const {
 			fittedWidth,
 			previewHeight,
-			sliderHeight,
 			htmlWidth,
 			offsetIndex,
 			index,
@@ -55,7 +53,7 @@ export default (Wrapped: React.ComponentType<WrappedProps<any>>) =>
 		clonedBounds.width = fittedWidth;
 		clonedBounds.height = previewHeight;
 		const moveBy = offsetToOrigin(this.props.strokes);
-		const top = -moveBy.y + ((sliderHeight - previewHeight) / 2);
+		const top = -moveBy.y + ((SLIDER_HEIGHT - previewHeight) / 2);
 		const left = -moveBy.x + getOffsetForTime(
 			this.props.strokes, htmlWidth, this.props.max, offsetIndex);
 		return (

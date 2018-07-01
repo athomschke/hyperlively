@@ -20,7 +20,6 @@ const mapStateToProps = (state: HyperlivelyState) => ({
 	),
 	scene: state.data.scenes.present[state.data.sceneIndex],
 	threshold: state.ui.threshold,
-	sliderHeight: 80,
 });
 
 const mapDispatchToProps = dispatch => ({
