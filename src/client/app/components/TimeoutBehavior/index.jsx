@@ -1,10 +1,10 @@
 // @flow
-import React, { PureComponent, type ComponentType } from 'react';
+import * as React from 'react';
 
 let runningTimeout;
 
-export type TimeoutBehaviorProps = {
-	temporaryCallback: (_togglePloma: bool) => void,
+export type TimeoutBehaviorProps<P> = P & {
+	temporaryCallback: (_value: any) => void,
 	onChange: (_value: number) => void,
 	callbackEnabled: bool,
 	timeout: number,
@@ -13,14 +13,22 @@ export type TimeoutBehaviorProps = {
 	value: number,
 }
 
+type WrappedProps<P> = P & {
+	onChange: (_value: number) => void,
+	disabled: bool,
+	max: number,
+	value: number,
+	afterChange: () => void,
+};
+
 type State = {
 	disableFunction: ?(boolean) => void,
 }
 
-export default (Wrapped: ComponentType<any>) =>
-	class extends PureComponent<TimeoutBehaviorProps, State> {
+export default (Wrapped: React.ComponentType<WrappedProps<*>>) =>
+	class extends React.Component<TimeoutBehaviorProps<*>, State> {
 	static defaultProps = {
-		temporaryCallback: () => {},
+		temporaryCallback: (_value: any) => {},
 		onChange: () => {},
 		callbackEnabled: false,
 		timeout: 1000,
@@ -39,7 +47,7 @@ export default (Wrapped: ComponentType<any>) =>
 		disableFunction: ?(boolean) => void,
 	}
 
-	props: TimeoutBehaviorProps;
+	props: TimeoutBehaviorProps<*>;
 
 	componentDidMount() {
 		this.state = {
@@ -85,9 +93,18 @@ export default (Wrapped: ComponentType<any>) =>
 	}
 
 	render() {
+		const {
+			// eslint-disable-next-line no-unused-vars
+			temporaryCallback, onChange, callbackEnabled, timeout, max, disabled, value,
+			...rest
+		} = this.props;
+
 		return (<Wrapped
-			{...this.props}
+			{...rest}
+			max={this.props.max}
+			value={this.props.value}
 			onChange={this.beActive}
+			disabled={this.props.disabled}
 			afterChange={this.beNotActive}
 		/>);
 	}

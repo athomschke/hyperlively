@@ -39,7 +39,7 @@ export default function (Wrapped: React.ComponentType<WrappedProps<any>>) {
 
 		render() {
 			// eslint-disable-next-line no-unused-vars
-			const { _onClick, ...rest } = this.props;
+			const { onClick, ...rest } = this.props;
 			return (
 				<div
 					onMouseDown={this.handleMouseDown}

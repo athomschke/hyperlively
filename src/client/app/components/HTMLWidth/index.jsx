@@ -5,12 +5,12 @@ type State = {
 	htmlWidth: number,
 }
 
-type Props<P> = P
+export type HTMLWidthProps<P> = P
 
-type WrappedProps<P> = Props<P>;
+type WrappedProps<P> = HTMLWidthProps<P>;
 
 export default (Wrapped: React.ComponentType<WrappedProps<any>>) =>
-	class HTMLWidth extends React.PureComponent<Props<any>, State> {
+	class HTMLWidth extends React.PureComponent<HTMLWidthProps<*>, State> {
 		constructor() {
 			super();
 			this.state = {
@@ -24,7 +24,7 @@ export default (Wrapped: React.ComponentType<WrappedProps<any>>) =>
 			this.state.htmlWidth = ((this.node: any): HTMLDivElement).getBoundingClientRect().width;
 		}
 
-		props: Props<any>
+		props: HTMLWidthProps<*>
 
 		node: HTMLDivElement | null
 

@@ -37,9 +37,9 @@ export type WrappedProps<P> = P & {
 	sketches: Array<Sketch>
 }
 
-export default (Wrapped: React.ComponentType<WrappedProps<any>>) =>
-	class extends React.PureComponent<SketchCombinerProps<any>> {
-	props: SketchCombinerProps<any>
+export default (Wrapped: React.ComponentType<WrappedProps<*>>) =>
+	class extends React.PureComponent<SketchCombinerProps<*>> {
+	props: SketchCombinerProps<*>
 
 	static defaultProps = {
 		scene: {
@@ -50,8 +50,11 @@ export default (Wrapped: React.ComponentType<WrappedProps<any>>) =>
 
 	render() {
 		const strokes = this.props.scene.strokes;
+		// eslint-disable-next-line no-unused-vars
+		const { threshold, scene, ...rest } = this.props;
+
 		return (<Wrapped
-			{...this.props}
+			{...rest}
 			sketches={sketches(strokes, this.props.threshold)}
 		/>);
 	}

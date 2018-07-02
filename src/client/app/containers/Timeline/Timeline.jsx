@@ -1,5 +1,5 @@
 // @flow
-import React, { PureComponent } from 'react';
+import * as React from 'react';
 import { map, flatten } from 'lodash';
 
 import type { Sketch, Stroke } from 'src/client/app/types';
@@ -7,17 +7,17 @@ import { TRACK_OFFSET, SLIDER_HEIGHT } from 'src/client/app/constants/configurat
 
 import TimelinePreview from './TimelinePreview';
 
-type Props = {
+export type TimelineProps = {
 	sketches: Array<Sketch>,
 	onSelectStokes: (_strokes: Array<Stroke>) => void,
 };
 
-export default class Timeline extends PureComponent<Props> {
+export default class Timeline extends React.PureComponent<TimelineProps> {
 	static defaultProps = {
 		sketches: [],
 	};
 
-	props: Props;
+	props: TimelineProps;
 
 	node: HTMLDivElement | null
 

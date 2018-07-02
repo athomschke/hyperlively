@@ -6,19 +6,24 @@ import { spy, stub } from 'sinon';
 
 import TimeoutBehavior, { type TimeoutBehaviorProps } from '.';
 
-const defaultProps = (): TimeoutBehaviorProps => ({
+type WrappedWithTimeoutBehaviorProps = {
+	temporaryCallback: (_value: any) => void,
+}
+
+const defaultProps = (): TimeoutBehaviorProps<WrappedWithTimeoutBehaviorProps> => ({
 	max: 10,
 	value: 9,
 	callbackEnabled: true,
 	disabled: false,
 	onChange: () => undefined,
 	timeout: 1,
-	temporaryCallback: stub(),
+	temporaryCallback: (_bool: any) => {},
 });
 
 describe('WrappedWithTimeoutBehavior', () => {
 	let Wrapped: Function;
-	let WrappedWithTimeoutBehavior: ComponentType<TimeoutBehaviorProps>;
+	let WrappedWithTimeoutBehavior:
+	ComponentType<TimeoutBehaviorProps<WrappedWithTimeoutBehaviorProps>>;
 
 	beforeEach(() => {
 		Wrapped = stub();
@@ -31,7 +36,7 @@ describe('WrappedWithTimeoutBehavior', () => {
 			let argument = true;
 			TestUtils.renderIntoDocument(<WrappedWithTimeoutBehavior
 				{...defaultProps()}
-				temporaryCallback={(value) => { argument = value; }}
+				temporaryCallback={(value: boolean) => { argument = value; }}
 			/>);
 			const wrappedProps = Wrapped.args[0][0];
 			wrappedProps.onChange(4);

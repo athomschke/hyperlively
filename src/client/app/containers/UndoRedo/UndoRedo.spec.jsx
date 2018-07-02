@@ -5,24 +5,41 @@ import React from 'react';
 import Slider from 'rc-slider';
 import TestUtils from 'react-addons-test-utils';
 
-import UndoRedo from './UndoRedo';
+import UndoRedo, { type UndoRedoSliderProps } from './UndoRedo';
+
+const defaultProps = () => ({
+	max: 100,
+	disabled: false,
+	timeout: 100,
+	onChange: () => undefined,
+	temporaryCallback: () => undefined,
+	value: 1,
+	callbackEnabled: true,
+});
 
 const renderComponentWithValueAndMax = (value, max) => TestUtils.renderIntoDocument(<UndoRedo
 	max={max}
+	disabled={false}
+	timeout={100}
+	onChange={() => undefined}
+	temporaryCallback={() => undefined}
 	value={value}
+	callbackEnabled
 />);
 
-const renderComponentWithProps = props => TestUtils.renderIntoDocument(<UndoRedo {...props} />);
+const renderComponentWithProps =
+	(props: UndoRedoSliderProps) => TestUtils.renderIntoDocument(<UndoRedo {...props} />);
 
 describe('Undo Redo', () => {
 	it('is smaller than the window size', () => {
-		const appConfigurationWrapper = mount(<UndoRedo />);
+		const appConfigurationWrapper = mount(<UndoRedo {...defaultProps()} />);
 		expect(appConfigurationWrapper.find('div').at(0).getNode().offsetWidth < window.innerWidth).to.be.true();
 	});
 
 	describe('rendering the slider', () => {
 		it('disables Slider when timeline is disabled', () => {
 			const temporaryCallbackSlider = renderComponentWithProps({
+				...defaultProps(),
 				disabled: true,
 			});
 			const slider = TestUtils.scryRenderedComponentsWithType(temporaryCallbackSlider, Slider)[0];
@@ -31,6 +48,7 @@ describe('Undo Redo', () => {
 
 		it('enables Slider when max is larger than 0', () => {
 			const temporaryCallbackSlider = TestUtils.renderIntoDocument(<UndoRedo
+				{...defaultProps()}
 				max={10}
 				value={4}
 			/>);
@@ -43,6 +61,7 @@ describe('Undo Redo', () => {
 		it('calls callback with new value', () => {
 			let argument;
 			const temporaryCallbackSlider = TestUtils.renderIntoDocument(<UndoRedo
+				{...defaultProps()}
 				max={10}
 				value={4}
 				onChange={(value) => { argument = value; }}
@@ -55,6 +74,7 @@ describe('Undo Redo', () => {
 		it('sets to max value when clicking end of slider', () => {
 			let argument;
 			const temporaryCallbackSlider = TestUtils.renderIntoDocument(<UndoRedo
+				{...defaultProps()}
 				max={10}
 				value={9}
 				onChange={(value) => { argument = value; }}
@@ -67,6 +87,7 @@ describe('Undo Redo', () => {
 		it('sets to max value when clicking behind end of slider', () => {
 			let argument;
 			const temporaryCallbackSlider = TestUtils.renderIntoDocument(<UndoRedo
+				{...defaultProps()}
 				max={10}
 				value={9}
 				onChange={(value) => { argument = value; }}
@@ -88,6 +109,7 @@ describe('Undo Redo', () => {
 		it('can set value from 5 to 4 in plain mode', () => {
 			let argument;
 			const temporaryCallbackSlider = TestUtils.renderIntoDocument(<UndoRedo
+				{...defaultProps()}
 				max={10}
 				value={5}
 				onChange={(value) => { argument = value; }}
@@ -100,6 +122,7 @@ describe('Undo Redo', () => {
 		it('can set value from 5 to 4 in Ploma mode', () => {
 			let argument;
 			const temporaryCallbackSlider = TestUtils.renderIntoDocument(<UndoRedo
+				{...defaultProps()}
 				max={10}
 				value={5}
 				onChange={(value) => { argument = value; }}

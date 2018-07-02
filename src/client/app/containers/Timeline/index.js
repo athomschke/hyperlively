@@ -1,14 +1,19 @@
+import * as React from 'react';
 import { connect } from 'react-redux';
 
 import { select } from 'src/client/app/actionCreators';
-import SketchCombiner from 'src/client/app/components/SketchCombiner';
 import type { HyperlivelyState, Stroke } from 'src/client/app/types';
-import TimeoutBehavior from 'src/client/app/components/TimeoutBehavior';
-import HTMLWidth from 'src/client/app/components/HTMLWidth';
+import SketchCombiner, { type SketchCombinerProps } from 'src/client/app/components/SketchCombiner';
+import TimeoutBehavior, { type TimeoutBehaviorProps } from 'src/client/app/components/TimeoutBehavior';
+import HTMLWidth, { type HTMLWidthProps } from 'src/client/app/components/HTMLWidth';
 
-import Timeline from './Timeline';
+import Timeline, { type TimelineProps } from './Timeline';
 
-const HyperlivelyTimeline = HTMLWidth(TimeoutBehavior(SketchCombiner(Timeline)));
+type HyperlivelyTimelineProps =
+HTMLWidthProps<TimeoutBehaviorProps<SketchCombinerProps<TimelineProps>>>
+
+const HyperlivelyTimeline: React.ComponentType<HyperlivelyTimelineProps> =
+HTMLWidth(TimeoutBehavior(SketchCombiner(Timeline)));
 
 const mapStateToProps = (state: HyperlivelyState) => ({
 	max: state.data.scenes.present.reduce(
