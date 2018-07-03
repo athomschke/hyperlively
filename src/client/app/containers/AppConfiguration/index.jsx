@@ -9,9 +9,4 @@ const mapStateToProps = (state: HyperlivelyState) => ({
 	active: !state.ui.drawing,
 });
 
-const mapDispatchToProps = () => ({});
-
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)(AppConfiguration);
+export default connect(mapStateToProps, () => ({}))(AppConfiguration);

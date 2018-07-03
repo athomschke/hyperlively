@@ -1,7 +1,6 @@
 // @flow
 import { connect } from 'react-redux';
 
-import SketchCombiner from 'src/client/app/components/SketchCombiner';
 import { togglePloma, setObserveMutations, jumpTo } from 'src/client/app/actionCreators';
 import { UNDO_TIMEOUT } from 'src/client/app/constants/canvas';
 import type { HyperlivelyState } from 'src/client/app/types';
@@ -29,4 +28,4 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps,
-)(SketchCombiner(UndoRedo));
+)(UndoRedo);

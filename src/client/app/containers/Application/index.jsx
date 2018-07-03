@@ -1,26 +1,20 @@
 // @flow
+import * as React from 'react';
 import { connect } from 'react-redux';
 
-import SketchCombiner from 'src/client/app/components/SketchCombiner';
+import SketchCombiner, { type SketchCombinerProps } from 'src/client/app/components/SketchCombiner';
 import type { HyperlivelyState } from 'src/client/app/types';
-import Page from 'src/client/app/containers/Page';
 
-const SketchCombinedPage = SketchCombiner(Page);
+import Page, { type PageProps } from './Page';
 
-const mapStateToProps = (state: HyperlivelyState) => {
-	const returnState = {};
-	returnState.threshold = state.ui.threshold;
-	returnState.drawing = state.ui.drawing;
-	returnState.sceneIndex = state.data.sceneIndex;
-	returnState.scene = state.data.scenes.present[state.data.sceneIndex];
-	returnState.interpretation = state.data.interpretation;
-	returnState.specificActions = state.data.specificActions;
-	return returnState;
-};
+type SketchCombinedPageProps = SketchCombinerProps<PageProps>
 
-const mapDispatchToProps = () => ({ });
+const SketchCombinedPage: React.ComponentType<SketchCombinedPageProps> =
+SketchCombiner(Page);
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)(SketchCombinedPage);
+const mapStateToProps = (state: HyperlivelyState) => ({
+	threshold: state.ui.threshold,
+	scene: state.data.scenes.present[state.data.sceneIndex],
+});
+
+export default connect(mapStateToProps, () => ({}))(SketchCombinedPage);

@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 
 import InterpretationTrigger from 'src/client/app/containers/InterpretationTrigger';
 import Interpreter from 'src/client/app/containers/Interpreter';
@@ -10,22 +10,25 @@ import Ploma from 'src/client/app/containers/Ploma';
 import Threshold from 'src/client/app/containers/Threshold';
 import Window from 'src/client/app/containers/Window';
 import AppConfiguration from 'src/client/app/containers/AppConfiguration';
+import type { Sketch } from 'src/client/app/types';
 
-type PageProps = {}
+export type PageProps = {
+	sketches: Array<Sketch>,
+};
 
-export default function Page(props: PageProps) {
-	return (<div>
+export default (props: PageProps) => (
+	<div>
 		<div>
-			<Scene {...props} />
-			<Interpreter {...props} />
+			<Scene sketches={props.sketches} />
+			<Interpreter sketches={props.sketches} />
 		</div>
-		<Window {...props} />
+		<Window sketches={props.sketches} />
 		<AppConfiguration>
-			<UndoRedo {...props} />
+			<UndoRedo />
 			<Timeline />
 			<Threshold />
 			<Ploma />
-			<InterpretationTrigger {...props} />
+			<InterpretationTrigger sketches={props.sketches} />
 		</AppConfiguration>
-	</div>);
-}
+	</div>
+);
