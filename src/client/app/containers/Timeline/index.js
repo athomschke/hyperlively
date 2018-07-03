@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { last } from 'lodash';
 
 import { select } from 'src/client/app/actionCreators';
 import type { HyperlivelyState, Stroke } from 'src/client/app/types';
@@ -15,17 +16,19 @@ HTMLWidthProps<TimeoutBehaviorProps<SketchCombinerProps<TimelineProps>>>
 const HyperlivelyTimeline: React.ComponentType<HyperlivelyTimelineProps> =
 HTMLWidth(TimeoutBehavior(SketchCombiner(Timeline)));
 
-const mapStateToProps = (state: HyperlivelyState) => ({
-	max: state.data.scenes.present.reduce(
-		(scenesPointCount, scene) => scenesPointCount + scene.strokes.reduce(
-			(strokesPointCount, stroke) => strokesPointCount + stroke.points.length,
-			0,
-		),
-		0,
-	),
-	scene: state.data.scenes.present[state.data.sceneIndex],
-	threshold: state.ui.threshold,
-});
+const mapStateToProps = (state: HyperlivelyState) => {
+	const addStrokePoints = (count, stroke) => count + stroke.points.length;
+	const addScenePoints = (count, scene) => count + scene.strokes.reduce(addStrokePoints, 0);
+	const lastScenes = last([
+		state.data.scenes.present,
+		...state.data.scenes.future,
+	]);
+	const max = lastScenes.reduce(addScenePoints, 0);
+	const scene = lastScenes[state.data.sceneIndex];
+	const threshold = state.ui.threshold;
+
+	return { max, scene, threshold };
+};
 
 const mapDispatchToProps = dispatch => ({
 	onSelectStokes: (strokes: Array<Stroke>) => {
