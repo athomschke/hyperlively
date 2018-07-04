@@ -1,12 +1,10 @@
 // @flow
 /* eslint-disable react/prop-types */
-import React from 'react';
-import { map, flatten, filter, last, forEach, concat, find } from 'lodash';
+import * as React from 'react';
+import { map, forEach, concat, find } from 'lodash';
 
-import type { FunctionConfiguration, Sketch, RecognitionResult, Functions, Parameters, ActionMapping } from 'src/client/app/types';
+import type { FunctionConfiguration, RecognitionResult, Functions, Parameters, ActionMapping } from 'src/client/app/types';
 import { relativeDividerPosition } from 'src/client/app/constants/configuration';
-import ActionChooser from 'src/client/app/containers/ActionChooser';
-import ParameterChooser from 'src/client/app/containers/ParameterChooser';
 
 import style from './Interpreter.scss';
 
@@ -14,11 +12,11 @@ type InterpretationChooserAdditionalProps = {
 	specificActions: Array<ActionMapping>,
 	parameters: Parameters,
 	functions: Functions,
+	children: React.Node,
 }
 
 export type InterpreterProps = InterpretationChooserAdditionalProps & {
 	performAction: () => void,
-	sketches: Array<Sketch>,
 	showInterpreter: boolean,
 	interpretations: RecognitionResult,
 	setInterval: (() => void, number) => number,
@@ -28,8 +26,8 @@ export type InterpreterProps = InterpretationChooserAdditionalProps & {
 
 const defaultProps = (): InterpreterProps => ({
 	performAction: () => undefined,
-	sketches: [],
 	showInterpreter: false,
+	children: null,
 	interpretations: {
 		texts: [],
 		shapes: [],
@@ -42,16 +40,11 @@ const defaultProps = (): InterpreterProps => ({
 	clearInterval: () => {},
 });
 
-export const getSelectedStrokes = (sketches: Array<Sketch>) => filter(flatten(map(sketches, 'strokes')), 'selected');
-
 export default (props: InterpreterProps = defaultProps()) => {
 	const {
-		sketches, onInterpretationDone, setInterval, clearInterval, performAction,
+		onInterpretationDone, setInterval, clearInterval, performAction,
 		specificActions, functions, parameters,
 	} = props;
-	const selectedStrokes = getSelectedStrokes(sketches);
-	const lastSketch = last(sketches);
-	const lastStrokes = lastSketch ? lastSketch.strokes : [];
 
 	const doPerformAction = (items: Array<FunctionConfiguration>, values: Array<number | string>) => {
 		let valueIndex = 0;
@@ -102,14 +95,7 @@ export default (props: InterpreterProps = defaultProps()) => {
 			onClick={onInterpretationTick}
 		>{'Tick'}</button>
 		<div>
-			<ActionChooser
-				specificActions={specificActions}
-			/>
-			<ParameterChooser
-				lastStrokes={lastStrokes}
-				selectedStrokes={selectedStrokes}
-				interpretations={props.interpretations}
-			/>
+			{props.children}
 		</div>
 	</div>);
 };

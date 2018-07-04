@@ -9,6 +9,7 @@ import ActionChooser from './ActionChooser';
 const mapStateToProps = (state: HyperlivelyState) => ({
 	collapsedPaths: state.ui.actions.collapsedPath,
 	checkedPaths: state.ui.actions.checkedPath,
+	specificActions: state.data.specificActions,
 });
 
 const mapDispatchToProps = dispatch => ({

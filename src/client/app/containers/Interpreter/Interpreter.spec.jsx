@@ -5,20 +5,19 @@ import { forEach } from 'lodash';
 import { shallow } from 'enzyme';
 import { spy, stub } from 'sinon';
 
-import { exampleStrokes, point } from 'src/client/app/helpers.spec';
 import ParameterChooser from 'src/client/app/containers/ParameterChooser';
 import ActionChooser from 'src/client/app/containers/ActionChooser';
-import type { TextCandidate, Parameters, Functions, Stroke, Sketch } from 'src/client/app/types';
+import type { Parameters, Functions } from 'src/client/app/types';
 
-import Interpreter, { type InterpreterProps, getSelectedStrokes } from './Interpreter';
+import Interpreter, { type InterpreterProps } from './Interpreter';
 
-const defaultProps: () => InterpreterProps = () => ({
+const defaultProps = (): InterpreterProps => ({
 	interpretations: { shapes: [], texts: [] },
 	onInterpretationDone: () => undefined,
 	showInterpreter: true,
-	sketches: [],
 	specificActions: [],
 	functions: [],
+	children: null,
 	parameters: [],
 	performAction: () => undefined,
 	setInterval: () => 1,
@@ -63,63 +62,6 @@ describe('Interpreter', () => {
 
 		it('renders a button to start ticking', () => {
 			expect(findElementOfTypeWithTextContent(interpreter, 'button', 'Tick')).to.have.length(1);
-		});
-	});
-
-	describe('receiving interpretation candidates', () => {
-		it('renders the candidates already received from hw recognition', () => {
-			const text: TextCandidate = {
-				label: 'Hello, World',
-				normalizedScore: 0.99,
-				resemblanceScore: 0.99,
-			};
-			const interpretations = { shapes: [], texts: [text] };
-			const list = renderWithProps({ ...defaultProps(), interpretations });
-
-			expect(list.find(ParameterChooser).prop('interpretations')).to.deep.equal(interpretations);
-		});
-	});
-
-	describe('drawing a stroke', () => {
-		it('shows the last stroke in paramter chooser', () => {
-			const lastStrokes: Array<Stroke> = [{
-				points: [],
-				angle: NaN,
-				color: 'red',
-				position: { x: 0, y: 0 },
-				center: { x: 0, y: 0 },
-				finished: false,
-				hidden: false,
-				selected: false,
-			}];
-			const sketch: Sketch = {
-				strokes: lastStrokes,
-				finished: true,
-			};
-			const interpreter = renderWithProps({ ...defaultProps(), sketches: [sketch] });
-			expect(interpreter.find(ParameterChooser).prop('lastStrokes')).to.deep.equal(lastStrokes);
-		});
-	});
-
-	describe('selecting a stroke', () => {
-		it('shows the selected stroke in paramter chooser', () => {
-			const selectedStrokes = [{
-				points: [],
-				angle: NaN,
-				color: 'red',
-				position: { x: 0, y: 0 },
-				center: { x: 0, y: 0 },
-				finished: false,
-				hidden: false,
-				selected: true,
-			}];
-			const sketch: Sketch = {
-				strokes: selectedStrokes,
-				finished: true,
-			};
-
-			const interpreter = renderWithProps({ ...defaultProps(), sketches: [sketch] });
-			expect(interpreter.find(ParameterChooser).prop('selectedStrokes')).to.deep.equal(selectedStrokes);
 		});
 	});
 
@@ -189,30 +131,6 @@ describe('Interpreter', () => {
 			expect(performAction.args[0][2]).to.equal(2);
 			expect(performAction.args[1][0]).to.equal('runWithOneParameter');
 			expect(performAction.args[1][1]).to.equal(3);
-		});
-	});
-
-	describe('Choosing selected strokes from sketches', () => {
-		const dummySketches = () => [{
-			finished: true,
-			strokes: exampleStrokes([point(0, 5), point(5, 0), point(10, 5), point(5, 10)]),
-		}, {
-			finished: true,
-			strokes: exampleStrokes([point(0, 5), point(5, 0), point(10, 5), point(5, 10)]),
-		}, {
-			finished: true,
-			strokes: exampleStrokes([point(0, 5), point(5, 0), point(10, 5), point(5, 10)]),
-		}];
-
-		it('returns an empty array if none are selected', () => {
-			const sketches = dummySketches();
-			expect(getSelectedStrokes(sketches)).to.have.length(0);
-		});
-
-		it('returns a non empty array if none are selected', () => {
-			const sketches = dummySketches();
-			sketches[0].strokes[0].selected = true;
-			expect(getSelectedStrokes(sketches)).to.have.length(1);
 		});
 	});
 
