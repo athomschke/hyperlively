@@ -6,15 +6,15 @@ import type { HyperlivelyState } from 'src/client/app/types';
 
 import Interpreter from './Interpreter';
 
-const mapStateToProps = (state: HyperlivelyState) => {
-	const returnState = {};
-	returnState.handwritingRecognitionEnabled = state.ui.handwritingRecognition;
-	returnState.showInterpreter = state.data.interpretation.showInterpreter;
-	returnState.interpretations = state.data.interpretation.interpretations;
-	returnState.setInterval = setInterval.bind(window);
-	returnState.clearInterval = clearInterval.bind(window);
-	return returnState;
-};
+const mapStateToProps = (state: HyperlivelyState) => ({
+	handwritingRecognitionEnabled: state.ui.handwritingRecognition,
+	showInterpreter: state.data.interpretation.showInterpreter,
+	interpretations: state.data.interpretation.interpretations,
+	functions: state.ui.interpretations.functions,
+	parameters: state.ui.interpretations.parameters,
+	setInterval: setInterval.bind(window),
+	clearInterval: clearInterval.bind(window),
+});
 
 const mapDispatchToProps = dispatch => ({
 	performAction: (actionName, ...args) => {

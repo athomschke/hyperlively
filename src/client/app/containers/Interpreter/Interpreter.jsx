@@ -1,95 +1,115 @@
 // @flow
-import React, { PureComponent } from 'react';
-import { map, flatten, filter, last, forEach } from 'lodash';
+/* eslint-disable react/prop-types */
+import React from 'react';
+import { map, flatten, filter, last, forEach, concat, find } from 'lodash';
 
 import type { FunctionConfiguration, Sketch, RecognitionResult, Functions, Parameters, ActionMapping } from 'src/client/app/types';
-import InterpretationChooser from 'src/client/app/containers/InterpretationChooser';
+import { relativeDividerPosition } from 'src/client/app/constants/configuration';
+import ActionChooser from 'src/client/app/containers/ActionChooser';
+import ParameterChooser from 'src/client/app/containers/ParameterChooser';
 
-export type InterpreterProps = {
+import style from './Interpreter.scss';
+
+type InterpretationChooserAdditionalProps = {
+	specificActions: Array<ActionMapping>,
+	parameters: Parameters,
+	functions: Functions,
+}
+
+export type InterpreterProps = InterpretationChooserAdditionalProps & {
 	performAction: () => void,
 	sketches: Array<Sketch>,
 	showInterpreter: boolean,
 	interpretations: RecognitionResult,
-	specificActions: Array<ActionMapping>,
 	setInterval: (() => void, number) => number,
 	clearInterval: (interval: number) => void,
 	onInterpretationDone: (boolean) => void,
 }
 
-export default class extends PureComponent<InterpreterProps> {
-	static defaultProps = {
-		performAction: () => undefined,
-		sketches: [],
-		showInterpreter: false,
-		interpretations: {
-			text: null,
-			shape: null,
-		},
-		onInterpretationDone: () => undefined,
-	};
+const defaultProps = (): InterpreterProps => ({
+	performAction: () => undefined,
+	sketches: [],
+	showInterpreter: false,
+	interpretations: {
+		texts: [],
+		shapes: [],
+	},
+	specificActions: [],
+	functions: [],
+	parameters: [],
+	onInterpretationDone: () => undefined,
+	setInterval: () => 0,
+	clearInterval: () => {},
+});
 
-	constructor() {
-		super();
-		(this:any).deactivateInterpretation = this.deactivateInterpretation.bind(this);
-		(this:any).performAction = this.performAction.bind(this);
-		(this:any).tickActions = this.tickActions.bind(this);
-	}
+export const getSelectedStrokes = (sketches: Array<Sketch>) => filter(flatten(map(sketches, 'strokes')), 'selected');
 
-	getSelectedStrokes() {
-		return filter(flatten(map(this.props.sketches, 'strokes')), 'selected');
-	}
+export default (props: InterpreterProps = defaultProps()) => {
+	const {
+		sketches, onInterpretationDone, setInterval, clearInterval, performAction,
+		specificActions, functions, parameters,
+	} = props;
+	const selectedStrokes = getSelectedStrokes(sketches);
+	const lastSketch = last(sketches);
+	const lastStrokes = lastSketch ? lastSketch.strokes : [];
 
-	deactivateInterpretation() {
-		this.props.onInterpretationDone(false);
-	}
-
-	tickActions(items: Functions, values: Parameters, interval: number, endAfter?: number) {
-		let counter = endAfter || 0;
-		const tickInterval = this.props.setInterval(() => {
-			this.performAction(items, values);
-			counter -= 1;
-			if (counter === 0) {
-				this.props.clearInterval(tickInterval);
-			}
-		}, interval);
-	}
-
-	performAction(items: Array<FunctionConfiguration>, values: Array<number | string>) {
+	const doPerformAction = (items: Array<FunctionConfiguration>, values: Array<number | string>) => {
 		let valueIndex = 0;
 		forEach(items, (item) => {
 			const functionName = item.name;
 			const functionParameters = values.slice(valueIndex, valueIndex + item.parameters);
 			valueIndex += item.parameters;
-			this.props.performAction.apply(this, [functionName].concat(functionParameters));
+			performAction.apply(this, [functionName].concat(functionParameters));
 		});
-		this.deactivateInterpretation();
-	}
+		onInterpretationDone(false);
+	};
 
-	props: InterpreterProps
+	const onAcceptInterpretationClick = () => {
+		let allFunctions = [];
+		forEach(functions, (aFunction) => {
+			const specificAction = find(specificActions,
+				action => action.actionName === aFunction.name);
+			if (specificAction) {
+				const primitiveActions = map(specificAction.actionNames,
+					actionName => ({ name: actionName, parameters: 1 }));
+				allFunctions = concat(functions, primitiveActions);
+			} else {
+				allFunctions.push(aFunction);
+			}
+		});
+		doPerformAction(allFunctions, parameters);
+	};
 
-	render() {
-		const actionChooserProps = {
-			isOpen: this.props.showInterpreter,
-			onRequestClose: this.deactivateInterpretation,
-			onInterpretationChoose: this.performAction,
-			onInterpretationTick: this.tickActions,
-			selectedStrokes: this.getSelectedStrokes(),
-		};
-		const lastStrokesProps = {};
-		if (this.props.sketches.length && last(this.props.sketches).strokes) {
-			lastStrokesProps.lastStrokes = last(this.props.sketches).strokes;
-		}
-		const jsonTreeProps = {};
-		if (this.props.interpretations) {
-			jsonTreeProps.jsonTree = this.props.interpretations;
-		}
-		return (<InterpretationChooser
-			specificActions={this.props.specificActions}
-			interpretations={this.props.interpretations}
-			{...this.props}
-			{...actionChooserProps}
-			{...lastStrokesProps}
-			{...jsonTreeProps}
-		/>);
-	}
-}
+	const onInterpretationTick = () => {
+		let counter = 0;
+		const tickInterval = setInterval(() => {
+			doPerformAction(functions, parameters);
+			counter -= 1;
+			if (counter === 0) {
+				clearInterval(tickInterval);
+			}
+		}, 1000);
+	};
+
+	return (<div
+		className={style.interpretationChooser}
+		style={{ width: `${(1 - relativeDividerPosition) * 100}%` }}
+	>
+		<button
+			onClick={onAcceptInterpretationClick}
+		>{'Accept Interpretation'}</button>
+		<button
+			onClick={onInterpretationTick}
+		>{'Tick'}</button>
+		<div>
+			<ActionChooser
+				specificActions={specificActions}
+			/>
+			<ParameterChooser
+				lastStrokes={lastStrokes}
+				selectedStrokes={selectedStrokes}
+				interpretations={props.interpretations}
+			/>
+		</div>
+	</div>);
+};
