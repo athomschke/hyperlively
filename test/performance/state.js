@@ -84,6 +84,7 @@ const hyperlivelyState: HyperlivelyState = {
 	},
 	data,
 	ui: {
+		showInterpreter: true,
 		threshold: 50,
 		ploma: {
 			uniqueCanvasFactor: 35,

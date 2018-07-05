@@ -197,7 +197,8 @@ export type UiState = {
 	drawing: boolean,
 	threshold: number,
 	handwritingRecognition: boolean,
-	interpretations: InterpretationsState
+	interpretations: InterpretationsState,
+	showInterpreter: boolean,
 }
 
 export type Data = {

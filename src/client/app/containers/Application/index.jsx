@@ -15,6 +15,7 @@ SketchCombiner(Page);
 const mapStateToProps = (state: HyperlivelyState) => ({
 	threshold: state.ui.threshold,
 	scene: state.data.scenes.present[state.data.sceneIndex],
+	showInterpreter: state.ui.showInterpreter,
 });
 
 export default connect(mapStateToProps, () => ({}))(SketchCombinedPage);

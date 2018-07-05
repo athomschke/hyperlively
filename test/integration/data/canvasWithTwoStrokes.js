@@ -56,6 +56,7 @@ const canvasWithTwoStrokes = (): HyperlivelyState => ({
 		},
 	},
 	ui: {
+		showInterpreter: true,
 		threshold: 500,
 		ploma: {
 			usePloma: false,

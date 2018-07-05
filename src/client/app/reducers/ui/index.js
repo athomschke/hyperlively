@@ -7,6 +7,7 @@ import { interpretationsActions, interpretations, type INTERPRETATIONS_ACTION } 
 import { drawing, drawingActions, type DRAWING_ACTION } from 'src/client/app/reducers/ui/drawing';
 import { handwritingRecognition, handwritingRecognitionActions, type HANDWRITING_RECOGNITION_ACTION } from 'src/client/app/reducers/ui/handwritingRecognition';
 import { observeMutations, observeMutationsActions } from 'src/client/app/reducers/ui/observeMutations';
+import { showInterpreter, showInterpreterActions } from 'src/client/app/reducers/ui/showInterpreter';
 import { type OBSERVE_MUTATIONS_ACTION } from 'src/client/app/actionTypeDefinitions';
 import { ploma, plomaActions, type PLOMA_ACTION } from 'src/client/app/reducers/ui/ploma';
 import { threshold, thresholdActions, type THRESHOLD_ACTION } from 'src/client/app/reducers/ui/threshold';
@@ -21,6 +22,7 @@ const uiActions = {
 	...observeMutationsActions,
 	...drawingActions,
 	...handwritingRecognitionActions,
+	...showInterpreterActions,
 	...parametersActions,
 	...actionsActions,
 	...interpretationsActions,
@@ -34,6 +36,7 @@ const initialUiState = () => ({
 	drawing: drawing(undefined, { type: '' }),
 	observeMutations: observeMutations(undefined, { type: '' }),
 	handwritingRecognition: handwritingRecognition(undefined, { type: '' }),
+	showInterpreter: showInterpreter(undefined, { type: '' }),
 	interpretations: interpretations(undefined, { type: '' }),
 });
 
@@ -45,6 +48,7 @@ const ui = scopeToActions((state: UiState, action: UI_ACIONS) => ({
 	observeMutations: observeMutations(state.observeMutations, action),
 	drawing: drawing(state.drawing, action),
 	handwritingRecognition: handwritingRecognition(state.handwritingRecognition, action),
+	showInterpreter: showInterpreter(state.showInterpreter, action),
 	interpretations: interpretations(state.interpretations, action),
 }), uiActions, initialUiState);
 

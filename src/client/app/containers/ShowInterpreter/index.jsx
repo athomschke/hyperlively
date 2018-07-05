@@ -2,31 +2,31 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import { togglePloma } from 'src/client/app/actionCreators';
+import { toggleInterpreter } from 'src/client/app/actionCreators';
 import type { HyperlivelyState } from 'src/client/app/types';
 import LabelledBox from 'src/client/app/components/LabelledBox';
 
-type PlomaProps = {
+type ShowInterpreterProps = {
 	checked: boolean;
 	onChange: (_value: boolean) => void;
 }
 
-export const Ploma = (props: PlomaProps) => (<LabelledBox
+const ShowInterpreter = (props: ShowInterpreterProps) => (<LabelledBox
 	{...props}
-	label={'Use Ploma'}
+	label={'Show Interpreter'}
 />);
 
 const mapStateToProps = (state: HyperlivelyState) => ({
-	checked: state.ui.ploma.usePloma,
+	checked: state.ui.showInterpreter,
 });
 
 const mapDispatchToProps = dispatch => ({
 	onChange: (bool) => {
-		dispatch(togglePloma(bool));
+		dispatch(toggleInterpreter(bool));
 	},
 });
 
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps,
-)(Ploma);
+)(ShowInterpreter);
