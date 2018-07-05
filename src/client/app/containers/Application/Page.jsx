@@ -14,6 +14,7 @@ import Window from 'src/client/app/containers/Window';
 import AppConfiguration from 'src/client/app/containers/AppConfiguration';
 import ActionChooser from 'src/client/app/containers/ActionChooser';
 import ParameterChooser from 'src/client/app/containers/ParameterChooser';
+import InterpretationDisplay from 'src/client/app/containers/InterpretationDisplay';
 import type { Sketch, Stroke } from 'src/client/app/types';
 
 export type PageProps = {
@@ -24,6 +25,7 @@ export const getSelectedStrokes = (sketches: Array<Sketch>) => filter(flatten(ma
 
 const renderInterpreter = (selectedStrokes: Array<Stroke>, lastStrokes: Array<Stroke>) => (
 	<Interpreter>
+		<InterpretationDisplay />
 		<ActionChooser />
 		<ParameterChooser
 			lastStrokes={lastStrokes}

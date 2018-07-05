@@ -1,11 +1,11 @@
 // @flow
 import { expect } from 'chai';
 
-import { Ploma } from '.';
+import { PlomaToggle } from '.';
 
 describe('Ploma Configuration', () => {
 	it('labels the button Ploma', () => {
-		const component = Ploma({
+		const component = PlomaToggle({
 			checked: false,
 			onChange: () => {},
 		});

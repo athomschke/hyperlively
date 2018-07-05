@@ -11,7 +11,7 @@ type PlomaProps = {
 	onChange: (_value: boolean) => void;
 }
 
-export const Ploma = (props: PlomaProps) => (<LabelledBox
+export const PlomaToggle = (props: PlomaProps) => (<LabelledBox
 	{...props}
 	label={'Use Ploma'}
 />);
@@ -29,4 +29,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps,
-)(Ploma);
+)(PlomaToggle);
