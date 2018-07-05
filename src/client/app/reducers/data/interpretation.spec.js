@@ -150,35 +150,4 @@ describe('Interpretation reducer', () => {
 			expect(newState.interpretations.texts[0]).to.deep.equal(letterCandidate());
 		});
 	});
-
-	describe('toggling the display of the interpreter', () => {
-		it('sets the state flag to true', () => {
-			const oldState = Object.assign({}, dummyState, {
-				showInterpreter: false,
-			});
-			const newState = interpretation(oldState, toggleInterpreter(true));
-			expect(newState.showInterpreter).to.be.true();
-		});
-
-		it('sets the state flag to false', () => {
-			const oldState = Object.assign({}, dummyState, {
-				showInterpreter: true,
-			});
-			const newState = interpretation(oldState, toggleInterpreter(false));
-			expect(newState.showInterpreter).to.be.false();
-		});
-
-		it('does not invalidate recent interpretaitons', () => {
-			const oldState = Object.assign({}, dummyState, {
-				showInterpreter: true,
-				interpretations: {
-					shapes: [shapeCandidate()],
-					texts: [letterCandidate()],
-				},
-			});
-			const newState = interpretation(oldState, toggleInterpreter(false));
-			expect(newState.interpretations.texts[0]).to.exist();
-			expect(newState.interpretations.shapes[0]).to.exist();
-		});
-	});
 });

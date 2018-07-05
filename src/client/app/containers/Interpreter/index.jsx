@@ -8,7 +8,7 @@ import Interpreter from './Interpreter';
 
 const mapStateToProps = (state: HyperlivelyState) => ({
 	handwritingRecognitionEnabled: state.ui.handwritingRecognition,
-	showInterpreter: state.data.interpretation.showInterpreter,
+	showInterpreter: state.ui.showInterpreter,
 	interpretations: state.data.interpretation.interpretations,
 	functions: state.ui.interpretations.functions,
 	parameters: state.ui.interpretations.parameters,

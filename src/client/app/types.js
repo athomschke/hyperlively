@@ -162,7 +162,6 @@ export type FunctionConfiguration = {
 }
 
 export type InterpretationState = {
-	showInterpreter: boolean,
 	interpretations: RecognitionResult,
 }
 
