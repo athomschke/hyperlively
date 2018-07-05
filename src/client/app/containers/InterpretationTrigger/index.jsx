@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 
 import { toggleInterpreter, requestTextCandidates, requestShapeCandidates } from 'src/client/app/actionCreators';
-import type { Scene, InterpretationState, Sketch, HyperlivelyState } from 'src/client/app/types';
+import type { HyperlivelyState } from 'src/client/app/types';
 
 import InterpretationTrigger from './InterpretationTrigger';
 
@@ -10,22 +10,15 @@ const mapStateToProps = (state: HyperlivelyState) => ({
 	interpretation: state.data.interpretation,
 });
 
-type IInterpretationTriggerProps = {
-	scene: Scene;
-	interpretation: InterpretationState;
-	showInterpreter: boolean;
-	sketches: Array<Sketch>
-}
-
-const mapDispatchToProps = (dispatch, ownProps: IInterpretationTriggerProps) => ({
-	onHandwritingRecognitionClick: () => {
-		if (ownProps.interpretation.interpretations.shapes.length <= 0) {
-			ownProps.sketches.forEach((sketch) => {
+const mapDispatchToProps = dispatch => ({
+	onHandwritingRecognitionClick: (sketches, texts, shapes) => {
+		if (shapes.length <= 0) {
+			sketches.forEach((sketch) => {
 				dispatch(requestShapeCandidates(sketch.strokes.filter(stroke => !stroke.hidden)));
 			});
 		}
-		if (ownProps.interpretation.interpretations.texts.length <= 0) {
-			ownProps.sketches.forEach((sketch) => {
+		if (texts.length <= 0) {
+			sketches.forEach((sketch) => {
 				dispatch(requestTextCandidates(sketch.strokes.filter(stroke => !stroke.hidden)));
 			});
 		}

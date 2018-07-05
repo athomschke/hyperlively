@@ -1,31 +1,30 @@
 // @flow
-import React, { PureComponent } from 'react';
+import * as React from 'react';
 
-type Props = {
-	onHandwritingRecognitionClick: () => void;
+import type { InterpretationState, Sketch, TextCandidates, ShapeCandidates } from 'src/client/app/types';
+
+export type InterpretationTriggerProps = {
+	onHandwritingRecognitionClick: (
+		sketches: Array<Sketch>,
+		texts: TextCandidates,
+		shapes: ShapeCandidates,
+	) => void;
+	interpretation: InterpretationState;
+	sketches: Array<Sketch>
 }
 
-export default class InterpretationTrigger extends PureComponent<Props> {
-	static propTypes = {
-		onHandwritingRecognitionClick: React.PropTypes.func,
-	}
+const InterpretationTrigger = (props: InterpretationTriggerProps) => {
+	const onHandwritingRecognitionClick = () => {
+		props.onHandwritingRecognitionClick(
+			props.sketches,
+			props.interpretation.interpretations.texts,
+			props.interpretation.interpretations.shapes,
+		);
+	};
 
-	static defaultProps = {
-		onHandwritingRecognitionClick: () => {},
-	}
+	return (<button onClick={onHandwritingRecognitionClick} >
+		Recognize Handwriting
+	</button>);
+};
 
-	constructor() {
-		super();
-		(this:any).onHandwritingRecognitionClick = this.onHandwritingRecognitionClick.bind(this);
-	}
-
-	onHandwritingRecognitionClick() {
-		this.props.onHandwritingRecognitionClick();
-	}
-
-	render() {
-		return (<button
-			onClick={this.onHandwritingRecognitionClick}
-		>Recognize Handwriting</button>);
-	}
-}
+export default InterpretationTrigger;
