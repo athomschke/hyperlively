@@ -1,5 +1,6 @@
 // @flow
-import React, { PureComponent } from 'react';
+/* eslint-disable react/prop-types */
+import * as React from 'react';
 
 import type { Stroke, RecognitionResult, TreeParameter, JSONPath } from 'src/client/app/types';
 import JsonPropertyChooser, { type JSONObject, type JsonPropertyChooserProps } from 'src/client/app/components/JsonPropertyChooser';
@@ -15,51 +16,48 @@ export type ParameterChooserProps = {
 	interpretations: RecognitionResult,
 }
 
-export default class ParameterChooser extends PureComponent<ParameterChooserProps> {
-	static defaultProps = {
-		onParameterChoose: () => {},
-		lastStrokes: [],
-		selectedStrokes: [],
-		interpretations: {},
-	}
+const defaultProps = (): ParameterChooserProps => ({
+	onParameterChoose: () => {},
+	lastStrokes: [],
+	selectedStrokes: [],
+	interpretations: {
+		texts: [],
+		shapes: [],
+	},
+	onCheckedPathsChange: () => {},
+	onCollapsedPathsChange: () => {},
+	checkedPaths: [],
+	collapsedPaths: [],
+});
 
-	constructor() {
-		super();
-		(this:any).handleParameterChoose = this.handleParameterChoose.bind(this);
-	}
+export default (props: ParameterChooserProps = defaultProps()) => {
+	const onParameterChoose = (parameters: Array<TreeParameter>) => {
+		props.onParameterChoose(parameters);
+	};
 
-	props: ParameterChooserProps
-
-	handleParameterChoose(parameters: Array<TreeParameter>) {
-		this.props.onParameterChoose(parameters);
-	}
-
-	parameterObject(): JSONObject {
+	const parameterObject = (): JSONObject => {
 		const rawData: JSONObject = {
-			...this.props.interpretations,
+			...props.interpretations,
 		};
-		const lastStrokes = this.props.lastStrokes;
+		const lastStrokes = props.lastStrokes;
 		if (lastStrokes.length > 0) {
 			rawData.lastStrokes = lastStrokes;
 		}
-		if (this.props.selectedStrokes.length > 0) {
-			rawData.selectedStrokes = this.props.selectedStrokes;
+		if (props.selectedStrokes.length > 0) {
+			rawData.selectedStrokes = props.selectedStrokes;
 		}
 		return rawData;
-	}
+	};
 
-	render() {
-		const jsonObject = (this.parameterObject():JSONObject);
-		const propChooserProps: JsonPropertyChooserProps = {
-			jsonTree: jsonObject,
-			checkedPaths: this.props.checkedPaths,
-			collapsedPaths: this.props.collapsedPaths,
-			onCheckedPathsChange: this.props.onCheckedPathsChange,
-			onCollapsedPathsChange: this.props.onCollapsedPathsChange,
-			onParameterChoose: this.handleParameterChoose,
-		};
+	const jsonTree = (parameterObject():JSONObject);
+	const propChooserProps: JsonPropertyChooserProps = {
+		jsonTree,
+		onParameterChoose,
+		checkedPaths: props.checkedPaths,
+		collapsedPaths: props.collapsedPaths,
+		onCheckedPathsChange: props.onCheckedPathsChange,
+		onCollapsedPathsChange: props.onCollapsedPathsChange,
+	};
 
-		return (
-			<JsonPropertyChooser {...propChooserProps} />);
-	}
-}
+	return (<JsonPropertyChooser {...propChooserProps} />);
+};

@@ -9,7 +9,7 @@ import type { Stroke } from 'src/client/app/types';
 
 import ParameterChooser, { type ParameterChooserProps } from './ParameterChooser';
 
-const dummyStrokes: Array<Stroke> = [{
+const dummyStrokes = (): Array<Stroke> => [{
 	points: [{
 		x: 0,
 		y: 0,
@@ -45,30 +45,31 @@ const defaultProps = (): ParameterChooserProps => ({
 	interpretations: { shapes: [], texts: [] },
 });
 
+const shallowWithProps = (props: ParameterChooserProps) => shallow(<ParameterChooser {...props} />);
+
 describe('Parameter Chooser Component', () => {
 	describe('Rendering', () => {
 		it('renders a json property chooser', () => {
-			const parameterChooser = shallow(<ParameterChooser {...defaultProps()} />);
+			const parameterChooser = shallowWithProps(defaultProps());
 			const jsonPropertyChooser = parameterChooser.find(JsonPropertyChooser);
-			expect(jsonPropertyChooser).to.exist();
+			expect(jsonPropertyChooser).to.have.length(1);
 		});
 	});
 
 	describe('Choosing a json property', () => {
 		it('is recognized in the parameter chooser', () => {
-			spy(ParameterChooser.prototype, 'handleParameterChoose');
-			const parameterChooser = shallow(<ParameterChooser {...defaultProps()} />);
+			const onParameterChoose = spy();
+			const parameterChooser = shallowWithProps({ ...defaultProps(), onParameterChoose });
 			const jsonPropertyChooser = parameterChooser.find(JsonPropertyChooser);
 			jsonPropertyChooser.props().onParameterChoose();
-			expect(ParameterChooser.prototype.handleParameterChoose.callCount).to.equal(1);
-			ParameterChooser.prototype.handleParameterChoose.restore();
+			expect(onParameterChoose.callCount).to.equal(1);
 		});
 	});
 
 	describe('Transforming the system state into a readable object or the json property chooser', () => {
 		it('handles no last strokes, no candidates, no selected strokes', () => {
-			const parameterChooser = shallow(<ParameterChooser {...defaultProps()} />);
-			const parameterObject = parameterChooser.instance().parameterObject();
+			const parameterChooser = shallowWithProps(defaultProps());
+			const parameterObject = parameterChooser.find('JsonPropertyChooser').prop('jsonTree');
 			expect(parameterObject).to.eql({
 				shapes: [],
 				texts: [],
@@ -76,37 +77,37 @@ describe('Parameter Chooser Component', () => {
 		});
 
 		it('handles no last strokes, no candidates, but selected strokes', () => {
-			const parameterChooser = shallow(<ParameterChooser
-				{...defaultProps()}
-				selectedStrokes={dummyStrokes}
-			/>);
-			const parameterObject = parameterChooser.instance().parameterObject();
+			const parameterChooser = shallowWithProps({
+				...defaultProps(),
+				selectedStrokes: dummyStrokes(),
+			});
+			const parameterObject = parameterChooser.find('JsonPropertyChooser').prop('jsonTree');
 			expect(parameterObject.selectedStrokes).to.have.length(1);
 		});
 
 		it('handles last strokes, no candidates, no selected strokes', () => {
-			const parameterChooser = shallow(<ParameterChooser
-				{...defaultProps()}
-				lastStrokes={dummyStrokes}
-			/>);
-			const parameterObject = parameterChooser.instance().parameterObject();
+			const parameterChooser = shallowWithProps({
+				...defaultProps(),
+				lastStrokes: dummyStrokes(),
+			});
+			const parameterObject = parameterChooser.find('JsonPropertyChooser').prop('jsonTree');
 			expect(parameterObject.lastStrokes).to.have.length(1);
 		});
 
 		it('handles last strokes, a text candidates, no selected strokes', () => {
-			const parameterChooser = shallow(<ParameterChooser
-				{...defaultProps()}
-				interpretations={{
+			const parameterChooser = shallowWithProps({
+				...defaultProps(),
+				lastStrokes: dummyStrokes(),
+				interpretations: {
 					shapes: [],
 					texts: [{
 						label: 'I',
 						normalizedScore: 0.95,
 						resemblanceScore: 0.7,
 					}],
-				}}
-				lastStrokes={dummyStrokes}
-			/>);
-			const parameterObject = parameterChooser.instance().parameterObject();
+				},
+			});
+			const parameterObject = parameterChooser.find('JsonPropertyChooser').prop('jsonTree');
 			expect(parameterObject.texts).to.have.length(1);
 		});
 	});
