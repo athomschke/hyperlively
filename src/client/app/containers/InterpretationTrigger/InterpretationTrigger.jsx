@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
 
-import type { InterpretationState, Sketch, TextCandidates, ShapeCandidates } from 'src/client/app/types';
+import type { RecognitionResult, Sketch, TextCandidates, ShapeCandidates } from 'src/client/app/types';
 
 export type InterpretationTriggerProps = {
 	onHandwritingRecognitionClick: (
@@ -9,7 +9,7 @@ export type InterpretationTriggerProps = {
 		texts: TextCandidates,
 		shapes: ShapeCandidates,
 	) => void;
-	interpretation: InterpretationState;
+	interpretation: RecognitionResult;
 	sketches: Array<Sketch>
 }
 
@@ -17,8 +17,8 @@ const InterpretationTrigger = (props: InterpretationTriggerProps) => {
 	const onHandwritingRecognitionClick = () => {
 		props.onHandwritingRecognitionClick(
 			props.sketches,
-			props.interpretation.interpretations.texts,
-			props.interpretation.interpretations.shapes,
+			props.interpretation.texts,
+			props.interpretation.shapes,
 		);
 	};
 

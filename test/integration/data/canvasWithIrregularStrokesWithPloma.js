@@ -7,11 +7,8 @@ const canvasWithIrregularStrokesWithPloma = (): HyperlivelyState => ({
 		specificActions: [],
 		sceneIndex: 0,
 		interpretation: {
-			showInterpreter: true,
-			interpretations: {
-				texts: [],
-				shapes: [],
-			},
+			texts: [],
+			shapes: [],
 		},
 		scenes: {
 			past: [],

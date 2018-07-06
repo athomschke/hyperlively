@@ -50,11 +50,8 @@ describe('Data', () => {
 			specificActions: [],
 			sceneIndex: 0,
 			interpretation: {
-				showInterpreter: true,
-				interpretations: {
-					shapes: [],
-					texts: [],
-				},
+				shapes: [],
+				texts: [],
 			},
 			scenes: {
 				past: [],
@@ -87,11 +84,8 @@ describe('Data', () => {
 			specificActions: [],
 			sceneIndex: 0,
 			interpretation: {
-				showInterpreter: true,
-				interpretations: {
-					shapes: [],
-					texts: [],
-				},
+				shapes: [],
+				texts: [],
 			},
 			scenes: {
 				past: [],
@@ -125,11 +119,8 @@ describe('Data', () => {
 			specificActions: [],
 			sceneIndex: 0,
 			interpretation: {
-				showInterpreter: true,
-				interpretations: {
-					shapes: [],
-					texts: [],
-				},
+				shapes: [],
+				texts: [],
 			},
 			scenes: {
 				past: [],

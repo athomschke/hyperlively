@@ -10,7 +10,7 @@ const mapStateToProps = (state: HyperlivelyState) => ({
 	collapsedPaths: state.ui.parameters.collapsedPath,
 	checkedPaths: state.ui.parameters.checkedPath,
 	parameters: state.ui.interpretations.parameters,
-	interpretations: state.data.interpretation.interpretations,
+	interpretation: state.data.interpretation,
 });
 
 const mapDispatchToProps = dispatch => ({

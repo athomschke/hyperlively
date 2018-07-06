@@ -16,7 +16,7 @@ export default function configureStore(emptyState: HyperlivelyState = initialHyp
 	const manipulator = (state: HyperlivelyState): HyperlivelyState => {
 		const stateToStore: HyperlivelyState = cloneDeep(state);
 		stateToStore.data.scenes.future = [];
-		stateToStore.data.interpretation.interpretations = {
+		stateToStore.data.interpretation = {
 			shapes: [],
 			texts: [],
 		};

@@ -7,11 +7,8 @@ const canvasWithTwoScenes = (): HyperlivelyState => ({
 		specificActions: [],
 		sceneIndex: 1,
 		interpretation: {
-			showInterpreter: true,
-			interpretations: {
-				texts: [],
-				shapes: [],
-			},
+			texts: [],
+			shapes: [],
 		},
 		scenes: {
 			past: [

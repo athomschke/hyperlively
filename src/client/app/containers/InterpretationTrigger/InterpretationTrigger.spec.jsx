@@ -9,11 +9,8 @@ import InterpretationTrigger, { type InterpretationTriggerProps } from './Interp
 const defaultProps = (): InterpretationTriggerProps => ({
 	onHandwritingRecognitionClick: () => {},
 	interpretation: {
-		showInterpreter: true,
-		interpretations: {
-			texts: [],
-			shapes: [],
-		},
+		texts: [],
+		shapes: [],
 	},
 	sketches: [],
 });

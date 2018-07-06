@@ -161,10 +161,6 @@ export type FunctionConfiguration = {
 	parameters: number,
 }
 
-export type InterpretationState = {
-	interpretations: RecognitionResult,
-}
-
 export type Bounds = {
 	x: number,
 	y: number,
@@ -202,7 +198,7 @@ export type UiState = {
 
 export type Data = {
 	sceneIndex: number,
-	interpretation: InterpretationState,
+	interpretation: RecognitionResult,
 	specificActions: Array<ActionMapping>,
 	scenes: Undoable<Scenes>,
 }
