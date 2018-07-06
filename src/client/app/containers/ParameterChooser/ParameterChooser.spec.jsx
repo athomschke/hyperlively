@@ -7,7 +7,7 @@ import { spy } from 'sinon';
 import JsonPropertyChooser from 'src/client/app/components/JsonPropertyChooser';
 import type { Stroke } from 'src/client/app/types';
 
-import ParameterChooser from './ParameterChooser';
+import ParameterChooser, { type ParameterChooserProps } from './ParameterChooser';
 
 const dummyStrokes: Array<Stroke> = [{
 	points: [{
@@ -34,17 +34,21 @@ const dummyStrokes: Array<Stroke> = [{
 	},
 }];
 
-const dummyProps = {
+const defaultProps = (): ParameterChooserProps => ({
 	onParameterChoose: () => undefined,
+	onCheckedPathsChange: () => undefined,
+	onCollapsedPathsChange: () => undefined,
 	lastStrokes: [],
 	selectedStrokes: [],
+	checkedPaths: [],
+	collapsedPaths: [],
 	interpretations: { shapes: [], texts: [] },
-};
+});
 
 describe('Parameter Chooser Component', () => {
 	describe('Rendering', () => {
 		it('renders a json property chooser', () => {
-			const parameterChooser = shallow(<ParameterChooser {...dummyProps} />);
+			const parameterChooser = shallow(<ParameterChooser {...defaultProps()} />);
 			const jsonPropertyChooser = parameterChooser.find(JsonPropertyChooser);
 			expect(jsonPropertyChooser).to.exist();
 		});
@@ -53,7 +57,7 @@ describe('Parameter Chooser Component', () => {
 	describe('Choosing a json property', () => {
 		it('is recognized in the parameter chooser', () => {
 			spy(ParameterChooser.prototype, 'handleParameterChoose');
-			const parameterChooser = shallow(<ParameterChooser {...dummyProps} />);
+			const parameterChooser = shallow(<ParameterChooser {...defaultProps()} />);
 			const jsonPropertyChooser = parameterChooser.find(JsonPropertyChooser);
 			jsonPropertyChooser.props().onParameterChoose();
 			expect(ParameterChooser.prototype.handleParameterChoose.callCount).to.equal(1);
@@ -63,7 +67,7 @@ describe('Parameter Chooser Component', () => {
 
 	describe('Transforming the system state into a readable object or the json property chooser', () => {
 		it('handles no last strokes, no candidates, no selected strokes', () => {
-			const parameterChooser = shallow(<ParameterChooser {...dummyProps} />);
+			const parameterChooser = shallow(<ParameterChooser {...defaultProps()} />);
 			const parameterObject = parameterChooser.instance().parameterObject();
 			expect(parameterObject).to.eql({
 				shapes: [],
@@ -73,7 +77,7 @@ describe('Parameter Chooser Component', () => {
 
 		it('handles no last strokes, no candidates, but selected strokes', () => {
 			const parameterChooser = shallow(<ParameterChooser
-				{...dummyProps}
+				{...defaultProps()}
 				selectedStrokes={dummyStrokes}
 			/>);
 			const parameterObject = parameterChooser.instance().parameterObject();
@@ -82,7 +86,7 @@ describe('Parameter Chooser Component', () => {
 
 		it('handles last strokes, no candidates, no selected strokes', () => {
 			const parameterChooser = shallow(<ParameterChooser
-				{...dummyProps}
+				{...defaultProps()}
 				lastStrokes={dummyStrokes}
 			/>);
 			const parameterObject = parameterChooser.instance().parameterObject();
@@ -91,6 +95,7 @@ describe('Parameter Chooser Component', () => {
 
 		it('handles last strokes, a text candidates, no selected strokes', () => {
 			const parameterChooser = shallow(<ParameterChooser
+				{...defaultProps()}
 				interpretations={{
 					shapes: [],
 					texts: [{
