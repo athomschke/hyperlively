@@ -30,6 +30,7 @@ module.exports = function (config) {
 			'karma-sourcemap-loader',
 			'karma-webpack',
 			'karma-mocha-reporter',
+			'karma-verbose-reporter',
 			'karma-sinon',
 			'karma-sinon-chai',
 		],
@@ -37,7 +38,7 @@ module.exports = function (config) {
 		preprocessors: {
 			'runner.js': ['webpack'],
 		},
-		reporters: ['progress'],
+		reporters: ['progress', 'verbose'],
 		singleRun: false,
 		webpack: webpackConfig,
 		webpackServer: {

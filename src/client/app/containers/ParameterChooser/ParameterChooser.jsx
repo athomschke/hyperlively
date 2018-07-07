@@ -3,7 +3,7 @@
 import * as React from 'react';
 
 import type { Stroke, RecognitionResult, TreeParameter, JSONPath } from 'src/client/app/types';
-import JsonPropertyChooser, { type JSONObject, type JsonPropertyChooserProps } from 'src/client/app/components/JsonPropertyChooser';
+import JsonPropertyChooser, { type JSONObject } from 'src/client/app/components/JsonPropertyChooser';
 
 export type ParameterChooserProps = {
 	onParameterChoose: (parameters: Array<TreeParameter>) => void,
@@ -13,14 +13,14 @@ export type ParameterChooserProps = {
 	collapsedPaths: JSONPath,
 	lastStrokes: Array<Stroke>,
 	selectedStrokes: Array<Stroke>,
-	interpretations: RecognitionResult,
+	interpretation: RecognitionResult,
 }
 
 const defaultProps = (): ParameterChooserProps => ({
 	onParameterChoose: () => {},
 	lastStrokes: [],
 	selectedStrokes: [],
-	interpretations: {
+	interpretation: {
 		texts: [],
 		shapes: [],
 	},
@@ -31,14 +31,9 @@ const defaultProps = (): ParameterChooserProps => ({
 });
 
 export default (props: ParameterChooserProps = defaultProps()) => {
-	const onParameterChoose = (parameters: Array<TreeParameter>) => {
-		props.onParameterChoose(parameters);
-	};
-
+	const { interpretation } = props;
 	const parameterObject = (): JSONObject => {
-		const rawData: JSONObject = {
-			...props.interpretations,
-		};
+		const rawData: JSONObject = { interpretation };
 		const lastStrokes = props.lastStrokes;
 		if (lastStrokes.length > 0) {
 			rawData.lastStrokes = lastStrokes;
@@ -50,14 +45,35 @@ export default (props: ParameterChooserProps = defaultProps()) => {
 	};
 
 	const jsonTree = (parameterObject():JSONObject);
-	const propChooserProps: JsonPropertyChooserProps = {
-		jsonTree,
-		onParameterChoose,
-		checkedPaths: props.checkedPaths,
-		collapsedPaths: props.collapsedPaths,
-		onCheckedPathsChange: props.onCheckedPathsChange,
-		onCollapsedPathsChange: props.onCollapsedPathsChange,
+
+	const renderPrefixedChooser = (prefix: string) => {
+		const combinePaths = (upperPaths, lowerPaths) => [
+			...upperPaths.filter(path => path[0] !== prefix),
+			...lowerPaths.map(path => [prefix, ...path]),
+		];
+		const filterPaths = paths => paths.filter(path => path[0] === prefix).map(ea => ea.slice(1));
+
+		return (<JsonPropertyChooser
+			jsonTree={jsonTree[prefix]}
+			checkedPaths={filterPaths(props.checkedPaths)}
+			collapsedPaths={filterPaths(props.collapsedPaths)}
+			onParameterChoose={props.onParameterChoose}
+			onCheckedPathsChange={
+				(paths: JSONPath) => {
+					props.onCheckedPathsChange(combinePaths(props.checkedPaths, paths));
+				}
+			}
+			onCollapsedPathsChange={
+				(paths: JSONPath) => {
+					props.onCollapsedPathsChange(combinePaths(props.collapsedPaths, paths));
+				}
+			}
+		/>);
 	};
 
-	return (<JsonPropertyChooser {...propChooserProps} />);
+	return (<div style={{ display: 'inline' }}>
+		{renderPrefixedChooser('lastStrokes')}
+		{renderPrefixedChooser('interpretation')}
+		{renderPrefixedChooser('selectedStrokes')}
+	</div>);
 };

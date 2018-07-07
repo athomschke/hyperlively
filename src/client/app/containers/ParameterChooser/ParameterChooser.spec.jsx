@@ -1,15 +1,15 @@
 // @flow
 import { expect } from 'chai';
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, type ShallowWrapper } from 'enzyme';
 import { spy } from 'sinon';
 
 import JsonPropertyChooser from 'src/client/app/components/JsonPropertyChooser';
-import type { Stroke } from 'src/client/app/types';
+import type { Stroke, RecognitionResult, TextCandidate } from 'src/client/app/types';
 
 import ParameterChooser, { type ParameterChooserProps } from './ParameterChooser';
 
-const dummyStrokes = (): Array<Stroke> => [{
+const dummyStroke = (): Stroke => ({
 	points: [{
 		x: 0,
 		y: 0,
@@ -32,7 +32,7 @@ const dummyStrokes = (): Array<Stroke> => [{
 		x: 0,
 		y: 0,
 	},
-}];
+});
 
 const defaultProps = (): ParameterChooserProps => ({
 	onParameterChoose: () => undefined,
@@ -42,73 +42,203 @@ const defaultProps = (): ParameterChooserProps => ({
 	selectedStrokes: [],
 	checkedPaths: [],
 	collapsedPaths: [],
-	interpretations: { shapes: [], texts: [] },
+	interpretation: { shapes: [], texts: [] },
 });
 
 const shallowWithProps = (props: ParameterChooserProps) => shallow(<ParameterChooser {...props} />);
+const lastStrokesChooser = (parameterChooser: ShallowWrapper, lastStrokes: Array<Stroke>) =>
+	parameterChooser.find(JsonPropertyChooser).findWhere(n => n.prop('jsonTree') === lastStrokes);
 
 describe('Parameter Chooser Component', () => {
 	describe('Rendering', () => {
-		it('renders a json property chooser', () => {
+		it('renders three json property choosers', () => {
 			const parameterChooser = shallowWithProps(defaultProps());
 			const jsonPropertyChooser = parameterChooser.find(JsonPropertyChooser);
-			expect(jsonPropertyChooser).to.have.length(1);
+			expect(jsonPropertyChooser).to.have.length(3);
 		});
-	});
 
-	describe('Choosing a json property', () => {
-		it('is recognized in the parameter chooser', () => {
-			const onParameterChoose = spy();
-			const parameterChooser = shallowWithProps({ ...defaultProps(), onParameterChoose });
-			const jsonPropertyChooser = parameterChooser.find(JsonPropertyChooser);
-			jsonPropertyChooser.props().onParameterChoose();
-			expect(onParameterChoose.callCount).to.equal(1);
+		it('renders a last stroke chooser', () => {
+			const lastStrokes = [dummyStroke()];
+			const parameterChooser = shallowWithProps({ ...defaultProps(), lastStrokes });
+
+			expect(lastStrokesChooser(parameterChooser, lastStrokes).length).to.equal(1);
 		});
-	});
 
-	describe('Transforming the system state into a readable object or the json property chooser', () => {
-		it('handles no last strokes, no candidates, no selected strokes', () => {
-			const parameterChooser = shallowWithProps(defaultProps());
-			const parameterObject = parameterChooser.find('JsonPropertyChooser').prop('jsonTree');
-			expect(parameterObject).to.eql({
+		it('renders a selected stroke chooser', () => {
+			const selectedStrokes = [dummyStroke()];
+			const parameterChooser = shallowWithProps({ ...defaultProps(), selectedStrokes });
+
+			const selectedStrokesChooser = parameterChooser
+				.find(JsonPropertyChooser)
+				.findWhere(n => n.prop('jsonTree') === selectedStrokes);
+
+			expect(selectedStrokesChooser.length).to.equal(1);
+		});
+
+		it('renders an interpretation chooser', () => {
+			const text: TextCandidate = {
+				label: 'a',
+				normalizedScore: 1,
+				resemblanceScore: 1,
+			};
+			const interpretation: RecognitionResult = {
+				texts: [text],
 				shapes: [],
-				texts: [],
-			});
+			};
+			const parameterChooser = shallowWithProps({ ...defaultProps(), interpretation });
+
+			const interpretationsChooser = parameterChooser
+				.find(JsonPropertyChooser)
+				.findWhere(n => n.prop('jsonTree') === interpretation);
+
+			expect(interpretationsChooser.length).to.equal(1);
+		});
+	});
+
+	describe('Drawing a stroke', () => {
+		it('passes only the last strokes to JsonPropertyChooser', () => {
+			const lastStrokes = [dummyStroke()];
+			const parameterChooser = shallowWithProps({ ...defaultProps(), lastStrokes });
+
+			expect(lastStrokesChooser(parameterChooser, lastStrokes).prop('jsonTree')).to.deep.equal(lastStrokes);
 		});
 
-		it('handles no last strokes, no candidates, but selected strokes', () => {
-			const parameterChooser = shallowWithProps({
-				...defaultProps(),
-				selectedStrokes: dummyStrokes(),
-			});
-			const parameterObject = parameterChooser.find('JsonPropertyChooser').prop('jsonTree');
-			expect(parameterObject.selectedStrokes).to.have.length(1);
+		it('passes only the last strokes checked paths to JsonPropertyChooser', () => {
+			const lastStrokes = [dummyStroke()];
+			const checkedPaths = [
+				['lastStrokes', '1'],
+				['selectedStrokes', '2'],
+			];
+			const parameterChooser = shallowWithProps({ ...defaultProps(), lastStrokes, checkedPaths });
+
+			expect(lastStrokesChooser(parameterChooser, lastStrokes).prop('checkedPaths')).to.deep.equal([['1']]);
 		});
 
-		it('handles last strokes, no candidates, no selected strokes', () => {
+		it('passes only the last strokes collapsed paths to JsonPropertyChooser', () => {
+			const lastStrokes = [dummyStroke()];
+			const collapsedPaths = [
+				['lastStrokes', '1'],
+				['selectedStrokes', '2'],
+			];
+			const parameterChooser = shallowWithProps({ ...defaultProps(), lastStrokes, collapsedPaths });
+
+			expect(lastStrokesChooser(parameterChooser, lastStrokes).prop('collapsedPaths')).deep.equal([['1']]);
+		});
+	});
+
+	describe('Choosing a property in last stroke', () => {
+		it('triggers onParameterChoose with the same values', () => {
+			const lastStrokes = [dummyStroke()];
+			const onParameterChoose = spy();
 			const parameterChooser = shallowWithProps({
 				...defaultProps(),
-				lastStrokes: dummyStrokes(),
+				lastStrokes,
+				onParameterChoose,
 			});
-			const parameterObject = parameterChooser.find('JsonPropertyChooser').prop('jsonTree');
-			expect(parameterObject.lastStrokes).to.have.length(1);
+
+			const chooser = lastStrokesChooser(parameterChooser, lastStrokes);
+			const values = [1, 2, 3];
+			chooser.prop('onParameterChoose')(values);
+
+			expect(onParameterChoose.args[0][0]).to.deep.equal(values);
 		});
 
-		it('handles last strokes, a text candidates, no selected strokes', () => {
+		it('adds a path in lastStrokes when not checked before', () => {
+			const lastStrokes = [dummyStroke()];
+			const onCheckedPathsChange = spy();
+			const jsonTree = {
+				selectedStrokes: [dummyStroke()],
+				lastStrokes: [dummyStroke()],
+			};
+			const checkedPaths = [['selectedStrokes', '1']];
 			const parameterChooser = shallowWithProps({
 				...defaultProps(),
-				lastStrokes: dummyStrokes(),
-				interpretations: {
-					shapes: [],
-					texts: [{
-						label: 'I',
-						normalizedScore: 0.95,
-						resemblanceScore: 0.7,
-					}],
-				},
+				jsonTree,
+				lastStrokes,
+				checkedPaths,
+				onCheckedPathsChange,
 			});
-			const parameterObject = parameterChooser.find('JsonPropertyChooser').prop('jsonTree');
-			expect(parameterObject.texts).to.have.length(1);
+			const chooser = lastStrokesChooser(parameterChooser, lastStrokes);
+			chooser.prop('onCheckedPathsChange')([['1']]);
+
+			expect(onCheckedPathsChange.args[0][0]).to.deep.equal([
+				['selectedStrokes', '1'],
+				['lastStrokes', '1'],
+			]);
+		});
+
+		it('removes a path in lastStrokes when checked before', () => {
+			const lastStrokes = [dummyStroke()];
+			const onCheckedPathsChange = spy();
+			const jsonTree = {
+				selectedStrokes: [dummyStroke()],
+				lastStrokes: [dummyStroke()],
+			};
+			const checkedPaths = [
+				['selectedStrokes', '1'],
+				['lastStrokes', '1'],
+			];
+			const parameterChooser = shallowWithProps({
+				...defaultProps(),
+				jsonTree,
+				lastStrokes,
+				checkedPaths,
+				onCheckedPathsChange,
+			});
+			const chooser = lastStrokesChooser(parameterChooser, lastStrokes);
+			chooser.prop('onCheckedPathsChange')([]);
+
+			expect(onCheckedPathsChange.args[0][0]).to.deep.equal([['selectedStrokes', '1']]);
+		});
+	});
+
+	describe('Toggling a path in last strokes', () => {
+		it('adds a path in lastStrokes when not collapsed before', () => {
+			const lastStrokes = [dummyStroke()];
+			const onCollapsedPathsChange = spy();
+			const jsonTree = {
+				selectedStrokes: [dummyStroke()],
+				lastStrokes: [dummyStroke()],
+			};
+			const collapsedPaths = [['selectedStrokes', '1']];
+			const parameterChooser = shallowWithProps({
+				...defaultProps(),
+				jsonTree,
+				lastStrokes,
+				collapsedPaths,
+				onCollapsedPathsChange,
+			});
+			const chooser = lastStrokesChooser(parameterChooser, lastStrokes);
+			chooser.prop('onCollapsedPathsChange')([['1']]);
+
+			expect(onCollapsedPathsChange.args[0][0]).to.deep.equal([
+				['selectedStrokes', '1'],
+				['lastStrokes', '1'],
+			]);
+		});
+
+		it('removes a path in lastStrokes when collapsed before', () => {
+			const lastStrokes = [dummyStroke()];
+			const onCollapsedPathsChange = spy();
+			const jsonTree = {
+				selectedStrokes: [dummyStroke()],
+				lastStrokes: [dummyStroke()],
+			};
+			const collapsedPaths = [
+				['selectedStrokes', '1'],
+				['lastStrokes', '1'],
+			];
+			const parameterChooser = shallowWithProps({
+				...defaultProps(),
+				jsonTree,
+				lastStrokes,
+				collapsedPaths,
+				onCollapsedPathsChange,
+			});
+			const chooser = lastStrokesChooser(parameterChooser, lastStrokes);
+			chooser.prop('onCollapsedPathsChange')([]);
+
+			expect(onCollapsedPathsChange.args[0][0]).to.deep.equal([['selectedStrokes', '1']]);
 		});
 	});
 });
