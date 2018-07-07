@@ -1,7 +1,7 @@
 // @flow
 import { expect } from 'chai';
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
+import { mount } from 'enzyme';
 
 import Fullscreen from '.';
 
@@ -30,7 +30,7 @@ describe('Fullscreen', () => {
 		beforeEach(() => {
 			restorableWidth = window.innerWidth;
 			restorableHeight = window.innerHeight;
-			fullscreenComponent = TestUtils.renderIntoDocument(<MockedComponent />);
+			fullscreenComponent = mount(<MockedComponent />);
 			oldRemoveEventListener = window.removeEventListener;
 		});
 
@@ -41,16 +41,16 @@ describe('Fullscreen', () => {
 		});
 
 		it('to window size when created', () => {
-			expect(fullscreenComponent.state.width).to.equal(window.innerWidth);
-			expect(fullscreenComponent.state.height).to.equal(window.innerHeight);
+			expect(fullscreenComponent.state('width')).to.equal(window.innerWidth);
+			expect(fullscreenComponent.state('height')).to.equal(window.innerHeight);
 		});
 
 		it('with the window', () => {
 			window.innerWidth = 100;
 			window.innerHeight = 100;
-			fullscreenComponent.handleResize();
-			expect(fullscreenComponent.state.width).to.equal(100);
-			expect(fullscreenComponent.state.height).to.equal(100);
+			fullscreenComponent.instance().handleResize();
+			expect(fullscreenComponent.state('width')).to.equal(100);
+			expect(fullscreenComponent.state('height')).to.equal(100);
 		});
 
 		it('not any more when removed', () => {
@@ -58,7 +58,7 @@ describe('Fullscreen', () => {
 			window.removeEventListener = (listener) => {
 				wasResizeHandlerRemoved = wasResizeHandlerRemoved || listener === 'resize';
 			};
-			fullscreenComponent.componentWillUnmount();
+			fullscreenComponent.instance().componentWillUnmount();
 			expect(wasResizeHandlerRemoved).to.be.true();
 		});
 	});

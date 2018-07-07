@@ -1,53 +1,27 @@
 // @flow
 import { expect } from 'chai';
-import { findDOMNode } from 'react-dom';
-import TestUtils from 'react-addons-test-utils';
+import { shallow } from 'enzyme';
 import React from 'react';
 
-import AppConfiguration from './AppConfiguration';
+import AppConfiguration, { type AppConfigurationProps } from './AppConfiguration';
+
+const renderComponentWithProps = (props: AppConfigurationProps) =>
+	shallow(<AppConfiguration {...props} />);
 
 describe('App Configuration', () => {
 	it('renders all its children', () => {
 		const children = () => [1, 2, 3].map(index => <div key={`${index}`} />);
-		const appConfigurationJSX = (<AppConfiguration>{children()}</AppConfiguration>);
-		const appConfiguration = TestUtils.renderIntoDocument(appConfigurationJSX);
-		const domNode = findDOMNode(appConfiguration);
-		if (!(domNode instanceof HTMLElement)) {
-			throw new Error('need an app configuration rendered into DOM');
-		}
-		expect(domNode.childNodes).to.have.length(3);
-	});
-
-	it('is active by default', () => {
-		const appConfiguration = TestUtils.renderIntoDocument(<AppConfiguration />);
-		const domNode = findDOMNode(appConfiguration);
-		if (!(domNode instanceof HTMLElement)) {
-			throw new Error('need an app configuration rendered into DOM');
-		}
-		expect(domNode.style.getPropertyValue('pointer-events')).to.equal('auto');
-	});
-
-	it('can be deactivated', () => {
-		const appConfiguration = TestUtils.renderIntoDocument(
-			<AppConfiguration
-				active={false}
-			/>);
-		const domNode = findDOMNode(appConfiguration);
-		if (!(domNode instanceof HTMLElement)) {
-			throw new Error('need an app configuration rendered into DOM');
-		}
-		expect(domNode.style.getPropertyValue('pointer-events')).to.equal('none');
+		const appConfiguration = renderComponentWithProps({ children: children(), active: false });
+		expect(appConfiguration.getNode().props.children).to.have.length(3);
 	});
 
 	it('can be activated', () => {
-		const appConfiguration = TestUtils.renderIntoDocument(
-			<AppConfiguration
-				active
-			/>);
-		const domNode = findDOMNode(appConfiguration);
-		if (!(domNode instanceof HTMLElement)) {
-			throw new Error('need an app configuration rendered into DOM');
-		}
-		expect(domNode.style.getPropertyValue('pointer-events')).to.equal('auto');
+		const appConfiguration = renderComponentWithProps({ children: null, active: true });
+		expect(appConfiguration.getNode().props.style.pointerEvents).to.equal('auto');
+	});
+
+	it('can be deactivated', () => {
+		const appConfiguration = renderComponentWithProps({ children: null, active: false });
+		expect(appConfiguration.getNode().props.style.pointerEvents).to.equal('none');
 	});
 });

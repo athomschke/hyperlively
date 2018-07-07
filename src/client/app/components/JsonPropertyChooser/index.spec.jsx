@@ -221,4 +221,14 @@ describe('JsonProperty Chooser', () => {
 			expect(onCheckedPathsChange.args[0][0]).to.deep.equal([]);
 		});
 	});
+
+	describe('positioning the JsonPropertyChooser', () => {
+		it('sets it to the first strokes center', () => {
+			const jsonTree = {
+				center: { x: 12, y: 12 },
+			};
+			const parameterChooser = renderWithProps({ ...defaultProps(), jsonTree });
+			expect(parameterChooser.find('div').getNode().props.style.position).to.equal('absolute');
+		});
+	});
 });

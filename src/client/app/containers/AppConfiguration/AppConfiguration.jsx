@@ -3,7 +3,7 @@ import React, { type ChildrenArray, PureComponent } from 'react';
 
 import style from './AppConfiguration.scss';
 
-type AppConfigurationProps = {
+export type AppConfigurationProps = {
 	active: boolean;
 	children: ChildrenArray<any>;
 }

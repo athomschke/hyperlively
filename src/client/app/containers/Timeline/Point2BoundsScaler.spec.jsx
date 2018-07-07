@@ -1,34 +1,33 @@
 // @flow
 import { expect } from 'chai';
-import { stub } from 'sinon';
+import { shallow } from 'enzyme';
 import * as React from 'react';
-import TestUtils from 'react-addons-test-utils';
 
-import Point2BoundsScaler, { type Point2BoundsScalerProps, type WrappedProps } from './Point2BoundsScaler';
+import Point2BoundsScaler, { type Point2BoundsScalerProps } from './Point2BoundsScaler';
+
+const Wrapped = () => <div />;
+const WrappedWithPoint2BoundsScaler = Point2BoundsScaler(Wrapped);
+
+const defaultProps = () => ({
+	strokes: [],
+	htmlWidth: 100,
+	previewHeight: 150,
+	max: 2,
+});
+
+const renderWithProps = (props: Point2BoundsScalerProps<{}>) =>
+	shallow(<WrappedWithPoint2BoundsScaler {...props} />);
 
 describe('Point2BoundsScaler', () => {
-	let Wrapped: (props: WrappedProps<{}>) => void;
-
-	beforeEach(() => {
-		Wrapped = stub();
-		Wrapped.returns(<div />);
-		const WrappedWithPoint2BoundsScaler: React.ComponentType<Point2BoundsScalerProps<{}>> =
-		Point2BoundsScaler(Wrapped);
-		TestUtils.renderIntoDocument(<WrappedWithPoint2BoundsScaler
-			strokes={[]}
-			htmlWidth={100}
-			previewHeight={150}
-			max={2}
-		/>);
-	});
-
 	describe('using the scaler to render', () => {
 		it('shows a border around the wrapped component', () => {
-			expect(Wrapped.args[0][0].showBorder).to.be.true();
+			const component = renderWithProps(defaultProps());
+			expect(component.find(Wrapped)).to.have.length(1);
 		});
 
 		it('sets wrapped component to finished', () => {
-			expect(Wrapped.args[0][0].finished).to.be.true();
+			const component = renderWithProps(defaultProps());
+			expect(component.find(Wrapped).prop('finished')).to.be.true();
 		});
 	});
 });

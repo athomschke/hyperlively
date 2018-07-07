@@ -6,18 +6,18 @@ import { MIN_THRESHOLD, MAX_THRESHOLD } from 'src/client/app/constants/drawing';
 
 import style from './Threshold.scss';
 
-type Props = {
+export type ThresholdProps = {
 	threshold: number;
 	onChange: (_newThreshold: number) => void;
 };
 
-export default class Threshold extends PureComponent<Props> {
+export default class Threshold extends PureComponent<ThresholdProps> {
 	static defaultProps = {
 		threshold: 0,
 		onChange: () => {},
 	};
 
-	props: Props;
+	props: ThresholdProps;
 
 	render() {
 		return (<Slider

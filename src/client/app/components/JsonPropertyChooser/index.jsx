@@ -98,17 +98,28 @@ export default class JsonPropertyChooser extends PureComponent<JsonPropertyChoos
 	props: JsonPropertyChooserProps
 
 	render() {
-		return (<TreeMenu
-			data={this.getFormattedData()}
-			collapsible
-			expandIconClass="expand"
-			collapseIconClass="collapse"
-			onTreeNodeCheckChange={(path) => {
-				this.onTreeNodeCheckChange(path);
-			}}
-			onTreeNodeCollapseChange={(path) => {
-				this.onTreeNodeCollapseChange(path);
-			}}
-		/>);
+		const data = this.getFormattedData();
+		const style: any = {};
+		const { jsonTree } = this.props;
+		if (jsonTree.center || (jsonTree.filter && jsonTree.filter(datum => datum.center).length > 0)) {
+			style.position = 'absolute';
+			// const center = (jsonTree: any).center || (jsonTree: Array<any>)[0].center;
+			// style.top = center.y;
+			// style.left = center.x;
+		}
+		return (<div style={style}>
+			<TreeMenu
+				data={data}
+				collapsible
+				expandIconClass="expand"
+				collapseIconClass="collapse"
+				onTreeNodeCheckChange={(path) => {
+					this.onTreeNodeCheckChange(path);
+				}}
+				onTreeNodeCollapseChange={(path) => {
+					this.onTreeNodeCollapseChange(path);
+				}}
+			/>
+		</div>);
 	}
 }

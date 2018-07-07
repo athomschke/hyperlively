@@ -1,6 +1,5 @@
 // @flow
 import { expect } from 'chai';
-import TestUtils from 'react-addons-test-utils';
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import { spy, stub } from 'sinon';
@@ -31,9 +30,6 @@ const defaultProps = (): BoundsMutationObserverProps<{}> => ({
 
 const MockedComponent = BoundsMutationObserver(MockedSubComponent);
 
-const renderComponentWithBoundsAndCallback = (options: BoundsMutationObserverProps<{}>) =>
-	TestUtils.renderIntoDocument(<MockedComponent {...options} />);
-
 const shallowComponentsWithProps = (props: BoundsMutationObserverProps<{}>) =>
 	shallow(<MockedComponent {...props} />);
 const mountComponentsWithProps = (props: BoundsMutationObserverProps<{}>) =>
@@ -49,18 +45,18 @@ describe('Bounds mutation observer', () => {
 				bounds: { x: 1, y: 0, height: 100, width: 100 },
 				observeMutations: false,
 			};
-			mockedComponent = renderComponentWithBoundsAndCallback(options);
-			spy(mockedComponent, 'boundsUpdatedWith');
+			mockedComponent = mountComponentsWithProps(options);
+			spy(mockedComponent.instance(), 'boundsUpdatedWith');
 		});
 
 		afterEach(() => {
-			mockedComponent.boundsUpdatedWith.restore();
+			mockedComponent.instance().boundsUpdatedWith.restore();
 		});
 
 		it('recognizes nothing if bounds mutation observation is disabled', (done) => {
-			mockedComponent.state.observedNode.style.setProperty('left', '2px');
+			mockedComponent.state('observedNode').style.setProperty('left', '2px');
 			setTimeout(() => {
-				expect(mockedComponent.boundsUpdatedWith.callCount).to.equal(0);
+				expect(mockedComponent.instance().boundsUpdatedWith.callCount).to.equal(0);
 				done();
 			});
 		});
@@ -74,70 +70,70 @@ describe('Bounds mutation observer', () => {
 				...defaultProps(),
 				bounds: { x: 1, y: 0, height: 100, width: 100 },
 			};
-			mockedComponent = renderComponentWithBoundsAndCallback(options);
-			spy(mockedComponent, 'boundsUpdatedWith');
+			mockedComponent = mountComponentsWithProps(options);
+			spy(mockedComponent.instance(), 'boundsUpdatedWith');
 		});
 
 		afterEach(() => {
-			mockedComponent.boundsUpdatedWith.restore();
+			mockedComponent.instance().boundsUpdatedWith.restore();
 		});
 
 		it('horizontally calls the callback with enough information with a position when one is given', (done) => {
-			mockedComponent.state.observedNode.style.setProperty('left', '2px');
+			mockedComponent.state('observedNode').style.setProperty('left', '2px');
 			setTimeout(() => {
-				expect(mockedComponent.boundsUpdatedWith.args[0]).to.have.length(4);
+				expect(mockedComponent.instance().boundsUpdatedWith.args[0]).to.have.length(4);
 				done();
 			});
 		});
 
 		it('horizontally calls the callback with a position when one is given', (done) => {
-			mockedComponent.state.observedNode.style.setProperty('left', '2px');
+			mockedComponent.state('observedNode').style.setProperty('left', '2px');
 			setTimeout(() => {
-				expect(mockedComponent.boundsUpdatedWith.callCount).to.equal(1);
+				expect(mockedComponent.instance().boundsUpdatedWith.callCount).to.equal(1);
 				done();
 			});
 		});
 
 		it('vertically calls the callback with a position when one is given', (done) => {
-			mockedComponent.state.observedNode.style.setProperty('top', '2px');
+			mockedComponent.state('observedNode').style.setProperty('top', '2px');
 			setTimeout(() => {
-				expect(mockedComponent.boundsUpdatedWith.callCount).to.equal(1);
+				expect(mockedComponent.instance().boundsUpdatedWith.callCount).to.equal(1);
 				done();
 			});
 		});
 
 		it('changes nothing if no callback is given', (done) => {
-			mockedComponent.state.observedNode.style.setProperty('left', '2px');
+			mockedComponent.state('observedNode').style.setProperty('left', '2px');
 			setTimeout(() => {
-				expect(mockedComponent.props.bounds.x).to.equal(1);
-				expect(mockedComponent.props.bounds.y).to.equal(0);
+				expect(mockedComponent.prop('bounds').x).to.equal(1);
+				expect(mockedComponent.prop('bounds').y).to.equal(0);
 				done();
 			});
 		});
 
 		it('is not recognized when component is not in dom anymore', (done) => {
-			mockedComponent.componentWillUnmount();
-			mockedComponent.state.observedNode.style.setProperty('top', '2px');
+			mockedComponent.instance().componentWillUnmount();
+			mockedComponent.state('observedNode').style.setProperty('top', '2px');
 			setTimeout(() => {
-				expect(mockedComponent.boundsUpdatedWith.callCount).to.equal(0);
+				expect(mockedComponent.instance().boundsUpdatedWith.callCount).to.equal(0);
 				done();
 			});
 		});
 
 		it('is not recognized when no observer exists', (done) => {
-			mockedComponent.ignore();
-			mockedComponent.componentWillUnmount();
-			mockedComponent.state.observedNode.style.setProperty('top', '2px');
+			mockedComponent.instance().ignore();
+			mockedComponent.instance().componentWillUnmount();
+			mockedComponent.state('observedNode').style.setProperty('top', '2px');
 			setTimeout(() => {
-				expect(mockedComponent.boundsUpdatedWith.callCount).to.equal(0);
+				expect(mockedComponent.instance().boundsUpdatedWith.callCount).to.equal(0);
 				done();
 			});
 		});
 
 		it('is not recognized when component is not really moved', (done) => {
-			mockedComponent.state.observedNode.style.setProperty('left', '1px');
+			mockedComponent.state('observedNode').style.setProperty('left', '1px');
 			setTimeout(() => {
-				expect(mockedComponent.boundsUpdatedWith.callCount).to.equal(0);
+				expect(mockedComponent.instance().boundsUpdatedWith.callCount).to.equal(0);
 				done();
 			});
 		});
@@ -151,18 +147,18 @@ describe('Bounds mutation observer', () => {
 				...defaultProps(),
 				bounds: { x: 1, y: 0, width: 100, height: 100 },
 			};
-			mockedComponent = renderComponentWithBoundsAndCallback(options);
-			spy(mockedComponent, 'boundsUpdatedWith');
+			mockedComponent = mountComponentsWithProps(options);
+			spy(mockedComponent.instance(), 'boundsUpdatedWith');
 		});
 
 		afterEach(() => {
-			mockedComponent.boundsUpdatedWith.restore();
+			mockedComponent.instance().boundsUpdatedWith.restore();
 		});
 
 		it('triggers no callback', (done) => {
-			mockedComponent.state.observedNode.setAttribute('width', '100px');
+			mockedComponent.state('observedNode').setAttribute('width', '100px');
 			setTimeout(() => {
-				expect(mockedComponent.boundsUpdatedWith.callCount).to.equal(0);
+				expect(mockedComponent.instance().boundsUpdatedWith.callCount).to.equal(0);
 				done();
 			});
 		});
@@ -176,18 +172,18 @@ describe('Bounds mutation observer', () => {
 				...defaultProps(),
 				bounds: { x: 1, y: 0, width: 100, height: 100 },
 			};
-			mockedComponent = renderComponentWithBoundsAndCallback(options);
-			spy(mockedComponent, 'boundsUpdatedWith');
+			mockedComponent = mountComponentsWithProps(options);
+			spy(mockedComponent.instance(), 'boundsUpdatedWith');
 		});
 
 		afterEach(() => {
-			mockedComponent.boundsUpdatedWith.restore();
+			mockedComponent.instance().boundsUpdatedWith.restore();
 		});
 
 		it('triggers no callback', (done) => {
-			mockedComponent.state.observedNode.style.setProperty('border-style', 'solid');
+			mockedComponent.state('observedNode').style.setProperty('border-style', 'solid');
 			setTimeout(() => {
-				expect(mockedComponent.boundsUpdatedWith.callCount).to.equal(0);
+				expect(mockedComponent.instance().boundsUpdatedWith.callCount).to.equal(0);
 				done();
 			});
 		});

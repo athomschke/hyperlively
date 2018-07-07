@@ -1,10 +1,9 @@
 // @flow
 import { expect } from 'chai';
-import TestUtils from 'react-addons-test-utils';
 import React from 'react';
 import { last } from 'lodash';
 import { shallow, mount } from 'enzyme';
-import { stub } from 'sinon';
+import { stub, spy } from 'sinon';
 
 import { ERROR_CALL_SUPER_TO_ABSTRACT, ERROR_DIRECT_ABSTRACT_CALL } from 'src/client/app/constants/errors';
 import { point, exampleStrokes } from 'src/client/app/helpers.spec';
@@ -43,35 +42,39 @@ class SpecificDrawer extends AbstractDrawer<AbstractDrawerProps<SpecificProps>, 
 	redrawStroke() { this.props.overwriteFunctionCalled(); }
 }
 
+const defaultProps = (): AbstractDrawerProps<SpecificProps> => ({
+	strokes: exampleStrokes([point(10, 10), point(10, 11), point(10, 12), point(10, 13)]),
+	overwriteFunctionCalled: () => undefined,
+	bounds: {
+		width: 1000,
+		height: 500,
+		x: 0,
+		y: 0,
+	},
+	height: 0,
+	width: 0,
+	showBorder: false,
+	onNodeChanged: () => {},
+	active: false,
+	finished: true,
+});
+
+const shallowWithProps = (props: AbstractDrawerProps<SpecificProps>) =>
+	shallow(<SpecificDrawer {...props} />);
+
+const mountWithProps = (props: AbstractDrawerProps<SpecificProps>) =>
+	mount(<SpecificDrawer {...props} />);
+
 describe('AbstractDrawer', () => {
-	let specificDrawer;
-	let onNodeChangedStub;
-
 	describe('calling an abstract function directly', () => {
-		beforeEach(() => {
-			onNodeChangedStub = stub();
-			specificDrawer = TestUtils.renderIntoDocument(<SpecificDrawer
-				strokes={exampleStrokes([point(10, 10), point(10, 11), point(10, 12), point(10, 13)])}
-				overwriteFunctionCalled={() => undefined}
-				bounds={{
-					width: 1000,
-					height: 500,
-					x: 0,
-					y: 0,
-				}}
-				onNodeChanged={onNodeChangedStub}
-				active={false}
-				finished
-			/>);
-		});
-
 		it('throws an error for handleStrokeStarted when not implemented in subclass', () => {
 			expect(SpecificDrawer.prototype.handleStrokeStarted.bind(SpecificDrawer.prototype))
 				.to.throw(ERROR_CALL_SUPER_TO_ABSTRACT);
 		});
 
 		it('throws an error for handleStrokesExtended when implemented in subclass but calling the superclass', () => {
-			expect(specificDrawer.handleStrokesExtended.bind(specificDrawer))
+			const specificDrawer = shallowWithProps(defaultProps());
+			expect(specificDrawer.instance().handleStrokesExtended.bind(specificDrawer.instance()))
 				.to.throw(ERROR_CALL_SUPER_TO_ABSTRACT);
 		});
 
@@ -122,53 +125,47 @@ describe('AbstractDrawer', () => {
 	});
 
 	describe('changing a strokes color', () => {
-		let strokes;
-
-		const updatingColorShouldCallFunctionNTimes = (aFunction, n) => {
-			stub(specificDrawer, aFunction);
-			strokes[0].color = 'A new (invalid) Color';
-			specificDrawer.componentDidUpdate();
-			expect(specificDrawer[aFunction].callCount).to.equal(n);
-			specificDrawer[aFunction].restore();
-		};
-
-		beforeEach(() => {
-			onNodeChangedStub = stub();
-			strokes = exampleStrokes([point(10, 10), point(10, 11), point(10, 12), point(10, 13)]);
-			specificDrawer = TestUtils.renderIntoDocument(<SpecificDrawer
-				overwriteFunctionCalled={() => {}}
-				bounds={{
-					width: 1000,
-					height: 500,
-					x: 0,
-					y: 0,
-				}}
-				strokes={strokes}
-				onNodeChanged={onNodeChangedStub}
-				active={false}
-				finished
-			/>);
-		});
-
 		it('is recognized as an updated stroke', () => {
-			updatingColorShouldCallFunctionNTimes('handleStrokesUpdated', 1);
+			const strokes = exampleStrokes([point(10, 10)]);
+			const specificDrawer = shallowWithProps({ ...defaultProps(), strokes });
+			stub(specificDrawer.instance(), 'handleStrokesUpdated');
+			strokes[0].color = 'A new (invalid) Color';
+			specificDrawer.instance().componentDidUpdate();
+			expect(specificDrawer.instance().handleStrokesUpdated.callCount).to.equal(1);
+			specificDrawer.instance().handleStrokesUpdated.restore();
 		});
 
 		it('is not recognized as moved strokes', () => {
-			updatingColorShouldCallFunctionNTimes('moveImageDataToNewPosition', 0);
+			const strokes = exampleStrokes([point(10, 10)]);
+			const specificDrawer = mountWithProps({ ...defaultProps(), strokes });
+			stub(specificDrawer.instance(), 'moveImageDataToNewPosition');
+			strokes[0].color = 'A new (invalid) Color';
+			specificDrawer.instance().componentDidUpdate();
+			expect(specificDrawer.instance().moveImageDataToNewPosition.callCount).to.equal(0);
+			specificDrawer.instance().moveImageDataToNewPosition.restore();
 		});
 
 		it('redraws everything', () => {
-			updatingColorShouldCallFunctionNTimes('redrawEverything', 1);
+			const strokes = exampleStrokes([point(10, 10)]);
+			const specificDrawer = mountWithProps({ ...defaultProps(), strokes });
+			specificDrawer.instance().redrawEverything = () => {};
+			stub(specificDrawer.instance(), 'redrawEverything');
+			strokes[0].color = 'A new (invalid) Color';
+			specificDrawer.instance().componentDidUpdate();
+			expect(specificDrawer.instance().redrawEverything.callCount).to.equal(1);
+			specificDrawer.instance().redrawEverything.restore();
 		});
 	});
 
 	describe('Rendering the component anew', () => {
 		it('calls onNodeChanged with the new node', () => {
-			const oldCount = onNodeChangedStub.callCount;
-			last(specificDrawer.props.strokes).points.splice(-1);
-			specificDrawer.componentDidUpdate();
-			expect(onNodeChangedStub.callCount).to.be.above(oldCount);
+			const onNodeChanged = spy();
+			const strokes = exampleStrokes([point(10, 10)]);
+			const specificDrawer = mountWithProps({ ...defaultProps(), strokes, onNodeChanged });
+			onNodeChanged.reset();
+			last(strokes).points.splice(-1);
+			specificDrawer.instance().componentDidUpdate();
+			expect(onNodeChanged.callCount).to.equal(2);
 		});
 	});
 
