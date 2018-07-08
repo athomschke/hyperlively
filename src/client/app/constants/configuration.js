@@ -1,4 +1,4 @@
-export const relativeDividerPosition = 0.6;
+export const relativeDividerPosition = 1;
 
 export const MAX_AGE = 100000;
 

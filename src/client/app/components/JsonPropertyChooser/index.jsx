@@ -1,17 +1,20 @@
 // @flow
-import React, { PureComponent } from 'react';
+/* eslint-disable react/prop-types */
+import React from 'react';
 import { TreeMenu } from 'react-tree-menu';
-import { cloneDeep, map, keys } from 'lodash';
+import { cloneDeep } from 'lodash';
 
-import type { TreeParameter, JSONPath } from 'src/client/app/types';
+import type { TreeParameter, JSONPath, Coordinate } from 'src/client/app/types';
 
 import { getPathToProperty, findArraysIndex, formatObject } from './choosingActions';
+import style from './index.scss';
 
 export type JSONObject = {
 	[key: string]: any;
 }
 
 export type JsonPropertyChooserProps = {
+	position?: Coordinate,
 	jsonTree: JSONObject,
 	checkedPaths: JSONPath,
 	collapsedPaths: JSONPath,
@@ -20,37 +23,42 @@ export type JsonPropertyChooserProps = {
 	onCollapsedPathsChange: (collapsedPaths: Array<Array<string>>) => void,
 }
 
-export default class JsonPropertyChooser extends PureComponent<JsonPropertyChooserProps> {
-	static defaultProps: JsonPropertyChooserProps = {
-		jsonTree: {},
-		checkedPaths: [],
-		collapsedPaths: [],
-		onParameterChoose: _parameters => undefined,
-		onCheckedPathsChange: _parameters => undefined,
-		onCollapsedPathsChange: _parameters => undefined,
-	}
+const defaultProps = (): JsonPropertyChooserProps => ({
+	position: { x: NaN, y: NaN },
+	jsonTree: {},
+	checkedPaths: [],
+	collapsedPaths: [],
+	onParameterChoose: _parameters => undefined,
+	onCheckedPathsChange: _parameters => undefined,
+	onCollapsedPathsChange: _parameters => undefined,
+});
 
-	componentWillReceiveProps(props: any) {
-		this.state = Object.assign({}, this.state, {
-			collapsedPaths: map(keys(props.jsonTree), key => [key]),
-		});
-	}
+export default (props: JsonPropertyChooserProps = defaultProps()) => {
+	const getFormattedData = () => {
+		const rawData: Object = cloneDeep(props.jsonTree);
+		return formatObject(
+			rawData,
+			props.checkedPaths,
+			props.collapsedPaths,
+			props.checkedPaths,
+			0);
+	};
 
-	onTreeNodeCheckChange(path: Array<number>) {
+	const onTreeNodeCheckChange = (path: Array<number>) => {
 		const pathToProperty: Array<string> =
-			getPathToProperty(path, this.getFormattedData());
+			getPathToProperty(path, getFormattedData());
 		const checkedIndex: number =
-			findArraysIndex(this.props.checkedPaths, pathToProperty);
+			findArraysIndex(props.checkedPaths, pathToProperty);
 		let checkedPaths: Array<Array<string>>;
 		if (checkedIndex >= 0) {
-			checkedPaths = this.props.checkedPaths
+			checkedPaths = props.checkedPaths
 				.slice(0, checkedIndex)
-				.concat(this.props.checkedPaths.slice(checkedIndex + 1));
+				.concat(props.checkedPaths.slice(checkedIndex + 1));
 		} else {
-			checkedPaths = this.props.checkedPaths.concat([pathToProperty]);
+			checkedPaths = props.checkedPaths.concat([pathToProperty]);
 		}
 		const rawData: JSONObject = {
-			...this.props.jsonTree,
+			...props.jsonTree,
 		};
 		const mixedValues = checkedPaths
 			.map(checkedPath =>
@@ -67,59 +75,40 @@ export default class JsonPropertyChooser extends PureComponent<JsonPropertyChoos
 				));
 		// $FlowFixMe needs flow array type refinement, see https://github.com/facebook/flow/issues/1414
 		const values: Array<JSONObject | any> = mixedValues.filter(value => value !== null);
-		this.props.onParameterChoose(values);
-		this.props.onCheckedPathsChange(checkedPaths);
-	}
+		props.onParameterChoose(values);
+		props.onCheckedPathsChange(checkedPaths);
+	};
 
-	onTreeNodeCollapseChange(path: Array<number>) {
+	const onTreeNodeCollapseChange = (path: Array<number>) => {
 		const pathToProperty: Array<string> =
-			getPathToProperty(path, this.getFormattedData());
+			getPathToProperty(path, getFormattedData());
 		const collapsedIndex: number =
-			findArraysIndex(this.props.collapsedPaths, pathToProperty);
+			findArraysIndex(props.collapsedPaths, pathToProperty);
 		if (collapsedIndex >= 0) {
-			this.props.onCollapsedPathsChange(this.props.collapsedPaths
+			props.onCollapsedPathsChange(props.collapsedPaths
 				.slice(0, collapsedIndex)
-				.concat(this.props.collapsedPaths.slice(collapsedIndex + 1)));
+				.concat(props.collapsedPaths.slice(collapsedIndex + 1)));
 		} else {
-			this.props.onCollapsedPathsChange(this.props.collapsedPaths.concat([pathToProperty]));
+			props.onCollapsedPathsChange(props.collapsedPaths.concat([pathToProperty]));
 		}
-	}
+	};
 
-	getFormattedData() {
-		const rawData: Object = cloneDeep(this.props.jsonTree);
-		return formatObject(
-			rawData,
-			this.props.checkedPaths,
-			this.props.collapsedPaths,
-			this.props.checkedPaths,
-			0);
+	const data = getFormattedData();
+	const divStyle: any = {};
+	const position = props.position;
+	if (position) {
+		divStyle.position = 'absolute';
+		divStyle.left = position.x;
+		divStyle.top = position.y;
 	}
-
-	props: JsonPropertyChooserProps
-
-	render() {
-		const data = this.getFormattedData();
-		const style: any = {};
-		const { jsonTree } = this.props;
-		if (jsonTree.center || (jsonTree.filter && jsonTree.filter(datum => datum.center).length > 0)) {
-			style.position = 'absolute';
-			// const center = (jsonTree: any).center || (jsonTree: Array<any>)[0].center;
-			// style.top = center.y;
-			// style.left = center.x;
-		}
-		return (<div style={style}>
-			<TreeMenu
-				data={data}
-				collapsible
-				expandIconClass="expand"
-				collapseIconClass="collapse"
-				onTreeNodeCheckChange={(path) => {
-					this.onTreeNodeCheckChange(path);
-				}}
-				onTreeNodeCollapseChange={(path) => {
-					this.onTreeNodeCollapseChange(path);
-				}}
-			/>
-		</div>);
-	}
-}
+	return (<div className={style.treeView} style={divStyle}>
+		<TreeMenu
+			data={data}
+			collapsible
+			expandIconClass="expand"
+			collapseIconClass="collapse"
+			onTreeNodeCheckChange={onTreeNodeCheckChange}
+			onTreeNodeCollapseChange={onTreeNodeCollapseChange}
+		/>
+	</div>);
+};

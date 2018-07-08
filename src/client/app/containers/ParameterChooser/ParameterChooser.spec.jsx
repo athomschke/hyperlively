@@ -124,6 +124,24 @@ describe('Parameter Chooser Component', () => {
 
 			expect(lastStrokesChooser(parameterChooser, lastStrokes).prop('collapsedPaths')).deep.equal([['1']]);
 		});
+
+		it('sets the JsonParamterChooser for last strokes on position of the strokes', () => {
+			const center = { x: 15, y: 15 };
+			const stroke = {
+				...dummyStroke(),
+				points: [
+					{ x: 10, y: 10, timeStamp: 100 },
+					{ x: 20, y: 10, timeStamp: 102 },
+					{ x: 20, y: 20, timeStamp: 104 },
+					{ x: 10, y: 20, timeStamp: 106 },
+					{ x: 10, y: 10, timeStamp: 108 },
+				],
+			};
+			const lastStrokes = [stroke];
+			const parameterChooser = shallowWithProps({ ...defaultProps(), lastStrokes });
+
+			expect(lastStrokesChooser(parameterChooser, lastStrokes).prop('position')).deep.equal(center);
+		});
 	});
 
 	describe('Choosing a property in last stroke', () => {

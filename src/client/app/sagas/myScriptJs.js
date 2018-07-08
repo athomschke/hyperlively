@@ -1,6 +1,5 @@
 // @flow
 import { takeEvery, call, put, type TakeHelper, type PutEffect } from 'redux-saga/effects';
-
 import { REQUEST_TEXT_CANDIDATES, REQUEST_SHAPE_CANDIDATES } from 'src/client/app/constants/actionTypes';
 import { receiveTextCandidates, receiveShapeCandidates } from 'src/client/app/actionCreators';
 import type {

@@ -40,11 +40,9 @@ export default (props: PageProps) => {
 	const lastStrokes = lastSketch ? lastSketch.strokes : [];
 	return (
 		<div>
-			<div>
-				<Scene sketches={props.sketches} />
-				{props.showInterpreter ? renderInterpreter(selectedStrokes, lastStrokes) : null}
-			</div>
+			<Scene sketches={props.sketches} />
 			<Window sketches={props.sketches} />
+			{props.showInterpreter ? renderInterpreter(selectedStrokes, lastStrokes) : null}
 			<AppConfiguration>
 				<UndoRedo />
 				<Timeline />

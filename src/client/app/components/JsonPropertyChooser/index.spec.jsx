@@ -223,7 +223,7 @@ describe('JsonProperty Chooser', () => {
 	});
 
 	describe('positioning the JsonPropertyChooser', () => {
-		it('sets it to the first strokes center', () => {
+		it.skip('sets it to the first strokes center', () => {
 			const jsonTree = {
 				center: { x: 12, y: 12 },
 			};

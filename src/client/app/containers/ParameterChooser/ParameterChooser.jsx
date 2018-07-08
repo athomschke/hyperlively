@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 import * as React from 'react';
 
-import type { Stroke, RecognitionResult, TreeParameter, JSONPath } from 'src/client/app/types';
+import type { Stroke, RecognitionResult, TreeParameter, JSONPath, Coordinate } from 'src/client/app/types';
 import JsonPropertyChooser, { type JSONObject } from 'src/client/app/components/JsonPropertyChooser';
 
 export type ParameterChooserProps = {
@@ -46,7 +46,7 @@ export default (props: ParameterChooserProps = defaultProps()) => {
 
 	const jsonTree = (parameterObject():JSONObject);
 
-	const renderPrefixedChooser = (prefix: string) => {
+	const renderPrefixedChooser = (prefix: string, position?: Coordinate) => {
 		const combinePaths = (upperPaths, lowerPaths) => [
 			...upperPaths.filter(path => path[0] !== prefix),
 			...lowerPaths.map(path => [prefix, ...path]),
@@ -54,6 +54,7 @@ export default (props: ParameterChooserProps = defaultProps()) => {
 		const filterPaths = paths => paths.filter(path => path[0] === prefix).map(ea => ea.slice(1));
 
 		return (<JsonPropertyChooser
+			position={position}
 			jsonTree={jsonTree[prefix]}
 			checkedPaths={filterPaths(props.checkedPaths)}
 			collapsedPaths={filterPaths(props.collapsedPaths)}
@@ -71,9 +72,22 @@ export default (props: ParameterChooserProps = defaultProps()) => {
 		/>);
 	};
 
+	const getStrokesPosition = (strokes: Array<Stroke>) => {
+		const allPoints = strokes.reduce((points, stroke) => [...points, ...stroke.points], []);
+		if (allPoints.length > 0) {
+			const xs = allPoints.map(point => point.x);
+			const ys = allPoints.map(point => point.y);
+			const minX = Math.min(...xs);
+			const maxX = Math.max(...xs);
+			const minY = Math.min(...ys);
+			const maxY = Math.max(...ys);
+			return { x: minX + ((maxX - minX) / 2), y: minY + ((maxY - minY) / 2) };
+		}
+		return null;
+	};
+
 	return (<div style={{ display: 'inline' }}>
-		{renderPrefixedChooser('lastStrokes')}
-		{renderPrefixedChooser('interpretation')}
-		{renderPrefixedChooser('selectedStrokes')}
+		{renderPrefixedChooser('interpretation', { x: 100, y: 100 })}
+		{renderPrefixedChooser('selectedStrokes', getStrokesPosition(props.selectedStrokes) || undefined)}
 	</div>);
 };

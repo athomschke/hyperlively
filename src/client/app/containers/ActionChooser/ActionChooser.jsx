@@ -49,11 +49,19 @@ const allActions = (specificActions) => {
 type Props = {
 	onFunctionsChoose: (Array<FunctionConfiguration>) => void,
 	specificActions: Array<ActionMapping>,
+	checkedPaths: Array<Array<string>>,
+	collapsedPaths: Array<Array<string>>,
+	onCollapsedPathsChange: () => void,
+	onCheckedPathsChange: () => void,
 }
 
 export default class ActionChooser extends PureComponent<Props> {
 	static defaultProps = {
 		onFunctionsChoose: (_actionSignatures: Array<FunctionConfiguration>) => {},
+		checkedPaths: [],
+		collapsedPaths: [],
+		onCollapsedPathsChange: () => {},
+		onCheckedPathsChange: () => {},
 	}
 
 	onFunctionsChoose(signatures: Array<TreeParameter>) {
@@ -65,10 +73,14 @@ export default class ActionChooser extends PureComponent<Props> {
 	render() {
 		return (
 			<JsonPropertyChooser
-				{...this.props}
 				onParameterChoose={(parameters: Array<TreeParameter>) => {
 					this.onFunctionsChoose(parameters);
 				}}
+				onCollapsedPathsChange={this.props.onCollapsedPathsChange}
+				onCheckedPathsChange={this.props.onCheckedPathsChange}
+				checkedPaths={this.props.checkedPaths}
+				collapsedPaths={this.props.collapsedPaths}
+				position={undefined}
 				jsonTree={allActions(this.props.specificActions)}
 			/>);
 	}

@@ -1,6 +1,6 @@
 // @flow
 import { DEFAULT_PEN_COLOR } from 'src/client/app/constants/drawing';
-import type { ShapeCandidate, LinePrimitive, Stroke } from 'src/client/app/types';
+import type { ShapeCandidate, LinePrimitive, Stroke, TextCandidate } from 'src/client/app/types';
 
 const primitive = (): LinePrimitive => ({
 	type: 'line',

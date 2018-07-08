@@ -27,6 +27,6 @@ describe('Window', () => {
 
 	it('has the default width', () => {
 		const windowComponent = mount(<Window />);
-		expect(windowComponent.find('div').getNode().style.getPropertyValue('width')).to.equal('60%');
+		expect(windowComponent.find('div').getNode().style.getPropertyValue('width')).to.equal('100%');
 	});
 });

@@ -94,7 +94,7 @@ describe('Desk', () => {
 			height,
 		});
 		const node = desk.find('div').getNode();
-		expect(node.props.style.width).to.equal('60%');
+		expect(node.props.style.width).to.equal('100%');
 		expect(parseInt(node.props.style.height, 10)).to.equal(height);
 	});
 
