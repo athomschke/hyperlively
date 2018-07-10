@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 import * as React from 'react';
 
-import type { Stroke, RecognitionResult, TreeParameter, JSONPath, Coordinate } from 'src/client/app/types';
+import type { Stroke, RecognitionResult, TreeParameter, JSONPath, Coordinate, ShapeCandidate } from 'src/client/app/types';
 import JsonPropertyChooser, { type JSONObject } from 'src/client/app/components/JsonPropertyChooser';
 
 export type ParameterChooserProps = {
@@ -72,6 +72,22 @@ export default (props: ParameterChooserProps = defaultProps()) => {
 		/>);
 	};
 
+	const coordinateFromShapeResult = (shapeResult: ShapeCandidate) => {
+		if (shapeResult.primitives) {
+			const center: Coordinate = (shapeResult.primitives[0]: any).center;
+			const firstPoint: Coordinate = (shapeResult.primitives[0]: any).firstPoint;
+			return center || firstPoint;
+		}
+		return null;
+	};
+
+	const getInterpretationPosition = (shapeOrTextInterpretation: RecognitionResult) => {
+		const shapePositions: Array<Coordinate | null> = shapeOrTextInterpretation.shapes
+			.map(coordinateFromShapeResult)
+			.filter(position => !!position);
+		return shapePositions[0];
+	};
+
 	const getStrokesPosition = (strokes: Array<Stroke>) => {
 		const allPoints = strokes.reduce((points, stroke) => [...points, ...stroke.points], []);
 		if (allPoints.length > 0) {
@@ -86,8 +102,9 @@ export default (props: ParameterChooserProps = defaultProps()) => {
 		return null;
 	};
 
+	// todo: render multiple interpretation chooser
 	return (<div style={{ display: 'inline' }}>
-		{renderPrefixedChooser('interpretation', { x: 100, y: 100 })}
+		{renderPrefixedChooser('interpretation', getInterpretationPosition(interpretation) || undefined)}
 		{renderPrefixedChooser('selectedStrokes', getStrokesPosition(props.selectedStrokes) || undefined)}
 	</div>);
 };

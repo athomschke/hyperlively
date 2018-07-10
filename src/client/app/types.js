@@ -96,10 +96,7 @@ export type RecognizerTextResult = {
 
 export type EllipsisPrimitive = {
 	type: 'ellipsis',
-	center: {
-		x: number,
-		y: number,
-	},
+	center: Coordinate,
 	minRadius: number,
 	maxRadius: number,
 	orientation: number,
@@ -113,14 +110,8 @@ export type EllipsisPrimitive = {
 
 export type LinePrimitive = {
 	type: 'line',
-	firstPoint: {
-		x: number,
-		y: number,
-	},
-	lastPoint: {
-		x: number,
-		y: number,
-	},
+	firstPoint: Coordinate,
+	lastPoint: Coordinate,
 	beginDecoration: string,
 	endDecoration: string,
 	beginTangentAngle: number,
