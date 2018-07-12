@@ -15,6 +15,7 @@ const canvasWithIrregularStrokesWithPloma = (): HyperlivelyState => ({
 			future: [],
 			present: [{
 				strokes: [{
+					id: 1,
 					hidden: false,
 					selected: false,
 					finished: true,
@@ -36,6 +37,7 @@ const canvasWithIrregularStrokesWithPloma = (): HyperlivelyState => ({
 						y: 0,
 					},
 				}, {
+					id: 2,
 					hidden: false,
 					selected: false,
 					finished: true,

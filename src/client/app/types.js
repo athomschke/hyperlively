@@ -17,6 +17,7 @@ export type Stroke = {
 	selected: boolean,
 	finished: boolean,
 	color?: string,
+	id: number,
 }
 
 export type Scene = {

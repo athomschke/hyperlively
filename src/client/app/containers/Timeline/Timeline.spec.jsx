@@ -5,6 +5,7 @@ import { shallow } from 'enzyme';
 import { spy } from 'sinon';
 
 import { point } from 'src/client/app/helpers.spec';
+import { stroke } from 'src/client/app/reducers/data/strokes/stroke';
 import type { Sketch, Stroke } from 'src/client/app/types';
 
 import TimelinePreview from './TimelinePreview';
@@ -12,39 +13,29 @@ import Timeline, { type TimelineProps } from './Timeline';
 
 const sketches: Array<Sketch> = [{
 	strokes: [{
+		...stroke(undefined, { type: '' }),
 		points: [point(12, 12), point(11, 11), point(10, 10)],
-		color: 'rgb(0, 0, 0)',
-		angle: 0,
 		center: { x: 12, y: 12 },
 		finished: true,
-		hidden: false,
-		selected: false,
 		position: { x: 12, y: 12 },
-		actionIndex: 0,
 	}],
 	finished: true,
 }, {
 	strokes: [{
+		...stroke(undefined, { type: '' }),
 		points: [point(20, 20), point(21, 21), point(22, 22)],
-		color: 'rgb(0, 0, 0)',
-		angle: 0,
 		center: { x: 12, y: 12 },
 		finished: true,
-		hidden: false,
-		selected: false,
 		position: { x: 12, y: 12 },
 		actionIndex: 3,
 	}],
 	finished: true,
 }, {
 	strokes: [{
+		...stroke(undefined, { type: '' }),
 		points: [point(30, 30), point(31, 31), point(32, 32)],
-		color: 'rgb(0, 0, 0)',
-		angle: 0,
 		center: { x: 12, y: 12 },
 		finished: true,
-		hidden: false,
-		selected: false,
 		position: { x: 12, y: 12 },
 		actionIndex: 6,
 	}],

@@ -1,25 +1,10 @@
 // @flow
 import { last, cloneDeep } from 'lodash';
 
-import { DEFAULT_PEN_COLOR } from 'src/client/app/constants/drawing';
+import { stroke } from 'src/client/app/reducers/data/strokes/stroke';
 import type { Scene, Scenes, Stroke, Data, Undoable, HyperlivelyState } from 'src/client/app/types';
 
-const dummyStroke: Stroke = {
-	points: [],
-	finished: false,
-	color: DEFAULT_PEN_COLOR,
-	hidden: false,
-	selected: false,
-	angle: 0,
-	center: {
-		x: 0,
-		y: 0,
-	},
-	position: {
-		x: 0,
-		y: 0,
-	},
-};
+const dummyStroke: Stroke = stroke(undefined, { type: '' });
 
 const createUndoableScenes = (numberOfStrokes: number, lengthOfStroke: number): Scenes => {
 	const allScenes: Array<Scene> = [];

@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { findDOMNode } from 'react-dom';
 import { useFakeXMLHttpRequest } from 'sinon';
 
+import { stroke } from 'src/client/app/reducers/data/strokes/stroke';
 import { point } from 'src/client/app/helpers.spec';
 import type { Point, Stroke } from 'src/client/app/types';
 import emptyCanvas from 'test/integration/data/emptyCanvas';
@@ -10,20 +11,9 @@ import emptyCanvas from 'test/integration/data/emptyCanvas';
 import { hashCode, mountApp, dismountApp, getCanvasNodes, getWindowNode, getCombinedCanvas, renderApplicationWithState, manuallyDrawStrokes, gotToHalfTimeInApp } from './helpers';
 
 const strokeFromPoints = (points: Array<Point>): Stroke => ({
+	...stroke(undefined, { type: '' }),
 	points,
-	color: 'rgb(0,0,0)',
-	selected: false,
-	hidden: false,
-	angle: 0,
-	center: {
-		x: 0,
-		y: 0,
-	},
 	finished: true,
-	position: {
-		x: 0,
-		y: 0,
-	},
 });
 
 describe('Integration', () => {

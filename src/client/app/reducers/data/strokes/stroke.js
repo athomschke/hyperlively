@@ -25,6 +25,7 @@ export const strokeActions = {
 };
 
 const initialStrokeState = (): Stroke => ({
+	id: NaN,
 	points: points(undefined, { type: '' }),
 	hidden: false,
 	selected: false,
@@ -94,10 +95,12 @@ const scopedStrokeReducer: StrokeReducer = (state, action) => {
 		}
 		return state;
 	case FINISH_STROKE:
-		return merge({}, state, {
+		return {
+			...state,
 			points: points(state.points, action),
 			finished: true,
-		});
+			id: Math.ceil(Math.random() * 1000000),
+		};
 	default:
 		if (Object.keys(pointsActions).includes(action.type)) {
 			return merge({}, state, { points: points(state.points, action) });

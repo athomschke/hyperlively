@@ -2,6 +2,7 @@
 import { expect } from 'chai';
 
 import { setSceneIndex, addSceneAt, nextScene } from 'src/client/app/actionCreators';
+import { stroke } from 'src/client/app/reducers/data/strokes/stroke';
 import { point } from 'src/client/app/helpers.spec';
 import type { Scene, Data } from 'src/client/app/types';
 
@@ -9,20 +10,9 @@ import { data } from '.';
 
 const existingScene: () => Scene = () => ({
 	strokes: [{
-		color: 'rgb(0,0,0)',
+		...stroke(undefined, { type: '' }),
 		finished: true,
-		hidden: false,
-		angle: 0,
-		center: {
-			x: 0,
-			y: 0,
-		},
-		selected: false,
 		points: [point(10, 10)],
-		position: {
-			x: 0,
-			y: 0,
-		},
 	}],
 });
 

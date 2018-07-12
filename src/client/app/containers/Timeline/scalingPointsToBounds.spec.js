@@ -2,25 +2,15 @@
 import { expect } from 'chai';
 
 import { point } from 'src/client/app/helpers.spec';
+import { stroke } from 'src/client/app/reducers/data/strokes/stroke';
 import type { Point, Stroke } from 'src/client/app/types';
 
 import { scaleToTime, getFittedWidth } from './scalingPointsToBounds';
 
 const strokeFromPoints = (points: Array<Point>): Stroke => ({
+	...stroke(undefined, { type: '' }),
 	points,
-	color: 'rgb(0,0,0)',
-	selected: false,
-	hidden: false,
 	finished: true,
-	angle: 0,
-	center: {
-		x: 0,
-		y: 0,
-	},
-	position: {
-		x: 0,
-		y: 0,
-	},
 });
 
 describe('Scaling points to bounds', () => {

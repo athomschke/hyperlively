@@ -1,5 +1,4 @@
 // @flow
-
 import type { HyperlivelyState } from 'src/client/app/types';
 
 const canvasWithTwoStrokes = (): HyperlivelyState => ({
@@ -14,6 +13,7 @@ const canvasWithTwoStrokes = (): HyperlivelyState => ({
 			past: [],
 			present: [{
 				strokes: [{
+					id: 1,
 					finished: true,
 					hidden: false,
 					selected: false,
@@ -31,6 +31,7 @@ const canvasWithTwoStrokes = (): HyperlivelyState => ({
 						y: 0,
 					},
 				}, {
+					id: 2,
 					finished: true,
 					hidden: false,
 					selected: false,

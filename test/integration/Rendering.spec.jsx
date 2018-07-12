@@ -5,6 +5,7 @@ import { useFakeXMLHttpRequest } from 'sinon';
 import TestUtils from 'react-addons-test-utils';
 
 import type { Stroke } from 'src/client/app/types';
+import { stroke } from 'src/client/app/reducers/data/strokes/stroke';
 
 import { hashCode, renderApplicationWithState, mountApp, dismountApp, getCanvasNodes, getWindowNode, getCombinedCanvas } from './helpers';
 import canvasWithTwoScenes from './data/canvasWithTwoScenes';
@@ -81,22 +82,13 @@ describe('Integration', () => {
 				dismountApp();
 				mountApp();
 				const newStroke: Stroke = {
+					...stroke(undefined, { type: '' }),
 					finished: true,
 					hidden: true,
-					selected: false,
-					angle: 0,
-					center: {
-						x: 0,
-						y: 0,
-					},
 					points: [
 						{ x: 20, y: 20, timeStamp: 102 },
 						{ x: 20, y: 40, timeStamp: 103 },
 					],
-					position: {
-						x: 0,
-						y: 0,
-					},
 				};
 				canvasJson.data.scenes.present[0].strokes.push(newStroke);
 				renderApplicationWithState(canvasJson);
