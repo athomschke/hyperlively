@@ -67,12 +67,12 @@ export function previousScene() {
 	return { type: ActionTypes.PREVIOUS_SCENE };
 }
 
-export function receiveTextCandidates(candidates: Array<TextCandidate>) {
-	return { type: ActionTypes.RECEIVE_TEXT_CANDIDATES, candidates };
+export function receiveTextCandidates(candidates: Array<TextCandidate>, strokeIds: number[]) {
+	return { type: ActionTypes.RECEIVE_TEXT_CANDIDATES, candidates, strokeIds };
 }
 
-export function receiveShapeCandidates(candidates: Array<ShapeCandidate>) {
-	return { type: ActionTypes.RECEIVE_SHAPE_CANDIDATES, candidates };
+export function receiveShapeCandidates(candidates: Array<ShapeCandidate>, strokeIds: number[]) {
+	return { type: ActionTypes.RECEIVE_SHAPE_CANDIDATES, candidates, strokeIds };
 }
 
 export function requestTextCandidates(strokes: Array<Stroke>) {

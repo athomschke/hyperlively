@@ -78,7 +78,7 @@ describe('Interpretation reducer', () => {
 	describe('Receiving a text recognition result', () => {
 		it('displays a new text recognition result', () => {
 			const oldState = dummyState();
-			const newState = interpretation(oldState, receiveTextCandidates([letterCandidate()]));
+			const newState = interpretation(oldState, receiveTextCandidates([letterCandidate()], []));
 			expect(newState.texts[0].label).to.equal('I');
 			expect(newState.shapes).to.be.empty();
 		});
@@ -93,7 +93,7 @@ describe('Interpretation reducer', () => {
 					resemblanceScore: 0.95,
 				})],
 			};
-			const newState = interpretation(oldState, receiveTextCandidates([letterCandidate()]));
+			const newState = interpretation(oldState, receiveTextCandidates([letterCandidate()], []));
 			expect(newState.texts[1].label).to.equal('I');
 			expect(newState.texts).to.have.length(2);
 		});
@@ -102,7 +102,7 @@ describe('Interpretation reducer', () => {
 	describe('Receiving a shape recognition result', () => {
 		it('displays a new shape recognition result', () => {
 			const oldState = dummyState();
-			const newState = interpretation(oldState, receiveShapeCandidates([shapeCandidate()]));
+			const newState = interpretation(oldState, receiveShapeCandidates([shapeCandidate()], []));
 			expect(newState.shapes[0].label).to.equal('line');
 			expect(newState.texts[0]).to.not.exist();
 		});
@@ -114,7 +114,7 @@ describe('Interpretation reducer', () => {
 				})],
 				texts: [letterCandidate()],
 			};
-			const newState = interpretation(oldState, receiveShapeCandidates([shapeCandidate()]));
+			const newState = interpretation(oldState, receiveShapeCandidates([shapeCandidate()], []));
 			expect(newState.shapes).to.have.length(2);
 			expect(newState.shapes[1].label).to.equal('line');
 			expect(newState.texts[0]).to.deep.equal(letterCandidate());

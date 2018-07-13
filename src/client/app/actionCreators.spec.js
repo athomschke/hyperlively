@@ -194,8 +194,9 @@ describe('Action Creators', () => {
 			const expectedAction = {
 				type: 'RECEIVE_TEXT_CANDIDATES',
 				candidates,
+				strokeIds: [],
 			};
-			expect(actionCreators.receiveTextCandidates(candidates)).to.deep.equal(expectedAction);
+			expect(actionCreators.receiveTextCandidates(candidates, [])).to.deep.equal(expectedAction);
 		});
 
 		it('Should create an action to receive a shape candidate', () => {
@@ -203,8 +204,9 @@ describe('Action Creators', () => {
 			const expectedAction = {
 				type: 'RECEIVE_SHAPE_CANDIDATES',
 				candidates,
+				strokeIds: [],
 			};
-			expect(actionCreators.receiveShapeCandidates(candidates)).to.deep.equal(expectedAction);
+			expect(actionCreators.receiveShapeCandidates(candidates, [])).to.deep.equal(expectedAction);
 		});
 	});
 

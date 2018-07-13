@@ -16,10 +16,10 @@ Generator<PutEffect<RECEIVE_TEXT_CANDIDATES_ACTION>, void, void> {
 		if (typeof response === 'undefined') {
 			throw new Error('requesting text candidates did not respond');
 		} else {
-			yield put(receiveTextCandidates(response));
+			yield put(receiveTextCandidates(response, action.strokes.map(stroke => stroke.id)));
 		}
 	} catch (e) {
-		yield put(receiveTextCandidates([]));
+		yield put(receiveTextCandidates([], action.strokes.map(stroke => stroke.id)));
 	}
 }
 
@@ -30,10 +30,10 @@ Generator<PutEffect<RECEIVE_SHAPE_CANDIDATES_ACTION>, void, void> {
 		if (typeof response === 'undefined') {
 			throw new Error('requesting text candidates did not respond');
 		} else {
-			yield put(receiveShapeCandidates(response));
+			yield put(receiveShapeCandidates(response, action.strokes.map(stroke => stroke.id)));
 		}
 	} catch (e) {
-		yield put(receiveShapeCandidates([]));
+		yield put(receiveShapeCandidates([], action.strokes.map(stroke => stroke.id)));
 	}
 }
 
