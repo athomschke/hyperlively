@@ -2,7 +2,9 @@
 /* eslint-disable react/prop-types */
 import * as React from 'react';
 
-import type { Stroke, RecognitionResult, TreeParameter, JSONPath, Coordinate, ShapeCandidate } from 'src/types';
+import type {
+	Stroke, RecognitionResult, TreeParameter, JSONPath, Coordinate, ShapeCandidate,
+} from 'src/types';
 import JsonPropertyChooser, { type JSONObject } from 'src/components/JsonPropertyChooser';
 
 export type ParameterChooserProps = {
@@ -53,23 +55,25 @@ export default (props: ParameterChooserProps = defaultProps()) => {
 		];
 		const filterPaths = paths => paths.filter(path => path[0] === prefix).map(ea => ea.slice(1));
 
-		return (<JsonPropertyChooser
-			position={position}
-			jsonTree={jsonTree[prefix]}
-			checkedPaths={filterPaths(props.checkedPaths)}
-			collapsedPaths={filterPaths(props.collapsedPaths)}
-			onParameterChoose={props.onParameterChoose}
-			onCheckedPathsChange={
-				(paths: JSONPath) => {
-					props.onCheckedPathsChange(combinePaths(props.checkedPaths, paths));
+		return (
+			<JsonPropertyChooser
+				position={position}
+				jsonTree={jsonTree[prefix]}
+				checkedPaths={filterPaths(props.checkedPaths)}
+				collapsedPaths={filterPaths(props.collapsedPaths)}
+				onParameterChoose={props.onParameterChoose}
+				onCheckedPathsChange={
+					(paths: JSONPath) => {
+						props.onCheckedPathsChange(combinePaths(props.checkedPaths, paths));
+					}
 				}
-			}
-			onCollapsedPathsChange={
-				(paths: JSONPath) => {
-					props.onCollapsedPathsChange(combinePaths(props.collapsedPaths, paths));
+				onCollapsedPathsChange={
+					(paths: JSONPath) => {
+						props.onCollapsedPathsChange(combinePaths(props.collapsedPaths, paths));
+					}
 				}
-			}
-		/>);
+			/>
+		);
 	};
 
 	const coordinateFromShapeResult = (shapeResult: ShapeCandidate) => {
@@ -103,8 +107,10 @@ export default (props: ParameterChooserProps = defaultProps()) => {
 	};
 
 	// todo: render multiple interpretation chooser
-	return (<div style={{ display: 'inline' }}>
-		{renderPrefixedChooser('interpretation', getInterpretationPosition(interpretation) || undefined)}
-		{renderPrefixedChooser('selectedStrokes', getStrokesPosition(props.selectedStrokes) || undefined)}
-	</div>);
+	return (
+		<div style={{ display: 'inline' }}>
+			{renderPrefixedChooser('interpretation', getInterpretationPosition(interpretation) || undefined)}
+			{renderPrefixedChooser('selectedStrokes', getStrokesPosition(props.selectedStrokes) || undefined)}
+		</div>
+	);
 };

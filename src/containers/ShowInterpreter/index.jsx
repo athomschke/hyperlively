@@ -11,10 +11,12 @@ type ShowInterpreterProps = {
 	onChange: (_value: boolean) => void;
 }
 
-const ShowInterpreter = (props: ShowInterpreterProps) => (<LabelledBox
-	{...props}
-	label={'Show Interpreter'}
-/>);
+const ShowInterpreter = (props: ShowInterpreterProps) => (
+	<LabelledBox
+		{...props}
+		label="Show Interpreter"
+	/>
+);
 
 const mapStateToProps = (state: HyperlivelyState) => ({
 	checked: state.ui.showInterpreter,

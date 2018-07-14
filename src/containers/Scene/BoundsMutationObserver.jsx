@@ -2,7 +2,9 @@
 import * as React from 'react';
 import { forEach } from 'lodash';
 
-import type { Stroke, Bounds, OnNodeChangedFunction, PerformActionFunction } from 'src/types';
+import type {
+	Stroke, Bounds, OnNodeChangedFunction, PerformActionFunction,
+} from 'src/types';
 
 export type BoundsMutationObserverProps<P> = P & {
 	observeMutations: boolean;
@@ -22,9 +24,9 @@ type State = {
 	observedNode: HTMLDivElement | null;
 }
 
-export default (Wrapped: React.ComponentType<WrappedProps<any>>) =>
-	class extends React.PureComponent<BoundsMutationObserverProps<any>, State> {
+export default (Wrapped: React.ComponentType<WrappedProps<any>>) => class extends React.PureComponent<BoundsMutationObserverProps<any>, State> {
 	props: BoundsMutationObserverProps<any>;
+
 	state: State;
 
 	constructor() {
@@ -93,13 +95,15 @@ export default (Wrapped: React.ComponentType<WrappedProps<any>>) =>
 		// eslint-disable-next-line no-unused-vars
 		const { _observeMutations, _performAction, ...rest } = this.props;
 
-		return (<Wrapped
-			{...rest}
-			onNodeChanged={(divNode) => {
-				this.state.observedNode = divNode;
-			}}
-			bounds={this.props.bounds}
-			strokes={this.props.strokes}
-		/>);
+		return (
+			<Wrapped
+				{...rest}
+				onNodeChanged={(divNode) => {
+					this.state.observedNode = divNode;
+				}}
+				bounds={this.props.bounds}
+				strokes={this.props.strokes}
+			/>
+		);
 	}
-	};
+};

@@ -1,10 +1,14 @@
 // @flow
 import React, { PureComponent } from 'react';
-import { flatten, last, isEqual, cloneDeep, forEach, map } from 'lodash';
+import {
+	flatten, last, isEqual, cloneDeep, forEach, map,
+} from 'lodash';
 
 import { ERROR_DIRECT_ABSTRACT_CALL, ERROR_CALL_SUPER_TO_ABSTRACT } from 'src/constants/errors';
 import { OFFSET } from 'src/constants/canvas';
-import type { Stroke, Point, OnNodeChangedFunction, Coordinate } from 'src/types';
+import type {
+	Stroke, Point, OnNodeChangedFunction, Coordinate,
+} from 'src/types';
 
 import Passpartout from './Passpartout';
 
@@ -12,11 +16,9 @@ const allPoints = strokes => flatten(map(strokes, stroke => stroke.points));
 
 const pointCount = strokes => allPoints(strokes).length;
 
-const strokeWhereColorChanged = (strokes1: Array<Stroke>, strokes2: Array<Stroke>) =>
-	strokes1.find((stroke, index) => !stroke.color === strokes2[index].color);
+const strokeWhereColorChanged = (strokes1: Array<Stroke>, strokes2: Array<Stroke>) => strokes1.find((stroke, index) => !stroke.color === strokes2[index].color);
 
-const strokeWhereSelectStatusChanged = (strokes1, strokes2) =>
-	strokes1.find((stroke, index) => !stroke.selected === strokes2[index].selected);
+const strokeWhereSelectStatusChanged = (strokes1, strokes2) => strokes1.find((stroke, index) => !stroke.selected === strokes2[index].selected);
 
 export const transformPoint = (
 	point: Point,
@@ -225,7 +227,8 @@ export default class AbstractDrawer<P, S> extends
 					this.props.bounds.x - moveBy.x,
 					this.props.bounds.y - moveBy.y,
 					this.props.bounds.width,
-					this.props.bounds.height);
+					this.props.bounds.height,
+				);
 				context.clearRect(0, 0, canvas.width, canvas.height);
 				context.putImageData(oldImageData, this.props.bounds.x, this.props.bounds.y);
 			}
@@ -233,8 +236,8 @@ export default class AbstractDrawer<P, S> extends
 	}
 
 	colorRemainedEqual() {
-		return !strokeWhereColorChanged(this.props.strokes, this.state.strokes) &&
-			!strokeWhereSelectStatusChanged(this.props.strokes, this.state.strokes);
+		return !strokeWhereColorChanged(this.props.strokes, this.state.strokes)
+			&& !strokeWhereSelectStatusChanged(this.props.strokes, this.state.strokes);
 	}
 
 	addPointPerformanceEnhanced() {
@@ -258,25 +261,29 @@ export default class AbstractDrawer<P, S> extends
 	}
 
 	render() {
-		const { active, finished, bounds, showBorder } = this.props;
+		const {
+			active, finished, bounds, showBorder,
+		} = this.props;
 
 		const onNodeChanged = this.props.onNodeChanged || (() => undefined);
 
-		return (<Passpartout
-			onNodeChanged={onNodeChanged}
-			active={active}
-			finished={finished}
-			bounds={bounds}
-			showBorder={showBorder}
-		>
-			<canvas
-				ref={(canvas) => {
-					this.state.canvas = canvas;
-				}}
-				width={this.props.width}
-				height={this.props.height}
-				style={this.calculateCanvasStyle()}
-			/>
-		</Passpartout>);
+		return (
+			<Passpartout
+				onNodeChanged={onNodeChanged}
+				active={active}
+				finished={finished}
+				bounds={bounds}
+				showBorder={showBorder}
+			>
+				<canvas
+					ref={(canvas) => {
+						this.state.canvas = canvas;
+					}}
+					width={this.props.width}
+					height={this.props.height}
+					style={this.calculateCanvasStyle()}
+				/>
+			</Passpartout>
+		);
 	}
 }

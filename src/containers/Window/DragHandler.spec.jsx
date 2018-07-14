@@ -40,7 +40,8 @@ describe('Drag handler', () => {
 				width={400}
 				height={400}
 			/>
-		</MockedComponent>);
+		</MockedComponent>,
+	);
 
 	const renderComponent = () => renderComponentWithProps(defaultProps());
 

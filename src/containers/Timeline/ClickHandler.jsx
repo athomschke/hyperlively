@@ -14,6 +14,7 @@ type WrappedProps<P> = P
 export default function (Wrapped: React.ComponentType<WrappedProps<any>>) {
 	return class ClickHandler extends React.Component<ClickHandlerProps<any>, State> {
 		props: ClickHandlerProps<any>
+
 		state: State
 
 		constructor() {

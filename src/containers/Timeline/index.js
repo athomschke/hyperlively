@@ -13,8 +13,7 @@ import Timeline, { type TimelineProps } from './Timeline';
 type HyperlivelyTimelineProps =
 HTMLWidthProps<TimeoutBehaviorProps<SketchCombinerProps<TimelineProps>>>
 
-const HyperlivelyTimeline: React.ComponentType<HyperlivelyTimelineProps> =
-HTMLWidth(TimeoutBehavior(SketchCombiner(Timeline)));
+const HyperlivelyTimeline: React.ComponentType<HyperlivelyTimelineProps> = HTMLWidth(TimeoutBehavior(SketchCombiner(Timeline)));
 
 const mapStateToProps = (state: HyperlivelyState) => {
 	const addStrokePoints = (count, stroke) => count + stroke.points.length;

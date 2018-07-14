@@ -2,7 +2,9 @@
 import { useFakeXMLHttpRequest } from 'sinon';
 import { expect } from 'chai';
 
-import { requestTextCandidates, requestShapeCandidates, receiveTextCandidates, receiveShapeCandidates, createStroke } from 'src/actionCreators';
+import {
+	requestTextCandidates, requestShapeCandidates, receiveTextCandidates, receiveShapeCandidates, createStroke,
+} from 'src/actionCreators';
 import { type RecognitionResult } from 'src/types';
 import { shapeCandidate, letterCandidate } from 'src/data.spec';
 

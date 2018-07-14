@@ -9,14 +9,13 @@ export type HTMLWidthProps<P> = P
 
 type WrappedProps<P> = HTMLWidthProps<P>;
 
-export default (Wrapped: React.ComponentType<WrappedProps<any>>) =>
-	class HTMLWidth extends React.PureComponent<HTMLWidthProps<*>, State> {
-		constructor() {
-			super();
-			this.state = {
-				htmlWidth: 0,
-			};
-		}
+export default (Wrapped: React.ComponentType<WrappedProps<any>>) => class HTMLWidth extends React.PureComponent<HTMLWidthProps<*>, State> {
+	constructor() {
+		super();
+		this.state = {
+			htmlWidth: 0,
+		};
+	}
 
 		state: State
 
@@ -29,13 +28,15 @@ export default (Wrapped: React.ComponentType<WrappedProps<any>>) =>
 		node: HTMLDivElement | null
 
 		render() {
-			return (<div
-				ref={(node) => { this.node = node; }}
-				style={{
-					width: '100%',
-				}}
-			>
-				<Wrapped {...this.props} {...this.state} />
-			</div>);
+			return (
+				<div
+					ref={(node) => { this.node = node; }}
+					style={{
+						width: '100%',
+					}}
+				>
+					<Wrapped {...this.props} {...this.state} />
+				</div>
+			);
 		}
-	};
+};

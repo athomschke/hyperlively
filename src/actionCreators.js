@@ -1,6 +1,8 @@
 // @flow
 import * as ActionTypes from 'src/constants/actionTypes';
-import type { JSONPath, TextCandidate, ShapeCandidate, Stroke, Functions, Parameters } from 'src/types';
+import type {
+	JSONPath, TextCandidate, ShapeCandidate, Stroke, Functions, Parameters,
+} from 'src/types';
 
 export function appendSpecificAction(actionName: string, ...actionNames: Array<string>) {
 	return { type: ActionTypes.APPEND_SPECIFC_ACTION, actionName, actionNames };
@@ -35,15 +37,21 @@ export function toggleInterpreter(boolean: boolean) {
 }
 
 export function appendPoint(x: number, y: number, timeStamp: number) {
-	return { type: ActionTypes.APPEND_POINT, x, y, timeStamp, sceneIndex: NaN };
+	return {
+		type: ActionTypes.APPEND_POINT, x, y, timeStamp, sceneIndex: NaN,
+	};
 }
 
 export function createStroke(x: number, y: number, timeStamp: number) {
-	return { type: ActionTypes.APPEND_STROKE, x, y, timeStamp, sceneIndex: NaN };
+	return {
+		type: ActionTypes.APPEND_STROKE, x, y, timeStamp, sceneIndex: NaN,
+	};
 }
 
 export function finishStroke(x: number, y: number, timeStamp: number) {
-	return { type: ActionTypes.FINISH_STROKE, x, y, timeStamp, sceneIndex: NaN };
+	return {
+		type: ActionTypes.FINISH_STROKE, x, y, timeStamp, sceneIndex: NaN,
+	};
 }
 
 export function toggleDrawing(boolean: boolean) {

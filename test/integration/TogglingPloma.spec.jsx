@@ -3,7 +3,9 @@ import { expect } from 'chai';
 import TestUtils from 'react-addons-test-utils';
 import { useFakeXMLHttpRequest } from 'sinon';
 
-import { hashCode, renderApplicationWithState, mountApp, dismountApp, getCombinedCanvas } from './helpers';
+import {
+	hashCode, renderApplicationWithState, mountApp, dismountApp, getCombinedCanvas,
+} from './helpers';
 import canvasWithIrregularStrokesWithPloma from './data/canvasWithIrregularStrokesWithPloma';
 
 describe('Integration', () => {

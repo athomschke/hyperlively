@@ -3,7 +3,9 @@ import { expect } from 'chai';
 import { map, reduce, flatten } from 'lodash';
 import { useFakeXMLHttpRequest } from 'sinon';
 
-import { renderApplicationWithState, mountApp, dismountApp, manuallyDrawStrokes, getWindowNode } from 'test/integration/helpers';
+import {
+	renderApplicationWithState, mountApp, dismountApp, manuallyDrawStrokes, getWindowNode,
+} from 'test/integration/helpers';
 
 import { createUndoableScenes } from './state';
 import emptyState from './emptyState';

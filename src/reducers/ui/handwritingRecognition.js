@@ -20,6 +20,7 @@ const handwritingRecognition = scopeToActions(
 		default:
 			return state;
 		}
-	}, handwritingRecognitionActions, initialHandwritingRecognitionState);
+	}, handwritingRecognitionActions, initialHandwritingRecognitionState,
+);
 
 export { handwritingRecognition };

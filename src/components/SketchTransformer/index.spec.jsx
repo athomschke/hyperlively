@@ -14,7 +14,9 @@ type MockedSubComponentProps = {
 const MockedSubComponent = () => <div />;
 
 const defaultProps = (): SketchTransformerProps<MockedSubComponentProps> => ({
-	bounds: { x: 0, y: 0, width: 0, height: 0 },
+	bounds: {
+		x: 0, y: 0, width: 0, height: 0,
+	},
 	selected: false,
 	hidden: false,
 	strokes: [],
@@ -25,8 +27,7 @@ const defaultProps = (): SketchTransformerProps<MockedSubComponentProps> => ({
 const MockedComponent = SketchTransformer(MockedSubComponent);
 
 describe('Sketch transformer', () => {
-	const renderComponentWithProps = (props: SketchTransformerProps<MockedSubComponentProps>) =>
-		shallow(<MockedComponent {...props} />);
+	const renderComponentWithProps = (props: SketchTransformerProps<MockedSubComponentProps>) => shallow(<MockedComponent {...props} />);
 
 	describe('Rendering', () => {
 		it('with default properties works', () => {
@@ -46,7 +47,9 @@ describe('Sketch transformer', () => {
 			const strokes = exampleStrokes([point(7, 10), point(7, 15), point(15, 15), point(15, 10)]);
 			const offset = 5;
 			const finished = true;
-			const component = renderComponentWithProps({ ...defaultProps(), strokes, offset, finished });
+			const component = renderComponentWithProps({
+				...defaultProps(), strokes, offset, finished,
+			});
 			expect(component.find(MockedSubComponent).prop('bounds').width).to.equal(18);
 			expect(component.find(MockedSubComponent).prop('bounds').height).to.equal(15);
 		});
@@ -55,7 +58,9 @@ describe('Sketch transformer', () => {
 			const strokes = exampleStrokes([point(7, 10), point(7, 15), point(15, 15), point(15, 10)]);
 			const offset = 5;
 			const finished = true;
-			const component = renderComponentWithProps({ ...defaultProps(), strokes, offset, finished });
+			const component = renderComponentWithProps({
+				...defaultProps(), strokes, offset, finished,
+			});
 			expect(component.find(MockedSubComponent).prop('bounds').x).to.equal(2);
 			expect(component.find(MockedSubComponent).prop('bounds').y).to.equal(5);
 		});

@@ -1,6 +1,8 @@
 // @flow
 import React, { PureComponent } from 'react';
-import { forEach, map, flatten, filter, last } from 'lodash';
+import {
+	forEach, map, flatten, filter, last,
+} from 'lodash';
 
 import * as actionCreators from 'src/actionCreators';
 import type { FunctionConfiguration, TreeParameter, ActionMapping } from 'src/types';
@@ -11,12 +13,12 @@ const getArgs = functionString => functionString.split('(')[1].split(')')[0].spl
 const getName = functionString => last(functionString.split('(')[0].trim().split('function ')).trim();
 
 const formattedSignatures = (
-	signatures: Array<string>)
-	: Array<FunctionConfiguration> =>
-	map(signatures, signature => ({
-		name: getName(signature),
-		parameters: getArgs(signature).length,
-	}));
+	signatures: Array<string>,
+)
+	: Array<FunctionConfiguration> => map(signatures, signature => ({
+	name: getName(signature),
+	parameters: getArgs(signature).length,
+}));
 
 const functionSignature = (name: string, params: Array<string>) => `${name} (${params.join(', ')})`;
 

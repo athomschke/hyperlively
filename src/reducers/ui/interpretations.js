@@ -43,6 +43,7 @@ const interpretations = scopeToActions(
 	(state: InterpretationsState, action: INTERPRETATIONS_ACTION) => ({
 		functions: functions(state.functions, action),
 		parameters: parameters(state.parameters, action),
-	}), interpretationsActions, initialInterpretationsState);
+	}), interpretationsActions, initialInterpretationsState,
+);
 
 export { interpretations };

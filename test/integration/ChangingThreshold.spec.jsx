@@ -5,7 +5,9 @@ import TestUtils from 'react-addons-test-utils';
 import { cloneDeep } from 'lodash';
 import { useFakeXMLHttpRequest } from 'sinon';
 
-import { renderApplicationWithState, mountApp, dismountApp, getCanvasNodes } from './helpers';
+import {
+	renderApplicationWithState, mountApp, dismountApp, getCanvasNodes,
+} from './helpers';
 import canvasWithTwoStrokes from './data/canvasWithTwoStrokes';
 
 describe('Integration', () => {

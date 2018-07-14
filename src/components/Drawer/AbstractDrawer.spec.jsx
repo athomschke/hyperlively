@@ -34,11 +34,17 @@ class SpecificDrawer extends AbstractDrawer<AbstractDrawerProps<SpecificProps>, 
 	handleStrokesExtended(...args) {
 		AbstractDrawer.prototype.handleStrokesExtended.call(this, ...args);
 	}
+
 	handleStrokesEnded() { this.props.overwriteFunctionCalled(); }
+
 	startStrokeAt() { this.props.overwriteFunctionCalled(); }
+
 	extendStrokeAt() { this.props.overwriteFunctionCalled(); }
+
 	endStrokeAt() { this.props.overwriteFunctionCalled(); }
+
 	resetCanvas() { this.props.overwriteFunctionCalled(); }
+
 	redrawStroke() { this.props.overwriteFunctionCalled(); }
 }
 
@@ -59,11 +65,9 @@ const defaultProps = (): AbstractDrawerProps<SpecificProps> => ({
 	finished: true,
 });
 
-const shallowWithProps = (props: AbstractDrawerProps<SpecificProps>) =>
-	shallow(<SpecificDrawer {...props} />);
+const shallowWithProps = (props: AbstractDrawerProps<SpecificProps>) => shallow(<SpecificDrawer {...props} />);
 
-const mountWithProps = (props: AbstractDrawerProps<SpecificProps>) =>
-	mount(<SpecificDrawer {...props} />);
+const mountWithProps = (props: AbstractDrawerProps<SpecificProps>) => mount(<SpecificDrawer {...props} />);
 
 describe('AbstractDrawer', () => {
 	describe('calling an abstract function directly', () => {

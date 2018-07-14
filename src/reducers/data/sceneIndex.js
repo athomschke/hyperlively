@@ -31,7 +31,6 @@ const scopedSceneIndexReducer: SceneIndexReducer = (state, action) => {
 	}
 };
 
-const sceneIndex =
-scopeToActions(scopedSceneIndexReducer, setSceneIndexActions, initialSceneIndexState);
+const sceneIndex = scopeToActions(scopedSceneIndexReducer, setSceneIndexActions, initialSceneIndexState);
 
 export { sceneIndex };

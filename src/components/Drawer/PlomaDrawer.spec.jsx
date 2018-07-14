@@ -2,7 +2,9 @@
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 import React from 'react';
-import { remove, filter, isNumber, map } from 'lodash';
+import {
+	remove, filter, isNumber, map,
+} from 'lodash';
 import { spy } from 'sinon';
 
 import { point, exampleStrokes } from 'src/helpers.spec';
@@ -250,8 +252,7 @@ describe('PlomaDrawer', () => {
 
 		it('with a colored pen needs to choose the right color format', () => {
 			canvas.instance().startStrokeAt({ x: 10, y: 10 }, { r: 45, g: 56, b: 67 });
-			const wrongFormats = filter(canvas.state('ballpointPen').setPenColor.args, arg =>
-				!(isNumber(arg[0].r) && isNumber(arg[0].g) && isNumber(arg[0].b)));
+			const wrongFormats = filter(canvas.state('ballpointPen').setPenColor.args, arg => !(isNumber(arg[0].r) && isNumber(arg[0].g) && isNumber(arg[0].b)));
 			expect(wrongFormats).to.have.length(0);
 		});
 
@@ -270,8 +271,7 @@ describe('PlomaDrawer', () => {
 			canvas.instance().componentDidUpdate();
 			spyOnPen(canvas.state('ballpointPen'));
 			const firstStroke = canvas.prop('strokes')[0];
-			firstStroke.points = map(firstStroke.points, aPoint =>
-				Object.assign({}, aPoint, { x: aPoint.x + 10 }));
+			firstStroke.points = map(firstStroke.points, aPoint => Object.assign({}, aPoint, { x: aPoint.x + 10 }));
 			canvas.instance().componentDidUpdate();
 		});
 
@@ -285,8 +285,7 @@ describe('PlomaDrawer', () => {
 			canvas = mountComponentWithProps(defaultProps());
 			canvas.instance().componentDidUpdate();
 			const firstStroke = canvas.prop('strokes')[0];
-			firstStroke.points = map(firstStroke.points, aPoint =>
-				Object.assign({}, aPoint, { x: aPoint.x + 10 }));
+			firstStroke.points = map(firstStroke.points, aPoint => Object.assign({}, aPoint, { x: aPoint.x + 10 }));
 			canvas.instance().componentDidUpdate();
 		});
 

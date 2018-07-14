@@ -3,9 +3,13 @@ import { merge, find } from 'lodash';
 
 import type { Stroke } from 'src/types';
 import { DEFAULT_PEN_COLOR } from 'src/constants/drawing';
-import { finishStroke, hide, select, updatePosition, rotateBy } from 'src/actionCreators';
+import {
+	finishStroke, hide, select, updatePosition, rotateBy,
+} from 'src/actionCreators';
 import scopeToActions from 'src/reducers/scopeToActions';
-import { UPDATE_POSITION, ROTATE_BY, HIDE, SELECT, FINISH_STROKE } from 'src/constants/actionTypes';
+import {
+	UPDATE_POSITION, ROTATE_BY, HIDE, SELECT, FINISH_STROKE,
+} from 'src/constants/actionTypes';
 import type {
 	FINISH_STROKE_ACTION, UPDATE_POSITION_ACTION, HIDE_ACTION, SELECT_ACTION, ROTATE_BY_ACTION,
 } from 'src/actionTypeDefinitions';
@@ -42,12 +46,9 @@ const initialStrokeState = (): Stroke => ({
 	},
 });
 
-const doStrokesContainStroke = (strokes: Array<Stroke>, aStroke: Stroke) =>
-	find(strokes, stateStroke =>
-		stateStroke.hidden === aStroke.hidden &&
-		stateStroke.points.length === aStroke.points.length &&
-		stateStroke.points[0].timeStamp === aStroke.points[0].timeStamp,
-	);
+const doStrokesContainStroke = (strokes: Array<Stroke>, aStroke: Stroke) => find(strokes, stateStroke => stateStroke.hidden === aStroke.hidden
+		&& stateStroke.points.length === aStroke.points.length
+		&& stateStroke.points[0].timeStamp === aStroke.points[0].timeStamp);
 
 type StrokeReducer = (state: Stroke, action: StrokeActionType) => Stroke
 

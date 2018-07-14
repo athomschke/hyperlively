@@ -1,7 +1,9 @@
 // @flow
 import { expect } from 'chai';
 
-import { appendPoint, createStroke, finishStroke, updatePosition, hide, select, selectInside, rotateBy } from 'src/actionCreators';
+import {
+	appendPoint, createStroke, finishStroke, updatePosition, hide, select, selectInside, rotateBy,
+} from 'src/actionCreators';
 import { point, event, exampleStrokes } from 'src/helpers.spec';
 import type { Stroke } from 'src/types';
 
@@ -101,8 +103,7 @@ describe('strokes', () => {
 		it('appends a point to the last stroke', () => {
 			const pointAddEvent = event(10, 11, 100);
 			const newPoint = point(10, 11, TIME_STAMP);
-			const finishStrokeAction =
-				finishStroke(pointAddEvent.pageX, pointAddEvent.pageY, TIME_STAMP);
+			const finishStrokeAction =				finishStroke(pointAddEvent.pageX, pointAddEvent.pageY, TIME_STAMP);
 			const result = strokes(
 				[
 					...exampleStrokes([]),

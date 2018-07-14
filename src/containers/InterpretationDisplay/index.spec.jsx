@@ -5,8 +5,7 @@ import { expect } from 'chai';
 
 import { InterpretationDisplayComponent, type InterpretationDisplayProps } from '.';
 
-const shallowWithProps = (props: InterpretationDisplayProps) =>
-	shallow(<InterpretationDisplayComponent {...props} />);
+const shallowWithProps = (props: InterpretationDisplayProps) => shallow(<InterpretationDisplayComponent {...props} />);
 
 describe('InterpretationDisplay', () => {
 	it('renders no selection as empty string', () => {

@@ -1,5 +1,7 @@
 // @flow
-import type { Undoable, Scenes, Scene, Stroke } from 'src/types';
+import type {
+	Undoable, Scenes, Scene, Stroke,
+} from 'src/types';
 import { stroke } from 'src/reducers/data/strokes/stroke';
 
 const dummyStroke = (points: Array<number>): Stroke => ({

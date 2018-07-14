@@ -20,7 +20,9 @@ const extendBoundsToPoint = (bounds, point, position) => ({
 
 const getLimitsForStrokes = (strokes) => {
 	if (strokes.length && find(strokes, stroke => (stroke.points.length > 0))) {
-		const infiniteBounds = { left: Infinity, top: Infinity, right: -Infinity, bottom: -Infinity };
+		const infiniteBounds = {
+			left: Infinity, top: Infinity, right: -Infinity, bottom: -Infinity,
+		};
 		return reduce(strokes, (bounds, stroke) => {
 			const reduced = reduce(
 				stroke.points,
@@ -30,7 +32,9 @@ const getLimitsForStrokes = (strokes) => {
 			return joinBounds(bounds, reduced);
 		}, infiniteBounds);
 	}
-	return { left: 0, top: 0, right: 0, bottom: 0 };
+	return {
+		left: 0, top: 0, right: 0, bottom: 0,
+	};
 };
 
 export type SketchTransformerProps<P> = P & {
@@ -65,11 +69,12 @@ const getCanvasTransform = (strokes: Array<Stroke>, finished: boolean, offset: n
 	if (finished) {
 		return getContentTransform(strokes, offset);
 	}
-	return { x: 0, y: 0, width: window.innerWidth, height: window.innerHeight };
+	return {
+		x: 0, y: 0, width: window.innerWidth, height: window.innerHeight,
+	};
 };
 
-export default (Wrapped: React.ComponentType<WrappedProps<any>>) =>
-	class Sketch extends React.PureComponent<SketchTransformerProps<any>> {
+export default (Wrapped: React.ComponentType<WrappedProps<any>>) => class Sketch extends React.PureComponent<SketchTransformerProps<any>> {
 	props: SketchTransformerProps<any>;
 
 	static defaultProps = {
@@ -80,9 +85,11 @@ export default (Wrapped: React.ComponentType<WrappedProps<any>>) =>
 
 	render() {
 		const { offset, ...rest } = this.props;
-		return (<Wrapped
-			{...rest}
-			bounds={getCanvasTransform(this.props.strokes, this.props.finished, offset)}
-		/>);
+		return (
+			<Wrapped
+				{...rest}
+				bounds={getCanvasTransform(this.props.strokes, this.props.finished, offset)}
+			/>
+		);
 	}
-	};
+};

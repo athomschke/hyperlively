@@ -20,13 +20,15 @@ export default class Threshold extends PureComponent<ThresholdProps> {
 	props: ThresholdProps;
 
 	render() {
-		return (<Slider
-			className={style.rcSlider}
-			value={Math.min(MAX_THRESHOLD, Math.max(MIN_THRESHOLD, this.props.threshold))}
-			max={MAX_THRESHOLD}
-			min={MIN_THRESHOLD}
-			onChange={this.props.onChange}
-			tipFormatter={null}
-		/>);
+		return (
+			<Slider
+				className={style.rcSlider}
+				value={Math.min(MAX_THRESHOLD, Math.max(MIN_THRESHOLD, this.props.threshold))}
+				max={MAX_THRESHOLD}
+				min={MIN_THRESHOLD}
+				onChange={this.props.onChange}
+				tipFormatter={null}
+			/>
+		);
 	}
 }

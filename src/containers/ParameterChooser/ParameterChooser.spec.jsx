@@ -37,8 +37,7 @@ const defaultProps = (): ParameterChooserProps => ({
 });
 
 const shallowWithProps = (props: ParameterChooserProps) => shallow(<ParameterChooser {...props} />);
-const selectedStrokesChooser = (parameterChooser: ShallowWrapper, selectedStrokes: Array<Stroke>) =>
-	parameterChooser.find(JsonPropertyChooser).findWhere(n => n.prop('jsonTree') === selectedStrokes);
+const selectedStrokesChooser = (parameterChooser: ShallowWrapper, selectedStrokes: Array<Stroke>) => parameterChooser.find(JsonPropertyChooser).findWhere(n => n.prop('jsonTree') === selectedStrokes);
 
 describe('Parameter Chooser Component', () => {
 	describe('Rendering', () => {
@@ -89,8 +88,7 @@ describe('Parameter Chooser Component', () => {
 				['selectedStrokes', '1'],
 				['lastStrokes', '2'],
 			];
-			const parameterChooser =
-				shallowWithProps({ ...defaultProps(), selectedStrokes, checkedPaths });
+			const parameterChooser =				shallowWithProps({ ...defaultProps(), selectedStrokes, checkedPaths });
 
 			expect(selectedStrokesChooser(parameterChooser, selectedStrokes).prop('checkedPaths')).to.deep.equal([['1']]);
 		});
@@ -101,8 +99,7 @@ describe('Parameter Chooser Component', () => {
 				['selectedStrokes', '1'],
 				['lastStrokes', '2'],
 			];
-			const parameterChooser =
-				shallowWithProps({ ...defaultProps(), selectedStrokes, collapsedPaths });
+			const parameterChooser =				shallowWithProps({ ...defaultProps(), selectedStrokes, collapsedPaths });
 
 			expect(selectedStrokesChooser(parameterChooser, selectedStrokes).prop('collapsedPaths')).deep.equal([['1']]);
 		});

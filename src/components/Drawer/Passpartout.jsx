@@ -39,15 +39,17 @@ export default class Passpartout extends React.PureComponent<Props> {
 	}
 
 	render() {
-		return (<div
-			ref={(divNode) => {
-				if (this.props.onNodeChanged) {
-					this.props.onNodeChanged(divNode);
-				}
-			}}
-			style={this.calculatePassepartoutStyle()}
-		>
-			{this.props.children}
-		</div>);
+		return (
+			<div
+				ref={(divNode) => {
+					if (this.props.onNodeChanged) {
+						this.props.onNodeChanged(divNode);
+					}
+				}}
+				style={this.calculatePassepartoutStyle()}
+			>
+				{this.props.children}
+			</div>
+		);
 	}
 }

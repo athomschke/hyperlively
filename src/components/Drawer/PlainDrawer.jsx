@@ -1,6 +1,8 @@
 // @flow
 import Color from 'color';
-import { without, last, head, tail, reduce, cloneDeep } from 'lodash';
+import {
+	without, last, head, tail, reduce, cloneDeep,
+} from 'lodash';
 
 import { DEFAULT_PEN_COLOR, SELECTED_PEN_COLOR } from 'src/constants/drawing';
 import type { Stroke, Point } from 'src/types';
@@ -19,8 +21,8 @@ export type PlainDrawerProps = AbstractDrawerProps<Props>;
 
 export default class PlainDrawer extends AbstractDrawer<Props, {}> {
 	wasFirstPointEdited() {
-		return this.props.strokes[0] && this.state.strokes[0] &&
-			(this.props.strokes[0].points[0].x !== this.state.strokes[0].points[0].x);
+		return this.props.strokes[0] && this.state.strokes[0]
+			&& (this.props.strokes[0].points[0].x !== this.state.strokes[0].points[0].x);
 	}
 
 	handleStrokesUpdated() {

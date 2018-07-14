@@ -41,14 +41,13 @@ export default (props: JsonPropertyChooserProps = defaultProps()) => {
 			props.checkedPaths,
 			props.collapsedPaths,
 			props.checkedPaths,
-			0);
+			0,
+		);
 	};
 
 	const onTreeNodeCheckChange = (path: Array<number>) => {
-		const pathToProperty: Array<string> =
-			getPathToProperty(path, getFormattedData());
-		const checkedIndex: number =
-			findArraysIndex(props.checkedPaths, pathToProperty);
+		const pathToProperty: Array<string> =			getPathToProperty(path, getFormattedData());
+		const checkedIndex: number =			findArraysIndex(props.checkedPaths, pathToProperty);
 		let checkedPaths: Array<Array<string>>;
 		if (checkedIndex >= 0) {
 			checkedPaths = props.checkedPaths
@@ -61,18 +60,16 @@ export default (props: JsonPropertyChooserProps = defaultProps()) => {
 			...props.jsonTree,
 		};
 		const mixedValues = checkedPaths
-			.map(checkedPath =>
-				checkedPath.reduce((value, key) => {
-					if (
-						(typeof key === 'number' && value instanceof Array) ||
-						(typeof key === 'string' && value instanceof Object)
-					) {
-						return value[key];
-					}
-					return null;
-				},
-				rawData,
-				));
+			.map(checkedPath => checkedPath.reduce((value, key) => {
+				if (
+					(typeof key === 'number' && value instanceof Array)
+						|| (typeof key === 'string' && value instanceof Object)
+				) {
+					return value[key];
+				}
+				return null;
+			},
+			rawData));
 		// $FlowFixMe needs flow array type refinement, see https://github.com/facebook/flow/issues/1414
 		const values: Array<JSONObject | any> = mixedValues.filter(value => value !== null);
 		props.onParameterChoose(values);
@@ -80,10 +77,8 @@ export default (props: JsonPropertyChooserProps = defaultProps()) => {
 	};
 
 	const onTreeNodeCollapseChange = (path: Array<number>) => {
-		const pathToProperty: Array<string> =
-			getPathToProperty(path, getFormattedData());
-		const collapsedIndex: number =
-			findArraysIndex(props.collapsedPaths, pathToProperty);
+		const pathToProperty: Array<string> =			getPathToProperty(path, getFormattedData());
+		const collapsedIndex: number =			findArraysIndex(props.collapsedPaths, pathToProperty);
 		if (collapsedIndex >= 0) {
 			props.onCollapsedPathsChange(props.collapsedPaths
 				.slice(0, collapsedIndex)
@@ -101,14 +96,16 @@ export default (props: JsonPropertyChooserProps = defaultProps()) => {
 		divStyle.left = position.x;
 		divStyle.top = position.y;
 	}
-	return (<div className={style.treeView} style={divStyle}>
-		<Tree
-			data={data}
-			collapsible
-			expandIconClass="expand"
-			collapseIconClass="collapse"
-			onTreeNodeCheckChange={onTreeNodeCheckChange}
-			onTreeNodeCollapseChange={onTreeNodeCollapseChange}
-		/>
-	</div>);
+	return (
+		<div className={style.treeView} style={divStyle}>
+			<Tree
+				data={data}
+				collapsible
+				expandIconClass="expand"
+				collapseIconClass="collapse"
+				onTreeNodeCheckChange={onTreeNodeCheckChange}
+				onTreeNodeCollapseChange={onTreeNodeCollapseChange}
+			/>
+		</div>
+	);
 };

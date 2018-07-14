@@ -33,6 +33,7 @@ class WrappedPlainDrawer extends Component<WrappedProps, WrappedState> {
 	}
 
 	state: WrappedState;
+
 	props: WrappedProps;
 
 	render() {

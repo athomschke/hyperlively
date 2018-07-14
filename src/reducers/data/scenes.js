@@ -21,23 +21,21 @@ const initialScenesState = (): Array<Scene> => [];
 
 type ScopedScenesReducer = (state: Array<Scene>, action: ScenesActionType) => Array<Scene>
 
-const scopedScenesReducer: ScopedScenesReducer = (state, action) =>
-	produce(state, (draftState: Array<Scene>) => {
-		switch (action.type) {
-		case ADD_SCENE:
-			draftState.push(scene(undefined, { type: '' }));
-			break;
-		case ADD_SCENE_AT:
-			draftState.splice(action.number, 0, scene(undefined, { type: '' }));
-			break;
-		default:
-			if (Object.keys(sceneActions).includes(action.type)) {
-				draftState.splice(action.sceneIndex, 1, scene(state[action.sceneIndex], action));
-			}
+const scopedScenesReducer: ScopedScenesReducer = (state, action) => produce(state, (draftState: Array<Scene>) => {
+	switch (action.type) {
+	case ADD_SCENE:
+		draftState.push(scene(undefined, { type: '' }));
+		break;
+	case ADD_SCENE_AT:
+		draftState.splice(action.number, 0, scene(undefined, { type: '' }));
+		break;
+	default:
+		if (Object.keys(sceneActions).includes(action.type)) {
+			draftState.splice(action.sceneIndex, 1, scene(state[action.sceneIndex], action));
 		}
-	});
+	}
+});
 
-const scenes =
-scopeToActions(scopedScenesReducer, scenesActions, initialScenesState);
+const scenes = scopeToActions(scopedScenesReducer, scenesActions, initialScenesState);
 
 export { scenes };

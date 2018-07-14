@@ -10,11 +10,13 @@ export default class UndoRedo extends PureComponent<UndoRedoSliderProps> {
 	node: HTMLDivElement | null
 
 	render() {
-		return (<UndoRedoSlider
-			{...this.props}
-			min={0}
-			className={style.rcSlider}
-			tipFormatter={null}
-		/>);
+		return (
+			<UndoRedoSlider
+				{...this.props}
+				min={0}
+				className={style.rcSlider}
+				tipFormatter={null}
+			/>
+		);
 	}
 }

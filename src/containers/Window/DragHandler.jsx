@@ -14,9 +14,9 @@ type State = {
 	mousePressed: boolean;
 }
 
-export default (Wrapped: React.ComponentType<DragHandlerProps<any>>) =>
-	class extends React.PureComponent<DragHandlerProps<any>, State> {
+export default (Wrapped: React.ComponentType<DragHandlerProps<any>>) => class extends React.PureComponent<DragHandlerProps<any>, State> {
 	props: DragHandlerProps<any>;
+
 	state: State;
 
 	static defaultProps = {
@@ -99,8 +99,8 @@ export default (Wrapped: React.ComponentType<DragHandlerProps<any>>) =>
 			onTouchEnd: this.onTouchEnd,
 		};
 		return (
-			<div {...callbacks} >
+			<div {...callbacks}>
 				<Wrapped {...this.props} />
 			</div>);
 	}
-	};
+};

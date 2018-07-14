@@ -1,5 +1,7 @@
 // @flow
-import { map, forEach, tail, last, first } from 'lodash';
+import {
+	map, forEach, tail, last, first,
+} from 'lodash';
 import { render } from 'react-dom';
 import { createStore, type Store } from 'redux';
 import { Provider } from 'react-redux';

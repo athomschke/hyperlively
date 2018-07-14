@@ -15,8 +15,7 @@ const defaultProps = () => ({
 	max: 2,
 });
 
-const renderWithProps = (props: Point2BoundsScalerProps<{}>) =>
-	shallow(<WrappedWithPoint2BoundsScaler {...props} />);
+const renderWithProps = (props: Point2BoundsScalerProps<{}>) => shallow(<WrappedWithPoint2BoundsScaler {...props} />);
 
 describe('Point2BoundsScaler', () => {
 	describe('using the scaler to render', () => {

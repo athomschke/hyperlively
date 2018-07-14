@@ -23,8 +23,7 @@ const defaultProps = (): TimeoutBehaviorProps<WrappedWithTimeoutBehaviorProps> =
 const Wrapped = () => <div />;
 const WrappedWithTimeoutBehavior = TimeoutBehavior(Wrapped);
 
-const renderComponentWithProps = (props: TimeoutBehaviorProps<WrappedWithTimeoutBehaviorProps>) =>
-	mount(<WrappedWithTimeoutBehavior {...props} />);
+const renderComponentWithProps = (props: TimeoutBehaviorProps<WrappedWithTimeoutBehaviorProps>) => mount(<WrappedWithTimeoutBehavior {...props} />);
 
 describe('WrappedWithTimeoutBehavior', () => {
 	describe('moving the slider handle left', () => {

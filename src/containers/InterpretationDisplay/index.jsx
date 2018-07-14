@@ -18,7 +18,11 @@ export const InterpretationDisplayComponent = (props: InterpretationDisplayProps
 		return `${aFunction.name}(${functionParameters.join(', ')})`;
 	}).join(' then ');
 
-	return (<div>{renderCall()}</div>);
+	return (
+		<div>
+			{renderCall()}
+		</div>
+	);
 };
 
 const mapStateToProps = (state: HyperlivelyState) => ({

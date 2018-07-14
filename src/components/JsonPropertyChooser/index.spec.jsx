@@ -3,7 +3,9 @@ import { expect } from 'chai';
 import React from 'react';
 import { shallow } from 'enzyme';
 import Tree from 'rc-tree';
-import { flatten, map, forEach, filter } from 'lodash';
+import {
+	flatten, map, forEach, filter,
+} from 'lodash';
 import { spy } from 'sinon';
 
 import type { ReactTreeLeafFormat, ReactTreeNodeFormat } from 'src/types';
@@ -12,11 +14,9 @@ import { formatObject } from './choosingActions';
 
 import JsonPropertyChooser, { type JsonPropertyChooserProps } from '.';
 
-const renderWithProps = (props: JsonPropertyChooserProps) =>
-	shallow(<JsonPropertyChooser {...props} />);
+const renderWithProps = (props: JsonPropertyChooserProps) => shallow(<JsonPropertyChooser {...props} />);
 
-const shallowWithProps = (props: JsonPropertyChooserProps) =>
-	shallow(<JsonPropertyChooser {...props} />);
+const shallowWithProps = (props: JsonPropertyChooserProps) => shallow(<JsonPropertyChooser {...props} />);
 
 const exampleChecks = [['a', 'a2'], ['b']];
 
@@ -127,21 +127,24 @@ describe('JsonProperty Chooser', () => {
 
 		it('formats the json tree for the tree view menu', () => {
 			const gottenArray = formatObject(
-				exampleTree, exampleChecks, [], exampleChecks, 0);
+				exampleTree, exampleChecks, [], exampleChecks, 0,
+			);
 			const wantedArray = exampleArray;
 			expect(gottenArray).to.deep.equal(wantedArray);
 		});
 
 		it('checks the chosen checkmarks', () => {
 			const formattedTree: Array<ReactTreeLeafFormat | ReactTreeNodeFormat> = formatObject(
-				exampleTree, exampleChecks, [], exampleChecks, 0);
+				exampleTree, exampleChecks, [], exampleChecks, 0,
+			);
 			expect((formattedTree[0]:any).children[1].checked).to.be.true();
 		});
 
 
 		it('collapses collapsed nodes', () => {
 			const formattedTree = formatObject(
-				exampleTree, exampleChecks, exampleCollapses, exampleChecks, 0);
+				exampleTree, exampleChecks, exampleCollapses, exampleChecks, 0,
+			);
 			expect((formattedTree[0]:any).collapsed).to.be.true();
 		});
 	});

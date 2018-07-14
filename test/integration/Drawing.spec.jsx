@@ -2,7 +2,9 @@
 import { expect } from 'chai';
 import { useFakeXMLHttpRequest } from 'sinon';
 
-import { hashCode, renderApplicationWithState, mountApp, dismountApp, getWindowNode, getCombinedCanvas, manuallyDrawStrokes } from './helpers';
+import {
+	hashCode, renderApplicationWithState, mountApp, dismountApp, getWindowNode, getCombinedCanvas, manuallyDrawStrokes,
+} from './helpers';
 import canvasWithIrregularStrokesWithPloma from './data/canvasWithIrregularStrokesWithPloma';
 import canvasWithTwoStrokes from './data/canvasWithTwoStrokes';
 import emptyCanvas from './data/emptyCanvas';

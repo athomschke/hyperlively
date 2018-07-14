@@ -80,14 +80,14 @@ const scopedData: DataReducer = (state, action) => {
 				...state,
 				sceneIndex: sceneIndex(state.sceneIndex, action),
 			};
-		} else if (Object.keys(undoableActions(scenesActions)).indexOf(action.type) >= 0) {
+		} if (Object.keys(undoableActions(scenesActions)).indexOf(action.type) >= 0) {
 			const undoableScenesAction: UndoableSceneActionType = (action: any);
 			undoableScenesAction.sceneIndex = state.sceneIndex;
 			return {
 				...state,
 				scenes: undoableScenes(state.scenes, undoableScenesAction),
 			};
-		} else if (Object.keys(dataActions).indexOf(action.type) >= 0) {
+		} if (Object.keys(dataActions).indexOf(action.type) >= 0) {
 			return {
 				...state,
 				interpretation: interpretation(state.interpretation, action),

@@ -22,8 +22,7 @@ export type WrappedProps<P> = P & {
 	bounds: Bounds,
 }
 
-export default (Wrapped: React.ComponentType<WrappedProps<any>>) =>
-	class extends React.PureComponent<SketchFitterProps<any>> {
+export default (Wrapped: React.ComponentType<WrappedProps<any>>) => class extends React.PureComponent<SketchFitterProps<any>> {
 	props: SketchFitterProps<any>;
 
 	static defaultProps = {
@@ -55,7 +54,8 @@ export default (Wrapped: React.ComponentType<WrappedProps<any>>) =>
 		const moveBy = offsetToOrigin(this.props.strokes);
 		const top = -moveBy.y + ((SLIDER_HEIGHT - previewHeight) / 2);
 		const left = -moveBy.x + getOffsetForTime(
-			this.props.strokes, htmlWidth, this.props.max, offsetIndex);
+			this.props.strokes, htmlWidth, this.props.max, offsetIndex,
+		);
 		return (
 			<div
 				key={index}
@@ -71,4 +71,4 @@ export default (Wrapped: React.ComponentType<WrappedProps<any>>) =>
 				/>
 			</div>);
 	}
-	};
+};

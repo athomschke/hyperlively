@@ -11,10 +11,12 @@ type PlomaProps = {
 	onChange: (_value: boolean) => void;
 }
 
-export const PlomaToggle = (props: PlomaProps) => (<LabelledBox
-	{...props}
-	label={'Use Ploma'}
-/>);
+export const PlomaToggle = (props: PlomaProps) => (
+	<LabelledBox
+		{...props}
+		label="Use Ploma"
+	/>
+);
 
 const mapStateToProps = (state: HyperlivelyState) => ({
 	checked: state.ui.ploma.usePloma,

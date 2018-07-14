@@ -19,8 +19,7 @@ export type WrappedProps<P> = P & {
 	showBorder: boolean,
 }
 
-export default (Wrapped: React.ComponentType<WrappedProps<any>>) =>
-	class extends React.PureComponent<Point2BoundsScalerProps<any>> {
+export default (Wrapped: React.ComponentType<WrappedProps<any>>) => class extends React.PureComponent<Point2BoundsScalerProps<any>> {
 	props: Point2BoundsScalerProps<any>;
 
 	static defaultProps = {
@@ -33,12 +32,14 @@ export default (Wrapped: React.ComponentType<WrappedProps<any>>) =>
 	render() {
 		const fittedWidth = getFittedWidth(this.props.strokes, this.props.htmlWidth, this.props.max);
 		const strokes = scaleToTime(this.props.strokes, fittedWidth, this.props.previewHeight);
-		return (<Wrapped
-			{...this.props}
-			strokes={strokes}
-			fittedWidth={fittedWidth}
-			finished
-			showBorder
-		/>);
+		return (
+			<Wrapped
+				{...this.props}
+				strokes={strokes}
+				fittedWidth={fittedWidth}
+				finished
+				showBorder
+			/>
+		);
 	}
-	};
+};

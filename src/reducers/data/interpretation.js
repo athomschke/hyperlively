@@ -1,10 +1,18 @@
 // @flow
 import scopeToActions from 'src/reducers/scopeToActions';
-import { toggleInterpreter, appendPoint, createStroke, receiveTextCandidates, receiveShapeCandidates } from 'src/actionCreators';
-import { APPEND_POINT, APPEND_STROKE, RECEIVE_TEXT_CANDIDATES, RECEIVE_SHAPE_CANDIDATES } from 'src/constants/actionTypes';
+import {
+	toggleInterpreter, appendPoint, createStroke, receiveTextCandidates, receiveShapeCandidates,
+} from 'src/actionCreators';
+import {
+	APPEND_POINT, APPEND_STROKE, RECEIVE_TEXT_CANDIDATES, RECEIVE_SHAPE_CANDIDATES,
+} from 'src/constants/actionTypes';
 import { CANDIDATES_COUNT } from 'src/constants/handwriting';
-import type { TOGGLE_INTERPRETER_ACTION, RECEIVE_TEXT_CANDIDATES_ACTION, RECEIVE_SHAPE_CANDIDATES_ACTION, APPEND_POINT_ACTION, APPEND_STROKE_ACTION } from 'src/actionTypeDefinitions';
-import type { ShapeCandidateState, RecognitionState, TextCandidateState, TextCandidate, ShapeCandidate } from 'src/types';
+import type {
+	TOGGLE_INTERPRETER_ACTION, RECEIVE_TEXT_CANDIDATES_ACTION, RECEIVE_SHAPE_CANDIDATES_ACTION, APPEND_POINT_ACTION, APPEND_STROKE_ACTION,
+} from 'src/actionTypeDefinitions';
+import type {
+	ShapeCandidateState, RecognitionState, TextCandidateState, TextCandidate, ShapeCandidate,
+} from 'src/types';
 
 const initialInterpretationState = (): RecognitionState => ({
 	shapes: [],
@@ -30,10 +38,9 @@ Array<TextCandidateState>
 type ShapeResultToState = (candidates: Array<ShapeCandidate>, strokeIds: number[]) =>
 Array<ShapeCandidateState>
 
-const resultToState = (candidates, strokeIds) =>
-	candidates
-		.slice(0, CANDIDATES_COUNT)
-		.map(candidate => ({ candidate, strokeIds }));
+const resultToState = (candidates, strokeIds) => candidates
+	.slice(0, CANDIDATES_COUNT)
+	.map(candidate => ({ candidate, strokeIds }));
 
 const textCandidates = (state: RecognitionState, action: RECEIVE_TEXT_CANDIDATES_ACTION) => ({
 	...state,
@@ -63,7 +70,6 @@ const scopedInterpretation: InterpretationReducer = (state, action) => {
 	}
 };
 
-const interpretation =
-scopeToActions(scopedInterpretation, interpretationActions, initialInterpretationState);
+const interpretation = scopeToActions(scopedInterpretation, interpretationActions, initialInterpretationState);
 
 export { interpretation };

@@ -31,7 +31,9 @@ export default class LabelledBox extends PureComponent<LabelledBoxProps> {
 					onClick={handleOnClick}
 					onChange={() => {}}
 				/>
-				<span>{this.props.label}</span>
+				<span>
+					{this.props.label}
+				</span>
 			</div>
 		);
 	}

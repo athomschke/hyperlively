@@ -9,8 +9,7 @@ import Page, { type PageProps } from './Page';
 
 type SketchCombinedPageProps = SketchCombinerProps<PageProps>
 
-const SketchCombinedPage: React.ComponentType<SketchCombinedPageProps> =
-SketchCombiner(Page);
+const SketchCombinedPage: React.ComponentType<SketchCombinedPageProps> = SketchCombiner(Page);
 
 const mapStateToProps = (state: HyperlivelyState) => ({
 	threshold: state.ui.threshold,

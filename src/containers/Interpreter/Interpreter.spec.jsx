@@ -24,11 +24,9 @@ const defaultProps = (): InterpreterProps => ({
 	clearInterval: () => undefined,
 });
 
-const findElementOfTypeWithTextContent = (wrapper, type, content) =>
-	wrapper.findWhere(n => n.type() === type && n.text().indexOf(content) >= 0);
+const findElementOfTypeWithTextContent = (wrapper, type, content) => wrapper.findWhere(n => n.type() === type && n.text().indexOf(content) >= 0);
 
-const renderWithProps = (props: InterpreterProps) =>
-	shallow(<Interpreter {...props} />);
+const renderWithProps = (props: InterpreterProps) => shallow(<Interpreter {...props} />);
 
 describe('Interpreter', () => {
 	afterEach(() => {
@@ -73,7 +71,9 @@ describe('Interpreter', () => {
 				parameters: 1,
 			}];
 			const parameters: Parameters = ['aProp'];
-			const list = renderWithProps({ ...defaultProps(), performAction, functions, parameters });
+			const list = renderWithProps({
+				...defaultProps(), performAction, functions, parameters,
+			});
 
 			const acceptButton = findElementOfTypeWithTextContent(list, 'button', 'Accept');
 			acceptButton.simulate('click');
@@ -87,7 +87,9 @@ describe('Interpreter', () => {
 				parameters: 1,
 			}];
 			const parameters: Parameters = ['aProp'];
-			const list = renderWithProps({ ...defaultProps(), functions, parameters, performAction });
+			const list = renderWithProps({
+				...defaultProps(), functions, parameters, performAction,
+			});
 
 			const acceptButton = findElementOfTypeWithTextContent(list, 'button', 'Accept');
 			acceptButton.simulate('click');
@@ -104,7 +106,9 @@ describe('Interpreter', () => {
 				parameters: 1,
 			}];
 			const parameters: Parameters = ['aProp'];
-			const list = renderWithProps({ ...defaultProps(), performAction, functions, parameters });
+			const list = renderWithProps({
+				...defaultProps(), performAction, functions, parameters,
+			});
 
 			const acceptButton = findElementOfTypeWithTextContent(list, 'button', 'Accept');
 			acceptButton.simulate('click');
@@ -122,7 +126,9 @@ describe('Interpreter', () => {
 				parameters: 1,
 			}];
 			const parameters: Parameters = [1, 2, 3];
-			const list = renderWithProps({ ...defaultProps(), functions, parameters, performAction });
+			const list = renderWithProps({
+				...defaultProps(), functions, parameters, performAction,
+			});
 
 			const acceptButton = findElementOfTypeWithTextContent(list, 'button', 'Accept');
 			acceptButton.simulate('click');

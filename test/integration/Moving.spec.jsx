@@ -2,7 +2,9 @@
 import { expect } from 'chai';
 import { useFakeXMLHttpRequest } from 'sinon';
 
-import { hashCode, mountApp, dismountApp, renderApplicationWithStore, createAppStore } from './helpers';
+import {
+	hashCode, mountApp, dismountApp, renderApplicationWithStore, createAppStore,
+} from './helpers';
 import canvasWithTwoStrokes from './data/canvasWithTwoStrokes';
 
 let storeDispatch;

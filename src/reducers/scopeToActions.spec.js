@@ -13,8 +13,7 @@ describe('allowAllActions Wrapper', () => {
 		type: 'SPECIFIC_ACTION',
 		name,
 	});
-	const specificReducer = (state = initialState(), action: SpecificAction) =>
-		(action.type === 'SPECIFIC_ACTION' ? action.name : state);
+	const specificReducer = (state = initialState(), action: SpecificAction) => (action.type === 'SPECIFIC_ACTION' ? action.name : state);
 	const scopedReducer = scopeToActions(specificReducer, {
 		SPECIFIC_ACTION: specificAction,
 	}, initialState);

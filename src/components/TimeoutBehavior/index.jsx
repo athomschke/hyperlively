@@ -25,8 +25,7 @@ type State = {
 	disableFunction: ?(boolean) => void,
 }
 
-export default (Wrapped: React.ComponentType<WrappedProps<*>>) =>
-	class extends React.Component<TimeoutBehaviorProps<*>, State> {
+export default (Wrapped: React.ComponentType<WrappedProps<*>>) => class extends React.Component<TimeoutBehaviorProps<*>, State> {
 	static defaultProps = {
 		temporaryCallback: (_value: any) => {},
 		onChange: () => {},
@@ -78,7 +77,8 @@ export default (Wrapped: React.ComponentType<WrappedProps<*>>) =>
 			if (disableFunction) {
 				runningTimeout = setTimeout(
 					this.resetState.bind(this, disableFunction),
-					this.props.timeout);
+					this.props.timeout,
+				);
 			}
 			this.props.onChange(Math.min(this.props.max, Math.max(0, newValue)));
 			this.setState({ disableFunction });
@@ -99,13 +99,15 @@ export default (Wrapped: React.ComponentType<WrappedProps<*>>) =>
 			...rest
 		} = this.props;
 
-		return (<Wrapped
-			{...rest}
-			max={this.props.max}
-			value={this.props.value}
-			onChange={this.beActive}
-			disabled={this.props.disabled}
-			afterChange={this.beNotActive}
-		/>);
+		return (
+			<Wrapped
+				{...rest}
+				max={this.props.max}
+				value={this.props.value}
+				onChange={this.beActive}
+				disabled={this.props.disabled}
+				afterChange={this.beNotActive}
+			/>
+		);
 	}
-	};
+};

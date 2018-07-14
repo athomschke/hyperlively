@@ -46,7 +46,9 @@ describe('Undo Redo', () => {
 			const max = 10;
 			const value = 4;
 			const onChange = spy();
-			const temporaryCallbackSlider = renderWithProps({ ...defaultProps(), max, value, onChange });
+			const temporaryCallbackSlider = renderWithProps({
+				...defaultProps(), max, value, onChange,
+			});
 			const slider = temporaryCallbackSlider.find(UndoRedoSlider);
 			slider.prop('onChange')(5);
 			expect(onChange.args[0][0]).to.equal(5);
@@ -56,7 +58,9 @@ describe('Undo Redo', () => {
 			const max = 10;
 			const value = 9;
 			const onChange = spy();
-			const temporaryCallbackSlider = renderWithProps({ ...defaultProps(), max, value, onChange });
+			const temporaryCallbackSlider = renderWithProps({
+				...defaultProps(), max, value, onChange,
+			});
 			const slider = temporaryCallbackSlider.find(UndoRedoSlider);
 			slider.prop('onChange')(10);
 			expect(onChange.args[0][0]).to.equal(10);
@@ -68,7 +72,9 @@ describe('Undo Redo', () => {
 			const max = 10;
 			const value = 9;
 			const onChange = spy();
-			const temporaryCallbackSlider = renderWithProps({ ...defaultProps(), max, value, onChange });
+			const temporaryCallbackSlider = renderWithProps({
+				...defaultProps(), max, value, onChange,
+			});
 			const slider = temporaryCallbackSlider.find(UndoRedoSlider);
 			slider.prop('onChange')(4);
 			expect(onChange.args[0][0]).to.equal(4);

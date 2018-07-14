@@ -1,7 +1,9 @@
 // @flow
 import Color from 'color';
 import { BallpointPen } from 'ploma';
-import { last, forEach, head, tail } from 'lodash';
+import {
+	last, forEach, head, tail,
+} from 'lodash';
 
 import { PRESSURE, DEFAULT_PEN_COLOR, SELECTED_PEN_COLOR } from 'src/constants/drawing';
 import type { Stroke, Point } from 'src/types';

@@ -15,8 +15,7 @@ const defaultProps = (): InterpretationTriggerProps => ({
 	sketches: [],
 });
 
-const shallowWithProps = (props: InterpretationTriggerProps) =>
-	shallow(<InterpretationTrigger {...props} />);
+const shallowWithProps = (props: InterpretationTriggerProps) => shallow(<InterpretationTrigger {...props} />);
 
 describe('InterpretationTrigger', () => {
 	describe('Clicking', () => {

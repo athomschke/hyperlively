@@ -2,7 +2,9 @@
 import { last, cloneDeep } from 'lodash';
 
 import { stroke } from 'src/reducers/data/strokes/stroke';
-import type { Scene, Scenes, Stroke, Data, Undoable, HyperlivelyState } from 'src/types';
+import type {
+	Scene, Scenes, Stroke, Data, Undoable, HyperlivelyState,
+} from 'src/types';
 
 const dummyStroke: Stroke = stroke(undefined, { type: '' });
 

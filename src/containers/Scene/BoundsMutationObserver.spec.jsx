@@ -6,13 +6,15 @@ import { spy, stub } from 'sinon';
 
 import BoundsMutationObserver, { type WrappedProps, type BoundsMutationObserverProps } from './BoundsMutationObserver';
 
-const MockedSubComponent = (props: WrappedProps<{}>) => (<div
-	ref={(divNode) => { if (divNode && props.onNodeChanged) props.onNodeChanged(divNode); }}
-	style={{
-		top: props.bounds.y,
-		left: props.bounds.x,
-	}}
-/>);
+const MockedSubComponent = (props: WrappedProps<{}>) => (
+	<div
+		ref={(divNode) => { if (divNode && props.onNodeChanged) props.onNodeChanged(divNode); }}
+		style={{
+			top: props.bounds.y,
+			left: props.bounds.x,
+		}}
+	/>
+);
 
 const defaultProps = (): BoundsMutationObserverProps<{}> => ({
 	bounds: {
@@ -30,10 +32,8 @@ const defaultProps = (): BoundsMutationObserverProps<{}> => ({
 
 const MockedComponent = BoundsMutationObserver(MockedSubComponent);
 
-const shallowComponentsWithProps = (props: BoundsMutationObserverProps<{}>) =>
-	shallow(<MockedComponent {...props} />);
-const mountComponentsWithProps = (props: BoundsMutationObserverProps<{}>) =>
-	mount(<MockedComponent {...props} />);
+const shallowComponentsWithProps = (props: BoundsMutationObserverProps<{}>) => shallow(<MockedComponent {...props} />);
+const mountComponentsWithProps = (props: BoundsMutationObserverProps<{}>) => mount(<MockedComponent {...props} />);
 
 describe('Bounds mutation observer', () => {
 	describe('manipulating bounds of a wrapped component', () => {
@@ -42,7 +42,9 @@ describe('Bounds mutation observer', () => {
 		beforeEach(() => {
 			const options = {
 				...defaultProps(),
-				bounds: { x: 1, y: 0, height: 100, width: 100 },
+				bounds: {
+					x: 1, y: 0, height: 100, width: 100,
+				},
 				observeMutations: false,
 			};
 			mockedComponent = mountComponentsWithProps(options);
@@ -68,7 +70,9 @@ describe('Bounds mutation observer', () => {
 		beforeEach(() => {
 			const options = {
 				...defaultProps(),
-				bounds: { x: 1, y: 0, height: 100, width: 100 },
+				bounds: {
+					x: 1, y: 0, height: 100, width: 100,
+				},
 			};
 			mockedComponent = mountComponentsWithProps(options);
 			spy(mockedComponent.instance(), 'boundsUpdatedWith');
@@ -145,7 +149,9 @@ describe('Bounds mutation observer', () => {
 		beforeEach(() => {
 			const options = {
 				...defaultProps(),
-				bounds: { x: 1, y: 0, width: 100, height: 100 },
+				bounds: {
+					x: 1, y: 0, width: 100, height: 100,
+				},
 			};
 			mockedComponent = mountComponentsWithProps(options);
 			spy(mockedComponent.instance(), 'boundsUpdatedWith');
@@ -170,7 +176,9 @@ describe('Bounds mutation observer', () => {
 		beforeEach(() => {
 			const options = {
 				...defaultProps(),
-				bounds: { x: 1, y: 0, width: 100, height: 100 },
+				bounds: {
+					x: 1, y: 0, width: 100, height: 100,
+				},
 			};
 			mockedComponent = mountComponentsWithProps(options);
 			spy(mockedComponent.instance(), 'boundsUpdatedWith');

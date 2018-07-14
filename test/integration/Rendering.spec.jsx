@@ -7,7 +7,9 @@ import TestUtils from 'react-addons-test-utils';
 import type { Stroke } from 'src/types';
 import { stroke } from 'src/reducers/data/strokes/stroke';
 
-import { hashCode, renderApplicationWithState, mountApp, dismountApp, getCanvasNodes, getWindowNode, getCombinedCanvas } from './helpers';
+import {
+	hashCode, renderApplicationWithState, mountApp, dismountApp, getCanvasNodes, getWindowNode, getCombinedCanvas,
+} from './helpers';
 import canvasWithTwoScenes from './data/canvasWithTwoScenes';
 import canvasWithTwoStrokes from './data/canvasWithTwoStrokes';
 import emptyCanvas from './data/emptyCanvas';

@@ -1,6 +1,8 @@
 // @flow
 import * as React from 'react';
-import { last, filter, flatten, map } from 'lodash';
+import {
+	last, filter, flatten, map,
+} from 'lodash';
 
 import InterpretationTrigger from 'src/containers/InterpretationTrigger';
 import Interpreter from 'src/containers/Interpreter';

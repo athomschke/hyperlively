@@ -1,5 +1,7 @@
 // @flow
-import { map, last, without, flatten } from 'lodash';
+import {
+	map, last, without, flatten,
+} from 'lodash';
 import Polygon from 'polygon';
 
 import scopeToActions from 'src/reducers/scopeToActions';
@@ -11,7 +13,9 @@ import type {
 	APPEND_STROKE_ACTION, APPEND_POINT_ACTION, FINISH_STROKE_ACTION,
 	SELECT_INSIDE_ACTION,
 } from 'src/actionTypeDefinitions';
-import { select, selectInside, createStroke, appendPoint } from 'src/actionCreators';
+import {
+	select, selectInside, createStroke, appendPoint,
+} from 'src/actionCreators';
 
 import { stroke, strokeActions, type StrokeActionType } from './stroke';
 

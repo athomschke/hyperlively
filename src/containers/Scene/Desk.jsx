@@ -38,14 +38,16 @@ const renderCanvas = (
 	finished: boolean,
 	cmdPressed: boolean,
 	rest: WrappedProps<any>,
-) => (<Wrapped
-	{...rest}
-	active={cmdPressed}
-	strokes={strokes}
-	finished={finished}
-	offset={OFFSET}
-	key={id}
-/>);
+) => (
+	<Wrapped
+		{...rest}
+		active={cmdPressed}
+		strokes={strokes}
+		finished={finished}
+		offset={OFFSET}
+		key={id}
+	/>
+);
 
 const renderSketchedCanvasses = (
 	Wrapped: React.ComponentType<WrappedProps<any>>,
@@ -71,8 +73,7 @@ const renderCanvasses = (
 	return canvasses;
 };
 
-export default (Wrapped: React.ComponentType<WrappedProps<any>>) =>
-	class extends React.PureComponent<DeskProps<any>> {
+export default (Wrapped: React.ComponentType<WrappedProps<any>>) => class extends React.PureComponent<DeskProps<any>> {
 	props: DeskProps<any>;
 
 	static defaultProps = {
@@ -89,11 +90,13 @@ export default (Wrapped: React.ComponentType<WrappedProps<any>>) =>
 			cmdPressed,
 			...rest
 		} = this.props;
-		return (<div
-			id="desk"
-			style={getStyle(paperColor, rest.height)}
-		>
-			{renderCanvasses(Wrapped, sketches, cmdPressed, rest)}
-		</div>);
+		return (
+			<div
+				id="desk"
+				style={getStyle(paperColor, rest.height)}
+			>
+				{renderCanvasses(Wrapped, sketches, cmdPressed, rest)}
+			</div>
+		);
 	}
-	};
+};

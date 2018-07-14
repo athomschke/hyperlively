@@ -26,8 +26,7 @@ const defaultProps = (): SketchFitterProps<{}> => ({
 	strokes: exampleStrokes([point(0, 0)]),
 });
 
-const renderWithProps = (props: SketchFitterProps<{}>) =>
-	shallow(<SketchFittedWrapped {...props} />);
+const renderWithProps = (props: SketchFitterProps<{}>) => shallow(<SketchFittedWrapped {...props} />);
 
 describe('Sketch Fitter', () => {
 	describe('rendering strokes to previews', () => {

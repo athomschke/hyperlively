@@ -44,8 +44,7 @@ describe('Sketch combiner', () => {
 
 	const MockedComponent = SketchCombiner(MockedSubComponent);
 
-	const renderComponentWithProps = (props: SketchCombinerProps<{}>) =>
-		shallow(<MockedComponent {...props} />);
+	const renderComponentWithProps = (props: SketchCombinerProps<{}>) => shallow(<MockedComponent {...props} />);
 
 	const renderComponent = () => renderComponentWithProps(defaultProps());
 

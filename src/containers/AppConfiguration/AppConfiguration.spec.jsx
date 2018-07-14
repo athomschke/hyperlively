@@ -5,8 +5,7 @@ import React from 'react';
 
 import AppConfiguration, { type AppConfigurationProps } from './AppConfiguration';
 
-const renderComponentWithProps = (props: AppConfigurationProps) =>
-	shallow(<AppConfiguration {...props} />);
+const renderComponentWithProps = (props: AppConfigurationProps) => shallow(<AppConfiguration {...props} />);
 
 describe('App Configuration', () => {
 	it('renders all its children', () => {

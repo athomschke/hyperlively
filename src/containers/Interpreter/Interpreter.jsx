@@ -1,9 +1,13 @@
 // @flow
 /* eslint-disable react/prop-types */
 import * as React from 'react';
-import { map, forEach, concat, find } from 'lodash';
+import {
+	map, forEach, concat, find,
+} from 'lodash';
 
-import type { FunctionConfiguration, RecognitionResult, Functions, Parameters, ActionMapping } from 'src/types';
+import type {
+	FunctionConfiguration, RecognitionResult, Functions, Parameters, ActionMapping,
+} from 'src/types';
 import { relativeDividerPosition } from 'src/constants/configuration';
 
 import style from './Interpreter.scss';
@@ -84,18 +88,25 @@ export default (props: InterpreterProps = defaultProps()) => {
 		}, 1000);
 	};
 
-	return (<div
-		className={style.interpretationChooser}
-		style={{ width: `${(1 - relativeDividerPosition) * 100}%` }}
-	>
-		<button onClick={onAcceptInterpretationClick} >
+	return (
+		<div
+			className={style.interpretationChooser}
+			style={{ width: `${(1 - relativeDividerPosition) * 100}%` }}
+		>
+			<button onClick={onAcceptInterpretationClick}>
 			Accept Interpretation
-		</button>
-		<button onClick={onInterpretationTick}>
+
+
+			</button>
+			<button onClick={onInterpretationTick}>
 			Tick
-		</button>
-		<div>
-			{props.children}
+
+
+			
+</button>
+			<div>
+				{props.children}
+			</div>
 		</div>
-	</div>);
+	);
 };
