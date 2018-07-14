@@ -137,6 +137,21 @@ export type RecognizerShapeResult = {
 	}>
 }
 
+export type ShapeCandidateState = {
+	strokeIds: number[],
+	candidate: ShapeCandidate,
+}
+
+export type TextCandidateState = {
+	strokeIds: number[],
+	candidate: TextCandidate,
+}
+
+export type RecognitionState = {
+	shapes: Array<ShapeCandidateState>,
+	texts: Array<TextCandidateState>,
+}
+
 export type RecognitionResult = {
 	shapes: Array<ShapeCandidate>,
 	texts: Array<TextCandidate>,
@@ -190,7 +205,7 @@ export type UiState = {
 
 export type Data = {
 	sceneIndex: number,
-	interpretation: RecognitionResult,
+	interpretation: RecognitionState,
 	specificActions: Array<ActionMapping>,
 	scenes: Undoable<Scenes>,
 }

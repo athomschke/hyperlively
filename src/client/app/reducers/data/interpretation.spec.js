@@ -79,22 +79,29 @@ describe('Interpretation reducer', () => {
 		it('displays a new text recognition result', () => {
 			const oldState = dummyState();
 			const newState = interpretation(oldState, receiveTextCandidates([letterCandidate()], []));
-			expect(newState.texts[0].label).to.equal('I');
+			expect(newState.texts[0].candidate.label).to.equal('I');
 			expect(newState.shapes).to.be.empty();
 		});
 
 		it('appends to old existing results', () => {
 			const oldState = {
 				...dummyState(),
-				shapes: [shapeCandidate()],
-				texts: [Object.assign({}, letterCandidate(), {
-					label: 'K',
-					normalizedScore: 0.9,
-					resemblanceScore: 0.95,
-				})],
+				shapes: [{
+					candidate: shapeCandidate(),
+					strokeIds: [],
+				}],
+				texts: [{
+					candiate: {
+						...letterCandidate(),
+						label: 'K',
+						normalizedScore: 0.9,
+						resemblanceScore: 0.95,
+					},
+					strokeIds: [],
+				}],
 			};
 			const newState = interpretation(oldState, receiveTextCandidates([letterCandidate()], []));
-			expect(newState.texts[1].label).to.equal('I');
+			expect(newState.texts[1].candidate.label).to.equal('I');
 			expect(newState.texts).to.have.length(2);
 		});
 	});
@@ -103,21 +110,24 @@ describe('Interpretation reducer', () => {
 		it('displays a new shape recognition result', () => {
 			const oldState = dummyState();
 			const newState = interpretation(oldState, receiveShapeCandidates([shapeCandidate()], []));
-			expect(newState.shapes[0].label).to.equal('line');
+			expect(newState.shapes[0].candidate.label).to.equal('line');
 			expect(newState.texts[0]).to.not.exist();
 		});
 		it('appends new results to existing ones', () => {
 			const oldState = {
 				...dummyState(),
-				shapes: [Object.assign({}, shapeCandidate(), {
-					label: 'arrow',
-				})],
-				texts: [letterCandidate()],
+				shapes: [{
+					candidate: shapeCandidate(),
+					strokeIds: [],
+				}],
 			};
-			const newState = interpretation(oldState, receiveShapeCandidates([shapeCandidate()], []));
+			const newState = interpretation(oldState, receiveShapeCandidates([{
+				...shapeCandidate(),
+				label: 'arrow',
+			}], []));
 			expect(newState.shapes).to.have.length(2);
-			expect(newState.shapes[1].label).to.equal('line');
-			expect(newState.texts[0]).to.deep.equal(letterCandidate());
+			expect(newState.shapes[1].candidate.label).to.equal('arrow');
+			expect(newState.shapes[0].candidate).to.deep.equal(shapeCandidate());
 		});
 	});
 });

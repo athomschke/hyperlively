@@ -4,9 +4,9 @@ import { toggleInterpreter, appendPoint, createStroke, receiveTextCandidates, re
 import { APPEND_POINT, APPEND_STROKE, RECEIVE_TEXT_CANDIDATES, RECEIVE_SHAPE_CANDIDATES } from 'src/client/app/constants/actionTypes';
 import { CANDIDATES_COUNT } from 'src/client/app/constants/handwriting';
 import type { TOGGLE_INTERPRETER_ACTION, RECEIVE_TEXT_CANDIDATES_ACTION, RECEIVE_SHAPE_CANDIDATES_ACTION, APPEND_POINT_ACTION, APPEND_STROKE_ACTION } from 'src/client/app/actionTypeDefinitions';
-import { type RecognitionResult } from 'src/client/app/types';
+import type { ShapeCandidateState, RecognitionState, TextCandidateState, TextCandidate, ShapeCandidate } from 'src/client/app/types';
 
-const initialInterpretationState = (): RecognitionResult => ({
+const initialInterpretationState = (): RecognitionState => ({
 	shapes: [],
 	texts: [],
 });
@@ -22,30 +22,48 @@ export const interpretationActions = {
 export type INTERPRETATION_ACTION = TOGGLE_INTERPRETER_ACTION | RECEIVE_TEXT_CANDIDATES_ACTION |
 APPEND_POINT_ACTION | APPEND_STROKE_ACTION | RECEIVE_SHAPE_CANDIDATES_ACTION
 
-const interpretation = scopeToActions((state: RecognitionResult, action: INTERPRETATION_ACTION) => {
+type InterpretationReducer = (state: RecognitionState, aciton: INTERPRETATION_ACTION) =>
+	RecognitionState;
+
+type TextResultToState = (candidates: Array<TextCandidate>, strokeIds: number[]) =>
+Array<TextCandidateState>
+type ShapeResultToState = (candidates: Array<ShapeCandidate>, strokeIds: number[]) =>
+Array<ShapeCandidateState>
+
+const resultToState = (candidates, strokeIds) =>
+	candidates
+		.slice(0, CANDIDATES_COUNT)
+		.map(candidate => ({ candidate, strokeIds }));
+
+const textCandidates = (state: RecognitionState, action: RECEIVE_TEXT_CANDIDATES_ACTION) => ({
+	...state,
+	texts: [
+		...state.texts,
+		...((resultToState:any):TextResultToState)(action.candidates, action.strokeIds),
+	],
+});
+
+const shapeCandidates = (state: RecognitionState, action: RECEIVE_SHAPE_CANDIDATES_ACTION) => ({
+	...state,
+	shapes: [
+		...state.shapes,
+		...((resultToState:any):ShapeResultToState)(action.candidates, action.strokeIds),
+	],
+});
+
+const scopedInterpretation: InterpretationReducer = (state, action) => {
 	switch (action.type) {
-	case RECEIVE_TEXT_CANDIDATES:
-		return {
-			...state,
-			texts: [
-				...state.texts,
-				...action.candidates.slice(0, CANDIDATES_COUNT),
-			],
-		};
-	case RECEIVE_SHAPE_CANDIDATES:
-		return {
-			...state,
-			shapes: [
-				...state.shapes,
-				...action.candidates.slice(0, CANDIDATES_COUNT),
-			],
-		};
+	case RECEIVE_TEXT_CANDIDATES: return textCandidates(state, action);
+	case RECEIVE_SHAPE_CANDIDATES: return shapeCandidates(state, action);
 	case APPEND_POINT:
 	case APPEND_STROKE:
 		return initialInterpretationState();
 	default:
 		return state;
 	}
-}, interpretationActions, initialInterpretationState);
+};
+
+const interpretation =
+scopeToActions(scopedInterpretation, interpretationActions, initialInterpretationState);
 
 export { interpretation };

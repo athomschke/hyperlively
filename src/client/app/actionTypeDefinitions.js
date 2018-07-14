@@ -144,6 +144,7 @@ export type REQUEST_SHAPE_CANDIDATES_ACTION = {
 export type RECEIVE_SHAPE_CANDIDATES_ACTION = {
 	type: 'RECEIVE_SHAPE_CANDIDATES';
 	candidates: Array<ShapeCandidate>;
+	strokeIds: number[];
 }
 
 export type REQUEST_TEXT_CANDIDATES_ACTION = {
@@ -153,7 +154,8 @@ export type REQUEST_TEXT_CANDIDATES_ACTION = {
 
 export type RECEIVE_TEXT_CANDIDATES_ACTION = {
 	type: 'RECEIVE_TEXT_CANDIDATES';
-	candidates: Array<TextCandidate>
+	candidates: Array<TextCandidate>;
+	strokeIds: number[];
 }
 
 export type APPEND_SPECIFC_ACTION_ACTION = {

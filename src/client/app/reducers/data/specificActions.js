@@ -18,16 +18,24 @@ export const specificActionsActions = {
 	APPEND_SPECIFC_ACTION: appendSpecificAction,
 };
 
+type SpecificActionsReducer = (state: Array<ActionMapping>, action: SPECIFIG_ACTIONS_ACTION) =>
+	Array<ActionMapping>
+
+const scopedSpecificActions: SpecificActionsReducer = (state, action) => {
+	switch (action.type) {
+	case APPEND_SPECIFC_ACTION: {
+		const { actionName, actionNames } = action;
+		return concat(state, [{ actionName, actionNames }]);
+	}
+	default:
+		return state;
+	}
+};
+
 const specificActions = scopeToActions(
-	(state: Array<ActionMapping>, action: SPECIFIG_ACTIONS_ACTION) => {
-		switch (action.type) {
-		case APPEND_SPECIFC_ACTION: {
-			const { actionName, actionNames } = action;
-			return concat(state, [{ actionName, actionNames }]);
-		}
-		default:
-			return state;
-		}
-	}, specificActionsActions, initialSpecificActionsState);
+	scopedSpecificActions,
+	specificActionsActions,
+	initialSpecificActionsState,
+);
 
 export { specificActions };
