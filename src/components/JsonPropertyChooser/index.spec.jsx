@@ -2,7 +2,7 @@
 import { expect } from 'chai';
 import React from 'react';
 import { shallow } from 'enzyme';
-import { TreeMenu } from 'react-tree-menu';
+import Tree from 'rc-tree';
 import { flatten, map, forEach, filter } from 'lodash';
 import { spy } from 'sinon';
 
@@ -116,12 +116,12 @@ describe('JsonProperty Chooser', () => {
 		});
 
 		it('renders an entry for each top level handwriting recognition result plus one for the last strokes plus the selected strokes', () => {
-			const items = getItemsFromDataArray(parameterChooser.find(TreeMenu).props().data);
+			const items = getItemsFromDataArray(parameterChooser.find(Tree).props().data);
 			expect(filter(items, 'label')).to.have.length(11);
 		});
 
 		it('renders a checkbox for each handwriting recognition result, nodes as well as leafes', () => {
-			const items = getItemsFromDataArray(parameterChooser.find(TreeMenu).props().data);
+			const items = getItemsFromDataArray(parameterChooser.find(Tree).props().data);
 			expect(filter(items, 'checkbox')).to.have.length(11);
 		});
 
@@ -163,7 +163,7 @@ describe('JsonProperty Chooser', () => {
 		});
 
 		it('performs the callback', () => {
-			const treeMenu = parameterChooser.find(TreeMenu);
+			const treeMenu = parameterChooser.find(Tree);
 			treeMenu.prop('onTreeNodeCollapseChange')([0]);
 			expect(onCollapsedPathsChange.args[0][0]).to.deep.equal([['a']]);
 		});
@@ -186,7 +186,7 @@ describe('JsonProperty Chooser', () => {
 		});
 
 		it('performs the callback', () => {
-			const treeMenu = parameterChooser.find(TreeMenu);
+			const treeMenu = parameterChooser.find(Tree);
 			treeMenu.prop('onTreeNodeCollapseChange')([0]);
 			expect(onCollapsedPathsChange.args[0][0]).to.deep.equal([]);
 		});
@@ -200,7 +200,7 @@ describe('JsonProperty Chooser', () => {
 				jsonTree: exampleTree,
 				onCheckedPathsChange,
 			});
-			const treeMenu = parameterChooser.find(TreeMenu);
+			const treeMenu = parameterChooser.find(Tree);
 			treeMenu.prop('onTreeNodeCheckChange')([0, 1]);
 			expect(onCheckedPathsChange.callCount).to.equal(1);
 			expect(onCheckedPathsChange.args[0][0]).to.deep.equal([['a', 'a2']]);
@@ -215,7 +215,7 @@ describe('JsonProperty Chooser', () => {
 				collapsedPaths: [],
 				onCheckedPathsChange,
 			});
-			const treeMenu = parameterChooser.find(TreeMenu);
+			const treeMenu = parameterChooser.find(Tree);
 			treeMenu.prop('onTreeNodeCheckChange')([0, 1]);
 			expect(onCheckedPathsChange.callCount).to.equal(1);
 			expect(onCheckedPathsChange.args[0][0]).to.deep.equal([]);

@@ -1,5 +1,5 @@
 // @flow
-import credentials from 'credentials/myscriptjs.json';
+import credentials from 'src/credentials/myscriptjs.json';
 
 export const APPLICATION_KEY = credentials.applicationKey;
 

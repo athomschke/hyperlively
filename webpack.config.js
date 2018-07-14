@@ -16,26 +16,25 @@ var config = {
 	module: {
 		rules: [
 			{
-				test: /\.(jsx|js)$/,
+				test: /\.js$/,
 				exclude: [
 					/node_modules/,
 				],
 				loader: 'babel-loader',
 			},
 			{
-				test: /\.(jsx|js)$/,
-				include: [
+				test: /\.jsx$/,
+				exclude: [
 					/node_modules\/react-tree-menu/,
 				],
 				loader: 'babel-loader',
 			},
 			{
 				test: /\.(scss|css)$/,
+				exclude: [
+					/node_modules/,
+				],
 				loaders: ['style-loader', 'css-loader', 'sass-loader'],
-			},
-			{
-				test: /\.json$/,
-				loader: 'json-loader',
 			},
 		],
 	},

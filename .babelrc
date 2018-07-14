@@ -1,12 +1,11 @@
 {
 	"presets" : [
-		"es2015",
-		"react"
+		"@babel/preset-react",
+		"@babel/preset-flow"
 	],
 	"plugins":[
-		"transform-class-properties",
-		"transform-object-rest-spread",
-		"transform-runtime"
+		"@babel/plugin-proposal-object-rest-spread",
+		"@babel/plugin-proposal-class-properties"
 	],
 	"auxiliaryCommentBefore": "istanbul ignore next"
 }

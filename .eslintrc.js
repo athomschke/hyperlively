@@ -8,7 +8,6 @@ module.exports = {
     },
     "plugins": [
         "react",
-        "jsx-a11y",
         "flowtype",
         "import",
         "no-only-tests",

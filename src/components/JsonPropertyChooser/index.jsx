@@ -1,8 +1,8 @@
 // @flow
 /* eslint-disable react/prop-types */
 import React from 'react';
-import { TreeMenu } from 'react-tree-menu';
 import { cloneDeep } from 'lodash';
+import Tree from 'rc-tree';
 
 import type { TreeParameter, JSONPath, Coordinate } from 'src/types';
 
@@ -102,7 +102,7 @@ export default (props: JsonPropertyChooserProps = defaultProps()) => {
 		divStyle.top = position.y;
 	}
 	return (<div className={style.treeView} style={divStyle}>
-		<TreeMenu
+		<Tree
 			data={data}
 			collapsible
 			expandIconClass="expand"
