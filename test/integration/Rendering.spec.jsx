@@ -4,8 +4,8 @@ import { cloneDeep, find, map } from 'lodash';
 import { useFakeXMLHttpRequest } from 'sinon';
 import TestUtils from 'react-addons-test-utils';
 
-import type { Stroke } from 'src/client/app/types';
-import { stroke } from 'src/client/app/reducers/data/strokes/stroke';
+import type { Stroke } from 'src/types';
+import { stroke } from 'src/reducers/data/strokes/stroke';
 
 import { hashCode, renderApplicationWithState, mountApp, dismountApp, getCanvasNodes, getWindowNode, getCombinedCanvas } from './helpers';
 import canvasWithTwoScenes from './data/canvasWithTwoScenes';

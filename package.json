@@ -2,10 +2,9 @@
   "name": "hyperlively",
   "version": "0.0.1",
   "description": "",
-  "main": "index.js",
   "scripts": {
-    "build": "webpack -p",
-    "watch": "webpack -d --watch",
+    "build": "./node_modules/.bin/webpack -p",
+    "watch": "./node_modules/.bin/webpack -d --watch",
     "test": "karma start",
     "coverage": "karma start karma-coverage.conf.js",
     "performance": "karma start karma-performance.conf.js",

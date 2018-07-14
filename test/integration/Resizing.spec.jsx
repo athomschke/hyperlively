@@ -2,7 +2,7 @@
 import { expect } from 'chai';
 import { useFakeXMLHttpRequest } from 'sinon';
 
-import { relativeDividerPosition } from 'src/client/app/constants/configuration';
+import { relativeDividerPosition } from 'src/constants/configuration';
 import emptyCanvas from 'test/integration/data/emptyCanvas';
 
 import { mountApp, dismountApp, renderApplicationWithState } from './helpers';

@@ -1,6 +1,6 @@
 // @flow
 
-import type { HyperlivelyState, Stroke, Point } from 'src/client/app/types';
+import type { HyperlivelyState, Stroke, Point } from 'src/types';
 
 const stroke = (id: number, points: Array<Point>, finished: boolean): Stroke => ({
 	id,

@@ -38,8 +38,7 @@ jspm_packages
 .node_repl_history
 
 # Build directory
-!src/client/public/**
-public
+build
 
 # IDE
 *.sublime-project

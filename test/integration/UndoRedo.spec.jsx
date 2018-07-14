@@ -3,9 +3,9 @@ import { expect } from 'chai';
 import { findDOMNode } from 'react-dom';
 import { useFakeXMLHttpRequest } from 'sinon';
 
-import { stroke } from 'src/client/app/reducers/data/strokes/stroke';
-import { point } from 'src/client/app/helpers.spec';
-import type { Point, Stroke } from 'src/client/app/types';
+import { stroke } from 'src/reducers/data/strokes/stroke';
+import { point } from 'src/helpers.spec';
+import type { Point, Stroke } from 'src/types';
 import emptyCanvas from 'test/integration/data/emptyCanvas';
 
 import { hashCode, mountApp, dismountApp, getCanvasNodes, getWindowNode, getCombinedCanvas, renderApplicationWithState, manuallyDrawStrokes, gotToHalfTimeInApp } from './helpers';

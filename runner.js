@@ -5,6 +5,6 @@ const sinonChai = require('sinon-chai');
 chai.use(dirtyChai);
 chai.use(sinonChai);
 
-const context = require.context('./src/client/app', true, /^.*\.spec\..*$/);
+const context = require.context('./src', true, /^.*\.spec\..*$/);
 context.keys().forEach(context);
 module.exports = context;

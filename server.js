@@ -1,10 +1,4 @@
 // @flow
-/**
- * Static HTTP Server
- *
- * Create a static file server instance to serve files
- * and folder in the './public' folder
- */
 
 // modules
 var staticModule = require( 'node-static' ),
@@ -12,7 +6,7 @@ var staticModule = require( 'node-static' ),
 	http = require( 'http' );
 
 // config
-var file = new staticModule.Server( './src/client/', {
+var file = new staticModule.Server( './', {
 	cache: 3600,
 	gzip: true
 } );

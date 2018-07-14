@@ -50,9 +50,8 @@ flow-typed
 # Optional REPL history
 .node_repl_history
 
-# Build directory
-!src/client/public/**
-public
+# Build directories
+build
 
 # IDE
 *.sublime-project

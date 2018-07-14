@@ -1,5 +1,5 @@
 // @flow
-import type { HyperlivelyState } from 'src/client/app/types';
+import type { HyperlivelyState } from 'src/types';
 
 const canvasWithTwoStrokes = (): HyperlivelyState => ({
 	data: {

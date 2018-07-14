@@ -1,18 +1,17 @@
 // @flow
 var path = require('path');
 
-var BUILD_DIR = path.resolve(__dirname, 'src/client/public');
-var APP_DIR = path.resolve(__dirname, 'src/client/app');
+var BUILD_DIR = path.resolve(__dirname, 'build');
+var APP_DIR = path.resolve(__dirname, 'src');
 var NODE_MODULES_DIR = path.resolve(__dirname, 'node_modules');
-var CREDENTIALS_DIR = path.resolve(__dirname, 'src/client/app/credentials');
 var ROOT_DIR = path.resolve(__dirname);
 
 var config = {
 	devtool: 'source-map',
-	entry: APP_DIR + '/index.jsx',
+	entry: APP_DIR + '/index.js',
 	output: {
 		path: BUILD_DIR,
-		filename: 'bundle.js',
+		filename: './bundle.js',
 	},
 	module: {
 		rules: [
