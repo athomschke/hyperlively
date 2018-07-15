@@ -1,7 +1,7 @@
 // @flow
 import { expect } from 'chai';
 
-import scopeToActions from 'src/reducers/scopeToActions';
+import scopeToActions from './scopeToActions';
 
 describe('allowAllActions Wrapper', () => {
 	type SpecificAction = {

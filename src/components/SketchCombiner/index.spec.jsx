@@ -3,8 +3,9 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import React from 'react';
 
-import SketchCombiner, { type SketchCombinerProps, type WrappedProps } from 'src/components/SketchCombiner';
 import { point, exampleStrokes } from 'src/helpers.spec';
+
+import SketchCombiner, { type SketchCombinerProps, type WrappedProps } from '.';
 
 const expectOneStrokeInOneSketch = (combinedSketches, addedPoint) => {
 	expect(combinedSketches).to.have.length(1);
@@ -44,7 +45,9 @@ describe('Sketch combiner', () => {
 
 	const MockedComponent = SketchCombiner(MockedSubComponent);
 
-	const renderComponentWithProps = (props: SketchCombinerProps<{}>) => shallow(<MockedComponent {...props} />);
+	const renderComponentWithProps = (
+		props: SketchCombinerProps<{}>,
+	) => shallow(<MockedComponent {...props} />);
 
 	const renderComponent = () => renderComponentWithProps(defaultProps());
 

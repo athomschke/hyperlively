@@ -4,7 +4,7 @@ import { spy } from 'sinon';
 import { shallow } from 'enzyme';
 import * as React from 'react';
 
-import LabelledBox, { type LabelledBoxProps } from 'src/components/LabelledBox';
+import LabelledBox, { type LabelledBoxProps } from '.';
 
 const defaultProps = () => ({
 	label: '',

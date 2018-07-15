@@ -3,7 +3,8 @@ import { expect } from 'chai';
 
 import { strokesExample } from 'src/data.spec';
 import type { TextCandidate } from 'src/types';
-import * as actionCreators from 'src/actionCreators';
+
+import * as actionCreators from './actionCreators';
 
 describe('Action Creators', () => {
 	describe('Combining actions', () => {
