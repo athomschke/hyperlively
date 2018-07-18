@@ -105,7 +105,8 @@ describe('Integration', () => {
 			canvasJson.ui.threshold = 1500;
 			canvasJson.ui.handwritingRecognition = true;
 			const presentScene = canvasJson.data.scenes.present[0];
-			presentScene.strokes = map(presentScene.strokes, stroke => Object.assign({}, stroke, {
+			presentScene.strokes = map(presentScene.strokes, presentStroke => ({
+				...presentStroke,
 				hidden: true,
 			}));
 			renderApplicationWithState(canvasJson);

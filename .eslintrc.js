@@ -13,6 +13,17 @@ module.exports = {
         "no-only-tests",
     ],
     "rules": {
+      "max-len": ["error", {
+        "code": 140,
+        "ignoreStrings": true,
+      }],
+      "react/destructuring-assignment": 0,
+      "react/default-props-match-prop-types": 0,
+      "react/require-default-props": 0,
+      "react/button-has-type": 0,
+      "jsx-a11y/no-static-element-interactions": 0,
+      "react/no-access-state-in-setstate": 0,
+      "prefer-destructuring": 0,
       "no-only-tests/no-only-tests": 2,
       "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
     	"indent": [2, "tab"],

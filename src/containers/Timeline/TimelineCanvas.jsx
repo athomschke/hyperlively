@@ -9,9 +9,11 @@ import Point2BoundsScaler, { type Point2BoundsScalerProps } from './Point2Bounds
 import ClickHandler, { type ClickHandlerProps } from './ClickHandler';
 
 export type TimelineCanvasProps = ClickHandlerProps<Point2BoundsScalerProps<
-  SketchTransformerProps<SketchFitterProps<PlainDrawerProps>>
+	SketchTransformerProps<SketchFitterProps<PlainDrawerProps>>
 >>;
 
-const TimelineCanvas: React.ComponentType<TimelineCanvasProps> = ClickHandler(Point2BoundsScaler(SketchTransformer(SketchFitter(PlainDrawer))));
+const TimelineCanvas: React.ComponentType<TimelineCanvasProps> = ClickHandler(
+	Point2BoundsScaler(SketchTransformer(SketchFitter(PlainDrawer))),
+);
 
 export default TimelineCanvas;

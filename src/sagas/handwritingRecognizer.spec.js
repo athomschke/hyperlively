@@ -1,4 +1,5 @@
 // @flow
+import jsdom from 'jsdom-global';
 import { expect } from 'chai';
 import { useFakeXMLHttpRequest } from 'sinon';
 
@@ -7,19 +8,21 @@ import { shapeResponse, textResponse, strokesExample } from 'src/data.spec';
 import { requestShapeCandidates, requestTextCandidates } from './handwritingRecognizer';
 
 describe('src/helpers for handwriting recognition', () => {
-	let xhr;
 	let requests = [];
+	let cleanup;
 
 	beforeEach(() => {
-		xhr = useFakeXMLHttpRequest();
-		xhr.onCreate = (req) => {
+		cleanup = jsdom();
+		global.XMLHttpRequest = useFakeXMLHttpRequest();
+		(XMLHttpRequest:any).onCreate = (req) => {
 			requests.push(req);
 		};
 	});
 
 	afterEach(() => {
-		xhr.restore();
+		(XMLHttpRequest:any).restore();
 		requests = [];
+		cleanup();
 	});
 
 	describe('recognizing shapes in handwriting', () => {

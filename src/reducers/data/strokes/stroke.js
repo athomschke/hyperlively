@@ -46,7 +46,10 @@ const initialStrokeState = (): Stroke => ({
 	},
 });
 
-const doStrokesContainStroke = (strokes: Array<Stroke>, aStroke: Stroke) => find(strokes, stateStroke => stateStroke.hidden === aStroke.hidden
+const doStrokesContainStroke = (
+	strokes: Array<Stroke>,
+	aStroke: Stroke,
+) => find(strokes, stateStroke => stateStroke.hidden === aStroke.hidden
 		&& stateStroke.points.length === aStroke.points.length
 		&& stateStroke.points[0].timeStamp === aStroke.points[0].timeStamp);
 

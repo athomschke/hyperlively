@@ -15,10 +15,6 @@ type State = {
 }
 
 export default (Wrapped: React.ComponentType<DragHandlerProps<any>>) => class extends React.PureComponent<DragHandlerProps<any>, State> {
-	props: DragHandlerProps<any>;
-
-	state: State;
-
 	static defaultProps = {
 		onDragStart: () => {},
 		onDrag: () => {},
@@ -35,6 +31,8 @@ export default (Wrapped: React.ComponentType<DragHandlerProps<any>>) => class ex
 		(this:any).onTouchMove = this.onTouchMove.bind(this);
 		(this:any).onTouchEnd = this.onTouchEnd.bind(this);
 	}
+
+	state: State;
 
 	componentDidMount() {
 		this.state = {
@@ -88,6 +86,8 @@ export default (Wrapped: React.ComponentType<DragHandlerProps<any>>) => class ex
 			});
 		}
 	}
+
+	props: DragHandlerProps<any>;
 
 	render() {
 		const callbacks = this.props.cmdPressed ? {} : {

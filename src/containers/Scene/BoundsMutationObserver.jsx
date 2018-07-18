@@ -24,38 +24,15 @@ type State = {
 	observedNode: HTMLDivElement | null;
 }
 
-export default (Wrapped: React.ComponentType<WrappedProps<any>>) => class extends React.PureComponent<BoundsMutationObserverProps<any>, State> {
-	props: BoundsMutationObserverProps<any>;
-
-	state: State;
-
+export default (
+	Wrapped: React.ComponentType<WrappedProps<any>>,
+) => class extends React.PureComponent<BoundsMutationObserverProps<any>, State> {
 	constructor() {
 		super();
 		this.state = this.state || {};
 	}
 
-	observe() {
-		const { observedNode } = this.state;
-
-		if (observedNode) {
-			const observer = new MutationObserver(this.onMutations.bind(this));
-			observer.observe(observedNode, {
-				attributes: true,
-			});
-			this.setState({
-				observer,
-			});
-		}
-	}
-
-	ignore() {
-		if (this.state.observer && this.state.observer.disconnect) {
-			this.state.observer.disconnect();
-		}
-		this.setState({
-			observer: undefined,
-		});
-	}
+	state: State;
 
 	componentDidMount() {
 		this.observe();
@@ -63,10 +40,6 @@ export default (Wrapped: React.ComponentType<WrappedProps<any>>) => class extend
 
 	componentWillUnmount() {
 		this.ignore();
-	}
-
-	boundsUpdatedWith(fromX: number, fromY: number, toX: number, toY: number) {
-		this.props.performAction('updatePosition', this.props.strokes, fromX, fromY, toX, toY);
 	}
 
 	onMutations(mutationRecords: Array<MutationRecord>) {
@@ -90,6 +63,35 @@ export default (Wrapped: React.ComponentType<WrappedProps<any>>) => class extend
 			});
 		}
 	}
+
+	boundsUpdatedWith(fromX: number, fromY: number, toX: number, toY: number) {
+		this.props.performAction('updatePosition', this.props.strokes, fromX, fromY, toX, toY);
+	}
+
+	ignore() {
+		if (this.state.observer && this.state.observer.disconnect) {
+			this.state.observer.disconnect();
+		}
+		this.setState({
+			observer: undefined,
+		});
+	}
+
+	observe() {
+		const { observedNode } = this.state;
+
+		if (observedNode) {
+			const observer = new MutationObserver(this.onMutations.bind(this));
+			observer.observe(observedNode, {
+				attributes: true,
+			});
+			this.setState({
+				observer,
+			});
+		}
+	}
+
+	props: BoundsMutationObserverProps<any>;
 
 	render() {
 		// eslint-disable-next-line no-unused-vars

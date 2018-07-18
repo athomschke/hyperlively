@@ -26,9 +26,7 @@ const InterpretationTrigger = (props: InterpretationTriggerProps) => {
 
 	return (
 		<button onClick={onHandwritingRecognitionClick}>
-		Recognize Handwriting
-
-
+			{'Recognize Handwriting'}
 		</button>
 	);
 };

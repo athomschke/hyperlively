@@ -16,9 +16,15 @@ const allPoints = strokes => flatten(map(strokes, stroke => stroke.points));
 
 const pointCount = strokes => allPoints(strokes).length;
 
-const strokeWhereColorChanged = (strokes1: Array<Stroke>, strokes2: Array<Stroke>) => strokes1.find((stroke, index) => !stroke.color === strokes2[index].color);
+const strokeWhereColorChanged = (
+	strokes1: Array<Stroke>,
+	strokes2: Array<Stroke>,
+) => strokes1.find((stroke, index) => !stroke.color === strokes2[index].color);
 
-const strokeWhereSelectStatusChanged = (strokes1, strokes2) => strokes1.find((stroke, index) => !stroke.selected === strokes2[index].selected);
+const strokeWhereSelectStatusChanged = (
+	strokes1,
+	strokes2,
+) => strokes1.find((stroke, index) => !stroke.selected === strokes2[index].selected);
 
 export const transformPoint = (
 	point: Point,
@@ -61,7 +67,7 @@ export type AbstractDrawerState<S> = S & {
 	canvas: HTMLCanvasElement | null,
 }
 
-export const defaultProps = {
+export const defaultProps = () => ({
 	strokes: [],
 	bounds: {
 		x: 0,
@@ -70,15 +76,15 @@ export const defaultProps = {
 		height: 2 * OFFSET,
 	},
 	active: false,
-	width: window.innerWidth,
-	height: window.innerHeight,
+	width: 0,
+	height: 0,
 	showBorder: false,
 	finished: false,
-};
+});
 
 export default class AbstractDrawer<P, S> extends
 	PureComponent<AbstractDrawerProps<P>, AbstractDrawerState<S>> {
-	static defaultProps = defaultProps;
+	static defaultProps = defaultProps();
 
 	constructor() {
 		super();

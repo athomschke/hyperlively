@@ -1,4 +1,6 @@
 // @flow
+import 'babel-polyfill';
+
 import { expect } from 'chai';
 import { filter } from 'lodash';
 import { call } from 'redux-saga/effects';

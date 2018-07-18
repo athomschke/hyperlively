@@ -36,7 +36,7 @@ module.exports = function (config) {
 		],
 		frameworks: ['sinon-chai', 'mocha'],
 		preprocessors: {
-			'runner.js': ['webpack'],
+			'test/runner.js': ['webpack'],
 		},
 		reporters: ['progress', 'verbose'],
 		singleRun: false,

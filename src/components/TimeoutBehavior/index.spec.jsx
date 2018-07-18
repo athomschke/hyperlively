@@ -1,4 +1,5 @@
 // @flow
+import jsdom from 'jsdom-global';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 import React from 'react';
@@ -23,9 +24,21 @@ const defaultProps = (): TimeoutBehaviorProps<WrappedWithTimeoutBehaviorProps> =
 const Wrapped = () => <div />;
 const WrappedWithTimeoutBehavior = TimeoutBehavior(Wrapped);
 
-const renderComponentWithProps = (props: TimeoutBehaviorProps<WrappedWithTimeoutBehaviorProps>) => mount(<WrappedWithTimeoutBehavior {...props} />);
+const renderComponentWithProps = (
+	props: TimeoutBehaviorProps<WrappedWithTimeoutBehaviorProps>,
+) => mount(<WrappedWithTimeoutBehavior {...props} />);
 
 describe('WrappedWithTimeoutBehavior', () => {
+	let cleanup;
+
+	beforeEach(() => {
+		cleanup = jsdom();
+	});
+
+	afterEach(() => {
+		cleanup();
+	});
+
 	describe('moving the slider handle left', () => {
 		it('temporarily disables ploma when callback given', () => {
 			const temporaryCallback = spy();

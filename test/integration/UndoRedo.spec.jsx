@@ -9,7 +9,8 @@ import type { Point, Stroke } from 'src/types';
 import emptyCanvas from 'test/integration/data/emptyCanvas';
 
 import {
-	hashCode, mountApp, dismountApp, getCanvasNodes, getWindowNode, getCombinedCanvas, renderApplicationWithState, manuallyDrawStrokes, gotToHalfTimeInApp,
+	hashCode, mountApp, dismountApp, getCanvasNodes, getWindowNode, getCombinedCanvas,
+	renderApplicationWithState, manuallyDrawStrokes, gotToHalfTimeInApp,
 } from './helpers';
 
 const strokeFromPoints = (points: Array<Point>): Stroke => ({

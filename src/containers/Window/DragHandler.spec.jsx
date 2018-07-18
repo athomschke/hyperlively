@@ -1,6 +1,7 @@
 // @flow
 import { expect } from 'chai';
 import React from 'react';
+import jsdom from 'jsdom-global';
 import { mount } from 'enzyme';
 import { stub } from 'sinon';
 
@@ -18,6 +19,16 @@ const defaultProps = () => ({
 });
 
 describe('Drag handler', () => {
+	let cleanup;
+
+	beforeEach(() => {
+		cleanup = jsdom();
+	});
+
+	afterEach(() => {
+		cleanup();
+	});
+
 	const simulateMouseEventAtOn = (eventType, x, y, node) => {
 		node.simulate(eventType, {
 			pageX: x,

@@ -1,4 +1,5 @@
 // @flow
+import jsdom from 'jsdom-global';
 import { expect } from 'chai';
 import React from 'react';
 import { shallow, mount } from 'enzyme';
@@ -36,6 +37,16 @@ const shallowComponentsWithProps = (props: BoundsMutationObserverProps<{}>) => s
 const mountComponentsWithProps = (props: BoundsMutationObserverProps<{}>) => mount(<MockedComponent {...props} />);
 
 describe('Bounds mutation observer', () => {
+	let cleanup;
+	beforeEach(() => {
+		cleanup = jsdom();
+		global.MutationObserver = () => ({ observe: () => {} });
+	});
+
+	afterEach(() => {
+		cleanup();
+	});
+
 	describe('manipulating bounds of a wrapped component', () => {
 		let mockedComponent;
 
@@ -66,80 +77,42 @@ describe('Bounds mutation observer', () => {
 
 	describe('moving the wrapped component', () => {
 		let mockedComponent;
+		let performAction;
 
 		beforeEach(() => {
+			performAction = spy();
 			const options = {
 				...defaultProps(),
+				performAction,
 				bounds: {
 					x: 1, y: 0, height: 100, width: 100,
 				},
 			};
 			mockedComponent = mountComponentsWithProps(options);
-			spy(mockedComponent.instance(), 'boundsUpdatedWith');
 		});
 
-		afterEach(() => {
-			mockedComponent.instance().boundsUpdatedWith.restore();
-		});
-
-		it('horizontally calls the callback with enough information with a position when one is given', (done) => {
+		it('horizontally calls the callback with enough information with a position when one is given', () => {
 			mockedComponent.state('observedNode').style.setProperty('left', '2px');
-			setTimeout(() => {
-				expect(mockedComponent.instance().boundsUpdatedWith.args[0]).to.have.length(4);
-				done();
-			});
+			mockedComponent.instance().onMutations([{
+				attributeName: 'style',
+			}]);
+			expect(performAction.args[0][0]).to.equal('updatePosition');
 		});
 
-		it('horizontally calls the callback with a position when one is given', (done) => {
-			mockedComponent.state('observedNode').style.setProperty('left', '2px');
-			setTimeout(() => {
-				expect(mockedComponent.instance().boundsUpdatedWith.callCount).to.equal(1);
-				done();
-			});
-		});
-
-		it('vertically calls the callback with a position when one is given', (done) => {
+		it('vertically calls the callback with a position when one is given', () => {
 			mockedComponent.state('observedNode').style.setProperty('top', '2px');
-			setTimeout(() => {
-				expect(mockedComponent.instance().boundsUpdatedWith.callCount).to.equal(1);
-				done();
-			});
+			mockedComponent.instance().onMutations([{
+				attributeName: 'style',
+			}]);
+			expect(performAction.args[0][0]).to.equal('updatePosition');
 		});
 
-		it('changes nothing if no callback is given', (done) => {
-			mockedComponent.state('observedNode').style.setProperty('left', '2px');
-			setTimeout(() => {
-				expect(mockedComponent.prop('bounds').x).to.equal(1);
-				expect(mockedComponent.prop('bounds').y).to.equal(0);
-				done();
-			});
-		});
-
-		it('is not recognized when component is not in dom anymore', (done) => {
-			mockedComponent.instance().componentWillUnmount();
-			mockedComponent.state('observedNode').style.setProperty('top', '2px');
-			setTimeout(() => {
-				expect(mockedComponent.instance().boundsUpdatedWith.callCount).to.equal(0);
-				done();
-			});
-		});
-
-		it('is not recognized when no observer exists', (done) => {
-			mockedComponent.instance().ignore();
-			mockedComponent.instance().componentWillUnmount();
-			mockedComponent.state('observedNode').style.setProperty('top', '2px');
-			setTimeout(() => {
-				expect(mockedComponent.instance().boundsUpdatedWith.callCount).to.equal(0);
-				done();
-			});
-		});
-
-		it('is not recognized when component is not really moved', (done) => {
+		it('is not recognized when component is not really moved', () => {
 			mockedComponent.state('observedNode').style.setProperty('left', '1px');
-			setTimeout(() => {
-				expect(mockedComponent.instance().boundsUpdatedWith.callCount).to.equal(0);
-				done();
-			});
+			mockedComponent.instance().onMutations([{
+				attributeName: 'style',
+			}]);
+			expect(performAction.callCount).to.equal(0);
 		});
 	});
 

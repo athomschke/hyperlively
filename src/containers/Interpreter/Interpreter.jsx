@@ -94,16 +94,11 @@ export default (props: InterpreterProps = defaultProps()) => {
 			style={{ width: `${(1 - relativeDividerPosition) * 100}%` }}
 		>
 			<button onClick={onAcceptInterpretationClick}>
-			Accept Interpretation
-
-
+				{'Accept Interpretation'}
 			</button>
 			<button onClick={onInterpretationTick}>
-			Tick
-
-
-			
-</button>
+				{'Tick'}
+			</button>
 			<div>
 				{props.children}
 			</div>

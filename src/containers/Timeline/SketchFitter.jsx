@@ -23,8 +23,6 @@ export type WrappedProps<P> = P & {
 }
 
 export default (Wrapped: React.ComponentType<WrappedProps<any>>) => class extends React.PureComponent<SketchFitterProps<any>> {
-	props: SketchFitterProps<any>;
-
 	static defaultProps = {
 		bounds: {
 			x: 0,
@@ -37,6 +35,8 @@ export default (Wrapped: React.ComponentType<WrappedProps<any>>) => class extend
 		max: 0,
 		offsetIndex: 0,
 	};
+
+	props: SketchFitterProps<any>;
 
 	render() {
 		const {

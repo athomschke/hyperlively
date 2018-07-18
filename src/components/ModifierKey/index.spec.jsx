@@ -1,4 +1,5 @@
 // @flow
+import jsdom from 'jsdom-global';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 import React from 'react';
@@ -6,21 +7,25 @@ import { forEach } from 'lodash';
 
 import ModifierKey from '.';
 
-class MockedSubComponent extends React.Component<{cmdPressed: boolean}> {
-	static propTypes = {
-		cmdPressed: React.PropTypes.bool.isRequired,
-	};
-
-	static defaultProps = {};
-
-	render() {
-		return <div />;
-	}
+type MockedSubComponentProps = {
+	cmdPressed: boolean;
 }
+
+const MockedSubComponent = ({ cmdPressed }: MockedSubComponentProps) => <div className={cmdPressed} />;
 
 const MockedComponent = ModifierKey(MockedSubComponent);
 
 describe('ModifierKey', () => {
+	let cleanup;
+
+	beforeEach(() => {
+		cleanup = jsdom();
+	});
+
+	afterEach(() => {
+		cleanup();
+	});
+
 	describe('pressing a keyboard button', () => {
 		it('is not handeled after dismount', () => {
 			const modifierKeyComponent = mount(<MockedComponent />);

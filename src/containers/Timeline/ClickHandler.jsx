@@ -13,10 +13,6 @@ type WrappedProps<P> = P
 
 export default function (Wrapped: React.ComponentType<WrappedProps<any>>) {
 	return class ClickHandler extends React.Component<ClickHandlerProps<any>, State> {
-		props: ClickHandlerProps<any>
-
-		state: State
-
 		constructor() {
 			super();
 			this.state = {
@@ -25,6 +21,10 @@ export default function (Wrapped: React.ComponentType<WrappedProps<any>>) {
 			(this:any).handleMouseDown = this.handleMouseDown.bind(this);
 			(this:any).handleMouseUp = this.handleMouseUp.bind(this);
 		}
+
+		state: State;
+
+		props: ClickHandlerProps<any>;
 
 		handleMouseDown(_evt: SyntheticMouseEvent<HTMLElement>) {
 			this.state.mouseDown = true;

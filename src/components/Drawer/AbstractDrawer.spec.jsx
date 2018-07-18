@@ -4,6 +4,7 @@ import React from 'react';
 import { last } from 'lodash';
 import { shallow, mount } from 'enzyme';
 import { stub, spy } from 'sinon';
+import jsdom from 'jsdom-global';
 
 import { ERROR_CALL_SUPER_TO_ABSTRACT, ERROR_DIRECT_ABSTRACT_CALL } from 'src/constants/errors';
 import { point, exampleStrokes } from 'src/helpers.spec';
@@ -25,8 +26,8 @@ class SpecificDrawer extends AbstractDrawer<AbstractDrawerProps<SpecificProps>, 
 			height: 2,
 		},
 		active: false,
-		width: window.innerWidth,
-		height: window.innerHeight,
+		width: 0,
+		height: 0,
 		showBorder: false,
 		finished: false,
 	}
@@ -70,6 +71,15 @@ const shallowWithProps = (props: AbstractDrawerProps<SpecificProps>) => shallow(
 const mountWithProps = (props: AbstractDrawerProps<SpecificProps>) => mount(<SpecificDrawer {...props} />);
 
 describe('AbstractDrawer', () => {
+	let cleanup;
+	beforeEach(() => {
+		cleanup = jsdom();
+	});
+
+	afterEach(() => {
+		cleanup();
+	});
+
 	describe('calling an abstract function directly', () => {
 		it('throws an error for handleStrokeStarted when not implemented in subclass', () => {
 			expect(SpecificDrawer.prototype.handleStrokeStarted.bind(SpecificDrawer.prototype))

@@ -74,14 +74,14 @@ const renderCanvasses = (
 };
 
 export default (Wrapped: React.ComponentType<WrappedProps<any>>) => class extends React.PureComponent<DeskProps<any>> {
-	props: DeskProps<any>;
-
 	static defaultProps = {
 		sketches: [],
 		cmdPressed: false,
 		height: 0,
 		paperColor: WHITE,
 	}
+
+	props: DeskProps<any>;
 
 	render() {
 		const {

@@ -93,9 +93,9 @@ describe('Desk', () => {
 			}],
 			height,
 		});
-		const node = desk.find('div').getNode();
-		expect(node.props.style.width).to.equal('100%');
-		expect(parseInt(node.props.style.height, 10)).to.equal(height);
+		const node = desk.find('div');
+		expect(node.prop('style').width).to.equal('100%');
+		expect(parseInt(node.prop('style').height, 10)).to.equal(height);
 	});
 
 	it('colors the background in paperColor', () => {
@@ -108,7 +108,7 @@ describe('Desk', () => {
 			}],
 			paperColor,
 		});
-		const node = desk.find('div').getNode();
-		expect(node.props.style.backgroundColor).to.equal(paperColor);
+		const node = desk.find('div');
+		expect(node.prop('style').backgroundColor).to.equal(paperColor);
 	});
 });

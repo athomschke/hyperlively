@@ -50,7 +50,7 @@ describe('strokes', () => {
 			const state = strokes(undefined, { type: '' });
 			const action = createStroke(0, 0, 0);
 
-			expect(isNaN(strokes(state, action)[0].id)).to.be.true();
+			expect(Number.isNaN(strokes(state, action)[0].id)).to.be.true();
 		});
 	});
 
@@ -95,7 +95,7 @@ describe('strokes', () => {
 			const state = strokes(undefined, { type: '' });
 			const action = appendPoint(0, 0, 0);
 
-			expect(isNaN(strokes(state, action)[0].id)).to.be.true();
+			expect(Number.isNaN(strokes(state, action)[0].id)).to.be.true();
 		});
 	});
 
@@ -125,7 +125,7 @@ describe('strokes', () => {
 			};
 			const action = finishStroke(2, 2, 3);
 			const nextState = strokes([dummyStroke], action);
-			expect(isNaN(nextState[0].id)).to.be.false();
+			expect(Number.isNaN(nextState[0].id)).to.be.false();
 			expect(typeof nextState[0].id).to.equal('number');
 		});
 	});

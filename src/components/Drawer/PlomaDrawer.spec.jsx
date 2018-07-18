@@ -1,4 +1,5 @@
 // @flow
+import jsdom from 'jsdom-global';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 import React from 'react';
@@ -9,6 +10,7 @@ import { spy } from 'sinon';
 
 import { point, exampleStrokes } from 'src/helpers.spec';
 
+import mockCanvas, { defaultContext } from './mockCanvas';
 import PlomaDrawer, { type PlomaDrawerProps } from './PlomaDrawer';
 import { type AbstractDrawerProps } from './AbstractDrawer';
 
@@ -51,6 +53,16 @@ const defaultProps = () => ({
 
 describe('PlomaDrawer', () => {
 	let canvas;
+	let cleanup;
+
+	beforeEach(() => {
+		cleanup = jsdom();
+		mockCanvas(defaultContext());
+	});
+
+	afterEach(() => {
+		cleanup();
+	});
 
 	describe('removing one point', () => {
 		beforeEach(() => {

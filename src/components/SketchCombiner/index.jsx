@@ -40,14 +40,14 @@ export type WrappedProps<P> = P & {
 }
 
 export default (Wrapped: React.ComponentType<WrappedProps<*>>) => class extends React.PureComponent<SketchCombinerProps<*>> {
-	props: SketchCombinerProps<*>
-
 	static defaultProps = {
 		scene: {
 			strokes: [],
 		},
 		threshold: DEFAULT_THRESHOLD,
 	}
+
+	props: SketchCombinerProps<*>;
 
 	render() {
 		const strokes = this.props.scene.strokes;

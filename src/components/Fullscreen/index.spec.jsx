@@ -1,26 +1,33 @@
 // @flow
+import jsdom from 'jsdom-global';
 import { expect } from 'chai';
 import React from 'react';
 import { mount } from 'enzyme';
 
 import Fullscreen from '.';
 
-class MockedSubComponent extends React.Component<{width: number, height: number}> {
-	static propTypes = {
-		width: React.PropTypes.number.isRequired,
-		height: React.PropTypes.number.isRequired,
-	};
-
-	static defaultProps = {}
-
-	render() {
-		return <div />;
-	}
+type MockedSubComponentProps = {
+	width: number,
+	height: number,
 }
+
+const MockedSubComponent = (
+	{ width, height }: MockedSubComponentProps,
+) => <div width={width} height={height} />;
 
 const MockedComponent = Fullscreen(MockedSubComponent);
 
 describe('Fullscreen', () => {
+	let cleanup;
+
+	beforeEach(() => {
+		cleanup = jsdom();
+	});
+
+	afterEach(() => {
+		cleanup();
+	});
+
 	describe('resizes', () => {
 		let restorableWidth;
 		let restorableHeight;

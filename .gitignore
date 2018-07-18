@@ -40,6 +40,9 @@ jspm_packages
 # Build directory
 build
 
+# Test directory
+dist
+
 # IDE
 *.sublime-project
 *.sublime-workspace

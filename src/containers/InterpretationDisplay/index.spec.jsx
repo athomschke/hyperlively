@@ -5,7 +5,9 @@ import { expect } from 'chai';
 
 import { InterpretationDisplayComponent, type InterpretationDisplayProps } from '.';
 
-const shallowWithProps = (props: InterpretationDisplayProps) => shallow(<InterpretationDisplayComponent {...props} />);
+const shallowWithProps = (
+	props: InterpretationDisplayProps,
+) => shallow(<InterpretationDisplayComponent {...props} />);
 
 describe('InterpretationDisplay', () => {
 	it('renders no selection as empty string', () => {
@@ -14,7 +16,7 @@ describe('InterpretationDisplay', () => {
 			parameters: [],
 		});
 		const result = '';
-		expect(interpretationDisplay.getNode().props.children).to.equal(result);
+		expect(interpretationDisplay.prop('children')).to.equal(result);
 	});
 
 	it('renders a function with parameters', () => {
@@ -26,7 +28,7 @@ describe('InterpretationDisplay', () => {
 			parameters: ['parameter1', 'parameter2'],
 		});
 		const result = 'ActionWithTwoParameters(parameter1, parameter2)';
-		expect(interpretationDisplay.getNode().props.children).to.equal(result);
+		expect(interpretationDisplay.prop('children')).to.equal(result);
 	});
 
 	it('renders two functions with parameters', () => {
@@ -41,6 +43,6 @@ describe('InterpretationDisplay', () => {
 			parameters: ['parameter1', 'parameter2', 'parameter3'],
 		});
 		const result = 'ActionWithTwoParameters(parameter1, parameter2) then ActionWithOneParameter(parameter3)';
-		expect(interpretationDisplay.getNode().props.children).to.equal(result);
+		expect(interpretationDisplay.prop('children')).to.equal(result);
 	});
 });

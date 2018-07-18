@@ -1,4 +1,5 @@
 // @flow
+import jsdom from 'jsdom-global';
 import { expect } from 'chai';
 import React from 'react';
 import { forEach } from 'lodash';
@@ -24,15 +25,26 @@ const defaultProps = (): InterpreterProps => ({
 	clearInterval: () => undefined,
 });
 
-const findElementOfTypeWithTextContent = (wrapper, type, content) => wrapper.findWhere(n => n.type() === type && n.text().indexOf(content) >= 0);
+const findElementOfTypeWithTextContent = (
+	wrapper,
+	type,
+	content,
+) => wrapper.findWhere(n => n.type() === type && n.text().indexOf(content) >= 0);
 
 const renderWithProps = (props: InterpreterProps) => shallow(<Interpreter {...props} />);
 
 describe('Interpreter', () => {
+	let cleanup;
+
+	beforeEach(() => {
+		cleanup = jsdom();
+	});
+
 	afterEach(() => {
 		forEach(document.getElementsByClassName('ReactModalPortal'), (modalNode) => {
 			modalNode.parentNode.removeChild(modalNode);
 		});
+		cleanup();
 	});
 
 	describe('rendering', () => {

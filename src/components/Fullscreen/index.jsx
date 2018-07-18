@@ -1,6 +1,5 @@
 // @flow
-import React, { PureComponent } from 'react';
-import type { ClassComponent } from 'react-flow-types';
+import * as React from 'react';
 
 type State = {
 	width: number;
@@ -9,7 +8,7 @@ type State = {
 
 export type FullscreenProps<P> = P;
 
-export default (Wrapped: ClassComponent<any, any>) => class extends PureComponent<any, State> {
+export default (Wrapped: React.ComponentType<any>) => class extends React.PureComponent<any, State> {
 	constructor() {
 		super();
 		this.state = {

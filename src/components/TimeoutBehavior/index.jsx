@@ -46,13 +46,13 @@ export default (Wrapped: React.ComponentType<WrappedProps<*>>) => class extends 
 		disableFunction: ?(boolean) => void,
 	}
 
-	props: TimeoutBehaviorProps<*>;
-
 	componentDidMount() {
 		this.state = {
 			disableFunction: null,
 		};
 	}
+
+	props: TimeoutBehaviorProps<*>;
 
 	resetState(boundDisableFunction: ?(boolean) => void) {
 		if (boundDisableFunction) {

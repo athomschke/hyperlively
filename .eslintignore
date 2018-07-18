@@ -52,6 +52,7 @@ flow-typed
 
 # Build directories
 build
+dist
 
 # IDE
 *.sublime-project
