@@ -1,4 +1,5 @@
 // @flow
+import 'babel-polyfill';
 import {
 	takeEvery, call, put, type TakeHelper, type PutEffect,
 } from 'redux-saga/effects';
