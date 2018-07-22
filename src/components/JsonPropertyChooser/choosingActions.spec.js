@@ -8,7 +8,7 @@ import { formatObject } from './choosingActions';
 
 const flattenedTree = (root) => {
 	let items = [root];
-	forEach(root.children, (child) => {
+	forEach(root.isLeaf ? [] : root.children, (child) => {
 		items = items.concat(flattenedTree(child));
 	});
 	return items;
@@ -31,6 +31,7 @@ const exampleTree = {
 
 const exampleArray = [
 	{
+		isLeaf: false,
 		label: 'a',
 		key: 'a',
 		checkbox: true,
@@ -39,12 +40,14 @@ const exampleArray = [
 		collapsible: true,
 		children: [
 			{
+				isLeaf: true,
 				label: 'a1: a1',
 				key: 'a1',
 				checkbox: true,
 				checked: false,
 			},
 			{
+				isLeaf: true,
 				label: 'a2: a2 (property 0)',
 				key: 'a2',
 				checkbox: true,
@@ -53,12 +56,14 @@ const exampleArray = [
 		],
 	},
 	{
+		isLeaf: true,
 		label: 'b: b (property 1)',
 		key: 'b',
 		checkbox: true,
 		checked: true,
 	},
 	{
+		isLeaf: true,
 		label: 'c: c',
 		key: 'c',
 		checkbox: true,

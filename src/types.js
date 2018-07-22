@@ -68,6 +68,7 @@ export type ReactTreeLeafFormat = {
 	key: string,
 	checkbox: boolean,
 	checked: boolean,
+	isLeaf: true,
 }
 
 export type ReactTreeNodeFormat = {
@@ -77,7 +78,8 @@ export type ReactTreeNodeFormat = {
 	checked: boolean,
 	collapsible: boolean,
 	collapsed: boolean,
-	children: Array<ReactTreeLeafFormat | ReactTreeNodeFormat>
+	children: Array<ReactTreeLeafFormat | ReactTreeNodeFormat>,
+	isLeaf: false,
 }
 
 export type TextCandidate = {

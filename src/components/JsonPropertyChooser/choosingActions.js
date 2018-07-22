@@ -36,6 +36,7 @@ const formatTreeNode = (
 		children,
 		collapsed: findArraysEndingOnItem(keyCollapses, key, depth).length > 0,
 		collapsible: true,
+		isLeaf: false,
 	};
 };
 
@@ -54,6 +55,7 @@ export const formatTreeLeaf = (
 		checked: matchingChecks.length > 0,
 		key,
 		label: `${key}: ${object[key]}${parameterIndicator}`,
+		isLeaf: true,
 	};
 };
 
