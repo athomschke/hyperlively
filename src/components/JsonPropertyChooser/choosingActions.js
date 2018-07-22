@@ -3,7 +3,15 @@ import {
 	last, keys, map, filter, isEqual, findIndex,
 } from 'lodash';
 
+import { PATH_DELIMITER } from 'src/constants/configuration';
 import type { ReactTreeNodeFormat, ReactTreeLeafFormat, JSONPath } from 'src/types';
+
+const extendedPath = (path?: string, key: string) => [
+	...(path ? path.split(PATH_DELIMITER) : []),
+	key,
+].join(PATH_DELIMITER);
+
+export const valueAtPath = (obj: Object, path: string) => path.split(PATH_DELIMITER).reduce((subtree, key) => subtree[key], obj);
 
 export const findArraysIndex = (
 	containingArray: JSONPath,
@@ -18,23 +26,21 @@ export const findArraysEndingOnItem = (
 
 const formatTreeNode = (
 	object: Object,
-	key: string,
-	keyChecks: JSONPath,
-	allChecks: JSONPath,
+	allChecks: Array<string>,
 	children: Array<ReactTreeLeafFormat | ReactTreeNodeFormat>,
-	keyCollapses: JSONPath,
-	depth: number,
+	allCollapses: Array<string>,
+	path: string,
 ): ReactTreeNodeFormat => {
-	const matchingChecks: JSONPath =		findArraysEndingOnItem(keyChecks, key, depth);
-	const parameterIndex: number =		findArraysIndex(allChecks, matchingChecks[0]);
+	const checked = allChecks.indexOf(path) >= 0;
+	const parameterIndex: number = allChecks.indexOf(path);
 	const parameterIndicator: string =		parameterIndex >= 0 ? ` (property ${parameterIndex})` : '';
 	return {
 		checkbox: true,
-		checked: matchingChecks.length > 0,
-		key,
-		label: `${key}${parameterIndicator}`,
+		checked,
+		key: path,
+		label: `${last(path.split(PATH_DELIMITER))}${parameterIndicator}`,
 		children,
-		collapsed: findArraysEndingOnItem(keyCollapses, key, depth).length > 0,
+		collapsed: allCollapses.indexOf(path) >= 0,
 		collapsible: true,
 		isLeaf: false,
 	};
@@ -42,19 +48,18 @@ const formatTreeNode = (
 
 export const formatTreeLeaf = (
 	object: Object,
-	key: string,
-	keyChecks: JSONPath,
-	allChecks: JSONPath,
-	depth: number,
+	allChecks: Array<string>,
+	path: string,
 ): ReactTreeLeafFormat => {
-	const matchingChecks: JSONPath =		findArraysEndingOnItem(keyChecks, key, depth);
-	const parameterIndex: number =		findArraysIndex(allChecks, matchingChecks[0]);
-	const parameterIndicator: string =		parameterIndex >= 0 ? ` (property ${parameterIndex})` : '';
+	const checked = allChecks.indexOf(path) >= 0;
+	const parameterIndex: number = allChecks.indexOf(path);
+	const parameterIndicator: string = parameterIndex >= 0 ? ` (property ${parameterIndex})` : '';
+	const propKey = last(path.split(PATH_DELIMITER));
 	return {
 		checkbox: true,
-		checked: matchingChecks.length > 0,
-		key,
-		label: `${key}: ${object[key]}${parameterIndicator}`,
+		checked,
+		key: path,
+		label: `${propKey}: ${object[propKey]}${parameterIndicator}`,
 		isLeaf: true,
 	};
 };
@@ -85,39 +90,31 @@ export const arraysWithStringAtIndex = (
 
 export const formatObject = (
 	anObject: Object,
-	checkedArrays: JSONPath,
-	collapsedArrays: JSONPath,
-	origCheckedArrays: JSONPath,
-	depth: number,
+	checkedPaths: Array<string>,
+	collapsedPaths: Array<string>,
+	path?: string,
 ): Array<ReactTreeLeafFormat | ReactTreeNodeFormat> => keys(anObject).map((key: string) => {
-	const checksContainingNode: JSONPath =			arraysWithStringAtIndex(checkedArrays, key, depth);
-	const collapsesContainingNode: JSONPath =			arraysWithStringAtIndex(collapsedArrays, key, depth);
 	let children: Array<ReactTreeLeafFormat | ReactTreeNodeFormat> = [];
 	if (anObject[key] instanceof Object) {
 		children = formatObject(
 			anObject[key],
-			checksContainingNode,
-			collapsesContainingNode,
-			origCheckedArrays,
-			depth + 1,
+			checkedPaths,
+			collapsedPaths,
+			extendedPath(path, key),
 		);
 	}
 	if (children.length > 0) {
 		return formatTreeNode(
 			anObject,
-			key,
-			checksContainingNode,
-			origCheckedArrays,
+			checkedPaths,
 			children,
-			collapsesContainingNode,
-			depth,
+			collapsedPaths,
+			extendedPath(path, key),
 		);
 	}
 	return formatTreeLeaf(
 		anObject,
-		key,
-		checksContainingNode,
-		origCheckedArrays,
-		depth,
+		checkedPaths,
+		extendedPath(path, key),
 	);
 }, this);

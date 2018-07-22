@@ -2,7 +2,7 @@
 import { expect } from 'chai';
 import React from 'react';
 import { shallow } from 'enzyme';
-import Tree from 'rc-tree';
+import Tree, { TreeNode } from 'rc-tree';
 import { spy } from 'sinon';
 
 import JsonPropertyChooser, { type JsonPropertyChooserProps } from '.';
@@ -13,20 +13,20 @@ const shallowWithProps = (props: JsonPropertyChooserProps) => shallow(<JsonPrope
 
 const exampleTree = {
 	a: {
-		a1: 'a1',
-		a2: 'a2',
+		a1: 'a1 value',
+		a2: 'a2 value',
 	},
-	b: 'b',
-	c: 'c',
+	b: 'b value',
+	c: 'c value',
 };
 
 const defaultProps = (): JsonPropertyChooserProps => ({
 	onParameterChoose: () => undefined,
 	onCheckedPathsChange: () => undefined,
-	onCollapsedPathsChange: () => undefined,
+	onExpandedPathsChange: () => undefined,
 	isOpen: true,
 	checkedPaths: [],
-	collapsedPaths: [],
+	expandedPaths: [],
 	jsonTree: {},
 });
 
@@ -35,72 +35,81 @@ describe('JSONProperty Chooser', () => {
 		it('renders a tree menu', () => {
 			expect(shallowWithProps(defaultProps()).find(Tree)).to.have.length(1);
 		});
-	});
 
-	describe('Collapsing a json property that is an object', () => {
-		it('performs the callback', () => {
-			const onCheckedPathsChange = spy();
-			const onCollapsedPathsChange = spy();
-			const parameterChooser = shallowWithProps({
+		it('renders a TreeNode for each expanded object property, recursively', () => {
+			const tree = shallowWithProps({
+				...defaultProps(),
 				jsonTree: exampleTree,
-				checkedPaths: [],
-				collapsedPaths: [],
-				onParameterChoose: spy(),
-				onCheckedPathsChange,
-				onCollapsedPathsChange,
+				expandedPaths: ['a'],
 			});
-			const treeMenu = parameterChooser.find(Tree);
-			treeMenu.prop('onTreeNodeCollapseChange')([0]);
-			expect(onCollapsedPathsChange.args[0][0]).to.deep.equal([['a']]);
+			expect(tree.find(TreeNode)).to.have.length(5);
 		});
 	});
 
-	describe('Expanding a json property that is an object', () => {
-		it('performs the callback', () => {
-			const onCheckedPathsChange = spy();
-			const onCollapsedPathsChange = spy();
-
-			const parameterChooser = renderWithProps({
+	describe('Toggling a path', () => {
+		it('expands a collapsed path', () => {
+			const onExpandedPathsChange = spy();
+			const jsonPropertyChooser = shallowWithProps({
+				...defaultProps(),
 				jsonTree: exampleTree,
-				checkedPaths: [],
-				collapsedPaths: [['a']],
-				onParameterChoose: () => undefined,
-				onCheckedPathsChange,
-				onCollapsedPathsChange,
+				onExpandedPathsChange,
 			});
-			const treeMenu = parameterChooser.find(Tree);
-			treeMenu.prop('onTreeNodeCollapseChange')([0]);
-			expect(onCollapsedPathsChange.args[0][0]).to.deep.equal([]);
+			const treeMenu = jsonPropertyChooser.find(Tree);
+			treeMenu.prop('onExpand')(['a']);
+			expect(onExpandedPathsChange.args[0][0]).to.deep.equal(['a']);
+		});
+
+		it('collapses an expanded path', () => {
+			const onExpandedPathsChange = spy();
+			const jsonPropertyChooser = shallowWithProps({
+				...defaultProps(),
+				jsonTree: exampleTree,
+				expandedPaths: ['a'],
+				onExpandedPathsChange,
+			});
+			const treeMenu = jsonPropertyChooser.find(Tree);
+			treeMenu.prop('onExpand')([]);
+			expect(onExpandedPathsChange.args[0][0]).to.deep.equal([]);
 		});
 	});
 
-	describe('Checking a json property', () => {
+	describe('Toggling checkbox of a path', () => {
 		it('selects if it was not selected', () => {
 			const onCheckedPathsChange = spy();
-			const parameterChooser = renderWithProps({
+			const jsonPropertyChooser = renderWithProps({
 				...defaultProps(),
 				jsonTree: exampleTree,
 				onCheckedPathsChange,
 			});
-			const treeMenu = parameterChooser.find(Tree);
-			treeMenu.prop('onTreeNodeCheckChange')([0, 1]);
-			expect(onCheckedPathsChange.callCount).to.equal(1);
-			expect(onCheckedPathsChange.args[0][0]).to.deep.equal([['a', 'a2']]);
+			const treeMenu = jsonPropertyChooser.find(Tree);
+			treeMenu.prop('onCheck')({ checked: ['a --> a2'] });
+			expect(onCheckedPathsChange.args[0][0]).to.deep.equal(['a --> a2']);
 		});
 
 		it('deselects it if it was selected', () => {
 			const onCheckedPathsChange = spy();
-			const parameterChooser = renderWithProps({
+			const jsonPropertyChooser = renderWithProps({
 				...defaultProps(),
 				jsonTree: exampleTree,
-				checkedPaths: [['a', 'a2']],
-				collapsedPaths: [],
+				checkedPaths: ['a --> a2'],
 				onCheckedPathsChange,
 			});
-			const treeMenu = parameterChooser.find(Tree);
-			treeMenu.prop('onTreeNodeCheckChange')([0, 1]);
-			expect(onCheckedPathsChange.callCount).to.equal(1);
+			const treeMenu = jsonPropertyChooser.find(Tree);
+			treeMenu.prop('onCheck')({ checked: [] });
 			expect(onCheckedPathsChange.args[0][0]).to.deep.equal([]);
+		});
+
+		it('triggers a parameter choose with the chosen values', () => {
+			const onParameterChoose = spy();
+			const jsonPropertyChooser = renderWithProps({
+				...defaultProps(),
+				jsonTree: exampleTree,
+				checkedPaths: ['a --> a2'],
+				onParameterChoose,
+			});
+			const treeMenu = jsonPropertyChooser.find(Tree);
+			treeMenu.prop('onCheck')({ checked: ['a --> a2', 'a --> a1'] });
+			expect(onParameterChoose.args[0][0]).to.deep.equal(['a2 value', 'a1 value']);
 		});
 	});
 
@@ -109,8 +118,8 @@ describe('JSONProperty Chooser', () => {
 			const jsonTree = {
 				center: { x: 12, y: 12 },
 			};
-			const parameterChooser = renderWithProps({ ...defaultProps(), jsonTree });
-			expect(parameterChooser.find('div').getNode().props.style.position).to.equal('absolute');
+			const jsonPropertyChooser = renderWithProps({ ...defaultProps(), jsonTree });
+			expect(jsonPropertyChooser.find('div').getNode().props.style.position).to.equal('absolute');
 		});
 	});
 });

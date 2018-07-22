@@ -7,7 +7,7 @@ import { collapseActionsPath, checkActionsPath, chooseFunctions } from 'src/acti
 import ActionChooser from './ActionChooser';
 
 const mapStateToProps = (state: HyperlivelyState) => ({
-	collapsedPaths: state.ui.actions.collapsedPath,
+	expandedPaths: state.ui.actions.expandedPath,
 	checkedPaths: state.ui.actions.checkedPath,
 	specificActions: state.data.specificActions,
 });

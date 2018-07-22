@@ -51,9 +51,9 @@ const allActions = (specificActions) => {
 type Props = {
 	onFunctionsChoose: (Array<FunctionConfiguration>) => void,
 	specificActions: Array<ActionMapping>,
-	checkedPaths: Array<Array<string>>,
-	collapsedPaths: Array<Array<string>>,
-	onCollapsedPathsChange: () => void,
+	checkedPaths: Array<string>,
+	expandedPaths: Array<string>,
+	onExpandedPathsChange: () => void,
 	onCheckedPathsChange: () => void,
 }
 
@@ -61,8 +61,8 @@ export default class ActionChooser extends PureComponent<Props> {
 	static defaultProps = {
 		onFunctionsChoose: (_actionSignatures: Array<FunctionConfiguration>) => {},
 		checkedPaths: [],
-		collapsedPaths: [],
-		onCollapsedPathsChange: () => {},
+		expandedPaths: [],
+		onExpandedPathsChange: () => {},
 		onCheckedPathsChange: () => {},
 	}
 
@@ -78,10 +78,10 @@ export default class ActionChooser extends PureComponent<Props> {
 				onParameterChoose={(parameters: Array<TreeParameter>) => {
 					this.onFunctionsChoose(parameters);
 				}}
-				onCollapsedPathsChange={this.props.onCollapsedPathsChange}
+				onExpandedPathsChange={this.props.onExpandedPathsChange}
 				onCheckedPathsChange={this.props.onCheckedPathsChange}
 				checkedPaths={this.props.checkedPaths}
-				collapsedPaths={this.props.collapsedPaths}
+				expandedPaths={this.props.expandedPaths}
 				position={undefined}
 				jsonTree={allActions(this.props.specificActions)}
 			/>);

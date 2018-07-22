@@ -3,19 +3,26 @@
 import * as React from 'react';
 
 import type {
-	Stroke, RecognitionResult, TreeParameter, JSONPath, Coordinate, ShapeCandidate,
+	Stroke, RecognitionState, TreeParameter, Coordinate, ShapeCandidateState,
 } from 'src/types';
+import { PATH_DELIMITER } from 'src/constants/configuration';
 import JsonPropertyChooser, { type JSONObject } from 'src/components/JsonPropertyChooser';
 
-export type ParameterChooserProps = {
+export type ParameterChooserStateProps = {
+	checkedPaths: Array<string>,
+	expandedPaths: Array<string>,
+	interpretation: RecognitionState,
+}
+
+export type ParameterChooserDispatchProps = {
 	onParameterChoose: (parameters: Array<TreeParameter>) => void,
-	onCheckedPathsChange: (checkedPath: JSONPath) => void,
-	onCollapsedPathsChange: (collapsedPath: JSONPath) => void,
-	checkedPaths: JSONPath,
-	collapsedPaths: JSONPath,
+	onCheckedPathsChange: (checkedPath: Array<string>) => void,
+	onExpandedPathsChange: (collapsedPath: Array<string>) => void,
+}
+
+export type ParameterChooserProps = ParameterChooserStateProps & ParameterChooserDispatchProps & {
 	lastStrokes: Array<Stroke>,
 	selectedStrokes: Array<Stroke>,
-	interpretation: RecognitionResult,
 }
 
 const defaultProps = (): ParameterChooserProps => ({
@@ -27,9 +34,9 @@ const defaultProps = (): ParameterChooserProps => ({
 		shapes: [],
 	},
 	onCheckedPathsChange: () => {},
-	onCollapsedPathsChange: () => {},
+	onExpandedPathsChange: () => {},
 	checkedPaths: [],
-	collapsedPaths: [],
+	expandedPaths: [],
 });
 
 export default (props: ParameterChooserProps = defaultProps()) => {
@@ -49,43 +56,39 @@ export default (props: ParameterChooserProps = defaultProps()) => {
 	const jsonTree = (parameterObject():JSONObject);
 
 	const renderPrefixedChooser = (prefix: string, position?: Coordinate) => {
-		const combinePaths = (upperPaths, lowerPaths) => [
-			...upperPaths.filter(path => path[0] !== prefix),
-			...lowerPaths.map(path => [prefix, ...path]),
+		const combinePaths = (upperPaths: Array<string>, lowerPaths: Array<string>): Array<string> => [
+			...upperPaths.filter(path => path.split(PATH_DELIMITER)[0] !== prefix),
+			...lowerPaths.map(path => [prefix, ...path.split(PATH_DELIMITER)].join(PATH_DELIMITER)),
 		];
-		const filterPaths = paths => paths.filter(path => path[0] === prefix).map(ea => ea.slice(1));
+		const filterPaths = (paths: Array<string>): Array<string> => paths.filter(
+			path => path.split(PATH_DELIMITER)[0] === prefix,
+		).map(
+			path => path.split(PATH_DELIMITER).slice(1).join(PATH_DELIMITER),
+		);
 
 		return (
 			<JsonPropertyChooser
 				position={position}
 				jsonTree={jsonTree[prefix]}
 				checkedPaths={filterPaths(props.checkedPaths)}
-				collapsedPaths={filterPaths(props.collapsedPaths)}
+				expandedPaths={filterPaths(props.expandedPaths)}
 				onParameterChoose={props.onParameterChoose}
-				onCheckedPathsChange={
-					(paths: JSONPath) => {
-						props.onCheckedPathsChange(combinePaths(props.checkedPaths, paths));
-					}
-				}
-				onCollapsedPathsChange={
-					(paths: JSONPath) => {
-						props.onCollapsedPathsChange(combinePaths(props.collapsedPaths, paths));
-					}
-				}
+				onCheckedPathsChange={paths => props.onCheckedPathsChange(combinePaths(props.checkedPaths, paths))}
+				onExpandedPathsChange={paths => props.onExpandedPathsChange(combinePaths(props.expandedPaths, paths))}
 			/>
 		);
 	};
 
-	const coordinateFromShapeResult = (shapeResult: ShapeCandidate) => {
+	const coordinateFromShapeResult = (shapeResult: ShapeCandidateState) => {
 		if (shapeResult.primitives) {
-			const center: Coordinate = (shapeResult.primitives[0]: any).center;
-			const firstPoint: Coordinate = (shapeResult.primitives[0]: any).firstPoint;
+			const center: Coordinate = (shapeResult.candidate.primitives[0]: any).center;
+			const firstPoint: Coordinate = (shapeResult.candidate.primitives[0]: any).firstPoint;
 			return center || firstPoint;
 		}
 		return null;
 	};
 
-	const getInterpretationPosition = (shapeOrTextInterpretation: RecognitionResult) => {
+	const getInterpretationPosition = (shapeOrTextInterpretation: RecognitionState) => {
 		const shapePositions: Array<Coordinate | null> = shapeOrTextInterpretation.shapes
 			.map(coordinateFromShapeResult)
 			.filter(position => !!position);

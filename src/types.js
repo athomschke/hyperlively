@@ -184,8 +184,8 @@ export type PerformActionFunction = (_name: string, ..._rest: any[]) => void;
 export type JSONPath = Array<Array<string>>;
 
 export type JSONChooserState = {
-	collapsedPath: JSONPath,
-	checkedPath: JSONPath,
+	expandedPath: Array<string>,
+	checkedPath: Array<string>,
 }
 
 export type InterpretationsState = {

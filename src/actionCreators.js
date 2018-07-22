@@ -143,23 +143,23 @@ export const selectInside = (strokes: Array<Stroke>) => ({
 	sceneIndex: NaN,
 });
 
-export const checkActionsPath = (path: JSONPath) => ({
+export const checkActionsPath = (path: Array<string>) => ({
 	type: ActionTypes.CHECK_ACTIONS_PATH,
 	path,
 });
 
-export const collapseActionsPath = (path: JSONPath) => ({
-	type: ActionTypes.COLLAPSE_ACTIONS_PATH,
+export const collapseActionsPath = (path: Array<string>) => ({
+	type: ActionTypes.EXPAND_ACTIONS_PATH,
 	path,
 });
 
-export const checkParametersPath = (path: JSONPath) => ({
+export const checkParametersPath = (path: Array<string>) => ({
 	type: ActionTypes.CHECK_PARAMETERS_PATH,
 	path,
 });
 
-export const collapseParametersPath = (path: JSONPath) => ({
-	type: ActionTypes.COLLAPSE_PARAMETERS_PATH,
+export const collapseParametersPath = (path: Array<string>) => ({
+	type: ActionTypes.EXPAND_PARAMETERS_PATH,
 	path,
 });
 

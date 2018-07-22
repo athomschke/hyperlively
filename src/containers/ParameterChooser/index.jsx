@@ -4,17 +4,16 @@ import { connect } from 'react-redux';
 import type { HyperlivelyState } from 'src/types';
 import { collapseParametersPath, checkParametersPath, chooseParameters } from 'src/actionCreators';
 
-import ParameterChooser from './ParameterChooser';
+import ParameterChooser, { type ParameterChooserStateProps, type ParameterChooserDispatchProps } from './ParameterChooser';
 
-const mapStateToProps = (state: HyperlivelyState) => ({
-	collapsedPaths: state.ui.parameters.collapsedPath,
+const mapStateToProps = (state: HyperlivelyState): ParameterChooserStateProps => ({
+	expandedPaths: state.ui.parameters.expandedPath,
 	checkedPaths: state.ui.parameters.checkedPath,
-	parameters: state.ui.interpretations.parameters,
 	interpretation: state.data.interpretation,
 });
 
-const mapDispatchToProps = dispatch => ({
-	onCollapsedPathsChange: collapsedPath => dispatch(collapseParametersPath(collapsedPath)),
+const mapDispatchToProps = (dispatch): ParameterChooserDispatchProps => ({
+	onExpandedPathsChange: expandedPath => dispatch(collapseParametersPath(expandedPath)),
 	onCheckedPathsChange: checkedPath => dispatch(checkParametersPath(checkedPath)),
 	onParameterChoose: functions => dispatch(chooseParameters(functions)),
 });

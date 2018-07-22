@@ -1,21 +1,21 @@
 // @flow
-import { COLLAPSE_PARAMETERS_PATH, CHECK_PARAMETERS_PATH } from 'src/constants/actionTypes';
-import type { COLLAPSE_PARAMETERS_PATH_ACTION, CHECK_PARAMETERS_PATH_ACTION } from 'src/actionTypeDefinitions';
+import { EXPAND_PARAMETERS_PATH, CHECK_PARAMETERS_PATH } from 'src/constants/actionTypes';
+import type { EXPAND_PARAMETERS_PATH_ACTION, CHECK_PARAMETERS_PATH_ACTION } from 'src/actionTypeDefinitions';
 import { type StrokeActionType, strokeActions } from 'src/reducers/data/strokes/stroke';
 import { collapseParametersPath, checkParametersPath } from 'src/actionCreators';
 import type { JSONChooserState } from 'src/types';
 import scopeToActions from 'src/reducers/scopeToActions';
 
-const collapsedPathActions = {
-	COLLAPSE_PARAMETERS_PATH: collapseParametersPath,
+const expandedPathActions = {
+	EXPAND_PARAMETERS_PATH: collapseParametersPath,
 };
 
-const collapsedPath = scopeToActions((state, action: COLLAPSE_PARAMETERS_PATH_ACTION) => {
-	if (action.type === COLLAPSE_PARAMETERS_PATH) {
+const expandedPath = scopeToActions((state, action: EXPAND_PARAMETERS_PATH_ACTION) => {
+	if (action.type === EXPAND_PARAMETERS_PATH) {
 		return action.path;
 	}
 	return state;
-}, collapsedPathActions, () => []);
+}, expandedPathActions, () => []);
 
 const checkedPathActions = {
 	...strokeActions,
@@ -34,20 +34,20 @@ const checkedPath = scopeToActions((state, action: CHECKED_PATH_ACTIONS) => {
 	return state;
 }, checkedPathActions, () => []);
 
-export type PARAMETERS_ACTION = COLLAPSE_PARAMETERS_PATH_ACTION | CHECKED_PATH_ACTIONS;
+export type PARAMETERS_ACTION = EXPAND_PARAMETERS_PATH_ACTION | CHECKED_PATH_ACTIONS;
 
 export const parametersActions = {
-	...collapsedPathActions,
+	...expandedPathActions,
 	...checkedPathActions,
 };
 
 const initialParametersState = () => ({
-	collapsedPath: collapsedPath(undefined, { type: '' }),
+	expandedPath: expandedPath(undefined, { type: '' }),
 	checkedPath: checkedPath(undefined, { type: '' }),
 });
 
 const parameters = scopeToActions((state: JSONChooserState, action: PARAMETERS_ACTION) => ({
-	collapsedPath: collapsedPath(state.collapsedPath, action),
+	expandedPath: expandedPath(state.expandedPath, action),
 	checkedPath: checkedPath(state.checkedPath, action),
 }), parametersActions, initialParametersState);
 
