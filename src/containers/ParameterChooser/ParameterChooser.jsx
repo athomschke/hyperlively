@@ -3,10 +3,11 @@
 import * as React from 'react';
 
 import type {
-	Stroke, RecognitionState, TreeParameter, Coordinate, ShapeCandidateState,
+	Stroke, RecognitionState, Coordinate, ShapeCandidateState, TreeParameter,
 } from 'src/types';
-import { PATH_DELIMITER } from 'src/constants/configuration';
-import JsonPropertyChooser, { type JSONObject } from 'src/components/JsonPropertyChooser';
+import { type JSONObject } from 'src/components/JsonPropertyChooser';
+
+import PrefixedJSONPropertyChooser from './PrefixedJSONPropertyChooser';
 
 export type ParameterChooserStateProps = {
 	checkedPaths: Array<string>,
@@ -55,28 +56,18 @@ export default (props: ParameterChooserProps = defaultProps()) => {
 
 	const jsonTree = (parameterObject():JSONObject);
 
-	const renderPrefixedChooser = (prefix: string, position?: Coordinate) => {
-		const combinePaths = (upperPaths: Array<string>, lowerPaths: Array<string>): Array<string> => [
-			...upperPaths.filter(path => path.split(PATH_DELIMITER)[0] !== prefix),
-			...lowerPaths.map(path => [prefix, ...path.split(PATH_DELIMITER)].join(PATH_DELIMITER)),
-		];
-		const filterPaths = (paths: Array<string>): Array<string> => paths.filter(
-			path => path.split(PATH_DELIMITER)[0] === prefix,
-		).map(
-			path => path.split(PATH_DELIMITER).slice(1).join(PATH_DELIMITER),
-		);
-
-		return (
-			<JsonPropertyChooser
-				position={position}
-				jsonTree={jsonTree[prefix]}
-				checkedPaths={filterPaths(props.checkedPaths)}
-				expandedPaths={filterPaths(props.expandedPaths)}
-				onParameterChoose={props.onParameterChoose}
-				onCheckedPathsChange={paths => props.onCheckedPathsChange(combinePaths(props.checkedPaths, paths))}
-				onExpandedPathsChange={paths => props.onExpandedPathsChange(combinePaths(props.expandedPaths, paths))}
-			/>
-		);
+	const getStrokesPosition = (strokes: Array<Stroke>) => {
+		const allPoints = strokes.reduce((points, stroke) => [...points, ...stroke.points], []);
+		if (allPoints.length > 0) {
+			const xs = allPoints.map(point => point.x);
+			const ys = allPoints.map(point => point.y);
+			const minX = Math.min(...xs);
+			const maxX = Math.max(...xs);
+			const minY = Math.min(...ys);
+			const maxY = Math.max(...ys);
+			return { x: minX + ((maxX - minX) / 2), y: minY + ((maxY - minY) / 2) };
+		}
+		return null;
 	};
 
 	const coordinateFromShapeResult = (shapeResult: ShapeCandidateState) => {
@@ -95,25 +86,21 @@ export default (props: ParameterChooserProps = defaultProps()) => {
 		return shapePositions[0];
 	};
 
-	const getStrokesPosition = (strokes: Array<Stroke>) => {
-		const allPoints = strokes.reduce((points, stroke) => [...points, ...stroke.points], []);
-		if (allPoints.length > 0) {
-			const xs = allPoints.map(point => point.x);
-			const ys = allPoints.map(point => point.y);
-			const minX = Math.min(...xs);
-			const maxX = Math.max(...xs);
-			const minY = Math.min(...ys);
-			const maxY = Math.max(...ys);
-			return { x: minX + ((maxX - minX) / 2), y: minY + ((maxY - minY) / 2) };
-		}
-		return null;
-	};
-
-	// todo: render multiple interpretation chooser
+	// todo: render multiple interpretation choosers
 	return (
 		<div style={{ display: 'inline' }}>
-			{renderPrefixedChooser('interpretation', getInterpretationPosition(interpretation) || undefined)}
-			{renderPrefixedChooser('selectedStrokes', getStrokesPosition(props.selectedStrokes) || undefined)}
+			<PrefixedJSONPropertyChooser
+				{...props}
+				prefix="interpretation"
+				jsonTree={jsonTree}
+				position={getInterpretationPosition(interpretation) || undefined}
+			/>
+			<PrefixedJSONPropertyChooser
+				{...props}
+				prefix="selectedStrokes"
+				jsonTree={jsonTree}
+				position={getStrokesPosition(props.selectedStrokes) || undefined}
+			/>
 		</div>
 	);
 };
