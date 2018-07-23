@@ -20,7 +20,7 @@ export default (Wrapped: React.ComponentType<WrappedProps<any>>) => class HTMLWi
 		state: State
 
 		componentDidMount() {
-			this.state.htmlWidth = ((this.node: any): HTMLDivElement).getBoundingClientRect().width;
+			this.setState({ htmlWidth: ((this.node: any): HTMLDivElement).getBoundingClientRect().width });
 		}
 
 		props: HTMLWidthProps<*>
