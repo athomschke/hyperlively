@@ -6,12 +6,15 @@ import { collapseParametersPath, checkParametersPath, chooseParameters } from 's
 
 import ParameterChooser, { type ParameterChooserStateProps, type ParameterChooserDispatchProps } from './ParameterChooser';
 
-const mapStateToProps = (state: HyperlivelyState): ParameterChooserStateProps => ({
-	strokes: state.data.scenes.present.length > 0 ? state.data.scenes.present[state.data.sceneIndex].strokes : [],
-	expandedPaths: state.ui.parameters.expandedPath,
-	checkedPaths: state.ui.parameters.checkedPath,
-	interpretation: state.data.interpretation,
-});
+const mapStateToProps = (state: HyperlivelyState): ParameterChooserStateProps => {
+	const result = {
+		strokes: state.data.scenes.present.length > state.data.sceneIndex ? state.data.scenes.present[state.data.sceneIndex].strokes : [],
+		expandedPaths: state.ui.parameters.expandedPath,
+		checkedPaths: state.ui.parameters.checkedPath,
+		interpretation: state.data.interpretation,
+	};
+	return result;
+};
 
 const mapDispatchToProps = (dispatch): ParameterChooserDispatchProps => ({
 	onExpandedPathsChange: expandedPath => dispatch(collapseParametersPath(expandedPath)),

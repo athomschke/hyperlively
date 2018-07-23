@@ -5,6 +5,7 @@ module.exports = function (config) {
 	configureDefaultKarma(config);
 
 	config.set({
+		mode: 'development',
 		files: [
 			'test/runner.integration.js',
 		],

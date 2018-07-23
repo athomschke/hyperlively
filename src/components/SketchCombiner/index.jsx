@@ -54,10 +54,12 @@ export default (Wrapped: React.ComponentType<WrappedProps<*>>) => class extends 
 		// eslint-disable-next-line no-unused-vars
 		const { threshold, scene, ...rest } = this.props;
 
+		const combinedSketches = sketches(strokes, this.props.threshold);
+
 		return (
 			<Wrapped
 				{...rest}
-				sketches={sketches(strokes, this.props.threshold)}
+				sketches={combinedSketches}
 			/>
 		);
 	}

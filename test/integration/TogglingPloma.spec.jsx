@@ -46,13 +46,15 @@ describe('Integration', () => {
 				throw new Error('Need an app element');
 			}
 
-			const backgroundNode = app.children[0].children[0].children[0];
+			const backgroundNode = document.getElementById('desk');
+			if (!backgroundNode) {
+				throw new Error('need a desk element');
+			}
 			const nonPlomaBackgroundColor = backgroundNode.style.getPropertyValue('background-color');
 			const configuration = document.getElementById('configuration');
 			if (!(configuration instanceof HTMLElement)) {
 				throw new Error('Need an app element');
 			}
-
 			const plomaButton = configuration.getElementsByTagName('input')[0];
 			TestUtils.Simulate.click(plomaButton);
 			const plomaBackgroundColor = backgroundNode.style.getPropertyValue('background-color');

@@ -24,6 +24,7 @@ const defaultProps = (): Props => ({
 });
 
 const renderComponentWithProps = (props: Props) => TestUtils.renderIntoDocument(<PlomaDrawer
+	{...props}
 	bounds={{
 		width: 1000,
 		height: 500,
