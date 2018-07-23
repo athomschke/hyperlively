@@ -6,7 +6,7 @@ import { shallow } from 'enzyme';
 
 import JsonPropertyChooser from 'src/components/JsonPropertyChooser';
 
-import PrefixedJSONPropertyChooser, { type PrefixedJSONPropertyChooserProps } from './PrefixedJSONPropertyChooser';
+import PrefixedJSONPropertyChooser, { type PrefixedJSONPropertyChooserProps, filterPaths } from './PrefixedJSONPropertyChooser';
 
 const shallowWithProps = (props: PrefixedJSONPropertyChooserProps) => shallow(<PrefixedJSONPropertyChooser {...props} />);
 
@@ -19,7 +19,7 @@ const asd = () => ({
 });
 
 const defaultProps = (): PrefixedJSONPropertyChooserProps => ({
-	prefix: 'foo',
+	prefixes: ['foo'],
 	jsonTree: {
 		foo: foo(),
 		asd: asd(),
@@ -37,11 +37,11 @@ const defaultProps = (): PrefixedJSONPropertyChooserProps => ({
 describe('PrefixedJSONPropertyChooser', () => {
 	describe('Renderine a chooser for "foo"', () => {
 		it('passes only the foo property to JsonPropertyChooser', () => {
-			const parameterChooser = shallowWithProps({
+			const prefixedChooser = shallowWithProps({
 				...defaultProps(),
 			});
 
-			expect(parameterChooser.find(JsonPropertyChooser).prop('jsonTree')).to.deep.equal(foo());
+			expect(prefixedChooser.find(JsonPropertyChooser).prop('jsonTree')).to.deep.equal(foo());
 		});
 
 		it('passes only the selected strokes checked paths to JsonPropertyChooser', () => {
@@ -49,9 +49,9 @@ describe('PrefixedJSONPropertyChooser', () => {
 				'foo --> bar',
 				'asd --> asdf',
 			];
-			const parameterChooser = shallowWithProps({ ...defaultProps(), checkedPaths });
+			const prefixedChooser = shallowWithProps({ ...defaultProps(), checkedPaths });
 
-			expect(parameterChooser.find(JsonPropertyChooser).prop('checkedPaths')).to.deep.equal(['bar']);
+			expect(prefixedChooser.find(JsonPropertyChooser).prop('checkedPaths')).to.deep.equal(['bar']);
 		});
 
 		it('passes only the selected strokes collapsed paths to JsonPropertyChooser', () => {
@@ -59,9 +59,16 @@ describe('PrefixedJSONPropertyChooser', () => {
 				'foo --> bar',
 				'asd --> asdf',
 			];
-			const parameterChooser = shallowWithProps({ ...defaultProps(), expandedPaths });
+			const prefixedChooser = shallowWithProps({ ...defaultProps(), expandedPaths });
 
-			expect(parameterChooser.find(JsonPropertyChooser).prop('expandedPaths')).deep.equal(['bar']);
+			expect(prefixedChooser.find(JsonPropertyChooser).prop('expandedPaths')).deep.equal(['bar']);
+		});
+
+		it('Traverses multiple prefixes', () => {
+			const prefixes = ['foo', 'bar'];
+			const prefixedChooser = shallowWithProps({ ...defaultProps(), prefixes });
+
+			expect(prefixedChooser.find(JsonPropertyChooser).prop('jsonTree')).deep.equal('baz');
 		});
 	});
 
@@ -69,9 +76,9 @@ describe('PrefixedJSONPropertyChooser', () => {
 	describe('Choosing a property in "foo"', () => {
 		it('triggers onParameterChoose with the same values', () => {
 			const onParameterChoose = spy();
-			const parameterChooser = shallowWithProps({ ...defaultProps(), onParameterChoose });
+			const prefixedChooser = shallowWithProps({ ...defaultProps(), onParameterChoose });
 
-			const chooser = parameterChooser.find(JsonPropertyChooser);
+			const chooser = prefixedChooser.find(JsonPropertyChooser);
 			const values = [1, 2, 3];
 			chooser.prop('onParameterChoose')(values);
 
@@ -83,8 +90,8 @@ describe('PrefixedJSONPropertyChooser', () => {
 			const checkedPaths = [
 				'asd --> asdf',
 			];
-			const parameterChooser = shallowWithProps({ ...defaultProps(), checkedPaths, onCheckedPathsChange });
-			parameterChooser.find(JsonPropertyChooser).prop('onCheckedPathsChange')(['bar']);
+			const prefixedChooser = shallowWithProps({ ...defaultProps(), checkedPaths, onCheckedPathsChange });
+			prefixedChooser.find(JsonPropertyChooser).prop('onCheckedPathsChange')(['bar']);
 
 			expect(onCheckedPathsChange.args[0][0]).to.deep.equal([
 				'asd --> asdf',
@@ -98,8 +105,8 @@ describe('PrefixedJSONPropertyChooser', () => {
 				'foo --> bar',
 				'asd --> asdf',
 			];
-			const parameterChooser = shallowWithProps({ ...defaultProps(), checkedPaths, onCheckedPathsChange });
-			parameterChooser.find(JsonPropertyChooser).prop('onCheckedPathsChange')([]);
+			const prefixedChooser = shallowWithProps({ ...defaultProps(), checkedPaths, onCheckedPathsChange });
+			prefixedChooser.find(JsonPropertyChooser).prop('onCheckedPathsChange')([]);
 
 			expect(onCheckedPathsChange.args[0][0]).to.deep.equal([
 				'asd --> asdf',
@@ -113,8 +120,8 @@ describe('PrefixedJSONPropertyChooser', () => {
 			const expandedPaths = [
 				'asd --> asdf',
 			];
-			const parameterChooser = shallowWithProps({ ...defaultProps(), expandedPaths, onExpandedPathsChange });
-			parameterChooser.find(JsonPropertyChooser).prop('onExpandedPathsChange')(['bar']);
+			const prefixedChooser = shallowWithProps({ ...defaultProps(), expandedPaths, onExpandedPathsChange });
+			prefixedChooser.find(JsonPropertyChooser).prop('onExpandedPathsChange')(['bar']);
 
 			expect(onExpandedPathsChange.args[0][0]).to.deep.equal([
 				'asd --> asdf',
@@ -128,12 +135,18 @@ describe('PrefixedJSONPropertyChooser', () => {
 				'foo --> bar',
 				'asd --> asdf',
 			];
-			const parameterChooser = shallowWithProps({ ...defaultProps(), expandedPaths, onExpandedPathsChange });
-			parameterChooser.find(JsonPropertyChooser).prop('onExpandedPathsChange')([]);
+			const prefixedChooser = shallowWithProps({ ...defaultProps(), expandedPaths, onExpandedPathsChange });
+			prefixedChooser.find(JsonPropertyChooser).prop('onExpandedPathsChange')([]);
 
 			expect(onExpandedPathsChange.args[0][0]).to.deep.equal([
 				'asd --> asdf',
 			]);
+		});
+	});
+
+	describe('filtering paths', () => {
+		it('remmoves prefixes and paths that do not apply', () => {
+			expect(filterPaths(['foo', 'bar'], ['foo --> bar', 'asd --> asdf'])).to.deep.equal(['bar']);
 		});
 	});
 });

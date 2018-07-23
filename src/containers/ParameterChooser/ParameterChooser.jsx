@@ -3,13 +3,15 @@
 import * as React from 'react';
 
 import type {
-	Stroke, RecognitionState, Coordinate, ShapeCandidateState, TreeParameter,
+	Stroke, RecognitionState, ShapeCandidateState, TreeParameter, TextCandidateState,
 } from 'src/types';
 import { type JSONObject } from 'src/components/JsonPropertyChooser';
+import { PATH_DELIMITER } from 'src/constants/configuration';
 
 import PrefixedJSONPropertyChooser from './PrefixedJSONPropertyChooser';
 
 export type ParameterChooserStateProps = {
+	strokes: Array<Stroke>,
 	checkedPaths: Array<string>,
 	expandedPaths: Array<string>,
 	interpretation: RecognitionState,
@@ -27,6 +29,7 @@ export type ParameterChooserProps = ParameterChooserStateProps & ParameterChoose
 }
 
 const defaultProps = (): ParameterChooserProps => ({
+	strokes: [],
 	onParameterChoose: () => {},
 	lastStrokes: [],
 	selectedStrokes: [],
@@ -70,34 +73,39 @@ export default (props: ParameterChooserProps = defaultProps()) => {
 		return null;
 	};
 
-	const coordinateFromShapeResult = (shapeResult: ShapeCandidateState) => {
-		if (shapeResult.primitives) {
-			const center: Coordinate = (shapeResult.candidate.primitives[0]: any).center;
-			const firstPoint: Coordinate = (shapeResult.candidate.primitives[0]: any).firstPoint;
-			return center || firstPoint;
-		}
-		return null;
-	};
+	const getInterpretationPosition = (
+		shapeOrTextInterpretation: TextCandidateState | ShapeCandidateState, strokes,
+	) => getStrokesPosition(strokes.filter(stroke => shapeOrTextInterpretation.strokeIds.indexOf(stroke.id) >= 0));
 
-	const getInterpretationPosition = (shapeOrTextInterpretation: RecognitionState) => {
-		const shapePositions: Array<Coordinate | null> = shapeOrTextInterpretation.shapes
-			.map(coordinateFromShapeResult)
-			.filter(position => !!position);
-		return shapePositions[0];
-	};
+	const renderShapeChoosers = () => props.interpretation.shapes.map((shapeResult, i) => (
+		<PrefixedJSONPropertyChooser
+			{...props}
+			key={['interpretation', 'shapes', `${i}`, 'candidate'].join(PATH_DELIMITER)}
+			prefixes={['interpretation', 'shapes', `${i}`, 'candidate']}
+			jsonTree={jsonTree}
+			position={getInterpretationPosition(shapeResult, props.strokes)}
+		/>
+	));
+
+	const renderTextChoosers = () => props.interpretation.texts.map((textResult, i) => (
+		<PrefixedJSONPropertyChooser
+			{...props}
+			key={['interpretation', 'texts', `${i}`, 'candidate'].join(PATH_DELIMITER)}
+			prefixes={['interpretation', 'texts', `${i}`, 'candidate']}
+			jsonTree={jsonTree}
+			position={getInterpretationPosition(textResult, props.strokes)}
+		/>
+	));
 
 	// todo: render multiple interpretation choosers
 	return (
 		<div style={{ display: 'inline' }}>
+			{renderShapeChoosers()}
+			{renderTextChoosers()}
 			<PrefixedJSONPropertyChooser
 				{...props}
-				prefix="interpretation"
-				jsonTree={jsonTree}
-				position={getInterpretationPosition(interpretation) || undefined}
-			/>
-			<PrefixedJSONPropertyChooser
-				{...props}
-				prefix="selectedStrokes"
+				key="selectedStrokes"
+				prefixes={['selectedStrokes']}
 				jsonTree={jsonTree}
 				position={getStrokesPosition(props.selectedStrokes) || undefined}
 			/>
