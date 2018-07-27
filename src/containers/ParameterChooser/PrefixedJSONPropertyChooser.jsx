@@ -32,7 +32,7 @@ const combinePaths = (prefixes: Array<string>, longPaths: Array<string>, shortPa
 ];
 
 export const filterPaths = (prefixes: Array<string>, paths: Array<string>): Array<string> => pathsWithPrefixes(paths, prefixes).map(
-	path => path.split(PATH_DELIMITER).slice(1).join(PATH_DELIMITER),
+	path => path.split(PATH_DELIMITER).slice(prefixes.length).join(PATH_DELIMITER),
 );
 
 export default (props: PrefixedJSONPropertyChooserProps) => {

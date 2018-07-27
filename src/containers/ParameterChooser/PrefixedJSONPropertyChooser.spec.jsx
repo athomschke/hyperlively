@@ -146,7 +146,11 @@ describe('PrefixedJSONPropertyChooser', () => {
 
 	describe('filtering paths', () => {
 		it('remmoves prefixes and paths that do not apply', () => {
-			expect(filterPaths(['foo', 'bar'], ['foo --> bar', 'asd --> asdf'])).to.deep.equal(['bar']);
+			expect(filterPaths(['foo'], ['foo --> bar', 'asd --> asdf'])).to.deep.equal(['bar']);
+		});
+
+		it('deals with multilevel prefixes', () => {
+			expect(filterPaths(['foo', 'bar'], ['foo --> bar --> baz', 'asd --> asdf'])).to.deep.equal(['baz']);
 		});
 	});
 });

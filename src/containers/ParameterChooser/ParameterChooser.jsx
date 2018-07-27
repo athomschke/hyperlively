@@ -75,29 +75,45 @@ export default (props: ParameterChooserProps = defaultProps()) => {
 
 	const getInterpretationPosition = (
 		shapeOrTextInterpretation: TextCandidateState | ShapeCandidateState, strokes,
-	) => getStrokesPosition(strokes.filter(stroke => shapeOrTextInterpretation.strokeIds.indexOf(stroke.id) >= 0));
+		offsetIndex: number,
+	) => {
+		const overlappingPosition = getStrokesPosition(
+			strokes.filter(stroke => shapeOrTextInterpretation.strokeIds.indexOf(stroke.id) >= 0),
+		);
+		return overlappingPosition ? {
+			...overlappingPosition,
+			y: overlappingPosition.y + (offsetIndex * 50),
+		} : null;
+	};
 
 	const renderShapeChoosers = () => props.interpretation.shapes.map((shapeResult, i) => (
 		<PrefixedJSONPropertyChooser
 			{...props}
-			key={['interpretation', 'shapes', `${i}`, 'candidate'].join(PATH_DELIMITER)}
-			prefixes={['interpretation', 'shapes', `${i}`, 'candidate']}
+			key={['interpretation', 'shapes', `${i}`].join(PATH_DELIMITER)}
+			prefixes={['interpretation', 'shapes', `${i}`]}
 			jsonTree={jsonTree}
-			position={getInterpretationPosition(shapeResult, props.strokes)}
+			position={getInterpretationPosition(shapeResult, props.strokes, i)}
 		/>
 	));
+
+	const getTextChooserPosition = (textResult, strokes, i) => {
+		const position = getInterpretationPosition(textResult, strokes, i);
+		return position ? {
+			...position,
+			y: position.y + 200,
+		} : null;
+	};
 
 	const renderTextChoosers = () => props.interpretation.texts.map((textResult, i) => (
 		<PrefixedJSONPropertyChooser
 			{...props}
-			key={['interpretation', 'texts', `${i}`, 'candidate'].join(PATH_DELIMITER)}
-			prefixes={['interpretation', 'texts', `${i}`, 'candidate']}
+			key={['interpretation', 'texts', `${i}`].join(PATH_DELIMITER)}
+			prefixes={['interpretation', 'texts', `${i}`]}
 			jsonTree={jsonTree}
-			position={getInterpretationPosition(textResult, props.strokes)}
+			position={getTextChooserPosition(textResult, props.strokes, i)}
 		/>
 	));
 
-	// todo: render multiple interpretation choosers
 	return (
 		<div style={{ display: 'inline' }}>
 			{renderShapeChoosers()}
