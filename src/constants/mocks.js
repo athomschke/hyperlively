@@ -1,8 +1,8 @@
 // @flow
 import { stroke } from 'src/reducers/data/strokes/stroke';
-import type { ShapeCandidate, LinePrimitive, Stroke } from 'src/types';
+import type { LinePrimitive, EllipsisPrimitive, Stroke } from 'src/types';
 
-const primitive = (): LinePrimitive => ({
+const linePrimitive = (): LinePrimitive => ({
 	type: 'line',
 	firstPoint: {
 		x: 100,
@@ -18,23 +18,45 @@ const primitive = (): LinePrimitive => ({
 	endTangentAngle: NaN,
 });
 
-export const shapeCandidate = (): ShapeCandidate => ({
+const ellipsisPrimitive = (): EllipsisPrimitive => ({
+	type: 'ellipsis',
+	center: { x: 100, y: 150 },
+	minRadius: 50,
+	maxRadius: 75,
+	orientation: 1.2,
+	startAngle: 3.2,
+	sweepAngle: 8.6,
+	beginDecoration: 'arrow',
+	endDecoration: 'none',
+	beginTangentAngle: 3.2,
+	endTangentAngle: 3.4,
+});
+
+const buildShapeCandidate = (label, primitive) => () => ({
 	type: 'recognizedShape',
-	label: 'line',
-	primitives: [primitive()],
+	label,
+	primitives: [primitive],
 	normalizedRecognitionScore: 0.9,
 	resemblanceScore: 0.8,
 });
 
-export const shapeResponse = () => JSON.stringify({
+export const lineShapeCandidate = buildShapeCandidate('line', linePrimitive());
+export const ellipsisShapeCandidate = buildShapeCandidate('ellipsis', ellipsisPrimitive());
+
+const buildShapeResponse = candidate => JSON.stringify({
 	result: {
 		segments: [{
 			elementType: 'shape',
 			selectedCandidateIndex: 0,
-			candidates: [shapeCandidate()],
+			candidates: [candidate],
 		}],
 	},
 });
+
+export const shapeResponse = () => buildShapeResponse(lineShapeCandidate());
+
+export const lineShapeResponse = () => shapeResponse();
+export const ellipsisShapeResponse = () => buildShapeResponse(ellipsisShapeCandidate());
 
 export const letterCandidate = () => ({
 	label: 'I',

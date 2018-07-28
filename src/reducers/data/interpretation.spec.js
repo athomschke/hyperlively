@@ -6,7 +6,7 @@ import {
 	requestTextCandidates, requestShapeCandidates, receiveTextCandidates, receiveShapeCandidates, createStroke,
 } from 'src/actionCreators';
 import { type RecognitionResult } from 'src/types';
-import { shapeCandidate, letterCandidate } from 'src/constants/mocks';
+import { lineShapeCandidate, letterCandidate } from 'src/constants/mocks';
 
 import { interpretation } from './interpretation';
 
@@ -35,7 +35,7 @@ describe('Interpretation reducer', () => {
 		it('Invalidates the last shape interpretation', () => {
 			const oldState = {
 				...dummyState(),
-				shapes: [shapeCandidate()],
+				shapes: [lineShapeCandidate()],
 			};
 			const newState = interpretation(oldState, createStroke(10, 10, 101));
 			expect(newState.shapes).to.be.empty();
@@ -55,7 +55,7 @@ describe('Interpretation reducer', () => {
 		it('does not (yet) invalidate recent interpretaitons', () => {
 			const oldState = {
 				...dummyState(),
-				shapes: [shapeCandidate()],
+				shapes: [lineShapeCandidate()],
 				texts: [letterCandidate()],
 			};
 			const newState = interpretation(oldState, requestTextCandidates([]));
@@ -68,7 +68,7 @@ describe('Interpretation reducer', () => {
 		it('does not (yet) invalidate recent interpretaitons', () => {
 			const oldState = {
 				...dummyState(),
-				shapes: [shapeCandidate()],
+				shapes: [lineShapeCandidate()],
 				texts: [letterCandidate()],
 			};
 			const newState = interpretation(oldState, requestShapeCandidates([]));
@@ -89,7 +89,7 @@ describe('Interpretation reducer', () => {
 			const oldState = {
 				...dummyState(),
 				shapes: [{
-					candidate: shapeCandidate(),
+					candidate: lineShapeCandidate(),
 					strokeIds: [],
 				}],
 				texts: [{
@@ -111,7 +111,7 @@ describe('Interpretation reducer', () => {
 	describe('Receiving a shape recognition result', () => {
 		it('displays a new shape recognition result', () => {
 			const oldState = dummyState();
-			const newState = interpretation(oldState, receiveShapeCandidates([shapeCandidate()], []));
+			const newState = interpretation(oldState, receiveShapeCandidates([lineShapeCandidate()], []));
 			expect(newState.shapes[0].candidate.label).to.equal('line');
 			expect(newState.texts[0]).to.not.exist();
 		});
@@ -119,17 +119,17 @@ describe('Interpretation reducer', () => {
 			const oldState = {
 				...dummyState(),
 				shapes: [{
-					candidate: shapeCandidate(),
+					candidate: lineShapeCandidate(),
 					strokeIds: [],
 				}],
 			};
 			const newState = interpretation(oldState, receiveShapeCandidates([{
-				...shapeCandidate(),
+				...lineShapeCandidate(),
 				label: 'arrow',
 			}], []));
 			expect(newState.shapes).to.have.length(2);
 			expect(newState.shapes[1].candidate.label).to.equal('arrow');
-			expect(newState.shapes[0].candidate).to.deep.equal(shapeCandidate());
+			expect(newState.shapes[0].candidate).to.deep.equal(lineShapeCandidate());
 		});
 	});
 });

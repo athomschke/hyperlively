@@ -6,7 +6,7 @@ import {
 
 import { REQUEST_TEXT_CANDIDATES, REQUEST_SHAPE_CANDIDATES } from 'src/constants/actionTypes';
 import { MOCKED_RESPONSES } from 'src/constants/configuration';
-import { shapeResponse, textResponse } from 'src/constants/mocks';
+import { lineShapeResponse, ellipsisShapeResponse, textResponse } from 'src/constants/mocks';
 import { receiveTextCandidates, receiveShapeCandidates } from 'src/actionCreators';
 import type {
 	REQUEST_TEXT_CANDIDATES_ACTION, REQUEST_SHAPE_CANDIDATES_ACTION,
@@ -37,7 +37,10 @@ export function* fetchShapeCandidates(action: REQUEST_SHAPE_CANDIDATES_ACTION):
 Generator<PutEffect<RECEIVE_SHAPE_CANDIDATES_ACTION>, void, void> {
 	try {
 		if (MOCKED_RESPONSES) {
-			yield put(receiveShapeCandidates([JSON.parse(shapeResponse())], action.strokes.map(stroke => stroke.id)));
+			yield put(receiveShapeCandidates([
+				JSON.parse(lineShapeResponse()),
+				JSON.parse(ellipsisShapeResponse()),
+			], action.strokes.map(stroke => stroke.id)));
 		} else {
 			const response = yield call(requestShapeCandidates, action.strokes);
 			if (typeof response === 'undefined') {
