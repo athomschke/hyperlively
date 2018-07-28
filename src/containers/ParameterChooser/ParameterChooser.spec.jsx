@@ -45,11 +45,11 @@ const shallowWithProps = (props: ParameterChooserProps) => shallow(<ParameterCho
 
 describe('Parameter Chooser Component', () => {
 	describe('Rendering', () => {
-		it('renders one prefixed json property choosers per defult', () => {
+		it('renders no prefixed json property choosers per defult', () => {
 			const parameterChooser = shallowWithProps(defaultProps());
 			const jsonPropertyChooser = parameterChooser.find(PrefixedJSONPropertyChooser);
 
-			expect(jsonPropertyChooser).to.have.length(1);
+			expect(jsonPropertyChooser).to.have.length(0);
 		});
 	});
 
@@ -70,8 +70,13 @@ describe('Parameter Chooser Component', () => {
 			const selectedStrokesChooser = parameterChooser.find(PrefixedJSONPropertyChooser).findWhere(
 				n => n.prop('prefixes')[0] === 'selectedStrokes',
 			);
+			const positioner = parameterChooser.find('div').findWhere(
+				n => n.prop('style') && n.prop('style').position === 'absolute',
+			);
 
-			expect(selectedStrokesChooser.prop('position')).to.deep.equal({ x: 0, y: 5 });
+			expect(selectedStrokesChooser.prop('position')).to.equal(null);
+			expect(positioner.prop('style').left).to.equal(0);
+			expect(positioner.prop('style').top).to.equal(5);
 		});
 	});
 
@@ -113,8 +118,13 @@ describe('Parameter Chooser Component', () => {
 			const interpretationsChooser = parameterChooser
 				.find(PrefixedJSONPropertyChooser)
 				.findWhere(n => n.prop('prefixes')[0] === 'interpretation' && n.prop('prefixes')[1] === 'shapes');
+			const positioner = parameterChooser.find('div').findWhere(
+				n => n.prop('style') && n.prop('style').position === 'absolute',
+			);
 
-			expect(interpretationsChooser.prop('position')).to.deep.equal({ x: 0, y: 5 });
+			expect(interpretationsChooser.prop('position')).to.equal(null);
+			expect(positioner.prop('style').left).to.equal(0);
+			expect(positioner.prop('style').top).to.equal(5);
 		});
 	});
 
@@ -146,8 +156,13 @@ describe('Parameter Chooser Component', () => {
 			const interpretationsChooser = parameterChooser
 				.find(PrefixedJSONPropertyChooser)
 				.findWhere(n => n.prop('prefixes')[0] === 'interpretation' && n.prop('prefixes')[1] === 'texts');
+			const positioner = parameterChooser.find('div').findWhere(
+				n => n.prop('style') && n.prop('style').position === 'absolute',
+			);
 
-			expect(interpretationsChooser.prop('position')).to.deep.equal({ x: 0, y: 5 });
+			expect(interpretationsChooser.prop('position')).to.equal(null);
+			expect(positioner.prop('style').left).to.equal(0);
+			expect(positioner.prop('style').top).to.equal(5);
 		});
 	});
 });

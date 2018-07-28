@@ -43,6 +43,8 @@ const defaultProps = (): ParameterChooserProps => ({
 	expandedPaths: [],
 });
 
+const hashPosition = coordinate => (coordinate ? `(${coordinate.x}, ${coordinate.y})` : 'undefined');
+
 export default (props: ParameterChooserProps = defaultProps()) => {
 	const { interpretation } = props;
 	const parameterObject = (): JSONObject => {
@@ -75,64 +77,72 @@ export default (props: ParameterChooserProps = defaultProps()) => {
 
 	const getInterpretationPosition = (
 		shapeOrTextInterpretation: TextCandidateState | ShapeCandidateState, strokes,
-		offsetIndex: number,
 	) => {
 		const overlappingPosition = getStrokesPosition(
 			strokes.filter(stroke => shapeOrTextInterpretation.strokeIds.indexOf(stroke.id) >= 0),
 		);
-		return overlappingPosition ? {
-			...overlappingPosition,
-			y: overlappingPosition.y + (offsetIndex * 50),
-		} : null;
+		return overlappingPosition;
 	};
 
-	const renderShapeChoosers = () => props.interpretation.shapes.map((shapeResult, i) => (
-		<PrefixedJSONPropertyChooser
-			{...props}
-			key={['interpretation', 'shapes', `${i}`].join(PATH_DELIMITER)}
-			prefixes={['interpretation', 'shapes', `${i}`]}
-			jsonTree={jsonTree}
-			position={getInterpretationPosition(shapeResult, props.strokes, i)}
-		/>
-	));
+	const getShapeChoosersProps = () => props.interpretation.shapes.map((shapeResult, i) => ({
+		...props,
+		key: ['interpretation', 'shapes', `${i}`].join(PATH_DELIMITER),
+		prefixes: ['interpretation', 'shapes', `${i}`],
+		jsonTree,
+		position: getInterpretationPosition(shapeResult, props.strokes),
+	}));
 
-	const getTextChooserPosition = (textResult, strokes, i) => {
-		const position = getInterpretationPosition(textResult, strokes, i);
-		return position ? {
-			...position,
-			y: position.y + 200,
-		} : null;
+	const getTextChooserProps = () => props.interpretation.texts.map((textResult, i) => ({
+		...props,
+		key: ['interpretation', 'texts', `${i}`].join(PATH_DELIMITER),
+		prefixes: ['interpretation', 'texts', `${i}`],
+		jsonTree,
+		position: getInterpretationPosition(textResult, props.strokes),
+	}));
+
+	const getSelectedStrokesChoosersProps = () => {
+		if (props.selectedStrokes.length > 0) {
+			return [{
+				...props,
+				key: 'selectedStrokes',
+				prefixes: ['selectedStrokes'],
+				jsonTree,
+				position: getStrokesPosition(props.selectedStrokes) || undefined,
+			}];
+		}
+		return [];
 	};
 
-	const renderTextChoosers = () => props.interpretation.texts.map((textResult, i) => (
-		<PrefixedJSONPropertyChooser
-			{...props}
-			key={['interpretation', 'texts', `${i}`].join(PATH_DELIMITER)}
-			prefixes={['interpretation', 'texts', `${i}`]}
-			jsonTree={jsonTree}
-			position={getTextChooserPosition(textResult, props.strokes, i)}
-		/>
-	));
-
-	const renderSelectedStrokesChoosers = () => (
-		[<PrefixedJSONPropertyChooser
-			{...props}
-			key="selectedStrokes"
-			prefixes={['selectedStrokes']}
-			jsonTree={jsonTree}
-			position={getStrokesPosition(props.selectedStrokes) || undefined}
-		/>]
-	);
-
-	const choosers = [
-		...renderShapeChoosers(),
-		...renderTextChoosers(),
-		...renderSelectedStrokesChoosers(),
+	const choosersProps = [
+		...getShapeChoosersProps(),
+		...getTextChooserProps(),
+		...getSelectedStrokesChoosersProps(),
 	];
+
+	const groupedChoosersProps = choosersProps.reduce((groupedResult, chooserProps) => {
+		const hashedPosition = hashPosition(chooserProps.position);
+		return {
+			...groupedResult,
+			[hashedPosition]: [
+				...(groupedResult[hashedPosition] || []),
+				chooserProps,
+			],
+		};
+	}, {});
 
 	return (
 		<div style={{ display: 'inline' }}>
-			{choosers}
+			{Object.keys(groupedChoosersProps).map(groupKey => (
+				<div
+					style={{
+						position: 'absolute',
+						left: groupedChoosersProps[groupKey][0].position.x,
+						top: groupedChoosersProps[groupKey][0].position.y,
+					}}
+				>
+					{groupedChoosersProps[groupKey].map(chooserProps => <PrefixedJSONPropertyChooser {...chooserProps} position={null} />)}
+				</div>
+			))}
 		</div>
 	);
 };
