@@ -5,6 +5,8 @@ import {
 } from 'redux-saga/effects';
 
 import { REQUEST_TEXT_CANDIDATES, REQUEST_SHAPE_CANDIDATES } from 'src/constants/actionTypes';
+import { MOCKED_RESPONSES } from 'src/constants/configuration';
+import { shapeResponse, textResponse } from 'src/constants/mocks';
 import { receiveTextCandidates, receiveShapeCandidates } from 'src/actionCreators';
 import type {
 	REQUEST_TEXT_CANDIDATES_ACTION, REQUEST_SHAPE_CANDIDATES_ACTION,
@@ -16,11 +18,15 @@ import { requestTextCandidates, requestShapeCandidates } from './handwritingReco
 export function* fetchTextCandidates(action: REQUEST_TEXT_CANDIDATES_ACTION):
 Generator<PutEffect<RECEIVE_TEXT_CANDIDATES_ACTION>, void, void> {
 	try {
-		const response = yield call(requestTextCandidates, action.strokes);
-		if (typeof response === 'undefined') {
-			throw new Error('requesting text candidates did not respond');
+		if (MOCKED_RESPONSES) {
+			yield put(receiveTextCandidates([JSON.parse(textResponse())], action.strokes.map(stroke => stroke.id)));
 		} else {
-			yield put(receiveTextCandidates(response, action.strokes.map(stroke => stroke.id)));
+			const response = yield call(requestTextCandidates, action.strokes);
+			if (typeof response === 'undefined') {
+				throw new Error('requesting text candidates did not respond');
+			} else {
+				yield put(receiveTextCandidates(response, action.strokes.map(stroke => stroke.id)));
+			}
 		}
 	} catch (e) {
 		yield put(receiveTextCandidates([], action.strokes.map(stroke => stroke.id)));
@@ -30,11 +36,15 @@ Generator<PutEffect<RECEIVE_TEXT_CANDIDATES_ACTION>, void, void> {
 export function* fetchShapeCandidates(action: REQUEST_SHAPE_CANDIDATES_ACTION):
 Generator<PutEffect<RECEIVE_SHAPE_CANDIDATES_ACTION>, void, void> {
 	try {
-		const response = yield call(requestShapeCandidates, action.strokes);
-		if (typeof response === 'undefined') {
-			throw new Error('requesting text candidates did not respond');
+		if (MOCKED_RESPONSES) {
+			yield put(receiveShapeCandidates([JSON.parse(shapeResponse())], action.strokes.map(stroke => stroke.id)));
 		} else {
-			yield put(receiveShapeCandidates(response, action.strokes.map(stroke => stroke.id)));
+			const response = yield call(requestShapeCandidates, action.strokes);
+			if (typeof response === 'undefined') {
+				throw new Error('requesting text candidates did not respond');
+			} else {
+				yield put(receiveShapeCandidates(response, action.strokes.map(stroke => stroke.id)));
+			}
 		}
 	} catch (e) {
 		yield put(receiveShapeCandidates([], action.strokes.map(stroke => stroke.id)));

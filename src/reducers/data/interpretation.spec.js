@@ -6,7 +6,7 @@ import {
 	requestTextCandidates, requestShapeCandidates, receiveTextCandidates, receiveShapeCandidates, createStroke,
 } from 'src/actionCreators';
 import { type RecognitionResult } from 'src/types';
-import { shapeCandidate, letterCandidate } from 'src/data.spec';
+import { shapeCandidate, letterCandidate } from 'src/constants/mocks';
 
 import { interpretation } from './interpretation';
 

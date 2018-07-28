@@ -3,7 +3,7 @@ import jsdom from 'jsdom-global';
 import { expect } from 'chai';
 import { useFakeXMLHttpRequest } from 'sinon';
 
-import { shapeResponse, textResponse, strokesExample } from 'src/data.spec';
+import { shapeResponse, textResponse, strokesExample } from 'src/constants/mocks';
 
 import { requestShapeCandidates, requestTextCandidates } from './handwritingRecognizer';
 

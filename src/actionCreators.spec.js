@@ -1,7 +1,7 @@
 // @flow
 import { expect } from 'chai';
 
-import { strokesExample } from 'src/data.spec';
+import { strokesExample } from 'src/constants/mocks';
 import type { TextCandidate } from 'src/types';
 
 import * as actionCreators from './actionCreators';
