@@ -114,17 +114,25 @@ export default (props: ParameterChooserProps = defaultProps()) => {
 		/>
 	));
 
+	const renderSelectedStrokesChoosers = () => (
+		[<PrefixedJSONPropertyChooser
+			{...props}
+			key="selectedStrokes"
+			prefixes={['selectedStrokes']}
+			jsonTree={jsonTree}
+			position={getStrokesPosition(props.selectedStrokes) || undefined}
+		/>]
+	);
+
+	const choosers = [
+		...renderShapeChoosers(),
+		...renderTextChoosers(),
+		...renderSelectedStrokesChoosers(),
+	];
+
 	return (
 		<div style={{ display: 'inline' }}>
-			{renderShapeChoosers()}
-			{renderTextChoosers()}
-			<PrefixedJSONPropertyChooser
-				{...props}
-				key="selectedStrokes"
-				prefixes={['selectedStrokes']}
-				jsonTree={jsonTree}
-				position={getStrokesPosition(props.selectedStrokes) || undefined}
-			/>
+			{choosers}
 		</div>
 	);
 };
