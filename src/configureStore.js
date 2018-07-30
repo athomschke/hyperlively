@@ -20,6 +20,7 @@ export default function configureStore(emptyState: HyperlivelyState = initialHyp
 			shapes: [],
 			texts: [],
 		};
+		stateToStore.ui = initialHyperlivelyState().ui;
 		return stateToStore;
 	};
 

@@ -16,7 +16,13 @@ const flattenedTree = (root) => {
 
 const getItemsFromDataArray = dataArray => flatten(map(dataArray, item => flattenedTree(item)));
 
-const exampleChecks = ['a --> a2', 'b'];
+const exampleChecks = [{
+	path: 'a --> a2',
+	globalIndex: 0,
+}, {
+	path: 'b',
+	globalIndex: 1,
+}];
 
 const exampleCollapses = ['a'];
 
@@ -78,7 +84,7 @@ describe('Formatting the JSONPropertyChooser Data object', () => {
 	});
 
 	it('checks the chosen checkmarks', () => {
-		const formattedTree: Array<ReactTreeLeafFormat | ReactTreeNodeFormat> = formatObject(exampleTree, exampleChecks, exampleChecks);
+		const formattedTree: Array<ReactTreeLeafFormat | ReactTreeNodeFormat> = formatObject(exampleTree, exampleChecks, []);
 		expect((formattedTree[0]:any).children[1].checked).to.be.true();
 	});
 

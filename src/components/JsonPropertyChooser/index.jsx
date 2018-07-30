@@ -47,7 +47,7 @@ export default (props: JsonPropertyChooserProps = defaultProps()) => {
 		const rawData: Object = cloneDeep(props.jsonTree);
 		return formatObject(
 			rawData,
-			props.checkedPaths.map(checkedPath => checkedPath.path),
+			props.checkedPaths,
 			props.expandedPaths,
 		);
 	};

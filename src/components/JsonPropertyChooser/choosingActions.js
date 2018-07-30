@@ -4,7 +4,12 @@ import {
 } from 'lodash';
 
 import { PATH_DELIMITER } from 'src/constants/configuration';
-import type { ReactTreeNodeFormat, ReactTreeLeafFormat, JSONPath } from 'src/types';
+import type {
+	ReactTreeNodeFormat,
+	ReactTreeLeafFormat,
+	JSONPath,
+	SortedPath,
+} from 'src/types';
 
 const extendedPath = (path?: string, key: string) => [
 	...(path ? path.split(PATH_DELIMITER) : []),
@@ -26,19 +31,22 @@ export const findArraysEndingOnItem = (
 
 const formatTreeNode = (
 	object: Object,
-	allChecks: Array<string>,
+	allChecks: Array<SortedPath>,
 	children: Array<ReactTreeLeafFormat | ReactTreeNodeFormat>,
 	allCollapses: Array<string>,
 	path: string,
 ): ReactTreeNodeFormat => {
-	const checked = allChecks.indexOf(path) >= 0;
-	const parameterIndex: number = allChecks.indexOf(path);
-	const parameterIndicator: string = parameterIndex >= 0 ? ` (property ${parameterIndex})` : '';
+	const checkedPath: SortedPath | typeof undefined = allChecks.find(sortedPath => sortedPath.path === path);
+	const checked = !!checkedPath;
+	let label = last(path.split(PATH_DELIMITER));
+	if (checkedPath) {
+		label += ` (property ${checkedPath.globalIndex})`;
+	}
 	return {
 		checkbox: true,
 		checked,
 		key: path,
-		label: `${last(path.split(PATH_DELIMITER))}${parameterIndicator}`,
+		label,
 		children,
 		collapsed: allCollapses.indexOf(path) >= 0,
 		collapsible: true,
@@ -48,18 +56,22 @@ const formatTreeNode = (
 
 export const formatTreeLeaf = (
 	object: Object,
-	allChecks: Array<string>,
+	allChecks: Array<SortedPath>,
 	path: string,
 ): ReactTreeLeafFormat => {
-	const checked = allChecks.indexOf(path) >= 0;
-	const parameterIndex: number = allChecks.indexOf(path);
-	const parameterIndicator: string = parameterIndex >= 0 ? ` (property ${parameterIndex})` : '';
+	const sortedCheckedPath: SortedPath | typeof undefined = allChecks.find(sortedPath => sortedPath.path === path);
+	const checked = !!sortedCheckedPath;
 	const propKey = last(path.split(PATH_DELIMITER));
+	let label = `${propKey}: ${object[propKey]}`;
+	if (sortedCheckedPath) {
+		const parameterIndex: number = sortedCheckedPath.globalIndex;
+		label += parameterIndex >= 0 ? ` (property ${parameterIndex})` : '';
+	}
 	return {
 		checkbox: true,
 		checked,
 		key: path,
-		label: `${propKey}: ${object[propKey]}${parameterIndicator}`,
+		label,
 		isLeaf: true,
 	};
 };
@@ -90,7 +102,7 @@ export const arraysWithStringAtIndex = (
 
 export const formatObject = (
 	anObject: Object,
-	checkedPaths: Array<string>,
+	checkedPaths: Array<SortedPath>,
 	collapsedPaths: Array<string>,
 	path?: string,
 ): Array<ReactTreeLeafFormat | ReactTreeNodeFormat> => keys(anObject).map((key: string) => {
