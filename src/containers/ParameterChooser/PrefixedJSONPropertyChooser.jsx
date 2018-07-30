@@ -7,28 +7,17 @@ export type PrefixedJSONPropertyChooserProps = JsonPropertyChooserProps & {
 	prefixes: Array<string>
 }
 
-const pathsWithoutPrefixes = (paths: Array<string>, prefixes: Array<string>) => paths.filter(
-	path => prefixes.reduce((
-		isEqual,
-		prefixPart,
-		i,
-	) => isEqual && (prefixPart !== path.split(PATH_DELIMITER)[i]), true),
+export const pathsWithoutPrefixes = (paths: Array<string>, prefixes: Array<string>) => paths.filter(
+	path => path.indexOf(prefixes.join(PATH_DELIMITER)) !== 0,
 );
 
-const pathsWithPrefixes = (paths: Array<string>, prefixes: Array<string>) => paths.filter(
-	path => prefixes.reduce((
-		isEqual,
-		prefixPart,
-		i,
-	) => isEqual && (prefixPart === path.split(PATH_DELIMITER)[i]), true),
+export const pathsWithPrefixes = (paths: Array<string>, prefixes: Array<string>) => paths.filter(
+	path => path.indexOf(prefixes.join(PATH_DELIMITER)) === 0,
 );
 
-const combinePaths = (prefixes: Array<string>, longPaths: Array<string>, shortPaths: Array<string>): Array<string> => [
+export const combinePaths = (prefixes: Array<string>, longPaths: Array<string>, shortPaths: Array<string>): Array<string> => [
 	...pathsWithoutPrefixes(longPaths, prefixes),
-	...shortPaths.map(path => [
-		...prefixes,
-		...path.split(PATH_DELIMITER),
-	].join(PATH_DELIMITER)),
+	...shortPaths.map(shortPath => `${prefixes.join(PATH_DELIMITER)}${PATH_DELIMITER}${shortPath}`),
 ];
 
 export const filterPaths = (prefixes: Array<string>, paths: Array<string>): Array<string> => pathsWithPrefixes(paths, prefixes).map(

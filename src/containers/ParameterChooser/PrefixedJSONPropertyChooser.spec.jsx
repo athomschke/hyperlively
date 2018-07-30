@@ -6,7 +6,13 @@ import { shallow } from 'enzyme';
 
 import JsonPropertyChooser from 'src/components/JsonPropertyChooser';
 
-import PrefixedJSONPropertyChooser, { type PrefixedJSONPropertyChooserProps, filterPaths } from './PrefixedJSONPropertyChooser';
+import PrefixedJSONPropertyChooser, {
+	type PrefixedJSONPropertyChooserProps,
+	filterPaths,
+	combinePaths,
+	pathsWithoutPrefixes,
+	pathsWithPrefixes,
+} from './PrefixedJSONPropertyChooser';
 
 const shallowWithProps = (props: PrefixedJSONPropertyChooserProps) => shallow(<PrefixedJSONPropertyChooser {...props} />);
 
@@ -181,7 +187,43 @@ describe('PrefixedJSONPropertyChooser', () => {
 
 			asdPrefixedChooser.find(JsonPropertyChooser).prop('onExpandedPathsChange')(['asdf']);
 
-			expect(onExpandedPathsChange.args[0][0]).to.deep.equal(['foo --> bar', 'asd --> asdf'])
+			expect(onExpandedPathsChange.args[0][0]).to.deep.equal(['foo --> bar', 'asd --> asdf']);
+		});
+
+		it('can exclude paths with different prefix', () => {
+			const prefixes = ['interpretation', 'shapes', '0'];
+			const paths = ['interpretation --> shapes --> 1 --> candidate'];
+			expect(pathsWithoutPrefixes(paths, prefixes)).to.have.length(1);
+		});
+
+		it('can include paths with same prefix', () => {
+			const prefixes = ['interpretation', 'shapes', '0'];
+			const paths = ['interpretation --> shapes --> 0 --> candidate'];
+			expect(pathsWithoutPrefixes(paths, prefixes)).to.have.length(0);
+		});
+
+		it('can include paths with same prefix', () => {
+			const prefixes = ['interpretation', 'shapes', '1'];
+			const paths = ['interpretation --> shapes --> 1 --> candidate'];
+			expect(pathsWithPrefixes(paths, prefixes)).to.have.length(1);
+		});
+
+		it('can exclude paths with different prefix', () => {
+			const prefixes = ['interpretation', 'shapes', '0'];
+			const paths = ['interpretation --> shapes --> 1 --> candidate'];
+			expect(pathsWithPrefixes(paths, prefixes)).to.have.length(0);
+		});
+
+		it('combines so that both paths are kept', () => {
+			const prefixes = ['interpretation', 'shapes', '0'];
+			const expandedPaths = ['interpretation --> shapes --> 1 --> candidate'];
+			const shortPaths = ['strokeIds'];
+			const combinedPaths = combinePaths(prefixes, expandedPaths, shortPaths);
+			expect(combinedPaths).to.have.length(2);
+			expect(combinedPaths).to.deep.equal([
+				'interpretation --> shapes --> 1 --> candidate',
+				'interpretation --> shapes --> 0 --> strokeIds',
+			]);
 		});
 	});
 });

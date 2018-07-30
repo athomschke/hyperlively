@@ -134,13 +134,16 @@ export default (props: ParameterChooserProps = defaultProps()) => {
 		<div style={{ display: 'inline' }}>
 			{Object.keys(groupedChoosersProps).map(groupKey => (
 				<div
+					key={groupKey}
 					style={{
 						position: 'absolute',
 						left: groupedChoosersProps[groupKey][0].position.x,
 						top: groupedChoosersProps[groupKey][0].position.y,
 					}}
 				>
-					{groupedChoosersProps[groupKey].map(chooserProps => <PrefixedJSONPropertyChooser {...chooserProps} position={null} />)}
+					{groupedChoosersProps[groupKey].map(chooserProps => (
+						<PrefixedJSONPropertyChooser {...chooserProps} position={null} />
+					))}
 				</div>
 			))}
 		</div>
