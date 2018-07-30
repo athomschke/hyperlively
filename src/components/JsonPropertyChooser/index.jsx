@@ -5,7 +5,7 @@ import { cloneDeep } from 'lodash';
 import Tree, { TreeNode } from 'rc-tree';
 
 import type {
-	Coordinate, ReactTreeLeafFormat, ReactTreeNodeFormat,
+	Coordinate, ReactTreeLeafFormat, ReactTreeNodeFormat, SortedPath,
 } from 'src/types';
 
 import { formatObject } from './choosingActions';
@@ -19,7 +19,7 @@ export type JsonPropertyChooserProps = {
 	position?: Coordinate,
 	jsonTree: JSONObject,
 	expandedPaths: Array<string>,
-	checkedPaths: Array<string>,
+	checkedPaths: Array<SortedPath>,
 	onCheckedPathsChange: (checkedPaths: Array<string>) => void,
 	onExpandedPathsChange: (expandedPaths: Array<string>) => void,
 }
@@ -29,7 +29,6 @@ const defaultProps = (): JsonPropertyChooserProps => ({
 	jsonTree: {},
 	expandedPaths: [],
 	checkedPaths: [],
-	onParameterChoose: _parameters => undefined,
 	onCheckedPathsChange: _parameters => undefined,
 	onExpandedPathsChange: _parameters => undefined,
 });
@@ -48,7 +47,7 @@ export default (props: JsonPropertyChooserProps = defaultProps()) => {
 		const rawData: Object = cloneDeep(props.jsonTree);
 		return formatObject(
 			rawData,
-			props.checkedPaths,
+			props.checkedPaths.map(checkedPath => checkedPath.path),
 			props.expandedPaths,
 		);
 	};
@@ -65,14 +64,16 @@ export default (props: JsonPropertyChooserProps = defaultProps()) => {
 		divStyle.left = position.x;
 		divStyle.top = position.y;
 	}
+
+	const checkedPaths = props.checkedPaths.map(checkedPath => checkedPath.path);
 	return (
 		<div className={style.treeView} style={divStyle}>
 			<Tree
 				prefixCls="json-property-chooser-tree"
 				expandedKeys={props.expandedPaths}
 				defaultExpandedKeys={props.expandedPaths}
-				checkedKeys={props.checkedPaths}
-				defaultCheckedKeys={props.checkedPaths}
+				checkedKeys={checkedPaths}
+				defaultCheckedKeys={checkedPaths}
 				defaultExpandParent={false}
 				onCheck={onCheckedPathsChange}
 				onExpand={props.onExpandedPathsChange}

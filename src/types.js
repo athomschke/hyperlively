@@ -181,6 +181,8 @@ export type OnNodeChangedFunction = (HTMLDivElement | null) => void;
 
 export type PerformActionFunction = (_name: string, ..._rest: any[]) => void;
 
+export type SortedPath = { path: string, globalIndex: number };
+
 export type JSONPath = Array<Array<string>>;
 
 export type JSONChooserState = {

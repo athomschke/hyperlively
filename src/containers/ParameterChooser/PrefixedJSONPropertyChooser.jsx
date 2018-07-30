@@ -1,11 +1,20 @@
+// @flow
 import * as React from 'react';
 
-import JsonPropertyChooser, { type JsonPropertyChooserProps } from 'src/components/JsonPropertyChooser';
+import JsonPropertyChooser, { type JSONObject } from 'src/components/JsonPropertyChooser';
 import { PATH_DELIMITER } from 'src/constants/configuration';
+import type { SortedPath, Coordinate } from 'src/types';
 
-export type PrefixedJSONPropertyChooserProps = JsonPropertyChooserProps & {
-	prefixes: Array<string>
-}
+export type PrefixedJSONPropertyChooserProps = {
+	position?: Coordinate,
+	jsonTree: JSONObject,
+	expandedPaths: Array<string>,
+	prefixes: Array<string>,
+	checkedPaths: Array<string>,
+	onCheckedPathsChange: (checkedPaths: Array<string>) => void,
+	onExpandedPathsChange: (expandedPaths: Array<string>) => void,
+	onParameterChoose: (parameters: Array<string>) => void,
+};
 
 export const pathsWithPrefixes = (paths: Array<string>, prefixes: Array<string>) => paths.filter(
 	path => path.indexOf(prefixes.join(PATH_DELIMITER)) === 0,
@@ -13,7 +22,7 @@ export const pathsWithPrefixes = (paths: Array<string>, prefixes: Array<string>)
 
 export const combinePaths = (prefixes: Array<string>, longPaths: Array<string>, shortPaths: Array<string>): Array<string> => {
 	let shortPathIndex = 0;
-	const newLongPaths = longPaths.map((longPath) => {
+	const newLongPaths: Array<string> = (longPaths.map((longPath) => {
 		const matchesPrefix = longPath.indexOf(prefixes.join(PATH_DELIMITER)) >= 0;
 		if (matchesPrefix) {
 			const computedLongPath = `${prefixes.join(PATH_DELIMITER)}${PATH_DELIMITER}${shortPaths[shortPathIndex]}`;
@@ -24,7 +33,7 @@ export const combinePaths = (prefixes: Array<string>, longPaths: Array<string>, 
 			return null;
 		}
 		return longPath;
-	}).filter(path => path);
+	}): any).filter(path => path);
 	if (shortPathIndex < shortPaths.length) {
 		newLongPaths.push(`${prefixes.join(PATH_DELIMITER)}${PATH_DELIMITER}${shortPaths[shortPaths.length - 1]}`);
 	}
@@ -35,16 +44,30 @@ export const filterPaths = (prefixes: Array<string>, paths: Array<string>): Arra
 	path => path.split(PATH_DELIMITER).slice(prefixes.length).join(PATH_DELIMITER),
 );
 
+export const filterSortedPaths = (
+	prefixes: Array<string>,
+	paths: Array<string>,
+): Array<SortedPath> => paths.map(
+	(path, i) => ({ path, globalIndex: i }),
+).filter(
+	sortedPath => sortedPath.path.indexOf(prefixes.join(PATH_DELIMITER)) === 0,
+).map(
+	(sortedPath: SortedPath) => ({
+		path: sortedPath.path.split(PATH_DELIMITER).slice(prefixes.length).join(PATH_DELIMITER),
+		globalIndex: sortedPath.globalIndex,
+	}),
+);
+
 export default (props: PrefixedJSONPropertyChooserProps) => {
 	const { prefixes } = props;
 
-	const onCheck = (checked) => {
+	const onCheck = (checked: Array<string>) => {
 		props.onCheckedPathsChange(checked);
 		props.onParameterChoose(checked);
 	};
 
 	const jsonTree = prefixes.reduce((accumulator, prefix) => accumulator[prefix], props.jsonTree);
-	const checkedPaths = filterPaths(prefixes, props.checkedPaths);
+	const checkedPaths: Array<SortedPath> = filterSortedPaths(prefixes, props.checkedPaths);
 	const expandedPaths = filterPaths(prefixes, props.expandedPaths);
 
 	return (

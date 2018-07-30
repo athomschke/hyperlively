@@ -51,12 +51,15 @@ describe('PrefixedJSONPropertyChooser', () => {
 
 		it('passes only the selected strokes checked paths to JsonPropertyChooser', () => {
 			const checkedPaths = [
-				'foo --> bar',
 				'asd --> asdf',
+				'foo --> bar',
 			];
 			const prefixedChooser = shallowWithProps({ ...defaultProps(), checkedPaths });
 
-			expect(prefixedChooser.find(JsonPropertyChooser).prop('checkedPaths')).to.deep.equal(['bar']);
+			expect(prefixedChooser.find(JsonPropertyChooser).prop('checkedPaths')).to.deep.equal([{
+				path: 'bar',
+				globalIndex: 1,
+			}]);
 		});
 
 		it('passes only the selected strokes collapsed paths to JsonPropertyChooser', () => {

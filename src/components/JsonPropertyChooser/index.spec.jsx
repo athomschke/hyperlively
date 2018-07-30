@@ -91,7 +91,10 @@ describe('JSONProperty Chooser', () => {
 			const jsonPropertyChooser = renderWithProps({
 				...defaultProps(),
 				jsonTree: exampleTree,
-				checkedPaths: ['a --> a2'],
+				checkedPaths: [{
+					path: 'a --> a2',
+					globalIndex: 0,
+				}],
 				onCheckedPathsChange,
 			});
 			const treeMenu = jsonPropertyChooser.find(Tree);

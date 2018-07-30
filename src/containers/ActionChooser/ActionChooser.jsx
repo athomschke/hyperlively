@@ -80,7 +80,7 @@ export default class ActionChooser extends PureComponent<Props> {
 				}}
 				onExpandedPathsChange={this.props.onExpandedPathsChange}
 				onCheckedPathsChange={this.props.onCheckedPathsChange}
-				checkedPaths={this.props.checkedPaths}
+				checkedPaths={this.props.checkedPaths.map((path, index) => ({ path, globalIndex: index }))}
 				expandedPaths={this.props.expandedPaths}
 				position={undefined}
 				jsonTree={allActions(this.props.specificActions)}
