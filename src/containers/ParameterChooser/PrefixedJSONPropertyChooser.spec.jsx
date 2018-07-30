@@ -153,4 +153,35 @@ describe('PrefixedJSONPropertyChooser', () => {
 			expect(filterPaths(['foo', 'bar'], ['foo --> bar --> baz', 'asd --> asdf'])).to.deep.equal(['baz']);
 		});
 	});
+
+	describe('expanding a path in the second of two parameter choosers', () => {
+		it('keeps the first path', () => {
+			const onExpandedPathsChange = spy();
+			const expandedPaths = [
+				'foo --> bar',
+			];
+			const jsonTree = {
+				foo: foo(),
+				asd: asd(),
+			};
+			shallowWithProps({
+				...defaultProps(),
+				prefixes: ['foo'],
+				jsonTree,
+				expandedPaths,
+				onExpandedPathsChange,
+			});
+			const asdPrefixedChooser = shallowWithProps({
+				...defaultProps(),
+				prefixes: ['asd'],
+				jsonTree,
+				expandedPaths,
+				onExpandedPathsChange,
+			});
+
+			asdPrefixedChooser.find(JsonPropertyChooser).prop('onExpandedPathsChange')(['asdf']);
+
+			expect(onExpandedPathsChange.args[0][0]).to.deep.equal(['foo --> bar', 'asd --> asdf'])
+		});
+	});
 });
