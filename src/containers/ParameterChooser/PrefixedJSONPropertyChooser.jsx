@@ -7,18 +7,29 @@ export type PrefixedJSONPropertyChooserProps = JsonPropertyChooserProps & {
 	prefixes: Array<string>
 }
 
-export const pathsWithoutPrefixes = (paths: Array<string>, prefixes: Array<string>) => paths.filter(
-	path => path.indexOf(prefixes.join(PATH_DELIMITER)) !== 0,
-);
-
 export const pathsWithPrefixes = (paths: Array<string>, prefixes: Array<string>) => paths.filter(
 	path => path.indexOf(prefixes.join(PATH_DELIMITER)) === 0,
 );
 
-export const combinePaths = (prefixes: Array<string>, longPaths: Array<string>, shortPaths: Array<string>): Array<string> => [
-	...pathsWithoutPrefixes(longPaths, prefixes),
-	...shortPaths.map(shortPath => `${prefixes.join(PATH_DELIMITER)}${PATH_DELIMITER}${shortPath}`),
-];
+export const combinePaths = (prefixes: Array<string>, longPaths: Array<string>, shortPaths: Array<string>): Array<string> => {
+	let shortPathIndex = 0;
+	const newLongPaths = longPaths.map((longPath) => {
+		const matchesPrefix = longPath.indexOf(prefixes.join(PATH_DELIMITER)) >= 0;
+		if (matchesPrefix) {
+			const computedLongPath = `${prefixes.join(PATH_DELIMITER)}${PATH_DELIMITER}${shortPaths[shortPathIndex]}`;
+			if (longPath === computedLongPath) {
+				shortPathIndex += 1;
+				return longPath;
+			} // else long path has been removed, aka. un-checked
+			return null;
+		}
+		return longPath;
+	}).filter(path => path);
+	if (shortPathIndex < shortPaths.length) {
+		newLongPaths.push(`${prefixes.join(PATH_DELIMITER)}${PATH_DELIMITER}${shortPaths[shortPaths.length - 1]}`);
+	}
+	return newLongPaths;
+};
 
 export const filterPaths = (prefixes: Array<string>, paths: Array<string>): Array<string> => pathsWithPrefixes(paths, prefixes).map(
 	path => path.split(PATH_DELIMITER).slice(prefixes.length).join(PATH_DELIMITER),

@@ -10,7 +10,6 @@ import PrefixedJSONPropertyChooser, {
 	type PrefixedJSONPropertyChooserProps,
 	filterPaths,
 	combinePaths,
-	pathsWithoutPrefixes,
 	pathsWithPrefixes,
 } from './PrefixedJSONPropertyChooser';
 
@@ -179,18 +178,6 @@ describe('PrefixedJSONPropertyChooser', () => {
 			expect(onExpandedPathsChange.args[0][0]).to.deep.equal(['foo --> bar', 'asd --> asdf']);
 		});
 
-		it('can exclude paths with different prefix', () => {
-			const prefixes = ['interpretation', 'shapes', '0'];
-			const paths = ['interpretation --> shapes --> 1 --> candidate'];
-			expect(pathsWithoutPrefixes(paths, prefixes)).to.have.length(1);
-		});
-
-		it('can include paths with same prefix', () => {
-			const prefixes = ['interpretation', 'shapes', '0'];
-			const paths = ['interpretation --> shapes --> 0 --> candidate'];
-			expect(pathsWithoutPrefixes(paths, prefixes)).to.have.length(0);
-		});
-
 		it('can include paths with same prefix', () => {
 			const prefixes = ['interpretation', 'shapes', '1'];
 			const paths = ['interpretation --> shapes --> 1 --> candidate'];
@@ -212,6 +199,22 @@ describe('PrefixedJSONPropertyChooser', () => {
 			expect(combinedPaths).to.deep.equal([
 				'interpretation --> shapes --> 1 --> candidate',
 				'interpretation --> shapes --> 0 --> strokeIds',
+			]);
+		});
+
+		it('maintains the oder of checked paths', () => {
+			const prefixes = ['interpretation', 'shapes', '1'];
+			const expandedPaths = [
+				'interpretation --> shapes --> 1 --> foo',
+				'interpretation --> shapes --> 0 --> candidate',
+			];
+			const shortPaths = ['foo', 'bar'];
+			const combinedPaths = combinePaths(prefixes, expandedPaths, shortPaths);
+			expect(combinedPaths).to.have.length(3);
+			expect(combinedPaths).to.deep.equal([
+				'interpretation --> shapes --> 1 --> foo',
+				'interpretation --> shapes --> 0 --> candidate',
+				'interpretation --> shapes --> 1 --> bar',
 			]);
 		});
 	});

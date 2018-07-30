@@ -98,19 +98,6 @@ describe('JSONProperty Chooser', () => {
 			treeMenu.prop('onCheck')({ checked: [] });
 			expect(onCheckedPathsChange.args[0][0]).to.deep.equal([]);
 		});
-
-		it('triggers a parameter choose with the chosen values', () => {
-			const onParameterChoose = spy();
-			const jsonPropertyChooser = renderWithProps({
-				...defaultProps(),
-				jsonTree: exampleTree,
-				checkedPaths: ['a --> a2'],
-				onParameterChoose,
-			});
-			const treeMenu = jsonPropertyChooser.find(Tree);
-			treeMenu.prop('onCheck')({ checked: ['a --> a2', 'a --> a1'] });
-			expect(onParameterChoose.args[0][0]).to.deep.equal(['a2 value', 'a1 value']);
-		});
 	});
 
 	describe('positioning the JsonPropertyChooser', () => {

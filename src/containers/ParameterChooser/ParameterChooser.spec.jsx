@@ -193,30 +193,5 @@ describe('Parameter Chooser Component', () => {
 
 			expect(onParameterChoose.args[0][0]).to.deep.equal([0, 10]);
 		});
-
-		it('adds its value in correct order', () => {
-			const onParameterChoose = spy();
-			const props = {
-				...defaultProps(),
-				strokes: [dummyStroke()],
-				selectedStrokes: [dummyStroke()],
-				parameters: [0, 10],
-				checkedPaths: [
-					'selectedStrokes --> 0 --> points --> 0 --> x',
-					'selectedStrokes --> 0 --> points --> 1 --> y',
-				],
-				onParameterChoose,
-			};
-			const prefixedChooser = shallowWithProps({ ...props });
-
-			const chooser = prefixedChooser.find(PrefixedJSONPropertyChooser);
-			chooser.prop('onParameterChoose')([
-				'selectedStrokes --> 0 --> id',
-				'selectedStrokes --> 0 --> points --> 0 --> x',
-				'selectedStrokes --> 0 --> points --> 1 --> y',
-			]);
-
-			expect(onParameterChoose.args[0][0]).to.deep.equal([0, 10, STROKE_ID]);
-		});
 	});
 });
