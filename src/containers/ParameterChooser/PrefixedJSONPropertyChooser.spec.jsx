@@ -80,17 +80,6 @@ describe('PrefixedJSONPropertyChooser', () => {
 
 
 	describe('Choosing a property in "foo"', () => {
-		it('triggers onParameterChoose with the same values', () => {
-			const onParameterChoose = spy();
-			const prefixedChooser = shallowWithProps({ ...defaultProps(), onParameterChoose });
-
-			const chooser = prefixedChooser.find(JsonPropertyChooser);
-			const values = [1, 2, 3];
-			chooser.prop('onParameterChoose')(values);
-
-			expect(onParameterChoose.args[0][0]).to.deep.equal(values);
-		});
-
 		it('adds a path in "foo" when not checked before', () => {
 			const onCheckedPathsChange = spy();
 			const checkedPaths = [

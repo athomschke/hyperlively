@@ -8,4 +8,4 @@ export const SLIDER_HEIGHT = 80;
 
 export const PATH_DELIMITER = ' --> ';
 
-export const MOCKED_RESPONSES = true;
+export const MOCKED_RESPONSES = false;

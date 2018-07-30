@@ -27,6 +27,11 @@ export const filterPaths = (prefixes: Array<string>, paths: Array<string>): Arra
 export default (props: PrefixedJSONPropertyChooserProps) => {
 	const { prefixes } = props;
 
+	const onCheck = (checked) => {
+		props.onCheckedPathsChange(checked);
+		props.onParameterChoose(checked);
+	};
+
 	const jsonTree = prefixes.reduce((accumulator, prefix) => accumulator[prefix], props.jsonTree);
 	const checkedPaths = filterPaths(prefixes, props.checkedPaths);
 	const expandedPaths = filterPaths(prefixes, props.expandedPaths);
@@ -37,8 +42,7 @@ export default (props: PrefixedJSONPropertyChooserProps) => {
 			jsonTree={jsonTree}
 			checkedPaths={checkedPaths}
 			expandedPaths={expandedPaths}
-			onParameterChoose={props.onParameterChoose}
-			onCheckedPathsChange={paths => props.onCheckedPathsChange(combinePaths(props.prefixes, props.checkedPaths, paths))}
+			onCheckedPathsChange={paths => onCheck(combinePaths(props.prefixes, props.checkedPaths, paths))}
 			onExpandedPathsChange={paths => props.onExpandedPathsChange(combinePaths(props.prefixes, props.expandedPaths, paths))}
 		/>
 	);

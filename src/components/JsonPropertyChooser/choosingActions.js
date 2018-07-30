@@ -33,7 +33,7 @@ const formatTreeNode = (
 ): ReactTreeNodeFormat => {
 	const checked = allChecks.indexOf(path) >= 0;
 	const parameterIndex: number = allChecks.indexOf(path);
-	const parameterIndicator: string =		parameterIndex >= 0 ? ` (property ${parameterIndex})` : '';
+	const parameterIndicator: string = parameterIndex >= 0 ? ` (property ${parameterIndex})` : '';
 	return {
 		checkbox: true,
 		checked,

@@ -5,10 +5,10 @@ import { cloneDeep } from 'lodash';
 import Tree, { TreeNode } from 'rc-tree';
 
 import type {
-	TreeParameter, Coordinate, ReactTreeLeafFormat, ReactTreeNodeFormat,
+	Coordinate, ReactTreeLeafFormat, ReactTreeNodeFormat,
 } from 'src/types';
 
-import { formatObject, valueAtPath } from './choosingActions';
+import { formatObject } from './choosingActions';
 import style from './index.scss';
 
 export type JSONObject = {
@@ -20,7 +20,6 @@ export type JsonPropertyChooserProps = {
 	jsonTree: JSONObject,
 	expandedPaths: Array<string>,
 	checkedPaths: Array<string>,
-	onParameterChoose: (parameters: Array<TreeParameter>) => void,
 	onCheckedPathsChange: (checkedPaths: Array<string>) => void,
 	onExpandedPathsChange: (expandedPaths: Array<string>) => void,
 }
@@ -54,10 +53,7 @@ export default (props: JsonPropertyChooserProps = defaultProps()) => {
 		);
 	};
 
-	const onCheck = ({ checked }) => {
-		const leafes = checked.map(checkedKey => valueAtPath(props.jsonTree, checkedKey));
-		const values = leafes.map(leaf => (Number.isNaN(parseInt(leaf, 10)) ? leaf.toString() : Number.parseInt(leaf.toString(), 10)));
-		props.onParameterChoose(values);
+	const onCheckedPathsChange = ({ checked }) => {
 		props.onCheckedPathsChange(checked);
 	};
 
@@ -78,7 +74,7 @@ export default (props: JsonPropertyChooserProps = defaultProps()) => {
 				checkedKeys={props.checkedPaths}
 				defaultCheckedKeys={props.checkedPaths}
 				defaultExpandParent={false}
-				onCheck={onCheck}
+				onCheck={onCheckedPathsChange}
 				onExpand={props.onExpandedPathsChange}
 				checkStrictly
 				checkable

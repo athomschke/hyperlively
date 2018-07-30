@@ -1,5 +1,6 @@
 // @flow
 import { expect } from 'chai';
+import { spy } from 'sinon';
 import React from 'react';
 import { shallow } from 'enzyme';
 
@@ -13,6 +14,7 @@ import ParameterChooser, { type ParameterChooserProps } from './ParameterChooser
 
 const defaultProps = (): ParameterChooserProps => ({
 	strokes: [],
+	parameters: [],
 	onParameterChoose: () => undefined,
 	onCheckedPathsChange: () => undefined,
 	onExpandedPathsChange: () => undefined,
@@ -163,6 +165,58 @@ describe('Parameter Chooser Component', () => {
 			expect(interpretationsChooser.prop('position')).to.equal(null);
 			expect(positioner.prop('style').left).to.equal(0);
 			expect(positioner.prop('style').top).to.equal(5);
+		});
+	});
+
+	describe('Clicking on a parameter checkbox', () => {
+		it('removes its value if selected before', () => {
+			const onParameterChoose = spy();
+			const props = {
+				...defaultProps(),
+				strokes: [dummyStroke()],
+				selectedStrokes: [dummyStroke()],
+				parameters: [0, STROKE_ID, 10],
+				checkedPaths: [
+					'selectedStrokes --> 0 --> points --> 0 --> x',
+					'selectedStrokes --> 0 --> id',
+					'selectedStrokes --> 0 --> points --> 1 --> y',
+				],
+				onParameterChoose,
+			};
+			const prefixedChooser = shallowWithProps({ ...props });
+
+			const chooser = prefixedChooser.find(PrefixedJSONPropertyChooser);
+			chooser.prop('onParameterChoose')([
+				'selectedStrokes --> 0 --> points --> 0 --> x',
+				'selectedStrokes --> 0 --> points --> 1 --> y',
+			]);
+
+			expect(onParameterChoose.args[0][0]).to.deep.equal([0, 10]);
+		});
+
+		it('adds its value in correct order', () => {
+			const onParameterChoose = spy();
+			const props = {
+				...defaultProps(),
+				strokes: [dummyStroke()],
+				selectedStrokes: [dummyStroke()],
+				parameters: [0, 10],
+				checkedPaths: [
+					'selectedStrokes --> 0 --> points --> 0 --> x',
+					'selectedStrokes --> 0 --> points --> 1 --> y',
+				],
+				onParameterChoose,
+			};
+			const prefixedChooser = shallowWithProps({ ...props });
+
+			const chooser = prefixedChooser.find(PrefixedJSONPropertyChooser);
+			chooser.prop('onParameterChoose')([
+				'selectedStrokes --> 0 --> id',
+				'selectedStrokes --> 0 --> points --> 0 --> x',
+				'selectedStrokes --> 0 --> points --> 1 --> y',
+			]);
+
+			expect(onParameterChoose.args[0][0]).to.deep.equal([0, 10, STROKE_ID]);
 		});
 	});
 });

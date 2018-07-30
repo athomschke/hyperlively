@@ -3,10 +3,11 @@
 import * as React from 'react';
 
 import type {
-	Stroke, RecognitionState, ShapeCandidateState, TreeParameter, TextCandidateState,
+	Stroke, RecognitionState, ShapeCandidateState, TreeParameter, TextCandidateState, Parameters,
 } from 'src/types';
 import { type JSONObject } from 'src/components/JsonPropertyChooser';
 import { PATH_DELIMITER } from 'src/constants/configuration';
+import { valueAtPath } from 'src/components/JsonPropertyChooser/choosingActions';
 
 import PrefixedJSONPropertyChooser from './PrefixedJSONPropertyChooser';
 
@@ -15,6 +16,7 @@ export type ParameterChooserStateProps = {
 	checkedPaths: Array<string>,
 	expandedPaths: Array<string>,
 	interpretation: RecognitionState,
+	parameters: Parameters,
 }
 
 export type ParameterChooserDispatchProps = {
@@ -32,6 +34,7 @@ const defaultProps = (): ParameterChooserProps => ({
 	strokes: [],
 	onParameterChoose: () => {},
 	lastStrokes: [],
+	parameters: [],
 	selectedStrokes: [],
 	interpretation: {
 		texts: [],
@@ -130,6 +133,12 @@ export default (props: ParameterChooserProps = defaultProps()) => {
 		};
 	}, {});
 
+	const onParameterChoose = (checked) => {
+		const leafes = checked.map(checkedKey => valueAtPath(jsonTree, checkedKey));
+		const values = leafes.map(leaf => (Number.isNaN(parseInt(leaf, 10)) ? leaf.toString() : Number.parseInt(leaf.toString(), 10)));
+		props.onParameterChoose(values);
+	};
+
 	return (
 		<div style={{ display: 'inline' }}>
 			{Object.keys(groupedChoosersProps).map(groupKey => (
@@ -142,7 +151,7 @@ export default (props: ParameterChooserProps = defaultProps()) => {
 					}}
 				>
 					{groupedChoosersProps[groupKey].map(chooserProps => (
-						<PrefixedJSONPropertyChooser {...chooserProps} position={null} />
+						<PrefixedJSONPropertyChooser {...chooserProps} onParameterChoose={onParameterChoose} position={null} />
 					))}
 				</div>
 			))}
