@@ -48,7 +48,7 @@ const defaultProps = (): ParameterChooserProps => ({
 
 const hashPosition = coordinate => (coordinate ? `(${coordinate.x}, ${coordinate.y})` : 'undefined');
 
-export default (props: ParameterChooserProps = defaultProps()) => {
+const ParameterChooser = (props: ParameterChooserProps = defaultProps()) => {
 	const { interpretation } = props;
 	const parameterObject = (): JSONObject => {
 		const rawData: JSONObject = { interpretation };
@@ -174,3 +174,5 @@ export default (props: ParameterChooserProps = defaultProps()) => {
 		</div>
 	);
 };
+
+export default ParameterChooser;

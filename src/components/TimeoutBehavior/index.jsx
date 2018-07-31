@@ -25,7 +25,9 @@ type State = {
 	disableFunction: ?(boolean) => void,
 }
 
-export default (Wrapped: React.ComponentType<WrappedProps<*>>) => class extends React.Component<TimeoutBehaviorProps<*>, State> {
+export default (
+	Wrapped: React.ComponentType<WrappedProps<*>>,
+) => class TimeoutBehavior extends React.Component<TimeoutBehaviorProps<*>, State> {
 	constructor() {
 		super();
 		(this:any).beActive = this.beActive.bind(this);

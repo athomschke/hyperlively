@@ -7,7 +7,7 @@ type Props<P> = P & {
 	cmdPressed: boolean;
 };
 
-const Window = class Window extends PureComponent<Props<any>> {
+export default class Window extends PureComponent<Props<any>> {
 	props: Props<any>;
 
 	render() {
@@ -25,6 +25,4 @@ const Window = class Window extends PureComponent<Props<any>> {
 			/>
 		);
 	}
-};
-
-export default Window;
+}

@@ -8,7 +8,7 @@ type TimelinePreviewProps<P> = P & {
 	onSelect: () => void;
 };
 
-export default function TimelinePreview(props: TimelinePreviewProps<any>) {
+const TimelinePreview = (props: TimelinePreviewProps<any>) => {
 	const { onSelect, ...rest } = props;
 
 	const timelineCanvasProps: TimelineCanvasProps = {
@@ -23,4 +23,6 @@ export default function TimelinePreview(props: TimelinePreviewProps<any>) {
 		<div className={style.timelinePreview}>
 			<TimelineCanvas {...timelineCanvasProps} />
 		</div>);
-}
+};
+
+export default TimelinePreview;

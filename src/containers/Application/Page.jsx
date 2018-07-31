@@ -34,7 +34,7 @@ const renderInterpreter = (selectedStrokes: Array<Stroke>, lastStrokes: Array<St
 	</Interpreter>
 );
 
-export default (props: PageProps) => {
+const Page = (props: PageProps) => {
 	const selectedStrokes = getSelectedStrokes(props.sketches);
 	const lastSketch = last(props.sketches);
 	const lastStrokes = lastSketch ? lastSketch.strokes : [];
@@ -54,3 +54,5 @@ export default (props: PageProps) => {
 		</div>
 	);
 };
+
+export default Page;

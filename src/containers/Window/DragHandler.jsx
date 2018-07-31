@@ -14,7 +14,9 @@ type State = {
 	mousePressed: boolean;
 }
 
-export default (Wrapped: React.ComponentType<DragHandlerProps<any>>) => class extends React.PureComponent<DragHandlerProps<any>, State> {
+export default (
+	Wrapped: React.ComponentType<DragHandlerProps<any>>,
+) => class DragHandler extends React.PureComponent<DragHandlerProps<any>, State> {
 	constructor() {
 		super();
 		(this:any).onMouseUp = this.onMouseUp.bind(this);

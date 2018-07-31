@@ -8,7 +8,7 @@ type State = {
 
 export type FullscreenProps<P> = P;
 
-export default (Wrapped: React.ComponentType<any>) => class extends React.PureComponent<any, State> {
+export default (Wrapped: React.ComponentType<any>) => class Fullscreen extends React.PureComponent<any, State> {
 	constructor() {
 		super();
 		this.state = {

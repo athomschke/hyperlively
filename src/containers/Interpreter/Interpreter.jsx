@@ -44,7 +44,7 @@ const defaultProps = (): InterpreterProps => ({
 	clearInterval: () => {},
 });
 
-export default (props: InterpreterProps = defaultProps()) => {
+const Interpreter = (props: InterpreterProps = defaultProps()) => {
 	const {
 		onInterpretationDone, setInterval, clearInterval, performAction,
 		specificActions, functions, parameters,
@@ -105,3 +105,5 @@ export default (props: InterpreterProps = defaultProps()) => {
 		</div>
 	);
 };
+
+export default Interpreter;

@@ -3,11 +3,11 @@ import * as React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 
-import { InterpretationDisplayComponent, type InterpretationDisplayProps } from '.';
+import { InterpretationDisplay, type InterpretationDisplayProps } from '.';
 
 const shallowWithProps = (
 	props: InterpretationDisplayProps,
-) => shallow(<InterpretationDisplayComponent {...props} />);
+) => shallow(<InterpretationDisplay {...props} />);
 
 describe('InterpretationDisplay', () => {
 	it('renders no selection as empty string', () => {

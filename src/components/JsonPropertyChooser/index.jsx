@@ -42,7 +42,7 @@ const renderTreeNodes = (data: Array<ReactTreeLeafFormat | ReactTreeNodeFormat>)
 	</TreeNode>
 ));
 
-export default (props: JsonPropertyChooserProps = defaultProps()) => {
+const JsonPropertyChooser = (props: JsonPropertyChooserProps = defaultProps()) => {
 	const getFormattedData = () => {
 		const rawData: Object = cloneDeep(props.jsonTree);
 		return formatObject(
@@ -85,3 +85,5 @@ export default (props: JsonPropertyChooserProps = defaultProps()) => {
 		</div>
 	);
 };
+
+export default JsonPropertyChooser;

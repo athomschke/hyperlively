@@ -9,7 +9,7 @@ export type InterpretationDisplayProps = {
 	parameters: Parameters,
 }
 
-export const InterpretationDisplayComponent = (props: InterpretationDisplayProps) => {
+export const InterpretationDisplay = (props: InterpretationDisplayProps) => {
 	const { functions, parameters } = props;
 	let i = 0;
 	const renderCall = () => functions.map((aFunction) => {
@@ -30,4 +30,4 @@ const mapStateToProps = (state: HyperlivelyState) => ({
 	parameters: state.ui.interpretations.parameters,
 });
 
-export default connect(mapStateToProps, () => ({}))(InterpretationDisplayComponent);
+export default connect(mapStateToProps, () => ({}))(InterpretationDisplay);

@@ -38,7 +38,7 @@ export type WrappedProps<P> = P & {
 	sketches: Array<Sketch>
 }
 
-export default (Wrapped: React.ComponentType<WrappedProps<*>>) => class extends React.PureComponent<SketchCombinerProps<*>> {
+export default (Wrapped: React.ComponentType<WrappedProps<*>>) => class SketchCombiner extends React.PureComponent<SketchCombinerProps<*>> {
 	props: SketchCombinerProps<*>;
 
 	render() {

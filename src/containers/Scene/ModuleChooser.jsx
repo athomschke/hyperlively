@@ -7,7 +7,7 @@ export type ModuleChooserProps<P> = P & {
 
 export type WrappedProps<P> = P;
 
-export default (components: Array<React.ComponentType<WrappedProps<any>>>) => class extends React.PureComponent<any> {
+export default (components: Array<React.ComponentType<WrappedProps<any>>>) => class ModuleChooser extends React.PureComponent<any> {
 	props: ModuleChooserProps<any>;
 
 	render() {

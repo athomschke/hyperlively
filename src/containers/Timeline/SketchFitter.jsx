@@ -22,7 +22,7 @@ export type WrappedProps<P> = P & {
 	bounds: Bounds,
 }
 
-export default (Wrapped: React.ComponentType<WrappedProps<any>>) => class extends React.PureComponent<SketchFitterProps<any>> {
+export default (Wrapped: React.ComponentType<WrappedProps<any>>) => class SketchFitter extends React.PureComponent<SketchFitterProps<any>> {
 	props: SketchFitterProps<any>;
 
 	render() {

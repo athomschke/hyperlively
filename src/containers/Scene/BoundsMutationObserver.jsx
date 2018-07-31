@@ -26,7 +26,7 @@ type State = {
 
 export default (
 	Wrapped: React.ComponentType<WrappedProps<any>>,
-) => class extends React.PureComponent<BoundsMutationObserverProps<any>, State> {
+) => class BoundsMutationObserver extends React.PureComponent<BoundsMutationObserverProps<any>, State> {
 	constructor() {
 		super();
 		this.state = this.state || {};

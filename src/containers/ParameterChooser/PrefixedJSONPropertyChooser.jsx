@@ -58,7 +58,7 @@ export const filterSortedPaths = (
 	}),
 );
 
-export default (props: PrefixedJSONPropertyChooserProps) => {
+const PrefixedJSONPropertyChooser = (props: PrefixedJSONPropertyChooserProps) => {
 	const { prefixes } = props;
 
 	const onCheck = (checked: Array<string>) => {
@@ -81,3 +81,5 @@ export default (props: PrefixedJSONPropertyChooserProps) => {
 		/>
 	);
 };
+
+export default PrefixedJSONPropertyChooser;

@@ -19,7 +19,9 @@ export type WrappedProps<P> = P & {
 	showBorder: boolean,
 }
 
-export default (Wrapped: React.ComponentType<WrappedProps<any>>) => class extends React.PureComponent<Point2BoundsScalerProps<any>> {
+export default (
+	Wrapped: React.ComponentType<WrappedProps<any>>,
+) => class Point2BountsScaler extends React.PureComponent<Point2BoundsScalerProps<any>> {
 	props: Point2BoundsScalerProps<any>;
 
 	render() {
