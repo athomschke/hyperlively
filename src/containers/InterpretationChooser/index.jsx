@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import type { HyperlivelyState } from 'src/types';
 import { collapseParametersPath, checkParametersPath, chooseParameters } from 'src/actionCreators';
 
-import ParameterChooser, { type ParameterChooserStateProps, type ParameterChooserDispatchProps } from './ParameterChooser';
+import InterpretationChooser, { type InterpretationChooserStateProps, type InterpretationChooserDispatchProps } from './InterpretationChooser';
 
-const mapStateToProps = (state: HyperlivelyState): ParameterChooserStateProps => ({
+const mapStateToProps = (state: HyperlivelyState): InterpretationChooserStateProps => ({
 	strokes: state.data.scenes.present.length > state.data.sceneIndex ? state.data.scenes.present[state.data.sceneIndex].strokes : [],
 	expandedPaths: state.ui.parameters.expandedPath,
 	checkedPaths: state.ui.parameters.checkedPath,
@@ -14,7 +14,7 @@ const mapStateToProps = (state: HyperlivelyState): ParameterChooserStateProps =>
 	parameters: state.ui.interpretations.parameters,
 });
 
-const mapDispatchToProps = (dispatch): ParameterChooserDispatchProps => ({
+const mapDispatchToProps = (dispatch): InterpretationChooserDispatchProps => ({
 	onExpandedPathsChange: expandedPath => dispatch(collapseParametersPath(expandedPath)),
 	onCheckedPathsChange: checkedPath => dispatch(checkParametersPath(checkedPath)),
 	onParameterChoose: functions => dispatch(chooseParameters(functions)),
@@ -23,4 +23,4 @@ const mapDispatchToProps = (dispatch): ParameterChooserDispatchProps => ({
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps,
-)(ParameterChooser);
+)(InterpretationChooser);

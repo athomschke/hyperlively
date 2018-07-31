@@ -10,7 +10,7 @@ import type {
 } from 'src/types';
 import PrefixedJSONPropertyChooser from 'src/components/PrefixedJSONPropertyChooser';
 
-import ParameterChooser, { type ParameterChooserProps } from './ParameterChooser';
+import InterpretationChooser, { type InterpretationChooserProps } from './InterpretationChooser';
 
 const STROKE_ID = 123;
 
@@ -30,7 +30,7 @@ const dummyStroke = (): Stroke => ({
 	finished: true,
 });
 
-const defaultProps = (): ParameterChooserProps => ({
+const defaultProps = (): InterpretationChooserProps => ({
 	strokes: [dummyStroke()],
 	selectedStrokes: [dummyStroke()],
 	parameters: [],
@@ -43,7 +43,7 @@ const defaultProps = (): ParameterChooserProps => ({
 	interpretation: { shapes: [], texts: [] },
 });
 
-const shallowWithProps = (props: ParameterChooserProps) => shallow(<ParameterChooser {...props} />);
+const shallowWithProps = (props: InterpretationChooserProps) => shallow(<InterpretationChooser {...props} />);
 
 describe('Parameter Chooser Component', () => {
 	describe('Rendering', () => {

@@ -12,7 +12,7 @@ import ActionChooser from 'src/containers/ActionChooser';
 import InterpretationDisplay from 'src/containers/InterpretationDisplay';
 import PrefixedJSONPropertyChooser from 'src/components/PrefixedJSONPropertyChooser';
 
-export type ParameterChooserStateProps = {
+export type InterpretationChooserStateProps = {
 	strokes: Array<Stroke>,
 	checkedPaths: Array<string>,
 	expandedPaths: Array<string>,
@@ -20,17 +20,17 @@ export type ParameterChooserStateProps = {
 	parameters: Parameters,
 }
 
-export type ParameterChooserDispatchProps = {
+export type InterpretationChooserDispatchProps = {
 	onParameterChoose: (parameters: Array<TreeParameter>) => void,
 	onCheckedPathsChange: (checkedPath: Array<string>) => void,
 	onExpandedPathsChange: (collapsedPath: Array<string>) => void,
 }
 
-export type ParameterChooserProps = ParameterChooserStateProps & ParameterChooserDispatchProps & {
+export type InterpretationChooserProps = InterpretationChooserStateProps & InterpretationChooserDispatchProps & {
 	selectedStrokes: Array<Stroke>,
 }
 
-const defaultProps = (): ParameterChooserProps => ({
+const defaultProps = (): InterpretationChooserProps => ({
 	strokes: [],
 	onParameterChoose: () => {},
 	parameters: [],
@@ -47,7 +47,7 @@ const defaultProps = (): ParameterChooserProps => ({
 
 const hashPosition = coordinate => (coordinate ? `(${coordinate.x}, ${coordinate.y})` : 'undefined');
 
-const ParameterChooser = (props: ParameterChooserProps = defaultProps()) => {
+const InterpretationChooser = (props: InterpretationChooserProps = defaultProps()) => {
 	const { interpretation } = props;
 	const parameterObject = (): JSONObject => {
 		const rawData: JSONObject = { interpretation };
@@ -172,4 +172,4 @@ const ParameterChooser = (props: ParameterChooserProps = defaultProps()) => {
 	);
 };
 
-export default ParameterChooser;
+export default InterpretationChooser;

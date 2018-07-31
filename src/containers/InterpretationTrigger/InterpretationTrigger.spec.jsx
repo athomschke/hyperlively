@@ -6,7 +6,7 @@ import { forEach } from 'lodash';
 import { shallow } from 'enzyme';
 import { spy, stub } from 'sinon';
 
-import ParameterChooser from 'src/containers/ParameterChooser';
+import InterpretationChooser from 'src/containers/InterpretationChooser';
 import ActionChooser from 'src/containers/ActionChooser';
 import type { Parameters, Functions } from 'src/types';
 
@@ -58,7 +58,7 @@ describe('Interpreter', () => {
 		});
 
 		it('renders a parameter chooser', () => {
-			expect(interpreter.find(ParameterChooser)).to.exist();
+			expect(interpreter.find(InterpretationChooser)).to.exist();
 		});
 
 		it('renders an action chooser', () => {

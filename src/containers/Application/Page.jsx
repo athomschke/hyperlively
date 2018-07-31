@@ -11,7 +11,7 @@ import Threshold from 'src/containers/Threshold';
 import Window from 'src/containers/Window';
 import AppConfiguration from 'src/containers/AppConfiguration';
 import HandwritingRecognitionTrigger from 'src/containers/HandwritingRecognitionTrigger';
-import ParameterChooser from 'src/containers/ParameterChooser';
+import InterpretationChooser from 'src/containers/InterpretationChooser';
 import type { Sketch, Stroke } from 'src/types';
 
 export type PageProps = {
@@ -21,7 +21,7 @@ export type PageProps = {
 export const getSelectedStrokes = (sketches: Array<Sketch>) => filter(flatten(map(sketches, 'strokes')), 'selected');
 
 const renderInterpreter = (selectedStrokes: Array<Stroke>) => (
-	<ParameterChooser
+	<InterpretationChooser
 		selectedStrokes={selectedStrokes}
 	/>
 );
