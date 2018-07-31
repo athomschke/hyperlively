@@ -4,7 +4,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { spy } from 'sinon';
 
-import PrefixedJSONPropertyChooser from 'src/containers/ParameterChooser/PrefixedJSONPropertyChooser';
+import PrefixedJSONPropertyChooser from 'src/components/PrefixedJSONPropertyChooser';
 import * as actionCreators from 'src/actionCreators';
 import type { FunctionConfiguration } from 'src/types';
 

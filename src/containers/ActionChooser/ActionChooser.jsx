@@ -6,7 +6,7 @@ import {
 
 import * as actionCreators from 'src/actionCreators';
 import type { FunctionConfiguration, ActionMapping } from 'src/types';
-import PrefixedJsonPropertyChooser from 'src/containers/ParameterChooser/PrefixedJSONPropertyChooser';
+import PrefixedJsonPropertyChooser from 'src/components/PrefixedJSONPropertyChooser';
 
 const getArgs = functionString => functionString.split('(')[1].split(')')[0].split(',');
 

@@ -8,8 +8,7 @@ import type {
 import { type JSONObject } from 'src/components/JsonPropertyChooser';
 import { PATH_DELIMITER } from 'src/constants/configuration';
 import ActionChooser from 'src/containers/ActionChooser';
-
-import PrefixedJSONPropertyChooser from './PrefixedJSONPropertyChooser';
+import PrefixedJSONPropertyChooser from 'src/components/PrefixedJSONPropertyChooser';
 
 export type ParameterChooserStateProps = {
 	strokes: Array<Stroke>,

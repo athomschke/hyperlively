@@ -8,8 +8,8 @@ import { stroke } from 'src/reducers/data/strokes/stroke';
 import type {
 	Stroke, RecognitionState, TextCandidateState, ShapeCandidateState,
 } from 'src/types';
+import PrefixedJSONPropertyChooser from 'src/components/PrefixedJSONPropertyChooser';
 
-import PrefixedJSONPropertyChooser from './PrefixedJSONPropertyChooser';
 import ParameterChooser, { type ParameterChooserProps } from './ParameterChooser';
 
 const STROKE_ID = 123;

@@ -11,7 +11,7 @@ import PrefixedJSONPropertyChooser, {
 	filterPaths,
 	combinePaths,
 	pathsWithPrefixes,
-} from './PrefixedJSONPropertyChooser';
+} from '.';
 
 const shallowWithProps = (props: PrefixedJSONPropertyChooserProps) => shallow(<PrefixedJSONPropertyChooser {...props} />);
 
