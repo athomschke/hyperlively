@@ -76,16 +76,13 @@ const getCanvasTransform = (strokes: Array<Stroke>, finished: boolean, offset: n
 
 export default (
 	Wrapped: React.ComponentType<WrappedProps<any>>,
-) => class SketchTransformer extends React.PureComponent<SketchTransformerProps<any>> {
-	props: SketchTransformerProps<any>;
+) => (props: SketchTransformerProps<any>) => {
+	const { offset, ...rest } = props;
 
-	render() {
-		const { offset, ...rest } = this.props;
-		return (
-			<Wrapped
-				{...rest}
-				bounds={getCanvasTransform(this.props.strokes, this.props.finished, offset)}
-			/>
-		);
-	}
+	return (
+		<Wrapped
+			{...rest}
+			bounds={getCanvasTransform(props.strokes, props.finished, offset || 0)}
+		/>
+	);
 };
