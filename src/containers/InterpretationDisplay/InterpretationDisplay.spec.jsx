@@ -3,7 +3,7 @@ import * as React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 
-import { InterpretationDisplay, type InterpretationDisplayProps } from '.';
+import InterpretationDisplay, { type InterpretationDisplayProps } from './InterpretationDisplay';
 
 const shallowWithProps = (
 	props: InterpretationDisplayProps,

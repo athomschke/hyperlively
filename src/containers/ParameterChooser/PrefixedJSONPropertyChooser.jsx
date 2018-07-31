@@ -82,4 +82,8 @@ const PrefixedJSONPropertyChooser = (props: PrefixedJSONPropertyChooserProps) =>
 	);
 };
 
+PrefixedJSONPropertyChooser.defaultProps = {
+	position: undefined,
+};
+
 export default PrefixedJSONPropertyChooser;

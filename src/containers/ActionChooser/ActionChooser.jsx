@@ -78,7 +78,6 @@ export default class ActionChooser extends PureComponent<Props> {
 				onCheckedPathsChange={this.props.onCheckedPathsChange}
 				checkedPaths={this.props.checkedPaths}
 				expandedPaths={this.props.expandedPaths}
-				position={undefined}
 				jsonTree={jsonTree}
 			/>);
 	}
