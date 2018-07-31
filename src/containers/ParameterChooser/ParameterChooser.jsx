@@ -7,7 +7,9 @@ import type {
 } from 'src/types';
 import { type JSONObject } from 'src/components/JsonPropertyChooser';
 import { PATH_DELIMITER } from 'src/constants/configuration';
+import Interpreter from 'src/containers/Interpreter';
 import ActionChooser from 'src/containers/ActionChooser';
+import InterpretationDisplay from 'src/containers/InterpretationDisplay';
 import PrefixedJSONPropertyChooser from 'src/components/PrefixedJSONPropertyChooser';
 
 export type ParameterChooserStateProps = {
@@ -25,14 +27,12 @@ export type ParameterChooserDispatchProps = {
 }
 
 export type ParameterChooserProps = ParameterChooserStateProps & ParameterChooserDispatchProps & {
-	lastStrokes: Array<Stroke>,
 	selectedStrokes: Array<Stroke>,
 }
 
 const defaultProps = (): ParameterChooserProps => ({
 	strokes: [],
 	onParameterChoose: () => {},
-	lastStrokes: [],
 	parameters: [],
 	selectedStrokes: [],
 	interpretation: {
@@ -51,10 +51,6 @@ const ParameterChooser = (props: ParameterChooserProps = defaultProps()) => {
 	const { interpretation } = props;
 	const parameterObject = (): JSONObject => {
 		const rawData: JSONObject = { interpretation };
-		const lastStrokes = props.lastStrokes;
-		if (lastStrokes.length > 0) {
-			rawData.lastStrokes = lastStrokes;
-		}
 		if (props.selectedStrokes.length > 0) {
 			rawData.selectedStrokes = props.selectedStrokes;
 		}
@@ -164,6 +160,8 @@ const ParameterChooser = (props: ParameterChooserProps = defaultProps()) => {
 						top: groupedChoosersProps[groupKey][0].position.y,
 					}}
 				>
+					<Interpreter />
+					<InterpretationDisplay />
 					<ActionChooser />
 					{groupedChoosersProps[groupKey].map(chooserProps => (
 						<PrefixedJSONPropertyChooser {...chooserProps} onParameterChoose={onParameterChoose} position={null} />

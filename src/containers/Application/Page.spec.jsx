@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
 import { exampleStrokes, point } from 'src/helpers.spec';
-import Interpreter from 'src/containers/Interpreter';
+import ParameterChooser from 'src/containers/ParameterChooser';
 
 import Page, { getSelectedStrokes, type PageProps } from './Page';
 
@@ -17,13 +17,13 @@ const shallowWithProps = (props: PageProps) => shallow(<Page {...props} />);
 
 describe('Page', () => {
 	describe('rendering', () => {
-		it('shows an Interpreter if toggled on', () => {
+		it('shows a ParameterChooser if toggled on', () => {
 			const page = shallowWithProps({ ...defaultProps(), showInterpreter: true });
-			expect(page.find(Interpreter)).to.have.length(1);
+			expect(page.find(ParameterChooser)).to.have.length(1);
 		});
-		it('does not show an Interpreter if toggled on', () => {
+		it('does not show a ParameterChooser if toggled on', () => {
 			const page = shallowWithProps({ ...defaultProps(), showInterpreter: false });
-			expect(page.find(Interpreter)).to.have.length(0);
+			expect(page.find(ParameterChooser)).to.have.length(0);
 		});
 	});
 

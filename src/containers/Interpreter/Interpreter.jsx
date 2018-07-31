@@ -8,9 +8,6 @@ import {
 import type {
 	FunctionConfiguration, RecognitionResult, Functions, Parameters, ActionMapping,
 } from 'src/types';
-import { relativeDividerPosition } from 'src/constants/configuration';
-
-import style from './Interpreter.scss';
 
 type InterpretationChooserAdditionalProps = {
 	specificActions: Array<ActionMapping>,
@@ -89,18 +86,14 @@ const Interpreter = (props: InterpreterProps = defaultProps()) => {
 	};
 
 	return (
-		<div
-			className={style.interpretationChooser}
-			style={{ width: `${(1 - relativeDividerPosition) * 100}%` }}
-		>
-			<button onClick={onAcceptInterpretationClick}>
-				{'Accept Interpretation'}
-			</button>
-			<button onClick={onInterpretationTick}>
-				{'Tick'}
-			</button>
+		<div>
 			<div>
-				{props.children}
+				<button onClick={onAcceptInterpretationClick}>
+					{'Accept Interpretation'}
+				</button>
+				<button onClick={onInterpretationTick}>
+					{'Tick'}
+				</button>
 			</div>
 		</div>
 	);
