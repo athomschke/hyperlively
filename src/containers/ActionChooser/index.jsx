@@ -13,7 +13,7 @@ const mapStateToProps = (state: HyperlivelyState) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-	onCollapsedPathsChange: collapsedPath => dispatch(collapseActionsPath(collapsedPath)),
+	onExpandedPathsChange: collapsedPath => dispatch(collapseActionsPath(collapsedPath)),
 	onCheckedPathsChange: checkedPath => dispatch(checkActionsPath(checkedPath)),
 	onFunctionsChoose: functions => dispatch(chooseFunctions(functions)),
 });

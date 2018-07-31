@@ -1,10 +1,11 @@
 // @flow
 import React, { PureComponent } from 'react';
 import {
-	forEach, map, flatten, filter, last,
+	forEach, map, flatten, filter, last, without,
 } from 'lodash';
 
 import * as actionCreators from 'src/actionCreators';
+import { PATH_DELIMITER } from 'src/constants/configuration';
 import type { FunctionConfiguration, ActionMapping } from 'src/types';
 import PrefixedJsonPropertyChooser from 'src/components/PrefixedJSONPropertyChooser';
 
@@ -53,8 +54,8 @@ type Props = {
 	specificActions: Array<ActionMapping>,
 	checkedPaths: Array<string>,
 	expandedPaths: Array<string>,
-	onExpandedPathsChange: () => void,
-	onCheckedPathsChange: () => void,
+	onExpandedPathsChange: (_paths: Array<string>) => void,
+	onCheckedPathsChange: (_paths: Array<string>) => void,
 }
 
 export default class ActionChooser extends PureComponent<Props> {
@@ -68,16 +69,22 @@ export default class ActionChooser extends PureComponent<Props> {
 		const actions = allActions(this.props.specificActions);
 		const jsonTree = { actions };
 
+		const prependActionsString = (paths: Array<string>) => paths.map(path => ['actions', ...without(path.split(PATH_DELIMITER), '')].join(PATH_DELIMITER));
+		const removeActionsString = (paths: Array<string>) => paths.map(path => path.split(PATH_DELIMITER).slice(1).join(PATH_DELIMITER));
+
+		const checkedPaths = prependActionsString(this.props.checkedPaths);
+		const expandedPaths = prependActionsString(this.props.expandedPaths);
+
 		return (
 			<PrefixedJsonPropertyChooser
-				prefixes={['actions']}
+				prefixes={[]}
 				onParameterChoose={(parameters: Array<string>) => {
-					this.onFunctionsChoose(parameters);
+					this.onFunctionsChoose(removeActionsString(parameters));
 				}}
-				onExpandedPathsChange={this.props.onExpandedPathsChange}
-				onCheckedPathsChange={this.props.onCheckedPathsChange}
-				checkedPaths={this.props.checkedPaths}
-				expandedPaths={this.props.expandedPaths}
+				onExpandedPathsChange={paths => this.props.onExpandedPathsChange(removeActionsString(paths))}
+				onCheckedPathsChange={paths => this.props.onCheckedPathsChange(removeActionsString(paths))}
+				checkedPaths={checkedPaths}
+				expandedPaths={expandedPaths}
 				jsonTree={jsonTree}
 			/>);
 	}

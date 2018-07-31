@@ -25,7 +25,7 @@ export const combinePaths = (prefixes: Array<string>, longPaths: Array<string>, 
 	const newLongPaths: Array<string> = (longPaths.map((longPath) => {
 		const matchesPrefix = longPath.indexOf(prefixes.join(PATH_DELIMITER)) >= 0;
 		if (matchesPrefix) {
-			const computedLongPath = `${prefixes.join(PATH_DELIMITER)}${PATH_DELIMITER}${shortPaths[shortPathIndex]}`;
+			const computedLongPath = [...prefixes, shortPaths[shortPathIndex]].join(PATH_DELIMITER);
 			if (longPath === computedLongPath) {
 				shortPathIndex += 1;
 				return longPath;
@@ -35,7 +35,7 @@ export const combinePaths = (prefixes: Array<string>, longPaths: Array<string>, 
 		return longPath;
 	}): any).filter(path => path);
 	if (shortPathIndex < shortPaths.length) {
-		newLongPaths.push(`${prefixes.join(PATH_DELIMITER)}${PATH_DELIMITER}${shortPaths[shortPaths.length - 1]}`);
+		newLongPaths.push([...prefixes, shortPaths[shortPaths.length - 1]].join(PATH_DELIMITER));
 	}
 	return newLongPaths;
 };
