@@ -2,7 +2,6 @@
 import * as React from 'react';
 import { filter, flatten, map } from 'lodash';
 
-import InterpretationTrigger from 'src/containers/InterpretationTrigger';
 import Scene from 'src/containers/Scene';
 import UndoRedo from 'src/containers/UndoRedo';
 import Timeline from 'src/containers/Timeline';
@@ -11,6 +10,7 @@ import ShowInterpreter from 'src/containers/ShowInterpreter';
 import Threshold from 'src/containers/Threshold';
 import Window from 'src/containers/Window';
 import AppConfiguration from 'src/containers/AppConfiguration';
+import HandwritingRecognitionTrigger from 'src/containers/HandwritingRecognitionTrigger';
 import ParameterChooser from 'src/containers/ParameterChooser';
 import type { Sketch, Stroke } from 'src/types';
 
@@ -39,7 +39,7 @@ const Page = (props: PageProps) => {
 				<Threshold />
 				<Ploma />
 				<ShowInterpreter />
-				<InterpretationTrigger sketches={props.sketches} />
+				<HandwritingRecognitionTrigger sketches={props.sketches} />
 			</AppConfiguration>
 		</div>
 	);

@@ -5,7 +5,7 @@ import type {
 	RecognitionResult, Sketch, TextCandidates, ShapeCandidates,
 } from 'src/types';
 
-export type InterpretationTriggerProps = {
+export type HandwritingRecognitionTriggerProps = {
 	onHandwritingRecognitionClick: (
 		sketches: Array<Sketch>,
 		texts: TextCandidates,
@@ -15,7 +15,7 @@ export type InterpretationTriggerProps = {
 	sketches: Array<Sketch>
 }
 
-const InterpretationTrigger = (props: InterpretationTriggerProps) => {
+const HandwritingRecognitionTrigger = (props: HandwritingRecognitionTriggerProps) => {
 	const onHandwritingRecognitionClick = () => {
 		props.onHandwritingRecognitionClick(
 			props.sketches,
@@ -31,4 +31,4 @@ const InterpretationTrigger = (props: InterpretationTriggerProps) => {
 	);
 };
 
-export default InterpretationTrigger;
+export default HandwritingRecognitionTrigger;

@@ -4,9 +4,9 @@ import { shallow } from 'enzyme';
 import React from 'react';
 import { spy } from 'sinon';
 
-import InterpretationTrigger, { type InterpretationTriggerProps } from './InterpretationTrigger';
+import HandwritingRecognitionTrigger, { type HandwritingRecognitionTriggerProps } from './HandwritingRecognitionTrigger';
 
-const defaultProps = (): InterpretationTriggerProps => ({
+const defaultProps = (): HandwritingRecognitionTriggerProps => ({
 	onHandwritingRecognitionClick: () => {},
 	interpretation: {
 		texts: [],
@@ -15,9 +15,9 @@ const defaultProps = (): InterpretationTriggerProps => ({
 	sketches: [],
 });
 
-const shallowWithProps = (props: InterpretationTriggerProps) => shallow(<InterpretationTrigger {...props} />);
+const shallowWithProps = (props: HandwritingRecognitionTriggerProps) => shallow(<HandwritingRecognitionTrigger {...props} />);
 
-describe('InterpretationTrigger', () => {
+describe('HandwritingRecognitionTrigger', () => {
 	describe('Clicking', () => {
 		it('clicking does nothing without a callback', () => {
 			const trigger = shallowWithProps(defaultProps());
