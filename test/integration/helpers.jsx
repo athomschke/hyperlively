@@ -1,4 +1,5 @@
 // @flow
+/* eslint-disable no-bitwise */
 import {
 	map, forEach, tail, last, first,
 } from 'lodash';

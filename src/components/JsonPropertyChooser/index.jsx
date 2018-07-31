@@ -8,7 +8,7 @@ import type {
 	Coordinate, ReactTreeLeafFormat, ReactTreeNodeFormat, SortedPath,
 } from 'src/types';
 
-import { formatObject } from './choosingActions';
+import formatObject from './formatObject';
 import style from './index.scss';
 
 export type JSONObject = {

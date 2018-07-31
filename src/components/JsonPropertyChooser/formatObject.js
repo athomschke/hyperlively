@@ -31,7 +31,7 @@ const formatLabel = (key: string, value: Object, sortedCheckedPath?: SortedPath)
 	return label;
 };
 
-export const formatObject = (
+const formatObject = (
 	anObject: Object,
 	sortedCheckedPaths: Array<SortedPath>,
 	collapsedPaths: Array<string>,
@@ -69,3 +69,5 @@ export const formatObject = (
 			isLeaf: true,
 		}: ReactTreeLeafFormat);
 	}, this);
+
+export default formatObject;

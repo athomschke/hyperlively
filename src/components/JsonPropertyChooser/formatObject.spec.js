@@ -4,7 +4,7 @@ import { flatten, map, forEach } from 'lodash';
 
 import type { ReactTreeLeafFormat, ReactTreeNodeFormat } from 'src/types';
 
-import { formatObject } from './choosingActions';
+import formatObject from './formatObject';
 
 const flattenedTree = (root) => {
 	let items = [root];

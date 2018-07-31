@@ -2,7 +2,7 @@
 import type { HyperlivelyState, CommonAction } from 'src/types';
 
 import { data } from './data';
-import { ui } from './ui';
+import ui from './ui';
 
 type HyperlivelyReducer = (state?: HyperlivelyState, action: CommonAction) => HyperlivelyState;
 

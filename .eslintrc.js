@@ -20,7 +20,6 @@ module.exports = {
       "react/destructuring-assignment": 0,
       "react/button-has-type": 0,
       "jsx-a11y/no-static-element-interactions": 0,
-      "react/no-access-state-in-setstate": 0,
       "prefer-destructuring": 0,
       "no-only-tests/no-only-tests": 2,
       "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
@@ -31,12 +30,10 @@ module.exports = {
       'import/no-extraneous-dependencies': ['error', {
           'devDependencies': true
       }],
-      'import/prefer-default-export': 0,
       "import/order": ["error", {
         "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
         "newlines-between": "always"
-      }],
-      'no-bitwise': 0,
+      }]
     },
     "globals": {
         "expect": true,

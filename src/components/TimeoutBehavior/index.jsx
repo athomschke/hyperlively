@@ -56,9 +56,9 @@ export default (
 		});
 	}
 
-	beActive(newValue: number) {
+	beActive(newValue: number, passedDisableFunction: ?(boolean) => void) {
 		if (!this.props.disabled && newValue !== this.props.value) {
-			let disableFunction = this.state.disableFunction;
+			let disableFunction = passedDisableFunction;
 			if (this.props.callbackEnabled && !disableFunction) {
 				this.props.temporaryCallback(false);
 				disableFunction = this.props.temporaryCallback.bind(this, true);
@@ -96,7 +96,7 @@ export default (
 				{...rest}
 				max={this.props.max}
 				value={this.props.value}
-				onChange={this.beActive}
+				onChange={(newValue: number) => this.beActive(newValue, this.state.disableFunction)}
 				disabled={this.props.disabled}
 				afterChange={this.beNotActive}
 			/>

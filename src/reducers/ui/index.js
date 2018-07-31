@@ -52,4 +52,4 @@ const ui = scopeToActions((state: UiState, action: UI_ACIONS) => ({
 	interpretations: interpretations(state.interpretations, action),
 }), uiActions, initialUiState);
 
-export { ui };
+export default ui;
