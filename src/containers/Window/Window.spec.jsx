@@ -6,6 +6,8 @@ import { mount } from 'enzyme';
 
 import Window from './Window';
 
+const defaultProps = () => ({ cmdPressed: false });
+
 describe('Window', () => {
 	let cleanup;
 
@@ -17,6 +19,11 @@ describe('Window', () => {
 		cleanup();
 	});
 
+	it('setting cmdPressed to false enables events on window', () => {
+		const windowComponent = mount(<Window {...defaultProps()} />);
+		expect(windowComponent.find('div').prop('style').pointerEvents).to.equal('auto');
+	});
+
 	it('setting cmdPressed to true disables events on window', () => {
 		const windowComponent = mount(<Window
 			cmdPressed
@@ -24,20 +31,13 @@ describe('Window', () => {
 		expect(windowComponent.find('div').prop('style').pointerEvents).to.equal('none');
 	});
 
-	it('setting cmdPressed to false enables events on window', () => {
-		const windowComponent = mount(<Window
-			cmdPressed={false}
-		/>);
-		expect(windowComponent.find('div').prop('style').pointerEvents).to.equal('auto');
-	});
-
 	it('enables events per default', () => {
-		const windowComponent = mount(<Window />);
+		const windowComponent = mount(<Window {...defaultProps()} />);
 		expect(windowComponent.find('div').prop('style').pointerEvents).to.equal('auto');
 	});
 
 	it('has the default width', () => {
-		const windowComponent = mount(<Window />);
+		const windowComponent = mount(<Window {...defaultProps()} />);
 		expect(windowComponent.find('div').prop('style').width).to.equal('100%');
 	});
 });

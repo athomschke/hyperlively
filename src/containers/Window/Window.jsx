@@ -8,10 +8,6 @@ type Props<P> = P & {
 };
 
 const Window = class Window extends PureComponent<Props<any>> {
-	static defaultProps = {
-		cmdPressed: false,
-	};
-
 	props: Props<any>;
 
 	render() {

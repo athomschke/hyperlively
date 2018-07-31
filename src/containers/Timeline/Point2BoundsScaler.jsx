@@ -20,13 +20,6 @@ export type WrappedProps<P> = P & {
 }
 
 export default (Wrapped: React.ComponentType<WrappedProps<any>>) => class extends React.PureComponent<Point2BoundsScalerProps<any>> {
-	static defaultProps = {
-		strokes: [],
-		htmlWidth: 0,
-		previewHeight: 0,
-		max: 0,
-	};
-
 	props: Point2BoundsScalerProps<any>;
 
 	render() {

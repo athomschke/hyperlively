@@ -8,12 +8,6 @@ export type LabelledBoxProps = {
 }
 
 export default class LabelledBox extends PureComponent<LabelledBoxProps> {
-	static defaultProps = {
-		label: '',
-		onChange: () => {},
-		checked: false,
-	};
-
 	props: LabelledBoxProps;
 
 	render() {

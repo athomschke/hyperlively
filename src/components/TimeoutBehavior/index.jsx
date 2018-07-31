@@ -26,16 +26,6 @@ type State = {
 }
 
 export default (Wrapped: React.ComponentType<WrappedProps<*>>) => class extends React.Component<TimeoutBehaviorProps<*>, State> {
-	static defaultProps = {
-		temporaryCallback: (_value: any) => {},
-		onChange: () => {},
-		callbackEnabled: false,
-		timeout: 1000,
-		max: 0,
-		disabled: false,
-		value: 0,
-	};
-
 	constructor() {
 		super();
 		(this:any).beActive = this.beActive.bind(this);

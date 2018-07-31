@@ -18,7 +18,6 @@ module.exports = {
         "ignoreStrings": true,
       }],
       "react/destructuring-assignment": 0,
-      "react/default-props-match-prop-types": 0,
       "react/require-default-props": 0,
       "react/button-has-type": 0,
       "jsx-a11y/no-static-element-interactions": 0,

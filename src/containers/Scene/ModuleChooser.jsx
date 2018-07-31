@@ -8,10 +8,6 @@ export type ModuleChooserProps<P> = P & {
 export type WrappedProps<P> = P;
 
 export default (components: Array<React.ComponentType<WrappedProps<any>>>) => class extends React.PureComponent<any> {
-	static defaultProps = {
-		componentIndex: 0,
-	};
-
 	props: ModuleChooserProps<any>;
 
 	render() {

@@ -12,11 +12,6 @@ export type ThresholdProps = {
 };
 
 export default class Threshold extends PureComponent<ThresholdProps> {
-	static defaultProps = {
-		threshold: 0,
-		onChange: () => {},
-	};
-
 	props: ThresholdProps;
 
 	render() {

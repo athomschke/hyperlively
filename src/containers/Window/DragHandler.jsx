@@ -15,13 +15,6 @@ type State = {
 }
 
 export default (Wrapped: React.ComponentType<DragHandlerProps<any>>) => class extends React.PureComponent<DragHandlerProps<any>, State> {
-	static defaultProps = {
-		onDragStart: () => {},
-		onDrag: () => {},
-		onDragEnd: () => {},
-		cmdPressed: false,
-	}
-
 	constructor() {
 		super();
 		(this:any).onMouseUp = this.onMouseUp.bind(this);

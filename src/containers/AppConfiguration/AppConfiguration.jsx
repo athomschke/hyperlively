@@ -9,11 +9,6 @@ export type AppConfigurationProps = {
 }
 
 export default class AppConfiguration extends PureComponent<AppConfigurationProps> {
-	static defaultProps = {
-		active: true,
-		children: [],
-	}
-
 	props: AppConfigurationProps;
 
 	render() {

@@ -13,10 +13,6 @@ export type TimelineProps = {
 };
 
 export default class Timeline extends React.PureComponent<TimelineProps> {
-	static defaultProps = {
-		sketches: [],
-	};
-
 	props: TimelineProps;
 
 	node: HTMLDivElement | null

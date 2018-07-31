@@ -58,14 +58,6 @@ type Props = {
 }
 
 export default class ActionChooser extends PureComponent<Props> {
-	static defaultProps = {
-		onFunctionsChoose: (_actionSignatures: Array<FunctionConfiguration>) => {},
-		checkedPaths: [],
-		expandedPaths: [],
-		onExpandedPathsChange: () => {},
-		onCheckedPathsChange: () => {},
-	}
-
 	onFunctionsChoose(signatures: Array<string>) {
 		this.props.onFunctionsChoose(formattedSignatures(signatures));
 	}

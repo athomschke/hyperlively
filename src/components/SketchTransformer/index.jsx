@@ -75,12 +75,6 @@ const getCanvasTransform = (strokes: Array<Stroke>, finished: boolean, offset: n
 };
 
 export default (Wrapped: React.ComponentType<WrappedProps<any>>) => class Sketch extends React.PureComponent<SketchTransformerProps<any>> {
-	static defaultProps = {
-		strokes: [],
-		finished: false,
-		offset: 0,
-	}
-
 	props: SketchTransformerProps<any>;
 
 	render() {

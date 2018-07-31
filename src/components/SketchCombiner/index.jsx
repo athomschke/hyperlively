@@ -4,7 +4,6 @@ import {
 	reduce, last, first, concat,
 } from 'lodash';
 
-import { DEFAULT_THRESHOLD } from 'src/constants/drawing';
 import type { Scene, Sketch } from 'src/types';
 
 const strokeFollowedSuit = (collectedSketches, stroke, threshold) => {
@@ -40,13 +39,6 @@ export type WrappedProps<P> = P & {
 }
 
 export default (Wrapped: React.ComponentType<WrappedProps<*>>) => class extends React.PureComponent<SketchCombinerProps<*>> {
-	static defaultProps = {
-		scene: {
-			strokes: [],
-		},
-		threshold: DEFAULT_THRESHOLD,
-	}
-
 	props: SketchCombinerProps<*>;
 
 	render() {

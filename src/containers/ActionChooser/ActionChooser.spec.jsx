@@ -6,21 +6,30 @@ import { spy } from 'sinon';
 
 import PrefixedJSONPropertyChooser from 'src/containers/ParameterChooser/PrefixedJSONPropertyChooser';
 import * as actionCreators from 'src/actionCreators';
+import type { FunctionConfiguration } from 'src/types';
 
 import ActionChooser from './ActionChooser';
+
+const defaultProps = () => ({
+	onFunctionsChoose: (_actionSignatures: Array<FunctionConfiguration>) => {},
+	checkedPaths: [],
+	expandedPaths: [],
+	onExpandedPathsChange: () => {},
+	onCheckedPathsChange: () => {},
+});
 
 const shallowWithProps = props => shallow(<ActionChooser {...props} />);
 
 describe('Action Chooser', () => {
 	describe('showing the action chooser', () => {
 		it('renders a list', () => {
-			const actionChooser = shallowWithProps({});
+			const actionChooser = shallowWithProps();
 			const list = actionChooser.find(PrefixedJSONPropertyChooser);
 			expect(Object.keys(list.props().jsonTree).length).to.not.equal(0);
 		});
 
 		it('renders an item for each available action type', () => {
-			const actionChooser = shallowWithProps({});
+			const actionChooser = shallowWithProps(defaultProps());
 			const list = actionChooser.find(PrefixedJSONPropertyChooser);
 			const items = Object.keys(list.props().jsonTree.actions);
 
@@ -58,7 +67,7 @@ describe('Action Chooser', () => {
 
 	describe('Choosing an action', () => {
 		it('performs the action', () => {
-			const actionChooser = shallowWithProps({});
+			const actionChooser = shallowWithProps(defaultProps());
 			spy(actionChooser.instance(), 'onFunctionsChoose');
 			const list = actionChooser.find(PrefixedJSONPropertyChooser);
 			list.props().onParameterChoose(['hide (strokes)']);
