@@ -1,92 +1,71 @@
 // @flow
-import { last, keys } from 'lodash';
+import { isEqual } from 'lodash';
 
 import { PATH_DELIMITER } from 'src/constants/configuration';
-import type {
-	ReactTreeNodeFormat,
-	ReactTreeLeafFormat,
-	SortedPath,
-} from 'src/types';
+import type { ReactTreeNodeFormat, ReactTreeLeafFormat, SortedPath } from 'src/types';
+import { stroke } from 'src/reducers/data/strokes/stroke';
 
-const extendedPath = (path?: string, key: string) => [
-	...(path ? path.split(PATH_DELIMITER) : []),
-	key,
-].join(PATH_DELIMITER);
+const blacklistedKeys = ['strokeIds'];
 
-const formatTreeNode = (
-	object: Object,
-	allChecks: Array<SortedPath>,
-	children: Array<ReactTreeLeafFormat | ReactTreeNodeFormat>,
-	allCollapses: Array<string>,
-	path: string,
-): ReactTreeNodeFormat => {
-	const checkedPath: SortedPath | typeof undefined = allChecks.find(sortedPath => sortedPath.path === path);
-	const checked = !!checkedPath;
-	let label = last(path.split(PATH_DELIMITER));
-	if (checkedPath) {
-		label += ` (property ${checkedPath.globalIndex})`;
+const isStroke = (anObject: Object): boolean => isEqual(Object.keys(anObject), Object.keys(stroke(undefined, { type: '' })));
+
+const formatLabel = (key: string, value: Object, sortedCheckedPath?: SortedPath): string => {
+	let label = key;
+	if (value instanceof Object) {
+		if (value.label) {
+			label = value.label;
+		}
+		if (isStroke(value)) {
+			const { points } = value;
+			const { length } = points;
+			const start = length > 0 ? `[${points[0].x}, ${points[0].y}]` : '';
+			const end = length > 1 ? `[${points[length - 1].x}, ${points[length - 1].y}]` : '';
+			label = `stroke ${label} (${points.length} points, from ${start} to ${end})`;
+		}
+	} else {
+		label += `: ${value.toString()}`;
 	}
-	return {
-		checkbox: true,
-		checked,
-		key: path,
-		label,
-		children,
-		collapsed: allCollapses.indexOf(path) >= 0,
-		collapsible: true,
-		isLeaf: false,
-	};
-};
-
-export const formatTreeLeaf = (
-	object: Object,
-	allChecks: Array<SortedPath>,
-	path: string,
-): ReactTreeLeafFormat => {
-	const sortedCheckedPath: SortedPath | typeof undefined = allChecks.find(sortedPath => sortedPath.path === path);
-	const checked = !!sortedCheckedPath;
-	const propKey = last(path.split(PATH_DELIMITER));
-	let label = `${propKey}: ${object[propKey]}`;
 	if (sortedCheckedPath) {
-		const parameterIndex: number = sortedCheckedPath.globalIndex;
-		label += parameterIndex >= 0 ? ` (property ${parameterIndex})` : '';
+		label += ` (property ${sortedCheckedPath.globalIndex})`;
 	}
-	return {
-		checkbox: true,
-		checked,
-		key: path,
-		label,
-		isLeaf: true,
-	};
+	return label;
 };
 
 export const formatObject = (
 	anObject: Object,
-	checkedPaths: Array<SortedPath>,
+	sortedCheckedPaths: Array<SortedPath>,
 	collapsedPaths: Array<string>,
 	path?: string,
-): Array<ReactTreeLeafFormat | ReactTreeNodeFormat> => keys(anObject).map((key: string) => {
-	let children: Array<ReactTreeLeafFormat | ReactTreeNodeFormat> = [];
-	if (anObject[key] instanceof Object) {
-		children = formatObject(
-			anObject[key],
-			checkedPaths,
-			collapsedPaths,
-			extendedPath(path, key),
-		);
-	}
-	if (children.length > 0) {
-		return formatTreeNode(
-			anObject,
-			checkedPaths,
-			children,
-			collapsedPaths,
-			extendedPath(path, key),
-		);
-	}
-	return formatTreeLeaf(
-		anObject,
-		checkedPaths,
-		extendedPath(path, key),
-	);
-}, this);
+): Array<ReactTreeLeafFormat | ReactTreeNodeFormat> => Object
+	.keys(anObject)
+	.filter(key => anObject[key] && blacklistedKeys.indexOf(key) < 0)
+	.map((key: string) => {
+		const extendedPath = path ? `${path}${PATH_DELIMITER}${key}` : key;
+		const sortedCheckedPath: SortedPath | typeof undefined = sortedCheckedPaths.find(sortedPath => sortedPath.path === extendedPath);
+		const checked = !!sortedCheckedPath;
+		const label = formatLabel(key, anObject[key], sortedCheckedPath);
+
+		const treeFormat = {
+			key: extendedPath,
+			checkbox: true,
+			checked,
+			label,
+		};
+
+		if (anObject[key] instanceof Object && !isStroke(anObject[key])) {
+			const collapsed = collapsedPaths.indexOf(extendedPath) >= 0;
+			const children = formatObject(anObject[key], sortedCheckedPaths, collapsedPaths, extendedPath);
+			return ({
+				...treeFormat,
+				isLeaf: false,
+				collapsible: true,
+				collapsed,
+				children,
+			}: ReactTreeNodeFormat);
+		}
+
+		return ({
+			...treeFormat,
+			isLeaf: true,
+		}: ReactTreeLeafFormat);
+	}, this);
