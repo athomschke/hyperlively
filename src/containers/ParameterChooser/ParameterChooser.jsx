@@ -7,7 +7,7 @@ import type {
 } from 'src/types';
 import { type JSONObject } from 'src/components/JsonPropertyChooser';
 import { PATH_DELIMITER } from 'src/constants/configuration';
-import Interpreter from 'src/containers/Interpreter';
+import InterpretationTrigger from 'src/containers/InterpretationTrigger';
 import ActionChooser from 'src/containers/ActionChooser';
 import InterpretationDisplay from 'src/containers/InterpretationDisplay';
 import PrefixedJSONPropertyChooser from 'src/components/PrefixedJSONPropertyChooser';
@@ -160,7 +160,7 @@ const ParameterChooser = (props: ParameterChooserProps = defaultProps()) => {
 						top: groupedChoosersProps[groupKey][0].position.y,
 					}}
 				>
-					<Interpreter />
+					<InterpretationTrigger />
 					<InterpretationDisplay />
 					<ActionChooser />
 					{groupedChoosersProps[groupKey].map(chooserProps => (

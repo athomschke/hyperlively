@@ -10,15 +10,14 @@ import ParameterChooser from 'src/containers/ParameterChooser';
 import ActionChooser from 'src/containers/ActionChooser';
 import type { Parameters, Functions } from 'src/types';
 
-import Interpreter, { type InterpreterProps } from './Interpreter';
+import InterpretationTrigger, { type InterpretationTriggerProps } from './InterpretationTrigger';
 
-const defaultProps = (): InterpreterProps => ({
+const defaultProps = (): InterpretationTriggerProps => ({
 	interpretations: { shapes: [], texts: [] },
 	onInterpretationDone: () => undefined,
 	showInterpreter: true,
 	specificActions: [],
 	functions: [],
-	children: null,
 	parameters: [],
 	performAction: () => undefined,
 	setInterval: () => 1,
@@ -31,7 +30,7 @@ const findElementOfTypeWithTextContent = (
 	content,
 ) => wrapper.findWhere(n => n.type() === type && n.text().indexOf(content) >= 0);
 
-const renderWithProps = (props: InterpreterProps) => shallow(<Interpreter {...props} />);
+const renderWithProps = (props: InterpretationTriggerProps) => shallow(<InterpretationTrigger {...props} />);
 
 describe('Interpreter', () => {
 	let cleanup;

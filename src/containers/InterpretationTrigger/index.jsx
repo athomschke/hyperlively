@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import * as actionCreators from 'src/actionCreators';
 import type { HyperlivelyState } from 'src/types';
 
-import Interpreter from './Interpreter';
+import InterpretationTrigger from './InterpretationTrigger';
 
 const mapStateToProps = (state: HyperlivelyState) => ({
 	handwritingRecognitionEnabled: state.ui.handwritingRecognition,
@@ -32,4 +32,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps,
-)(Interpreter);
+)(InterpretationTrigger);

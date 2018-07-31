@@ -9,26 +9,21 @@ import type {
 	FunctionConfiguration, RecognitionResult, Functions, Parameters, ActionMapping,
 } from 'src/types';
 
-type InterpretationChooserAdditionalProps = {
+export type InterpretationTriggerProps = {
 	specificActions: Array<ActionMapping>,
 	parameters: Parameters,
 	functions: Functions,
-	children: React.Node,
-}
-
-export type InterpreterProps = InterpretationChooserAdditionalProps & {
-	performAction: () => void,
 	showInterpreter: boolean,
 	interpretations: RecognitionResult,
+	performAction: () => void,
 	setInterval: (() => void, number) => number,
 	clearInterval: (interval: number) => void,
 	onInterpretationDone: (boolean) => void,
 }
 
-const defaultProps = (): InterpreterProps => ({
+const defaultProps = (): InterpretationTriggerProps => ({
 	performAction: () => undefined,
 	showInterpreter: false,
-	children: null,
 	interpretations: {
 		texts: [],
 		shapes: [],
@@ -41,7 +36,7 @@ const defaultProps = (): InterpreterProps => ({
 	clearInterval: () => {},
 });
 
-const Interpreter = (props: InterpreterProps = defaultProps()) => {
+const InterpretationTrigger = (props: InterpretationTriggerProps = defaultProps()) => {
 	const {
 		onInterpretationDone, setInterval, clearInterval, performAction,
 		specificActions, functions, parameters,
@@ -99,4 +94,4 @@ const Interpreter = (props: InterpreterProps = defaultProps()) => {
 	);
 };
 
-export default Interpreter;
+export default InterpretationTrigger;
