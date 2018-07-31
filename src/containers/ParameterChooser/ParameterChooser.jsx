@@ -7,7 +7,6 @@ import type {
 } from 'src/types';
 import { type JSONObject } from 'src/components/JsonPropertyChooser';
 import { PATH_DELIMITER } from 'src/constants/configuration';
-import { valueAtPath } from 'src/components/JsonPropertyChooser/choosingActions';
 
 import PrefixedJSONPropertyChooser from './PrefixedJSONPropertyChooser';
 
@@ -134,6 +133,7 @@ export default (props: ParameterChooserProps = defaultProps()) => {
 	}, {});
 
 	const onParameterChoose = (checked) => {
+		const valueAtPath = (obj: Object, path: string) => path.split(PATH_DELIMITER).reduce((subtree, key) => subtree[key], obj);
 		const leafes = checked.map(checkedKey => valueAtPath(jsonTree, checkedKey));
 		const values = leafes.map(leaf => (Number.isNaN(parseInt(leaf, 10)) ? leaf.toString() : Number.parseInt(leaf.toString(), 10)));
 		props.onParameterChoose(values);

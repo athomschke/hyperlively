@@ -1,13 +1,10 @@
 // @flow
-import {
-	last, keys, map, filter, isEqual, findIndex,
-} from 'lodash';
+import { last, keys } from 'lodash';
 
 import { PATH_DELIMITER } from 'src/constants/configuration';
 import type {
 	ReactTreeNodeFormat,
 	ReactTreeLeafFormat,
-	JSONPath,
 	SortedPath,
 } from 'src/types';
 
@@ -15,19 +12,6 @@ const extendedPath = (path?: string, key: string) => [
 	...(path ? path.split(PATH_DELIMITER) : []),
 	key,
 ].join(PATH_DELIMITER);
-
-export const valueAtPath = (obj: Object, path: string) => path.split(PATH_DELIMITER).reduce((subtree, key) => subtree[key], obj);
-
-export const findArraysIndex = (
-	containingArray: JSONPath,
-	containedArray: Array<any>,
-): number => findIndex(containingArray, possibleMatch => isEqual(possibleMatch, containedArray));
-
-export const findArraysEndingOnItem = (
-	arrays: JSONPath,
-	item: string,
-	depth: number,
-): JSONPath => filter(arrays, matchingCheck => (last(matchingCheck) === item) && matchingCheck.length === depth + 1);
 
 const formatTreeNode = (
 	object: Object,
@@ -75,30 +59,6 @@ export const formatTreeLeaf = (
 		isLeaf: true,
 	};
 };
-
-export const getPathToProperty = (
-	nestedArrayPath: Array<number>,
-	arrayedJsonTree: Array<ReactTreeNodeFormat | ReactTreeLeafFormat>,
-): Array<string> => {
-	let node = {
-		children: arrayedJsonTree,
-	};
-	return map(nestedArrayPath, (index) => {
-		const children: any = node.children;
-		if (children && children.length > 0) {
-			node = children[index];
-		} else {
-			throw new Error('cannot access json property');
-		}
-		return node.key;
-	});
-};
-
-export const arraysWithStringAtIndex = (
-	arrays: Array<Array<string>>,
-	string: string,
-	index: number,
-): Array<Array<string>> => filter(arrays, (array: Array<string>) => array[index] === string);
 
 export const formatObject = (
 	anObject: Object,
