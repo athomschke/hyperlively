@@ -5,8 +5,8 @@ import {
 } from 'lodash';
 
 import * as actionCreators from 'src/actionCreators';
-import type { FunctionConfiguration, TreeParameter, ActionMapping } from 'src/types';
-import JsonPropertyChooser from 'src/components/JsonPropertyChooser';
+import type { FunctionConfiguration, ActionMapping } from 'src/types';
+import PrefixedJsonPropertyChooser from 'src/containers/ParameterChooser/PrefixedJSONPropertyChooser';
 
 const getArgs = functionString => functionString.split('(')[1].split(')')[0].split(',');
 
@@ -66,24 +66,28 @@ export default class ActionChooser extends PureComponent<Props> {
 		onCheckedPathsChange: () => {},
 	}
 
-	onFunctionsChoose(signatures: Array<TreeParameter>) {
-		this.props.onFunctionsChoose(formattedSignatures(signatures.map(ea => `${ea}`)));
+	onFunctionsChoose(signatures: Array<string>) {
+		this.props.onFunctionsChoose(formattedSignatures(signatures));
 	}
 
 	props: Props
 
 	render() {
+		const actions = allActions(this.props.specificActions);
+		const jsonTree = { actions };
+
 		return (
-			<JsonPropertyChooser
-				onParameterChoose={(parameters: Array<TreeParameter>) => {
+			<PrefixedJsonPropertyChooser
+				prefixes={['actions']}
+				onParameterChoose={(parameters: Array<string>) => {
 					this.onFunctionsChoose(parameters);
 				}}
 				onExpandedPathsChange={this.props.onExpandedPathsChange}
 				onCheckedPathsChange={this.props.onCheckedPathsChange}
-				checkedPaths={this.props.checkedPaths.map((path, index) => ({ path, globalIndex: index }))}
+				checkedPaths={this.props.checkedPaths}
 				expandedPaths={this.props.expandedPaths}
 				position={undefined}
-				jsonTree={allActions(this.props.specificActions)}
+				jsonTree={jsonTree}
 			/>);
 	}
 }

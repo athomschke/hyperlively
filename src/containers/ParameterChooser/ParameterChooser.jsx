@@ -7,6 +7,7 @@ import type {
 } from 'src/types';
 import { type JSONObject } from 'src/components/JsonPropertyChooser';
 import { PATH_DELIMITER } from 'src/constants/configuration';
+import ActionChooser from 'src/containers/ActionChooser';
 
 import PrefixedJSONPropertyChooser from './PrefixedJSONPropertyChooser';
 
@@ -164,6 +165,7 @@ export default (props: ParameterChooserProps = defaultProps()) => {
 						top: groupedChoosersProps[groupKey][0].position.y,
 					}}
 				>
+					<ActionChooser />
 					{groupedChoosersProps[groupKey].map(chooserProps => (
 						<PrefixedJSONPropertyChooser {...chooserProps} onParameterChoose={onParameterChoose} position={null} />
 					))}

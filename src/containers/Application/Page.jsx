@@ -14,7 +14,6 @@ import ShowInterpreter from 'src/containers/ShowInterpreter';
 import Threshold from 'src/containers/Threshold';
 import Window from 'src/containers/Window';
 import AppConfiguration from 'src/containers/AppConfiguration';
-import ActionChooser from 'src/containers/ActionChooser';
 import ParameterChooser from 'src/containers/ParameterChooser';
 import InterpretationDisplay from 'src/containers/InterpretationDisplay';
 import type { Sketch, Stroke } from 'src/types';
@@ -28,7 +27,6 @@ export const getSelectedStrokes = (sketches: Array<Sketch>) => filter(flatten(ma
 const renderInterpreter = (selectedStrokes: Array<Stroke>, lastStrokes: Array<Stroke>) => (
 	<Interpreter>
 		<InterpretationDisplay />
-		<ActionChooser />
 		<ParameterChooser
 			lastStrokes={lastStrokes}
 			selectedStrokes={selectedStrokes}

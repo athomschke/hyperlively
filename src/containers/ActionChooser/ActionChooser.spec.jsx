@@ -4,7 +4,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { spy } from 'sinon';
 
-import JsonPropertyChooser from 'src/components/JsonPropertyChooser';
+import PrefixedJSONPropertyChooser from 'src/containers/ParameterChooser/PrefixedJSONPropertyChooser';
 import * as actionCreators from 'src/actionCreators';
 
 import ActionChooser from './ActionChooser';
@@ -15,14 +15,15 @@ describe('Action Chooser', () => {
 	describe('showing the action chooser', () => {
 		it('renders a list', () => {
 			const actionChooser = shallowWithProps({});
-			const list = actionChooser.find(JsonPropertyChooser);
+			const list = actionChooser.find(PrefixedJSONPropertyChooser);
 			expect(Object.keys(list.props().jsonTree).length).to.not.equal(0);
 		});
 
 		it('renders an item for each available action type', () => {
 			const actionChooser = shallowWithProps({});
-			const list = actionChooser.find(JsonPropertyChooser);
-			const items = Object.keys(list.props().jsonTree);
+			const list = actionChooser.find(PrefixedJSONPropertyChooser);
+			const items = Object.keys(list.props().jsonTree.actions);
+
 			expect(items).to.have.length(Object.keys(actionCreators).length);
 		});
 
@@ -33,9 +34,9 @@ describe('Action Chooser', () => {
 					actionNames: ['addSceneAt', 'nextScene'],
 				}],
 			});
-			const list = actionChooser.find(JsonPropertyChooser);
+			const list = actionChooser.find(PrefixedJSONPropertyChooser);
 			const hardcodedActionsLength = Object.keys(actionCreators).length;
-			const allItems = list.props().jsonTree;
+			const allItems = list.props().jsonTree.actions;
 			expect(Object.keys(allItems)).to.have.length(hardcodedActionsLength + 1);
 			expect(allItems[hardcodedActionsLength]).to.equal('addSceneAtThenNext (number)');
 		});
@@ -47,9 +48,9 @@ describe('Action Chooser', () => {
 					actionNames: ['A', 'B'],
 				}],
 			});
-			const list = actionChooser.find(JsonPropertyChooser);
+			const list = actionChooser.find(PrefixedJSONPropertyChooser);
 			const hardcodedActionsLength = Object.keys(actionCreators).length;
-			const allItems = list.props().jsonTree;
+			const allItems = list.props().jsonTree.actions;
 			expect(Object.keys(allItems)).to.have.length(hardcodedActionsLength + 1);
 			expect(allItems[hardcodedActionsLength]).to.equal('firstAThenB ()');
 		});
@@ -59,7 +60,7 @@ describe('Action Chooser', () => {
 		it('performs the action', () => {
 			const actionChooser = shallowWithProps({});
 			spy(actionChooser.instance(), 'onFunctionsChoose');
-			const list = actionChooser.find(JsonPropertyChooser);
+			const list = actionChooser.find(PrefixedJSONPropertyChooser);
 			list.props().onParameterChoose(['hide (strokes)']);
 			expect(actionChooser.instance().onFunctionsChoose.callCount).to.equal(1);
 		});

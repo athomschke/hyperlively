@@ -12,19 +12,6 @@ import type {
 import PrefixedJSONPropertyChooser from './PrefixedJSONPropertyChooser';
 import ParameterChooser, { type ParameterChooserProps } from './ParameterChooser';
 
-const defaultProps = (): ParameterChooserProps => ({
-	strokes: [],
-	parameters: [],
-	onParameterChoose: () => undefined,
-	onCheckedPathsChange: () => undefined,
-	onExpandedPathsChange: () => undefined,
-	lastStrokes: [],
-	selectedStrokes: [],
-	checkedPaths: [],
-	expandedPaths: [],
-	interpretation: { shapes: [], texts: [] },
-});
-
 const STROKE_ID = 123;
 
 const dummyStroke = (): Stroke => ({
@@ -43,12 +30,25 @@ const dummyStroke = (): Stroke => ({
 	finished: true,
 });
 
+const defaultProps = (): ParameterChooserProps => ({
+	strokes: [dummyStroke()],
+	selectedStrokes: [dummyStroke()],
+	parameters: [],
+	onParameterChoose: () => undefined,
+	onCheckedPathsChange: () => undefined,
+	onExpandedPathsChange: () => undefined,
+	lastStrokes: [],
+	checkedPaths: [],
+	expandedPaths: [],
+	interpretation: { shapes: [], texts: [] },
+});
+
 const shallowWithProps = (props: ParameterChooserProps) => shallow(<ParameterChooser {...props} />);
 
 describe('Parameter Chooser Component', () => {
 	describe('Rendering', () => {
 		it('renders no prefixed json property choosers per defult', () => {
-			const parameterChooser = shallowWithProps(defaultProps());
+			const parameterChooser = shallowWithProps({ ...defaultProps(), selectedStrokes: [], strokes: [] });
 			const jsonPropertyChooser = parameterChooser.find(PrefixedJSONPropertyChooser);
 
 			expect(jsonPropertyChooser).to.have.length(0);
@@ -104,7 +104,13 @@ describe('Parameter Chooser Component', () => {
 
 		it('renders a shapes interpretation chooser', () => {
 			const interpretation: RecognitionState = { texts: [], shapes: [dummyShape()] };
-			const parameterChooser = shallowWithProps({ ...defaultProps(), strokes: [dummyStroke()], interpretation });
+			const aStroke = dummyStroke();
+			const parameterChooser = shallowWithProps({
+				...defaultProps(),
+				strokes: [aStroke],
+				selectedStrokes: [aStroke],
+				interpretation,
+			});
 
 			const interpretationsChooser = parameterChooser
 				.find(PrefixedJSONPropertyChooser)
