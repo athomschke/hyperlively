@@ -86,21 +86,35 @@ export default (props: ParameterChooserProps = defaultProps()) => {
 		return overlappingPosition;
 	};
 
-	const getShapeChoosersProps = () => props.interpretation.shapes.map((shapeResult, i) => ({
-		...props,
-		key: ['interpretation', 'shapes', `${i}`].join(PATH_DELIMITER),
-		prefixes: ['interpretation', 'shapes', `${i}`],
-		jsonTree,
-		position: getInterpretationPosition(shapeResult, props.strokes),
-	}));
+	const getShapeChoosersProps = (): Array<Object> => props.interpretation.shapes
+		// .filter(shapeResult => props.selectedStrokes.find(selectedStroke => shapeResult.strokeIds.indexOf(selectedStroke.id) >= 0))
+		.map((shapeResult, i) => {
+			const strokesAreSelected = props.selectedStrokes.find(selectedStroke => shapeResult.strokeIds.indexOf(selectedStroke.id) >= 0);
+			return strokesAreSelected && {
+				...props,
+				key: ['interpretation', 'shapes', `${i}`].join(PATH_DELIMITER),
+				prefixes: ['interpretation', 'shapes', `${i}`],
+				jsonTree,
+				position: getInterpretationPosition(shapeResult, props.strokes),
+			};
+		})
+		.filter(Boolean)
+		.filter(shapeChooserProps => shapeChooserProps);
 
-	const getTextChooserProps = () => props.interpretation.texts.map((textResult, i) => ({
-		...props,
-		key: ['interpretation', 'texts', `${i}`].join(PATH_DELIMITER),
-		prefixes: ['interpretation', 'texts', `${i}`],
-		jsonTree,
-		position: getInterpretationPosition(textResult, props.strokes),
-	}));
+	const getTextChooserProps = (): Array<Object> => props.interpretation.texts
+		// .filter(shapeResult => props.selectedStrokes.find(selectedStroke => shapeResult.strokeIds.indexOf(selectedStroke.id) >= 0))
+		.map((textResult, i) => {
+			const strokesAreSelected = props.selectedStrokes.find(selectedStroke => textResult.strokeIds.indexOf(selectedStroke.id) >= 0);
+			return strokesAreSelected && {
+				...props,
+				key: ['interpretation', 'texts', `${i}`].join(PATH_DELIMITER),
+				prefixes: ['interpretation', 'texts', `${i}`],
+				jsonTree,
+				position: getInterpretationPosition(textResult, props.strokes),
+			};
+		})
+		.filter(Boolean)
+		.filter(shapeChooserProps => shapeChooserProps);
 
 	const getSelectedStrokesChoosersProps = () => {
 		if (props.selectedStrokes.length > 0) {
@@ -116,9 +130,9 @@ export default (props: ParameterChooserProps = defaultProps()) => {
 	};
 
 	const choosersProps = [
+		...getSelectedStrokesChoosersProps(),
 		...getShapeChoosersProps(),
 		...getTextChooserProps(),
-		...getSelectedStrokesChoosersProps(),
 	];
 
 	const groupedChoosersProps = choosersProps.reduce((groupedResult, chooserProps) => {
