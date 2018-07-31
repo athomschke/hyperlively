@@ -3,6 +3,7 @@ import React from 'react';
 
 import type { FunctionConfiguration, ActionMapping } from 'src/types';
 import LabeledJsonPropertyChooser from 'src/components/LabeledJsonPropertyChooser';
+import { PATH_DELIMITER } from 'src/constants/configuration';
 
 import { allActions, formattedSignatures } from './actionSignatures';
 
@@ -16,11 +17,14 @@ type Props = {
 }
 
 const ActionChooser = (props: Props) => {
-	const onFunctionsChoose = (signatures: Array<string>) => {
-		props.onFunctionsChoose(formattedSignatures(signatures));
-	};
-
 	const actions = allActions(props.specificActions);
+
+	const onFunctionsChoose = (paths: Array<string>) => {
+		const signatures = paths.map(
+			(path: string) => path.split(PATH_DELIMITER).reduce((jsonObject, pathPart) => jsonObject[pathPart], actions),
+		);
+		props.onFunctionsChoose(formattedSignatures(((signatures: any): Array<string>)));
+	};
 
 	return (
 		<LabeledJsonPropertyChooser

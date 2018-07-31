@@ -20,7 +20,7 @@ const ploma = scopeToActions((state: PlomaState, action: PLOMA_ACTION) => {
 	switch (action.type) {
 	case TOGGLE_PLOMA:
 		return {
-			usePloma: action.boolean,
+			usePloma: !!action.boolean,
 			uniqueCanvasFactor: state.uniqueCanvasFactor,
 		};
 	default:
