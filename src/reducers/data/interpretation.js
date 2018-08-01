@@ -1,14 +1,17 @@
 // @flow
 import scopeToActions from 'src/reducers/scopeToActions';
 import {
-	toggleInterpreter, appendPoint, createStroke, receiveTextCandidates, receiveShapeCandidates,
+	toggleInterpreter, receiveTextCandidates, receiveShapeCandidates, clearRecognitionResults,
 } from 'src/actionCreators';
 import {
-	APPEND_POINT, APPEND_STROKE, RECEIVE_TEXT_CANDIDATES, RECEIVE_SHAPE_CANDIDATES,
+	RECEIVE_TEXT_CANDIDATES, RECEIVE_SHAPE_CANDIDATES, CLEAR_RECOGNITION_RESULTS,
 } from 'src/constants/actionTypes';
 import { CANDIDATES_COUNT } from 'src/constants/handwriting';
 import type {
-	TOGGLE_INTERPRETER_ACTION, RECEIVE_TEXT_CANDIDATES_ACTION, RECEIVE_SHAPE_CANDIDATES_ACTION, APPEND_POINT_ACTION, APPEND_STROKE_ACTION,
+	TOGGLE_INTERPRETER_ACTION,
+	RECEIVE_TEXT_CANDIDATES_ACTION,
+	RECEIVE_SHAPE_CANDIDATES_ACTION,
+	CLEAR_RECOGNITION_RESULTS_ACTION,
 } from 'src/actionTypeDefinitions';
 import type {
 	ShapeCandidateState, RecognitionState, TextCandidateState, TextCandidate, ShapeCandidate,
@@ -23,12 +26,11 @@ export const interpretationActions = {
 	TOGGLE_INTERPRETER: toggleInterpreter,
 	RECEIVE_TEXT_CANDIDATES: receiveTextCandidates,
 	RECEIVE_SHAPE_CANDIDATES: receiveShapeCandidates,
-	APPEND_POINT: appendPoint,
-	APPEND_STROKE: createStroke,
+	CLEAR_RECOGNITION_RESULTS: clearRecognitionResults,
 };
 
 export type INTERPRETATION_ACTION = TOGGLE_INTERPRETER_ACTION | RECEIVE_TEXT_CANDIDATES_ACTION |
-APPEND_POINT_ACTION | APPEND_STROKE_ACTION | RECEIVE_SHAPE_CANDIDATES_ACTION
+RECEIVE_SHAPE_CANDIDATES_ACTION | CLEAR_RECOGNITION_RESULTS_ACTION
 
 type InterpretationReducer = (state: RecognitionState, aciton: INTERPRETATION_ACTION) =>
 	RecognitionState;
@@ -62,8 +64,7 @@ const scopedInterpretation: InterpretationReducer = (state, action) => {
 	switch (action.type) {
 	case RECEIVE_TEXT_CANDIDATES: return textCandidates(state, action);
 	case RECEIVE_SHAPE_CANDIDATES: return shapeCandidates(state, action);
-	case APPEND_POINT:
-	case APPEND_STROKE:
+	case CLEAR_RECOGNITION_RESULTS:
 		return initialInterpretationState();
 	default:
 		return state;

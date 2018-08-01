@@ -1,27 +1,16 @@
 // @flow
 import * as React from 'react';
 
-import type {
-	RecognitionResult, Sketch, TextCandidates, ShapeCandidates,
-} from 'src/types';
+import type { Sketch } from 'src/types';
 
 export type HandwritingRecognitionTriggerProps = {
-	onHandwritingRecognitionClick: (
-		sketches: Array<Sketch>,
-		texts: TextCandidates,
-		shapes: ShapeCandidates,
-	) => void;
-	interpretation: RecognitionResult;
+	onHandwritingRecognitionClick: (sketches: Array<Sketch>) => void;
 	sketches: Array<Sketch>
 }
 
 const HandwritingRecognitionTrigger = (props: HandwritingRecognitionTriggerProps) => {
 	const onHandwritingRecognitionClick = () => {
-		props.onHandwritingRecognitionClick(
-			props.sketches,
-			props.interpretation.texts,
-			props.interpretation.shapes,
-		);
+		props.onHandwritingRecognitionClick(props.sketches);
 	};
 
 	return (

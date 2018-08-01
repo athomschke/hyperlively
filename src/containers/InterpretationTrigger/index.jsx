@@ -24,9 +24,7 @@ const mapDispatchToProps = dispatch => ({
 			dispatch(actionCreators.setObserveMutations(true));
 		}
 	},
-	onInterpretationDone: (bool) => {
-		dispatch(actionCreators.toggleInterpreter(bool));
-	},
+	onInterpretationDone: () => {},
 });
 
 export default connect(

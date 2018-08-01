@@ -160,6 +160,10 @@ export type RECEIVE_TEXT_CANDIDATES_ACTION = {
 	strokeIds: number[];
 }
 
+export type CLEAR_RECOGNITION_RESULTS_ACTION = {
+	type: 'CLEAR_RECOGNITION_RESULTS'
+}
+
 export type APPEND_SPECIFC_ACTION_ACTION = {
 	type: 'APPEND_SPECIFC_ACTION',
 	actionName: string,

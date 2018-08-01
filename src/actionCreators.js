@@ -91,6 +91,10 @@ export function requestShapeCandidates(strokes: Array<Stroke>) {
 	return { type: ActionTypes.REQUEST_SHAPE_CANDIDATES, strokes };
 }
 
+export function clearRecognitionResults() {
+	return { type: ActionTypes.CLEAR_RECOGNITION_RESULTS };
+}
+
 export const updatePosition = (
 	strokes: Stroke[],
 	originX: number,

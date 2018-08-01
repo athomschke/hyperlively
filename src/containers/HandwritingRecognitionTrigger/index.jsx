@@ -1,7 +1,11 @@
 // @flow
 import { connect } from 'react-redux';
 
-import { toggleInterpreter, requestTextCandidates, requestShapeCandidates } from 'src/actionCreators';
+import {
+	requestTextCandidates,
+	requestShapeCandidates,
+	clearRecognitionResults,
+} from 'src/actionCreators';
 import type { HyperlivelyState } from 'src/types';
 
 import HandwritingRecognitionTrigger from './HandwritingRecognitionTrigger';
@@ -11,18 +15,14 @@ const mapStateToProps = (state: HyperlivelyState) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-	onHandwritingRecognitionClick: (sketches, texts, shapes) => {
-		if (shapes.length <= 0) {
-			sketches.forEach((sketch) => {
-				dispatch(requestShapeCandidates(sketch.strokes.filter(stroke => !stroke.hidden)));
-			});
-		}
-		if (texts.length <= 0) {
-			sketches.forEach((sketch) => {
-				dispatch(requestTextCandidates(sketch.strokes.filter(stroke => !stroke.hidden)));
-			});
-		}
-		dispatch(toggleInterpreter(true));
+	onHandwritingRecognitionClick: (sketches) => {
+		dispatch(clearRecognitionResults());
+		sketches.forEach((sketch) => {
+			dispatch(requestShapeCandidates(sketch.strokes.filter(stroke => !stroke.hidden)));
+		});
+		sketches.forEach((sketch) => {
+			dispatch(requestTextCandidates(sketch.strokes.filter(stroke => !stroke.hidden)));
+		});
 	},
 });
 
