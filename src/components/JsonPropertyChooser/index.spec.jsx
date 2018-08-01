@@ -21,6 +21,7 @@ const exampleTree = {
 };
 
 const defaultProps = (): JsonPropertyChooserProps => ({
+	position: undefined,
 	onParameterChoose: () => undefined,
 	onCheckedPathsChange: () => undefined,
 	onExpandedPathsChange: () => undefined,

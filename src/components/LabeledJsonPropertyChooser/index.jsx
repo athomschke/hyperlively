@@ -5,7 +5,7 @@ import { without } from 'lodash';
 import { PATH_DELIMITER } from 'src/constants/configuration';
 import PrefixedJSONPropertyChooser, { type PrefixedJSONPropertyChooserProps } from 'src/components/PrefixedJSONPropertyChooser';
 
-type LabeledJsonPropertyChooserProps = PrefixedJSONPropertyChooserProps & {
+export type LabeledJsonPropertyChooserProps = PrefixedJSONPropertyChooserProps & {
 	label: string,
 }
 

@@ -8,12 +8,13 @@ import LabeledJsonPropertyChooser from 'src/components/LabeledJsonPropertyChoose
 import * as actionCreators from 'src/actionCreators';
 import type { FunctionConfiguration } from 'src/types';
 
-import ActionChooser from './ActionChooser';
+import ActionChooser, { type ActionChooserProps } from './ActionChooser';
 
-const defaultProps = () => ({
+const defaultProps = (): ActionChooserProps => ({
 	onFunctionsChoose: (_actionSignatures: Array<FunctionConfiguration>) => {},
 	checkedPaths: [],
 	expandedPaths: [],
+	specificActions: [],
 	onExpandedPathsChange: () => {},
 	onCheckedPathsChange: () => {},
 });
@@ -66,7 +67,7 @@ describe('Action Chooser', () => {
 	});
 
 	describe('Choosing an action', () => {
-		it('performs the action', () => {
+		it('performs the second action', () => {
 			const onFunctionsChoose = spy();
 			const actionChooser = shallowWithProps({
 				...defaultProps(),
@@ -74,7 +75,7 @@ describe('Action Chooser', () => {
 			});
 
 			const list = actionChooser.find(LabeledJsonPropertyChooser);
-			list.props().onParameterChoose(['hide (strokes)']);
+			list.prop('onParameterChoose')(['1']);
 			expect(onFunctionsChoose.callCount).to.equal(1);
 		});
 	});

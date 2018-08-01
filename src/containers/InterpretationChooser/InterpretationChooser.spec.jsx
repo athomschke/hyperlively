@@ -8,7 +8,7 @@ import { stroke } from 'src/reducers/data/strokes/stroke';
 import type {
 	Stroke, RecognitionState, TextCandidateState, ShapeCandidateState,
 } from 'src/types';
-import PrefixedJSONPropertyChooser from 'src/components/PrefixedJSONPropertyChooser';
+import ParameterChooser from 'src/containers/ParameterChooser';
 
 import InterpretationChooser, { type InterpretationChooserProps } from './InterpretationChooser';
 
@@ -45,21 +45,21 @@ const defaultProps = (): InterpretationChooserProps => ({
 
 const shallowWithProps = (props: InterpretationChooserProps) => shallow(<InterpretationChooser {...props} />);
 
-describe('Parameter Chooser Component', () => {
+describe('InterpretationChooser Component', () => {
 	describe('Rendering', () => {
-		it('renders no prefixed json property choosers per defult', () => {
-			const parameterChooser = shallowWithProps({ ...defaultProps(), selectedStrokes: [], strokes: [] });
-			const jsonPropertyChooser = parameterChooser.find(PrefixedJSONPropertyChooser);
+		it('renders no ParameterChooser per defult', () => {
+			const interpretationChooser = shallowWithProps({ ...defaultProps(), selectedStrokes: [], strokes: [] });
+			const jsonPropertyChooser = interpretationChooser.find(ParameterChooser);
 
 			expect(jsonPropertyChooser).to.have.length(0);
 		});
 	});
 
 	describe('Drawing a stroke', () => {
-		it('renders a selected stroke chooser', () => {
+		it('renders a ParameterChooser for selectedStrokes', () => {
 			const selectedStrokes = [dummyStroke()];
-			const parameterChooser = shallowWithProps({ ...defaultProps(), selectedStrokes });
-			const selectedStrokesChooser = parameterChooser.find(PrefixedJSONPropertyChooser).findWhere(
+			const interpretationChooser = shallowWithProps({ ...defaultProps(), selectedStrokes });
+			const selectedStrokesChooser = interpretationChooser.find(ParameterChooser).findWhere(
 				n => n.prop('prefixes')[0] === 'selectedStrokes',
 			);
 
@@ -68,15 +68,15 @@ describe('Parameter Chooser Component', () => {
 
 		it('puts the selected stroke chooser into the middle of the strokes', () => {
 			const selectedStrokes = [dummyStroke()];
-			const parameterChooser = shallowWithProps({ ...defaultProps(), selectedStrokes });
-			const selectedStrokesChooser = parameterChooser.find(PrefixedJSONPropertyChooser).findWhere(
+			const interpretationChooser = shallowWithProps({ ...defaultProps(), selectedStrokes });
+			const selectedStrokesChooser = interpretationChooser.find(ParameterChooser).findWhere(
 				n => n.prop('prefixes')[0] === 'selectedStrokes',
 			);
-			const positioner = parameterChooser.find('div').findWhere(
+			const positioner = interpretationChooser.find('div').findWhere(
 				n => n.prop('style') && n.prop('style').position === 'absolute',
 			);
 
-			expect(selectedStrokesChooser.prop('position')).to.equal(null);
+			expect(selectedStrokesChooser.prop('position')).to.be.undefined();
 			expect(positioner.prop('style').left).to.equal(0);
 			expect(positioner.prop('style').top).to.equal(5);
 		});
@@ -105,15 +105,15 @@ describe('Parameter Chooser Component', () => {
 		it('renders a shapes interpretation chooser', () => {
 			const interpretation: RecognitionState = { texts: [], shapes: [dummyShape()] };
 			const aStroke = dummyStroke();
-			const parameterChooser = shallowWithProps({
+			const interpretationChooser = shallowWithProps({
 				...defaultProps(),
 				strokes: [aStroke],
 				selectedStrokes: [aStroke],
 				interpretation,
 			});
 
-			const interpretationsChooser = parameterChooser
-				.find(PrefixedJSONPropertyChooser)
+			const interpretationsChooser = interpretationChooser
+				.find(ParameterChooser)
 				.findWhere(n => n.prop('prefixes')[0] === 'interpretation' && n.prop('prefixes')[1] === 'shapes');
 
 			expect(interpretationsChooser.length).to.equal(1);
@@ -121,16 +121,16 @@ describe('Parameter Chooser Component', () => {
 
 		it('puts the shapes interpretation chooser into the middle of the shapes stroke', () => {
 			const interpretation: RecognitionState = { texts: [], shapes: [dummyShape()] };
-			const parameterChooser = shallowWithProps({ ...defaultProps(), strokes: [dummyStroke()], interpretation });
+			const interpretationChooser = shallowWithProps({ ...defaultProps(), strokes: [dummyStroke()], interpretation });
 
-			const interpretationsChooser = parameterChooser
-				.find(PrefixedJSONPropertyChooser)
+			const interpretationsChooser = interpretationChooser
+				.find(ParameterChooser)
 				.findWhere(n => n.prop('prefixes')[0] === 'interpretation' && n.prop('prefixes')[1] === 'shapes');
-			const positioner = parameterChooser.find('div').findWhere(
+			const positioner = interpretationChooser.find('div').findWhere(
 				n => n.prop('style') && n.prop('style').position === 'absolute',
 			);
 
-			expect(interpretationsChooser.prop('position')).to.equal(null);
+			expect(interpretationsChooser.prop('position')).to.be.undefined();
 			expect(positioner.prop('style').left).to.equal(0);
 			expect(positioner.prop('style').top).to.equal(5);
 		});
@@ -148,10 +148,10 @@ describe('Parameter Chooser Component', () => {
 
 		it('renders a texts interpretation chooser', () => {
 			const interpretation: RecognitionState = { texts: [dummyText()], shapes: [] };
-			const parameterChooser = shallowWithProps({ ...defaultProps(), strokes: [dummyStroke()], interpretation });
+			const interpretationChooser = shallowWithProps({ ...defaultProps(), strokes: [dummyStroke()], interpretation });
 
-			const interpretationsChooser = parameterChooser
-				.find(PrefixedJSONPropertyChooser)
+			const interpretationsChooser = interpretationChooser
+				.find(ParameterChooser)
 				.findWhere(n => n.prop('prefixes')[0] === 'interpretation' && n.prop('prefixes')[1] === 'texts');
 
 			expect(interpretationsChooser.length).to.equal(1);
@@ -159,16 +159,16 @@ describe('Parameter Chooser Component', () => {
 
 		it('puts the texts interpretation chooser to the position of the text connected strokes', () => {
 			const interpretation: RecognitionState = { texts: [dummyText()], shapes: [] };
-			const parameterChooser = shallowWithProps({ ...defaultProps(), strokes: [dummyStroke()], interpretation });
+			const interpretationChooser = shallowWithProps({ ...defaultProps(), strokes: [dummyStroke()], interpretation });
 
-			const interpretationsChooser = parameterChooser
-				.find(PrefixedJSONPropertyChooser)
+			const interpretationsChooser = interpretationChooser
+				.find(ParameterChooser)
 				.findWhere(n => n.prop('prefixes')[0] === 'interpretation' && n.prop('prefixes')[1] === 'texts');
-			const positioner = parameterChooser.find('div').findWhere(
+			const positioner = interpretationChooser.find('div').findWhere(
 				n => n.prop('style') && n.prop('style').position === 'absolute',
 			);
 
-			expect(interpretationsChooser.prop('position')).to.equal(null);
+			expect(interpretationsChooser.prop('position')).to.be.undefined();
 			expect(positioner.prop('style').left).to.equal(0);
 			expect(positioner.prop('style').top).to.equal(5);
 		});
@@ -191,7 +191,7 @@ describe('Parameter Chooser Component', () => {
 			};
 			const prefixedChooser = shallowWithProps({ ...props });
 
-			const chooser = prefixedChooser.find(PrefixedJSONPropertyChooser);
+			const chooser = prefixedChooser.find(ParameterChooser);
 			chooser.prop('onParameterChoose')([
 				'selectedStrokes --> 0 --> points --> 0 --> x',
 				'selectedStrokes --> 0 --> points --> 1 --> y',

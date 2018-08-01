@@ -1,42 +1,24 @@
 // @flow
-/* eslint-disable react/prop-types */
 import * as React from 'react';
 import {
 	map, forEach, concat, find,
 } from 'lodash';
 
 import type {
-	FunctionConfiguration, RecognitionResult, Functions, Parameters, ActionMapping,
+	FunctionConfiguration, Functions, Parameters, ActionMapping,
 } from 'src/types';
 
 export type InterpretationTriggerProps = {
 	specificActions: Array<ActionMapping>,
 	parameters: Parameters,
 	functions: Functions,
-	showInterpreter: boolean,
-	interpretations: RecognitionResult,
 	performAction: () => void,
 	setInterval: (() => void, number) => number,
 	clearInterval: (interval: number) => void,
 	onInterpretationDone: (boolean) => void,
 }
 
-const defaultProps = (): InterpretationTriggerProps => ({
-	performAction: () => undefined,
-	showInterpreter: false,
-	interpretations: {
-		texts: [],
-		shapes: [],
-	},
-	specificActions: [],
-	functions: [],
-	parameters: [],
-	onInterpretationDone: () => undefined,
-	setInterval: () => 0,
-	clearInterval: () => {},
-});
-
-const InterpretationTrigger = (props: InterpretationTriggerProps = defaultProps()) => {
+const InterpretationTrigger = (props: InterpretationTriggerProps) => {
 	const {
 		onInterpretationDone, setInterval, clearInterval, performAction,
 		specificActions, functions, parameters,

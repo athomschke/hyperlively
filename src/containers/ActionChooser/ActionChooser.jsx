@@ -7,7 +7,7 @@ import { PATH_DELIMITER } from 'src/constants/configuration';
 
 import { allActions, formattedSignatures } from './actionSignatures';
 
-type Props = {
+export type ActionChooserProps = {
 	onFunctionsChoose: (Array<FunctionConfiguration>) => void,
 	specificActions: Array<ActionMapping>,
 	checkedPaths: Array<string>,
@@ -16,7 +16,7 @@ type Props = {
 	onCheckedPathsChange: (_paths: Array<string>) => void,
 }
 
-const ActionChooser = (props: Props) => {
+const ActionChooser = (props: ActionChooserProps) => {
 	const actions = allActions(props.specificActions);
 
 	const onFunctionsChoose = (paths: Array<string>) => {

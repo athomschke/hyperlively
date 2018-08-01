@@ -1,5 +1,4 @@
 // @flow
-/* eslint-disable react/prop-types */
 import React from 'react';
 import { cloneDeep } from 'lodash';
 import Tree, { TreeNode } from 'rc-tree';
@@ -16,22 +15,13 @@ export type JSONObject = {
 }
 
 export type JsonPropertyChooserProps = {
-	position?: ?Coordinate,
+	position: ?Coordinate,
 	jsonTree: JSONObject,
 	expandedPaths: Array<string>,
 	checkedPaths: Array<SortedPath>,
 	onCheckedPathsChange: (checkedPaths: Array<string>) => void,
 	onExpandedPathsChange: (expandedPaths: Array<string>) => void,
 }
-
-const defaultProps = (): JsonPropertyChooserProps => ({
-	position: { x: NaN, y: NaN },
-	jsonTree: {},
-	expandedPaths: [],
-	checkedPaths: [],
-	onCheckedPathsChange: _parameters => undefined,
-	onExpandedPathsChange: _parameters => undefined,
-});
 
 const renderTreeNodes = (data: Array<ReactTreeLeafFormat | ReactTreeNodeFormat>) => data.map(nodeData => (
 	<TreeNode
@@ -42,7 +32,7 @@ const renderTreeNodes = (data: Array<ReactTreeLeafFormat | ReactTreeNodeFormat>)
 	</TreeNode>
 ));
 
-const JsonPropertyChooser = (props: JsonPropertyChooserProps = defaultProps()) => {
+const JsonPropertyChooser = (props: JsonPropertyChooserProps) => {
 	const getFormattedData = () => {
 		const rawData: Object = cloneDeep(props.jsonTree);
 		return formatObject(
