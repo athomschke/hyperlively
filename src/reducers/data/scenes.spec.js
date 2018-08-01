@@ -9,8 +9,8 @@ import { scenes } from './scenes';
 
 describe('scenes', () => {
 	describe('initial state', () => {
-		it('creates a scene without any strokes', () => {
-			expect(scenes(undefined, { type: '' })).to.deep.equal([]);
+		it('creates a scene with empty', () => {
+			expect(scenes(undefined, { type: '' })).to.deep.equal([{ strokes: [] }]);
 		});
 	});
 

@@ -17,7 +17,9 @@ export const scenesActions = {
 	ADD_SCENE_AT: select,
 };
 
-const initialScenesState = (): Array<Scene> => [];
+const initialScenesState = (): Array<Scene> => [{
+	strokes: [],
+}];
 
 type ScopedScenesReducer = (state: Array<Scene>, action: ScenesActionType) => Array<Scene>
 
