@@ -83,29 +83,28 @@ const InterpretationChooser = (props: InterpretationChooserProps) => {
 		position,
 	});
 
-	const getShapeChoosersProps = (): Array<PartialPrefixedJSONPropertyChooserProps> => props.interpretation.shapes
-		.map((shapeResult, i): ?PartialPrefixedJSONPropertyChooserProps => {
-			const strokesAreSelected = props.selectedStrokes.find(selectedStroke => shapeResult.strokeIds.indexOf(selectedStroke.id) >= 0);
-			return strokesAreSelected && getChooserProps(
-				['interpretation', 'shapes', `${i}`].join(PATH_DELIMITER),
-				['interpretation', 'shapes', `${i}`],
-				getStrokesPosition(props.strokes.filter(stroke => shapeResult.strokeIds.indexOf(stroke.id) >= 0)),
+	const getInterpretationsChoosersProps = (interpretations: Array<any>, prefixes) => interpretations.map(
+		(interpretation, i): ?PartialPrefixedJSONPropertyChooserProps => {
+			const strokesAreSelected = props.selectedStrokes.find(
+				selectedStroke => interpretation.strokeIds.indexOf(selectedStroke.id) >= 0,
 			);
-		})
-		.filter(Boolean)
-		.filter(shapeChooserProps => shapeChooserProps);
+			return strokesAreSelected && getChooserProps(
+				[...prefixes, `${i}`].join(PATH_DELIMITER),
+				[...prefixes, `${i}`],
+				getStrokesPosition(props.strokes.filter(stroke => interpretation.strokeIds.indexOf(stroke.id) >= 0)),
+			);
+		},
+	).filter(Boolean).filter(interpretationChooserProps => interpretationChooserProps);
 
-	const getTextChooserProps = (): Array<PartialPrefixedJSONPropertyChooserProps> => props.interpretation.texts
-		.map((textResult, i): ?PartialPrefixedJSONPropertyChooserProps => {
-			const strokesAreSelected = props.selectedStrokes.find(selectedStroke => textResult.strokeIds.indexOf(selectedStroke.id) >= 0);
-			return strokesAreSelected && getChooserProps(
-				['interpretation', 'texts', `${i}`].join(PATH_DELIMITER),
-				['interpretation', 'texts', `${i}`],
-				getStrokesPosition(props.strokes.filter(stroke => textResult.strokeIds.indexOf(stroke.id) >= 0)),
-			);
-		})
-		.filter(Boolean)
-		.filter(shapeChooserProps => shapeChooserProps);
+	const getShapeChoosersProps = (): Array<PartialPrefixedJSONPropertyChooserProps> => getInterpretationsChoosersProps(
+		props.interpretation.shapes,
+		['interpretation', 'shapes'],
+	);
+
+	const getTextChoosersProps = (): Array<PartialPrefixedJSONPropertyChooserProps> => getInterpretationsChoosersProps(
+		props.interpretation.texts,
+		['interpretation', 'texts'],
+	);
 
 	const getSelectedStrokesChoosersProps = () => (props.selectedStrokes.length > 0 ? [
 		getChooserProps('selectedStrokes', ['selectedStrokes'], getStrokesPosition(props.selectedStrokes)),
@@ -114,7 +113,7 @@ const InterpretationChooser = (props: InterpretationChooserProps) => {
 	const groupedChoosersProps = groupChoosersProps([
 		...getSelectedStrokesChoosersProps(),
 		...getShapeChoosersProps(),
-		...getTextChooserProps(),
+		...getTextChoosersProps(),
 	]);
 
 	const groupChoosersPropsbyType = choosersProps => choosersProps.reduce((accumulator, chooserProps) => ({
