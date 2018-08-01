@@ -6,7 +6,7 @@ import { PATH_DELIMITER } from 'src/constants/configuration';
 import type { SortedPath, Coordinate } from 'src/types';
 
 export type PrefixedJSONPropertyChooserProps = {
-	position?: Coordinate,
+	position?: ?Coordinate,
 	jsonTree: JSONObject,
 	expandedPaths: Array<string>,
 	prefixes: Array<string>,

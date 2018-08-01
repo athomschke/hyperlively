@@ -16,7 +16,7 @@ export type JSONObject = {
 }
 
 export type JsonPropertyChooserProps = {
-	position?: Coordinate,
+	position?: ?Coordinate,
 	jsonTree: JSONObject,
 	expandedPaths: Array<string>,
 	checkedPaths: Array<SortedPath>,
