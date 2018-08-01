@@ -10,19 +10,15 @@ import { PATH_DELIMITER } from 'src/constants/configuration';
 import InterpretationTrigger from 'src/containers/InterpretationTrigger';
 import ActionChooser from 'src/containers/ActionChooser';
 import InterpretationDisplay from 'src/containers/InterpretationDisplay';
-import PrefixedJSONPropertyChooser from 'src/components/PrefixedJSONPropertyChooser';
+import ParameterChooser from 'src/containers/ParameterChooser';
 
 export type InterpretationChooserStateProps = {
 	strokes: Array<Stroke>,
-	checkedPaths: Array<string>,
-	expandedPaths: Array<string>,
 	interpretation: RecognitionState,
 }
 
 export type InterpretationChooserDispatchProps = {
 	onParameterChoose: (parameters: Array<TreeParameter>) => void,
-	onCheckedPathsChange: (checkedPath: Array<string>) => void,
-	onExpandedPathsChange: (collapsedPath: Array<string>) => void,
 }
 
 export type InterpretationChooserProps = InterpretationChooserStateProps & InterpretationChooserDispatchProps & {
@@ -82,22 +78,6 @@ const InterpretationChooser = (props: InterpretationChooserProps) => {
 		props.onParameterChoose(values);
 	};
 
-	const renderParameterChooser = chooserPropsGroup => chooserPropsGroup.map((chooserProps) => {
-		// eslint-disable-next-line no-unused-vars
-		const { position, ...propsToPass } = chooserProps;
-		return (
-			<PrefixedJSONPropertyChooser
-				{...propsToPass}
-				expandedPaths={props.expandedPaths}
-				checkedPaths={props.checkedPaths}
-				onExpandedPathsChange={props.onExpandedPathsChange}
-				onCheckedPathsChange={props.onCheckedPathsChange}
-				onParameterChoose={handleOnParameterChoose}
-				jsonTree={jsonTree}
-			/>
-		);
-	});
-
 	const getChooserProps = (key, prefixes, position) => ({
 		key,
 		prefixes,
@@ -138,23 +118,42 @@ const InterpretationChooser = (props: InterpretationChooserProps) => {
 		...getTextChooserProps(),
 	]);
 
+	const renderChooserGroupAt = (groupKey, choosersProps, position) => (
+		<div
+			key={groupKey}
+			style={{
+				position: 'absolute',
+				left: position.x,
+				top: position.y,
+			}}
+		>
+			<InterpretationTrigger />
+			<InterpretationDisplay />
+			<ActionChooser />
+			{choosersProps.map(chooserProps => (
+				<ParameterChooser
+					key={chooserProps.key}
+					prefixes={chooserProps.prefixes}
+					onParameterChoose={handleOnParameterChoose}
+					jsonTree={jsonTree}
+				/>
+			))}
+		</div>
+	);
+
 	return (
 		<div style={{ display: 'inline' }}>
-			{Object.keys(groupedChoosersProps).map(groupKey => (
-				<div
-					key={groupKey}
-					style={{
-						position: 'absolute',
-						left: groupedChoosersProps[groupKey][0].position.x,
-						top: groupedChoosersProps[groupKey][0].position.y,
-					}}
-				>
-					<InterpretationTrigger />
-					<InterpretationDisplay />
-					<ActionChooser />
-					{renderParameterChooser(groupedChoosersProps[groupKey])}
-				</div>
-			))}
+			{
+				Object.keys(groupedChoosersProps).map((groupKey) => {
+					const position = groupedChoosersProps[groupKey][0].position;
+					const choosersProps = groupedChoosersProps[groupKey].map(chooserProps => ({
+						key: chooserProps.key,
+						prefixes: chooserProps.prefixes,
+					}));
+
+					return renderChooserGroupAt(groupKey, choosersProps, position);
+				})
+			}
 		</div>
 	);
 };
