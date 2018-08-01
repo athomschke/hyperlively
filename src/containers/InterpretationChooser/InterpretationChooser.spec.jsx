@@ -32,6 +32,7 @@ const dummyStroke = (): Stroke => ({
 
 const defaultProps = (): InterpretationChooserProps => ({
 	strokes: [dummyStroke()],
+	sketches: [],
 	selectedStrokes: [dummyStroke()],
 	parameters: [],
 	onParameterChoose: () => undefined,

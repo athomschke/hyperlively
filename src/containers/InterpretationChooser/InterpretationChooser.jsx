@@ -2,7 +2,7 @@
 import * as React from 'react';
 
 import type {
-	Stroke, RecognitionState, TreeParameter, Coordinate,
+	Stroke, RecognitionState, TreeParameter, Coordinate, Sketch,
 } from 'src/types';
 import { type JSONObject } from 'src/components/JsonPropertyChooser';
 import { PATH_DELIMITER } from 'src/constants/configuration';
@@ -22,6 +22,7 @@ export type InterpretationChooserDispatchProps = {
 
 export type InterpretationChooserProps = InterpretationChooserStateProps & InterpretationChooserDispatchProps & {
 	selectedStrokes: Array<Stroke>,
+	sketches: Array<Sketch>,
 }
 
 type PartialPrefixedJSONPropertyChooserProps = {
@@ -46,8 +47,8 @@ const getStrokesPosition = (strokes: Array<Stroke>): ?Coordinate => {
 	return undefined;
 };
 
-const parameterObject = (interpretation, selectedStrokes): JSONObject => {
-	const rawData: JSONObject = { interpretation };
+const parameterObject = (interpretation, selectedStrokes, sketches): JSONObject => {
+	const rawData: JSONObject = { interpretation, sketches };
 	if (selectedStrokes.length > 0) {
 		rawData.selectedStrokes = selectedStrokes;
 	}
@@ -66,7 +67,7 @@ const groupChoosersProps = ungroupedChoosersProps => ungroupedChoosersProps.redu
 }, {});
 
 const InterpretationChooser = (props: InterpretationChooserProps) => {
-	const jsonTree = (parameterObject(props.interpretation, props.selectedStrokes):JSONObject);
+	const jsonTree = (parameterObject(props.interpretation, props.selectedStrokes, props.sketches):JSONObject);
 
 	const handleOnParameterChoose = (parameters: Array<string>): void => {
 		const valueAtPath = (obj: Object, path: string) => path.split(PATH_DELIMITER).reduce((subtree, key) => subtree[key], obj);
@@ -106,12 +107,21 @@ const InterpretationChooser = (props: InterpretationChooserProps) => {
 		['interpretation', 'texts'],
 	);
 
+	const getSketchChooserProps = () => props.sketches.map(
+		(sketch, i) => (sketch.strokes.reduce((allVisible, stroke) => stroke.selected, true) ? {
+			key: 'sketches',
+			prefixes: ['sketches', `${i}`],
+			position: getStrokesPosition(sketch.strokes),
+		} : undefined),
+	).filter(Boolean).filter(chooserProps => chooserProps);
+
 	const getSelectedStrokesChoosersProps = () => (props.selectedStrokes.length > 0 ? [
 		getChooserProps('selectedStrokes', ['selectedStrokes'], getStrokesPosition(props.selectedStrokes)),
 	] : []);
 
 	const groupedChoosersProps = groupChoosersProps([
 		...getSelectedStrokesChoosersProps(),
+		...getSketchChooserProps(),
 		...getShapeChoosersProps(),
 		...getTextChoosersProps(),
 	]);

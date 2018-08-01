@@ -20,9 +20,10 @@ export type PageProps = {
 };
 export const getSelectedStrokes = (sketches: Array<Sketch>) => filter(flatten(map(sketches, 'strokes')), 'selected');
 
-const renderInterpreter = (selectedStrokes: Array<Stroke>) => (
+const renderInterpreter = (selectedStrokes: Array<Stroke>, sketches: Array<Sketch>) => (
 	<InterpretationChooser
 		selectedStrokes={selectedStrokes}
+		sketches={sketches}
 	/>
 );
 
@@ -32,7 +33,7 @@ const Page = (props: PageProps) => {
 		<div>
 			<Scene sketches={props.sketches} />
 			<Window sketches={props.sketches} />
-			{props.showInterpreter ? renderInterpreter(selectedStrokes) : null}
+			{props.showInterpreter ? renderInterpreter(selectedStrokes, props.sketches) : null}
 			<AppConfiguration>
 				<UndoRedo />
 				<Timeline />
