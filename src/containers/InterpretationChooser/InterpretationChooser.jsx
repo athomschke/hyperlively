@@ -125,16 +125,12 @@ const InterpretationChooser = (props: InterpretationChooserProps) => {
 	const renderPostitionParameterChoosersGroup = (choosersProps) => {
 		const typeGroups = groupChoosersPropsbyType(choosersProps);
 		return Object.keys(typeGroups).map(typeKey => (
-			<div key={typeKey}>
-				{typeGroups[typeKey].map(chooserProps => (
-					<ParameterChooser
-						key={chooserProps.key}
-						prefixes={chooserProps.prefixes}
-						onParameterChoose={handleOnParameterChoose}
-						jsonTree={jsonTree}
-					/>
-				))}
-			</div>
+			<ParameterChooser
+				key={typeKey}
+				choosersProps={typeGroups[typeKey]}
+				jsonTree={jsonTree}
+				onParameterChoose={handleOnParameterChoose}
+			/>
 		));
 	};
 

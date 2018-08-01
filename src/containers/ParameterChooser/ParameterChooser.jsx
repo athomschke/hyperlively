@@ -14,12 +14,29 @@ export type ParameterChooserDispatchProps = {
 }
 
 type ParameterChooserProps = ParameterChooserStateProps & ParameterChooserDispatchProps & {
-	key: string,
-	prefixes: Array<string>,
+	choosersProps: Array<{
+		key: string,
+		prefixes: Array<string>,
+	}>,
 	jsonTree: JSONObject,
 	onParameterChoose: (parameters: Array<string>) => void,
 }
 
-const ParameterChooser = (props: ParameterChooserProps) => <PrefixedJSONPropertyChooser {...props} />;
+const ParameterChooser = (props: ParameterChooserProps) => (
+	<div>
+		{props.choosersProps.map(chooserProps => (
+			<PrefixedJSONPropertyChooser
+				key={chooserProps.key}
+				prefixes={chooserProps.prefixes}
+				onParameterChoose={props.onParameterChoose}
+				jsonTree={props.jsonTree}
+				checkedPaths={props.checkedPaths}
+				expandedPaths={props.expandedPaths}
+				onCheckedPathsChange={props.onCheckedPathsChange}
+				onExpandedPathsChange={props.onExpandedPathsChange}
+			/>
+		))}
+	</div>
+);
 
 export default ParameterChooser;
