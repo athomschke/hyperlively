@@ -60,7 +60,7 @@ describe('InterpretationChooser Component', () => {
 			const selectedStrokes = [dummyStroke()];
 			const interpretationChooser = shallowWithProps({ ...defaultProps(), selectedStrokes });
 			const selectedStrokesChooser = interpretationChooser.find(ParameterChooser).findWhere(
-				n => n.prop('prefixes')[0] === 'selectedStrokes',
+				n => n.prop('choosersProps')[0].prefixes[0] === 'selectedStrokes',
 			);
 
 			expect(selectedStrokesChooser).to.have.length(1);
@@ -70,7 +70,7 @@ describe('InterpretationChooser Component', () => {
 			const selectedStrokes = [dummyStroke()];
 			const interpretationChooser = shallowWithProps({ ...defaultProps(), selectedStrokes });
 			const selectedStrokesChooser = interpretationChooser.find(ParameterChooser).findWhere(
-				n => n.prop('prefixes')[0] === 'selectedStrokes',
+				n => n.prop('choosersProps')[0].prefixes[0] === 'selectedStrokes',
 			);
 			const positioner = interpretationChooser.find('div').findWhere(
 				n => n.prop('style') && n.prop('style').position === 'absolute',
@@ -114,7 +114,7 @@ describe('InterpretationChooser Component', () => {
 
 			const interpretationsChooser = interpretationChooser
 				.find(ParameterChooser)
-				.findWhere(n => n.prop('prefixes')[0] === 'interpretation' && n.prop('prefixes')[1] === 'shapes');
+				.findWhere(n => n.prop('choosersProps')[0].prefixes[0] === 'interpretation' && n.prop('choosersProps')[0].prefixes[1] === 'shapes');
 
 			expect(interpretationsChooser.length).to.equal(1);
 		});
@@ -125,7 +125,7 @@ describe('InterpretationChooser Component', () => {
 
 			const interpretationsChooser = interpretationChooser
 				.find(ParameterChooser)
-				.findWhere(n => n.prop('prefixes')[0] === 'interpretation' && n.prop('prefixes')[1] === 'shapes');
+				.findWhere(n => n.prop('choosersProps')[0].prefixes[0] === 'interpretation' && n.prop('choosersProps')[0].prefixes[1] === 'shapes');
 			const positioner = interpretationChooser.find('div').findWhere(
 				n => n.prop('style') && n.prop('style').position === 'absolute',
 			);
@@ -152,7 +152,7 @@ describe('InterpretationChooser Component', () => {
 
 			const interpretationsChooser = interpretationChooser
 				.find(ParameterChooser)
-				.findWhere(n => n.prop('prefixes')[0] === 'interpretation' && n.prop('prefixes')[1] === 'texts');
+				.findWhere(n => n.prop('choosersProps')[0].prefixes[0] === 'interpretation' && n.prop('choosersProps')[0].prefixes[1] === 'texts');
 
 			expect(interpretationsChooser.length).to.equal(1);
 		});
@@ -163,7 +163,7 @@ describe('InterpretationChooser Component', () => {
 
 			const interpretationsChooser = interpretationChooser
 				.find(ParameterChooser)
-				.findWhere(n => n.prop('prefixes')[0] === 'interpretation' && n.prop('prefixes')[1] === 'texts');
+				.findWhere(n => n.prop('choosersProps')[0].prefixes[0] === 'interpretation' && n.prop('choosersProps')[0].prefixes[1] === 'texts');
 			const positioner = interpretationChooser.find('div').findWhere(
 				n => n.prop('style') && n.prop('style').position === 'absolute',
 			);

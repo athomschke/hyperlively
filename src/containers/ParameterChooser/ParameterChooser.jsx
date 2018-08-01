@@ -24,18 +24,33 @@ type ParameterChooserProps = ParameterChooserStateProps & ParameterChooserDispat
 
 const ParameterChooser = (props: ParameterChooserProps) => (
 	<div>
-		{props.choosersProps.map(chooserProps => (
-			<PrefixedJSONPropertyChooser
-				key={chooserProps.key}
-				prefixes={chooserProps.prefixes}
-				onParameterChoose={props.onParameterChoose}
-				jsonTree={props.jsonTree}
-				checkedPaths={props.checkedPaths}
-				expandedPaths={props.expandedPaths}
-				onCheckedPathsChange={props.onCheckedPathsChange}
-				onExpandedPathsChange={props.onExpandedPathsChange}
-			/>
-		))}
+		{props.choosersProps.map((chooserProps) => {
+			if (chooserProps.key === 'selectedStrokes') {
+				return (
+					<PrefixedJSONPropertyChooser
+						key={chooserProps.key}
+						prefixes={[]}
+						onParameterChoose={props.onParameterChoose}
+						jsonTree={{ selectedStrokes: props.jsonTree.selectedStrokes }}
+						checkedPaths={props.checkedPaths}
+						expandedPaths={props.expandedPaths}
+						onCheckedPathsChange={props.onCheckedPathsChange}
+						onExpandedPathsChange={props.onExpandedPathsChange}
+					/>
+				);
+			} return (
+				<PrefixedJSONPropertyChooser
+					key={chooserProps.key}
+					prefixes={chooserProps.prefixes}
+					onParameterChoose={props.onParameterChoose}
+					jsonTree={props.jsonTree}
+					checkedPaths={props.checkedPaths}
+					expandedPaths={props.expandedPaths}
+					onCheckedPathsChange={props.onCheckedPathsChange}
+					onExpandedPathsChange={props.onExpandedPathsChange}
+				/>
+			);
+		})}
 	</div>
 );
 
