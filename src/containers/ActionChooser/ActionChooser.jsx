@@ -35,7 +35,7 @@ const ActionChooser = (props: ActionChooserProps) => {
 			onCheckedPathsChange={props.onCheckedPathsChange}
 			checkedPaths={props.checkedPaths}
 			expandedPaths={props.expandedPaths}
-			jsonTree={actions}
+			jsonTree={{ actions }}
 		/>);
 };
 

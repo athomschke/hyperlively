@@ -11,25 +11,24 @@ export type LabeledJsonPropertyChooserProps = PrefixedJSONPropertyChooserProps &
 
 const LabeledJsonPropertyChooser = (props: LabeledJsonPropertyChooserProps) => {
 	const { label } = props;
-	const jsonTree = { [label]: props.jsonTree };
 
-	const prependActionsString = (paths: Array<string>) => paths.map(path => ['actions', ...without(path.split(PATH_DELIMITER), '')].join(PATH_DELIMITER));
-	const removeActionsString = (paths: Array<string>) => paths.map(path => path.split(PATH_DELIMITER).slice(1).join(PATH_DELIMITER));
+	const prependLabelString = (paths: Array<string>) => paths.map(path => [label, ...without(path.split(PATH_DELIMITER), '')].join(PATH_DELIMITER));
+	const removeLabelString = (paths: Array<string>) => paths.map(path => path.split(PATH_DELIMITER).slice(1).join(PATH_DELIMITER));
 
-	const checkedPaths = prependActionsString(props.checkedPaths);
-	const expandedPaths = prependActionsString(props.expandedPaths);
+	const checkedPaths = prependLabelString(props.checkedPaths);
+	const expandedPaths = prependLabelString(props.expandedPaths);
 
 	return (
 		<PrefixedJSONPropertyChooser
 			prefixes={[]}
 			onParameterChoose={(parameters: Array<string>) => {
-				props.onParameterChoose(removeActionsString(parameters));
+				props.onParameterChoose(removeLabelString(parameters));
 			}}
-			onExpandedPathsChange={paths => props.onExpandedPathsChange(removeActionsString(paths))}
-			onCheckedPathsChange={paths => props.onCheckedPathsChange(removeActionsString(paths))}
+			onExpandedPathsChange={paths => props.onExpandedPathsChange(removeLabelString(paths))}
+			onCheckedPathsChange={paths => props.onCheckedPathsChange(removeLabelString(paths))}
 			checkedPaths={checkedPaths}
 			expandedPaths={expandedPaths}
-			jsonTree={jsonTree}
+			jsonTree={props.jsonTree}
 		/>);
 };
 

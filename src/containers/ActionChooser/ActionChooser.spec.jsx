@@ -26,13 +26,13 @@ describe('Action Chooser', () => {
 		it('renders a list', () => {
 			const actionChooser = shallowWithProps();
 			const list = actionChooser.find(LabeledJsonPropertyChooser);
-			expect(Object.keys(list.props().jsonTree).length).to.not.equal(0);
+			expect(Object.keys(list.props().jsonTree.actions).length).to.not.equal(0);
 		});
 
 		it('renders an item for each available action type', () => {
 			const actionChooser = shallowWithProps(defaultProps());
 			const list = actionChooser.find(LabeledJsonPropertyChooser);
-			const items = Object.keys(list.props().jsonTree);
+			const items = Object.keys(list.props().jsonTree.actions);
 
 			expect(items).to.have.length(Object.keys(actionCreators).length);
 		});
@@ -46,7 +46,7 @@ describe('Action Chooser', () => {
 			});
 			const list = actionChooser.find(LabeledJsonPropertyChooser);
 			const hardcodedActionsLength = Object.keys(actionCreators).length;
-			const allItems = list.props().jsonTree;
+			const allItems = list.props().jsonTree.actions;
 			expect(Object.keys(allItems)).to.have.length(hardcodedActionsLength + 1);
 			expect(allItems[hardcodedActionsLength]).to.equal('addSceneAtThenNext (number)');
 		});
@@ -60,7 +60,7 @@ describe('Action Chooser', () => {
 			});
 			const list = actionChooser.find(LabeledJsonPropertyChooser);
 			const hardcodedActionsLength = Object.keys(actionCreators).length;
-			const allItems = list.props().jsonTree;
+			const allItems = list.props().jsonTree.actions;
 			expect(Object.keys(allItems)).to.have.length(hardcodedActionsLength + 1);
 			expect(allItems[hardcodedActionsLength]).to.equal('firstAThenB ()');
 		});
