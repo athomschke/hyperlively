@@ -1,5 +1,7 @@
 // @flow
-import { EXPAND_PARAMETERS_PATH, CHECK_PARAMETERS_PATH } from 'src/constants/actionTypes';
+import { without } from 'lodash';
+
+import { EXPAND_PARAMETERS_PATH, CHECK_PARAMETERS_PATH, SELECT } from 'src/constants/actionTypes';
 import type { EXPAND_PARAMETERS_PATH_ACTION, CHECK_PARAMETERS_PATH_ACTION } from 'src/actionTypeDefinitions';
 import { type StrokeActionType, strokeActions } from 'src/reducers/data/strokes/stroke';
 import { collapseParametersPath, checkParametersPath } from 'src/actionCreators';
@@ -25,7 +27,7 @@ const checkedPathActions = {
 type CHECKED_PATH_ACTIONS = CHECK_PARAMETERS_PATH_ACTION | StrokeActionType;
 
 const checkedPath = scopeToActions((state, action: CHECKED_PATH_ACTIONS) => {
-	if (Object.keys(strokeActions).includes(action.type)) {
+	if (without(Object.keys(strokeActions), SELECT).includes(action.type)) {
 		return [];
 	}
 	if (action.type === CHECK_PARAMETERS_PATH) {
