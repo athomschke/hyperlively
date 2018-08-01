@@ -117,6 +117,27 @@ const InterpretationChooser = (props: InterpretationChooserProps) => {
 		...getTextChooserProps(),
 	]);
 
+	const groupChoosersPropsbyType = choosersProps => choosersProps.reduce((accumulator, chooserProps) => ({
+		...accumulator,
+		[chooserProps.prefixes[0]]: [...(accumulator[chooserProps.prefixes[0]] || []), chooserProps],
+	}), {});
+
+	const renderPostitionParameterChoosersGroup = (choosersProps) => {
+		const typeGroups = groupChoosersPropsbyType(choosersProps);
+		return Object.keys(typeGroups).map(typeKey => (
+			<div key={typeKey}>
+				{typeGroups[typeKey].map(chooserProps => (
+					<ParameterChooser
+						key={chooserProps.key}
+						prefixes={chooserProps.prefixes}
+						onParameterChoose={handleOnParameterChoose}
+						jsonTree={jsonTree}
+					/>
+				))}
+			</div>
+		));
+	};
+
 	const renderChooserGroupAt = (groupKey, choosersProps, position) => (
 		<div
 			key={groupKey}
@@ -129,14 +150,7 @@ const InterpretationChooser = (props: InterpretationChooserProps) => {
 			<InterpretationTrigger />
 			<InterpretationDisplay />
 			<ActionChooser />
-			{choosersProps.map(chooserProps => (
-				<ParameterChooser
-					key={chooserProps.key}
-					prefixes={chooserProps.prefixes}
-					onParameterChoose={handleOnParameterChoose}
-					jsonTree={jsonTree}
-				/>
-			))}
+			{renderPostitionParameterChoosersGroup(choosersProps)}
 		</div>
 	);
 
