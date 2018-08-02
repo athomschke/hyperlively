@@ -49,7 +49,9 @@ const formatObject = (
 			label,
 		};
 
-		if (anObject[key] instanceof Object) {
+		const isNode = anObject[key] instanceof Object && key !== 'selectedStrokes';
+
+		if (isNode) {
 			const collapsed = collapsedPaths.indexOf(extendedPath) >= 0;
 			const children = formatObject(anObject[key], sortedCheckedPaths, collapsedPaths, extendedPath);
 			return ({
