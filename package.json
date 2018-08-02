@@ -3,8 +3,7 @@
   "version": "0.0.1",
   "description": "",
   "scripts": {
-    "build:prod": "./node_modules/.bin/webpack --config webpack.build.js -p",
-    "build:demo": "./node_modules/.bin/webpack --config webpack.demo.js --mode development",
+    "build:prod": "./node_modules/.bin/webpack --config webpack.build.js -d",
     "build:dev": "./node_modules/.bin/webpack --config webpack.build.js -d --watch",
     "build:test": "./node_modules/.bin/webpack --config webpack.test.js --mode development",
     "test:unit": "npm run build:test -- --watch | mocha ./dist/bundle.js --watch",
