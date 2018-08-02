@@ -14,6 +14,7 @@ const mapStateToProps = (state: HyperlivelyState) => ({
 	parameters: state.ui.interpretations.parameters,
 	setInterval: setInterval.bind(window),
 	clearInterval: clearInterval.bind(window),
+	specificActions: state.data.specificActions,
 });
 
 const mapDispatchToProps = dispatch => ({

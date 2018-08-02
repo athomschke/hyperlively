@@ -20,12 +20,14 @@ const InterpretationDisplay = (props: InterpretationDisplayProps) => {
 	const renderCall = () => functions.map((aFunction, functionIndex) => {
 		const selectedParameters = parameters.slice(globalParameterIndex, globalParameterIndex + aFunction.parameters.length);
 		const requiredParameters = aFunction.parameters;
+		const actionKey = aFunction.name;
 		const functionCall = (
 			<div
-				key={aFunction.name}
+				key={actionKey}
 			>
 				{functionIndex === 0 ? '' : ' then '}
 				<button
+					key={actionKey}
 					onClick={() => onActionClick(functionIndex)}
 				>
 					{aFunction.name}
@@ -35,8 +37,10 @@ const InterpretationDisplay = (props: InterpretationDisplayProps) => {
 					const elements = [];
 					if (selectedParameters[localParameterIndex]) {
 						const parameterIndex = globalParameterIndex + localParameterIndex;
+						const parameterKey = `${requiredParameter}: ${selectedParameters[localParameterIndex]}`;
 						elements.push((
 							<button
+								key={parameterKey}
 								onClick={() => onParameterClick(parameterIndex)}
 							>
 								{`${selectedParameters[localParameterIndex]}`}

@@ -1,9 +1,10 @@
 // @flow
 import * as React from 'react';
 import {
-	map, forEach, concat, find,
+	map, forEach, concat, find, values,
 } from 'lodash';
 
+import { allActions, formattedSignatures } from 'src/containers/ActionChooser/actionSignatures';
 import type { Functions, Parameters, ActionMapping } from 'src/types';
 
 export type InterpretationTriggerProps = {
@@ -22,11 +23,14 @@ const InterpretationTrigger = (props: InterpretationTriggerProps) => {
 		specificActions, functions, parameters,
 	} = props;
 
-	const doPerformAction = (items: Functions, values: Array<number | string>, isTicking: ?boolean) => {
+	const doPerformAction = (items: Functions, valuesToUse: Array<number | string>, isTicking: ?boolean) => {
 		let valueIndex = 0;
-		forEach(items, (item) => {
+		const performableItems = items.filter(
+			item => props.specificActions.map(specificAction => specificAction.actionName).indexOf(item.name) < 0,
+		);
+		forEach(performableItems, (item) => {
 			const functionName = item.name;
-			const functionParameters = values.slice(valueIndex, valueIndex + item.parameters.length);
+			const functionParameters = valuesToUse.slice(valueIndex, valueIndex + item.parameters.length);
 			valueIndex += item.parameters.length;
 			performAction.apply(this, [functionName].concat(functionParameters));
 		});
@@ -35,6 +39,7 @@ const InterpretationTrigger = (props: InterpretationTriggerProps) => {
 
 	const onAcceptInterpretationClick = () => {
 		let allFunctions = [];
+		const allPrimitiveActions = formattedSignatures(values(allActions([])));
 		forEach(functions, (aFunction) => {
 			const specificAction = find(specificActions,
 				action => action.actionName === aFunction.name);
@@ -43,9 +48,7 @@ const InterpretationTrigger = (props: InterpretationTriggerProps) => {
 					specificAction.actionNames,
 					actionName => ({
 						name: actionName,
-						parameters: functions.filter(
-							f => f.name === actionName,
-						)[0].parameters,
+						parameters: (allPrimitiveActions.find(action => action.name === actionName) || {}).parameters,
 					}),
 				);
 				allFunctions = concat(functions, primitiveActions);
