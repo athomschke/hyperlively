@@ -51,4 +51,20 @@ describe('InterpretationDisplay', () => {
 		const result = 'ActionWithTwoParameters(parameter1, parameter2) then ActionWithOneParameter(parameter3)';
 		expect(interpretationDisplay.text()).to.equal(result);
 	});
+
+	it('renders placeholders for unchosen parameters', () => {
+		const interpretationDisplay = shallowWithProps({
+			...defaultProps(),
+			functions: [{
+				name: 'ActionWithTwoParameters',
+				parameters: ['one', 'two'],
+			}, {
+				name: 'ActionWithOneParameter',
+				parameters: ['one'],
+			}],
+			parameters: ['parameter1'],
+		});
+		const result = 'ActionWithTwoParameters(parameter1, two) then ActionWithOneParameter(one)';
+		expect(interpretationDisplay.text()).to.equal(result);
+	});
 });
