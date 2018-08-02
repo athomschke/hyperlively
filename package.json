@@ -12,7 +12,8 @@
     "performance": "karma start karma-performance.conf.js",
     "integration": "karma start karma-integration.conf.js",
     "lint": "./node_modules/eslint/bin/eslint.js \"./**\"",
-    "check-types": "./node_modules/.bin/flow"
+    "check-types": "./node_modules/.bin/flow",
+    "server": "node server.js"
   },
   "repository": {
     "type": "git",
