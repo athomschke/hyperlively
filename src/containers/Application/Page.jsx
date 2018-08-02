@@ -35,8 +35,8 @@ const Page = (props: PageProps) => {
 			<Window sketches={props.sketches} />
 			{props.showInterpreter ? renderInterpreter(selectedStrokes, props.sketches) : null}
 			<AppConfiguration>
-				<UndoRedo />
 				<Timeline />
+				<UndoRedo />
 				<Threshold />
 				<Ploma />
 				<ShowInterpreter />
