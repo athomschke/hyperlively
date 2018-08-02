@@ -34,7 +34,7 @@ const defaultProps = (): InterpretationChooserProps => ({
 	strokes: [dummyStroke()],
 	sketches: [],
 	selectedStrokes: [dummyStroke()],
-	parameters: [],
+	selectedParameters: [],
 	onParameterChoose: () => undefined,
 	onCheckedPathsChange: () => undefined,
 	onExpandedPathsChange: () => undefined,

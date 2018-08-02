@@ -11,7 +11,7 @@ const mapStateToProps = (state: HyperlivelyState): InterpretationChooserStatePro
 	expandedPaths: state.ui.parameters.expandedPath,
 	checkedPaths: state.ui.parameters.checkedPath,
 	interpretation: state.data.interpretation,
-	parameters: state.ui.interpretations.parameters,
+	selectedParameters: state.ui.interpretations.parameters,
 });
 
 const mapDispatchToProps = (dispatch): InterpretationChooserDispatchProps => ({

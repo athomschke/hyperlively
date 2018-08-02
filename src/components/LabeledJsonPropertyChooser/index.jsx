@@ -15,7 +15,7 @@ const LabeledJsonPropertyChooser = (props: LabeledJsonPropertyChooserProps) => {
 	const prependLabelString = (paths: Array<string>) => paths.map(path => [label, ...without(path.split(PATH_DELIMITER), '')].join(PATH_DELIMITER));
 	const removeLabelString = (paths: Array<string>) => paths.map(path => path.split(PATH_DELIMITER).slice(1).join(PATH_DELIMITER));
 
-	const checkedPaths = prependLabelString(props.checkedPaths);
+	const checkedPaths = prependLabelString([]);
 	const expandedPaths = prependLabelString(props.expandedPaths);
 
 	return (

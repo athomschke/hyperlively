@@ -4,9 +4,7 @@ import {
 	map, forEach, concat, find,
 } from 'lodash';
 
-import type {
-	FunctionConfiguration, Functions, Parameters, ActionMapping,
-} from 'src/types';
+import type { Functions, Parameters, ActionMapping } from 'src/types';
 
 export type InterpretationTriggerProps = {
 	specificActions: Array<ActionMapping>,
@@ -24,12 +22,12 @@ const InterpretationTrigger = (props: InterpretationTriggerProps) => {
 		specificActions, functions, parameters,
 	} = props;
 
-	const doPerformAction = (items: Array<FunctionConfiguration>, values: Array<number | string>, isTicking: ?boolean) => {
+	const doPerformAction = (items: Functions, values: Array<number | string>, isTicking: ?boolean) => {
 		let valueIndex = 0;
 		forEach(items, (item) => {
 			const functionName = item.name;
-			const functionParameters = values.slice(valueIndex, valueIndex + item.parameters);
-			valueIndex += item.parameters;
+			const functionParameters = values.slice(valueIndex, valueIndex + item.parameters.length);
+			valueIndex += item.parameters.length;
 			performAction.apply(this, [functionName].concat(functionParameters));
 		});
 		onInterpretationDone(!isTicking);
@@ -41,8 +39,15 @@ const InterpretationTrigger = (props: InterpretationTriggerProps) => {
 			const specificAction = find(specificActions,
 				action => action.actionName === aFunction.name);
 			if (specificAction) {
-				const primitiveActions = map(specificAction.actionNames,
-					actionName => ({ name: actionName, parameters: 1 }));
+				const primitiveActions = map(
+					specificAction.actionNames,
+					actionName => ({
+						name: actionName,
+						parameters: functions.filter(
+							f => f.name === actionName,
+						)[0].parameters,
+					}),
+				);
 				allFunctions = concat(functions, primitiveActions);
 			} else {
 				allFunctions.push(aFunction);

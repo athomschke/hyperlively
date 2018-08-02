@@ -58,7 +58,7 @@ export type TreeParameter = string | number;
 
 export type Functions = Array<{
 	name: string,
-	parameters: number,
+	parameters: Array<string>,
 }>
 
 export type Parameters = Array<TreeParameter>;

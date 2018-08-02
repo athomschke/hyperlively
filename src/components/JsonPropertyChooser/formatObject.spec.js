@@ -54,7 +54,7 @@ const exampleJSONData = [
 			},
 			{
 				isLeaf: true,
-				label: 'a2: a2 (property 0)',
+				label: 'a2: a2',
 				key: 'a --> a2',
 				checkbox: true,
 				checked: true,
@@ -63,7 +63,7 @@ const exampleJSONData = [
 	},
 	{
 		isLeaf: true,
-		label: 'b: b (property 1)',
+		label: 'b: b',
 		key: 'b',
 		checkbox: true,
 		checked: true,

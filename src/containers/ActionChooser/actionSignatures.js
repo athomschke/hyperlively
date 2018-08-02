@@ -3,12 +3,12 @@ import {
 	forEach, map, flatten, filter, last,
 } from 'lodash';
 
-import type { ActionMapping, FunctionConfiguration } from 'src/types';
+import type { ActionMapping, Functions } from 'src/types';
 import * as actionCreators from 'src/actionCreators';
 
-export const getArgs = (functionString: string) => functionString.split('(')[1].split(')')[0].split(',');
+export const getArgs = (functionString: string): Array<string> => functionString.split('(')[1].split(')')[0].split(',');
 
-export const getName = (functionString: string) => last(functionString.split('(')[0].trim().split('function ')).trim();
+export const getName = (functionString: string): string => last(functionString.split('(')[0].trim().split('function ')).trim();
 
 const functionSignature = (name: string, params: Array<string>) => `${name} (${params.join(', ')})`;
 
@@ -41,7 +41,7 @@ export const allActions = (specificActions: Array<ActionMapping>) => {
 export const formattedSignatures = (
 	signatures: Array<string>,
 )
-	: Array<FunctionConfiguration> => signatures.map(signature => ({
+	: Functions => signatures.map(signature => ({
 	name: getName(signature),
-	parameters: getArgs(signature).length,
+	parameters: getArgs(signature),
 }));

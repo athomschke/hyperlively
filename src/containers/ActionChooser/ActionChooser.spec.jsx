@@ -6,15 +6,16 @@ import { spy } from 'sinon';
 
 import LabeledJsonPropertyChooser from 'src/components/LabeledJsonPropertyChooser';
 import * as actionCreators from 'src/actionCreators';
-import type { FunctionConfiguration } from 'src/types';
+import type { Functions } from 'src/types';
 
 import ActionChooser, { type ActionChooserProps } from './ActionChooser';
 
 const defaultProps = (): ActionChooserProps => ({
-	onFunctionsChoose: (_actionSignatures: Array<FunctionConfiguration>) => {},
+	onFunctionsChoose: (_actionSignatures: Functions) => {},
 	checkedPaths: [],
 	expandedPaths: [],
 	specificActions: [],
+	selectedActions: [],
 	onExpandedPathsChange: () => {},
 	onCheckedPathsChange: () => {},
 });

@@ -9,7 +9,7 @@ const blacklistedKeys = ['strokeIds'];
 
 const isStroke = (anObject: Object): boolean => isEqual(Object.keys(anObject), Object.keys(stroke(undefined, { type: '' })));
 
-const formatLabel = (key: string, value: Object, sortedCheckedPath?: SortedPath): string => {
+const formatLabel = (key: string, value: Object): string => {
 	let label = key;
 	if (value instanceof Object) {
 		if (value.label) {
@@ -24,9 +24,6 @@ const formatLabel = (key: string, value: Object, sortedCheckedPath?: SortedPath)
 		}
 	} else {
 		label += `: ${value.toString()}`;
-	}
-	if (sortedCheckedPath) {
-		label += ` (property ${sortedCheckedPath.globalIndex})`;
 	}
 	return label;
 };
@@ -43,7 +40,7 @@ const formatObject = (
 		const extendedPath = path ? `${path}${PATH_DELIMITER}${key}` : key;
 		const sortedCheckedPath: SortedPath | typeof undefined = sortedCheckedPaths.find(sortedPath => sortedPath.path === extendedPath);
 		const checked = !!sortedCheckedPath;
-		const label = formatLabel(key, anObject[key], sortedCheckedPath);
+		const label = formatLabel(key, anObject[key]);
 
 		const treeFormat = {
 			key: extendedPath,
