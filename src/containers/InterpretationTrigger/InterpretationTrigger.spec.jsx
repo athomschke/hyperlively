@@ -107,6 +107,23 @@ describe('Interpreter', () => {
 			expect(performAction.args[0][0]).to.deep.equal(functions[0].name);
 			expect(performAction.args[0][1]).to.deep.equal(parameters[0]);
 		});
+
+		it('dones the interpretation with true', () => {
+			const onInterpretationDone = spy();
+			let tickedAction = () => undefined;
+			const setInterval = (anAction: () => void, interval: number) => { tickedAction = anAction; return interval; };
+			const interpretationTrigger = renderWithProps({
+				...defaultProps(),
+				onInterpretationDone,
+				setInterval,
+			});
+			const acceptButton = interpretationTrigger.findWhere(
+				wrapper => wrapper.text() === 'Accept Interpretation' && wrapper.type() === 'button',
+			);
+			acceptButton.simulate('click');
+			tickedAction();
+			expect(onInterpretationDone.args[0][0]).to.be.true();
+		});
 	});
 
 	describe('Accepting multiple interpretations', () => {
@@ -176,6 +193,23 @@ describe('Interpreter', () => {
 			timeout();
 			expect(performAction.args[0]).to.eql(['action', 'a', 'b']);
 			expect(clearInterval.callCount).to.equal(0);
+		});
+
+		it('dones the interpretation with false', () => {
+			const onInterpretationDone = spy();
+			let tickedAction = () => undefined;
+			const setInterval = (anAction: () => void, interval: number) => { tickedAction = anAction; return interval; };
+			const interpretationTrigger = renderWithProps({
+				...defaultProps(),
+				onInterpretationDone,
+				setInterval,
+			});
+			const tickButton = interpretationTrigger.findWhere(
+				wrapper => wrapper.text() === 'Tick' && wrapper.type() === 'button',
+			);
+			tickButton.simulate('click');
+			tickedAction();
+			expect(onInterpretationDone.args[0][0]).to.be.false();
 		});
 
 		it.skip('stops after n ticks if given', () => {
