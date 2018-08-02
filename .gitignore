@@ -43,6 +43,9 @@ build
 # Test directory
 dist
 
+# Demo directory
+demo
+
 # IDE
 *.sublime-project
 *.sublime-workspace
