@@ -15,6 +15,7 @@ const defaultProps = (): ActionChooserProps => ({
 	checkedPaths: [],
 	expandedPaths: [],
 	specificActions: [],
+	selectedActions: [],
 	onExpandedPathsChange: () => {},
 	onCheckedPathsChange: () => {},
 });

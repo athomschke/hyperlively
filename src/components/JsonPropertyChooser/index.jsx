@@ -42,9 +42,7 @@ const JsonPropertyChooser = (props: JsonPropertyChooserProps) => {
 		);
 	};
 
-	const onCheckedPathsChange = ({ checked }) => {
-		props.onCheckedPathsChange(checked);
-	};
+	const onSelect = selected => props.onCheckedPathsChange(selected);
 
 	const data = getFormattedData();
 	const divStyle: any = {};
@@ -55,20 +53,17 @@ const JsonPropertyChooser = (props: JsonPropertyChooserProps) => {
 		divStyle.top = position.y;
 	}
 
-	const checkedPaths = props.checkedPaths.map(checkedPath => checkedPath.path);
 	return (
 		<div className={style.treeView} style={divStyle}>
 			<Tree
 				prefixCls="json-property-chooser-tree"
 				expandedKeys={props.expandedPaths}
 				defaultExpandedKeys={props.expandedPaths}
-				checkedKeys={checkedPaths}
-				defaultCheckedKeys={checkedPaths}
 				defaultExpandParent={false}
-				onCheck={onCheckedPathsChange}
+				selectedKeys={[]}
+				onSelect={onSelect}
 				onExpand={props.onExpandedPathsChange}
-				checkStrictly
-				checkable
+				selectable
 			>
 				{renderTreeNodes(data)}
 			</Tree>

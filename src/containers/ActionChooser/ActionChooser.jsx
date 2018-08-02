@@ -1,17 +1,21 @@
 // @flow
 import React from 'react';
 
-import type { FunctionConfiguration, ActionMapping } from 'src/types';
+import type { FunctionConfiguration, ActionMapping, Functions } from 'src/types';
 import LabeledJsonPropertyChooser from 'src/components/LabeledJsonPropertyChooser';
 import { PATH_DELIMITER } from 'src/constants/configuration';
 
 import { allActions, formattedSignatures } from './actionSignatures';
 
-export type ActionChooserProps = {
-	onFunctionsChoose: (Array<FunctionConfiguration>) => void,
-	specificActions: Array<ActionMapping>,
-	checkedPaths: Array<string>,
+export type ActionChooserStateProps = {
 	expandedPaths: Array<string>,
+	checkedPaths: Array<string>,
+	specificActions: Array<ActionMapping>,
+	selectedActions: Functions,
+}
+
+export type ActionChooserProps = ActionChooserStateProps & {
+	onFunctionsChoose: (Array<FunctionConfiguration>) => void,
 	onExpandedPathsChange: (_paths: Array<string>) => void,
 	onCheckedPathsChange: (_paths: Array<string>) => void,
 }
@@ -23,7 +27,7 @@ const ActionChooser = (props: ActionChooserProps) => {
 		const signatures = paths.map(
 			(path: string) => path.split(PATH_DELIMITER).reduce((jsonObject, pathPart) => jsonObject[pathPart], actions),
 		);
-		props.onFunctionsChoose(formattedSignatures(((signatures: any): Array<string>)));
+		props.onFunctionsChoose([...props.selectedActions, ...formattedSignatures(((signatures: any): Array<string>))]);
 	};
 
 	return (

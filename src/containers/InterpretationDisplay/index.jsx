@@ -2,6 +2,7 @@
 import { connect } from 'react-redux';
 
 import type { HyperlivelyState } from 'src/types';
+import { chooseFunctions, chooseParameters } from 'src/actionCreators';
 
 import InterpretationDisplay from './InterpretationDisplay';
 
@@ -10,4 +11,9 @@ const mapStateToProps = (state: HyperlivelyState) => ({
 	parameters: state.ui.interpretations.parameters,
 });
 
-export default connect(mapStateToProps, () => ({}))(InterpretationDisplay);
+const mapDispatchToProps = dispatch => ({
+	onActionClick: newActions => dispatch(chooseFunctions(newActions)),
+	onParameterClick: newParameters => dispatch(chooseParameters(newParameters)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(InterpretationDisplay);

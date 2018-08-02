@@ -74,8 +74,8 @@ describe('JSONProperty Chooser', () => {
 		});
 	});
 
-	describe('Toggling checkbox of a path', () => {
-		it('selects if it was not selected', () => {
+	describe('Clicking a path', () => {
+		it('calls the callback with it as only parameter in the array', () => {
 			const onCheckedPathsChange = spy();
 			const jsonPropertyChooser = renderWithProps({
 				...defaultProps(),
@@ -83,24 +83,8 @@ describe('JSONProperty Chooser', () => {
 				onCheckedPathsChange,
 			});
 			const treeMenu = jsonPropertyChooser.find(Tree);
-			treeMenu.prop('onCheck')({ checked: ['a --> a2'] });
+			treeMenu.prop('onSelect')(['a --> a2']);
 			expect(onCheckedPathsChange.args[0][0]).to.deep.equal(['a --> a2']);
-		});
-
-		it('deselects it if it was selected', () => {
-			const onCheckedPathsChange = spy();
-			const jsonPropertyChooser = renderWithProps({
-				...defaultProps(),
-				jsonTree: exampleTree,
-				checkedPaths: [{
-					path: 'a --> a2',
-					globalIndex: 0,
-				}],
-				onCheckedPathsChange,
-			});
-			const treeMenu = jsonPropertyChooser.find(Tree);
-			treeMenu.prop('onCheck')({ checked: [] });
-			expect(onCheckedPathsChange.args[0][0]).to.deep.equal([]);
 		});
 	});
 
