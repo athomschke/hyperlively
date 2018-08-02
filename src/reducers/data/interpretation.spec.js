@@ -31,26 +31,6 @@ describe('Interpretation reducer', () => {
 		requests = [];
 	});
 
-	describe('Drawing', () => {
-		it('Invalidates the last shape interpretation', () => {
-			const oldState = {
-				...dummyState(),
-				shapes: [lineShapeCandidate()],
-			};
-			const newState = interpretation(oldState, createStroke(10, 10, 101));
-			expect(newState.shapes).to.be.empty();
-		});
-
-		it('Invalidates the last text interpretation', () => {
-			const oldState = {
-				...dummyState(),
-				texts: [letterCandidate()],
-			};
-			const newState = interpretation(oldState, createStroke(10, 10, 101));
-			expect(newState.texts).to.be.empty();
-		});
-	});
-
 	describe('Requesting a text recognition result', () => {
 		it('does not (yet) invalidate recent interpretaitons', () => {
 			const oldState = {

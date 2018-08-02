@@ -52,7 +52,7 @@ const formatObject = (
 			label,
 		};
 
-		if (anObject[key] instanceof Object && !isStroke(anObject[key])) {
+		if (anObject[key] instanceof Object) {
 			const collapsed = collapsedPaths.indexOf(extendedPath) >= 0;
 			const children = formatObject(anObject[key], sortedCheckedPaths, collapsedPaths, extendedPath);
 			return ({
