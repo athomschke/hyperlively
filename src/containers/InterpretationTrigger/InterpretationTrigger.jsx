@@ -24,7 +24,7 @@ const InterpretationTrigger = (props: InterpretationTriggerProps) => {
 		specificActions, functions, parameters,
 	} = props;
 
-	const doPerformAction = (items: Array<FunctionConfiguration>, values: Array<number | string>) => {
+	const doPerformAction = (items: Array<FunctionConfiguration>, values: Array<number | string>, isTicking: ?boolean) => {
 		let valueIndex = 0;
 		forEach(items, (item) => {
 			const functionName = item.name;
@@ -32,7 +32,7 @@ const InterpretationTrigger = (props: InterpretationTriggerProps) => {
 			valueIndex += item.parameters;
 			performAction.apply(this, [functionName].concat(functionParameters));
 		});
-		onInterpretationDone(false);
+		onInterpretationDone(!isTicking);
 	};
 
 	const onAcceptInterpretationClick = () => {
@@ -54,7 +54,7 @@ const InterpretationTrigger = (props: InterpretationTriggerProps) => {
 	const onInterpretationTick = () => {
 		let counter = 0;
 		const tickInterval = setInterval(() => {
-			doPerformAction(functions, parameters);
+			doPerformAction(functions, parameters, true);
 			counter -= 1;
 			if (counter === 0) {
 				clearInterval(tickInterval);

@@ -24,7 +24,14 @@ const mapDispatchToProps = dispatch => ({
 			dispatch(actionCreators.setObserveMutations(true));
 		}
 	},
-	onInterpretationDone: () => {},
+	onInterpretationDone: (isSingleExecutionInterpretation: boolean) => {
+		if (isSingleExecutionInterpretation) {
+			dispatch(actionCreators.checkParametersPath([]));
+			dispatch(actionCreators.chooseFunctions([]));
+			dispatch(actionCreators.checkActionsPath([]));
+			dispatch(actionCreators.chooseParameters([]));
+		}
+	},
 });
 
 export default connect(
