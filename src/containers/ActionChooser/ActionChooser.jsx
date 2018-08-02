@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 
-import type { FunctionConfiguration, ActionMapping, Functions } from 'src/types';
+import type { Functions, ActionMapping } from 'src/types';
 import LabeledJsonPropertyChooser from 'src/components/LabeledJsonPropertyChooser';
 import { PATH_DELIMITER } from 'src/constants/configuration';
 
@@ -15,7 +15,7 @@ export type ActionChooserStateProps = {
 }
 
 export type ActionChooserProps = ActionChooserStateProps & {
-	onFunctionsChoose: (Array<FunctionConfiguration>) => void,
+	onFunctionsChoose: (_functions: Functions) => void,
 	onExpandedPathsChange: (_paths: Array<string>) => void,
 	onCheckedPathsChange: (_paths: Array<string>) => void,
 }

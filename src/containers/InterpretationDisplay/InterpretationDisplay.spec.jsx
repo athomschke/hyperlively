@@ -28,7 +28,7 @@ describe('InterpretationDisplay', () => {
 			...defaultProps(),
 			functions: [{
 				name: 'ActionWithTwoParameters',
-				parameters: 2,
+				parameters: ['one', 'two'],
 			}],
 			parameters: ['parameter1', 'parameter2'],
 		});
@@ -41,10 +41,10 @@ describe('InterpretationDisplay', () => {
 			...defaultProps(),
 			functions: [{
 				name: 'ActionWithTwoParameters',
-				parameters: 2,
+				parameters: ['one', 'two'],
 			}, {
 				name: 'ActionWithOneParameter',
-				parameters: 1,
+				parameters: ['one'],
 			}],
 			parameters: ['parameter1', 'parameter2', 'parameter3'],
 		});

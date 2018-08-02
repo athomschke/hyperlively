@@ -79,7 +79,7 @@ describe('Interpreter', () => {
 			const performAction = spy();
 			const functions: Functions = [{
 				name: 'doSomethingWith',
-				parameters: 1,
+				parameters: ['a'],
 			}];
 			const parameters: Parameters = ['aProp'];
 			const list = renderWithProps({
@@ -95,7 +95,7 @@ describe('Interpreter', () => {
 			const performAction = spy();
 			const functions: Functions = [{
 				name: 'doSomethingWith',
-				parameters: 1,
+				parameters: ['a'],
 			}];
 			const parameters: Parameters = ['aProp'];
 			const list = renderWithProps({
@@ -131,7 +131,7 @@ describe('Interpreter', () => {
 			const performAction = spy();
 			const functions: Functions = [{
 				name: 'doSomethingWith',
-				parameters: 1,
+				parameters: ['a'],
 			}];
 			const parameters: Parameters = ['aProp'];
 			const list = renderWithProps({
@@ -148,10 +148,10 @@ describe('Interpreter', () => {
 			const performAction = spy();
 			const functions: Functions = [{
 				name: 'runWithTwoParameters',
-				parameters: 2,
+				parameters: ['one', 'two'],
 			}, {
 				name: 'runWithOneParameter',
-				parameters: 1,
+				parameters: ['one'],
 			}];
 			const parameters: Parameters = [1, 2, 3];
 			const list = renderWithProps({
@@ -173,8 +173,8 @@ describe('Interpreter', () => {
 			const performAction = spy();
 			const setInterval = stub();
 			const clearInterval = spy();
-			const functions = [{ name: 'action', parameters: 2 }];
 			const parameters = ['a', 'b'];
+			const functions = [{ name: 'action', parameters }];
 			const interpreter = renderWithProps({
 				...defaultProps(),
 				performAction,
@@ -218,7 +218,7 @@ describe('Interpreter', () => {
 			const intervalId = 1234;
 			setInterval.returns(intervalId);
 			const clearInterval = stub();
-			const functions = [{ name: 'action', parameters: 2 }];
+			const functions = [{ name: 'action', parameters: ['a', 'b'] }];
 			const parameters = ['a', 'b'];
 
 			const interpreter = renderWithProps({
