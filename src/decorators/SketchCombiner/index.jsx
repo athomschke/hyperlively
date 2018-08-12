@@ -4,7 +4,7 @@ import {
 	reduce, last, first, concat,
 } from 'lodash';
 
-import type { Scene, Sketch } from 'src/types';
+import type { Stroke, Sketch } from 'src/types';
 
 const strokeFollowedSuit = (collectedSketches, stroke, threshold) => {
 	const lastPoint = last(collectedSketches)
@@ -30,7 +30,7 @@ const sketches = (strokes, threshold) => reduce(strokes, (collectedSketches, str
 }, []);
 
 export type SketchCombinerProps<P> = P & {
-	scene: Scene,
+	strokes: Array<Stroke>,
 	threshold: number,
 };
 
@@ -42,9 +42,8 @@ export default (Wrapped: React.ComponentType<WrappedProps<*>>) => class SketchCo
 	props: SketchCombinerProps<*>;
 
 	render() {
-		const strokes = this.props.scene.strokes;
 		// eslint-disable-next-line no-unused-vars
-		const { threshold, scene, ...rest } = this.props;
+		const { threshold, strokes, ...rest } = this.props;
 
 		const combinedSketches = sketches(strokes, this.props.threshold);
 

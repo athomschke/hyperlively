@@ -38,8 +38,8 @@ const expectTwoStrokesInOneSketch = (combinedSketches, addedPoint1) => {
 const MockedSubComponent = (_props: WrappedProps<{}>) => <div />;
 
 describe('Sketch combiner', () => {
-	const defaultProps = () => ({
-		scene: { strokes: [] },
+	const defaultProps = (): SketchCombinerProps<{}> => ({
+		strokes: [],
 		threshold: 1,
 	});
 
@@ -60,9 +60,7 @@ describe('Sketch combiner', () => {
 		const addedPoint = point(10, 10);
 		const mockedSubComponent = renderComponentWithProps({
 			...defaultProps(),
-			scene: {
-				strokes: exampleStrokes([addedPoint]),
-			},
+			strokes: exampleStrokes([addedPoint]),
 		}).find(MockedSubComponent);
 		expectOneStrokeInOneSketch(mockedSubComponent.prop('sketches'), addedPoint);
 	});
@@ -72,12 +70,10 @@ describe('Sketch combiner', () => {
 		const addedPoint1 = point(10, 10, 100);
 		const addedPoint2 = point(20, 20, 101);
 		const mockedSubComponent = renderComponentWithProps({
-			scene: {
-				strokes: [
-					...exampleStrokes([addedPoint1]),
-					...exampleStrokes([addedPoint2]),
-				],
-			},
+			strokes: [
+				...exampleStrokes([addedPoint1]),
+				...exampleStrokes([addedPoint2]),
+			],
 			threshold,
 		}).find(MockedSubComponent);
 		const sketches = mockedSubComponent.prop('sketches');
@@ -92,12 +88,10 @@ describe('Sketch combiner', () => {
 		const addedPoint2 = point(20, 20, 101);
 		const addedPoint3 = point(20, 20, 1101);
 		const mockedSubComponent = renderComponentWithProps({
-			scene: {
-				strokes: [
-					...exampleStrokes([addedPoint1]),
-					...exampleStrokes([addedPoint2, addedPoint3]),
-				],
-			},
+			strokes: [
+				...exampleStrokes([addedPoint1]),
+				...exampleStrokes([addedPoint2, addedPoint3]),
+			],
 			threshold,
 		}).find(MockedSubComponent);
 		const sketches = mockedSubComponent.prop('sketches');
@@ -109,12 +103,10 @@ describe('Sketch combiner', () => {
 		const addedPoint1 = point(10, 10, 100);
 		const addedPoint2 = point(20, 20, 700);
 		const mockedSubComponent = renderComponentWithProps({
-			scene: {
-				strokes: [
-					...exampleStrokes([addedPoint1]),
-					...exampleStrokes([addedPoint2]),
-				],
-			},
+			strokes: [
+				...exampleStrokes([addedPoint1]),
+				...exampleStrokes([addedPoint2]),
+			],
 			threshold,
 		}).find(MockedSubComponent);
 		expectTwoSketches(mockedSubComponent.prop('sketches'), addedPoint1, addedPoint2);
@@ -124,9 +116,7 @@ describe('Sketch combiner', () => {
 		const addedPoint = point(10, 10);
 		const mockedSubComponent = renderComponentWithProps({
 			...defaultProps(),
-			scene: {
-				strokes: exampleStrokes([addedPoint]),
-			},
+			strokes: exampleStrokes([addedPoint]),
 		}).find(MockedSubComponent);
 		expect(mockedSubComponent.prop('sketches')[0].strokes[0].finished).to.be.true();
 	});
@@ -138,12 +128,10 @@ describe('Sketch combiner', () => {
 		const stroke2 = exampleStrokes([addedPoint2])[0];
 		stroke2.finished = false;
 		const mockedSubComponent = renderComponentWithProps({
-			scene: {
-				strokes: [
-					...exampleStrokes([addedPoint1]),
-					stroke2,
-				],
-			},
+			strokes: [
+				...exampleStrokes([addedPoint1]),
+				stroke2,
+			],
 			threshold,
 		}).find(MockedSubComponent);
 		expect(mockedSubComponent.prop('sketches')[0].strokes[0].finished).to.be.true();

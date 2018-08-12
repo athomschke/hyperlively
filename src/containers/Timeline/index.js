@@ -23,7 +23,7 @@ const mapStateToProps = (state: HyperlivelyState) => {
 		...state.data.scenes.future,
 	]);
 	const max = lastScenes.reduce(addScenePoints, 0);
-	const scene = lastScenes[state.data.sceneIndex];
+	const strokes = lastScenes[state.data.sceneIndex] ? lastScenes[state.data.sceneIndex].strokes : [];
 	const threshold = state.ui.threshold;
 
 	const width = window.innerWidth;
@@ -31,7 +31,7 @@ const mapStateToProps = (state: HyperlivelyState) => {
 
 	return {
 		max,
-		scene,
+		strokes,
 		threshold,
 		width,
 		height,
