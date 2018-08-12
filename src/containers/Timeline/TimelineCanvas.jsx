@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
 
-import SketchTransformer, { type SketchTransformerProps } from 'src/components/SketchTransformer';
+import SketchTransformer, { type SketchTransformerProps } from 'src/decorators/SketchTransformer';
 import PlainDrawer, { type PlainDrawerProps } from 'src/components/Drawer/PlainDrawer';
 
 import SketchFitter, { type SketchFitterProps } from './SketchFitter';

@@ -4,9 +4,9 @@ import { last } from 'lodash';
 
 import { select } from 'src/actionCreators';
 import type { HyperlivelyState, Stroke } from 'src/types';
-import SketchCombiner, { type SketchCombinerProps } from 'src/components/SketchCombiner';
-import TimeoutBehavior, { type TimeoutBehaviorProps } from 'src/components/TimeoutBehavior';
-import HTMLWidth, { type HTMLWidthProps } from 'src/components/HTMLWidth';
+import SketchCombiner, { type SketchCombinerProps } from 'src/decorators/SketchCombiner';
+import TimeoutBehavior, { type TimeoutBehaviorProps } from 'src/decorators/TimeoutBehavior';
+import HTMLWidth, { type HTMLWidthProps } from 'src/decorators/HTMLWidth';
 
 import Timeline, { type TimelineProps } from './Timeline';
 

@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import SketchCombiner, { type SketchCombinerProps } from 'src/components/SketchCombiner';
+import SketchCombiner, { type SketchCombinerProps } from 'src/decorators/SketchCombiner';
 import type { HyperlivelyState } from 'src/types';
 
 import Page, { type PageProps } from './Page';
