@@ -103,7 +103,6 @@ const scopedStrokeReducer: StrokeReducer = (state, action) => {
 			...state,
 			points: points(state.points, action),
 			finished: true,
-			id: Math.ceil(Math.random() * 1000000),
 		};
 	default:
 		if (Object.keys(pointsActions).includes(action.type)) {

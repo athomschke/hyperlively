@@ -7,10 +7,11 @@ import type { Data, Undoable, Scenes } from 'src/types';
 import { undoable, undoableActions, type UndoableActionType } from './undoable';
 import { sceneIndex, setSceneIndexActions, type SetSceneActionType } from './sceneIndex';
 import { scenes, scenesActions, type ScenesActionType } from './scenes';
+import { strokes, strokesActions, type StrokesActionType } from './strokes';
 import { interpretation, interpretationActions, type INTERPRETATION_ACTION } from './interpretation';
 import { specificActions, specificActionsActions, type SPECIFIG_ACTIONS_ACTION } from './specificActions';
 
-type UndoableSceneActionType = UndoableActionType<ScenesActionType | SetSceneActionType>
+type UndoableSceneActionType = UndoableActionType<ScenesActionType | SetSceneActionType | StrokesActionType>
 
 type DataActionType = UndoableSceneActionType | INTERPRETATION_ACTION | SPECIFIG_ACTIONS_ACTION
 
@@ -22,6 +23,7 @@ export const dataActions = {
 	...interpretationActions,
 	...undoableActions(scenesActions),
 	...scenesActions,
+	...strokesActions,
 };
 
 const initialUndoableScenes = (): Undoable<Scenes> => ({
@@ -34,6 +36,7 @@ const initialDataState = (): Data => ({
 	sceneIndex: 0,
 	interpretation: interpretation(undefined, { type: '' }),
 	specificActions: specificActions(undefined, { type: '' }),
+	strokes: strokes(undefined, { type: '' }),
 	scenes: initialUndoableScenes(),
 });
 
@@ -74,20 +77,36 @@ const scopedData: DataReducer = (state, action) => {
 			scenes: state.scenes,
 		};
 	}
-	default:
+	default: {
 		if (Object.keys(setSceneIndexActions).indexOf(action.type) >= 0) {
 			return {
 				...state,
 				sceneIndex: sceneIndex(state.sceneIndex, action),
 			};
-		} if (Object.keys(undoableActions(scenesActions)).indexOf(action.type) >= 0) {
-			const undoableScenesAction: UndoableSceneActionType = (action: any);
-			undoableScenesAction.sceneIndex = state.sceneIndex;
-			return {
-				...state,
-				scenes: undoableScenes(state.scenes, undoableScenesAction),
-			};
-		} if (Object.keys(dataActions).indexOf(action.type) >= 0) {
+		}
+		if (
+			(Object.keys(undoableActions(scenesActions)).indexOf(action.type) >= 0)
+			|| (Object.keys(strokesActions).indexOf(action.type) >= 0)
+		) {
+			let returnState = state;
+			if (Object.keys(undoableActions(scenesActions)).indexOf(action.type) >= 0) {
+				const undoableScenesAction: UndoableSceneActionType = (action: any);
+				undoableScenesAction.sceneIndex = returnState.sceneIndex;
+				returnState = {
+					...returnState,
+					scenes: undoableScenes(returnState.scenes, undoableScenesAction),
+				};
+			}
+			if (Object.keys(strokesActions).indexOf(action.type) >= 0) {
+				const strokesAction: StrokesActionType = (action: any);
+				returnState = {
+					...returnState,
+					strokes: strokes(returnState.strokes, strokesAction),
+				};
+			}
+			return returnState;
+		}
+		if (Object.keys(dataActions).indexOf(action.type) >= 0) {
 			return {
 				...state,
 				interpretation: interpretation(state.interpretation, action),
@@ -95,6 +114,7 @@ const scopedData: DataReducer = (state, action) => {
 			};
 		}
 		return state;
+	}
 	}
 };
 

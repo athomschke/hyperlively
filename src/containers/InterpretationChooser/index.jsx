@@ -2,12 +2,13 @@
 import { connect } from 'react-redux';
 
 import type { HyperlivelyState } from 'src/types';
+import referencedStrokes from 'src/containers/referencedStrokes';
 import { collapseParametersPath, checkParametersPath, chooseParameters } from 'src/actionCreators';
 
 import InterpretationChooser, { type InterpretationChooserStateProps, type InterpretationChooserDispatchProps } from './InterpretationChooser';
 
 const mapStateToProps = (state: HyperlivelyState): InterpretationChooserStateProps => ({
-	strokes: state.data.scenes.present.length > state.data.sceneIndex ? state.data.scenes.present[state.data.sceneIndex].strokes : [],
+	strokes: referencedStrokes(state.data.strokes, state.data.scenes.present, state.data.sceneIndex),
 	expandedPaths: state.ui.parameters.expandedPath,
 	checkedPaths: state.ui.parameters.checkedPath,
 	interpretation: state.data.interpretation,

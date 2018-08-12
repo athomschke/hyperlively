@@ -1,32 +1,23 @@
 // @flow
-import type {
-	Undoable, Scenes, Scene, Stroke,
-} from 'src/types';
-import { stroke } from 'src/reducers/data/strokes/stroke';
+import type { Undoable, Scenes, Scene } from 'src/types';
 
-const dummyStroke = (points: Array<number>): Stroke => ({
-	...stroke(undefined, { type: '' }),
-	points: points.map(c => ({ x: c, y: c, timeStamp: c })),
-	finished: true,
-});
+const scene1State1: Scene = { strokes: [{ id: 0, length: 0 }] };
+const scene1State2: Scene = { strokes: [{ id: 0, length: 1 }] };
+const scene1State3: Scene = { strokes: [{ id: 0, length: 2 }] };
+const scene1State4: Scene = { strokes: [{ id: 0, length: 3 }] };
+const scene1State5: Scene = { strokes: [{ id: 0, length: 4 }] };
+const scene1State6: Scene = { strokes: [{ id: 0, length: 5 }] };
+const scene1State7: Scene = { strokes: [{ id: 0, length: 6 }] };
+const scene1State8: Scene = { strokes: [{ id: 0, length: 7 }] };
 
-const scene1State1: Scene = { strokes: [dummyStroke([])] };
-const scene1State2: Scene = { strokes: [dummyStroke([1])] };
-const scene1State3: Scene = { strokes: [dummyStroke([1, 2])] };
-const scene1State4: Scene = { strokes: [dummyStroke([1, 2, 3])] };
-const scene1State5: Scene = { strokes: [dummyStroke([1, 2, 3, 4])] };
-const scene1State6: Scene = { strokes: [dummyStroke([1, 2, 3, 4, 5])] };
-const scene1State7: Scene = { strokes: [dummyStroke([1, 2, 3, 4, 5, 6])] };
-const scene1State8: Scene = { strokes: [dummyStroke([1, 2, 3, 4, 5, 6, 7])] };
-
-const scene2State1: Scene = { strokes: [dummyStroke([])] };
-const scene2State2: Scene = { strokes: [dummyStroke([10])] };
-const scene2State3: Scene = { strokes: [dummyStroke([10, 20])] };
-const scene2State4: Scene = { strokes: [dummyStroke([10, 20, 30])] };
-const scene2State5: Scene = { strokes: [dummyStroke([10, 20, 30, 40])] };
-const scene2State6: Scene = { strokes: [dummyStroke([10, 20, 30, 40, 50])] };
-const scene2State7: Scene = { strokes: [dummyStroke([10, 20, 30, 40, 50, 60])] };
-const scene2State8: Scene = { strokes: [dummyStroke([10, 20, 30, 40, 50, 60, 70])] };
+const scene2State1: Scene = { strokes: [{ id: 1, length: 0 }] };
+const scene2State2: Scene = { strokes: [{ id: 1, length: 1 }] };
+const scene2State3: Scene = { strokes: [{ id: 1, length: 2 }] };
+const scene2State4: Scene = { strokes: [{ id: 1, length: 3 }] };
+const scene2State5: Scene = { strokes: [{ id: 1, length: 4 }] };
+const scene2State6: Scene = { strokes: [{ id: 1, length: 5 }] };
+const scene2State7: Scene = { strokes: [{ id: 1, length: 6 }] };
+const scene2State8: Scene = { strokes: [{ id: 1, length: 7 }] };
 
 export const emptyState: Undoable<Scenes> = {
 	past: [

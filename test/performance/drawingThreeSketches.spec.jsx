@@ -1,13 +1,13 @@
 // @flow
 import { expect } from 'chai';
-import { map, reduce, flatten } from 'lodash';
+import { map, reduce } from 'lodash';
 import { useFakeXMLHttpRequest } from 'sinon';
 
 import {
 	renderApplicationWithState, mountApp, dismountApp, manuallyDrawStrokes, getWindowNode,
 } from 'test/integration/helpers';
 
-import { createUndoableScenes } from './state';
+import { createStrokes } from './state';
 import emptyState from './emptyState';
 
 const getRenderTime = (allStrokes) => {
@@ -34,7 +34,7 @@ describe('Performance', () => {
 
 	it('Drawing three shapes does not take too long', () => {
 		const renderings = 10;
-		const allStrokes = flatten(map(createUndoableScenes(1, 10), scene => scene.strokes));
+		const allStrokes = createStrokes(1, 10);
 		const renderTimes = map(new Array(renderings), () => getRenderTime(allStrokes));
 		const fullTime = reduce(renderTimes, (time, averageTime) => averageTime + time);
 		const averageRenderTime = fullTime / renderings;

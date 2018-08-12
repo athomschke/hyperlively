@@ -3,50 +3,62 @@ import { last, cloneDeep } from 'lodash';
 
 import { stroke } from 'src/reducers/data/strokes/stroke';
 import type {
-	Scene, Scenes, Stroke, Data, Undoable, HyperlivelyState,
+	Scenes, Stroke, Data, Undoable, HyperlivelyState, StrokeReference,
 } from 'src/types';
 
-const dummyStroke: Stroke = stroke(undefined, { type: '' });
+const NUMBER_OF_STROKES = 1;
+const LENGTH_OF_STROKE = 3;
 
-const createUndoableScenes = (numberOfStrokes: number, lengthOfStroke: number): Scenes => {
-	const allScenes: Array<Scene> = [];
-	const sceneInProgress: Scene = {
-		strokes: [],
-	};
-	let time = new Date().getTime();
-	for (let i = 0; i < numberOfStrokes; i += 1) {
-		const strokeInProgress: Stroke = Object.assign({}, dummyStroke);
-		time += 100;
-		for (let j = 0; j < lengthOfStroke; j += 1) {
-			strokeInProgress.points.push({
-				x: 10 + j,
-				y: 10 + i,
-				timeStamp: time,
-			});
-			if (j === lengthOfStroke - 1) { // last stroke
-				strokeInProgress.finished = true;
-			}
-			if (j === 0) { // first stroke
-				sceneInProgress.strokes.push(strokeInProgress);
-			}
-			allScenes.push(Object.assign({}, cloneDeep(sceneInProgress)));
-			time += 1;
+export const createUndoableScenes = (numberOfStrokes: number, lengthOfStroke: number): Array<Scenes> => {
+	const pastScenes: Array<Scenes> = [];
+	const currentStrokes: Array<StrokeReference> = [];
+	for (let id = 0; id < numberOfStrokes; id += 1) {
+		currentStrokes.push({ id, length: 0 });
+		pastScenes.push(
+			[{ strokes: cloneDeep(currentStrokes) }],
+		);
+		for (let length = 0; length < lengthOfStroke; length += 1) {
+			last(currentStrokes).length = length;
+			pastScenes.push(
+				[{ strokes: cloneDeep(currentStrokes) }],
+			);
 		}
 	}
-	return allScenes;
+	return pastScenes;
 };
 
-const sceneState: Scenes = createUndoableScenes(1, 3);
+export const createStrokes = (numberOfStrokes: number, lengthOfStroke: number): Array<Stroke> => {
+	let timeStamp = new Date().getTime();
+	const strokes = [];
+	for (let id = 0; id < numberOfStrokes; id += 1) {
+		const currentStroke = stroke(undefined, { type: '' });
+		for (let length = 0; length < lengthOfStroke; length += 1) {
+			currentStroke.points.push({
+				x: 10 + id,
+				y: 10 + length,
+				timeStamp,
+			});
+			timeStamp += 1;
+		}
+		strokes.push(currentStroke);
+		timeStamp += 100;
+	}
+	return strokes;
+};
 
-const past: Array<Scenes> = [sceneState.slice(0, sceneState.length - 1)];
+const allScenes = createUndoableScenes(NUMBER_OF_STROKES, LENGTH_OF_STROKE);
 
-const present: Scenes = [last(sceneState)];
+const past: Array<Scenes> = allScenes.slice(0, allScenes.length - 1);
+
+const present: Scenes = last(allScenes);
 
 const scenes: Undoable<Scenes> = {
 	past,
 	present,
 	future: [],
 };
+
+const strokes: Array<Stroke> = createStrokes(NUMBER_OF_STROKES, LENGTH_OF_STROKE);
 
 const data: Data = {
 	specificActions: [],
@@ -55,10 +67,11 @@ const data: Data = {
 		shapes: [],
 		texts: [],
 	},
+	strokes,
 	scenes,
 };
 
-const hyperlivelyState: HyperlivelyState = {
+export const hyperlivelyState: HyperlivelyState = {
 	interpretation: {
 		showInterpreter: false,
 		interpretations: {
@@ -91,5 +104,3 @@ const hyperlivelyState: HyperlivelyState = {
 		},
 	},
 };
-
-export { sceneState, hyperlivelyState, createUndoableScenes };

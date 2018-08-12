@@ -10,9 +10,12 @@ const emptyCanvas = (): HyperlivelyState => ({
 			shapes: [],
 			texts: [],
 		},
+		strokes: [],
 		scenes: {
 			past: [],
-			present: [],
+			present: [{
+				strokes: [],
+			}],
 			future: [],
 		},
 	},

@@ -16,6 +16,7 @@ const data: Data = {
 		shapes: [],
 		texts: [],
 	},
+	strokes: [],
 	scenes,
 };
 
