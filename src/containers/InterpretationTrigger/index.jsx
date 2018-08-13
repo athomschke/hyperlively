@@ -25,8 +25,11 @@ const mapDispatchToProps = dispatch => ({
 			dispatch(actionCreators.setObserveMutations(true));
 		}
 	},
-	onInterpretationDone: (isSingleExecutionInterpretation: boolean) => {
+	onInterpretationDone: (isSingleExecutionInterpretation: boolean, label?: string, actions?: string[]) => {
 		if (isSingleExecutionInterpretation) {
+			if (label && actions) {
+				dispatch(actionCreators.storeInterpretation(label, actions));
+			}
 			dispatch(actionCreators.checkParametersPath([]));
 			dispatch(actionCreators.chooseFunctions([]));
 			dispatch(actionCreators.checkActionsPath([]));

@@ -76,6 +76,7 @@ const canvasWithTwoScenes = (): HyperlivelyState => ({
 		interpretations: {
 			functions: [],
 			parameters: [],
+			stored: {},
 		},
 	},
 });

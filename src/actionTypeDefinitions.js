@@ -200,3 +200,9 @@ export type CHOOSE_PARAMETERS_ACTION = {
 	type: 'CHOOSE_PARAMETERS',
 	parameters: Parameters,
 }
+
+export type STORE_INTERPRETATION_ACTION = {
+	type: 'STORE_INTERPRETATION',
+	label: string,
+	actions: string[],
+}

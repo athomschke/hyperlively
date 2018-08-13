@@ -62,7 +62,7 @@ export type Reducer = (state: any, action: CommonAction) => any;
 export type TreeParameter = string | number;
 
 export type Functions = Array<{
-	label?: string,
+	recognizedLabel?: string,
 	name: string,
 	parameters: Array<string>,
 }>
@@ -196,9 +196,14 @@ export type JSONChooserState = {
 	checkedPath: Array<string>,
 }
 
+export type StoredInterpretations = {
+	[label: string]: Array<string>,
+}
+
 export type InterpretationsState = {
 	functions: Functions,
 	parameters: Parameters,
+	stored: StoredInterpretations,
 }
 
 export type UiState = {

@@ -14,7 +14,7 @@ export type InterpretationTriggerProps = {
 	performAction: () => void,
 	setInterval: (() => void, number) => number,
 	clearInterval: (interval: number) => void,
-	onInterpretationDone: (boolean) => void,
+	onInterpretationDone: (boolean, label?: string, actionNames?: string[]) => void,
 }
 
 const InterpretationTrigger = (props: InterpretationTriggerProps) => {
@@ -25,7 +25,7 @@ const InterpretationTrigger = (props: InterpretationTriggerProps) => {
 
 	const doPerformAction = (items: Functions, valuesToUse: Array<number | string>, isTicking: ?boolean) => {
 		let valueIndex = 0;
-		const performableItems = items.filter(
+		const performableItems: Functions = items.filter(
 			item => props.specificActions.map(specificAction => specificAction.actionName).indexOf(item.name) < 0,
 		);
 		forEach(performableItems, (item) => {
@@ -34,7 +34,11 @@ const InterpretationTrigger = (props: InterpretationTriggerProps) => {
 			valueIndex += item.parameters.length;
 			performAction.apply(this, [functionName].concat(functionParameters));
 		});
-		onInterpretationDone(!isTicking);
+		onInterpretationDone(
+			!isTicking,
+			performableItems[0].recognizedLabel,
+			performableItems.map(performableItem => performableItem.name),
+		);
 	};
 
 	const onAcceptInterpretationClick = () => {

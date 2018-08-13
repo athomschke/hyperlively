@@ -1,7 +1,7 @@
 // @flow
-import { CHOOSE_FUNCTIONS, CHOOSE_PARAMETERS } from 'src/constants/actionTypes';
-import type { CHOOSE_FUNCTIONS_ACTION, CHOOSE_PARAMETERS_ACTION } from 'src/actionTypeDefinitions';
-import { chooseFunctions, chooseParameters } from 'src/actionCreators';
+import { CHOOSE_FUNCTIONS, CHOOSE_PARAMETERS, STORE_INTERPRETATION } from 'src/constants/actionTypes';
+import type { CHOOSE_FUNCTIONS_ACTION, CHOOSE_PARAMETERS_ACTION, STORE_INTERPRETATION_ACTION } from 'src/actionTypeDefinitions';
+import { chooseFunctions, chooseParameters, storeInterpretation } from 'src/actionCreators';
 import type { InterpretationsState } from 'src/types';
 import scopeToActions from 'src/reducers/scopeToActions';
 
@@ -27,20 +27,37 @@ const parameters = scopeToActions((state, action: CHOOSE_PARAMETERS_ACTION) => {
 	return state;
 }, chooseParametersActions, () => []);
 
-export type INTERPRETATIONS_ACTION = CHOOSE_FUNCTIONS_ACTION | CHOOSE_PARAMETERS_ACTION;
+const storeInterpretationActions = {
+	STORE_INTERPRETATION: storeInterpretation,
+};
+
+const stored = scopeToActions((state, action: STORE_INTERPRETATION_ACTION) => {
+	if (action.type === STORE_INTERPRETATION) {
+		return {
+			...state,
+			[action.label]: action.actions,
+		};
+	}
+	return state;
+}, storeInterpretationActions, () => ({}));
+
+export type INTERPRETATIONS_ACTION = CHOOSE_FUNCTIONS_ACTION | CHOOSE_PARAMETERS_ACTION | STORE_INTERPRETATION_ACTION;
 
 export const interpretationsActions = {
+	...storeInterpretationActions,
 	...chooseFunctionsActions,
 	...chooseParametersActions,
 };
 
 const initialInterpretationsState = () => ({
+	stored: stored(undefined, { type: '' }),
 	functions: functions(undefined, { type: '' }),
 	parameters: parameters(undefined, { type: '' }),
 });
 
 const interpretations = scopeToActions(
 	(state: InterpretationsState, action: INTERPRETATIONS_ACTION) => ({
+		stored: stored(state.stored, action),
 		functions: functions(state.functions, action),
 		parameters: parameters(state.parameters, action),
 	}), interpretationsActions, initialInterpretationsState,

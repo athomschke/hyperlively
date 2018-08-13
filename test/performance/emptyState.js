@@ -50,6 +50,7 @@ const hyperlively: HyperlivelyState = {
 		interpretations: {
 			functions: [],
 			parameters: [],
+			stored: {},
 		},
 	},
 };

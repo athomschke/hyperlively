@@ -82,6 +82,7 @@ const canvasWithIrregularStrokesWithPloma = (): HyperlivelyState => ({
 		interpretations: {
 			functions: [],
 			parameters: [],
+			stored: {},
 		},
 	},
 });

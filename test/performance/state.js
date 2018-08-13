@@ -101,6 +101,7 @@ export const hyperlivelyState: HyperlivelyState = {
 		interpretations: {
 			functions: [],
 			parameters: [],
+			stored: {},
 		},
 	},
 };

@@ -18,7 +18,7 @@ export type InterpretationChooserStateProps = {
 }
 
 export type InterpretationChooserDispatchProps = {
-	onParameterChoose: (recognizedLabel?: string, parameters: Array<TreeParameter>) => void,
+	onParameterChoose: (parameters: Array<TreeParameter>) => void,
 }
 
 export type InterpretationChooserProps = InterpretationChooserStateProps & InterpretationChooserDispatchProps & {
@@ -71,7 +71,7 @@ const InterpretationChooser = (props: InterpretationChooserProps) => {
 	const { selectedParameters } = props;
 	const jsonTree = (parameterObject(props.interpretation, props.selectedStrokes, props.sketches):JSONObject);
 
-	const handleOnParameterChoose = (recognizedLabel?: string, parameters: Array<string>): void => {
+	const handleOnParameterChoose = (parameters: Array<string>): void => {
 		const valueAtPath = (obj: Object, path: string) => path.split(PATH_DELIMITER).reduce((subtree, key) => subtree[key], obj);
 		const leafes = parameters.map(checkedKey => valueAtPath(jsonTree, checkedKey));
 		const values: Array<any> = leafes.map(
@@ -81,7 +81,7 @@ const InterpretationChooser = (props: InterpretationChooserProps) => {
 				return parseInt(leaf, 10);
 			},
 		);
-		props.onParameterChoose(recognizedLabel, [...selectedParameters, ...values]);
+		props.onParameterChoose([...selectedParameters, ...values]);
 	};
 
 	const getChooserProps = (key, prefixes, position) => ({
@@ -151,13 +151,16 @@ const InterpretationChooser = (props: InterpretationChooserProps) => {
 	};
 
 	const renderChooserGroupAt = (groupKey, choosersProps, position) => {
-		const recognizedLabelInterpretation = choosersProps
-			.find(choosersProp => choosersProp.key.startsWith('interpretation'));
+		const recognizedLabel = choosersProps
+			.filter(choosersProp => choosersProp.key.startsWith('interpretation'))
+			.map(
+				choosersProp => choosersProp.prefixes.reduce(
+					(value, prefix) => value[prefix],
+					jsonTree,
+				).candidate.label,
+			)
+			.filter(Boolean)[0];
 
-		const recognizedLabel = recognizedLabelInterpretation && recognizedLabelInterpretation.prefixes.reduce(
-			(value, prefix) => value[prefix],
-			jsonTree,
-		).candidate.label;
 		return (
 			<div
 				key={groupKey}
