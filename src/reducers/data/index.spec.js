@@ -9,11 +9,7 @@ import type { Scene, Data } from 'src/types';
 import { data } from '.';
 
 const existingScene: () => Scene = () => ({
-	strokes: [{
-		...stroke(undefined, { type: '' }),
-		finished: true,
-		points: [point(10, 10)],
-	}],
+	strokes: [{ id: NaN, length: 1 }],
 });
 
 describe('Data', () => {
@@ -43,6 +39,7 @@ describe('Data', () => {
 				shapes: [],
 				texts: [],
 			},
+			strokes: [],
 			scenes: {
 				past: [],
 				future: [],
@@ -77,6 +74,11 @@ describe('Data', () => {
 				shapes: [],
 				texts: [],
 			},
+			strokes: [{
+				...stroke(undefined, { type: '' }),
+				finished: true,
+				points: [point(10, 10)],
+			}],
 			scenes: {
 				past: [],
 				future: [],
@@ -112,6 +114,28 @@ describe('Data', () => {
 				shapes: [],
 				texts: [],
 			},
+			strokes: [
+				{
+					...stroke(undefined, { type: '' }),
+					finished: true,
+					points: [point(10, 10)],
+				},
+				{
+					...stroke(undefined, { type: '' }),
+					finished: true,
+					points: [point(10, 10)],
+				},
+				{
+					...stroke(undefined, { type: '' }),
+					finished: true,
+					points: [point(10, 10)],
+				},
+				{
+					...stroke(undefined, { type: '' }),
+					finished: true,
+					points: [point(10, 10)],
+				},
+			],
 			scenes: {
 				past: [],
 				future: [],

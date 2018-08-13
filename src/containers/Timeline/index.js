@@ -4,9 +4,10 @@ import { last } from 'lodash';
 
 import { select } from 'src/actionCreators';
 import type { HyperlivelyState, Stroke } from 'src/types';
-import SketchCombiner, { type SketchCombinerProps } from 'src/components/SketchCombiner';
-import TimeoutBehavior, { type TimeoutBehaviorProps } from 'src/components/TimeoutBehavior';
-import HTMLWidth, { type HTMLWidthProps } from 'src/components/HTMLWidth';
+import SketchCombiner, { type SketchCombinerProps } from 'src/decorators/SketchCombiner';
+import TimeoutBehavior, { type TimeoutBehaviorProps } from 'src/decorators/TimeoutBehavior';
+import HTMLWidth, { type HTMLWidthProps } from 'src/decorators/HTMLWidth';
+import referencedStrokes from 'src/containers/referencedStrokes';
 
 import Timeline, { type TimelineProps } from './Timeline';
 
@@ -16,14 +17,14 @@ HTMLWidthProps<TimeoutBehaviorProps<SketchCombinerProps<TimelineProps>>>
 const HyperlivelyTimeline: React.ComponentType<HyperlivelyTimelineProps> = HTMLWidth(TimeoutBehavior(SketchCombiner(Timeline)));
 
 const mapStateToProps = (state: HyperlivelyState) => {
-	const addStrokePoints = (count, stroke) => count + stroke.points.length;
+	const addStrokePoints = (count, stroke) => count + stroke.length;
 	const addScenePoints = (count, scene) => count + scene.strokes.reduce(addStrokePoints, 0);
 	const lastScenes = last([
 		state.data.scenes.present,
 		...state.data.scenes.future,
 	]);
 	const max = lastScenes.reduce(addScenePoints, 0);
-	const scene = lastScenes[state.data.sceneIndex];
+	const strokes = referencedStrokes(state.data.strokes, lastScenes, state.data.sceneIndex);
 	const threshold = state.ui.threshold;
 
 	const width = window.innerWidth;
@@ -31,7 +32,7 @@ const mapStateToProps = (state: HyperlivelyState) => {
 
 	return {
 		max,
-		scene,
+		strokes,
 		threshold,
 		width,
 		height,

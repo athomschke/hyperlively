@@ -27,114 +27,32 @@ const canvasWithTwoScenes = (): HyperlivelyState => ({
 			texts: [],
 			shapes: [],
 		},
+		strokes: [
+			stroke(1, [
+				{ x: 10, y: 10, timeStamp: 100 },
+				{ x: 10, y: 30, timeStamp: 101 },
+			], true),
+			stroke(2, [
+				{ x: 20, y: 10, timeStamp: 1100 },
+				{ x: 20, y: 30, timeStamp: 1101 },
+				{ x: 20, y: 50, timeStamp: 1102 },
+				{ x: 20, y: 70, timeStamp: 1103 },
+				{ x: 20, y: 90, timeStamp: 1104 },
+				{ x: 20, y: 110, timeStamp: 1105 },
+			], false),
+		],
 		scenes: {
 			past: [
-				[
-					{
-						strokes: [
-							stroke(1, [
-								{ x: 10, y: 10, timeStamp: 100 },
-							], false),
-						],
-					},
-				],
-				[
-					{
-						strokes: [stroke(1, [
-							{ x: 10, y: 10, timeStamp: 100 },
-							{ x: 10, y: 30, timeStamp: 101 },
-						], false)],
-					},
-				],
-				[
-					{
-						strokes: [stroke(1, [
-							{ x: 10, y: 10, timeStamp: 100 },
-							{ x: 10, y: 30, timeStamp: 101 },
-						], true)],
-					}, {
-						strokes: [stroke(2, [
-							{ x: 20, y: 10, timeStamp: 1100 },
-						], false)],
-					},
-				],
-				[
-					{
-						strokes: [stroke(1, [
-							{ x: 10, y: 10, timeStamp: 100 },
-							{ x: 10, y: 30, timeStamp: 101 },
-						], true)],
-					}, {
-						strokes: [stroke(2, [
-							{ x: 20, y: 10, timeStamp: 1100 },
-							{ x: 20, y: 30, timeStamp: 1101 },
-						], false)],
-					},
-				],
-				[
-					{
-						strokes: [stroke(1, [
-							{ x: 10, y: 10, timeStamp: 100 },
-							{ x: 10, y: 30, timeStamp: 101 },
-						], true)],
-					}, {
-						strokes: [stroke(2, [
-							{ x: 20, y: 10, timeStamp: 1100 },
-							{ x: 20, y: 30, timeStamp: 1101 },
-							{ x: 20, y: 50, timeStamp: 1102 },
-						], false)],
-					},
-				],
-				[
-					{
-						strokes: [stroke(1, [
-							{ x: 10, y: 10, timeStamp: 100 },
-							{ x: 10, y: 30, timeStamp: 101 },
-						], true)],
-					}, {
-						strokes: [stroke(2, [
-							{ x: 20, y: 10, timeStamp: 1100 },
-							{ x: 20, y: 30, timeStamp: 1101 },
-							{ x: 20, y: 50, timeStamp: 1102 },
-							{ x: 20, y: 70, timeStamp: 1103 },
-						], false)],
-					},
-				],
-				[
-					{
-						strokes: [stroke(1, [
-							{ x: 10, y: 10, timeStamp: 100 },
-							{ x: 10, y: 30, timeStamp: 101 },
-						], true)],
-					}, {
-						strokes: [stroke(2, [
-							{ x: 20, y: 10, timeStamp: 1100 },
-							{ x: 20, y: 30, timeStamp: 1101 },
-							{ x: 20, y: 50, timeStamp: 1102 },
-							{ x: 20, y: 70, timeStamp: 1103 },
-							{ x: 20, y: 90, timeStamp: 1104 },
-						], false)],
-					},
-				],
+				[{ strokes: [{ id: 1, length: 1 }] }],
+				[{ strokes: [{ id: 1, length: 2 }] }],
+				[{ strokes: [{ id: 1, length: 2 }] }, { strokes: [{ id: 2, length: 1 }] }],
+				[{ strokes: [{ id: 1, length: 2 }] }, { strokes: [{ id: 2, length: 2 }] }],
+				[{ strokes: [{ id: 1, length: 2 }] }, { strokes: [{ id: 2, length: 3 }] }],
+				[{ strokes: [{ id: 1, length: 2 }] }, { strokes: [{ id: 2, length: 4 }] }],
+				[{ strokes: [{ id: 1, length: 2 }] }, { strokes: [{ id: 2, length: 5 }] }],
 			],
 			future: [],
-			present: [
-				{
-					strokes: [stroke(1, [
-						{ x: 10, y: 10, timeStamp: 100 },
-						{ x: 10, y: 30, timeStamp: 101 },
-					], true)],
-				}, {
-					strokes: [stroke(2, [
-						{ x: 20, y: 10, timeStamp: 1100 },
-						{ x: 20, y: 30, timeStamp: 1101 },
-						{ x: 20, y: 50, timeStamp: 1102 },
-						{ x: 20, y: 70, timeStamp: 1103 },
-						{ x: 20, y: 90, timeStamp: 1104 },
-						{ x: 20, y: 110, timeStamp: 1105 },
-					], false)],
-				},
-			],
+			present: [{ strokes: [{ id: 1, length: 2 }] }, { strokes: [{ id: 2, length: 6 }] }],
 		},
 	},
 	ui: {

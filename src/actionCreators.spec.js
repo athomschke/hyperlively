@@ -112,14 +112,13 @@ describe('Action Creators', () => {
 			const x = 10;
 			const y = 10;
 			const timeStamp = 20;
-			const expectedAction = {
-				type: 'APPEND_STROKE',
-				x,
-				y,
-				timeStamp,
-				sceneIndex: NaN,
-			};
-			expect(actionCreators.createStroke(x, y, timeStamp)).to.deep.equal(expectedAction);
+			const action = actionCreators.createStroke(x, y, timeStamp);
+			expect(action.type).to.equal('APPEND_STROKE');
+			expect(action.x).to.equal(x);
+			expect(action.y).to.equal(y);
+			expect(action.timeStamp).to.equal(timeStamp);
+			expect(action.sceneIndex).to.deep.equal(NaN);
+			expect(action.id).to.not.be.undefined();
 		});
 
 		it('should create an action to finish a stroke from an event', () => {

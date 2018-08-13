@@ -15,6 +15,7 @@ export type APPEND_POINT_ACTION = {
 
 export type APPEND_STROKE_ACTION = {
 	type: typeof APPEND_STROKE;
+	id: number;
 	x: number;
 	y: number;
 	timeStamp: number;

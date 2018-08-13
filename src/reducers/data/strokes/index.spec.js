@@ -7,8 +7,6 @@ import {
 import { point, event, exampleStrokes } from 'src/helpers.spec';
 import type { Stroke } from 'src/types';
 
-import { stroke } from './stroke';
-
 import { strokes } from '.';
 
 const TIME_STAMP = 23675194;
@@ -46,11 +44,11 @@ describe('strokes', () => {
 			expect(result[1].points[0]).to.deep.equal(newPoint);
 		});
 
-		it('does not assign an ID yet', () => {
+		it('assigns an ID', () => {
 			const state = strokes(undefined, { type: '' });
 			const action = createStroke(0, 0, 0);
 
-			expect(Number.isNaN(strokes(state, action)[0].id)).to.be.true();
+			expect(strokes(state, action)[0].id).to.exist();
 		});
 	});
 
@@ -115,18 +113,6 @@ describe('strokes', () => {
 			expect(result[1].points).to.have.length(1);
 			expect(result[1].finished).to.be.true();
 			expect(result[1].points[0]).to.deep.equal(newPoint);
-		});
-
-		it('Assigns an ID', () => {
-			const dummyStroke = {
-				...stroke(undefined, { type: '' }),
-				points: [{ x: 1, y: 1, timeStamp: 0 }, { x: 2, y: 2, timeStamp: 1 }],
-				finished: false,
-			};
-			const action = finishStroke(2, 2, 3);
-			const nextState = strokes([dummyStroke], action);
-			expect(Number.isNaN(nextState[0].id)).to.be.false();
-			expect(typeof nextState[0].id).to.equal('number');
 		});
 	});
 

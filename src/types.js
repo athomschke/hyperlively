@@ -20,8 +20,13 @@ export type Stroke = {
 	id: number,
 }
 
+export type StrokeReference = {
+	id: number,
+	length: number,
+}
+
 export type Scene = {
-	strokes: Array<Stroke>,
+	strokes: Array<StrokeReference>,
 }
 
 export type Sketch = {
@@ -212,6 +217,7 @@ export type Data = {
 	interpretation: RecognitionState,
 	specificActions: Array<ActionMapping>,
 	scenes: Undoable<Scenes>,
+	strokes: Array<Stroke>,
 }
 
 export type HyperlivelyState = {

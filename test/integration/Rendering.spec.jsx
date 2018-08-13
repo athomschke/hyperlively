@@ -92,7 +92,8 @@ describe('Integration', () => {
 						{ x: 20, y: 40, timeStamp: 103 },
 					],
 				};
-				canvasJson.data.scenes.present[0].strokes.push(newStroke);
+				canvasJson.data.scenes.present[0].strokes.push({ id: newStroke.id, length: newStroke.points.length });
+				canvasJson.data.strokes.push(newStroke);
 				renderApplicationWithState(canvasJson);
 				return getCombinedCanvas().then((newCombinedCanvas) => {
 					expect(hashCode(newCombinedCanvas.toDataURL())).to.equal(hashCode(renderedStrokesData));
@@ -104,6 +105,10 @@ describe('Integration', () => {
 			const canvasJson = cloneDeep(canvasWithTwoStrokes());
 			canvasJson.ui.threshold = 1500;
 			canvasJson.ui.handwritingRecognition = true;
+			canvasJson.data.strokes.forEach((visibleStroke) => {
+				// eslint-disable-next-line no-param-reassign
+				visibleStroke.hidden = true;
+			});
 			const presentScene = canvasJson.data.scenes.present[0];
 			presentScene.strokes = map(presentScene.strokes, presentStroke => ({
 				...presentStroke,

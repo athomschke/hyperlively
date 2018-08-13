@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import {
 	appendPoint, createStroke, finishStroke, toggleDrawing,
 } from 'src/actionCreators';
-import ModifierKey from 'src/components/ModifierKey';
-import Fullscreen from 'src/components/Fullscreen';
+import ModifierKey from 'src/decorators/ModifierKey';
+import Fullscreen from 'src/decorators/Fullscreen';
 import DragHandler from 'src/containers/Window/DragHandler';
 
 import Window from './Window';

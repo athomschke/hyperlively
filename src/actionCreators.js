@@ -44,7 +44,12 @@ export function appendPoint(x: number, y: number, timeStamp: number) {
 
 export function createStroke(x: number, y: number, timeStamp: number) {
 	return {
-		type: ActionTypes.APPEND_STROKE, x, y, timeStamp, sceneIndex: NaN,
+		type: ActionTypes.APPEND_STROKE,
+		id: Math.ceil(Math.random() * 1000000),
+		x,
+		y,
+		timeStamp,
+		sceneIndex: NaN,
 	};
 }
 

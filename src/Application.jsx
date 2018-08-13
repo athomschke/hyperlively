@@ -1,8 +1,8 @@
 // @flow
 import React from 'react';
 
-import Application from './containers/Application';
+import Page from './containers/Page';
 
 export default () => (
-	<Application />
+	<Page />
 );

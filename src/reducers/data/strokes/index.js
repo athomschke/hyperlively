@@ -38,7 +38,10 @@ const scopedStrokesReducer: StrokesReducer = (state, action) => {
 	case APPEND_STROKE:
 		return [
 			...state,
-			stroke(undefined, action),
+			{
+				...stroke(undefined, action),
+				id: action.id,
+			},
 		];
 	case APPEND_POINT:
 	case FINISH_STROKE: {
