@@ -72,7 +72,6 @@ const PrefixedJSONPropertyChooser = (props: PrefixedJSONPropertyChooserProps) =>
 		<JsonPropertyChooser
 			position={props.position}
 			jsonTree={jsonTree}
-			checkedPaths={[]}
 			expandedPaths={expandedPaths}
 			onCheckedPathsChange={paths => onCheck(combinePaths(props.prefixes, [], paths))}
 			onExpandedPathsChange={paths => props.onExpandedPathsChange(combinePaths(props.prefixes, props.expandedPaths, paths))}

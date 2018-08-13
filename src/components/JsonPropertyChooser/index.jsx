@@ -3,9 +3,7 @@ import React from 'react';
 import { cloneDeep } from 'lodash';
 import Tree, { TreeNode } from 'rc-tree';
 
-import type {
-	Coordinate, ReactTreeLeafFormat, ReactTreeNodeFormat, SortedPath,
-} from 'src/types';
+import type { Coordinate, ReactTreeLeafFormat, ReactTreeNodeFormat } from 'src/types';
 
 import formatObject from './formatObject';
 import style from './index.scss';
@@ -18,7 +16,6 @@ export type JsonPropertyChooserProps = {
 	position: ?Coordinate,
 	jsonTree: JSONObject,
 	expandedPaths: Array<string>,
-	checkedPaths: Array<SortedPath>,
 	onCheckedPathsChange: (checkedPaths: Array<string>) => void,
 	onExpandedPathsChange: (expandedPaths: Array<string>) => void,
 }

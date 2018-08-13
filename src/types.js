@@ -191,7 +191,6 @@ export type JSONPath = Array<Array<string>>;
 
 export type JSONChooserState = {
 	expandedPath: Array<string>,
-	checkedPath: Array<string>,
 }
 
 export type StoredInterpretations = {

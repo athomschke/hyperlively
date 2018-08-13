@@ -8,7 +8,6 @@ import ActionChooser, { type ActionChooserStateProps } from './ActionChooser';
 
 const mapStateToProps = (state: HyperlivelyState): ActionChooserStateProps => ({
 	expandedPaths: state.ui.actions.expandedPath,
-	checkedPaths: state.ui.actions.checkedPath,
 	specificActions: state.data.specificActions,
 	selectedActions: state.ui.interpretations.functions,
 });

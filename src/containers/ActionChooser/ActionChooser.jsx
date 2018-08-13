@@ -9,7 +9,6 @@ import { allActions, formattedSignatures } from './actionSignatures';
 
 export type ActionChooserStateProps = {
 	expandedPaths: Array<string>,
-	checkedPaths: Array<string>,
 	specificActions: Array<ActionMapping>,
 	selectedActions: Functions,
 }
@@ -47,7 +46,6 @@ const ActionChooser = (props: ActionChooserProps) => {
 			onParameterChoose={onFunctionsChoose}
 			onExpandedPathsChange={props.onExpandedPathsChange}
 			onCheckedPathsChange={props.onCheckedPathsChange}
-			checkedPaths={props.checkedPaths}
 			expandedPaths={props.expandedPaths}
 			jsonTree={{ actions }}
 		/>);

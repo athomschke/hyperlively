@@ -10,7 +10,6 @@ import InterpretationChooser, { type InterpretationChooserStateProps, type Inter
 const mapStateToProps = (state: HyperlivelyState): InterpretationChooserStateProps => ({
 	strokes: referencedStrokes(state.data.strokes, state.data.scenes.present, state.data.sceneIndex),
 	expandedPaths: state.ui.parameters.expandedPath,
-	checkedPaths: state.ui.parameters.checkedPath,
 	interpretation: state.data.interpretation,
 	selectedParameters: state.ui.interpretations.parameters,
 });
