@@ -18,7 +18,7 @@ export type InterpretationChooserStateProps = {
 }
 
 export type InterpretationChooserDispatchProps = {
-	onParameterChoose: (parameters: Array<TreeParameter>) => void,
+	onParameterChoose: (recognizedLabel?: string, parameters: Array<TreeParameter>) => void,
 }
 
 export type InterpretationChooserProps = InterpretationChooserStateProps & InterpretationChooserDispatchProps & {
@@ -71,7 +71,7 @@ const InterpretationChooser = (props: InterpretationChooserProps) => {
 	const { selectedParameters } = props;
 	const jsonTree = (parameterObject(props.interpretation, props.selectedStrokes, props.sketches):JSONObject);
 
-	const handleOnParameterChoose = (parameters: Array<string>): void => {
+	const handleOnParameterChoose = (recognizedLabel?: string, parameters: Array<string>): void => {
 		const valueAtPath = (obj: Object, path: string) => path.split(PATH_DELIMITER).reduce((subtree, key) => subtree[key], obj);
 		const leafes = parameters.map(checkedKey => valueAtPath(jsonTree, checkedKey));
 		const values: Array<any> = leafes.map(
@@ -81,7 +81,7 @@ const InterpretationChooser = (props: InterpretationChooserProps) => {
 				return parseInt(leaf, 10);
 			},
 		);
-		props.onParameterChoose([...selectedParameters, ...values]);
+		props.onParameterChoose(recognizedLabel, [...selectedParameters, ...values]);
 	};
 
 	const getChooserProps = (key, prefixes, position) => ({
@@ -137,10 +137,11 @@ const InterpretationChooser = (props: InterpretationChooserProps) => {
 		[chooserProps.prefixes[0]]: [...(accumulator[chooserProps.prefixes[0]] || []), chooserProps],
 	}), {});
 
-	const renderPostitionParameterChoosersGroup = (choosersProps) => {
+	const renderPostitionParameterChoosersGroup = (choosersProps, recognizedLabel) => {
 		const typeGroups = groupChoosersPropsbyType(choosersProps);
 		return Object.keys(typeGroups).map(typeKey => (
 			<ParameterChooser
+				recognizedLabel={recognizedLabel}
 				key={typeKey}
 				choosersProps={typeGroups[typeKey]}
 				jsonTree={jsonTree}
@@ -149,21 +150,30 @@ const InterpretationChooser = (props: InterpretationChooserProps) => {
 		));
 	};
 
-	const renderChooserGroupAt = (groupKey, choosersProps, position) => (
-		<div
-			key={groupKey}
-			style={{
-				position: 'absolute',
-				left: position.x,
-				top: position.y,
-			}}
-		>
-			<InterpretationTrigger />
-			<InterpretationDisplay />
-			<ActionChooser />
-			{renderPostitionParameterChoosersGroup(choosersProps)}
-		</div>
-	);
+	const renderChooserGroupAt = (groupKey, choosersProps, position) => {
+		const recognizedLabelInterpretation = choosersProps
+			.find(choosersProp => choosersProp.key.startsWith('interpretation'));
+
+		const recognizedLabel = recognizedLabelInterpretation && recognizedLabelInterpretation.prefixes.reduce(
+			(value, prefix) => value[prefix],
+			jsonTree,
+		).candidate.label;
+		return (
+			<div
+				key={groupKey}
+				style={{
+					position: 'absolute',
+					left: position.x,
+					top: position.y,
+				}}
+			>
+				<InterpretationTrigger />
+				<InterpretationDisplay />
+				<ActionChooser recognizedLabel={recognizedLabel} />
+				{renderPostitionParameterChoosersGroup(choosersProps, recognizedLabel)}
+			</div>
+		);
+	};
 
 	return (
 		<div style={{ display: 'inline' }}>

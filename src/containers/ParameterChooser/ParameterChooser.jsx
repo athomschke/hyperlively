@@ -22,36 +22,42 @@ type ParameterChooserProps = ParameterChooserStateProps & ParameterChooserDispat
 	onParameterChoose: (parameters: Array<string>) => void,
 }
 
-const ParameterChooser = (props: ParameterChooserProps) => (
-	<div>
-		{props.choosersProps.map((chooserProps) => {
-			if (chooserProps.key === 'selectedStrokes') {
-				return (
+const ParameterChooser = (props: ParameterChooserProps) => {
+	const onParameterChoose = (parameters) => {
+		props.onParameterChoose(parameters);
+	};
+
+	return (
+		<div>
+			{props.choosersProps.map((chooserProps) => {
+				if (chooserProps.key === 'selectedStrokes') {
+					return (
+						<PrefixedJSONPropertyChooser
+							key={chooserProps.key}
+							prefixes={[]}
+							onParameterChoose={(parameters) => { onParameterChoose(parameters); }}
+							jsonTree={{ selectedStrokes: props.jsonTree.selectedStrokes }}
+							checkedPaths={props.checkedPaths}
+							expandedPaths={props.expandedPaths}
+							onCheckedPathsChange={props.onCheckedPathsChange}
+							onExpandedPathsChange={props.onExpandedPathsChange}
+						/>
+					);
+				} return (
 					<PrefixedJSONPropertyChooser
 						key={chooserProps.key}
-						prefixes={[]}
+						prefixes={chooserProps.prefixes}
 						onParameterChoose={props.onParameterChoose}
-						jsonTree={{ selectedStrokes: props.jsonTree.selectedStrokes }}
+						jsonTree={props.jsonTree}
 						checkedPaths={props.checkedPaths}
 						expandedPaths={props.expandedPaths}
 						onCheckedPathsChange={props.onCheckedPathsChange}
 						onExpandedPathsChange={props.onExpandedPathsChange}
 					/>
 				);
-			} return (
-				<PrefixedJSONPropertyChooser
-					key={chooserProps.key}
-					prefixes={chooserProps.prefixes}
-					onParameterChoose={props.onParameterChoose}
-					jsonTree={props.jsonTree}
-					checkedPaths={props.checkedPaths}
-					expandedPaths={props.expandedPaths}
-					onCheckedPathsChange={props.onCheckedPathsChange}
-					onExpandedPathsChange={props.onExpandedPathsChange}
-				/>
-			);
-		})}
-	</div>
-);
+			})}
+		</div>
+	);
+};
 
 export default ParameterChooser;

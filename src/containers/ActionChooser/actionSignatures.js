@@ -40,8 +40,10 @@ export const allActions = (specificActions: Array<ActionMapping>) => {
 
 export const formattedSignatures = (
 	signatures: Array<string>,
+	recognizedLabel?: string,
 )
 	: Functions => signatures.map(signature => ({
+	recognizedLabel,
 	name: getName(signature),
 	parameters: getArgs(signature),
 }));

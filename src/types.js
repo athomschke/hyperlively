@@ -62,6 +62,7 @@ export type Reducer = (state: any, action: CommonAction) => any;
 export type TreeParameter = string | number;
 
 export type Functions = Array<{
+	label?: string,
 	name: string,
 	parameters: Array<string>,
 }>

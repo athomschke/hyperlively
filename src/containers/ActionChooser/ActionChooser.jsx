@@ -14,10 +14,14 @@ export type ActionChooserStateProps = {
 	selectedActions: Functions,
 }
 
-export type ActionChooserProps = ActionChooserStateProps & {
+export type ActionChooserDispatchProps = {
 	onFunctionsChoose: (_functions: Functions) => void,
 	onExpandedPathsChange: (_paths: Array<string>) => void,
 	onCheckedPathsChange: (_paths: Array<string>) => void,
+}
+
+export type ActionChooserProps = ActionChooserStateProps & ActionChooserDispatchProps & {
+	recognizedLabel?: string,
 }
 
 const ActionChooser = (props: ActionChooserProps) => {
@@ -27,7 +31,13 @@ const ActionChooser = (props: ActionChooserProps) => {
 		const signatures = paths.map(
 			(path: string) => path.split(PATH_DELIMITER).reduce((jsonObject, pathPart) => jsonObject[pathPart], actions),
 		);
-		props.onFunctionsChoose([...props.selectedActions, ...formattedSignatures(((signatures: any): Array<string>))]);
+		const signaturesFormatted = formattedSignatures(((signatures: any): Array<string>), props.recognizedLabel);
+		props.onFunctionsChoose(
+			[
+				...props.selectedActions,
+				...signaturesFormatted,
+			],
+		);
 	};
 
 	return (
