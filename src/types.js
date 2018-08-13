@@ -73,7 +73,6 @@ export type ReactTreeLeafFormat = {
 	label: string,
 	key: string,
 	checkbox: boolean,
-	checked: boolean,
 	isLeaf: true,
 }
 
@@ -81,7 +80,6 @@ export type ReactTreeNodeFormat = {
 	label: string,
 	key: string,
 	checkbox: boolean,
-	checked: boolean,
 	collapsible: boolean,
 	collapsed: boolean,
 	children: Array<ReactTreeLeafFormat | ReactTreeNodeFormat>,

@@ -36,7 +36,7 @@ const InterpretationTrigger = (props: InterpretationTriggerProps) => {
 		});
 		onInterpretationDone(
 			!isTicking,
-			performableItems[0].recognizedLabel,
+			(performableItems.find(performableItem => performableItem.recognizedLabel) || {}).recognizedLabel,
 			performableItems.map(performableItem => performableItem.name),
 		);
 	};

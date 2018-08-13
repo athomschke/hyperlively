@@ -37,7 +37,6 @@ const JsonPropertyChooser = (props: JsonPropertyChooserProps) => {
 		const rawData: Object = cloneDeep(props.jsonTree);
 		return formatObject(
 			rawData,
-			props.checkedPaths,
 			props.expandedPaths,
 		);
 	};
