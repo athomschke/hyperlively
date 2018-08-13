@@ -23,7 +23,7 @@ const exampleTree = {
 const defaultProps = (): JsonPropertyChooserProps => ({
 	position: undefined,
 	onParameterChoose: () => undefined,
-	onCheckedPathsChange: () => undefined,
+	onSelect: () => undefined,
 	onExpandedPathsChange: () => undefined,
 	isOpen: true,
 	checkedPaths: [],
@@ -76,15 +76,15 @@ describe('JSONProperty Chooser', () => {
 
 	describe('Clicking a path', () => {
 		it('calls the callback with it as only parameter in the array', () => {
-			const onCheckedPathsChange = spy();
+			const onSelect = spy();
 			const jsonPropertyChooser = renderWithProps({
 				...defaultProps(),
 				jsonTree: exampleTree,
-				onCheckedPathsChange,
+				onSelect,
 			});
 			const treeMenu = jsonPropertyChooser.find(Tree);
 			treeMenu.prop('onSelect')(['a --> a2']);
-			expect(onCheckedPathsChange.args[0][0]).to.deep.equal(['a --> a2']);
+			expect(onSelect.args[0][0]).to.deep.equal(['a --> a2']);
 		});
 	});
 

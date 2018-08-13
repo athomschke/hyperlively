@@ -16,7 +16,7 @@ export type ActionChooserStateProps = {
 export type ActionChooserDispatchProps = {
 	onFunctionsChoose: (_functions: Functions) => void,
 	onExpandedPathsChange: (_paths: Array<string>) => void,
-	onCheckedPathsChange: (_paths: Array<string>) => void,
+	onSelect: (_paths: Array<string>) => void,
 }
 
 export type ActionChooserProps = ActionChooserStateProps & ActionChooserDispatchProps & {
@@ -45,7 +45,7 @@ const ActionChooser = (props: ActionChooserProps) => {
 			label="actions"
 			onParameterChoose={onFunctionsChoose}
 			onExpandedPathsChange={props.onExpandedPathsChange}
-			onCheckedPathsChange={props.onCheckedPathsChange}
+			onSelect={props.onSelect}
 			expandedPaths={props.expandedPaths}
 			jsonTree={{ actions }}
 		/>);

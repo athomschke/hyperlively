@@ -24,7 +24,7 @@ const LabeledJsonPropertyChooser = (props: LabeledJsonPropertyChooserProps) => {
 				props.onParameterChoose(removeLabelString(parameters));
 			}}
 			onExpandedPathsChange={paths => props.onExpandedPathsChange(removeLabelString(paths))}
-			onCheckedPathsChange={paths => props.onCheckedPathsChange(removeLabelString(paths))}
+			onSelect={paths => props.onSelect(removeLabelString(paths))}
 			expandedPaths={expandedPaths}
 			jsonTree={props.jsonTree}
 		/>);

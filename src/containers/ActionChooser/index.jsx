@@ -14,7 +14,7 @@ const mapStateToProps = (state: HyperlivelyState): ActionChooserStateProps => ({
 
 const mapDispatchToProps = dispatch => ({
 	onExpandedPathsChange: collapsedPath => dispatch(collapseActionsPath(collapsedPath)),
-	onCheckedPathsChange: checkedPath => dispatch(checkActionsPath(checkedPath)),
+	onSelect: checkedPath => dispatch(checkActionsPath(checkedPath)),
 	onFunctionsChoose: functions => dispatch(chooseFunctions(functions)),
 });
 

@@ -12,7 +12,7 @@ const mapStateToProps = (state: HyperlivelyState): ParameterChooserStateProps =>
 
 const mapDispatchToProps = (dispatch): ParameterChooserDispatchProps => ({
 	onExpandedPathsChange: expandedPath => dispatch(collapseParametersPath(expandedPath)),
-	onCheckedPathsChange: checkedPath => dispatch(checkParametersPath(checkedPath)),
+	onSelect: selectedPaths => dispatch(checkParametersPath(selectedPaths)),
 });
 
 export default connect(

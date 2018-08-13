@@ -16,7 +16,7 @@ export type JsonPropertyChooserProps = {
 	position: ?Coordinate,
 	jsonTree: JSONObject,
 	expandedPaths: Array<string>,
-	onCheckedPathsChange: (checkedPaths: Array<string>) => void,
+	onSelect: (selectedPaths: Array<string>) => void,
 	onExpandedPathsChange: (expandedPaths: Array<string>) => void,
 }
 
@@ -38,8 +38,6 @@ const JsonPropertyChooser = (props: JsonPropertyChooserProps) => {
 		);
 	};
 
-	const onSelect = selected => props.onCheckedPathsChange(selected);
-
 	const data = getFormattedData();
 	const divStyle: any = {};
 	const position = props.position;
@@ -57,7 +55,7 @@ const JsonPropertyChooser = (props: JsonPropertyChooserProps) => {
 				defaultExpandedKeys={props.expandedPaths}
 				defaultExpandParent={false}
 				selectedKeys={[]}
-				onSelect={onSelect}
+				onSelect={props.onSelect}
 				onExpand={props.onExpandedPathsChange}
 				selectable
 			>

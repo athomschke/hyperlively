@@ -9,7 +9,7 @@ export type ParameterChooserStateProps = {
 }
 
 export type ParameterChooserDispatchProps = {
-	onCheckedPathsChange: (checkedPath: Array<string>) => void,
+	onSelect: (selectedPaths: Array<string>) => void,
 	onExpandedPathsChange: (collapsedPath: Array<string>) => void,
 }
 
@@ -39,7 +39,7 @@ const ParameterChooser = (props: ParameterChooserProps) => {
 							jsonTree={{ selectedStrokes: props.jsonTree.selectedStrokes }}
 							checkedPaths={props.checkedPaths}
 							expandedPaths={props.expandedPaths}
-							onCheckedPathsChange={props.onCheckedPathsChange}
+							onSelect={props.onSelect}
 							onExpandedPathsChange={props.onExpandedPathsChange}
 						/>
 					);
@@ -51,7 +51,7 @@ const ParameterChooser = (props: ParameterChooserProps) => {
 						jsonTree={props.jsonTree}
 						checkedPaths={props.checkedPaths}
 						expandedPaths={props.expandedPaths}
-						onCheckedPathsChange={props.onCheckedPathsChange}
+						onSelect={props.onSelect}
 						onExpandedPathsChange={props.onExpandedPathsChange}
 					/>
 				);
