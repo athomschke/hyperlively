@@ -61,10 +61,11 @@ export type Reducer = (state: any, action: CommonAction) => any;
 
 export type TreeParameter = string | number;
 
-export type StoredFunction = {
+export type FunctionSignature = { name: string, parameters: Array<string> };
+
+export type StoredFunction = FunctionSignature & {
 	recognizedLabel?: string,
-	name: string,
-	parameters: Array<string>,
+	path: string[],
 }
 
 export type Functions = Array<StoredFunction>

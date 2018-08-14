@@ -3,7 +3,7 @@ import {
 	forEach, map, flatten, filter, last,
 } from 'lodash';
 
-import type { ActionMapping, Functions } from 'src/types';
+import type { ActionMapping, FunctionSignature } from 'src/types';
 import * as actionCreators from 'src/actionCreators';
 
 export const getArgs = (functionString: string): Array<string> => functionString.split('(')[1].split(')')[0].split(',');
@@ -38,12 +38,9 @@ export const allActions = (specificActions: Array<ActionMapping>) => {
 	return jsonObject;
 };
 
-export const formattedSignatures = (
-	signatures: Array<string>,
-	recognizedLabel?: string,
-)
-	: Functions => signatures.map((signature: string) => ({
-	recognizedLabel,
-	name: getName(signature),
-	parameters: getArgs(signature),
-}));
+export const formattedSignatures = (signatures: Array<string>): Array<FunctionSignature> => signatures.map(
+	(signature: string) => ({
+		name: getName(signature),
+		parameters: getArgs(signature),
+	}),
+);

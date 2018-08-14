@@ -80,6 +80,7 @@ describe('Interpreter', () => {
 			const functions: Functions = [{
 				name: 'doSomethingWith',
 				parameters: ['a'],
+				path: ['1'],
 			}];
 			const parameters: Parameters = [{ value: 'aProp', path: [] }];
 			const list = renderWithProps({
@@ -96,6 +97,7 @@ describe('Interpreter', () => {
 			const functions: Functions = [{
 				name: 'doSomethingWith',
 				parameters: ['a'],
+				path: ['1'],
 			}];
 			const parameters: Parameters = [{ value: 'aProp', path: [] }];
 			const list = renderWithProps({
@@ -132,6 +134,7 @@ describe('Interpreter', () => {
 			const functions: Functions = [{
 				name: 'doSomethingWith',
 				parameters: ['a'],
+				path: ['1'],
 			}];
 			const parameters: Parameters = [{ value: 'aProp', path: [] }];
 			const list = renderWithProps({
@@ -149,9 +152,11 @@ describe('Interpreter', () => {
 			const functions: Functions = [{
 				name: 'runWithTwoParameters',
 				parameters: ['one', 'two'],
+				path: ['1'],
 			}, {
 				name: 'runWithOneParameter',
 				parameters: ['one'],
+				path: ['1'],
 			}];
 			const parameters: Parameters = [{ value: 1, path: [] }, { value: 2, path: [] }, { value: 3, path: [] }];
 			const list = renderWithProps({
@@ -175,7 +180,7 @@ describe('Interpreter', () => {
 			const clearInterval = spy();
 			const parameters = ['aParam', 'bParam'];
 			const values = [{ value: 'a', path: [] }, { value: 'b', path: [] }];
-			const functions = [{ name: 'action', parameters }];
+			const functions = [{ name: 'action', parameters, path: ['1'] }];
 			const interpreter = renderWithProps({
 				...defaultProps(),
 				performAction,
@@ -219,7 +224,7 @@ describe('Interpreter', () => {
 			const intervalId = 1234;
 			setInterval.returns(intervalId);
 			const clearInterval = stub();
-			const functions = [{ name: 'action', parameters: ['a', 'b'] }];
+			const functions = [{ name: 'action', parameters: ['a', 'b'], path: ['1'] }];
 			const parameters = [{ value: 'a', path: [] }, { value: 'b', path: [] }];
 
 			const interpreter = renderWithProps({

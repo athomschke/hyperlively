@@ -29,6 +29,7 @@ describe('InterpretationDisplay', () => {
 			functions: [{
 				name: 'ActionWithTwoParameters',
 				parameters: ['one', 'two'],
+				path: ['1'],
 			}],
 			parameters: [{ value: 'parameter1', path: [] }, { value: 'parameter2', path: [] }],
 		});
@@ -42,9 +43,11 @@ describe('InterpretationDisplay', () => {
 			functions: [{
 				name: 'ActionWithTwoParameters',
 				parameters: ['one', 'two'],
+				path: ['0'],
 			}, {
 				name: 'ActionWithOneParameter',
 				parameters: ['one'],
+				path: ['1'],
 			}],
 			parameters: [{ value: 'parameter1', path: [] }, { value: 'parameter2', path: [] }, { value: 'parameter3', path: [] }],
 		});
@@ -58,9 +61,11 @@ describe('InterpretationDisplay', () => {
 			functions: [{
 				name: 'ActionWithTwoParameters',
 				parameters: ['one', 'two'],
+				path: ['0'],
 			}, {
 				name: 'ActionWithOneParameter',
 				parameters: ['one'],
+				path: ['1'],
 			}],
 			parameters: [{ value: 'parameter1', path: [] }],
 		});

@@ -30,7 +30,11 @@ const ActionChooser = (props: ActionChooserProps) => {
 		const signatures = paths.map(
 			(path: string) => path.split(PATH_DELIMITER).reduce((jsonObject, pathPart) => jsonObject[pathPart], actions),
 		);
-		const signaturesFormatted = formattedSignatures(((signatures: any): Array<string>), props.recognizedLabel);
+		const signaturesFormatted: Functions = formattedSignatures(((signatures: any): Array<string>)).map((signature, i) => ({
+			...signature,
+			path: paths[i].split(PATH_DELIMITER),
+			recognizedLabel: props.recognizedLabel,
+		}));
 		props.onFunctionsChoose(
 			[
 				...props.selectedActions,
