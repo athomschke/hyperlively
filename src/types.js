@@ -202,7 +202,10 @@ export type JSONChooserState = {
 }
 
 export type StoredInterpretations = {
-	[label: string]: Array<string>,
+	[label: string]: {
+		actions: Array<string>,
+		parameters: Array<string>,
+	},
 }
 
 export type InterpretationsState = {

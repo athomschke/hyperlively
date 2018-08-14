@@ -14,7 +14,7 @@ export type InterpretationTriggerProps = {
 	performAction: () => void,
 	setInterval: (() => void, number) => number,
 	clearInterval: (interval: number) => void,
-	onInterpretationDone: (boolean, label?: string, actionNames?: string[]) => void,
+	onInterpretationDone: (boolean, label?: string, actionNames?: string[], parameters?: Parameters) => void,
 }
 
 const InterpretationTrigger = (props: InterpretationTriggerProps) => {
@@ -38,6 +38,7 @@ const InterpretationTrigger = (props: InterpretationTriggerProps) => {
 			!isTicking,
 			(performableItems.find(performableItem => performableItem.recognizedLabel) || {}).recognizedLabel,
 			performableItems.map(performableItem => performableItem.name),
+			valuesToUse,
 		);
 	};
 

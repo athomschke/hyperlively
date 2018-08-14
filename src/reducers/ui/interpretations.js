@@ -50,7 +50,7 @@ const stateAfterReceive = (state: InterpretationsState, action: any) => {
 		.find(candidateLabel => action.candidates.find(candidate => candidate.label === candidateLabel));
 	// const knownCandidate = action.candidates.find(candidate => Object.keys(state.stored).indexOf(candidate.label) >= 0);
 	if (recognizedStoredLabel) {
-		const recognizedActions = state.stored[recognizedStoredLabel];
+		const recognizedActions = state.stored[recognizedStoredLabel].actions;
 		const allPrimitiveActions = formattedSignatures(values(allActions([])));
 		const functions = (allPrimitiveActions.filter(
 			primitiveAction => recognizedActions.find(recognizedAction => recognizedAction === primitiveAction.name),
@@ -58,6 +58,7 @@ const stateAfterReceive = (state: InterpretationsState, action: any) => {
 		return {
 			...state,
 			functions,
+			parameters: state.stored[recognizedStoredLabel].parameters,
 		};
 	}
 	return state;
@@ -89,7 +90,10 @@ const interpretations = scopeToActions(
 				...state,
 				stored: {
 					...state.stored,
-					[action.label]: action.actions,
+					[action.label]: {
+						actions: action.actions,
+						parameters: action.parameters,
+					},
 				},
 			};
 		}

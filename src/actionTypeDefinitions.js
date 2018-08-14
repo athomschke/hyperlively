@@ -205,4 +205,5 @@ export type STORE_INTERPRETATION_ACTION = {
 	type: 'STORE_INTERPRETATION',
 	label: string,
 	actions: string[],
+	parameters: Parameters,
 }
