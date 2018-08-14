@@ -198,7 +198,7 @@ describe('InterpretationChooser Component', () => {
 				'selectedStrokes --> 0 --> points --> 1 --> y',
 			]);
 
-			expect(onParameterChoose.args[0][0]).to.deep.equal([0, 10]);
+			expect(onParameterChoose.args[0][0]).to.deep.equal([{ value: 0 }, { value: 10 }]);
 		});
 	});
 });

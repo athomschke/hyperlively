@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
 
-import type { Functions, Parameters } from 'src/types';
+import type { Functions, Parameters, Parameter } from 'src/types';
 
 export type InterpretationDisplayProps = {
 	functions: Functions,
@@ -35,15 +35,16 @@ const InterpretationDisplay = (props: InterpretationDisplayProps) => {
 				{'('}
 				{requiredParameters.map((requiredParameter, localParameterIndex) => {
 					const elements = [];
-					if (selectedParameters[localParameterIndex]) {
+					const parameter: Parameter = selectedParameters[localParameterIndex];
+					if (parameter) {
 						const parameterIndex = globalParameterIndex + localParameterIndex;
-						const parameterKey = `${requiredParameter}: ${selectedParameters[localParameterIndex]}`;
+						const parameterKey = `${requiredParameter}: ${parameter.value}`;
 						elements.push((
 							<button
 								key={parameterKey}
 								onClick={() => onParameterClick(parameterIndex)}
 							>
-								{`${selectedParameters[localParameterIndex]}`}
+								{`${parameter.value}`}
 							</button>
 						));
 					} else {

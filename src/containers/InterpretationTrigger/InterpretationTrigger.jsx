@@ -23,7 +23,7 @@ const InterpretationTrigger = (props: InterpretationTriggerProps) => {
 		specificActions, functions, parameters,
 	} = props;
 
-	const doPerformAction = (items: Functions, valuesToUse: Array<number | string>, isTicking: ?boolean) => {
+	const doPerformAction = (items: Functions, valuesToUse: Parameters, isTicking: ?boolean) => {
 		let valueIndex = 0;
 		const performableItems: Functions = items.filter(
 			item => props.specificActions.map(specificAction => specificAction.actionName).indexOf(item.name) < 0,

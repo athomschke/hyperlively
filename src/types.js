@@ -61,13 +61,19 @@ export type Reducer = (state: any, action: CommonAction) => any;
 
 export type TreeParameter = string | number;
 
-export type Functions = Array<{
+export type StoredFunction = {
 	recognizedLabel?: string,
 	name: string,
 	parameters: Array<string>,
-}>
+}
 
-export type Parameters = Array<TreeParameter>;
+export type Functions = Array<StoredFunction>
+
+export type Parameter = {
+	value: TreeParameter,
+}
+
+export type Parameters = Array<Parameter>;
 
 export type ReactTreeLeafFormat = {
 	label: string,

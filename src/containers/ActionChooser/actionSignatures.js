@@ -42,7 +42,7 @@ export const formattedSignatures = (
 	signatures: Array<string>,
 	recognizedLabel?: string,
 )
-	: Functions => signatures.map(signature => ({
+	: Functions => signatures.map((signature: string) => ({
 	recognizedLabel,
 	name: getName(signature),
 	parameters: getArgs(signature),

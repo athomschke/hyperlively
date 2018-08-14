@@ -17,7 +17,7 @@ const mapStateToProps = (state: HyperlivelyState): InterpretationChooserStatePro
 const mapDispatchToProps = (dispatch): InterpretationChooserDispatchProps => ({
 	onExpandedPathsChange: expandedPath => dispatch(collapseParametersPath(expandedPath)),
 	onSelect: checkedPath => dispatch(checkParametersPath(checkedPath)),
-	onParameterChoose: functions => dispatch(chooseParameters(functions)),
+	onParameterChoose: parameters => dispatch(chooseParameters(parameters)),
 });
 
 export default connect(

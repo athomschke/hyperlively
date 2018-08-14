@@ -81,7 +81,7 @@ describe('Interpreter', () => {
 				name: 'doSomethingWith',
 				parameters: ['a'],
 			}];
-			const parameters: Parameters = ['aProp'];
+			const parameters: Parameters = [{ value: 'aProp' }];
 			const list = renderWithProps({
 				...defaultProps(), performAction, functions, parameters,
 			});
@@ -97,7 +97,7 @@ describe('Interpreter', () => {
 				name: 'doSomethingWith',
 				parameters: ['a'],
 			}];
-			const parameters: Parameters = ['aProp'];
+			const parameters: Parameters = [{ value: 'aProp' }];
 			const list = renderWithProps({
 				...defaultProps(), functions, parameters, performAction,
 			});
@@ -133,7 +133,7 @@ describe('Interpreter', () => {
 				name: 'doSomethingWith',
 				parameters: ['a'],
 			}];
-			const parameters: Parameters = ['aProp'];
+			const parameters: Parameters = [{ value: 'aProp' }];
 			const list = renderWithProps({
 				...defaultProps(), performAction, functions, parameters,
 			});
@@ -153,7 +153,7 @@ describe('Interpreter', () => {
 				name: 'runWithOneParameter',
 				parameters: ['one'],
 			}];
-			const parameters: Parameters = [1, 2, 3];
+			const parameters: Parameters = [{ value: 1 }, { value: 2 }, { value: 3 }];
 			const list = renderWithProps({
 				...defaultProps(), functions, parameters, performAction,
 			});
@@ -161,10 +161,10 @@ describe('Interpreter', () => {
 			const acceptButton = findElementOfTypeWithTextContent(list, 'button', 'Accept');
 			acceptButton.simulate('click');
 			expect(performAction.args[0][0]).to.equal('runWithTwoParameters');
-			expect(performAction.args[0][1]).to.equal(1);
-			expect(performAction.args[0][2]).to.equal(2);
+			expect(performAction.args[0][1].value).to.equal(1);
+			expect(performAction.args[0][2].value).to.equal(2);
 			expect(performAction.args[1][0]).to.equal('runWithOneParameter');
-			expect(performAction.args[1][1]).to.equal(3);
+			expect(performAction.args[1][1].value).to.equal(3);
 		});
 	});
 
@@ -173,14 +173,15 @@ describe('Interpreter', () => {
 			const performAction = spy();
 			const setInterval = stub();
 			const clearInterval = spy();
-			const parameters = ['a', 'b'];
+			const parameters = ['aParam', 'bParam'];
+			const values = [{ value: 'a' }, { value: 'b' }];
 			const functions = [{ name: 'action', parameters }];
 			const interpreter = renderWithProps({
 				...defaultProps(),
 				performAction,
 				setInterval,
 				functions,
-				parameters,
+				parameters: values,
 			});
 
 			const tickButton = findElementOfTypeWithTextContent(interpreter, 'button', 'Tick');
@@ -191,7 +192,7 @@ describe('Interpreter', () => {
 			const interval = setInterval.getCall(0).args[1];
 			expect(interval).to.equal(1000);
 			timeout();
-			expect(performAction.args[0]).to.eql(['action', 'a', 'b']);
+			expect(performAction.args[0]).to.eql(['action', { value: 'a' }, { value: 'b' }]);
 			expect(clearInterval.callCount).to.equal(0);
 		});
 
@@ -219,7 +220,7 @@ describe('Interpreter', () => {
 			setInterval.returns(intervalId);
 			const clearInterval = stub();
 			const functions = [{ name: 'action', parameters: ['a', 'b'] }];
-			const parameters = ['a', 'b'];
+			const parameters = [{ value: 'a' }, { value: 'b' }];
 
 			const interpreter = renderWithProps({
 				...defaultProps(), performAction, setInterval, clearInterval, functions, parameters,

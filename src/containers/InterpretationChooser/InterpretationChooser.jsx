@@ -2,7 +2,7 @@
 import * as React from 'react';
 
 import type {
-	Stroke, RecognitionState, TreeParameter, Coordinate, Sketch, Parameters,
+	Stroke, RecognitionState, Parameters, Coordinate, Sketch,
 } from 'src/types';
 import { type JSONObject } from 'src/components/JsonPropertyChooser';
 import { PATH_DELIMITER } from 'src/constants/configuration';
@@ -18,7 +18,7 @@ export type InterpretationChooserStateProps = {
 }
 
 export type InterpretationChooserDispatchProps = {
-	onParameterChoose: (parameters: Array<TreeParameter>) => void,
+	onParameterChoose: (parameters: Parameters) => void,
 }
 
 export type InterpretationChooserProps = InterpretationChooserStateProps & InterpretationChooserDispatchProps & {
@@ -76,9 +76,9 @@ const InterpretationChooser = (props: InterpretationChooserProps) => {
 		const leafes = parameters.map(checkedKey => valueAtPath(jsonTree, checkedKey));
 		const values: Array<any> = leafes.map(
 			(leaf) => {
-				if (leaf instanceof Object) return leaf;
-				if (Number.isNaN(parseInt(leaf, 10))) return leaf.toString();
-				return parseInt(leaf, 10);
+				if (leaf instanceof Object) return { value: leaf };
+				if (Number.isNaN(parseInt(leaf, 10))) return { value: leaf.toString() };
+				return { value: parseInt(leaf, 10) };
 			},
 		);
 		props.onParameterChoose([...selectedParameters, ...values]);
