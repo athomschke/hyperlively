@@ -30,7 +30,7 @@ const defaultProps = (): PrefixedJSONPropertyChooserProps => ({
 		asd: asd(),
 	},
 	onParameterChoose: () => undefined,
-	onCheckedPathsChange: () => undefined,
+	onSelect: () => undefined,
 	onExpandedPathsChange: () => undefined,
 	lastStrokes: [],
 	selectedStrokes: [],

@@ -36,7 +36,7 @@ const defaultProps = (): InterpretationChooserProps => ({
 	selectedStrokes: [dummyStroke()],
 	selectedParameters: [],
 	onParameterChoose: () => undefined,
-	onCheckedPathsChange: () => undefined,
+	onSelect: () => undefined,
 	onExpandedPathsChange: () => undefined,
 	lastStrokes: [],
 	checkedPaths: [],
@@ -198,7 +198,13 @@ describe('InterpretationChooser Component', () => {
 				'selectedStrokes --> 0 --> points --> 1 --> y',
 			]);
 
-			expect(onParameterChoose.args[0][0]).to.deep.equal([0, 10]);
+			expect(onParameterChoose.args[0][0]).to.deep.equal([{
+				value: 0,
+				path: ['selectedStrokes', '0', 'points', '0', 'x'],
+			}, {
+				value: 10,
+				path: ['selectedStrokes', '0', 'points', '1', 'y'],
+			}]);
 		});
 	});
 });

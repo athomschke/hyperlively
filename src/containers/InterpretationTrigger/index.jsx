@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 
 import * as actionCreators from 'src/actionCreators';
-import type { HyperlivelyState } from 'src/types';
+import type { HyperlivelyState, Parameters } from 'src/types';
 
 import InterpretationTrigger from './InterpretationTrigger';
 
@@ -18,15 +18,18 @@ const mapStateToProps = (state: HyperlivelyState) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-	performAction: (actionName, ...args) => {
+	performAction: (actionName: string, ...parameters: Parameters) => {
 		if (actionCreators[actionName]) {
 			dispatch(actionCreators.setObserveMutations(false));
-			dispatch(actionCreators[actionName](...args));
+			dispatch(actionCreators[actionName](...parameters.map(parameter => parameter.value)));
 			dispatch(actionCreators.setObserveMutations(true));
 		}
 	},
-	onInterpretationDone: (isSingleExecutionInterpretation: boolean) => {
+	onInterpretationDone: (isSingleExecutionInterpretation: boolean, label?: string, actions?: string[], parameters?: Parameters) => {
 		if (isSingleExecutionInterpretation) {
+			if (label && actions && parameters) {
+				dispatch(actionCreators.storeInterpretation(label, actions, parameters));
+			}
 			dispatch(actionCreators.checkParametersPath([]));
 			dispatch(actionCreators.chooseFunctions([]));
 			dispatch(actionCreators.checkActionsPath([]));

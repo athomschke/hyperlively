@@ -9,15 +9,18 @@ import { allActions, formattedSignatures } from './actionSignatures';
 
 export type ActionChooserStateProps = {
 	expandedPaths: Array<string>,
-	checkedPaths: Array<string>,
 	specificActions: Array<ActionMapping>,
 	selectedActions: Functions,
 }
 
-export type ActionChooserProps = ActionChooserStateProps & {
+export type ActionChooserDispatchProps = {
 	onFunctionsChoose: (_functions: Functions) => void,
 	onExpandedPathsChange: (_paths: Array<string>) => void,
-	onCheckedPathsChange: (_paths: Array<string>) => void,
+	onSelect: (_paths: Array<string>) => void,
+}
+
+export type ActionChooserProps = ActionChooserStateProps & ActionChooserDispatchProps & {
+	recognizedLabel?: string,
 }
 
 const ActionChooser = (props: ActionChooserProps) => {
@@ -27,7 +30,17 @@ const ActionChooser = (props: ActionChooserProps) => {
 		const signatures = paths.map(
 			(path: string) => path.split(PATH_DELIMITER).reduce((jsonObject, pathPart) => jsonObject[pathPart], actions),
 		);
-		props.onFunctionsChoose([...props.selectedActions, ...formattedSignatures(((signatures: any): Array<string>))]);
+		const signaturesFormatted: Functions = formattedSignatures(((signatures: any): Array<string>)).map((signature, i) => ({
+			...signature,
+			path: paths[i].split(PATH_DELIMITER),
+			recognizedLabel: props.recognizedLabel,
+		}));
+		props.onFunctionsChoose(
+			[
+				...props.selectedActions,
+				...signaturesFormatted,
+			],
+		);
 	};
 
 	return (
@@ -36,8 +49,7 @@ const ActionChooser = (props: ActionChooserProps) => {
 			label="actions"
 			onParameterChoose={onFunctionsChoose}
 			onExpandedPathsChange={props.onExpandedPathsChange}
-			onCheckedPathsChange={props.onCheckedPathsChange}
-			checkedPaths={props.checkedPaths}
+			onSelect={props.onSelect}
 			expandedPaths={props.expandedPaths}
 			jsonTree={{ actions }}
 		/>);

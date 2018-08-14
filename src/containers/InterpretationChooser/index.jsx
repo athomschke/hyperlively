@@ -10,15 +10,14 @@ import InterpretationChooser, { type InterpretationChooserStateProps, type Inter
 const mapStateToProps = (state: HyperlivelyState): InterpretationChooserStateProps => ({
 	strokes: referencedStrokes(state.data.strokes, state.data.scenes.present, state.data.sceneIndex),
 	expandedPaths: state.ui.parameters.expandedPath,
-	checkedPaths: state.ui.parameters.checkedPath,
 	interpretation: state.data.interpretation,
 	selectedParameters: state.ui.interpretations.parameters,
 });
 
 const mapDispatchToProps = (dispatch): InterpretationChooserDispatchProps => ({
 	onExpandedPathsChange: expandedPath => dispatch(collapseParametersPath(expandedPath)),
-	onCheckedPathsChange: checkedPath => dispatch(checkParametersPath(checkedPath)),
-	onParameterChoose: functions => dispatch(chooseParameters(functions)),
+	onSelect: checkedPath => dispatch(checkParametersPath(checkedPath)),
+	onParameterChoose: parameters => dispatch(chooseParameters(parameters)),
 });
 
 export default connect(

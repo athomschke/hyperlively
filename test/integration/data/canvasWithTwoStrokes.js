@@ -80,6 +80,7 @@ const canvasWithTwoStrokes = (): HyperlivelyState => ({
 		interpretations: {
 			functions: [],
 			parameters: [],
+			stored: {},
 		},
 	},
 });

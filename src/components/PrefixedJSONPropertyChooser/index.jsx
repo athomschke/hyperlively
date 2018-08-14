@@ -10,7 +10,7 @@ export type PrefixedJSONPropertyChooserProps = {
 	jsonTree: JSONObject,
 	expandedPaths: Array<string>,
 	prefixes: Array<string>,
-	onCheckedPathsChange: (checkedPaths: Array<string>) => void,
+	onSelect: (selectedPaths: Array<string>) => void,
 	onExpandedPathsChange: (expandedPaths: Array<string>) => void,
 	onParameterChoose: (parameters: Array<string>) => void,
 };
@@ -60,9 +60,9 @@ export const filterSortedPaths = (
 const PrefixedJSONPropertyChooser = (props: PrefixedJSONPropertyChooserProps) => {
 	const { prefixes } = props;
 
-	const onCheck = (checked: Array<string>) => {
-		props.onCheckedPathsChange(checked);
-		props.onParameterChoose(checked);
+	const onSelect = (selected: Array<string>) => {
+		props.onSelect(selected);
+		props.onParameterChoose(selected);
 	};
 
 	const jsonTree = prefixes.reduce((accumulator, prefix) => accumulator[prefix], props.jsonTree);
@@ -72,9 +72,8 @@ const PrefixedJSONPropertyChooser = (props: PrefixedJSONPropertyChooserProps) =>
 		<JsonPropertyChooser
 			position={props.position}
 			jsonTree={jsonTree}
-			checkedPaths={[]}
 			expandedPaths={expandedPaths}
-			onCheckedPathsChange={paths => onCheck(combinePaths(props.prefixes, [], paths))}
+			onSelect={paths => onSelect(combinePaths(props.prefixes, [], paths))}
 			onExpandedPathsChange={paths => props.onExpandedPathsChange(combinePaths(props.prefixes, props.expandedPaths, paths))}
 		/>
 	);

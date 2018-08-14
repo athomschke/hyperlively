@@ -17,7 +17,7 @@ const defaultProps = (): ActionChooserProps => ({
 	specificActions: [],
 	selectedActions: [],
 	onExpandedPathsChange: () => {},
-	onCheckedPathsChange: () => {},
+	onSelect: () => {},
 });
 
 const shallowWithProps = props => shallow(<ActionChooser {...props} />);

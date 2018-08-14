@@ -3,9 +3,7 @@ import React from 'react';
 import { cloneDeep } from 'lodash';
 import Tree, { TreeNode } from 'rc-tree';
 
-import type {
-	Coordinate, ReactTreeLeafFormat, ReactTreeNodeFormat, SortedPath,
-} from 'src/types';
+import type { Coordinate, ReactTreeLeafFormat, ReactTreeNodeFormat } from 'src/types';
 
 import formatObject from './formatObject';
 import style from './index.scss';
@@ -18,8 +16,7 @@ export type JsonPropertyChooserProps = {
 	position: ?Coordinate,
 	jsonTree: JSONObject,
 	expandedPaths: Array<string>,
-	checkedPaths: Array<SortedPath>,
-	onCheckedPathsChange: (checkedPaths: Array<string>) => void,
+	onSelect: (selectedPaths: Array<string>) => void,
 	onExpandedPathsChange: (expandedPaths: Array<string>) => void,
 }
 
@@ -37,12 +34,9 @@ const JsonPropertyChooser = (props: JsonPropertyChooserProps) => {
 		const rawData: Object = cloneDeep(props.jsonTree);
 		return formatObject(
 			rawData,
-			props.checkedPaths,
 			props.expandedPaths,
 		);
 	};
-
-	const onSelect = selected => props.onCheckedPathsChange(selected);
 
 	const data = getFormattedData();
 	const divStyle: any = {};
@@ -61,7 +55,7 @@ const JsonPropertyChooser = (props: JsonPropertyChooserProps) => {
 				defaultExpandedKeys={props.expandedPaths}
 				defaultExpandParent={false}
 				selectedKeys={[]}
-				onSelect={onSelect}
+				onSelect={props.onSelect}
 				onExpand={props.onExpandedPathsChange}
 				selectable
 			>

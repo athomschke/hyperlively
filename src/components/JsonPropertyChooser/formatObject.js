@@ -2,7 +2,7 @@
 import { isEqual } from 'lodash';
 
 import { PATH_DELIMITER } from 'src/constants/configuration';
-import type { ReactTreeNodeFormat, ReactTreeLeafFormat, SortedPath } from 'src/types';
+import type { ReactTreeNodeFormat, ReactTreeLeafFormat } from 'src/types';
 import { stroke } from 'src/reducers/data/strokes/stroke';
 
 const blacklistedKeys = ['strokeIds'];
@@ -30,7 +30,6 @@ const formatLabel = (key: string, value: Object): string => {
 
 const formatObject = (
 	anObject: Object,
-	sortedCheckedPaths: Array<SortedPath>,
 	collapsedPaths: Array<string>,
 	path?: string,
 ): Array<ReactTreeLeafFormat | ReactTreeNodeFormat> => Object
@@ -38,14 +37,11 @@ const formatObject = (
 	.filter(key => anObject[key] && blacklistedKeys.indexOf(key) < 0)
 	.map((key: string) => {
 		const extendedPath = path ? `${path}${PATH_DELIMITER}${key}` : key;
-		const sortedCheckedPath: SortedPath | typeof undefined = sortedCheckedPaths.find(sortedPath => sortedPath.path === extendedPath);
-		const checked = !!sortedCheckedPath;
 		const label = formatLabel(key, anObject[key]);
 
 		const treeFormat = {
 			key: extendedPath,
 			checkbox: true,
-			checked,
 			label,
 		};
 
@@ -53,7 +49,7 @@ const formatObject = (
 
 		if (isNode) {
 			const collapsed = collapsedPaths.indexOf(extendedPath) >= 0;
-			const children = formatObject(anObject[key], sortedCheckedPaths, collapsedPaths, extendedPath);
+			const children = formatObject(anObject[key], collapsedPaths, extendedPath);
 			return ({
 				...treeFormat,
 				isLeaf: false,

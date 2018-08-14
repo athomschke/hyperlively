@@ -61,18 +61,26 @@ export type Reducer = (state: any, action: CommonAction) => any;
 
 export type TreeParameter = string | number;
 
-export type Functions = Array<{
-	name: string,
-	parameters: Array<string>,
-}>
+export type FunctionSignature = { name: string, parameters: Array<string> };
 
-export type Parameters = Array<TreeParameter>;
+export type StoredFunction = FunctionSignature & {
+	recognizedLabel?: string,
+	path: string[],
+}
+
+export type Functions = Array<StoredFunction>
+
+export type Parameter = {
+	value: TreeParameter,
+	path: string[],
+}
+
+export type Parameters = Array<Parameter>;
 
 export type ReactTreeLeafFormat = {
 	label: string,
 	key: string,
 	checkbox: boolean,
-	checked: boolean,
 	isLeaf: true,
 }
 
@@ -80,7 +88,6 @@ export type ReactTreeNodeFormat = {
 	label: string,
 	key: string,
 	checkbox: boolean,
-	checked: boolean,
 	collapsible: boolean,
 	collapsed: boolean,
 	children: Array<ReactTreeLeafFormat | ReactTreeNodeFormat>,
@@ -192,12 +199,19 @@ export type JSONPath = Array<Array<string>>;
 
 export type JSONChooserState = {
 	expandedPath: Array<string>,
-	checkedPath: Array<string>,
+}
+
+export type StoredInterpretations = {
+	[label: string]: {
+		actions: Array<string>,
+		parameters: Array<string>,
+	},
 }
 
 export type InterpretationsState = {
 	functions: Functions,
 	parameters: Parameters,
+	stored: StoredInterpretations,
 }
 
 export type UiState = {

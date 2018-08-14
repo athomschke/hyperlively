@@ -40,6 +40,7 @@ const emptyCanvas = (): HyperlivelyState => ({
 		interpretations: {
 			functions: [],
 			parameters: [],
+			stored: {},
 		},
 	},
 });

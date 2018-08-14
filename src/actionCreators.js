@@ -181,3 +181,10 @@ export const chooseParameters = (parameters: Parameters) => ({
 	type: ActionTypes.CHOOSE_PARAMETERS,
 	parameters,
 });
+
+export const storeInterpretation = (label: string, actions: string[], parameters: Parameters) => ({
+	type: ActionTypes.STORE_INTERPRETATION,
+	label,
+	actions,
+	parameters,
+});

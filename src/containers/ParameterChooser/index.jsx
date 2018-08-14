@@ -8,12 +8,11 @@ import ParameterChooser, { type ParameterChooserStateProps, type ParameterChoose
 
 const mapStateToProps = (state: HyperlivelyState): ParameterChooserStateProps => ({
 	expandedPaths: state.ui.parameters.expandedPath,
-	checkedPaths: state.ui.parameters.checkedPath,
 });
 
 const mapDispatchToProps = (dispatch): ParameterChooserDispatchProps => ({
 	onExpandedPathsChange: expandedPath => dispatch(collapseParametersPath(expandedPath)),
-	onCheckedPathsChange: checkedPath => dispatch(checkParametersPath(checkedPath)),
+	onSelect: selectedPaths => dispatch(checkParametersPath(selectedPaths)),
 });
 
 export default connect(
