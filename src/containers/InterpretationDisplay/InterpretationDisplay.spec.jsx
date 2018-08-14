@@ -30,7 +30,7 @@ describe('InterpretationDisplay', () => {
 				name: 'ActionWithTwoParameters',
 				parameters: ['one', 'two'],
 			}],
-			parameters: [{ value: 'parameter1' }, { value: 'parameter2' }],
+			parameters: [{ value: 'parameter1', path: [] }, { value: 'parameter2', path: [] }],
 		});
 		const result = 'ActionWithTwoParameters(parameter1, parameter2)';
 		expect(interpretationDisplay.text()).to.equal(result);
@@ -46,7 +46,7 @@ describe('InterpretationDisplay', () => {
 				name: 'ActionWithOneParameter',
 				parameters: ['one'],
 			}],
-			parameters: [{ value: 'parameter1' }, { value: 'parameter2' }, { value: 'parameter3' }],
+			parameters: [{ value: 'parameter1', path: [] }, { value: 'parameter2', path: [] }, { value: 'parameter3', path: [] }],
 		});
 		const result = 'ActionWithTwoParameters(parameter1, parameter2) then ActionWithOneParameter(parameter3)';
 		expect(interpretationDisplay.text()).to.equal(result);
@@ -62,7 +62,7 @@ describe('InterpretationDisplay', () => {
 				name: 'ActionWithOneParameter',
 				parameters: ['one'],
 			}],
-			parameters: [{ value: 'parameter1' }],
+			parameters: [{ value: 'parameter1', path: [] }],
 		});
 		const result = 'ActionWithTwoParameters(parameter1, two) then ActionWithOneParameter(one)';
 		expect(interpretationDisplay.text()).to.equal(result);

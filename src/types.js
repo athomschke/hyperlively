@@ -71,6 +71,7 @@ export type Functions = Array<StoredFunction>
 
 export type Parameter = {
 	value: TreeParameter,
+	path: string[],
 }
 
 export type Parameters = Array<Parameter>;

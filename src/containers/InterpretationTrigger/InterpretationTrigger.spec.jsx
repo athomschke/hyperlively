@@ -81,7 +81,7 @@ describe('Interpreter', () => {
 				name: 'doSomethingWith',
 				parameters: ['a'],
 			}];
-			const parameters: Parameters = [{ value: 'aProp' }];
+			const parameters: Parameters = [{ value: 'aProp', path: [] }];
 			const list = renderWithProps({
 				...defaultProps(), performAction, functions, parameters,
 			});
@@ -97,7 +97,7 @@ describe('Interpreter', () => {
 				name: 'doSomethingWith',
 				parameters: ['a'],
 			}];
-			const parameters: Parameters = [{ value: 'aProp' }];
+			const parameters: Parameters = [{ value: 'aProp', path: [] }];
 			const list = renderWithProps({
 				...defaultProps(), functions, parameters, performAction,
 			});
@@ -133,7 +133,7 @@ describe('Interpreter', () => {
 				name: 'doSomethingWith',
 				parameters: ['a'],
 			}];
-			const parameters: Parameters = [{ value: 'aProp' }];
+			const parameters: Parameters = [{ value: 'aProp', path: [] }];
 			const list = renderWithProps({
 				...defaultProps(), performAction, functions, parameters,
 			});
@@ -153,7 +153,7 @@ describe('Interpreter', () => {
 				name: 'runWithOneParameter',
 				parameters: ['one'],
 			}];
-			const parameters: Parameters = [{ value: 1 }, { value: 2 }, { value: 3 }];
+			const parameters: Parameters = [{ value: 1, path: [] }, { value: 2, path: [] }, { value: 3, path: [] }];
 			const list = renderWithProps({
 				...defaultProps(), functions, parameters, performAction,
 			});
@@ -174,7 +174,7 @@ describe('Interpreter', () => {
 			const setInterval = stub();
 			const clearInterval = spy();
 			const parameters = ['aParam', 'bParam'];
-			const values = [{ value: 'a' }, { value: 'b' }];
+			const values = [{ value: 'a', path: [] }, { value: 'b', path: [] }];
 			const functions = [{ name: 'action', parameters }];
 			const interpreter = renderWithProps({
 				...defaultProps(),
@@ -192,7 +192,7 @@ describe('Interpreter', () => {
 			const interval = setInterval.getCall(0).args[1];
 			expect(interval).to.equal(1000);
 			timeout();
-			expect(performAction.args[0]).to.eql(['action', { value: 'a' }, { value: 'b' }]);
+			expect(performAction.args[0]).to.eql(['action', { value: 'a', path: [] }, { value: 'b', path: [] }]);
 			expect(clearInterval.callCount).to.equal(0);
 		});
 
@@ -220,7 +220,7 @@ describe('Interpreter', () => {
 			setInterval.returns(intervalId);
 			const clearInterval = stub();
 			const functions = [{ name: 'action', parameters: ['a', 'b'] }];
-			const parameters = [{ value: 'a' }, { value: 'b' }];
+			const parameters = [{ value: 'a', path: [] }, { value: 'b', path: [] }];
 
 			const interpreter = renderWithProps({
 				...defaultProps(), performAction, setInterval, clearInterval, functions, parameters,

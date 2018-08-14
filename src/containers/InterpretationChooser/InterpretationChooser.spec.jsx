@@ -198,7 +198,13 @@ describe('InterpretationChooser Component', () => {
 				'selectedStrokes --> 0 --> points --> 1 --> y',
 			]);
 
-			expect(onParameterChoose.args[0][0]).to.deep.equal([{ value: 0 }, { value: 10 }]);
+			expect(onParameterChoose.args[0][0]).to.deep.equal([{
+				value: 0,
+				path: ['selectedStrokes', '0', 'points', '0', 'x'],
+			}, {
+				value: 10,
+				path: ['selectedStrokes', '0', 'points', '1', 'y'],
+			}]);
 		});
 	});
 });

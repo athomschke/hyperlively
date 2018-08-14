@@ -73,12 +73,12 @@ const InterpretationChooser = (props: InterpretationChooserProps) => {
 
 	const handleOnParameterChoose = (parameters: Array<string>): void => {
 		const valueAtPath = (obj: Object, path: string) => path.split(PATH_DELIMITER).reduce((subtree, key) => subtree[key], obj);
-		const leafes = parameters.map(checkedKey => valueAtPath(jsonTree, checkedKey));
-		const values: Array<any> = leafes.map(
-			(leaf) => {
-				if (leaf instanceof Object) return { value: leaf };
-				if (Number.isNaN(parseInt(leaf, 10))) return { value: leaf.toString() };
-				return { value: parseInt(leaf, 10) };
+		const leafes = parameters.map(checkedKey => ({ value: valueAtPath(jsonTree, checkedKey), path: checkedKey.split(PATH_DELIMITER) }));
+		const values: Parameters = leafes.map(
+			(leaf: { value: any, path: string[] }) => {
+				if (leaf.value instanceof Object) return leaf;
+				if (Number.isNaN(parseInt(leaf.value, 10))) return { value: leaf.toString(), path: leaf.path };
+				return { value: parseInt(leaf.value, 10), path: leaf.path };
 			},
 		);
 		props.onParameterChoose([...selectedParameters, ...values]);
