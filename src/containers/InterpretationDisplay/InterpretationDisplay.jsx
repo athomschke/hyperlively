@@ -23,6 +23,7 @@ const InterpretationDisplay = (props: InterpretationDisplayProps) => {
 		const actionKey = aFunction.name;
 		const functionCall = (
 			<div
+				style={{ display: 'flex' }}
 				key={actionKey}
 			>
 				{functionIndex === 0 ? '' : ' then '}
