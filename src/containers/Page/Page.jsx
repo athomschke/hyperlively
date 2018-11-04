@@ -29,6 +29,10 @@ const renderInterpreter = (selectedStrokes: Array<Stroke>, sketches: Array<Sketc
 
 const Page = (props: PageProps) => {
 	const selectedStrokes = getSelectedStrokes(props.sketches);
+	const deleteStoredState = () => {
+		window.location.reload();
+		window.localStorage.setItem('hyperlively', null);
+	};
 	return (
 		<div>
 			<Scene sketches={props.sketches} />
@@ -38,6 +42,9 @@ const Page = (props: PageProps) => {
 				<Timeline />
 				<UndoRedo />
 				<Threshold />
+				<button onClick={deleteStoredState}>
+					{'Reset'}
+				</button>
 				<Ploma />
 				<ShowInterpreter />
 				<HandwritingRecognitionTrigger sketches={props.sketches} />
