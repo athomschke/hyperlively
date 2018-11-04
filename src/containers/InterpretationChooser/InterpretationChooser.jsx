@@ -77,8 +77,8 @@ const InterpretationChooser = (props: InterpretationChooserProps) => {
 		const values: Parameters = leafes.map(
 			(leaf: { value: any, path: string[] }) => {
 				if (leaf.value instanceof Object) return leaf;
-				if (Number.isNaN(parseInt(leaf.value, 10))) return { value: leaf.toString(), path: leaf.path };
-				return { value: parseInt(leaf.value, 10), path: leaf.path };
+				if (Number.isNaN(parseInt(leaf.value, 10))) return { value: leaf.value.toString(), path: leaf.path };
+				return { value: parseFloat(`${leaf.value}`.replace(',', '.')), path: leaf.path };
 			},
 		);
 		props.onParameterChoose([...selectedParameters, ...values]);
