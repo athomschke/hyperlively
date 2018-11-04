@@ -20,7 +20,14 @@ export default function configureStore(emptyState: HyperlivelyState = initialHyp
 			shapes: [],
 			texts: [],
 		};
-		stateToStore.ui = initialHyperlivelyState().ui;
+		const initialUiState = initialHyperlivelyState().ui;
+		stateToStore.ui = {
+			...initialUiState,
+			interpretations: {
+				...initialUiState.interpretations,
+				stored: stateToStore.ui.interpretations.stored,
+			},
+		};
 		return stateToStore;
 	};
 
