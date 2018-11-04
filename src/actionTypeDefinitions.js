@@ -207,3 +207,10 @@ export type STORE_INTERPRETATION_ACTION = {
 	actions: string[],
 	parameters: Parameters,
 }
+
+export type SELECT_AT_ACTION = {
+	type: 'SELECT_AT_ACTION',
+	x: number,
+	y: number,
+	sceneIndex: number;
+}
