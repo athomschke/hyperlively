@@ -7,6 +7,7 @@ import {
 	STORE_INTERPRETATION,
 	RECEIVE_SHAPE_CANDIDATES,
 	RECEIVE_TEXT_CANDIDATES,
+	SELECT,
 } from 'src/constants/actionTypes';
 import type {
 	CHOOSE_FUNCTIONS_ACTION,
@@ -14,6 +15,7 @@ import type {
 	STORE_INTERPRETATION_ACTION,
 	RECEIVE_SHAPE_CANDIDATES_ACTION,
 	RECEIVE_TEXT_CANDIDATES_ACTION,
+	SELECT_ACTION,
 } from 'src/actionTypeDefinitions';
 import {
 	chooseFunctions,
@@ -21,6 +23,7 @@ import {
 	storeInterpretation,
 	receiveShapeCandidates,
 	receiveTextCandidates,
+	select,
 } from 'src/actionCreators';
 import type { InterpretationsState } from 'src/types';
 import scopeToActions from 'src/reducers/scopeToActions';
@@ -28,7 +31,7 @@ import { formattedSignatures, allActions } from 'src/containers/ActionChooser/ac
 
 export type INTERPRETATIONS_ACTION = CHOOSE_FUNCTIONS_ACTION | CHOOSE_PARAMETERS_ACTION |
 	STORE_INTERPRETATION_ACTION |
-	RECEIVE_SHAPE_CANDIDATES_ACTION | RECEIVE_TEXT_CANDIDATES_ACTION;
+	RECEIVE_SHAPE_CANDIDATES_ACTION | RECEIVE_TEXT_CANDIDATES_ACTION | SELECT_ACTION;
 
 export const interpretationsActions = {
 	STORE_INTERPRETATION: storeInterpretation,
@@ -36,36 +39,46 @@ export const interpretationsActions = {
 	CHOOSE_PARAMETERS: chooseParameters,
 	RECEIVE_SHAPE_CANDIDATES: receiveShapeCandidates,
 	RECEIVE_TEXT_CANDIDATES: receiveTextCandidates,
+	SELECT: select,
 };
 
 const initialInterpretationsState = () => ({
 	stored: {},
 	functions: [],
 	parameters: [],
+	selectedStrokeIds: null,
 });
 
 const stateAfterReceive = (state: InterpretationsState, action: any) => {
-	const recognizedStoredLabel = Object
-		.keys(state.stored)
-		.find(candidateLabel => action.candidates.find(candidate => candidate.label === candidateLabel));
-	// const knownCandidate = action.candidates.find(candidate => Object.keys(state.stored).indexOf(candidate.label) >= 0);
-	if (recognizedStoredLabel) {
-		const recognizedActions = state.stored[recognizedStoredLabel].actions;
-		const allPrimitiveActions = formattedSignatures(values(allActions([])));
-		const functions = (allPrimitiveActions.filter(
-			primitiveAction => recognizedActions.find(recognizedAction => recognizedAction === primitiveAction.name),
-		) || []);
-		return {
-			...state,
-			functions,
-			parameters: state.stored[recognizedStoredLabel].parameters,
-		};
+	if (state.selectedStrokeIds === action.strokeIds.toString()) {
+		const routineNames = Object.keys(state.stored);
+		const candidatesWithSomeStoredRoutine = action.candidates.filter(candidate => routineNames.indexOf(candidate.label) >= 0);
+		const candidatesByLikeliness = candidatesWithSomeStoredRoutine.sort((a, b) => a.resemblanceScore <= b.resemblanceScore);
+		const recognizedStoredLabel = candidatesByLikeliness.length > 0 && candidatesByLikeliness[0].label;
+		if (recognizedStoredLabel) {
+			const recognizedActions = state.stored[recognizedStoredLabel].actions;
+			const allPrimitiveActions = formattedSignatures(values(allActions([])));
+			const functions = (allPrimitiveActions.filter(
+				primitiveAction => recognizedActions.find(recognizedAction => recognizedAction === primitiveAction.name),
+			) || []);
+			return {
+				...state,
+				functions,
+				parameters: state.stored[recognizedStoredLabel].parameters,
+			};
+		}
 	}
 	return state;
 };
 
 const interpretations = scopeToActions(
 	(state: InterpretationsState, action: INTERPRETATIONS_ACTION) => {
+		if (action.type === SELECT) {
+			return {
+				...state,
+				selectedStrokeIds: action.strokes.map(stroke => stroke.id).toString(),
+			};
+		}
 		if (action.type === RECEIVE_SHAPE_CANDIDATES) {
 			return stateAfterReceive(state, action);
 		}
