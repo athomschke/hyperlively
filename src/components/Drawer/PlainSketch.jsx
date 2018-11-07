@@ -17,9 +17,9 @@ const secondToLastPointInStrokes = (strokes) => {
 
 type Props = {};
 
-export type PlainDrawerProps = AbstractDrawerProps<Props>;
+export type PlainSketchProps = AbstractDrawerProps<Props>;
 
-export default class PlainDrawer extends AbstractDrawer<Props, {}> {
+export default class PlainSketch extends AbstractDrawer<Props, {}> {
 	wasFirstPointEdited() {
 		return this.props.strokes[0] && this.state.strokes[0]
 			&& (this.props.strokes[0].points[0].x !== this.state.strokes[0].points[0].x);

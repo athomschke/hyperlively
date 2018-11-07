@@ -10,7 +10,7 @@ import type { Stroke } from 'src/types';
 import { point, exampleStrokes } from 'src/helpers.spec';
 
 import mockCanvas, { defaultContext } from './mockCanvas';
-import PlainDrawer from './PlainDrawer';
+import PlainSketch from './PlainSketch';
 import type { AbstractDrawerProps } from './AbstractDrawer';
 
 type WrappedState = {
@@ -25,7 +25,7 @@ type PWrappedProps = {
 	finished?: boolean,
 }
 
-class WrappedPlainDrawer extends Component<WrappedProps, WrappedState> {
+class WrappedPlainSketch extends Component<WrappedProps, WrappedState> {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -39,11 +39,11 @@ class WrappedPlainDrawer extends Component<WrappedProps, WrappedState> {
 	props: WrappedProps;
 
 	render() {
-		return <PlainDrawer {...this.props} {...this.state} />;
+		return <PlainSketch {...this.props} {...this.state} />;
 	}
 }
 
-const mountWrapperAroundComponentWithProps = (props: PWrappedProps) => mount(<WrappedPlainDrawer
+const mountWrapperAroundComponentWithProps = (props: PWrappedProps) => mount(<WrappedPlainSketch
 	{...props}
 	bounds={{
 		width: 1000,
@@ -59,7 +59,7 @@ const mountWrapperAroundComponentWithProps = (props: PWrappedProps) => mount(<Wr
 	finished={false}
 />);
 
-const mountComponentWithProps = (props: PWrappedProps) => mount(<PlainDrawer
+const mountComponentWithProps = (props: PWrappedProps) => mount(<PlainSketch
 	bounds={{
 		width: 1000,
 		height: 500,
@@ -73,7 +73,7 @@ const mountComponentWithProps = (props: PWrappedProps) => mount(<PlainDrawer
 
 const canvasImageData = canvas => canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height);
 
-describe('PlainDrawer', () => {
+describe('PlainSketch', () => {
 	let cleanup;
 	beforeEach(() => {
 		cleanup = jsdom();
@@ -155,7 +155,7 @@ describe('PlainDrawer', () => {
 			mountComponentWithProps({
 				strokes: exampleStrokes([point(10, 10), point(10, 11), point(10, 12), point(10, 13)]),
 			});
-			const plainDrawer = shallow(<PlainDrawer
+			const plainDrawer = shallow(<PlainSketch
 				bounds={{
 					width: 1000,
 					height: 500,
@@ -337,7 +337,7 @@ describe('PlainDrawer', () => {
 
 	describe('resetting the canvas', () => {
 		it('works when not rendered', () => {
-			const wrapper = shallow(<PlainDrawer strokes={[]} />);
+			const wrapper = shallow(<PlainSketch strokes={[]} />);
 			expect(wrapper.instance().resetCanvas.bind(wrapper.instance())).not.to.throw();
 		});
 	});
@@ -345,7 +345,7 @@ describe('PlainDrawer', () => {
 	describe('redrawing a stroke', () => {
 		it('works when not rendered', () => {
 			const stroke = exampleStrokes([])[0];
-			const wrapper = shallow(<PlainDrawer strokes={[stroke]} />);
+			const wrapper = shallow(<PlainSketch strokes={[stroke]} />);
 			expect(wrapper.instance().redrawStroke.bind(wrapper.instance(), stroke)).not.to.throw();
 		});
 	});

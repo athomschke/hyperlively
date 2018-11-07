@@ -8,7 +8,7 @@ import Desk from 'src/containers/Scene/Desk';
 import ModuleChooser from 'src/containers/Scene/ModuleChooser';
 import SketchTransformer from 'src/decorators/SketchTransformer';
 import PlomaSketch from 'src/components/Drawer/PlomaSketch';
-import PlainDrawer from 'src/components/Drawer/PlainDrawer';
+import PlainSketch from 'src/components/Drawer/PlainSketch';
 import ModifierKey from 'src/decorators/ModifierKey';
 import Fullscreen from 'src/decorators/Fullscreen';
 
@@ -45,6 +45,6 @@ export default connect(
 	mapStateToProps,
 	mapDispatchToProps,
 )(Fullscreen(ModifierKey(Desk(SketchTransformer(ModuleChooser([
-	BoundsMutationObserver(PlainDrawer),
+	BoundsMutationObserver(PlainSketch),
 	BoundsMutationObserver(PlomaSketch),
 ]))))));
