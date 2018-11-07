@@ -4,11 +4,11 @@ import TestUtils from 'react-addons-test-utils';
 import React from 'react';
 import { sum } from 'lodash';
 
-import PlomaDrawer, { type PlomaDrawerProps } from 'src/components/Drawer/PlomaDrawer';
+import PlomaSketch, { type PlomaSketchProps } from 'src/components/Drawer/PlomaSketch';
 import { type AbstractDrawerProps } from 'src/components/Drawer/AbstractDrawer';
 import { exampleStrokes } from 'src/helpers.spec';
 
-type Props = AbstractDrawerProps<PlomaDrawerProps>
+type Props = AbstractDrawerProps<PlomaSketchProps>
 
 const defaultProps = (): Props => ({
 	strokes: exampleStrokes([]),
@@ -23,7 +23,7 @@ const defaultProps = (): Props => ({
 	active: false,
 });
 
-const renderComponentWithProps = (props: Props) => TestUtils.renderIntoDocument(<PlomaDrawer
+const renderComponentWithProps = (props: Props) => TestUtils.renderIntoDocument(<PlomaSketch
 	{...props}
 	bounds={{
 		width: 1000,
@@ -38,7 +38,7 @@ const renderComponentWithProps = (props: Props) => TestUtils.renderIntoDocument(
 const canvasImageData = canvas => canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height);
 
 
-describe('PlomaDrawer', () => {
+describe('PlomaSketch', () => {
 	describe('drawing with Ploma', () => {
 		it('does nothing when only one point of a stroke is added', () => {
 			const canvas = renderComponentWithProps(defaultProps());

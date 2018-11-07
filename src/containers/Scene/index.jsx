@@ -7,7 +7,7 @@ import type { HyperlivelyState } from 'src/types';
 import Desk from 'src/containers/Scene/Desk';
 import ModuleChooser from 'src/containers/Scene/ModuleChooser';
 import SketchTransformer from 'src/decorators/SketchTransformer';
-import PlomaDrawer from 'src/components/Drawer/PlomaDrawer';
+import PlomaSketch from 'src/components/Drawer/PlomaSketch';
 import PlainDrawer from 'src/components/Drawer/PlainDrawer';
 import ModifierKey from 'src/decorators/ModifierKey';
 import Fullscreen from 'src/decorators/Fullscreen';
@@ -46,5 +46,5 @@ export default connect(
 	mapDispatchToProps,
 )(Fullscreen(ModifierKey(Desk(SketchTransformer(ModuleChooser([
 	BoundsMutationObserver(PlainDrawer),
-	BoundsMutationObserver(PlomaDrawer),
+	BoundsMutationObserver(PlomaSketch),
 ]))))));

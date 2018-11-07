@@ -11,12 +11,12 @@ import { spy } from 'sinon';
 import { point, exampleStrokes } from 'src/helpers.spec';
 
 import mockCanvas, { defaultContext } from './mockCanvas';
-import PlomaDrawer, { type PlomaDrawerProps } from './PlomaDrawer';
+import PlomaSketch, { type PlomaSketchProps } from './PlomaSketch';
 import { type AbstractDrawerProps } from './AbstractDrawer';
 
-type Props = AbstractDrawerProps<PlomaDrawerProps>
+type Props = AbstractDrawerProps<PlomaSketchProps>
 
-const mountComponentWithProps = (props: Props) => mount(<PlomaDrawer
+const mountComponentWithProps = (props: Props) => mount(<PlomaSketch
 	bounds={{
 		width: 1000,
 		height: 500,
@@ -51,7 +51,7 @@ const defaultProps = () => ({
 	finished: true,
 });
 
-describe('PlomaDrawer', () => {
+describe('PlomaSketch', () => {
 	let canvas;
 	let cleanup;
 

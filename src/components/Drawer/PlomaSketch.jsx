@@ -19,9 +19,9 @@ type Props = {
 	uniqueCanvasFactor: number;
 }
 
-export type PlomaDrawerProps = AbstractDrawerProps<Props>
+export type PlomaSketchProps = AbstractDrawerProps<Props>
 
-export default class PlomaDrawer extends AbstractDrawer<Props, State> {
+export default class PlomaSketch extends AbstractDrawer<Props, State> {
 	static defaultProps = {
 		...defaultProps(),
 		uniqueCanvasFactor: 1,
