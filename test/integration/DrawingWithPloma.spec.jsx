@@ -5,10 +5,10 @@ import React from 'react';
 import { sum } from 'lodash';
 
 import PlomaSketch, { type PlomaSketchProps } from 'src/components/Drawer/PlomaSketch';
-import { type AbstractDrawerProps } from 'src/components/Drawer/AbstractDrawer';
+import { type AbstractSketchProps } from 'src/components/Drawer/AbstractSketch';
 import { exampleStrokes } from 'src/helpers.spec';
 
-type Props = AbstractDrawerProps<PlomaSketchProps>
+type Props = AbstractSketchProps<PlomaSketchProps>
 
 const defaultProps = (): Props => ({
 	strokes: exampleStrokes([]),

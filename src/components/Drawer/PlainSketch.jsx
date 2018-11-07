@@ -8,7 +8,7 @@ import { DEFAULT_PEN_COLOR, SELECTED_PEN_COLOR } from 'src/constants/drawing';
 import type { Stroke, Point } from 'src/types';
 
 import lastPointInStrokes from './lastPointInStrokes';
-import AbstractDrawer, { type AbstractDrawerProps, transformPoint } from './AbstractDrawer';
+import AbstractSketch, { type AbstractSketchProps, transformPoint } from './AbstractSketch';
 
 const secondToLastPointInStrokes = (strokes) => {
 	const points = last(strokes).points;
@@ -17,9 +17,9 @@ const secondToLastPointInStrokes = (strokes) => {
 
 type Props = {};
 
-export type PlainSketchProps = AbstractDrawerProps<Props>;
+export type PlainSketchProps = AbstractSketchProps<Props>;
 
-export default class PlainSketch extends AbstractDrawer<Props, {}> {
+export default class PlainSketch extends AbstractSketch<Props, {}> {
 	wasFirstPointEdited() {
 		return this.props.strokes[0] && this.state.strokes[0]
 			&& (this.props.strokes[0].points[0].x !== this.state.strokes[0].points[0].x);

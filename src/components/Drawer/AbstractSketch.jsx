@@ -44,7 +44,7 @@ export const transformPoint = (
 	};
 };
 
-export type AbstractDrawerProps<P> = P & {
+export type AbstractSketchProps<P> = P & {
 	strokes: Array<Stroke>,
 	bounds: {
 		x: number,
@@ -60,7 +60,7 @@ export type AbstractDrawerProps<P> = P & {
 	finished?: boolean,
 }
 
-export type AbstractDrawerState<S> = S & {
+export type AbstractSketchState<S> = S & {
 	strokes: Array<Stroke>,
 	width: number,
 	height: number,
@@ -82,13 +82,13 @@ export const defaultProps = () => ({
 	finished: false,
 });
 
-export default class AbstractDrawer<P, S> extends
-	PureComponent<AbstractDrawerProps<P>, AbstractDrawerState<S>> {
+export default class AbstractSketch<P, S> extends
+	PureComponent<AbstractSketchProps<P>, AbstractSketchState<S>> {
 	static defaultProps = defaultProps();
 
 	constructor() {
 		super();
-		const defaultState: AbstractDrawerState<any> = {
+		const defaultState: AbstractSketchState<any> = {
 			width: 0,
 			height: 0,
 			canvas: null,
@@ -98,7 +98,7 @@ export default class AbstractDrawer<P, S> extends
 		this.state = this.state || defaultState;
 	}
 
-	state: AbstractDrawerState<S>;
+	state: AbstractSketchState<S>;
 
 	componentDidMount() {
 		const isFinished = last(this.props.strokes) && last(this.props.strokes).finished;
@@ -122,10 +122,10 @@ export default class AbstractDrawer<P, S> extends
 		}
 	}
 
-	props: AbstractDrawerProps<P>;
+	props: AbstractSketchProps<P>;
 
 	handleAbstractMethodCalled() {
-		if (this === AbstractDrawer) {
+		if (this === AbstractSketch) {
 			throw new Error(ERROR_DIRECT_ABSTRACT_CALL);
 		} else {
 			throw new Error(ERROR_CALL_SUPER_TO_ABSTRACT);

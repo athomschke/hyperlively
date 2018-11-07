@@ -9,7 +9,7 @@ import { PRESSURE, DEFAULT_PEN_COLOR, SELECTED_PEN_COLOR } from 'src/constants/d
 import type { Stroke, Point } from 'src/types';
 
 import lastPointInStrokes from './lastPointInStrokes';
-import AbstractDrawer, { defaultProps, type AbstractDrawerProps, transformPoint } from './AbstractDrawer';
+import AbstractSketch, { defaultProps, type AbstractSketchProps, transformPoint } from './AbstractSketch';
 
 type State = {
 	ballpointPen: Object;
@@ -19,9 +19,9 @@ type Props = {
 	uniqueCanvasFactor: number;
 }
 
-export type PlomaSketchProps = AbstractDrawerProps<Props>
+export type PlomaSketchProps = AbstractSketchProps<Props>
 
-export default class PlomaSketch extends AbstractDrawer<Props, State> {
+export default class PlomaSketch extends AbstractSketch<Props, State> {
 	static defaultProps = {
 		...defaultProps(),
 		uniqueCanvasFactor: 1,

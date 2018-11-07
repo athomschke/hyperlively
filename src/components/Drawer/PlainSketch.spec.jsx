@@ -11,14 +11,14 @@ import { point, exampleStrokes } from 'src/helpers.spec';
 
 import mockCanvas, { defaultContext } from './mockCanvas';
 import PlainSketch from './PlainSketch';
-import type { AbstractDrawerProps } from './AbstractDrawer';
+import type { AbstractSketchProps } from './AbstractSketch';
 
 type WrappedState = {
 	width: number,
 	height: number,
 }
 
-type WrappedProps = AbstractDrawerProps<{}>
+type WrappedProps = AbstractSketchProps<{}>
 type PWrappedProps = {
 	strokes?: Array<Stroke>,
 	active?: boolean,

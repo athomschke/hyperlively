@@ -12,9 +12,9 @@ import { point, exampleStrokes } from 'src/helpers.spec';
 
 import mockCanvas, { defaultContext } from './mockCanvas';
 import PlomaSketch, { type PlomaSketchProps } from './PlomaSketch';
-import { type AbstractDrawerProps } from './AbstractDrawer';
+import { type AbstractSketchProps } from './AbstractSketch';
 
-type Props = AbstractDrawerProps<PlomaSketchProps>
+type Props = AbstractSketchProps<PlomaSketchProps>
 
 const mountComponentWithProps = (props: Props) => mount(<PlomaSketch
 	bounds={{

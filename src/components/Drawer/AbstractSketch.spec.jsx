@@ -9,13 +9,13 @@ import jsdom from 'jsdom-global';
 import { ERROR_CALL_SUPER_TO_ABSTRACT, ERROR_DIRECT_ABSTRACT_CALL } from 'src/constants/errors';
 import { point, exampleStrokes } from 'src/helpers.spec';
 
-import AbstractDrawer, { type AbstractDrawerProps } from './AbstractDrawer';
+import AbstractSketch, { type AbstractSketchProps } from './AbstractSketch';
 
 type SpecificProps = {
 	overwriteFunctionCalled: () => void
 }
 
-class SpecificDrawer extends AbstractDrawer<AbstractDrawerProps<SpecificProps>, {}> {
+class SpecificDrawer extends AbstractSketch<AbstractSketchProps<SpecificProps>, {}> {
 	static defaultProps = {
 		overwriteFunctionCalled: () => undefined,
 		strokes: [],
@@ -33,7 +33,7 @@ class SpecificDrawer extends AbstractDrawer<AbstractDrawerProps<SpecificProps>, 
 	}
 
 	handleStrokesExtended(...args) {
-		AbstractDrawer.prototype.handleStrokesExtended.call(this, ...args);
+		AbstractSketch.prototype.handleStrokesExtended.call(this, ...args);
 	}
 
 	handleStrokesEnded() { this.props.overwriteFunctionCalled(); }
@@ -49,7 +49,7 @@ class SpecificDrawer extends AbstractDrawer<AbstractDrawerProps<SpecificProps>, 
 	redrawStroke() { this.props.overwriteFunctionCalled(); }
 }
 
-const defaultProps = (): AbstractDrawerProps<SpecificProps> => ({
+const defaultProps = (): AbstractSketchProps<SpecificProps> => ({
 	strokes: exampleStrokes([point(10, 10), point(10, 11), point(10, 12), point(10, 13)]),
 	overwriteFunctionCalled: () => undefined,
 	bounds: {
@@ -66,11 +66,11 @@ const defaultProps = (): AbstractDrawerProps<SpecificProps> => ({
 	finished: true,
 });
 
-const shallowWithProps = (props: AbstractDrawerProps<SpecificProps>) => shallow(<SpecificDrawer {...props} />);
+const shallowWithProps = (props: AbstractSketchProps<SpecificProps>) => shallow(<SpecificDrawer {...props} />);
 
-const mountWithProps = (props: AbstractDrawerProps<SpecificProps>) => mount(<SpecificDrawer {...props} />);
+const mountWithProps = (props: AbstractSketchProps<SpecificProps>) => mount(<SpecificDrawer {...props} />);
 
-describe('AbstractDrawer', () => {
+describe('AbstractSketch', () => {
 	let cleanup;
 	beforeEach(() => {
 		cleanup = jsdom();
@@ -93,47 +93,47 @@ describe('AbstractDrawer', () => {
 		});
 
 		it('cannot trigger an abstract method on Abstract Drawer implementation', () => {
-			expect(AbstractDrawer.prototype.handleAbstractMethodCalled.bind(AbstractDrawer))
+			expect(AbstractSketch.prototype.handleAbstractMethodCalled.bind(AbstractSketch))
 				.to.throw(ERROR_DIRECT_ABSTRACT_CALL);
 		});
 
 		it('throws an error for handleStrokeStarted', () => {
-			expect(AbstractDrawer.prototype.handleStrokeStarted.bind(AbstractDrawer.prototype))
+			expect(AbstractSketch.prototype.handleStrokeStarted.bind(AbstractSketch.prototype))
 				.to.throw(ERROR_CALL_SUPER_TO_ABSTRACT);
 		});
 
 		it('throws an error for handleStrokesExtended', () => {
-			expect(AbstractDrawer.prototype.handleStrokesExtended.bind(AbstractDrawer.prototype))
+			expect(AbstractSketch.prototype.handleStrokesExtended.bind(AbstractSketch.prototype))
 				.to.throw(ERROR_CALL_SUPER_TO_ABSTRACT);
 		});
 
 		it('throws an error for handleStrokesEnded', () => {
-			expect(AbstractDrawer.prototype.handleStrokesEnded.bind(AbstractDrawer.prototype))
+			expect(AbstractSketch.prototype.handleStrokesEnded.bind(AbstractSketch.prototype))
 				.to.throw(ERROR_CALL_SUPER_TO_ABSTRACT);
 		});
 
 		it('throws an error for extendStrokeAt', () => {
-			expect(AbstractDrawer.prototype.extendStrokeAt.bind(AbstractDrawer.prototype))
+			expect(AbstractSketch.prototype.extendStrokeAt.bind(AbstractSketch.prototype))
 				.to.throw(ERROR_CALL_SUPER_TO_ABSTRACT);
 		});
 
 		it('throws an error for endStrokeAt', () => {
-			expect(AbstractDrawer.prototype.endStrokeAt.bind(AbstractDrawer.prototype))
+			expect(AbstractSketch.prototype.endStrokeAt.bind(AbstractSketch.prototype))
 				.to.throw(ERROR_CALL_SUPER_TO_ABSTRACT);
 		});
 
 		it('throws an error for resetCanvas', () => {
-			expect(AbstractDrawer.prototype.resetCanvas.bind(AbstractDrawer.prototype))
+			expect(AbstractSketch.prototype.resetCanvas.bind(AbstractSketch.prototype))
 				.to.throw(ERROR_CALL_SUPER_TO_ABSTRACT);
 		});
 
 		it('throws an error for redrawStroke', () => {
-			expect(AbstractDrawer.prototype.redrawStroke.bind(AbstractDrawer.prototype))
+			expect(AbstractSketch.prototype.redrawStroke.bind(AbstractSketch.prototype))
 				.to.throw(ERROR_CALL_SUPER_TO_ABSTRACT);
 		});
 
 		it('does nothing for startStrokeAt', () => {
-			expect(AbstractDrawer.prototype.startStrokeAt.bind(AbstractDrawer.prototype))
+			expect(AbstractSketch.prototype.startStrokeAt.bind(AbstractSketch.prototype))
 				.to.throw(ERROR_CALL_SUPER_TO_ABSTRACT);
 		});
 	});
