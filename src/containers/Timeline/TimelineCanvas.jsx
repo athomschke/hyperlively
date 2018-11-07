@@ -2,7 +2,7 @@
 import * as React from 'react';
 
 import SketchTransformer, { type SketchTransformerProps } from 'src/decorators/SketchTransformer';
-import PlainSketch, { type PlainSketchProps } from 'src/components/Drawer/PlainSketch';
+import PlainSketch, { type PlainSketchProps } from 'src/components/Sketch/PlainSketch';
 
 import SketchFitter, { type SketchFitterProps } from './SketchFitter';
 import Point2BoundsScaler, { type Point2BoundsScalerProps } from './Point2BoundsScaler';

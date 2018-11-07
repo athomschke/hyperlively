@@ -4,8 +4,8 @@ import TestUtils from 'react-addons-test-utils';
 import React from 'react';
 import { sum } from 'lodash';
 
-import PlomaSketch, { type PlomaSketchProps } from 'src/components/Drawer/PlomaSketch';
-import { type AbstractSketchProps } from 'src/components/Drawer/AbstractSketch';
+import PlomaSketch, { type PlomaSketchProps } from 'src/components/Sketch/PlomaSketch';
+import { type AbstractSketchProps } from 'src/components/Sketch/AbstractSketch';
 import { exampleStrokes } from 'src/helpers.spec';
 
 type Props = AbstractSketchProps<PlomaSketchProps>

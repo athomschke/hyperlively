@@ -15,7 +15,7 @@ type SpecificProps = {
 	overwriteFunctionCalled: () => void
 }
 
-class SpecificDrawer extends AbstractSketch<AbstractSketchProps<SpecificProps>, {}> {
+class SpecificSketch extends AbstractSketch<AbstractSketchProps<SpecificProps>, {}> {
 	static defaultProps = {
 		overwriteFunctionCalled: () => undefined,
 		strokes: [],
@@ -66,9 +66,9 @@ const defaultProps = (): AbstractSketchProps<SpecificProps> => ({
 	finished: true,
 });
 
-const shallowWithProps = (props: AbstractSketchProps<SpecificProps>) => shallow(<SpecificDrawer {...props} />);
+const shallowWithProps = (props: AbstractSketchProps<SpecificProps>) => shallow(<SpecificSketch {...props} />);
 
-const mountWithProps = (props: AbstractSketchProps<SpecificProps>) => mount(<SpecificDrawer {...props} />);
+const mountWithProps = (props: AbstractSketchProps<SpecificProps>) => mount(<SpecificSketch {...props} />);
 
 describe('AbstractSketch', () => {
 	let cleanup;
@@ -82,17 +82,17 @@ describe('AbstractSketch', () => {
 
 	describe('calling an abstract function directly', () => {
 		it('throws an error for handleStrokeStarted when not implemented in subclass', () => {
-			expect(SpecificDrawer.prototype.handleStrokeStarted.bind(SpecificDrawer.prototype))
+			expect(SpecificSketch.prototype.handleStrokeStarted.bind(SpecificSketch.prototype))
 				.to.throw(ERROR_CALL_SUPER_TO_ABSTRACT);
 		});
 
 		it('throws an error for handleStrokesExtended when implemented in subclass but calling the superclass', () => {
-			const specificDrawer = shallowWithProps(defaultProps());
-			expect(specificDrawer.instance().handleStrokesExtended.bind(specificDrawer.instance()))
+			const specificSketch = shallowWithProps(defaultProps());
+			expect(specificSketch.instance().handleStrokesExtended.bind(specificSketch.instance()))
 				.to.throw(ERROR_CALL_SUPER_TO_ABSTRACT);
 		});
 
-		it('cannot trigger an abstract method on Abstract Drawer implementation', () => {
+		it('cannot trigger an abstract method on Abstract Sketch implementation', () => {
 			expect(AbstractSketch.prototype.handleAbstractMethodCalled.bind(AbstractSketch))
 				.to.throw(ERROR_DIRECT_ABSTRACT_CALL);
 		});
@@ -141,33 +141,33 @@ describe('AbstractSketch', () => {
 	describe('changing a strokes color', () => {
 		it('is recognized as an updated stroke', () => {
 			const strokes = exampleStrokes([point(10, 10)]);
-			const specificDrawer = shallowWithProps({ ...defaultProps(), strokes });
-			stub(specificDrawer.instance(), 'handleStrokesUpdated');
+			const specificSketch = shallowWithProps({ ...defaultProps(), strokes });
+			stub(specificSketch.instance(), 'handleStrokesUpdated');
 			strokes[0].color = 'A new (invalid) Color';
-			specificDrawer.instance().componentDidUpdate();
-			expect(specificDrawer.instance().handleStrokesUpdated.callCount).to.equal(1);
-			specificDrawer.instance().handleStrokesUpdated.restore();
+			specificSketch.instance().componentDidUpdate();
+			expect(specificSketch.instance().handleStrokesUpdated.callCount).to.equal(1);
+			specificSketch.instance().handleStrokesUpdated.restore();
 		});
 
 		it('is not recognized as moved strokes', () => {
 			const strokes = exampleStrokes([point(10, 10)]);
-			const specificDrawer = mountWithProps({ ...defaultProps(), strokes });
-			stub(specificDrawer.instance(), 'moveImageDataToNewPosition');
+			const specificSketch = mountWithProps({ ...defaultProps(), strokes });
+			stub(specificSketch.instance(), 'moveImageDataToNewPosition');
 			strokes[0].color = 'A new (invalid) Color';
-			specificDrawer.instance().componentDidUpdate();
-			expect(specificDrawer.instance().moveImageDataToNewPosition.callCount).to.equal(0);
-			specificDrawer.instance().moveImageDataToNewPosition.restore();
+			specificSketch.instance().componentDidUpdate();
+			expect(specificSketch.instance().moveImageDataToNewPosition.callCount).to.equal(0);
+			specificSketch.instance().moveImageDataToNewPosition.restore();
 		});
 
 		it('redraws everything', () => {
 			const strokes = exampleStrokes([point(10, 10)]);
-			const specificDrawer = mountWithProps({ ...defaultProps(), strokes });
-			specificDrawer.instance().redrawEverything = () => {};
-			stub(specificDrawer.instance(), 'redrawEverything');
+			const specificSketch = mountWithProps({ ...defaultProps(), strokes });
+			specificSketch.instance().redrawEverything = () => {};
+			stub(specificSketch.instance(), 'redrawEverything');
 			strokes[0].color = 'A new (invalid) Color';
-			specificDrawer.instance().componentDidUpdate();
-			expect(specificDrawer.instance().redrawEverything.callCount).to.equal(1);
-			specificDrawer.instance().redrawEverything.restore();
+			specificSketch.instance().componentDidUpdate();
+			expect(specificSketch.instance().redrawEverything.callCount).to.equal(1);
+			specificSketch.instance().redrawEverything.restore();
 		});
 	});
 
@@ -175,10 +175,10 @@ describe('AbstractSketch', () => {
 		it('calls onNodeChanged with the new node', () => {
 			const onNodeChanged = spy();
 			const strokes = exampleStrokes([point(10, 10)]);
-			const specificDrawer = mountWithProps({ ...defaultProps(), strokes, onNodeChanged });
+			const specificSketch = mountWithProps({ ...defaultProps(), strokes, onNodeChanged });
 			onNodeChanged.reset();
 			last(strokes).points.splice(-1);
-			specificDrawer.instance().componentDidUpdate();
+			specificSketch.instance().componentDidUpdate();
 			expect(onNodeChanged.callCount).to.equal(2);
 		});
 	});
@@ -198,7 +198,7 @@ describe('AbstractSketch', () => {
 		});
 
 		it('works without causing errors in rendering when canvas is not completely rendered', () => {
-			const wrapper = mount(<SpecificDrawer
+			const wrapper = mount(<SpecificSketch
 				bounds={bounds}
 				strokes={strokes}
 				overwriteFunctionCalled={() => undefined}
@@ -210,7 +210,7 @@ describe('AbstractSketch', () => {
 		});
 
 		it('works without causing errors in rendering when canvas is not in DOM', () => {
-			const wrapper = shallow(<SpecificDrawer
+			const wrapper = shallow(<SpecificSketch
 				bounds={bounds}
 				strokes={strokes}
 				overwriteFunctionCalled={() => undefined}

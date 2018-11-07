@@ -7,8 +7,8 @@ import type { HyperlivelyState } from 'src/types';
 import Desk from 'src/containers/Scene/Desk';
 import ModuleChooser from 'src/containers/Scene/ModuleChooser';
 import SketchTransformer from 'src/decorators/SketchTransformer';
-import PlomaSketch from 'src/components/Drawer/PlomaSketch';
-import PlainSketch from 'src/components/Drawer/PlainSketch';
+import PlomaSketch from 'src/components/Sketch/PlomaSketch';
+import PlainSketch from 'src/components/Sketch/PlainSketch';
 import ModifierKey from 'src/decorators/ModifierKey';
 import Fullscreen from 'src/decorators/Fullscreen';
 

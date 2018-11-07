@@ -155,7 +155,7 @@ describe('PlainSketch', () => {
 			mountComponentWithProps({
 				strokes: exampleStrokes([point(10, 10), point(10, 11), point(10, 12), point(10, 13)]),
 			});
-			const plainDrawer = shallow(<PlainSketch
+			const plainSketch = shallow(<PlainSketch
 				bounds={{
 					width: 1000,
 					height: 500,
@@ -165,7 +165,7 @@ describe('PlainSketch', () => {
 				strokes={[]}
 				active={false}
 			/>).instance();
-			expect(plainDrawer.startStrokeAt.bind(plainDrawer, { x: 0, y: 0 })).not.to.throw();
+			expect(plainSketch.startStrokeAt.bind(plainSketch, { x: 0, y: 0 })).not.to.throw();
 		});
 
 		it('changes stroke style on canvas', () => {
