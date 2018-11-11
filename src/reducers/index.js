@@ -1,5 +1,5 @@
 // @flow
-import type { HyperlivelyState, CommonAction } from 'src/types';
+import type { HyperlivelyState, CommonAction, Scene } from 'src/types';
 
 import { data } from './data';
 import ui from './ui';
@@ -11,9 +11,18 @@ export const initialHyperlivelyState = (): HyperlivelyState => ({
 	ui: ui(undefined, { type: '' }),
 });
 
-export const hyperlively: HyperlivelyReducer = (state = initialHyperlivelyState(), action) => ({
-	data: data(state.data, action),
-	ui: ui(state.ui, action),
-});
+export const hyperlively: HyperlivelyReducer = (state = initialHyperlivelyState(), action) => {
+	Object.keys(action).forEach((actionKey) => {
+		const scene: Scene = state.data.scenes.present[state.data.sceneIndex];
+		if (action[actionKey] === 'selectedStrokes') {
+			// eslint-disable-next-line no-param-reassign
+			action[actionKey] = (scene.strokes.filter(stroke => stroke.selected): any);
+		}
+	});
+	return {
+		data: data(state.data, action),
+		ui: ui(state.ui, action),
+	};
+};
 
 export default hyperlively;

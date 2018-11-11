@@ -76,7 +76,12 @@ const InterpretationChooser = (props: InterpretationChooserProps) => {
 	const jsonTree = (parameterObject(props.interpretation, props.selectedStrokes, props.sketches):JSONObject);
 
 	const handleOnParameterChoose = (parameters: Array<string>): void => {
-		const valueAtPath = (obj: Object, path: string) => path.split(PATH_DELIMITER).reduce((subtree, key) => subtree[key], obj);
+		const valueAtPath = (obj: Object, path: string) => path.split(PATH_DELIMITER).reduce((subtree, key) => {
+			if (key === 'selectedStrokes') {
+				return (key: any);
+			}
+			return subtree[key];
+		}, obj);
 		const leafes = parameters.map(checkedKey => ({ value: valueAtPath(jsonTree, checkedKey), path: checkedKey.split(PATH_DELIMITER) }));
 		const values: Parameters = leafes.map(
 			(leaf: { value: any, path: string[] }) => {
