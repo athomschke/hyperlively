@@ -176,8 +176,15 @@ const InterpretationChooser = (props: InterpretationChooserProps) => {
 			>
 				<InterpretationTrigger />
 				<InterpretationDisplay />
-				<ActionChooser recognizedLabel={recognizedLabel} />
-				{renderPostitionParameterChoosersGroup(choosersProps, recognizedLabel)}
+				<div
+					style={{
+						overflow: 'scroll',
+						height: '250px',
+					}}
+				>
+					<ActionChooser recognizedLabel={recognizedLabel} />
+					{renderPostitionParameterChoosersGroup(choosersProps, recognizedLabel)}
+				</div>
 			</div>
 		);
 	};
