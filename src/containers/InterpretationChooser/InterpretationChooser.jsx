@@ -80,6 +80,9 @@ const InterpretationChooser = (props: InterpretationChooserProps) => {
 			if (key === 'selectedStrokes') {
 				return (key: any);
 			}
+			if (key === 'strokes') {
+				return (`strokes: ${subtree[key].map(stroke => stroke.id).join(', ')}`: any);
+			}
 			return subtree[key];
 		}, obj);
 		const leafes = parameters.map(checkedKey => ({ value: valueAtPath(jsonTree, checkedKey), path: checkedKey.split(PATH_DELIMITER) }));

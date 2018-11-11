@@ -18,6 +18,12 @@ export const hyperlively: HyperlivelyReducer = (state = initialHyperlivelyState(
 			// eslint-disable-next-line no-param-reassign
 			action[actionKey] = (scene.strokes.filter(stroke => stroke.selected): any);
 		}
+		if (action[actionKey] && action[actionKey].startsWith && action[actionKey].startsWith('strokes: ')) {
+			const label = action[actionKey];
+			const ids = label.substring(9).split(', ');
+			// eslint-disable-next-line no-param-reassign
+			action[actionKey] = (scene.strokes.filter(stroke => ids.indexOf(`${stroke.id}`) >= 0): any);
+		}
 	});
 	return {
 		data: data(state.data, action),
