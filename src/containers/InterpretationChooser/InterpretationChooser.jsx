@@ -35,7 +35,11 @@ type PartialPrefixedJSONPropertyChooserProps = {
 const hashPosition = coordinate => (coordinate ? `(${coordinate.x}, ${coordinate.y})` : 'undefined');
 
 const getStrokesPosition = (strokes: Array<Stroke>): ?Coordinate => {
-	const allPoints = strokes.reduce((points, stroke) => [...points, ...stroke.points], []);
+	const allPoints = strokes.reduce((points, stroke) => [...points, ...stroke.points.map(point => ({
+		...point,
+		x: point.x + stroke.position.x,
+		y: point.y + stroke.position.y,
+	}))], []);
 	if (allPoints.length > 0) {
 		const xs = allPoints.map(point => point.x);
 		const ys = allPoints.map(point => point.y);
