@@ -1,7 +1,13 @@
 // @flow
 import scopeToActions from 'src/reducers/scopeToActions';
 import { addScene } from 'src/actionCreators';
-import { ADD_SCENE_AT, SET_SCENE_INDEX, NEXT_SCENE } from 'src/constants/actionTypes';
+import {
+	ADD_SCENE_AT,
+	SET_SCENE_INDEX,
+	NEXT_SCENE,
+	SELECT_AT,
+	SELECT_INSIDE,
+} from 'src/constants/actionTypes';
 import type { Data, Undoable, Scenes } from 'src/types';
 
 import { undoable, undoableActions, type UndoableActionType } from './undoable';
@@ -10,6 +16,7 @@ import { scenes, scenesActions, type ScenesActionType } from './scenes';
 import { strokes, strokesActions, type StrokesActionType } from './strokes';
 import { interpretation, interpretationActions, type INTERPRETATION_ACTION } from './interpretation';
 import { specificActions, specificActionsActions, type SPECIFIG_ACTIONS_ACTION } from './specificActions';
+import { type ENHANCED_SELECT_INSIDE_ACTION } from './strokeReferences';
 
 type UndoableSceneActionType = UndoableActionType<ScenesActionType | SetSceneActionType | StrokesActionType>
 
@@ -92,10 +99,19 @@ const scopedData: DataReducer = (state, action) => {
 			if (Object.keys(undoableActions(scenesActions)).indexOf(action.type) >= 0) {
 				const undoableScenesAction: UndoableSceneActionType = (action: any);
 				undoableScenesAction.sceneIndex = returnState.sceneIndex;
-				returnState = {
-					...returnState,
-					scenes: undoableScenes(returnState.scenes, undoableScenesAction),
-				};
+				if (action.type === SELECT_AT || action.type === SELECT_INSIDE) {
+					const selectInsideAction: ENHANCED_SELECT_INSIDE_ACTION = (undoableScenesAction: any);
+					selectInsideAction.allStrokes = state.strokes;
+					returnState = {
+						...returnState,
+						scenes: undoableScenes(returnState.scenes, selectInsideAction),
+					};
+				} else {
+					returnState = {
+						...returnState,
+						scenes: undoableScenes(returnState.scenes, undoableScenesAction),
+					};
+				}
 			}
 			if (Object.keys(strokesActions).indexOf(action.type) >= 0) {
 				const strokesAction: StrokesActionType = (action: any);
@@ -104,7 +120,7 @@ const scopedData: DataReducer = (state, action) => {
 					strokes: strokes(returnState.strokes, strokesAction),
 				};
 			}
-			return returnState;
+			return (returnState: any);
 		}
 		if (Object.keys(dataActions).indexOf(action.type) >= 0) {
 			return {

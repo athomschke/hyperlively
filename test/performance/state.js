@@ -2,8 +2,9 @@
 import { last, cloneDeep } from 'lodash';
 
 import { stroke } from 'src/reducers/data/strokes/stroke';
+import { initialStrokeReferenceState } from 'src/reducers/data/strokeReference';
 import type {
-	Scenes, Stroke, Data, Undoable, HyperlivelyState, StrokeReference,
+	Scenes, Data, Undoable, HyperlivelyState, StrokeReference, StateStroke, Stroke,
 } from 'src/types';
 
 const NUMBER_OF_STROKES = 1;
@@ -13,7 +14,7 @@ export const createUndoableScenes = (numberOfStrokes: number, lengthOfStroke: nu
 	const pastScenes: Array<Scenes> = [];
 	const currentStrokes: Array<StrokeReference> = [];
 	for (let id = 0; id < numberOfStrokes; id += 1) {
-		currentStrokes.push({ id, length: 0 });
+		currentStrokes.push({ ...initialStrokeReferenceState(), id, length: 0 });
 		pastScenes.push(
 			[{ strokes: cloneDeep(currentStrokes) }],
 		);
@@ -27,7 +28,7 @@ export const createUndoableScenes = (numberOfStrokes: number, lengthOfStroke: nu
 	return pastScenes;
 };
 
-export const createStrokes = (numberOfStrokes: number, lengthOfStroke: number): Array<Stroke> => {
+export const createStateStrokes = (numberOfStrokes: number, lengthOfStroke: number): Array<StateStroke> => {
 	let timeStamp = new Date().getTime();
 	const strokes = [];
 	for (let id = 0; id < numberOfStrokes; id += 1) {
@@ -46,6 +47,10 @@ export const createStrokes = (numberOfStrokes: number, lengthOfStroke: number): 
 	return strokes;
 };
 
+export const createStrokes = (numberOfStrokes: number, lengthOfStroke: number): Array<Stroke> => createStateStrokes(
+	numberOfStrokes, lengthOfStroke,
+).map(stateStroke => ({ ...initialStrokeReferenceState(), ...stateStroke }));
+
 const allScenes = createUndoableScenes(NUMBER_OF_STROKES, LENGTH_OF_STROKE);
 
 const past: Array<Scenes> = allScenes.slice(0, allScenes.length - 1);
@@ -58,7 +63,7 @@ const scenes: Undoable<Scenes> = {
 	future: [],
 };
 
-const strokes: Array<Stroke> = createStrokes(NUMBER_OF_STROKES, LENGTH_OF_STROKE);
+const strokes: Array<StateStroke> = createStateStrokes(NUMBER_OF_STROKES, LENGTH_OF_STROKE);
 
 const data: Data = {
 	specificActions: [],

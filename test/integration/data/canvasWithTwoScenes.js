@@ -1,18 +1,23 @@
 // @flow
 
-import type { HyperlivelyState, Stroke, Point } from 'src/types';
+import type { HyperlivelyState, StateStroke, Point } from 'src/types';
 
-const stroke = (id: number, points: Array<Point>, finished: boolean): Stroke => ({
+const stroke = (id: number, points: Array<Point>, finished: boolean): StateStroke => ({
 	id,
+	finished,
+	points,
+});
+
+const strokeReference = () => ({
+	id: 0,
+	length: 0,
 	hidden: false,
 	selected: false,
-	finished,
 	angle: 0,
 	center: {
 		x: 0,
 		y: 0,
 	},
-	points,
 	position: {
 		x: 0,
 		y: 0,
@@ -43,16 +48,16 @@ const canvasWithTwoScenes = (): HyperlivelyState => ({
 		],
 		scenes: {
 			past: [
-				[{ strokes: [{ id: 1, length: 1 }] }],
-				[{ strokes: [{ id: 1, length: 2 }] }],
-				[{ strokes: [{ id: 1, length: 2 }] }, { strokes: [{ id: 2, length: 1 }] }],
-				[{ strokes: [{ id: 1, length: 2 }] }, { strokes: [{ id: 2, length: 2 }] }],
-				[{ strokes: [{ id: 1, length: 2 }] }, { strokes: [{ id: 2, length: 3 }] }],
-				[{ strokes: [{ id: 1, length: 2 }] }, { strokes: [{ id: 2, length: 4 }] }],
-				[{ strokes: [{ id: 1, length: 2 }] }, { strokes: [{ id: 2, length: 5 }] }],
+				[{ strokes: [{ ...strokeReference(), id: 1, length: 1 }] }],
+				[{ strokes: [{ ...strokeReference(), id: 1, length: 2 }] }],
+				[{ strokes: [{ ...strokeReference(), id: 1, length: 2 }] }, { strokes: [{ ...strokeReference(), id: 2, length: 1 }] }],
+				[{ strokes: [{ ...strokeReference(), id: 1, length: 2 }] }, { strokes: [{ ...strokeReference(), id: 2, length: 2 }] }],
+				[{ strokes: [{ ...strokeReference(), id: 1, length: 2 }] }, { strokes: [{ ...strokeReference(), id: 2, length: 3 }] }],
+				[{ strokes: [{ ...strokeReference(), id: 1, length: 2 }] }, { strokes: [{ ...strokeReference(), id: 2, length: 4 }] }],
+				[{ strokes: [{ ...strokeReference(), id: 1, length: 2 }] }, { strokes: [{ ...strokeReference(), id: 2, length: 5 }] }],
 			],
 			future: [],
-			present: [{ strokes: [{ id: 1, length: 2 }] }, { strokes: [{ id: 2, length: 6 }] }],
+			present: [{ strokes: [{ ...strokeReference(), id: 1, length: 2 }] }, { strokes: [{ ...strokeReference(), id: 2, length: 6 }] }],
 		},
 	},
 	ui: {

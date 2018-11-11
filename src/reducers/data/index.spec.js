@@ -3,13 +3,14 @@ import { expect } from 'chai';
 
 import { setSceneIndex, addSceneAt, nextScene } from 'src/actionCreators';
 import { stroke } from 'src/reducers/data/strokes/stroke';
+import { initialStrokeReferenceState } from 'src/reducers/data/strokeReference';
 import { point } from 'src/helpers.spec';
 import type { Scene, Data } from 'src/types';
 
 import { data } from '.';
 
 const existingScene: () => Scene = () => ({
-	strokes: [{ id: NaN, length: 1 }],
+	strokes: [{ ...initialStrokeReferenceState(), id: NaN, length: 1 }],
 });
 
 describe('Data', () => {

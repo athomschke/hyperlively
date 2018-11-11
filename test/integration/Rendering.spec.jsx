@@ -6,6 +6,7 @@ import TestUtils from 'react-addons-test-utils';
 
 import type { Stroke } from 'src/types';
 import { stroke } from 'src/reducers/data/strokes/stroke';
+import { initialStrokeReferenceState } from 'src/reducers/data/strokeReference';
 
 import {
 	hashCode, renderApplicationWithState, mountApp, dismountApp, getCanvasNodes, getWindowNode, getCombinedCanvas,
@@ -92,7 +93,11 @@ describe('Integration', () => {
 						{ x: 20, y: 40, timeStamp: 103 },
 					],
 				};
-				canvasJson.data.scenes.present[0].strokes.push({ id: newStroke.id, length: newStroke.points.length });
+				canvasJson.data.scenes.present[0].strokes.push({
+					...initialStrokeReferenceState(),
+					id: newStroke.id,
+					length: newStroke.points.length,
+				});
 				canvasJson.data.strokes.push(newStroke);
 				renderApplicationWithState(canvasJson);
 				return getCombinedCanvas().then((newCombinedCanvas) => {
@@ -105,7 +110,7 @@ describe('Integration', () => {
 			const canvasJson = cloneDeep(canvasWithTwoStrokes());
 			canvasJson.ui.threshold = 1500;
 			canvasJson.ui.handwritingRecognition = true;
-			canvasJson.data.strokes.forEach((visibleStroke) => {
+			canvasJson.data.scenes.present[0].strokes.forEach((visibleStroke) => {
 				// eslint-disable-next-line no-param-reassign
 				visibleStroke.hidden = true;
 			});

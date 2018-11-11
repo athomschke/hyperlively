@@ -1,6 +1,7 @@
 // @flow
 import type { Point, Stroke } from 'src/types';
 import { stroke } from 'src/reducers/data/strokes/stroke';
+import { strokeReference } from 'src/reducers/data/strokeReference';
 
 export function point(x: number, y: number, optTimestamp?: number) {
 	return {
@@ -19,9 +20,16 @@ export function event(x: number, y: number, optTimestamp?: number) {
 }
 
 export function exampleStrokes(points: Array<Point>, finished: boolean = true): Array<Stroke> {
+	const stateStroke = stroke(undefined, { type: '' });
+	const referenceStroke = strokeReference(undefined, { type: '' });
+	const combinedStroke = {
+		...stateStroke,
+		...referenceStroke,
+	};
 	return [{
-		...stroke(undefined, { type: '' }),
+		...combinedStroke,
 		points,
 		finished,
+		id: points[0] ? points[0].timeStamp : 0,
 	}];
 }

@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { map, reduce } from 'lodash';
 import { useFakeXMLHttpRequest } from 'sinon';
 
+import type { Stroke } from 'src/types'
 import {
 	renderApplicationWithState, mountApp, dismountApp, manuallyDrawStrokes, getWindowNode,
 } from 'test/integration/helpers';
@@ -10,7 +11,7 @@ import {
 import { createStrokes } from './state';
 import emptyState from './emptyState';
 
-const getRenderTime = (allStrokes) => {
+const getRenderTime = (allStrokes: Array<Stroke>) => {
 	mountApp();
 	renderApplicationWithState(emptyState);
 	const startTime = new Date().getTime();

@@ -41,10 +41,12 @@ const mapDispatchToProps = dispatch => ({
 	},
 });
 
+const Scene = Fullscreen(ModifierKey(Desk(SketchTransformer(ModuleChooser([
+	BoundsMutationObserver(PlainSketch),
+	BoundsMutationObserver(PlomaSketch),
+])))));
+
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps,
-)(Fullscreen(ModifierKey(Desk(SketchTransformer(ModuleChooser([
-	BoundsMutationObserver(PlainSketch),
-	BoundsMutationObserver(PlomaSketch),
-]))))));
+)(Scene);
