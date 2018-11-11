@@ -80,15 +80,30 @@ const scopedStrokeReferencesReducer: StrokeReferencesReducer = (state, action) =
 	}
 	case SELECT_INSIDE: {
 		const selectInsideAction: ENHANCED_SELECT_INSIDE_ACTION = action;
-		const outerPolygon = new Polygon(flatten(map(selectInsideAction.strokes, 'points')));
-		const innerStateStrokes = action.allStrokes.filter((innerStroke) => {
-			if (selectInsideAction.strokes.find(actionStroke => actionStroke.id === innerStroke.id)) return false;
-			const possiblyHiddenStrokeReference = state.find(possHiddenStrokeReference => possHiddenStrokeReference.id === innerStroke.id);
-			if (possiblyHiddenStrokeReference && possiblyHiddenStrokeReference.hidden) {
-				return false;
+		const movedOuterPoints = flatten(map(selectInsideAction.strokes, (stroke) => {
+			const originalPoints = stroke.points;
+			return originalPoints.map(point => ({
+				...point,
+				x: point.x + stroke.position.x,
+				y: point.y + stroke.position.y,
+			}));
+		}));
+		const outerPolygon = new Polygon(movedOuterPoints);
+		const innerStateStrokes = action.allStrokes.filter((innerStateStroke) => {
+			if (selectInsideAction.strokes.find(actionStroke => actionStroke.id === innerStateStroke.id)) return false;
+			const innerStrokeReference = state.find(possHiddenStrokeReference => possHiddenStrokeReference.id === innerStateStroke.id);
+			if (innerStrokeReference) {
+				if (innerStrokeReference.hidden) {
+					return false;
+				}
+				const innerPolygon = new Polygon(innerStateStroke.points.map(point => ({
+					...point,
+					x: point.x + innerStrokeReference.position.x,
+					y: point.y + innerStrokeReference.position.y,
+				})));
+				return outerPolygon.containsPolygon(innerPolygon);
 			}
-			const innerPolygon = new Polygon(innerStroke.points);
-			return outerPolygon.containsPolygon(innerPolygon);
+			return false;
 		});
 		const innerStrokes = innerStateStrokes.map(innerStroke => ({
 			...innerStroke,
@@ -106,7 +121,11 @@ const scopedStrokeReferencesReducer: StrokeReferencesReducer = (state, action) =
 			if (possiblyHiddenStrokeReference && possiblyHiddenStrokeReference.hidden) {
 				return false;
 			}
-			const outerPolygon = new Polygon(possiblyContainingStroke.points);
+			const outerPolygon = new Polygon(possiblyContainingStroke.points.map(point => ({
+				...point,
+				x: point.x + possiblyContainingStroke.position.x,
+				y: point.y + possiblyContainingStroke.position.y,
+			})));
 			return outerPolygon.containsPoint({ x: selectAtAction.x, y: selectAtAction.y });
 		});
 		if (strokesContainingPoint.length > 0) {
