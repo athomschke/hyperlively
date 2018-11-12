@@ -64,13 +64,7 @@ const stateAfterReceive = (state: InterpretationsState, action: any) => {
 			return {
 				...state,
 				functions,
-				parameters: state.stored[recognizedStoredLabel].parameters.map((parameter) => {
-					if (parameter.value && parameter.value.startsWith && (parameter: any).value.startsWith('strokes: ')) {
-						// eslint-disable-next-line no-param-reassign
-						(parameter: any).value = `strokes: ${action.strokeIds.join(', ')}`;
-					}
-					return parameter;
-				}),
+				parameters: state.stored[recognizedStoredLabel].parameters,
 			};
 		}
 	}
