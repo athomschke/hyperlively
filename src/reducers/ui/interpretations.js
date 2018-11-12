@@ -58,13 +58,19 @@ const stateAfterReceive = (state: InterpretationsState, action: any) => {
 		if (recognizedStoredLabel) {
 			const recognizedActions = state.stored[recognizedStoredLabel].actions;
 			const allPrimitiveActions = formattedSignatures(values(allActions([])));
-			const functions = (allPrimitiveActions.filter(
-				primitiveAction => recognizedActions.find(recognizedAction => recognizedAction === primitiveAction.name),
-			) || []);
+			const functions = recognizedActions.map(
+				recognizedAction => allPrimitiveActions.find(primitiveAction => primitiveAction.name === recognizedAction),
+			);
 			return {
 				...state,
 				functions,
-				parameters: state.stored[recognizedStoredLabel].parameters,
+				parameters: state.stored[recognizedStoredLabel].parameters.map((parameter) => {
+					if (parameter.value && parameter.value.startsWith && (parameter: any).value.startsWith('strokes: ')) {
+						// eslint-disable-next-line no-param-reassign
+						(parameter: any).value = `strokes: ${action.strokeIds.join(', ')}`;
+					}
+					return parameter;
+				}),
 			};
 		}
 	}

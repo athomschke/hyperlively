@@ -1,7 +1,7 @@
 // @flow
-import type { Stroke, Scene } from 'src/types';
+import type { Stroke, Scene, StateStroke } from 'src/types';
 
-const referencedStrokes = (allStrokes: Array<Stroke>, scenes: Array<Scene>, sceneIndex: number): Array<Stroke> => {
+const referencedStrokes = (allStrokes: Array<StateStroke>, scenes: Array<Scene>, sceneIndex: number): Array<Stroke> => {
 	const currentScene = scenes[sceneIndex];
 	const strokeReferences = currentScene ? currentScene.strokes : [];
 	const sceneStrokes: Array<Stroke> = strokeReferences
@@ -10,6 +10,7 @@ const referencedStrokes = (allStrokes: Array<Stroke>, scenes: Array<Scene>, scen
 			if (referencedStroke) {
 				return {
 					...referencedStroke,
+					...strokeReference,
 					points: referencedStroke.points.slice(0, strokeReference.length + 1),
 				};
 			}

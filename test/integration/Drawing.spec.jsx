@@ -2,7 +2,7 @@
 import { expect } from 'chai';
 import { useFakeXMLHttpRequest } from 'sinon';
 
-import type { Stroke } from 'src/types';
+import type { StateStroke, Stroke } from 'src/types';
 
 import {
 	hashCode, renderApplicationWithState, mountApp, dismountApp, getWindowNode, getCombinedCanvas, manuallyDrawStrokes,
@@ -12,7 +12,10 @@ import canvasWithTwoStrokes from './data/canvasWithTwoStrokes';
 import emptyCanvas from './data/emptyCanvas';
 
 
-const getPointsFromJSON = (json): Array<Stroke> => json.data.strokes;
+const getPointsFromJSON = (json): Array<Stroke> => json.data.scenes.present[0].strokes.map(strokeReference => ({
+	...strokeReference,
+	...json.data.strokes.find(stateStroke => stateStroke.id === strokeReference.id),
+}));
 
 describe('Integration', () => {
 	let xhr;

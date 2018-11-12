@@ -152,6 +152,13 @@ export const selectInside = (strokes: Array<Stroke>) => ({
 	sceneIndex: NaN,
 });
 
+export const selectAt = (x: number, y: number) => ({
+	type: ActionTypes.SELECT_AT,
+	x,
+	y,
+	sceneIndex: NaN,
+});
+
 export const checkActionsPath = (path: Array<string>) => ({
 	type: ActionTypes.CHECK_ACTIONS_PATH,
 	path,

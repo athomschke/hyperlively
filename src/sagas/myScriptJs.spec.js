@@ -46,8 +46,11 @@ describe('MyScriptJS Sagas', () => {
 
 	describe('Text recognition saga', () => {
 		it('yields a requestTextCandidates action', () => {
-			const strokes = canvasWithIrregularStrokesWithPloma()
-				.data.strokes;
+			const json = canvasWithIrregularStrokesWithPloma();
+			const strokes = json.data.scenes.present[0].strokes.map(strokeReference => ({
+				...strokeReference,
+				...json.data.strokes.find(stateStroke => stateStroke.id === strokeReference.id),
+			}));
 			const fetchAction = requestTextCandidates(strokes);
 			const generator = fetchTextCandidates(fetchAction);
 			const nextValue = generator.next().value;
@@ -62,8 +65,11 @@ describe('MyScriptJS Sagas', () => {
 
 	describe('Shape recognition saga', () => {
 		it('yields a requestShapeCandidates action', () => {
-			const strokes = canvasWithIrregularStrokesWithPloma()
-				.data.strokes;
+			const json = canvasWithIrregularStrokesWithPloma();
+			const strokes = json.data.scenes.present[0].strokes.map(strokeReference => ({
+				...strokeReference,
+				...json.data.strokes.find(stateStroke => stateStroke.id === strokeReference.id),
+			}));
 			const fetchAction = requestShapeCandidates(strokes);
 			const generator = fetchShapeCandidates(fetchAction);
 			const nextValue = generator.next().value;

@@ -10,11 +10,18 @@ export type Point = Coordinate & {
 
 export type Stroke = {
 	points: Array<Point>,
+	finished: boolean,
+	color?: string,
+	id: number,
 	position: Coordinate,
 	angle: number,
 	center: Coordinate,
 	hidden: boolean,
 	selected: boolean,
+}
+
+export type StateStroke = {
+	points: Array<Point>,
 	finished: boolean,
 	color?: string,
 	id: number,
@@ -23,7 +30,43 @@ export type Stroke = {
 export type StrokeReference = {
 	id: number,
 	length: number,
+	position: Coordinate,
+	angle: number,
+	center: Coordinate,
+	hidden: boolean,
+	selected: boolean,
 }
+
+const strokeFromReferenceAndState = (strokeReference: StrokeReference, stateStroke: StateStroke): Stroke => ({
+	points: stateStroke.points,
+	finished: stateStroke.finished,
+	color: stateStroke.color,
+	id: strokeReference.id,
+	position: strokeReference.position,
+	angle: strokeReference.angle,
+	center: strokeReference.center,
+	hidden: strokeReference.hidden,
+	selected: strokeReference.selected,
+});
+
+const stateStrokeFromStroke = (stroke: Stroke): StateStroke => ({
+	points: stroke.points,
+	id: stroke.id,
+	finished: stroke.finished,
+	color: stroke.color,
+});
+
+const strokeReferenceFromStroke = (stroke: Stroke): StrokeReference => ({
+	id: stroke.id,
+	length: stroke.points.length,
+	position: stroke.position,
+	angle: stroke.angle,
+	center: stroke.center,
+	hidden: stroke.hidden,
+	selected: stroke.selected,
+});
+
+export { strokeFromReferenceAndState, stateStrokeFromStroke, strokeReferenceFromStroke };
 
 export type Scene = {
 	strokes: Array<StrokeReference>,
@@ -231,7 +274,7 @@ export type Data = {
 	interpretation: RecognitionState,
 	specificActions: Array<ActionMapping>,
 	scenes: Undoable<Scenes>,
-	strokes: Array<Stroke>,
+	strokes: Array<StateStroke>,
 }
 
 export type HyperlivelyState = {

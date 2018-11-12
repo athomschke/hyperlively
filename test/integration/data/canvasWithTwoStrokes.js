@@ -1,5 +1,6 @@
 // @flow
 import type { HyperlivelyState } from 'src/types';
+import { initialStrokeReferenceState } from 'src/reducers/data/strokeReference';
 
 const canvasWithTwoStrokes = (): HyperlivelyState => ({
 	data: {
@@ -12,50 +13,40 @@ const canvasWithTwoStrokes = (): HyperlivelyState => ({
 		strokes: [{
 			id: 1,
 			finished: true,
-			hidden: false,
-			selected: false,
-			angle: 0,
-			center: {
-				x: 0,
-				y: 0,
-			},
 			points: [
 				{ x: 10, y: 10, timeStamp: 100 },
 				{ x: 10, y: 30, timeStamp: 101 },
 			],
-			position: {
-				x: 0,
-				y: 0,
-			},
 		}, {
 			id: 2,
 			finished: true,
-			hidden: false,
-			selected: false,
-			angle: 0,
-			center: {
-				x: 0,
-				y: 0,
-			},
 			points: [
 				{ x: 20, y: 10, timeStamp: 1100 },
 				{ x: 20, y: 30, timeStamp: 1101 },
 			],
-			position: {
-				x: 0,
-				y: 0,
-			},
 		}],
 		scenes: {
 			past: [
 				[{ strokes: [] }],
-				[{ strokes: [{ id: 1, length: 0 }] }],
-				[{ strokes: [{ id: 1, length: 1 }] }],
-				[{ strokes: [{ id: 1, length: 2 }] }],
-				[{ strokes: [{ id: 1, length: 2 }, { id: 2, length: 0 }] }],
-				[{ strokes: [{ id: 1, length: 2 }, { id: 2, length: 1 }] }],
+				[{ strokes: [{ ...initialStrokeReferenceState(), id: 1, length: 0 }] }],
+				[{ strokes: [{ ...initialStrokeReferenceState(), id: 1, length: 1 }] }],
+				[{ strokes: [{ ...initialStrokeReferenceState(), id: 1, length: 2 }] }],
+				[{
+					strokes: [
+						{ ...initialStrokeReferenceState(), id: 1, length: 2 },
+						{ ...initialStrokeReferenceState(), id: 2, length: 0 },
+					],
+				}],
+				[{
+					strokes: [
+						{ ...initialStrokeReferenceState(), id: 1, length: 2 },
+						{ ...initialStrokeReferenceState(), id: 2, length: 1 },
+					],
+				}],
 			],
-			present: [{ strokes: [{ id: 1, length: 2 }, { id: 2, length: 2 }] }],
+			present: [{
+				strokes: [{ ...initialStrokeReferenceState(), id: 1, length: 2 }, { ...initialStrokeReferenceState(), id: 2, length: 2 }],
+			}],
 			future: [],
 		},
 	},

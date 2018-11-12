@@ -35,7 +35,11 @@ type PartialPrefixedJSONPropertyChooserProps = {
 const hashPosition = coordinate => (coordinate ? `(${coordinate.x}, ${coordinate.y})` : 'undefined');
 
 const getStrokesPosition = (strokes: Array<Stroke>): ?Coordinate => {
-	const allPoints = strokes.reduce((points, stroke) => [...points, ...stroke.points], []);
+	const allPoints = strokes.reduce((points, stroke) => [...points, ...stroke.points.map(point => ({
+		...point,
+		x: point.x + stroke.position.x,
+		y: point.y + stroke.position.y,
+	}))], []);
 	if (allPoints.length > 0) {
 		const xs = allPoints.map(point => point.x);
 		const ys = allPoints.map(point => point.y);
@@ -72,7 +76,15 @@ const InterpretationChooser = (props: InterpretationChooserProps) => {
 	const jsonTree = (parameterObject(props.interpretation, props.selectedStrokes, props.sketches):JSONObject);
 
 	const handleOnParameterChoose = (parameters: Array<string>): void => {
-		const valueAtPath = (obj: Object, path: string) => path.split(PATH_DELIMITER).reduce((subtree, key) => subtree[key], obj);
+		const valueAtPath = (obj: Object, path: string) => path.split(PATH_DELIMITER).reduce((subtree, key) => {
+			if (key === 'selectedStrokes') {
+				return (key: any);
+			}
+			if (key === 'strokes') {
+				return (`strokes: ${subtree[key].map(stroke => stroke.id).join(', ')}`: any);
+			}
+			return subtree[key];
+		}, obj);
 		const leafes = parameters.map(checkedKey => ({ value: valueAtPath(jsonTree, checkedKey), path: checkedKey.split(PATH_DELIMITER) }));
 		const values: Parameters = leafes.map(
 			(leaf: { value: any, path: string[] }) => {
@@ -172,8 +184,15 @@ const InterpretationChooser = (props: InterpretationChooserProps) => {
 			>
 				<InterpretationTrigger />
 				<InterpretationDisplay />
-				<ActionChooser recognizedLabel={recognizedLabel} />
-				{renderPostitionParameterChoosersGroup(choosersProps, recognizedLabel)}
+				<div
+					style={{
+						overflow: 'scroll',
+						height: '250px',
+					}}
+				>
+					<ActionChooser recognizedLabel={recognizedLabel} />
+					{renderPostitionParameterChoosersGroup(choosersProps, recognizedLabel)}
+				</div>
 			</div>
 		);
 	};
